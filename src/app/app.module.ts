@@ -1,11 +1,11 @@
 import '../polyfills';
-
+import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import {CdkTableModule} from '@angular/cdk/table';
 import {HttpClientModule} from '@angular/common/http';
 
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
-import {HttpModule} from '@angular/http';
+
 import {
     MatAutocompleteModule,
     MatButtonModule,
@@ -40,7 +40,7 @@ import {
     MatToolbarModule,
     MatTooltipModule
 } from '@angular/material';
-import { BrowserModule } from '@angular/platform-browser';
+
 import {platformBrowserDynamic} from '@angular/platform-browser-dynamic';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 
@@ -91,7 +91,6 @@ export class DemoMaterialModule {}
         BrowserModule,
         BrowserAnimationsModule,
         FormsModule,
-        HttpModule,
         HttpClientModule,
         DemoMaterialModule,
         MatNativeDateModule,
