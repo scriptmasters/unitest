@@ -1,0 +1,47 @@
+.login-section {
+    .login-header {
+        color: #fff;
+        h1 {
+            font-weight: bold;
+        }
+    }
+    .login-form {
+        input {
+            height: 50px;
+            transition: all 0.2s;
+            border: 1px solid #3D3E39;
+            border-radius: 2px;
+            padding-left: 2%;
+            &:focus {
+                background-image: linear-gradient(to bottom, #195CB4, #40A2F3);
+                outline: none;
+                border: 2px solid blue;
+                border-radius: 2px;
+                color: #fff;
+                &::placeholder {
+                    color: #fff;
+                }
+            }
+        }
+        &__login {
+            font-size: 1.2rem;
+        }
+        &__password {
+            font-size: 1.2rem;
+        }
+        &__submit {
+            background-color: #4CAF50;
+            color: #fff;
+            font-size: 2rem;
+        }
+    }
+    .isLogged {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        background-color: green;
+    }
+}
+
+.logbutton {
+}
