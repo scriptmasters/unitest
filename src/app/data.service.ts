@@ -4,8 +4,6 @@ import { Observable } from 'rxjs/Observable';
 
 @Injectable()
 export class DataService {
-
-  isLogged: object;
   private toLogInURL: string = 'http://vps9615.hyperhost.name:443/api/login/index';
   private toLogOutURL: string = 'http://vps9615.hyperhost.name:443/api/login/logout';
   private isLoggedInURL: string = 'http://vps9615.hyperhost.name:443/api/login/isLogged';
