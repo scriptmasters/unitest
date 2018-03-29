@@ -15,11 +15,10 @@ import { GroupsComponent } from './admin/groups/groups.component';
 
 
 const routes: Routes = [
-
+    { path: '', redirectTo: '/admin', pathMatch: 'full' },
     { path: 'student', canActivate: [AuthGuard], component: StudentComponent },
     { path: 'login', component: AuthComponent },
-    { path: '', redirectTo: '/admin', pathMatch: 'full' },
-    { path: 'admin', component: AdminComponent, children: [
+    { path: 'admin', canActivate: [AuthGuard], component: AdminComponent, children: [
             {
                 path: 'statistic',
                 component: StatisticComponent,

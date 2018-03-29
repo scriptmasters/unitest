@@ -2,57 +2,67 @@ import {Injectable, NgModule} from '@angular/core';
 import { Router, ActivatedRouteSnapshot, RouterStateSnapshot, CanActivate } from '@angular/router';
 import {AuthService} from './shared/auth/auth.service';
 import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs/Observable';
 
 
 @Injectable()
 export class AuthGuard implements CanActivate {
-
     constructor(private authService: AuthService, private router: Router, private http: HttpClient) {}
 
-    canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
+    canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
         let url: string = state.url;
+        const rgxpStudent = /^\/student.*/g;
+        const rgxpAdmin = /^\/admin.*/g;
 
-        return this.checkLogin(url);
-    }
 
-    checkLogin(url: string): boolean {
-        let authStatusUrl = 'http://vps9615.hyperhost.name:443/api/login/isLogged';
+        const authStatusUrl = 'http://vps9615.hyperhost.name:443/api/login/isLogged';
         let authStatus: any = {
-            'roles': [undefined, undefined],
-            'id': undefined,
-            'username': undefined,
-            'response': undefined
+            response: undefined,
+            roles: [undefined]
         };
-        let status: string;
 
-        this.http.get(authStatusUrl)
-            .subscribe(data =>  authStatus = data, undefined, () => {
-                if (authStatus.response === 'logged') {
-                    if (authStatus.roles[1] === 'student') {
-                        if (status === 'student') {
-                            return status = 'student';
+        let promise = new Promise((resolve, reject) => {
+                this.http.get(authStatusUrl)
+                    .subscribe(data => authStatus = data, undefined, () => {
+                            if (authStatus.response === 'logged') {
+                                if (authStatus.roles[1] === 'student') {
+                                    // переведёт промис в состояние fulfilled с результатом "result"
+                                    resolve('student');
+                                } else { if (authStatus.roles[1] === 'admin') {
+                                    resolve('admin'); }
+                                }
+                            } else {resolve ('non logged'); }
                         }
-                    } else {
-                        return status = 'admin';
-                    }
+                    );
+            }
+        );
+
+// promise.then навешивает обработчики на успешный результат или ошибку
+
+    return promise.then(
+        result => {
+            if (result === 'student' && rgxpStudent.test(url)) {
+                console.log('student');
+                return true;
+            } else {
+                if (result === 'admin' && rgxpAdmin.test(url)) {
+                    console.log('admin');
+                    return true;
                 } else {
-                    return status = 'non logged';
+                    if (result === 'non logged') {
+                        console.log('login');
+                        this.router.navigate(['/login']);
+                        this.authService.redirectUrl = url;
+                        return false;
+                    } else {
+                        console.log('non propriate page due to rights');
+                        this.router.navigate(['/login']);
+                        this.authService.redirectUrl = url;
+                        return false;
+                    }
                 }
             }
-
-            );
-
-
-
-
-
-
-        // Store the attempted URL for redirecting
-        this.authService.redirectUrl = url;
-
-        // Navigate to the login page with extras
-        this.router.navigate(['/login']);
-        return true;
+        }
+        );
     }
-
 }
