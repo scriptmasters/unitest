@@ -59,7 +59,14 @@ import { GroupsComponent } from './admin/groups/groups.component';
 
 
 @NgModule({
-    exports: [
+    imports: [
+        BrowserModule,
+        BrowserAnimationsModule,
+        FormsModule,
+        AppRoutingModule,
+        HttpClientModule,
+        MatNativeDateModule,
+        ReactiveFormsModule,
         CdkTableModule,
         MatAutocompleteModule,
         MatButtonModule,
@@ -92,24 +99,7 @@ import { GroupsComponent } from './admin/groups/groups.component';
         MatTableModule,
         MatTabsModule,
         MatToolbarModule,
-        MatTooltipModule,
-
-    ]
-
-
-})
-export class DemoMaterialModule {}
-
-@NgModule({
-    imports: [
-        BrowserModule,
-        BrowserAnimationsModule,
-        FormsModule,
-        AppRoutingModule,
-        HttpClientModule,
-        DemoMaterialModule,
-        MatNativeDateModule,
-        ReactiveFormsModule,
+        MatTooltipModule
     ],
     entryComponents: [AppComponent],
     declarations: [

@@ -37,7 +37,7 @@ export class AuthService {
         this.auth['confirm-password'] = confirm_password;
         this.http.post(this.authLoginUrl, this.auth, this.httpOptions)
                    .subscribe(data => this.response = data,
-                              () => {
+                              () => {/*  DOESNT WORK   */
                                    document.getElementById('error').style.display = 'visible';
                                    document.getElementById('error').innerText = 'Wrong username or password'; },
                               () => {
@@ -49,7 +49,9 @@ export class AuthService {
     }
 
     logout(): void {
-        this.http.get(this.authLogoutUrl);
-        this.router.navigate(['/login']);
+        this.http.get(this.authLogoutUrl)
+            .subscribe(undefined, undefined, () => {
+                this.router.navigate(['/login']);
+            });
     }
 }

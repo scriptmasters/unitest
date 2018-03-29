@@ -25,7 +25,7 @@
                         <span class="admin-title">ADMIN PANNEL</span>
                         <span class="dtester-title">D-TESTER</span>
                     </div>
-                    <a class="log-out"><span>Вийти</span><i class="fa fa-sign-out" aria-hidden="true"></i></a>
+                    <a class="log-out" (click)="this.authService.logout()"><span>Вийти</span><i class="fa fa-sign-out" aria-hidden="true"></i></a>
                 </header>
                     <nav class="vertical-navigation" #verticalNavigation>
                         <a [routerLink]="['/admin', {outlets: {adminNavigation: ['statistic']}}]"><i class="fa fa-bar-chart" aria-hidden="true"></i><span>Статистика</span></a>
