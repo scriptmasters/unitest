@@ -1,5 +1,5 @@
-<div [ngSwitch]="authService.authStatus.response">
-<div  *ngSwitchCase="'non logged'" class="mat-input-container">
+
+<div  class="mat-input-container">
 
   <mat-card>
 
@@ -17,12 +17,4 @@
 
 
 
-
 </div>
-  <div *ngSwitchCase="'logged'" [ngSwitch]="authService.authStatus.roles[1]">
-     <div *ngSwitchCase="'admin'"> you are admin</div>
-     <div *ngSwitchCase="'student'"> you are student</div>
-  </div>
-</div>
-
-{{authService.authStatus.response}}

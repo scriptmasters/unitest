@@ -1,0 +1,46 @@
+<div class="container-fluid">
+    <div class="admin-panel raw d-flex">
+        <section class="side-bar col-2">
+            <div class="sticky-top">
+                <div class="side-header">
+                    <img class="role-img" src="assets/avatar-1.jpg" alt="role">
+                    <span class="role">ADMIN</span>
+                </div>
+                <nav class="nav-bar d-flex flex-column">
+                    <a [routerLink]="['/admin', {outlets: {adminNavigation: ['statistic']}}]"><i class="fa fa-bar-chart" aria-hidden="true"></i><span>Статистика</span></a>
+                    <a [routerLink]="['/admin', {outlets: {adminNavigation: ['groups']}}]"><i class="fa fa-bar-chart" aria-hidden="true"></i><span>Групи</span></a>
+                    <a [routerLink]="['/admin', {outlets: {adminNavigation: ['students']}}]"><i class="fa fa-bar-chart" aria-hidden="true"></i><span>Студенти</span></a>
+                    <a [routerLink]="['/admin', {outlets: {adminNavigation: ['facultries']}}]"><i class="fa fa-database" aria-hidden="true"></i><span>Факультети</span></a>
+                    <a [routerLink]="['/admin', {outlets: {adminNavigation: ['subjects']}}]"><i class="fa fa-book" aria-hidden="true"></i><span>Предмети</span></a>
+                    <a [routerLink]="['/admin', {outlets: {adminNavigation: ['specialities']}}]"><i class="fa fa-table" aria-hidden="true"></i><span>Спеціальності</span></a>
+                    <a [routerLink]="['/admin', {outlets: {adminNavigation: ['administrators']}}]"><i class="fa fa-user-secret" aria-hidden="true"></i><span>Адміністратори</span></a>
+                </nav>
+            </div>
+        </section>
+        <section class="main col">
+            <div class="content-wrapper">
+                <header class="header">
+                    <div class="Headers">
+                        <span (click)="handleClick(verticalNavigation)" id="burger" class="burger"><i class="fa fa-bars" aria-hidden="true"></i></span>
+                        <span class="admin-title">ADMIN PANNEL</span>
+                        <span class="dtester-title">D-TESTER</span>
+                    </div>
+                    <a class="log-out"><span>Вийти</span><i class="fa fa-sign-out" aria-hidden="true"></i></a>
+                </header>
+                    <nav class="vertical-navigation" #verticalNavigation>
+                        <a [routerLink]="['/admin', {outlets: {adminNavigation: ['statistic']}}]"><i class="fa fa-bar-chart" aria-hidden="true"></i><span>Статистика</span></a>
+                        <a [routerLink]="['/admin', {outlets: {adminNavigation: ['groups']}}]"><i class="fa fa-bar-chart" aria-hidden="true"></i><span>Групи</span></a>
+                        <a [routerLink]="['/admin', {outlets: {adminNavigation: ['students']}}]"><i class="fa fa-bar-chart" aria-hidden="true"></i><span>Студенти</span></a>
+                        <a [routerLink]="['/admin', {outlets: {adminNavigation: ['facultries']}}]"><i class="fa fa-database" aria-hidden="true"></i><span>Факультети</span></a>
+                        <a [routerLink]="['/admin', {outlets: {adminNavigation: ['subjects']}}]"><i class="fa fa-book" aria-hidden="true"></i><span>Предмети</span></a>
+                        <a [routerLink]="['/admin', {outlets: {adminNavigation: ['specialities']}}]"><i class="fa fa-table" aria-hidden="true"></i><span>Спеціальності</span></a>
+                        <a [routerLink]="['/admin', {outlets: {adminNavigation: ['administrators']}}]"><i class="fa fa-user-secret" aria-hidden="true"></i><span>Адміністратори</span></a>
+                    </nav>
+                <div class="content">
+                    <router-outlet name="adminNavigation"></router-outlet>
+                </div>
+            </div>
+            <footer class="footer"><span>Created by IF-085.Web-UI&#169; "Superteam&#9787;";</span></footer>
+        </section>
+    </div>
+</div>
