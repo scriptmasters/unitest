@@ -6,6 +6,7 @@ import {CdkTableModule} from '@angular/cdk/table';
 import {HttpClientModule} from '@angular/common/http';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {AuthService} from './shared/auth/auth.service';
+import {StudentsService} from './admin/students/students.service';
 
 import {
     MatAutocompleteModule,
@@ -50,12 +51,14 @@ import { AuthComponent } from './shared/auth/auth.component';
 import { AdminComponent } from './admin/admin.component';
 import { StudentComponent } from './student/student.component';
 import { StatisticComponent } from './admin/statistic/statistic.component';
-import { FacultriesComponent } from './admin/facultries/facultries.component';
+import { FacultiesComponent } from './admin/faculties/faculties.component';
 import { SubjectsComponent } from './admin/subjects/subjects.component';
 import { SpecialitiesComponent } from './admin/specialities/specialities.component';
 import { AdministratorsComponent } from './admin/administrators/administrators.component';
 import { StudentsComponent } from './admin/students/students.component';
+import { StudentRegistrationFormComponent } from './admin/students/student-registration-form/student-registration-form.component';
 import { GroupsComponent } from './admin/groups/groups.component';
+import { TimetableComponent } from './admin/timetable/timetable.component';
 
 
 @NgModule({
@@ -108,14 +111,20 @@ import { GroupsComponent } from './admin/groups/groups.component';
         AdminComponent,
         StudentComponent,
         StatisticComponent,
-        FacultriesComponent,
+        FacultiesComponent,
         SubjectsComponent,
         SpecialitiesComponent,
         AdministratorsComponent,
         StudentsComponent,
-        GroupsComponent],
+        GroupsComponent,
+        TimetableComponent,
+        StudentRegistrationFormComponent
+    ],
     bootstrap: [AppComponent],
-    providers: [AuthService]
+    providers: [
+        AuthService,
+        StudentsService
+    ]
 })
 
 export class AppModule { }
