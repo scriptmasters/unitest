@@ -9,11 +9,16 @@ import { SpecialitiesComponent } from './admin/specialities/specialities.compone
 import { AdministratorsComponent } from './admin/administrators/administrators.component';
 import { StudentsComponent } from './admin/students/students.component';
 import { GroupsComponent } from './admin/groups/groups.component';
+import { LoginComponent } from './login/login.component';
 
 const routes: Routes = [
   {
+    path: 'login',
+    component: LoginComponent
+  },
+  {
     path: '',
-    redirectTo: '/admin',
+    redirectTo: '/login',
     pathMatch: 'full'
   },
   {

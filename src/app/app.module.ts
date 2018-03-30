@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { StudentsService } from './admin/students/students.service';
 
 import { AppRoutingModule } from './app-routing.module';
 import { DataService } from './data.service';
@@ -15,6 +16,8 @@ import { SpecialitiesComponent } from './admin/specialities/specialities.compone
 import { AdministratorsComponent } from './admin/administrators/administrators.component';
 import { StudentsComponent } from './admin/students/students.component';
 import { GroupsComponent } from './admin/groups/groups.component';
+import { LoginComponent } from './login/login.component';
+import { StudentRegistrationFormComponent } from './admin/students/student-registration-form/student-registration-form.component';
 
 
 @NgModule({
@@ -27,7 +30,9 @@ import { GroupsComponent } from './admin/groups/groups.component';
     SpecialitiesComponent,
     AdministratorsComponent,
     StudentsComponent,
-    GroupsComponent
+    GroupsComponent,
+    LoginComponent,
+    StudentRegistrationFormComponent
   ],
   imports: [
     BrowserModule,
@@ -35,9 +40,11 @@ import { GroupsComponent } from './admin/groups/groups.component';
     FormsModule,
     HttpClientModule,
     BrowserAnimationsModule,
-
   ],
-  providers: [DataService],
+  providers: [
+    DataService,
+    StudentsService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
