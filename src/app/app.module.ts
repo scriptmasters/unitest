@@ -6,6 +6,7 @@ import {CdkTableModule} from '@angular/cdk/table';
 import {HttpClientModule} from '@angular/common/http';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {AuthService} from './shared/auth/auth.service';
+import {StudentsService} from './admin/students/students.service';
 
 import {
     MatAutocompleteModule,
@@ -55,10 +56,9 @@ import { FacultiesComponent } from './admin/faculties/faculties.component';
 import { SubjectsComponent } from './admin/subjects/subjects.component';
 import { SpecialitiesComponent } from './admin/specialities/specialities.component';
 import { AdministratorsComponent } from './admin/administrators/administrators.component';
-import { GroupsComponent } from './admin/groups/groups.component';
 import { StudentRegistrationFormComponent } from './admin/students/student-registration-form/student-registration-form.component';
+import { GroupsComponent } from './admin/groups/groups.component';
 import { TimetableComponent } from './admin/timetable/timetable.component';
-
 
 
 @NgModule({
@@ -117,11 +117,14 @@ import { TimetableComponent } from './admin/timetable/timetable.component';
         AdministratorsComponent,
         StudentsComponent,
         GroupsComponent,
-        StudentRegistrationFormComponent,
-        TimetableComponent
-        ],
+        TimetableComponent,
+        StudentRegistrationFormComponent
+    ],
     bootstrap: [AppComponent],
-    providers: [AuthService]
+    providers: [
+        AuthService,
+        StudentsService
+    ]
 })
 
 export class AppModule { }

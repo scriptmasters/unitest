@@ -12,7 +12,7 @@ import { SpecialitiesComponent } from './admin/specialities/specialities.compone
 import { AdministratorsComponent } from './admin/administrators/administrators.component';
 import { StudentsComponent } from './admin/students/students.component';
 import { GroupsComponent } from './admin/groups/groups.component';
-import {TimetableComponent} from './admin/timetable/timetable.component';
+import { TimetableComponent } from './admin/timetable/timetable.component';
 
 
 const routes: Routes = [
@@ -20,42 +20,46 @@ const routes: Routes = [
     { path: 'student', canActivate: [AuthGuard], component: StudentComponent },
     { path: 'login', component: AuthComponent },
     {
-        path: 'admin', canActivate: [AuthGuard], component: AdminComponent,
+        path: 'admin',
+        component: AdminComponent,
+        canActivate: [AuthGuard],
         children: [
-            {
-                path: 'statistic',
-                component: StatisticComponent
-            },
-            {
-                path: 'groups',
-                component: GroupsComponent
-            },
-            {
-                path: 'students',
-                component: StudentsComponent
-            },
-            {
-                path: 'faculties',
-                component: FacultiesComponent
-            },
-            {
-                path: 'subjects',
-                component: SubjectsComponent
-            },
-            {
-                path: 'specialities',
-                component: SpecialitiesComponent
-            },      {
-                path: 'administrators',
-                component: AdministratorsComponent
-            },
-            {
-                path: 'timetable',
-                component: TimetableComponent
-            }
+          {
+            path: 'statistic',
+            component: StatisticComponent
+          },
+          {
+            path: 'groups',
+            component: GroupsComponent
+          },
+          {
+            path: 'students',
+            component: StudentsComponent
+          },
+          {
+            path: 'faculties',
+            component: FacultiesComponent
+          },
+          {
+            path: 'subjects',
+            component: SubjectsComponent
+          },
+          {
+            path: 'specialities',
+            component: SpecialitiesComponent
+          },      {
+            path: 'administrators',
+            component: AdministratorsComponent
+          },
+          {
+            path: 'timetable',
+            component: TimetableComponent
+          }
         ]
+
     },
     { path: '**', redirectTo: '/admin', pathMatch: 'full' }
+
 ];
 
 @NgModule({
