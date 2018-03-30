@@ -1,8 +1,8 @@
-import {Injectable, NgModule} from '@angular/core';
+import {Injectable} from '@angular/core';
 import { Router, ActivatedRouteSnapshot, RouterStateSnapshot, CanActivate } from '@angular/router';
 import {AuthService} from './shared/auth/auth.service';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs/Observable';
+
 
 
 @Injectable()
@@ -23,10 +23,10 @@ export class AuthGuard implements CanActivate {
 
         let promise = new Promise((resolve, reject) => {
                 this.http.get(authStatusUrl)
-                    .subscribe(data => authStatus = data, undefined, () => {
-                            if (authStatus.response === 'logged') {
+                    .subscribe((data) => {
+                        authStatus = data;
+                        if (authStatus.response === 'logged') {
                                 if (authStatus.roles[1] === 'student') {
-                                    // переведёт промис в состояние fulfilled с результатом "result"
                                     resolve('student');
                                 } else { if (authStatus.roles[1] === 'admin') {
                                     resolve('admin'); }
@@ -37,7 +37,6 @@ export class AuthGuard implements CanActivate {
             }
         );
 
-// promise.then навешивает обработчики на успешный результат или ошибку
 
     return promise.then(
         result => {
@@ -49,20 +48,21 @@ export class AuthGuard implements CanActivate {
                     console.log('admin');
                     return true;
                 } else {
-                    if (result === 'non logged') {
-                        console.log('login');
-                        this.router.navigate(['/login']);
-                        this.authService.redirectUrl = url;
-                        return false;
-                    } else {
                         console.log('non propriate page due to rights');
                         this.router.navigate(['/login']);
                         this.authService.redirectUrl = url;
                         return false;
                     }
                 }
+            },
+            result => {
+            if (result === 'non logged') {
+                console.log('login');
+                this.router.navigate(['/login']);
+                this.authService.redirectUrl = url;
+                return false;
             }
         }
-        );
+    );
     }
 }
