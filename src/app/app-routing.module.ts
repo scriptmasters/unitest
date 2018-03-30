@@ -55,7 +55,7 @@ const routes: Routes = [
             }
         ]
     },
-    { path: '**', component: AdminComponent}
+    { path: '**', redirectTo: '/admin', pathMatch: 'full' }
 ];
 
 @NgModule({
