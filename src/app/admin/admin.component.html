@@ -3,7 +3,7 @@
         <section class="side-bar col-2">
             <div class="sticky-top">
                 <div class="side-header">
-                    <img class="role-img" src="../../img/avatar-1.jpg" alt="role">
+                    <img class="role-img" src="assets/avatar-1.jpg" alt="role">
                     <span class="role">ADMIN</span>
                 </div>
                 <nav class="nav-bar d-flex flex-column">
@@ -26,23 +26,23 @@
                         <span class="admin-title">ADMIN PANNEL</span>
                         <span class="dtester-title">D-TESTER</span>
                     </div>
-                    <a class="log-out"><span>Вийти</span><i class="fa fa-sign-out" aria-hidden="true"></i></a>
+                    <a class="log-out" (click)="this.authService.logout()"><span>Вийти</span><i class="fa fa-sign-out" aria-hidden="true"></i></a>
                 </header>
-                    <nav class="vertical-navigation" #verticalNavigation>
-                            <a routerLink="/admin/statistic"><i class="fa fa-bar-chart" aria-hidden="true"></i><span>Статистика</span></a>
-                            <a routerLink="/admin/groups"><i class="fa fa-users" aria-hidden="true"></i><span>Групи</span></a>
-                            <a routerLink="/admin/students"><i class="fa fa-address-book" aria-hidden="true"></i><span>Студенти</span></a>
-                            <a routerLink="/admin/faculties"><i class="fa fa-database" aria-hidden="true"></i><span>Факультети</span></a>
-                            <a routerLink="/admin/subjects"><i class="fa fa-book" aria-hidden="true"></i><span>Предмети</span></a>
-                            <a routerLink="/admin/specialities"><i class="fa fa-table" aria-hidden="true"></i><span>Спеціальності</span></a>
-                            <a routerLink="/admin/administrators"><i class="fa fa-user-secret" aria-hidden="true"></i><span>Адміністратори</span></a>
-                            <a routerLink="/admin/timetable"><i class="fa fa-user-secret" aria-hidden="true"></i><span>Розклад</span></a>
-                    </nav>
-                <div class="content">  
+                <nav class="vertical-navigation" #verticalNavigation>
+                    <a routerLink="/admin/statistic"><i class="fa fa-bar-chart" aria-hidden="true"></i><span>Статистика</span></a>
+                    <a routerLink="/admin/groups"><i class="fa fa-users" aria-hidden="true"></i><span>Групи</span></a>
+                    <a routerLink="/admin/students"><i class="fa fa-address-book" aria-hidden="true"></i><span>Студенти</span></a>
+                    <a routerLink="/admin/faculties"><i class="fa fa-database" aria-hidden="true"></i><span>Факультети</span></a>
+                    <a routerLink="/admin/subjects"><i class="fa fa-book" aria-hidden="true"></i><span>Предмети</span></a>
+                    <a routerLink="/admin/specialities"><i class="fa fa-table" aria-hidden="true"></i><span>Спеціальності</span></a>
+                    <a routerLink="/admin/administrators"><i class="fa fa-user-secret" aria-hidden="true"></i><span>Адміністратори</span></a>
+                    <a routerLink="/admin/timetable"><i class="fa fa-user-secret" aria-hidden="true"></i><span>Розклад</span></a>
+                </nav>
+                <div class="content">
                     <router-outlet></router-outlet>
                 </div>
             </div>
-            <footer class="footer"><span>Created by IF-085.Web-UI&#169; "Superteam&#9787;"</span></footer>
+            <footer class="footer"><span>Created by IF-085.Web-UI&#169; "Superteam&#9787;";</span></footer>
         </section>
     </div>
 </div>

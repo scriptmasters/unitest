@@ -1,0 +1,20 @@
+
+<div  class="mat-input-container">
+
+  <mat-card>
+    <div id="error" style="display:none" ></div>
+  <mat-form-field >
+    <input id="login" name="username" [(ngModel)]="auth1.username" matInput placeholder="Login">
+  </mat-form-field>
+
+  <mat-form-field >
+    <input id="password" type="password" (keyup.enter)="submit()" [(ngModel)]="auth1.password" [(ngModel)]="auth1.confirm_password" matInput placeholder="Password">
+  </mat-form-field>
+
+  <button id="submit" (click)="submit()"  mat-raised-button color="primary">Sign In</button>
+
+  </mat-card>
+
+
+
+</div>

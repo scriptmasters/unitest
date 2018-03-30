@@ -1,6 +1,6 @@
 import { AppPage } from './app.po';
 
-describe('dtester App', () => {
+describe('unitest App', () => {
   let page: AppPage;
 
   beforeEach(() => {
