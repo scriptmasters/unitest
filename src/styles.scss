@@ -1,0 +1,49 @@
+/*@import '~@angular/material/prebuilt-themes/purple-green.css';*/
+
+@import '~@angular/material/_theming.scss';
+
+@include mat-core();
+$primary: mat-palette($mat-green, 600);
+$accent:  mat-palette($mat-indigo, 600, 100, 800);
+$warn:    mat-palette($mat-red, 600);
+$theme: mat-light-theme($primary, $accent, $warn);
+
+@include angular-material-theme($theme);
+
+@mixin supporting-theme($theme) {
+    // Extract whichever individual palettes you need from the theme.
+    $primary: map-get($theme, primary);
+    $accent: map-get($theme, accent);
+
+    .mat-list-item.mat-list-item-focus .mat-icon {
+        color: mat-color($accent);
+    }
+
+    footer {
+        background-color: mat-color($primary);
+        color: white;
+    }
+
+    footer a {
+        color: white;
+    }
+}
+
+@include supporting-theme($theme);
+
+
+
+
+.basic-container {
+    padding: 5px;
+}
+
+.version-info {
+    font-size: 8pt;
+    float: right;
+}/* You can add global styles to this file, and also import other style files */
+
+html {
+    font-size: 14px;
+    font-family: 'Roboto', sans-serif;
+}

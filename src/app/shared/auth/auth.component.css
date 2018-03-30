@@ -17,3 +17,15 @@
     min-width: 30px;
 
 }
+.mat-input-container mat-card {
+    background-color: #00800017;
+}
+
+.mat-input-container mat-divider {
+    position: relative;
+    margin-top: 5px;
+}
+
+.mat-input-container h1 {
+    text-align: center;
+}
