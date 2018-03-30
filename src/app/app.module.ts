@@ -10,7 +10,6 @@ import { DataService } from './data.service';
 import { AppComponent } from './app.component';
 import { AdminComponent } from './admin/admin.component';
 import { StatisticComponent } from './admin/statistic/statistic.component';
-import { FacultriesComponent } from './admin/facultries/facultries.component';
 import { SubjectsComponent } from './admin/subjects/subjects.component';
 import { SpecialitiesComponent } from './admin/specialities/specialities.component';
 import { AdministratorsComponent } from './admin/administrators/administrators.component';
@@ -18,6 +17,8 @@ import { StudentsComponent } from './admin/students/students.component';
 import { GroupsComponent } from './admin/groups/groups.component';
 import { LoginComponent } from './login/login.component';
 import { StudentRegistrationFormComponent } from './admin/students/student-registration-form/student-registration-form.component';
+import { FacultiesComponent } from './admin/faculties/faculties.component';
+import { TimetableComponent } from './admin/timetable/timetable.component';
 
 
 @NgModule({
@@ -25,14 +26,15 @@ import { StudentRegistrationFormComponent } from './admin/students/student-regis
     AppComponent,
     AdminComponent,
     StatisticComponent,
-    FacultriesComponent,
     SubjectsComponent,
     SpecialitiesComponent,
     AdministratorsComponent,
     StudentsComponent,
     GroupsComponent,
     LoginComponent,
-    StudentRegistrationFormComponent
+    StudentRegistrationFormComponent,
+    FacultiesComponent,
+    TimetableComponent
   ],
   imports: [
     BrowserModule,

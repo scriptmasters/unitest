@@ -3,13 +3,14 @@ import { Routes, RouterModule } from '@angular/router';
 import { AdminComponent } from './admin/admin.component';
 
 import { StatisticComponent } from './admin/statistic/statistic.component';
-import { FacultriesComponent } from './admin/facultries/facultries.component';
+import { FacultiesComponent } from './admin/faculties/faculties.component';
 import { SubjectsComponent } from './admin/subjects/subjects.component';
 import { SpecialitiesComponent } from './admin/specialities/specialities.component';
 import { AdministratorsComponent } from './admin/administrators/administrators.component';
 import { StudentsComponent } from './admin/students/students.component';
 import { GroupsComponent } from './admin/groups/groups.component';
 import { LoginComponent } from './login/login.component';
+import { TimetableComponent } from './admin/timetable/timetable.component';
 
 const routes: Routes = [
   {
@@ -27,37 +28,34 @@ const routes: Routes = [
     children: [
       {
         path: 'statistic',
-        component: StatisticComponent,
-        outlet: "adminNavigation"
+        component: StatisticComponent
       },
       {
         path: 'groups',
-        component: GroupsComponent,
-        outlet: "adminNavigation"
+        component: GroupsComponent
       },
       {
         path: 'students',
-        component: StudentsComponent,
-        outlet: "adminNavigation"
+        component: StudentsComponent
       },
       {
         path: 'facultries',
-        component: FacultriesComponent,
-        outlet: "adminNavigation"
+        component: FacultiesComponent
       },
       {
         path: 'subjects',
-        component: SubjectsComponent,
-        outlet: "adminNavigation"
+        component: SubjectsComponent
       },
       {
         path: 'specialities',
-        component: SpecialitiesComponent,
-        outlet: "adminNavigation"
+        component: SpecialitiesComponent
       },      {
         path: 'administrators',
-        component: AdministratorsComponent,
-        outlet: "adminNavigation"
+        component: AdministratorsComponent
+      },
+      {
+        path: 'timetable',
+        component: TimetableComponent
       }
     ]
   }

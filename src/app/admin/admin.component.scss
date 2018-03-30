@@ -33,7 +33,7 @@
         .nav-bar {
             color: #fff;
             a {
-                font-size: 1.2rem;
+                font-size: 1rem;
                 display: flex;
                 height: 45px;
                 align-items: center;
@@ -43,7 +43,7 @@
                 color: #fff;
                 cursor: pointer;
                 &:hover {
-                    font-size: 1.3rem;
+                    font-size: 1.1rem;
                     background-color: #33b35a;
                 }
                 span {
@@ -133,7 +133,7 @@
     display: none;
     background-color: #222222;
     a {
-        font-size: 1.2rem;
+        font-size: 1rem;
         display: flex;
         height: 45px;
         justify-content: center;
@@ -144,7 +144,7 @@
         color: #fff;
         cursor: pointer;
         &:hover {
-            font-size: 1.3rem;
+            font-size: 1.1rem;
             background-color: #33b35a;
         }
         span {
@@ -158,7 +158,7 @@
     flex-direction: column;
 }
 
-@media (max-width: 1199.98px) {
+@media (max-width: 992px) {
     .side-bar {
         display: none;
     }
