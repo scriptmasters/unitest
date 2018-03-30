@@ -48,14 +48,17 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import { AppComponent } from './app.component';
 import { AuthComponent } from './shared/auth/auth.component';
 import { AdminComponent } from './admin/admin.component';
+import { StudentsComponent } from './admin/students/students.component';
 import { StudentComponent } from './student/student.component';
 import { StatisticComponent } from './admin/statistic/statistic.component';
-import { FacultriesComponent } from './admin/facultries/facultries.component';
+import { FacultiesComponent } from './admin/faculties/faculties.component';
 import { SubjectsComponent } from './admin/subjects/subjects.component';
 import { SpecialitiesComponent } from './admin/specialities/specialities.component';
 import { AdministratorsComponent } from './admin/administrators/administrators.component';
-import { StudentsComponent } from './admin/students/students.component';
 import { GroupsComponent } from './admin/groups/groups.component';
+import { StudentRegistrationFormComponent } from './admin/students/student-registration-form/student-registration-form.component';
+import { TimetableComponent } from './admin/timetable/timetable.component';
+
 
 
 @NgModule({
@@ -108,12 +111,15 @@ import { GroupsComponent } from './admin/groups/groups.component';
         AdminComponent,
         StudentComponent,
         StatisticComponent,
-        FacultriesComponent,
+        FacultiesComponent,
         SubjectsComponent,
         SpecialitiesComponent,
         AdministratorsComponent,
         StudentsComponent,
-        GroupsComponent],
+        GroupsComponent,
+        StudentRegistrationFormComponent,
+        TimetableComponent
+        ],
     bootstrap: [AppComponent],
     providers: [AuthService]
 })

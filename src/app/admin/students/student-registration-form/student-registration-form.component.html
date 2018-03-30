@@ -1,0 +1,42 @@
+<div class="container-fluid">
+  <!-- Page Header-->
+  <header class="d-flex justify-content-between"> 
+    <h1 class="h3 display">{{ title }}</h1>
+    <button type="button" class="btn btn-secondary" (click)="getBack()">Назад</button>
+  </header>
+  <div class="row">
+    <div class="col">
+      <form class="form-group">
+        <div class="names-block">
+          <div>
+            <input class="form-control" type="text" name="lastname" placeholder="Прізвище...">
+            <input class="form-control" type="text" name="firstname" placeholder="Ім'я...">
+          </div>
+          <input class="form-control" type="text" name="fname" placeholder="По-батькові...">
+        </div>
+        <div class="select-block">
+          <div>
+            <select class="form-control" name="facultry" aria-placeholder="Факультет...">
+              <option>Default select</option>
+            </select>
+            <select class="form-control" name="group" aria-placeholder="Група...">
+              <option>Default select</option>
+            </select>
+          </div>
+          <input class="form-control" type="text" name="gradebook" placeholder="№ заліковки...">
+        </div>
+        <div class="security-block">
+          <div>
+              <input class="form-control" type="text" name="login" placeholder="Логін...">
+              <input class="form-control" type="password" name="password" placeholder="Пароль...">
+          </div>
+          <input class="form-control" type="email" name="email" placeholder="Поштова скринька...">
+        </div>
+        <div class="buttons-block">
+          <input class="btn btn-success" type="submit" value="Додати студента"> 
+          <input class="btn btn-danger" type="reset" value="Очистити форму">
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
