@@ -18,14 +18,16 @@
 
 }
 .mat-input-container mat-card {
-    background-color: #00800017;
+    background-color: white;
 }
 
 .mat-input-container mat-divider {
     position: relative;
     margin-top: 5px;
+    box-shadow: 0 0 8px 0 rgba(0,0,0,0.25);
 }
 
 .mat-input-container h1 {
     text-align: center;
 }
+

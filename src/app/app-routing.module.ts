@@ -56,8 +56,10 @@ const routes: Routes = [
             component: TimetableComponent
           }
         ]
-      }
-    /*{ path: '**', component: PageNotFoundComponent }*/
+
+    },
+    { path: '**', redirectTo: '/admin', pathMatch: 'full' }
+
 ];
 
 @NgModule({
