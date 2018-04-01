@@ -93,8 +93,8 @@ import { GroupsComponent } from './admin/groups/groups.component';
         MatTabsModule,
         MatToolbarModule,
         MatTooltipModule,
-
-    ]
+    ],
+    declarations: []
 
 
 })

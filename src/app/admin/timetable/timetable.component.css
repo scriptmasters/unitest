@@ -1,0 +1,45 @@
+/* header {
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+}
+
+.h3 {
+    font-size: 1.2rem;
+}
+
+.btn {
+    border-radius: 0;
+    padding: 0.55rem 0.75rem;
+}
+
+.btn-primary {
+    background-color: #33b35a;
+    border-color: #33b35a;
+}
+
+.btn-primary:hover {
+    background-color: #2b954b;
+    border-color: #2b954b;
+}
+
+input {
+    border-radius: 0;
+}
+
+i {
+    font-size: 1.3rem;
+}
+
+.fa:hover {
+    color: #2b954b;
+}
+
+.fa-close:hover {
+    color: red;
+}
+
+@media (min-width: 768px) {
+    .container-fluid {
+        padding: 0 3rem;
+    }
+} */
