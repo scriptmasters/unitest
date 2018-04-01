@@ -22,7 +22,6 @@ export class AuthService {
     auth = {
         'username': undefined,
         'password': undefined,
-        /*'confirm-password': undefined*/
     };
     response: any = {};
 
@@ -31,10 +30,9 @@ export class AuthService {
 // store the URL so we can redirect after logging in
     redirectUrl: string;
 
-    login(username, password/*, confirm_password*/) {
+    login(username, password) {
         this.auth.username = username;
         this.auth.password = password;
-        /*this.auth['confirm-password'] = confirm_password;*/
         this.http.post(this.authLoginUrl, this.auth, this.httpOptions)
                    .subscribe(data => { this.response = data;
                        if (this.response.roles[1] === 'admin') {this.router.navigate(['/admin']); } else {
