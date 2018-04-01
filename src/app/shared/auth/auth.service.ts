@@ -4,9 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { HttpHeaders } from '@angular/common/http';
 import {Router} from '@angular/router';
 
-import 'rxjs/add/observable/of';
-import 'rxjs/add/operator/do';
-import 'rxjs/add/operator/delay';
+
 
 @Injectable()
 export class AuthService {
@@ -24,27 +22,38 @@ export class AuthService {
         'username': undefined,
         'password': undefined,
     };
-    response: any = {};
+
     redirectUrl: string;
 
-    constructor(private http: HttpClient, private router: Router) {}
+    constructor(private http: HttpClient, private router: Router ) {}
 
 
     login(username, password) {
         this.auth.username = username;
         this.auth.password = password;
         this.http.post(this.authLoginUrl, this.auth, this.httpOptions)
-                   .subscribe(data => { this.response = data;
-                       if (this.response.roles[1] === 'admin' && this.rgxpAdmin.test(this.redirectUrl) ) {
-                           this.router.navigate([this.redirectUrl]); this.redirectUrl = '';
-                       } else {
-                           if (this.response.roles[1] === 'admin') {this.router.navigate(['/admin']); }
+                   .subscribe(data => {
+                       let response: any = data;
+                       switch (response.roles[1]) {
+                           case 'admin' :
+                               if (this.rgxpAdmin.test(this.redirectUrl)) {
+                                   this.router.navigate([this.redirectUrl]);
+                                   this.redirectUrl = '';
+                               } else {
+                                   this.router.navigate(['/admin']);
+                               }
+                               break;
+
+                           case 'student' :
+                               if (this.rgxpStudent.test(this.redirectUrl)) {
+                                   this.router.navigate([this.redirectUrl]);
+                                   this.redirectUrl = '';
+                               } else {
+                                   this.router.navigate(['/student']);
+                               }
+                               break;
                        }
-                       if (this.response.roles[1] === 'student' && this.rgxpStudent.test(this.redirectUrl) ) {
-                           this.router.navigate([this.redirectUrl]); this.redirectUrl = '';
-                       } else {
-                            if (this.response.roles[1] === 'student') {this.router.navigate(['/student']); }
-                       }
+
                    }
                    );
     }

@@ -4,10 +4,9 @@ import {AuthService} from './shared/auth/auth.service';
 import { HttpClient } from '@angular/common/http';
 
 
-
 @Injectable()
 export class AuthGuard implements CanActivate {
-    constructor(private authService: AuthService, private router: Router, private http: HttpClient) {}
+    constructor(private authService: AuthService, private router: Router, private http: HttpClient ) {}
 
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
         let url: string = state.url;
@@ -41,10 +40,11 @@ export class AuthGuard implements CanActivate {
     return promise.then(
         result => {
             switch (result) {
-                case 'student ' :
+                case 'student' :
                     if (rgxpStudent.test(url)) {
                         return true;
                     } else {
+                        console.log('student, wrong page');
                         this.authService.redirectUrl = url;
                         this.router.navigate(['/login']);
                         return false;

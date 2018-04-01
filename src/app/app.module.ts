@@ -7,6 +7,7 @@ import {HttpClientModule} from '@angular/common/http';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {AuthService} from './shared/auth/auth.service';
 import {StudentsService} from './admin/students/students.service';
+import {AuthGuard} from './auth-guard.service';
 
 import {
     MatAutocompleteModule,
@@ -123,7 +124,8 @@ import { TimetableComponent } from './admin/timetable/timetable.component';
     bootstrap: [AppComponent],
     providers: [
         AuthService,
-        StudentsService
+        StudentsService,
+        AuthGuard
     ]
 })
 
