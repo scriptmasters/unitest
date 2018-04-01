@@ -12,7 +12,8 @@ import 'rxjs/add/operator/delay';
 export class AuthService {
     authLoginUrl = 'http://vps9615.hyperhost.name:443/api/login/index/';
     authLogoutUrl = 'http://vps9615.hyperhost.name:443/api/login/logout';
-
+    rgxpStudent = /^\/student.*/g;
+    rgxpAdmin = /^\/admin.*/g;
     httpOptions = {
         headers: new HttpHeaders({
             'Content-Type': 'application/json',
@@ -24,21 +25,27 @@ export class AuthService {
         'password': undefined,
     };
     response: any = {};
+    redirectUrl: string;
 
     constructor(private http: HttpClient, private router: Router) {}
 
-// store the URL so we can redirect after logging in
-    redirectUrl: string;
 
     login(username, password) {
         this.auth.username = username;
         this.auth.password = password;
         this.http.post(this.authLoginUrl, this.auth, this.httpOptions)
                    .subscribe(data => { this.response = data;
-                       if (this.response.roles[1] === 'admin') {this.router.navigate(['/admin']); } else {
-                           if (this.response.roles[1] === 'student') {this.router.navigate(['/student']); }}}
-
-
+                       if (this.response.roles[1] === 'admin' && this.rgxpAdmin.test(this.redirectUrl) ) {
+                           this.router.navigate([this.redirectUrl]); this.redirectUrl = '';
+                       } else {
+                           if (this.response.roles[1] === 'admin') {this.router.navigate(['/admin']); }
+                       }
+                       if (this.response.roles[1] === 'student' && this.rgxpStudent.test(this.redirectUrl) ) {
+                           this.router.navigate([this.redirectUrl]); this.redirectUrl = '';
+                       } else {
+                            if (this.response.roles[1] === 'student') {this.router.navigate(['/student']); }
+                       }
+                   }
                    );
     }
 

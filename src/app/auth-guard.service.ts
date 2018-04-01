@@ -40,27 +40,27 @@ export class AuthGuard implements CanActivate {
 
     return promise.then(
         result => {
-            if (result === 'student' && rgxpStudent.test(url)) {
-                console.log('student');
-                return true;
-            } else {
-                if (result === 'admin' && rgxpAdmin.test(url)) {
-                    console.log('admin');
-                    return true;
-                } else {
-                        console.log('non propriate page due to rights');
-                        this.router.navigate(['/login']);
+            switch (result) {
+                case 'student ' :
+                    if (rgxpStudent.test(url)) {
+                        return true;
+                    } else {
                         this.authService.redirectUrl = url;
+                        this.router.navigate(['/login']);
                         return false;
                     }
-                }
-            },
-            result => {
-            if (result === 'non logged') {
-                console.log('login');
-                this.router.navigate(['/login']);
-                this.authService.redirectUrl = url;
-                return false;
+                case 'admin' :
+                    if (rgxpAdmin.test(url)) {
+                        return true;
+                    } else {
+                        this.authService.redirectUrl = url;
+                        this.router.navigate(['/login']);
+                        return false;
+                    }
+                case 'non logged' :
+                    this.authService.redirectUrl = url;
+                    this.router.navigate(['/login']);
+                    return false;
             }
         }
     );
