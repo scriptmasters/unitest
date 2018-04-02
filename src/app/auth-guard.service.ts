@@ -4,12 +4,13 @@ import {AuthService} from './shared/auth/auth.service';
 import { HttpClient } from '@angular/common/http';
 
 
+
 @Injectable()
 export class AuthGuard implements CanActivate {
     constructor(private authService: AuthService, private router: Router, private http: HttpClient ) {}
 
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
-        let url: string = state.url;
+
         const rgxpStudent = /^\/student.*/g;
         const rgxpAdmin = /^\/admin.*/g;
 
@@ -20,7 +21,7 @@ export class AuthGuard implements CanActivate {
             roles: [undefined]
         };
 
-        let promise = new Promise((resolve, reject) => {
+        const promise = new Promise((resolve, reject) => {
                 this.http.get(authStatusUrl)
                     .subscribe((data) => {
                         authStatus = data;
@@ -41,25 +42,33 @@ export class AuthGuard implements CanActivate {
         result => {
             switch (result) {
                 case 'student' :
-                    if (rgxpStudent.test(url)) {
+                    if (rgxpStudent.test(state.url)) {
                         return true;
                     } else {
                         console.log('student, wrong page');
-                        this.authService.redirectUrl = url;
-                        this.router.navigate(['/login']);
+                        this.router.navigate(['/login'], {
+                            queryParams: {
+                                return: state.url
+                            }
+                        });
                         return false;
                     }
                 case 'admin' :
-                    if (rgxpAdmin.test(url)) {
+                    if (rgxpAdmin.test(state.url)) {
                         return true;
-                    } else {
-                        this.authService.redirectUrl = url;
-                        this.router.navigate(['/login']);
+                    } else {this.router.navigate(['/login'], {
+                        queryParams: {
+                            return: state.url
+                        }
+                    });
                         return false;
                     }
                 case 'non logged' :
-                    this.authService.redirectUrl = url;
-                    this.router.navigate(['/login']);
+                    this.router.navigate(['/login'], {
+                        queryParams: {
+                            return: state.url
+                        }
+                    });
                     return false;
             }
         }

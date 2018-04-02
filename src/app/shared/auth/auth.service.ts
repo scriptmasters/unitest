@@ -18,43 +18,33 @@ export class AuthService {
         })
     };
 
-    auth = {
-        'username': undefined,
-        'password': undefined,
-    };
-
-    redirectUrl: string;
 
     constructor(private http: HttpClient, private router: Router ) {}
 
 
-    login(username, password) {
-        this.auth.username = username;
-        this.auth.password = password;
-        this.http.post(this.authLoginUrl, this.auth, this.httpOptions)
+    login(username, password, redirectUrl) {
+        const authData = {'username': username, 'password': password};
+        this.http.post(this.authLoginUrl, authData, this.httpOptions)
                    .subscribe(data => {
-                       let response: any = data;
-                       switch (response.roles[1]) {
+                       switch (data.roles[1]) {
                            case 'admin' :
-                               if (this.rgxpAdmin.test(this.redirectUrl)) {
-                                   this.router.navigate([this.redirectUrl]);
-                                   this.redirectUrl = '';
+                               if (this.rgxpAdmin.test(redirectUrl)) {
+                                   this.router.navigate([redirectUrl]);
                                } else {
                                    this.router.navigate(['/admin']);
                                }
                                break;
 
                            case 'student' :
-                               if (this.rgxpStudent.test(this.redirectUrl)) {
-                                   this.router.navigate([this.redirectUrl]);
-                                   this.redirectUrl = '';
+                               if (this.rgxpStudent.test(redirectUrl)) {
+                                   this.router.navigate([redirectUrl]);
                                } else {
                                    this.router.navigate(['/student']);
                                }
                                break;
                        }
 
-                   }
+                   }, error => document.getElementById('error').innerHTML = error.error.response
                    );
     }
 
