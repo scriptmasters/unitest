@@ -56,9 +56,10 @@
         padding: 0;
         background-color: #F4F7FA;
         .content-wrapper {
-            min-height: calc(100vh - 40px);
+            min-height: calc(100vh - 54px);
             .header {
 
+                z-index: 9;
                 position: fixed; ///
                 top: 0;///////////
                 right: 0;///////// Фіксований хідер медіаквері на width 100% знизу
@@ -141,6 +142,12 @@
 
 .vertical-navigation {
     display: none;
+z-index: 9;
+    position: fixed; ///
+    top: 65px;///////////
+    right: 0;///////// Фіксований хідер медіаквері на width 100% знизу
+    width: 85%;/////////
+
     background-color: #222222;
     a {
         font-size: 1rem;
@@ -175,7 +182,7 @@
     #burger {
         display: flex;
     }
-    .header {
+    .header, .vertical-navigation  {
         width: 100%!important; /// коли зникає лівий навбар верхній навбар не на всю ширину
     }
 }
