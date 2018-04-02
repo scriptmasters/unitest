@@ -37,3 +37,17 @@ export interface Student {
     gradebook_id: string;
     group: string;
 }
+
+export interface Faculties {
+    faculty_id: string;
+    faculty_name: string;
+    faculty_description: string;
+}
+
+export interface Groups {
+    group_id: string;
+    group_name: string;
+    speciality_id: string;
+    faculty_id: string;
+    response?: string;
+}

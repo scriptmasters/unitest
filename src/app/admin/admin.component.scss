@@ -86,6 +86,9 @@
                             background-color: #33B357;
                             color: #fff;
                         }
+                        i:hover {
+                            color: white;
+                        }
                     }
                     .admin-title {
                         color: #fff;
@@ -166,3 +169,9 @@
         display: flex;
     }
 }
+
+@media (min-width: 992px) {
+    .vertical-navigation {
+      display: none;
+    }
+  }

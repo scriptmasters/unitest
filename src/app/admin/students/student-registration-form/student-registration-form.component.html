@@ -1,9 +1,4 @@
 <div class="container-fluid">
-  <!-- Page Header-->
-  <header class="d-flex justify-content-between"> 
-    <h1 class="h3 display">{{ title }}</h1>
-    <button type="button" class="btn btn-secondary" (click)="getBack()">Назад</button>
-  </header>
   <div class="row">
     <div class="col">
       <form class="form-group">
@@ -16,11 +11,11 @@
         </div>
         <div class="select-block">
           <div>
-            <select class="form-control" name="facultry" aria-placeholder="Факультет...">
-              <option>Default select</option>
+            <select class="form-control" name="faculty" aria-placeholder="Факультет..." #facultyField (change)="getGroups(facultyField)">
+              <option *ngFor="let faculty of faculties">{{faculty.faculty_name}}</option>
             </select>
-            <select class="form-control" name="group" aria-placeholder="Група...">
-              <option>Default select</option>
+            <select class="form-control" name="group" aria-placeholder="Група..." >
+              <option *ngFor="let group of groups">{{group.group_name}}</option>
             </select>
           </div>
           <input class="form-control" type="text" name="gradebook" placeholder="№ заліковки...">

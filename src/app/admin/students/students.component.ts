@@ -22,9 +22,6 @@ export class StudentsComponent implements OnInit {
     this.fillOutStudentsTable();
   }
 
-  showRegForm() {
-  }
-
   // метод який записує в масив "students" дані про кожного студента
   fillOutStudentsTable() {
     this.service.getStudents().subscribe(data => {
@@ -34,7 +31,7 @@ export class StudentsComponent implements OnInit {
       }
       let body = JSON.stringify({entity: "Group", ids: groupsArr});
       this.service.getEntityValue(body).subscribe(response => {
-        // Фільтр для сутностей групи які приходять з сервера
+        // Фільтр для властивостей об'єкта
         groupsArr = response.map(val => {
           return {
             group_id: val.group_id,

@@ -1,15 +1,33 @@
 @import '~@angular/material/prebuilt-themes/deeppurple-amber.css';
 
 /* You can add global styles to this file, and also import other style files */
+
 html {
     font-size: 14px;
     font-family: 'Roboto', sans-serif;
 }
 
-body {
-    font-family: Roboto, Arial, sans-serif;
-    margin: 0;
-}
+@import '~@angular/material/theming';
+// Plus imports for other components in your app.
+// Include the common styles for Angular Material. We include this here so that you only
+// have to load a single css file for Angular Material in your app.
+// Be sure that you only ever include this mixin once!
+@include mat-core();
+// Define the palettes for your theme using the Material Design palettes available in palette.scss
+// (imported above). For each palette, you can optionally specify a default, lighter, and darker
+// hue. Available color palettes: https://www.google.com/design/spec/style/color.html
+$candy-app-primary: mat-palette($mat-green, 500, 400, 700);
+$candy-app-accent: mat-palette($mat-pink, 200, 100, 400);
+// The warn palette is optional (defaults to red).
+$candy-app-warn: mat-palette($mat-red);
+// Create the theme object (a Sass map containing all of the palettes).
+$candy-app-theme: mat-light-theme($candy-app-primary, $candy-app-accent, $candy-app-warn);
+// Include theme styles for core and each component used in your app.
+// Alternatively, you can import and @include the theme mixins for each component
+// that you are using.
+@include angular-material-theme($candy-app-theme);
+
+/* You can add global styles to this file, and also import other style files */
 
 .basic-container {
     padding: 5px;
@@ -18,4 +36,506 @@ body {
 .version-info {
     font-size: 8pt;
     float: right;
+}
+
+@import '~@angular/material/prebuilt-themes/deeppurple-amber.css';
+
+/*
+* ==========================================================
+*     GENERAL
+* ==========================================================
+*/
+
+body {
+    font-family: 'Roboto', Arial, sans-serif;
+    font-size: 14px;
+    margin: 0;
+}
+
+.text-gray {
+    color: #868e96;
+}
+
+a {
+    display: inline-block;
+    text-decoration: none;
+    color: #fff;
+}
+
+i {
+    display: inline-block;
+    font-size: 1.25rem !important;
+}
+
+i:hover {
+    color: #33b35a;
+}
+
+.fa-close:hover {
+    color: #D50000;
+}
+
+span {
+    display: inline-block;
+}
+
+table {
+    font-size: 0.9em;
+    color: #666;
+}
+
+thead {}
+
+.page {
+    position: absolute;
+    top: 0;
+    right: 0;
+    -webkit-transition: width 0.3s linear;
+    transition: width 0.3s linear;
+    width: calc(100% - 200px);
+    background-color: #F4F7FA;
+    min-height: 100vh;
+    padding-bottom: 50px;
+}
+
+.page.active {
+    width: calc(100% - 70px);
+}
+
+h2 {
+    color: #555;
+    font-weight: 400;
+}
+
+.breadcrumb-holder {
+    background: #eceeef;
+}
+
+.breadcrumb-holder .breadcrumb {
+    padding: 15px 0;
+    font-size: 0.85em;
+    font-weight: 300;
+    color: #999;
+    margin-bottom: 0;
+}
+
+.breadcrumb-holder .breadcrumb a:hover,
+.breadcrumb-holder .breadcrumb:focus {
+    text-decoration: none;
+}
+
+.breadcrumb-holder .breadcrumb .container {
+    padding: 0;
+}
+
+.card {
+    margin-bottom: 30px;
+    -webkit-box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+    box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.card-header h1,
+.card-header h2,
+.card-header h3,
+.card-header h4,
+.card-header h5,
+.card-header h6 {
+    margin-bottom: 0;
+}
+
+.card:not([class*="text"]) p {
+    color: #888;
+}
+
+.display {
+    font-weight: 400 !important;
+}
+
+@media (min-width: 768px) {
+    .container-fluid {
+        padding: 0 3rem;
+    }
+}
+
+.h1,
+.h2,
+.h3,
+.h4,
+.h5,
+.h6 {
+    margin-bottom: 0.5rem;
+    font-family: inherit;
+    font-weight: 700;
+    line-height: 1.1;
+    color: inherit;
+}
+
+h1,
+.h1 {
+    font-size: 1.5rem;
+}
+
+h2,
+.h2 {
+    font-size: 1.3rem;
+}
+
+h3,
+.h3 {
+    font-size: 1.2rem;
+}
+
+h4,
+.h4 {
+    font-size: 1.1rem;
+}
+
+h5,
+.h5 {
+    font-size: 1rem;
+}
+
+h6,
+.h6 {
+    font-size: 0.8rem;
+}
+
+
+/*
+* ==========================================================
+*     FORMS ELEMENTS
+* ==========================================================
+*/
+
+input.form-control {
+    border-radius: 0;
+}
+
+input.form-control::-moz-placeholder {
+    font-size: 0.75em;
+    font-weight: 400;
+    color: #aaa;
+    font-family: "Roboto", sans-serif;
+}
+
+input.form-control::-webkit-input-placeholder {
+    font-size: 0.75em;
+    font-weight: 400;
+    color: #aaa;
+    font-family: "Roboto", sans-serif;
+}
+
+input.form-control:-ms-input-placeholder {
+    font-size: 0.75em;
+    font-weight: 400;
+    color: #aaa;
+    font-family: "Roboto", sans-serif;
+}
+
+select.form-control {
+    border-radius: 0;
+    border-color: #ddd;
+    font-weight: 300;
+    font-family: "Roboto", sans-serif;
+}
+
+select.form-control option {
+    color: #999;
+    font-weight: 300;
+}
+
+.form-group {
+    margin-bottom: 10px;
+}
+
+.form-group div[class*='col-'] {
+    margin-bottom: 10px;
+}
+
+.input-group-text {
+    color: #868e96;
+    background: #fff;
+    border-radius: 0;
+}
+
+.form-group-material {
+    position: relative;
+    margin-bottom: 30px;
+}
+
+input.input-material {
+    width: 100%;
+    border: none;
+    border-bottom: 1px solid #eee;
+    padding: 10px 0;
+    color: #868e96;
+    font-weight: 300;
+}
+
+input.input-material:focus {
+    border-color: #33b35a;
+    outline: none;
+}
+
+input.input-material~label {
+    color: #aaa;
+    position: absolute;
+    top: 14px;
+    left: 0;
+    cursor: text;
+    -webkit-transition: all 0.2s;
+    transition: all 0.2s;
+    font-weight: 300;
+}
+
+input.input-material~label.error {
+    color: #dc3545;
+    font-size: 0.75em;
+    position: absolute;
+    top: auto;
+    bottom: -30px;
+    left: 0;
+}
+
+input.input-material~label.active {
+    font-size: 0.8em;
+    top: -10px;
+    color: #33b35a;
+}
+
+input.form-control-custom {
+    display: none;
+}
+
+input.form-control-custom:checked+label::before {
+    background: #33b35a !important;
+}
+
+input.form-control-custom:checked+label::after {
+    opacity: 1 !important;
+}
+
+input.form-control-custom.radio-custom+label::before {
+    border-radius: 50%;
+}
+
+input.form-control-custom.radio-custom+label::after {
+    content: '';
+    width: 6px;
+    height: 6px;
+    line-height: 6px;
+    background: #fff;
+    border-radius: 50%;
+    top: 7px;
+    left: 5px;
+}
+
+input.form-control-custom[disabled]+label {
+    cursor: not-allowed;
+}
+
+input.form-control-custom[disabled]+label::before,
+input.form-control-custom[disabled]+label::after {
+    border: 2px solid #aaa;
+    cursor: not-allowed;
+}
+
+input.form-control-custom[checked]+label::before,
+input.form-control-custom[checked]+label::after {
+    border: none;
+}
+
+input.form-control-custom+label {
+    font-size: 0.75em;
+    margin-bottom: 0;
+    margin-left: 0;
+    color: #999;
+    padding-left: 25px;
+    padding-top: 2px;
+    position: relative;
+}
+
+input.form-control-custom+label span {
+    margin-left: 20px;
+}
+
+input.form-control-custom+label::before {
+    content: '';
+    display: block;
+    width: 16px;
+    height: 16px;
+    line-height: 16px;
+    background: #ddd;
+    color: #fff;
+    text-align: center;
+    position: absolute;
+    top: 2px;
+    left: 0;
+    -webkit-transition: all 0.1s;
+    transition: all 0.1s;
+    cursor: pointer;
+}
+
+input.form-control-custom+label::after {
+    content: '\f00c';
+    display: block;
+    font-family: 'FontAwesome';
+    font-size: 8px;
+    color: #fff;
+    position: absolute;
+    top: 4px;
+    left: 4px;
+    -webkit-transition: all 0.1s;
+    transition: all 0.1s;
+    opacity: 0;
+    cursor: pointer;
+}
+
+button {
+    cursor: pointer;
+}
+
+
+/*
+* ==========================================================
+*     FORMS GENERAL
+* ==========================================================
+*/
+
+.forms .line {
+    width: 100%;
+    height: 1px;
+    border-bottom: 1px dashed #eee;
+    margin: 20px 0 30px;
+}
+
+.forms p {
+    font-size: 0.8rem;
+    color: #868e96;
+}
+
+.forms small {
+    color: #868e96;
+}
+
+.forms label {
+    font-size: 0.8rem;
+}
+
+
+/* FORMS MEDIAQUERIES -------------------------- */
+
+@media (min-width: 768px) {
+    .forms h2 {
+        font-size: 1rem;
+    }
+    .forms input.form-control {
+        border-radius: 0;
+    }
+    .forms input.form-control::-moz-placeholder {
+        font-size: 0.85em;
+    }
+    .forms input.form-control::-webkit-input-placeholder {
+        font-size: 0.85em;
+    }
+    .forms input.form-control:-ms-input-placeholder {
+        font-size: 0.85em;
+    }
+    .forms p {
+        font-size: 0.9em;
+    }
+    .forms label {
+        font-size: 0.9rem;
+    }
+}
+
+
+/*
+* ==========================================================
+*     LOGIN PAGE
+* ==========================================================
+*/
+
+
+/*
+ * 2. BUTTONS
+ */
+
+.btn {
+    font-weight: 400;
+    border: 1px solid transparent;
+    padding: 0.55rem 0.75rem;
+    font-size: 0.9rem;
+    line-height: 1.5;
+    border-radius: 0;
+}
+
+.btn-primary {
+    color: color-yiq(#33b35a);
+    background-color: #33b35a;
+    border-color: #33b35a;
+}
+
+.btn-primary:hover {
+    color: color-yiq(#2b954b);
+    background-color: #2b954b;
+    border-color: #288b46;
+}
+
+.btn-secondary {
+    color: color-yiq(#868e96);
+    background-color: #868e96;
+    border-color: #868e96;
+}
+
+.btn-secondary:hover {
+    color: color-yiq(#727b84);
+    background-color: #727b84;
+    border-color: #6c757d;
+}
+
+.btn-success {
+    color: color-yiq(#28a745);
+    background-color: #28a745;
+    border-color: #28a745;
+}
+
+.btn-success:hover {
+    color: color-yiq(#218838);
+    background-color: #218838;
+    border-color: #1e7e34;
+}
+
+
+/* *
+* 9. CARD
+*/
+
+.card {
+    background-color: #fff;
+    border: 0 solid #eee;
+    border-radius: 0;
+}
+
+.card-body {
+    padding: 1.25rem;
+}
+
+.card-header {
+    padding: 1rem 1.25rem;
+    background-color: #fff;
+    border-bottom: 1px solid #eee;
+}
+
+.card-footer {
+    padding: 1rem 1.25rem;
+    background-color: #f8f9fa;
+    border-top: 1px solid #eee;
+}
+
+@media (min-width: 576px) {
+    .card {
+        margin-right: 15px;
+        margin-left: 15px;
+    }
 }
