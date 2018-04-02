@@ -7,6 +7,8 @@ import {HttpClientModule} from '@angular/common/http';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {AuthService} from './shared/auth/auth.service';
 import {StudentsService} from './admin/students/students.service';
+import {AuthGuard} from './auth-guard.service';
+
 
 import {
     MatAutocompleteModule,
@@ -40,7 +42,7 @@ import {
     MatTableModule,
     MatTabsModule,
     MatToolbarModule,
-    MatTooltipModule
+    MatTooltipModule,
 } from '@angular/material';
 
 import {platformBrowserDynamic} from '@angular/platform-browser-dynamic';
@@ -59,6 +61,7 @@ import { AdministratorsComponent } from './admin/administrators/administrators.c
 import { StudentRegistrationFormComponent } from './admin/students/student-registration-form/student-registration-form.component';
 import { GroupsComponent } from './admin/groups/groups.component';
 import { TimetableComponent } from './admin/timetable/timetable.component';
+
 
 
 @NgModule({
@@ -118,12 +121,14 @@ import { TimetableComponent } from './admin/timetable/timetable.component';
         StudentsComponent,
         GroupsComponent,
         TimetableComponent,
-        StudentRegistrationFormComponent
+        StudentRegistrationFormComponent,
     ],
     bootstrap: [AppComponent],
     providers: [
         AuthService,
-        StudentsService
+        StudentsService,
+        AuthGuard,
+
     ]
 })
 
