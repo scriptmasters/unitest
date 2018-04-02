@@ -15,12 +15,11 @@ export interface StudentAdd {
     student_name: string;
     student_fname: string;
     group_id: string;
-    password: string;
-    password_confirm: string;
-    plain_password: string;
     username: string;
     email: string;
     photo: string;
+    password: string;
+    password_confirm?: string;
 }
 
 export interface GroupNameByID {
@@ -50,4 +49,8 @@ export interface Groups {
     speciality_id: string;
     faculty_id: string;
     response?: string;
+}
+
+export interface IResponse {
+    response: string;
 }

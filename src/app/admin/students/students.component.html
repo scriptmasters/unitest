@@ -24,7 +24,13 @@
                 <tbody>
                   <tr *ngFor="let student of students; let i = index">
                     <th>{{i+1}}</th>
-                    <td><span>{{student.student_surname}} </span><span>{{student.student_name}} </span><span>{{student.student_fname}}</span></td>
+                    <td>
+                      <span>{{student.student_surname}}</span>
+                      <span> </span>
+                      <span>{{student.student_name}}</span>
+                      <span> </span>
+                      <span>{{student.student_fname}}</span>
+                    </td>
                     <th>{{student.gradebook_id}}</th>
                     <th>{{student.group}}</th>
                     <td><i class="fa fa-cog"></i></td>
