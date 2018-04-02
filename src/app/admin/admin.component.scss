@@ -58,6 +58,12 @@
         .content-wrapper {
             min-height: calc(100vh - 40px);
             .header {
+
+                position: fixed; ///
+                top: 0;///////////
+                right: 0;///////// Фіксований хідер медіаквері на width 100% знизу
+                width: 85%;/////////
+
                 background-color: #393836;
                 height: 65px;
                 padding-left: 48px;
@@ -67,6 +73,7 @@
                 justify-content: space-between;
                 .Headers {
                     display: flex;
+
                     align-items: center;
                     justify-content: flex-start;
                     .burger {
@@ -168,5 +175,13 @@
     #burger {
         display: flex;
     }
+    .header {
+        width: 100%!important; /// коли зникає лівий навбар верхній навбар не на всю ширину
+    }
+}
 
+@media (min-width: 992px) {
+    .vertical-navigation {
+        display: none;
+    }
 }
