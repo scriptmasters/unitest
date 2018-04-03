@@ -26,9 +26,7 @@
                     <th>{{i+1}}</th>
                     <td>
                       <span>{{student.student_surname}}</span>
-                      <span> </span>
                       <span>{{student.student_name}}</span>
-                      <span> </span>
                       <span>{{student.student_fname}}</span>
                     </td>
                     <th>{{student.gradebook_id}}</th>
@@ -45,5 +43,5 @@
     </div>
   </div>
   <!-- Компонент форми реєстрації -->
-  <app-student-registration-form></app-student-registration-form>
+  <app-student-registration-form (onChanged)="onChanged()"></app-student-registration-form>
 </section>

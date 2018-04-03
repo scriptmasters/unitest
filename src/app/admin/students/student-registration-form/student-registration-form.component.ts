@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { StudentsService } from '../students.service';
 
 import { StudentAdd } from '../students-interface';
@@ -15,7 +15,6 @@ import { IResponse } from '../students-interface';
 })
 export class StudentRegistrationFormComponent implements OnInit {
 
-  title: string = "Студенти";
   groups: Groups[] = [];
   faculties: Faculties[] = [];
   //Властивості, які вибираються з інпутів
@@ -30,6 +29,7 @@ export class StudentRegistrationFormComponent implements OnInit {
     email: '',
     photo: defaultImage
   }
+  @Output() onChanged = new EventEmitter();
 
   constructor(private service: StudentsService) { }
 
@@ -105,7 +105,7 @@ export class StudentRegistrationFormComponent implements OnInit {
     });
     this.service.addStudent(studentJSON).subscribe((data: IResponse) => {
       if (data.response === 'ok') {
-        this.service.fillOutStudentsTable();
+        this.onChanged.emit();
       } else {
         alert("Йой, курва, щось пішло не так :(");
       }
