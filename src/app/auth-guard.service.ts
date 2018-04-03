@@ -5,6 +5,7 @@ import { HttpClient } from '@angular/common/http';
 
 
 
+
 @Injectable()
 export class AuthGuard implements CanActivate {
     constructor(private authService: AuthService, private router: Router, private http: HttpClient ) {}
@@ -45,7 +46,6 @@ export class AuthGuard implements CanActivate {
                     if (rgxpStudent.test(state.url)) {
                         return true;
                     } else {
-                        console.log('student, wrong page');
                         this.router.navigate(['/login'], {
                             queryParams: {
                                 return: state.url
