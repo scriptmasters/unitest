@@ -21,11 +21,10 @@ export class StudentsComponent implements OnInit {
     //При кожному ререндері компоненту будуть братись нові дані з сервера
     this.fillOutStudentsTable();
   }
-
+  //Оновлення даних з сервера
   onChanged() {
     this.fillOutStudentsTable();
   }
-
   // метод який записує в масив "students" дані про кожного студента
   fillOutStudentsTable() {
     this.service.getStudents().subscribe(data => {

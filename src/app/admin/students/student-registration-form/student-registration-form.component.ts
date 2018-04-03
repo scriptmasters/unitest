@@ -17,7 +17,7 @@ export class StudentRegistrationFormComponent implements OnInit {
 
   groups: Groups[] = [];
   faculties: Faculties[] = [];
-  //Властивості, які вибираються з інпутів
+  //Властивості, які вибираються з інпутів з використання "2 way data binding"
   student: StudentAdd = {
     gradebook_id: '',
     student_surname: '',
@@ -29,11 +29,13 @@ export class StudentRegistrationFormComponent implements OnInit {
     email: '',
     photo: defaultImage
   }
+  //Для виклику методу "onChanged" в батьківському компоненті
   @Output() onChanged = new EventEmitter();
 
   constructor(private service: StudentsService) { }
 
   ngOnInit() {
+    //Підгружаємо дані факультетів і груп з сервера при першій ініціалізації компоненту
     this.service.getAvailableFaculties().subscribe(response => {
       this.faculties = response;
       this.service.getAvailableGroups('1').subscribe(data => {
@@ -42,19 +44,22 @@ export class StudentRegistrationFormComponent implements OnInit {
       });
     });
   }
-
+  //Записуємо масив об'єктів "Group" які приходять з сервера в масив "groups"
   getGroups(elem: HTMLSelectElement) {
     let value = elem.options[elem.selectedIndex].value;
     let index: string;
+    //Шукаємо айдішку факультету яку було вибрано в селекті
     this.faculties.forEach(val => {
       if(val.faculty_name === value) {
         index = val.faculty_id;
       }
-    })
+    });
+    //По айдішці факультету витягуємо всі його групи і записуємо в масив groups, якщо є групи в цьому факультеті
     this.service.getAvailableGroups(index).subscribe(data => {
       if (data[0]) {
         this.groups = data;
         this.student.group_id = this.groups[0].group_id;
+      //якщо факультет по якихось причинах немає груп, ЛОЛ :)
       } else {
         this.groups = [{
           group_id: 'none',
@@ -65,7 +70,7 @@ export class StudentRegistrationFormComponent implements OnInit {
       }
     });
   }
-
+  //Сетим айдішку групи в об'єкт "student"
   handleSetGroup(elem: HTMLSelectElement) {
     let value = elem.options[elem.selectedIndex].value;
     let index: string;
@@ -76,7 +81,7 @@ export class StudentRegistrationFormComponent implements OnInit {
     });
     this.student.group_id = index;
   }
-
+  //Рендеримо фотку в base64 код перед відправкою на сервер
   handleAddPhoto(event) {
     let input = event.target;
     const reader = new FileReader();
@@ -88,7 +93,7 @@ export class StudentRegistrationFormComponent implements OnInit {
     };
     reader.readAsDataURL(input.files[0]);
   }
-
+  //Відправляємо дані на сервер
   handleSubmit() {
     let studentJSON = JSON.stringify({
       gradebook_id: this.student.gradebook_id,
