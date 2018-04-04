@@ -115,7 +115,7 @@
                 }
             }
             .content {
-        
+
             }
         }
         .footer {
@@ -169,3 +169,10 @@
         display: flex;
     }
 }
+@media (min-width: 992px) {
+  .vertical-navigation {
+    display: none;
+  }
+}
+
+
