@@ -2,15 +2,20 @@ import {Injectable} from '@angular/core';
 import { Router, ActivatedRouteSnapshot, RouterStateSnapshot, CanActivate } from '@angular/router';
 import {AuthService} from './shared/auth/auth.service';
 import { HttpClient } from '@angular/common/http';
+import {Observable} from 'rxjs/Observable';
+import 'rxjs/add/observable/interval';
+import 'rxjs/add/operator/take';
+import 'rxjs/add/operator/map';
+import 'rxjs/add/operator/do';
 
-
+import {publishReplay} from 'rxjs/operator/publishReplay';
 
 
 @Injectable()
 export class AuthGuard implements CanActivate {
     constructor(private authService: AuthService, private router: Router, private http: HttpClient ) {}
 
-    canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
+    canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Promise<boolean> {
 
         const rgxpStudent = /^\/student.*/g;
         const rgxpAdmin = /^\/admin.*/g;
@@ -22,8 +27,9 @@ export class AuthGuard implements CanActivate {
             roles: [undefined]
         };
 
+
         const promise = new Promise((resolve, reject) => {
-                this.http.get(authStatusUrl)
+            this.http.get(authStatusUrl)
                     .subscribe((data) => {
                         authStatus = data;
                         if (authStatus.response === 'logged') {

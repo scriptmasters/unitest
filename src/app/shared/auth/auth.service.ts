@@ -24,7 +24,7 @@ export class AuthService {
 
 
     login(username, password, redirectUrl) {
-        const authData = {'username': username, 'password': password};
+        let authData = {'username': username, 'password': password};
         this.http.post(this.authLoginUrl, authData, this.httpOptions)
                    .subscribe(data => { this.loginResponse = data;
                        switch (this.loginResponse.roles[1]) {
@@ -32,7 +32,6 @@ export class AuthService {
                                if (this.rgxpAdmin.test(redirectUrl)) {
                                    this.router.navigate([redirectUrl]);
                                } else {
-                                   console.log('You are admin. To browse student page login as student');
                                    this.router.navigate(['/admin']);
                                }
                                break;
@@ -41,7 +40,6 @@ export class AuthService {
                                if (this.rgxpStudent.test(redirectUrl)) {
                                    this.router.navigate([redirectUrl]);
                                } else {
-                                   console.log('You are student. To browse admin page login as admin');
                                    this.router.navigate(['/student']);
                                }
                                break;

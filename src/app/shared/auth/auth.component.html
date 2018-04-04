@@ -2,18 +2,33 @@
 <div  class="mat-input-container">
 
   <mat-card style="background-color: #0000000a;">
-    <mat-card style="background-color: #0000000a; box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);"><h1 style="color: #28a745"> Welcome to D-tester</h1></mat-card>
+    <mat-card style="background-color: #0000000a; box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);"><h1 style="color: #28a745"> Welcome to D-tester</h1>
 
-    <div id="error"></div>
-  <mat-form-field >
-    <input id="login" name="username" [(ngModel)]="auth1.username" matInput placeholder="Login">
-  </mat-form-field>
+    </mat-card>
 
-  <mat-form-field >
-    <input id="password" type="password" (keyup.enter)="submit()" [(ngModel)]="auth1.password" [(ngModel)]="auth1.confirm_password" matInput placeholder="Password">
-  </mat-form-field>
 
-  <button id="submit" (click)="submit()"  mat-raised-button color="primary">Sign In</button>
+        <div id="error"></div>
+      <mat-form-field>
+        <mat-label>Username</mat-label>
+          <input id="login" [formControl]="username" matInput placeholder="vasyapupkin" name="username" >
+            <mat-error *ngIf="username.hasError('required')">
+              This field must not be empty
+            </mat-error>
+      </mat-form-field>
+
+        <mat-form-field>
+          <input id="password" [formControl]="password" name="password" type="password" (keyup.enter)="submit()" matInput placeholder="Password" >
+          <mat-error *ngIf="password.hasError('required')">
+            This field must not be empty
+          </mat-error>
+          <mat-error *ngIf="password.hasError('minlength')">
+            Password length must be not less then 8 symbols
+          </mat-error>
+        </mat-form-field>
+
+
+        <button id="submit" (click)="submit()"  [disabled]="password.pristine || username.pristine" mat-raised-button color="primary">Sign In</button>
+
 
   </mat-card>
 
