@@ -1,0 +1,40 @@
+.mat-input-container {
+    display: flex;
+    flex-direction: column;
+    margin: 10px auto;
+    width: 40%;
+    max-width: 400px;
+}
+
+.mat-form-field {
+    width: 100%;
+}
+
+#submit {
+    float: right;
+    width: 50%;
+    max-width: 150px;
+    min-width: 30px;
+
+}
+.mat-input-container mat-card {
+    background-color: white;
+}
+
+.mat-input-container mat-divider {
+    position: relative;
+    margin-top: 5px;
+    box-shadow: 0 0 8px 0 rgba(0,0,0,0.25);
+}
+
+.mat-input-container h1 {
+    text-align: center;
+}
+
+#error {
+    height: 1rem;
+    text-align: center;
+    margin-top: 1rem;
+    color: red;
+}
+

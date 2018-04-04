@@ -1,0 +1,74 @@
+<div class="header-container">
+  <h2 mat-dialog-title>Додати групу <i  class="fa fa-times close"  aria-hidden="true" (click)="close()"></i></h2>  
+</div>
+
+<mat-dialog-content>
+
+  
+    <mat-form-field>
+      <mat-select placeholder="Факультет" [(ngModel)]="faculty" required>
+        <mat-option value="{{fac}}" *ngFor="let fac of facultiesArr" >{{fac}}</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-select placeholder="Спеціальність" [(ngModel)]="speciality" required>
+          <mat-option value="{{spec}}" *ngFor="let spec of specialitiesArr">{{spec}}</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field>
+      <input matInput placeholder="Назва групи" [(ngModel)]="group" required>
+    </mat-form-field>
+  
+
+</mat-dialog-content>
+
+<mat-dialog-actions >
+  <button class="btn btn-success" mat-button (click)="close({faculty: this.faculty, speciality: this.speciality, group: this.group})">Готово</button>
+  <button class="btn btn-success" mat-button [mat-dialog-close]="true">Відмінити</button>
+</mat-dialog-actions>
+
+<!-- <div class="input-group">
+      <label for="name">Name</label>
+      <input type="text" placeholder="name" id="name" name="name" [(ngModel)]="name">
+      <label for="lastName">Second Name</label>
+      <input type="text" placeholder="lastName" id="lastName" [(ngModel)]="lastName">
+      <label for="age">Age</label>
+      <input type="text" placeholder="age" id="age" [(ngModel)]="age">
+    </div>
+     -->
+<!-- <div class="input-group mb-3">
+    <div class="input-group-prepend">
+      <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Dropdown</button>
+      <div class="dropdown-menu">
+        <a class="dropdown-item" href="#">Action</a>
+        <a class="dropdown-item" href="#">Another action</a>
+        <a class="dropdown-item" href="#">Something else here</a>
+        <div role="separator" class="dropdown-divider"></div>
+        <a class="dropdown-item" href="#">Separated link</a>
+      </div>
+    </div>
+    <input type="text" class="form-control" aria-label="Text input with dropdown button" [(ngModel)]="name">
+  </div>
+  
+  <div class="input-group mb-3">
+    <div class="input-group-prepend">
+      <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Dropdown</button>
+      <div class="dropdown-menu">
+        <a class="dropdown-item" href="#">Action</a>
+        <a class="dropdown-item" href="#">Another action</a>
+        <a class="dropdown-item" href="#">Something else here</a>
+        <div role="separator" class="dropdown-divider"></div>
+        <a class="dropdown-item" href="#">Separated link</a>
+      </div>
+    </div>
+    <input type="text" class="form-control" aria-label="Text input with dropdown button" [(ngModel)]="lastName">
+  </div>
+  
+  <div class="input-group input-group-lg">
+    <div class="input-group-prepend">
+      <span class="input-group-text" id="inputGroup-sizing-lg">Large</span>
+    </div>
+    <input type="text" class="form-control" aria-label="Large" aria-describedby="inputGroup-sizing-sm" [(ngModel)]="age">
+  </div> -->
