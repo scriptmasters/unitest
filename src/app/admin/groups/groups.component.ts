@@ -79,14 +79,21 @@ export class GroupsComponent implements OnInit {
           }
           this.makeUnique();
           console.log("TABLE : " + JSON.stringify(this.table));
-
+          
         }); 
       });
     });
   } 
 
+  // DELETE SOME GROUP 
   delGroup(id){
     this.groupsService._delGroup(id).subscribe(response => console.log("RESPONSE = " + response));
+    console.log("ID="+id);
+    for(let i=0; i<this.table.length; i++){
+      if(this.table[i].group_id === id){
+        this.table.splice(i ,1);
+      }
+    }
   }
 
 
@@ -123,6 +130,8 @@ export class GroupsComponent implements OnInit {
       this.addedGroup.faculty = result.faculty;
       this.addedGroup.speciality = result.speciality;
       this.addedGroup.group = result.group;
+
+      // this.table.push({})
       
     });
   }

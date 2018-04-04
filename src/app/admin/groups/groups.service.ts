@@ -30,7 +30,7 @@ export class GroupsService {
   }
 
   _delGroup(id):Observable<DelGroup>{
-    return this.http.get<DelGroup>(this.ROOT_URL_POST_GROUPS + "del" + id, this.header);
+    return this.http.get<DelGroup>(this.ROOT_URL_POST_GROUPS + "Group/del/" + id, this.header);
   }
   
 //  Two fucntions below are using for getting value for Dialog window

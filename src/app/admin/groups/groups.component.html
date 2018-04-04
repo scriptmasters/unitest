@@ -6,7 +6,6 @@
       <h1 class="h3 display">Групи</h1>
 
       <input type="text" class="form-control" placeholder="пошук">
-
       <div class="form-group ">
         <select name="account" class="form-control col-md-12">
           <option *ngFor="let tab of uniqueFac; let i = index;" value="{{tab.faculty}}">{{tab}}</option>
@@ -64,7 +63,7 @@
                     <td><i class="fa fa-user" title="Переглянути студентів групи {{tab.group}}"></i></td>
                     <td><i class="fa fa-calendar" title="Розклад тестування групи {{tab.group}}"></i></td>
                     <td><i class="fa fa-cog" title="Редагувати групу {{tab.group}}"></i></td>
-                    <td><i class="fa fa-close" title="Видалити групу {{tab.group}}" (click)="delGroup({{tab. }})"></i></td>
+                    <td><i class="fa fa-close" title="Видалити групу {{tab.group}}"  (click)="delGroup(tab.group_id)"></i></td>
                   </tr>
                 </tbody>
               </table>
