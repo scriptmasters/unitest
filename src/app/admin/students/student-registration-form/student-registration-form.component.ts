@@ -49,13 +49,42 @@ export class StudentRegistrationFormComponent implements OnInit {
     });
     //Валідація форми
     this.form = new FormGroup({
-      firstname: new FormControl(''),
-      surname: new FormControl(''),
-      fname: new FormControl(''),
-      gradebook: new FormControl(''),
-      login: new FormControl(''),
-      password: new FormControl(''),
-      email: new FormControl('')
+      firstname: new FormControl('', Validators.compose([
+        Validators.required,
+        Validators.minLength(2),
+        Validators.maxLength(20)
+      ])),
+      surname: new FormControl('', Validators.compose([
+        Validators.required,
+        Validators.minLength(2),
+        Validators.maxLength(20)
+      ])),
+      fname: new FormControl('', Validators.compose([
+        Validators.required,
+        Validators.minLength(2),
+        Validators.maxLength(20)
+      ])),
+      gradebook: new FormControl('', Validators.compose([
+        Validators.required,
+        Validators.minLength(3),
+        Validators.maxLength(20)
+      ])),
+      login: new FormControl('', Validators.compose([
+        Validators.required,
+        Validators.minLength(3),
+        Validators.maxLength(20)
+      ])),
+      password: new FormControl('', Validators.compose([
+        Validators.required,
+        Validators.minLength(3),
+        Validators.maxLength(20)
+      ])),
+      email: new FormControl('', Validators.compose([
+        Validators.required,
+        Validators.minLength(3),
+        Validators.maxLength(32),
+        Validators.email
+      ]))
     });
   }
   //Записуємо масив об'єктів "Group" які приходять з сервера в масив "groups"
@@ -102,7 +131,6 @@ export class StudentRegistrationFormComponent implements OnInit {
     const that = this;
     reader.onload = function() {
       let dataURL = reader.result;
-      console.log(dataURL);
       that.student.photo = dataURL;
     };
     reader.readAsDataURL(input.files[0]);
