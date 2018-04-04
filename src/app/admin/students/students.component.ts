@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { StudentsService } from './students.service';
-import { StudentGet } from './students-interface';
+import { StudentGet, IResponse } from './students-interface';
 import { Student } from './students-interface';
 import { group } from '@angular/animations';
+import { StudentRegistrationFormComponent } from './student-registration-form/student-registration-form.component'
+import { MatDialog } from '@angular/material';
 
 @Component({
   selector: 'app-students',
@@ -15,18 +17,25 @@ export class StudentsComponent implements OnInit {
   title: string = 'Студенти';
   students: Student[] = [];
 
-  constructor(private service: StudentsService) { }
+  constructor(private service: StudentsService, private dialog: MatDialog) { }
 
   ngOnInit() {
     //При кожному ререндері компоненту будуть братись нові дані з сервера
     this.fillOutStudentsTable();
   }
-  //Оновлення даних з сервера
-  onChanged() {
-    this.fillOutStudentsTable();
+  // Відкриває діалогове вікно
+  showRegForm(): void {
+    let dialogRef = this.dialog.open(StudentRegistrationFormComponent);
+    dialogRef.afterClosed().subscribe(() => {
+      this.fillOutStudentsTable();
+    });
+  }
+  //Редагування студента
+  showEditForm(): void {
+    
   }
   // метод який записує в масив "students" дані про кожного студента
-  fillOutStudentsTable() {
+  fillOutStudentsTable(): void {
     this.service.getStudents().subscribe(data => {
       let groupsArr = [];
       for (let i = 0; i < data.length; i++) {
@@ -49,6 +58,7 @@ export class StudentsComponent implements OnInit {
             student_name: `${data[i].student_name} `,
             student_surname: `${data[i].student_surname} `,
             gradebook_id: data[i].gradebook_id,
+            user_id: data[i].user_id,
             group: ''
           });
           // Додавання групи кожному студенту
@@ -59,6 +69,14 @@ export class StudentsComponent implements OnInit {
           }
         }
       });
+    });
+  }
+  //Видалення студента
+  handleDelete(index): void {
+    this.service.deleteStudent(index).subscribe((data: IResponse) => {
+      if(data.response === 'ok') {
+        this.fillOutStudentsTable();
+      }
     });
   }
 }

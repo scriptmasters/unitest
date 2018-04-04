@@ -32,7 +32,7 @@
                     <th>{{student.gradebook_id}}</th>
                     <th>{{student.group}}</th>
                     <td><i class="fa fa-cog"></i></td>
-                    <td><i class="fa fa-close"></i></td>
+                    <td><i class="fa fa-close" (click)="handleDelete(student.user_id)"></i></td>
                   </tr>
                 </tbody>
               </table>
@@ -42,6 +42,4 @@
       </div>
     </div>
   </div>
-  <!-- Компонент форми реєстрації -->
-  <app-student-registration-form (onChanged)="onChanged()"></app-student-registration-form>
 </section>

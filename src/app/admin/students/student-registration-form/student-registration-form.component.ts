@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, ViewEncapsulation } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms'
 import { StudentsService } from '../students.service';
 
@@ -7,12 +7,14 @@ import { Groups } from '../students-interface';
 import { Faculties } from '../students-interface';
 import { defaultImage } from './default-image'
 import { IResponse } from '../students-interface';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 
 @Component({
   selector: 'app-student-registration-form',
   templateUrl: './student-registration-form.component.html',
   styleUrls: ['./student-registration-form.component.scss'],
-  providers: [ StudentsService ]
+  providers: [ StudentsService ],
+  encapsulation: ViewEncapsulation.None
 })
 export class StudentRegistrationFormComponent implements OnInit {
 
@@ -31,10 +33,10 @@ export class StudentRegistrationFormComponent implements OnInit {
     email: '',
     photo: defaultImage
   }
-  //Для виклику методу "onChanged" в батьківському компоненті
-  @Output() onChanged = new EventEmitter();
 
-  constructor(private service: StudentsService) { }
+  constructor(
+    private service: StudentsService, 
+    private dialogRef: MatDialogRef<StudentRegistrationFormComponent>) { }
 
   ngOnInit() {
     //Підгружаємо дані факультетів і груп з сервера при першій ініціалізації компоненту
@@ -122,9 +124,7 @@ export class StudentRegistrationFormComponent implements OnInit {
     });
     this.service.addStudent(studentJSON).subscribe((data: IResponse) => {
       if (data.response === 'ok') {
-        this.onChanged.emit();
-      } else {
-        alert("Йой, курва, щось пішло не так :(");
+        this.dialogRef.close();
       }
     });
   }

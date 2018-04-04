@@ -15,7 +15,7 @@ export class StudentsService {
   private addStudentURL: string = 'http://vps9615.hyperhost.name:443/api/Student/insertData';
   private getFacultiesURL: string = 'http://vps9615.hyperhost.name:443/api/Faculty/getRecords';
   private getEntityValueURL: string = 'http://vps9615.hyperhost.name:443/api/EntityManager/getEntityValues';
-
+  
   constructor(private http: HttpClient) { }
 
   //Отримування масиву студентів з бек-енду
@@ -37,5 +37,9 @@ export class StudentsService {
   //Отримання всіх факультетів
   getAvailableFaculties(): Observable<Faculties[]> {
     return this.http.get<Faculties[]>(this.getFacultiesURL);
+  }
+  //Видалення студента
+  deleteStudent(id: string): Observable<IResponse> {
+    return this.http.delete<IResponse>(`http://vps9615.hyperhost.name:443/api/Student/del/${id}`);
   }
 }
