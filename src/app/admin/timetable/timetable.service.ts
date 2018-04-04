@@ -32,7 +32,7 @@ export interface TimeEntity {
 export class TableService {
   httpOptions = {
     headers: new HttpHeaders({
-      "Content-Type": "application/json"
+      "Content-Type": "application/json;charset=utf8"
     })
   };
 
@@ -53,7 +53,7 @@ export class TableService {
   getTable(): Observable<TimeEntity[]> {
     return this.http
       .get("./assets/mocks/timeTable.json")
-      .pipe(tap(groups => groups), catchError(() => []));
+      .pipe(tap(table => table), catchError(() => []));
   }
 }
 

@@ -1,6 +1,13 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, Inject } from "@angular/core";
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from "@angular/material";
 import TableService, { Subject, Group, TimeEntity } from "./timetable.service";
+import {
+  FormControl,
+  FormGroup,
+  Validators,
+  ReactiveFormsModule
+} from "@angular/forms";
+import { TimeTableModal } from "./timetable-modal/timetable-modal.component";
 
 interface TimeEntityTable extends TimeEntity {
   subject_name: string;
@@ -15,13 +22,16 @@ interface TimeEntityTable extends TimeEntity {
 })
 export class TimetableComponent implements OnInit {
   table: TimeEntityTable[];
-  subjects: Map<string, string>;
-  groups: Map<string, string>;
+  subjects: Subject[];
+  groups: Group[];
 
-  constructor(public tableService: TableService) {
-    this.subjects = new Map();
-    this.groups = new Map();
+  groupsMap: Map<string, string> = new Map();
+  subjectsMap: Map<string, string> = new Map();
+
+  constructor(public tableService: TableService, public dialog: MatDialog) {
     this.table = [];
+    this.subjects = [];
+    this.groups = [];
 
     tableService.getTable().subscribe(
       async data => {
@@ -29,8 +39,10 @@ export class TimetableComponent implements OnInit {
           .getGroups()
           .toPromise()
           .then(groups => {
+            this.groups = groups;
+
             groups.forEach(group =>
-              this.groups.set(group.group_id, group.group_name)
+              this.groupsMap.set(group.group_id, group.group_name)
             );
           });
 
@@ -38,15 +50,16 @@ export class TimetableComponent implements OnInit {
           .getSubjects()
           .toPromise()
           .then(subjects => {
+            this.subjects = subjects;
             subjects.forEach(subject =>
-              this.subjects.set(subject.subject_id, subject.subject_name)
+              this.subjectsMap.set(subject.subject_id, subject.subject_name)
             );
           });
 
         this.table = data.map((timeEntity: TimeEntity): TimeEntityTable => {
           return Object.assign({}, timeEntity, {
-            group_name: this.groups.get(timeEntity.group_id),
-            subject_name: this.subjects.get(timeEntity.subject_id)
+            group_name: this.groupsMap.get(timeEntity.group_id),
+            subject_name: this.subjectsMap.get(timeEntity.subject_id)
           });
         });
 
@@ -58,19 +71,40 @@ export class TimetableComponent implements OnInit {
     );
 
     // this.getSubjects().forEach(subject =>
-    //   this.subjects.set(subject.subject_id, subject.subject_name)
+    //   this.subjectsMap.set(subject.subject_id, subject.subject_name)
     // );
 
     // this.getGroups().forEach(group =>
-    //   this.groups.set(group.group_id, group.group_name)
+    //   this.groupsMap.set(group.group_id, group.group_name)
     // );
 
     // this.table = this.getTable().map(timeEntity => {
-    //   timeEntity.group_name = this.groups.get(timeEntity.group_id);
-    //   timeEntity.subject_name = this.subjects.get(timeEntity.subject_id);
+    //   timeEntity.group_name = this.groupsMap.get(timeEntity.group_id);
+    //   timeEntity.subject_name = this.subjectsMap.get(timeEntity.subject_id);
     //   return timeEntity;
     // });
   }
 
+  onDelete(id) {
+    return this.table.splice(this.table.indexOf(id), 1);
+  }
+
+  openDialog(): void {
+    console.log("called");
+    let dialogRef = this.dialog.open(TimeTableModal, {
+      width: "800px",
+      data: {
+        table: this.table,
+        subjects: this.subjects,
+        groups: this.groups,
+        groupsMap: this.groupsMap,
+        subjectsMap: this.subjectsMap
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log("The dialog was closed, result:" + result);
+    });
+  }
   ngOnInit() {}
 }

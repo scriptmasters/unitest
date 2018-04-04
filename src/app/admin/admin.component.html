@@ -14,6 +14,7 @@
                     <a [routerLink]="['/admin', {outlets: {adminNavigation: ['subjects']}}]"><i class="fa fa-book" aria-hidden="true"></i><span>Предмети</span></a>
                     <a [routerLink]="['/admin', {outlets: {adminNavigation: ['specialities']}}]"><i class="fa fa-table" aria-hidden="true"></i><span>Спеціальності</span></a>
                     <a [routerLink]="['/admin', {outlets: {adminNavigation: ['administrators']}}]"><i class="fa fa-user-secret" aria-hidden="true"></i><span>Адміністратори</span></a>
+                    <a [routerLink]="['/admin', {outlets: {adminNavigation: ['timetable']}}]"><i class="fa fa-user-secret" aria-hidden="true"></i><span>Розклад</span></a>
                 </nav>
             </div>
         </section>
@@ -35,6 +36,7 @@
                     <a [routerLink]="['/admin', {outlets: {adminNavigation: ['subjects']}}]"><i class="fa fa-book" aria-hidden="true"></i><span>Предмети</span></a>
                     <a [routerLink]="['/admin', {outlets: {adminNavigation: ['specialities']}}]"><i class="fa fa-table" aria-hidden="true"></i><span>Спеціальності</span></a>
                     <a [routerLink]="['/admin', {outlets: {adminNavigation: ['administrators']}}]"><i class="fa fa-user-secret" aria-hidden="true"></i><span>Адміністратори</span></a>
+                    <a [routerLink]="['/admin', {outlets: {adminNavigation: ['timetable']}}]"><i class="fa fa-user-secret" aria-hidden="true"></i><span>Розклад</span></a>
                 </nav>
                 <div class="content">
                     <router-outlet name="adminNavigation"></router-outlet>

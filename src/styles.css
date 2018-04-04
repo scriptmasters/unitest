@@ -442,6 +442,11 @@ button {
     border-color: #288b46;
 }
 
+.btn-primary:disabled {
+    background-color: #33b35a;
+    border-color: #33b35a;
+}
+
 .btn-secondary {
     color: color-yiq(#868e96);
     background-color: #868e96;

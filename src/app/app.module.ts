@@ -56,6 +56,8 @@ import { SpecialitiesComponent } from './admin/specialities/specialities.compone
 import { AdministratorsComponent } from './admin/administrators/administrators.component';
 import { StudentsComponent } from './admin/students/students.component';
 import { GroupsComponent } from './admin/groups/groups.component';
+import { TimetableComponent } from "./admin/timetable/timetable.component";
+import { TimeTableModal } from "./admin/timetable/timetable-modal/timetable-modal.component";
 
 
 @NgModule({
@@ -110,8 +112,9 @@ export class DemoMaterialModule {}
         DemoMaterialModule,
         MatNativeDateModule,
         ReactiveFormsModule,
+        MatDialogModule
     ],
-    entryComponents: [AppComponent],
+    entryComponents: [AppComponent, TimeTableModal],
     declarations: [
         AppComponent,
         AuthComponent,
@@ -123,7 +126,10 @@ export class DemoMaterialModule {}
         SpecialitiesComponent,
         AdministratorsComponent,
         StudentsComponent,
-        GroupsComponent],
+        GroupsComponent,
+        TimetableComponent,
+        TimeTableModal
+    ],
     bootstrap: [AppComponent],
     providers: [AuthService]
 })
