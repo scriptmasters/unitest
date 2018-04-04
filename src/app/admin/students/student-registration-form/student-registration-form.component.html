@@ -1,44 +1,114 @@
 <div class="container-fluid">
   <div class="row">
     <div class="col">
-      <form class="form-group" (submit)="handleSubmit()">
+      <form class="form-group" 
+        [formGroup]="form" 
+        (submit)="handleSubmit()">
         <div class="names-block">
           <div>
-            <input class="form-control" type="text" name="lastname" placeholder="Прізвище..." [(ngModel)]="student.student_surname">
-            <input class="form-control" type="text" name="firstname" placeholder="Ім'я..." [(ngModel)]="student.student_name">
+            <!-- Прізвище -->
+            <input 
+              class="form-control" 
+              type="text" 
+              formControlName="surname" 
+              name="surname" placeholder="Прізвище..." 
+              [(ngModel)]="student.student_surname">
+            <!-- Ім'я -->
+            <input 
+              class="form-control" 
+              type="text" 
+              formControlName="firstname" 
+              name="firstname" 
+              placeholder="Ім'я..." 
+              [(ngModel)]="student.student_name">
           </div>
-          <input class="form-control" type="text" name="fname" placeholder="По-батькові..." [(ngModel)]="student.student_fname">
+          <!-- По-батькові -->
+          <input 
+            class="form-control" 
+            type="text" 
+            formControlName="fname" 
+            name="fname" 
+            placeholder="По-батькові..." 
+            [(ngModel)]="student.student_fname">
         </div>
         <div class="select-block">
           <div class="selectors">
             <div>
+              <!-- Факультет -->
               <label>Факультет</label>
-              <select class="form-control" id="facultySelect" name="faculty" aria-placeholder="Факультет..." #facultyField (change)="getGroups(facultyField)">
+              <select 
+                class="form-control" 
+                id="facultySelect" 
+                name="faculty" 
+                aria-placeholder="Факультет..." 
+                #facultyField 
+                (change)="getGroups(facultyField)">
                 <option *ngFor="let faculty of faculties">{{faculty.faculty_name}}</option>
               </select>
             </div>
             <div>
+              <!-- Група -->
               <label>Група</label>
-              <select class="form-control" id="groupsSelect" name="group" aria-placeholder="Група..." #groupField (change)="handleSetGroup(groupField)">
+              <select 
+                class="form-control" 
+                id="groupsSelect" 
+                name="group" 
+                aria-placeholder="Група..." 
+                #groupField (change)="handleSetGroup(groupField)">
                 <option *ngFor="let group of groups">{{group.group_name}}</option>
               </select>
             </div>
           </div>
-          <input class="form-control" type="text" name="gradebook" placeholder="№ заліковки..." [(ngModel)]="student.gradebook_id">
+          <!-- Номер заліковки -->
+          <input 
+            class="form-control" 
+            type="text" 
+            formControlName="gradebook" 
+            name="gradebook" 
+            placeholder="№ заліковки..." 
+            [(ngModel)]="student.gradebook_id">
         </div>
         <div class="security-block">
           <div>
-              <input class="form-control" type="text" name="login" placeholder="Логін..." [(ngModel)]="student.username">
-              <input class="form-control" type="password" name="password" placeholder="Пароль..." [(ngModel)]="student.password">
+              <!-- Логін -->
+              <input 
+                class="form-control" 
+                type="text" 
+                formControlName="login" 
+                name="login" 
+                placeholder="Логін..." 
+                [(ngModel)]="student.username">
+              <!-- Пароль -->
+              <input 
+                class="form-control" 
+                type="password" 
+                formControlName="password" 
+                name="password" 
+                placeholder="Пароль..." 
+                [(ngModel)]="student.password">
           </div>
-          <input class="form-control" type="email" name="email" placeholder="Поштова скринька..." [(ngModel)]="student.email">
+          <!-- Пошта -->
+          <input 
+            class="form-control" 
+            type="email" 
+            formControlName="email" 
+            name="email" 
+            placeholder="Поштова скринька..." 
+            [(ngModel)]="student.email">
         </div>
         <div class="image-block">
-            <input type="file" class="form-control" name="image-input" accept="image/*" (change)="handleAddPhoto($event)" #photoField>
+            <!-- Фото -->
+            <input 
+              type="file" 
+              class="form-control" 
+              name="image-input" 
+              accept="image/*" 
+              (change)="handleAddPhoto($event)" 
+              #photoField>
             <img [src]="student.photo" alt="your picture">
         </div>
         <div class="buttons-block">
-          <input class="btn btn-success" type="submit" value="Додати студента"> 
+          <input class="btn btn-success" type="submit" [disabled]="!form.valid" value="Додати студента"> 
           <input class="btn btn-danger" type="reset" value="Очистити форму">
         </div>
       </form>

@@ -1,4 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { FormGroup, FormControl, Validators } from '@angular/forms'
 import { StudentsService } from '../students.service';
 
 import { StudentAdd } from '../students-interface';
@@ -15,6 +16,7 @@ import { IResponse } from '../students-interface';
 })
 export class StudentRegistrationFormComponent implements OnInit {
 
+  form;
   groups: Groups[] = [];
   faculties: Faculties[] = [];
   //Властивості, які вибираються з інпутів з використання "2 way data binding"
@@ -42,6 +44,16 @@ export class StudentRegistrationFormComponent implements OnInit {
         this.groups = data;
         this.student.group_id = this.groups[0].group_id;
       });
+    });
+    //Валідація форми
+    this.form = new FormGroup({
+      firstname: new FormControl(''),
+      surname: new FormControl(''),
+      fname: new FormControl(''),
+      gradebook: new FormControl(''),
+      login: new FormControl(''),
+      password: new FormControl(''),
+      email: new FormControl('')
     });
   }
   //Записуємо масив об'єктів "Group" які приходять з сервера в масив "groups"
