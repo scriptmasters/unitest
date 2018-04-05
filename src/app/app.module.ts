@@ -10,6 +10,7 @@ import {StudentsService} from './admin/students/students.service';
 import {AuthGuard} from './auth-guard.service';
 
 
+
 import {
     MatAutocompleteModule,
     MatButtonModule,
@@ -61,6 +62,7 @@ import { AdministratorsComponent } from './admin/administrators/administrators.c
 import { StudentRegistrationFormComponent } from './admin/students/student-registration-form/student-registration-form.component';
 import { GroupsComponent } from './admin/groups/groups.component';
 import { TimetableComponent } from './admin/timetable/timetable.component';
+
 
 
 
@@ -122,6 +124,7 @@ import { TimetableComponent } from './admin/timetable/timetable.component';
         GroupsComponent,
         TimetableComponent,
         StudentRegistrationFormComponent,
+
     ],
     bootstrap: [AppComponent],
     providers: [

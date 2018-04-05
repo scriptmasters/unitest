@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import {Router, ActivatedRoute} from '@angular/router';
 import {AuthService} from './auth.service';
-import {FormControl, FormGroup, FormGroupDirective, NgForm, Validators} from '@angular/forms';
+import {FormControl, Validators} from '@angular/forms';
+
 
 
 
@@ -26,9 +27,11 @@ export class AuthComponent implements OnInit {
               private router: Router,
               private route: ActivatedRoute) {}
 
-  submit() {
 
-    this.authService.login(this.username.value, this.password.value, this.returnUrl);
+  submit() {if (!(this.password.invalid || this.username.invalid)) {
+
+      this.authService.login(this.username.value, this.password.value, this.returnUrl);
+  }
   }
 
   ngOnInit() {

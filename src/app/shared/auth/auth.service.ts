@@ -6,6 +6,7 @@ import {Router} from '@angular/router';
 
 
 
+
 @Injectable()
 export class AuthService {
     authLoginUrl = 'http://vps9615.hyperhost.name:443/api/login/index/';
@@ -20,11 +21,15 @@ export class AuthService {
     loginResponse: any;
 
 
-    constructor(private http: HttpClient, private router: Router ) {}
+
+
+
+    constructor(private http: HttpClient, private router: Router) {}
+
 
 
     login(username, password, redirectUrl) {
-        let authData = {'username': username, 'password': password};
+        const authData = {'username': username, 'password': password};
         this.http.post(this.authLoginUrl, authData, this.httpOptions)
                    .subscribe(data => { this.loginResponse = data;
                        switch (this.loginResponse.roles[1]) {
@@ -32,6 +37,7 @@ export class AuthService {
                                if (this.rgxpAdmin.test(redirectUrl)) {
                                    this.router.navigate([redirectUrl]);
                                } else {
+
                                    this.router.navigate(['/admin']);
                                }
                                break;
