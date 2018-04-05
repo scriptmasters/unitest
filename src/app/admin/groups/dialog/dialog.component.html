@@ -7,13 +7,13 @@
   
     <mat-form-field>
       <mat-select placeholder="Факультет" [(ngModel)]="faculty" required>
-        <mat-option value="{{fac}}" *ngFor="let fac of facultiesArr" >{{fac}}</mat-option>
+        <mat-option value="{{fac.faculty_id}}" *ngFor="let fac of facultiesArr" >{{fac.faculty_name}}</mat-option>
       </mat-select>
     </mat-form-field>
 
     <mat-form-field>
       <mat-select placeholder="Спеціальність" [(ngModel)]="speciality" required>
-          <mat-option value="{{spec}}" *ngFor="let spec of specialitiesArr">{{spec}}</mat-option>
+          <mat-option value="{{spec.speciality_id}}" *ngFor="let spec of specialitiesArr">{{spec.speciality_name}}</mat-option>
       </mat-select>
     </mat-form-field>
 
