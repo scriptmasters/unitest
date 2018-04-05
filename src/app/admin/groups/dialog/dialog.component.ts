@@ -12,13 +12,15 @@ import { Component, OnInit, Inject, group, Input } from '@angular/core';
   styleUrls: ['./dialog.component.scss'],
 })
 export class DialogComponent implements OnInit {
-  faculty: string = "";
-  speciality: string = "";
+  faculty: string = "Вибрати факультет";
+  speciality: string = "Вибрати спеціальність";
   group: number;
+
   facultiesArr = [];
   specialitiesArr = [];
-  facultiesData = [];
-  specialitiesData = [];
+
+  // facultiesData = [];
+  // specialitiesData = [];
 
   constructor(private groupsService: GroupsService,
     private dialogRef: MatDialogRef<DialogComponent>,
@@ -27,21 +29,14 @@ export class DialogComponent implements OnInit {
 
  
 
-  mainDialog(): void {
+  dropDownsData(): void {
     this.groupsService._getFaculties().subscribe(facData => {
-      this.facultiesData = facData;
+      this.facultiesArr = facData;
       this.groupsService._getSpecialities().subscribe(specData => {
-        this.specialitiesData = specData;
-        console.log("LENGTH = " + this.facultiesData.length);
-        for (let i = 0; i < this.facultiesData.length; i++) {
-          this.facultiesArr.push(this.facultiesData[i].faculty_name);
-        }
-        for (let i = 0; i < this.specialitiesData.length; i++) {
-          this.specialitiesArr.push(this.specialitiesData[i].speciality_name);
-        }
-
-        this.faculty = this.facultiesArr[0];
-        this.speciality = this.specialitiesArr[0];
+        this.specialitiesArr = specData;
+        
+        
+        console.log("FACULTY" + this.faculty);
       
       })
     });
@@ -49,11 +44,11 @@ export class DialogComponent implements OnInit {
  
 
   public close() {
-      this.dialogRef.close({ faculty: this.faculty, speciality: this.speciality, group: this.group });
+      this.dialogRef.close({ faculty_id: this.faculty, speciality_id: this.speciality, group_name: this.group });
   }
 
   ngOnInit() {
-    this.mainDialog();
+    this.dropDownsData();
 
   }
 
