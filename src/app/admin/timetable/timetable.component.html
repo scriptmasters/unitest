@@ -36,8 +36,8 @@
                                 <td>{{tableItem.start_time}}</td>
                                 <td>{{tableItem.end_date}}</td>
                                 <td>{{tableItem.end_time}}</td>
-                                <td><i class="fa fa-cog"></i></td>
-                                <td><i class="fa fa-close" (click)="onDelete(tableItem.timetable_id)"></i></td>
+                                <td><i class="fa fa-cog" (click)="openDialog(tableItem)"></i></td>
+                                <td><i class="fa fa-close" (click)="onDelete(tableItem)"></i></td>
                             </tr>
                         </tbody>
                     </table>
