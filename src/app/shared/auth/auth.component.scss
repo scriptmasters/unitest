@@ -31,3 +31,14 @@
     text-align: center;
 }
 
+#error {
+    height: 1rem;
+    text-align: center;
+    margin-top: 1rem;
+    color: red;
+}
+
+.mat-raised-button.mat-primary[disabled] {
+    background-color: #4caf5070;
+}
+
