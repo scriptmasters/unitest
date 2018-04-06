@@ -26,7 +26,7 @@
                 <tbody>
                 <tr *ngFor="let subject of subjects; let i = index">
                   <th scope="row">{{i+1}}</th>
-                  <td>{{subject.subject_name}}</td>
+                  <td>{{subject.subject_name}} {{subject.subject_id}}</td>
                   <td>{{subject.subject_description}}</td>
                   <td><i class="fa fa-calendar-check-o table-icon" title="Тести: {{subject.subject_name}}"></i></td>
                   <td><i class="fa fa-calendar table-icon" title="Розклад: {{subject.subject_name}}"></i></td>

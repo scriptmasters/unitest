@@ -1,5 +1,5 @@
-import {Component, Inject, OnInit} from '@angular/core';
-import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from '@angular/material';
+import {Component, EventEmitter, Inject, OnInit, Output} from '@angular/core';
+import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {SubjectService} from '../services/subject.service';
 
@@ -21,18 +21,27 @@ export class AddSubjectComponent implements OnInit {
 
   constructor(
     private subjectService: SubjectService,
-    private matDialogRef: MatDialogRef<AddSubjectComponent>, @Inject(MAT_DIALOG_DATA) public data: any
+    private matDialogRef: MatDialogRef<AddSubjectComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: any
   ) { }
 
   ngOnInit() {
     this.subjectService.getSubjects()
-      .subscribe((data: Subjects) => {
-        this.subjects = data;
+      .subscribe((subjects: Subjects) => {
+        this.subjects = subjects;
       });
 
     this.form = new FormGroup({
-      'title': new FormControl(null, [Validators.required]),
-      'description': new FormControl(null, [Validators.required])
+      'title': new FormControl(null, [
+        Validators.required,
+        Validators.minLength(2),
+        Validators.maxLength(50)
+      ]),
+      'description': new FormControl(null, [
+        Validators.required,
+        Validators.minLength(5),
+        Validators.maxLength(100)
+      ])
     });
   }
 
@@ -45,8 +54,7 @@ export class AddSubjectComponent implements OnInit {
     this.subjectService.addSubject(formData.title, formData.description)
       .subscribe((subject: Subjects) => {
         if (subject) {
-          console.log(subject);
-          this.matDialogRef.close();
+          return this.matDialogRef.close();
         }
       });
   }

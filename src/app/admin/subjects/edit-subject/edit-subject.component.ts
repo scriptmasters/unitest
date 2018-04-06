@@ -19,6 +19,7 @@ export class EditSubjectComponent implements OnInit {
 
   subject: Subject;
   form: FormGroup;
+  isLoaded = false;
 
   constructor(
     private route: ActivatedRoute,
@@ -30,16 +31,25 @@ export class EditSubjectComponent implements OnInit {
     this.getSubject();
 
     this.form = new FormGroup({
-      'title': new FormControl(null, [Validators.required]),
-      'description': new FormControl(null, [Validators.required])
+      'title': new FormControl(null, [
+        Validators.required,
+        Validators.minLength(2),
+        Validators.maxLength(50)
+      ]),
+      'description': new FormControl(null, [
+        Validators.required,
+        Validators.minLength(5),
+        Validators.maxLength(100)
+      ])
     });
   }
 
   getSubject() {
     const id = this.data.subject_id;
     this.subjectService.getSubjectById(id)
-      .subscribe((data: Subject) => {
-        this.subject = data;
+      .subscribe((data) => {
+        this.subject = data[0];
+        this.isLoaded = true;
       });
   }
 
@@ -49,7 +59,7 @@ export class EditSubjectComponent implements OnInit {
     this.subjectService.editSubject(id, formData.title, formData.description)
       .subscribe((data: Subject) => {
         if (data) {
-          this.matDialogRef.close();
+          return this.matDialogRef.close();
         }
       });
   }

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material';
 
 import { SubjectService } from './services/subject.service';
@@ -28,6 +28,10 @@ export class SubjectsComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.getSub();
+  }
+
+  getSub() {
     this.subjectService.getSubjects()
       .subscribe((data: Subjects) => {
         this.subjects = data;
@@ -35,18 +39,26 @@ export class SubjectsComponent implements OnInit {
   }
 
   openModalAdd() {
-    this.dialog.open(AddSubjectComponent, {
-      height: '400px',
+    const matDialogRef = this.dialog.open(AddSubjectComponent, {
       width: '600px',
       data: {name: 'test'}
     });
+
+    matDialogRef.afterClosed().subscribe(result => {
+      this.getSub();
+    });
   }
 
+
   openModalEdit(id) {
-    this.dialog.open(EditSubjectComponent, {
+    const matDialogRef = this.dialog.open(EditSubjectComponent, {
       height: '400px',
       width: '600px',
       data: {subject_id: id, name: 'test'}
+    });
+
+    matDialogRef.afterClosed().subscribe(result => {
+      this.getSub();
     });
   }
 
