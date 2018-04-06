@@ -13,59 +13,69 @@ import { AdministratorsComponent } from './admin/administrators/administrators.c
 import { StudentsComponent } from './admin/students/students.component';
 import { GroupsComponent } from './admin/groups/groups.component';
 import { TimetableComponent } from './admin/timetable/timetable.component';
+import { TestComponent } from './admin/test/component/test.component'; // added
+import { TestDetailsComponent } from './admin/testdetails/component/test-details.component'; // added
 
 
 const routes: Routes = [
-    { path: '', redirectTo: '/admin', pathMatch: 'full' },
-    { path: 'student', canActivate: [AuthGuard], component: StudentComponent },
-    { path: 'login', component: AuthComponent },
-    {
-        path: 'admin',
-        component: AdminComponent,
-        canActivate: [AuthGuard],
-        children: [
-          {
-            path: 'statistic',
-            component: StatisticComponent
-          },
-          {
-            path: 'groups',
-            component: GroupsComponent
-          },
-          {
-            path: 'students',
-            component: StudentsComponent
-          },
-          {
-            path: 'faculties',
-            component: FacultiesComponent
-          },
-          {
-            path: 'subjects',
-            component: SubjectsComponent
-          },
-          {
-            path: 'specialities',
-            component: SpecialitiesComponent
-          },      {
-            path: 'administrators',
-            component: AdministratorsComponent
-          },
-          {
-            path: 'timetable',
-            component: TimetableComponent
-          }
-        ]
+  { path: '', redirectTo: '/admin', pathMatch: 'full' },
+  { path: 'student', canActivate: [AuthGuard], component: StudentComponent },
+  { path: 'login', component: AuthComponent },
+  {
+    path: 'admin',
+    component: AdminComponent,
+    canActivate: [AuthGuard],
+    children: [
+      {
+        path: 'statistic',
+        component: StatisticComponent
+      },
+      {
+        path: 'groups',
+        component: GroupsComponent
+      },
+      {
+        path: 'students',
+        component: StudentsComponent
+      },
+      {
+        path: 'faculties',
+        component: FacultiesComponent
+      },
+      {
+        path: 'subjects',
+        component: SubjectsComponent
+      },
+      {
+        path: 'specialities',
+        component: SpecialitiesComponent
+      },      {
+        path: 'administrators',
+        component: AdministratorsComponent
+      },
+      {
+        path: 'timetable',
+        component: TimetableComponent
+      },
+      {
+        path: 'tests',                     // reworking 05.04
+        component: TestComponent
+      },
+      {
+        path: 'tests/details/:id',        // reworking 05.04
+        component: TestDetailsComponent
+      }
+    ]
 
-    },
-    { path: '**', redirectTo: '/admin', pathMatch: 'full' }
+  },
+  { path: '**', redirectTo: '/admin', pathMatch: 'full' }
 
 ];
 
 @NgModule({
-    imports: [ RouterModule.forRoot(routes) ],
-    exports: [ RouterModule ],
-    providers: [AuthGuard]
+  imports: [ RouterModule.forRoot(routes) ],
+  exports: [ RouterModule ],
+  providers: [AuthGuard]
 })
 
 export class AppRoutingModule { }
