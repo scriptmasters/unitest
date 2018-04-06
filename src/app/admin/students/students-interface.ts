@@ -37,6 +37,7 @@ export interface Student {
     gradebook_id: string;
     group: string;
     user_id: string;
+    group_id?: string;
 }
 
 export interface Faculties {

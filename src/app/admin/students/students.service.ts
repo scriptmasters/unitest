@@ -50,4 +50,8 @@ export class StudentsService {
   deleteStudent(id: string): Observable<IResponse> {
     return this.http.delete<IResponse>(`http://vps9615.hyperhost.name:443/api/Student/del/${id}`);
   }
+  //Редагування студента
+  editStudent(id, body) {
+    return this.http.post(`http://vps9615.hyperhost.name:443/api/Student/update/${id}`, body);
+  }
 }

@@ -56,60 +56,61 @@ export class StudentEditFormComponent implements OnInit {
     public dialogRef: MatDialogRef<StudentEditFormComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any) { }
 
-  ngOnInit() {
-    this.service.getPickedStudent(this.data.id).subscribe(data => {
+  ngOnInit(): void {
+    //Запити на сервер, для відображення інформації про поточного студента
+    this.service.getPickedStudent(this.data.student.user_id).subscribe(data => {
       this.student = data[0];
-      this.service.getUserInfo(this.data.id).subscribe(response => {
-        this.studentInfo = response[0];
-        let group = JSON.stringify({entity: "Group", ids: [this.student.group_id]});
-        this.service.getEntityValue(group).subscribe(resp => {
-          this.studentGroup = resp[0];
-          let faculty = JSON.stringify({entity: "Faculty", ids: [this.studentGroup.faculty_id]});
-          this.service.getEntityValue(faculty).subscribe(val => {
-            this.studentFaculty = val[0];
-            this.service.getAvailableFaculties().subscribe(value => {
-              this.faculties = value;
-              this.service.getAvailableGroups(this.studentFaculty.faculty_id).subscribe(values => {
-                this.groups = values;
-              })
-            });
-          });
+    });
+    this.service.getUserInfo(this.data.student.user_id).subscribe(response => {
+      this.studentInfo = response[0];
+    });
+    let group = JSON.stringify({entity: "Group", ids: [this.data.student.group_id]});
+    this.service.getEntityValue(group).subscribe(resp => {
+      this.studentGroup = resp[0];
+      let faculty = JSON.stringify({entity: "Faculty", ids: [this.studentGroup.faculty_id]});
+      this.service.getEntityValue(faculty).subscribe(val => {
+        this.studentFaculty = val[0];
+        this.service.getAvailableFaculties().subscribe(value => {
+          this.faculties = value;
+          this.service.getAvailableGroups(this.studentFaculty.faculty_id).subscribe(values => {
+            this.groups = values;
+          })
         });
       });
     });
     //Валідація форми
     this.form = new FormGroup({
-      firstname: new FormControl('', Validators.compose([
+      firstname: new FormControl(null, Validators.compose([
         Validators.required,
         Validators.minLength(2),
         Validators.maxLength(20)
       ])),
-      surname: new FormControl('', Validators.compose([
+      surname: new FormControl(null, Validators.compose([
         Validators.required,
         Validators.minLength(2),
         Validators.maxLength(20)
       ])),
-      fname: new FormControl('', Validators.compose([
+      fname: new FormControl(null, Validators.compose([
         Validators.required,
         Validators.minLength(2),
         Validators.maxLength(20)
       ])),
-      gradebook: new FormControl('', Validators.compose([
+      gradebook: new FormControl(null, Validators.compose([
         Validators.required,
         Validators.minLength(3),
         Validators.maxLength(20)
       ])),
-      login: new FormControl('', Validators.compose([
+      login: new FormControl(null, Validators.compose([
         Validators.required,
         Validators.minLength(3),
         Validators.maxLength(20)
       ])),
-      password: new FormControl('', Validators.compose([
+      password: new FormControl(null, Validators.compose([
         Validators.required,
         Validators.minLength(3),
         Validators.maxLength(20)
       ])),
-      email: new FormControl('', Validators.compose([
+      email: new FormControl(null, Validators.compose([
         Validators.required,
         Validators.minLength(3),
         Validators.maxLength(32),
@@ -166,24 +167,24 @@ export class StudentEditFormComponent implements OnInit {
     reader.readAsDataURL(input.files[0]);
   }
   //Відправляємо дані на сервер
-  // handleSubmit() {
-  //   let studentJSON = JSON.stringify({
-  //     gradebook_id: this.student.gradebook_id,
-  //     student_surname: this.student.student_surname,
-  //     student_name: this.student.student_name,
-  //     student_fname: this.student.student_fname,
-  //     group_id: this.student.group_id,
-  //     password: this.student.password,
-  //     username: this.student.username,
-  //     email: this.student.email,
-  //     photo: this.student.photo,
-  //     password_confirm: this.student.password,
-  //     plain_password: this.student.password
-  //   });
-  //   this.service.addStudent(studentJSON).subscribe((data: IResponse) => {
-  //     if (data.response === 'ok') {
-  //       this.dialogRef.close();
-  //     }
-  //   });
-  // }
+  handleSubmit(value) {
+    let studentJSON = JSON.stringify({
+      gradebook_id: value.gradebook,
+      student_surname: value.surname,
+      student_name: value.firstname,
+      student_fname: value.fname,
+      group_id: this.student.group_id,
+      password: value.password,
+      username: value.login,
+      email: value.email,
+      photo: this.student.photo,
+      password_confirm: value.password,
+      plain_password: value.password
+    });
+    this.service.editStudent(this.data.student.user_id ,studentJSON).subscribe((data: IResponse) => {
+      if (data.response === 'ok') {
+        this.dialogRef.close();
+      }
+    });
+  }
 }

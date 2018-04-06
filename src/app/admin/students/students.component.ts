@@ -32,8 +32,8 @@ export class StudentsComponent implements OnInit {
     });
   }
   //Редагування студента
-  showEditForm(user_id: string): void {
-    let dialogRef = this.dialog.open(StudentEditFormComponent, {data: {id: user_id}});
+  showEditForm(user: Student): void {
+    let dialogRef = this.dialog.open(StudentEditFormComponent, {data: {student: user}});
     dialogRef.afterClosed().subscribe(() => {
       this.fillOutStudentsTable();
     });
@@ -63,6 +63,7 @@ export class StudentsComponent implements OnInit {
             student_surname: `${data[i].student_surname} `,
             gradebook_id: data[i].gradebook_id,
             user_id: data[i].user_id,
+            group_id: data[i].group_id,
             group: ''
           });
           // Додавання групи кожному студенту
