@@ -20,6 +20,7 @@ export interface StudentAdd {
     photo: string;
     password: string;
     password_confirm?: string;
+    faculty_id?: string;
 }
 
 export interface GroupNameByID {
@@ -53,4 +54,13 @@ export interface Groups {
 
 export interface IResponse {
     response: string;
+}
+
+export interface IUser {
+    id: string;
+    username: string;
+    password: string;
+    logins: string;
+    last_login: string;
+    email: string;
 }

@@ -45,12 +45,12 @@
           <div class="form-group col-12">
             <!-- По-батькові -->
             <input 
-            class="form-control col-12" 
-            type="text" 
-            formControlName="fname" 
-            name="fname" 
-            placeholder="По-батькові..." 
-            [(ngModel)]="student.student_fname">
+              class="form-control col-12" 
+              type="text" 
+              formControlName="fname" 
+              name="fname" 
+              placeholder="По-батькові..." 
+              [(ngModel)]="student.student_fname">
             <div 
               *ngIf="form.get('fname').invalid && form.get('fname').dirty && form.get('fname').touched" 
               class="alert alert-danger col-12">
@@ -90,12 +90,12 @@
           <div class="form-group col-12">
             <!-- Номер заліковки -->
             <input 
-            class="form-control col-12" 
-            type="text" 
-            formControlName="gradebook" 
-            name="gradebook" 
-            placeholder="№ заліковки..." 
-            [(ngModel)]="student.gradebook_id">
+              class="form-control col-12" 
+              type="text" 
+              formControlName="gradebook" 
+              name="gradebook" 
+              placeholder="№ заліковки..." 
+              [(ngModel)]="student.gradebook_id">
             <div 
               *ngIf="form.get('gradebook').invalid && form.get('gradebook').dirty && form.get('gradebook').touched" 
               class="alert alert-danger col-12">
@@ -142,13 +142,13 @@
           <div class="form-group col-12">
             <!-- Пошта -->
             <input 
-            class="form-control col-12" 
-            type="email" 
-            formControlName="email" 
-            name="email" 
-            placeholder="Поштова скринька..." 
-            [(ngModel)]="student.email"
-            email>
+              class="form-control col-12" 
+              type="email" 
+              formControlName="email" 
+              name="email" 
+              placeholder="Поштова скринька..." 
+              [(ngModel)]="student.email"
+              email>
             <div 
               *ngIf="form.get('email').invalid && form.get('email').dirty && form.get('email').touched" 
               class="alert alert-danger col-12">

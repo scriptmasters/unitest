@@ -3,7 +3,8 @@ import { StudentsService } from './students.service';
 import { StudentGet, IResponse } from './students-interface';
 import { Student } from './students-interface';
 import { group } from '@angular/animations';
-import { StudentRegistrationFormComponent } from './student-registration-form/student-registration-form.component'
+import { StudentRegistrationFormComponent } from './student-registration-form/student-registration-form.component';
+import { StudentEditFormComponent } from './student-edit-form/student-edit-form.component'
 import { MatDialog } from '@angular/material';
 
 @Component({
@@ -31,8 +32,11 @@ export class StudentsComponent implements OnInit {
     });
   }
   //Редагування студента
-  showEditForm(): void {
-    
+  showEditForm(user_id: string): void {
+    let dialogRef = this.dialog.open(StudentEditFormComponent, {data: {id: user_id}});
+    dialogRef.afterClosed().subscribe(() => {
+      this.fillOutStudentsTable();
+    });
   }
   // метод який записує в масив "students" дані про кожного студента
   fillOutStudentsTable(): void {

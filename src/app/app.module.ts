@@ -107,7 +107,8 @@ import { StudentEditFormComponent } from './admin/students/student-edit-form/stu
     ],
     entryComponents: [
         AppComponent,
-        StudentRegistrationFormComponent
+        StudentRegistrationFormComponent,
+        StudentEditFormComponent
     ],
     declarations: [
         AppComponent,

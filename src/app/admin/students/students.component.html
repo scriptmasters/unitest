@@ -31,7 +31,7 @@
                     </td>
                     <th>{{student.gradebook_id}}</th>
                     <th>{{student.group}}</th>
-                    <td><i class="fa fa-cog"></i></td>
+                    <td><i class="fa fa-cog" (click)="showEditForm(student.user_id)"></i></td>
                     <td><i class="fa fa-close" (click)="handleDelete(student.user_id)"></i></td>
                   </tr>
                 </tbody>

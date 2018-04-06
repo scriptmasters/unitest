@@ -1,0 +1,31 @@
+.mat-dialog-container {
+    background-color: #F4F7FA;
+}
+
+input.ng-touched.ng-invalid {
+    border:solid #DC3545 2px;
+}
+
+input.ng-touched.ng-valid {
+    border:solid #28A745 2px;
+}
+
+.btn-success, .btn-danger {
+    margin: {
+        left: 5px;
+        right: 5px;
+    }
+}
+
+.user-image {
+    width: 200px;
+    height: 200px;
+    margin-bottom: 10px;
+}
+
+.custom-file {
+    width: 200px;
+    #customFile {
+        cursor: pointer;
+    }
+}
