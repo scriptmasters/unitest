@@ -1,7 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { SubjectsComponent } from './subjects.component';
-import { MatDialog } from '@angular/material';
 
 describe('SubjectsComponent', () => {
   let component: SubjectsComponent;
