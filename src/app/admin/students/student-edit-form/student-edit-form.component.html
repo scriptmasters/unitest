@@ -15,7 +15,7 @@
                 class="form-control col-12" 
                 type="text" 
                 formControlName="surname" 
-                [value]="student.student_surname"
+                [(ngModel)]="student.student_surname"
                 name="surname" placeholder="Прізвище...">
               <div 
                 *ngIf="form.get('surname').invalid && form.get('surname').dirty && form.get('surname').touched" 
@@ -31,7 +31,7 @@
                 type="text" 
                 formControlName="firstname" 
                 name="firstname" 
-                [value]="student.student_name"
+                [(ngModel)]="student.student_name"
                 placeholder="Ім'я...">
               <div 
                 *ngIf="form.get('firstname').invalid && form.get('firstname').dirty && form.get('firstname').touched" 
@@ -49,7 +49,7 @@
               type="text" 
               formControlName="fname" 
               name="fname" 
-              [value]="student.student_fname"
+              [(ngModel)]="student.student_fname"
               placeholder="По-батькові...">
               <div 
                 *ngIf="form.get('fname').invalid && form.get('fname').dirty && form.get('fname').touched" 
@@ -103,7 +103,7 @@
               type="text" 
               formControlName="gradebook" 
               name="gradebook" 
-              [value]="student.gradebook_id"
+              [(ngModel)]="student.gradebook_id"
               placeholder="№ заліковки...">
               <div 
                 *ngIf="form.get('gradebook').invalid && form.get('gradebook').dirty && form.get('gradebook').touched" 
@@ -121,7 +121,7 @@
                 type="text" 
                 formControlName="login" 
                 name="login" 
-                [value]="studentInfo.username"
+                [(ngModel)]="studentInfo.username"
                 placeholder="Логін...">
                 <div 
                   *ngIf="form.get('login').invalid && form.get('login').dirty && form.get('login').touched" 
@@ -137,7 +137,7 @@
                 type="text" 
                 formControlName="password" 
                 name="password" 
-                [value]="student.plain_password"
+                [(ngModel)]="student.plain_password"
                 placeholder="Пароль...">
                 <div 
                   *ngIf="form.get('password').invalid && form.get('password').dirty && form.get('password').touched" 
@@ -155,11 +155,11 @@
               type="email" 
               formControlName="email" 
               name="email" 
-              [value]="studentInfo.email"
+              [(ngModel)]="studentInfo.email"
               placeholder="Поштова скринька..."
               email>
               <div 
-                *ngIf="form.get('email').invalid && form.get('email').dirty && form.get('email').touched" 
+                *ngIf="form.get('email').invalid && (form.get('email').dirty || form.get('email').touched)" 
                 class="alert alert-danger col-12">
                 <div *ngIf="form.get('email').errors.email">Поштова скринька повинна бути формату логін@домен</div>
                 <div *ngIf="form.get('email').errors.required">Це поле є обов'язковим</div>
@@ -183,7 +183,7 @@
             </div>
           </div>
           <div class="form-row d-flex justify-content-center">
-            <input class="btn btn-success" type="submit" [disabled]="!form.valid" value="Додати студента"> 
+            <input class="btn btn-success" type="submit" value="Редагувати студента"> 
             <input class="btn btn-danger" type="reset" value="Очистити форму">
           </div>
         </form>
