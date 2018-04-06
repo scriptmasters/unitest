@@ -9,6 +9,7 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {AuthService} from './shared/auth/auth.service';
 import {StudentsService} from './admin/students/students.service';
 import { SubjectService } from './admin/subjects/services/subject.service';
+import {AuthGuard} from './auth-guard.service';
 
 import {
     MatAutocompleteModule,
@@ -42,7 +43,7 @@ import {
     MatTableModule,
     MatTabsModule,
     MatToolbarModule,
-    MatTooltipModule
+    MatTooltipModule,
 } from '@angular/material';
 
 import {platformBrowserDynamic} from '@angular/platform-browser-dynamic';
@@ -63,6 +64,8 @@ import { GroupsComponent } from './admin/groups/groups.component';
 import { TimetableComponent } from './admin/timetable/timetable.component';
 import { EditSubjectComponent } from './admin/subjects/edit-subject/edit-subject.component';
 import { AddSubjectComponent } from './admin/subjects/add-subject/add-subject.component';
+
+
 
 
 @NgModule({
@@ -131,7 +134,7 @@ import { AddSubjectComponent } from './admin/subjects/add-subject/add-subject.co
         AuthService,
         StudentsService,
         SubjectService,
-      AddSubjectComponent
+        AuthGuard
     ]
 })
 

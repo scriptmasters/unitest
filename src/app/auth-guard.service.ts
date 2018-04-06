@@ -2,15 +2,21 @@ import {Injectable} from '@angular/core';
 import { Router, ActivatedRouteSnapshot, RouterStateSnapshot, CanActivate } from '@angular/router';
 import {AuthService} from './shared/auth/auth.service';
 import { HttpClient } from '@angular/common/http';
+import {Observable} from 'rxjs/Observable';
+import 'rxjs/add/observable/interval';
+import 'rxjs/add/operator/take';
+import 'rxjs/add/operator/map';
+import 'rxjs/add/operator/do';
 
+import {publishReplay} from 'rxjs/operator/publishReplay';
 
 
 @Injectable()
 export class AuthGuard implements CanActivate {
-    constructor(private authService: AuthService, private router: Router, private http: HttpClient) {}
+    constructor(private authService: AuthService, private router: Router, private http: HttpClient ) {}
 
-    canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
-        let url: string = state.url;
+    canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Promise<boolean> {
+
         const rgxpStudent = /^\/student.*/g;
         const rgxpAdmin = /^\/admin.*/g;
 
@@ -21,8 +27,9 @@ export class AuthGuard implements CanActivate {
             roles: [undefined]
         };
 
-        let promise = new Promise((resolve, reject) => {
-                this.http.get(authStatusUrl)
+
+        const promise = new Promise((resolve, reject) => {
+            this.http.get(authStatusUrl)
                     .subscribe((data) => {
                         authStatus = data;
                         if (authStatus.response === 'logged') {
@@ -40,27 +47,35 @@ export class AuthGuard implements CanActivate {
 
     return promise.then(
         result => {
-            if (result === 'student' && rgxpStudent.test(url)) {
-                console.log('student');
-                return true;
-            } else {
-                if (result === 'admin' && rgxpAdmin.test(url)) {
-                    console.log('admin');
-                    return true;
-                } else {
-                        console.log('non propriate page due to rights');
-                        this.router.navigate(['/login']);
-                        this.authService.redirectUrl = url;
+            switch (result) {
+                case 'student' :
+                    if (rgxpStudent.test(state.url)) {
+                        return true;
+                    } else {
+                        this.router.navigate(['/login'], {
+                            queryParams: {
+                                return: state.url
+                            }
+                        });
                         return false;
                     }
-                }
-            },
-            result => {
-            if (result === 'non logged') {
-                console.log('login');
-                this.router.navigate(['/login']);
-                this.authService.redirectUrl = url;
-                return false;
+                case 'admin' :
+                    if (rgxpAdmin.test(state.url)) {
+                        return true;
+                    } else {this.router.navigate(['/login'], {
+                        queryParams: {
+                            return: state.url
+                        }
+                    });
+                        return false;
+                    }
+                case 'non logged' :
+                    this.router.navigate(['/login'], {
+                        queryParams: {
+                            return: state.url
+                        }
+                    });
+                    return false;
             }
         }
     );
