@@ -38,3 +38,7 @@
     color: red;
 }
 
+.mat-raised-button.mat-primary[disabled] {
+    background-color: #4caf5070;
+}
+

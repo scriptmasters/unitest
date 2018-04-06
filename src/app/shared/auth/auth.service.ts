@@ -6,6 +6,7 @@ import {Router} from '@angular/router';
 
 
 
+
 @Injectable()
 export class AuthService {
     authLoginUrl = 'http://vps9615.hyperhost.name:443/api/login/index/';
@@ -20,7 +21,11 @@ export class AuthService {
     loginResponse: any;
 
 
-    constructor(private http: HttpClient, private router: Router ) {}
+
+
+
+    constructor(private http: HttpClient, private router: Router) {}
+
 
 
     login(username, password, redirectUrl) {
@@ -32,7 +37,7 @@ export class AuthService {
                                if (this.rgxpAdmin.test(redirectUrl)) {
                                    this.router.navigate([redirectUrl]);
                                } else {
-                                   console.log('You are admin. To browse student page login as student');
+
                                    this.router.navigate(['/admin']);
                                }
                                break;
@@ -41,7 +46,6 @@ export class AuthService {
                                if (this.rgxpStudent.test(redirectUrl)) {
                                    this.router.navigate([redirectUrl]);
                                } else {
-                                   console.log('You are student. To browse admin page login as admin');
                                    this.router.navigate(['/student']);
                                }
                                break;
