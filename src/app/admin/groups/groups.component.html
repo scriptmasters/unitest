@@ -18,24 +18,6 @@
         </select>
       </div>
 
-      <!-- <div class="btn-group" dropdown>
-        <button dropdownToggle type="button" class="btn btn-default dropdown-toggle">
-          Виберіть факультет 
-        </button>
-        <ul *dropdownMenu class="dropdown-menu" role="menu">
-          <li *ngFor="let tab of table; let i = index;" role="menuitem"><a class="dropdown-item" href="#">{{tab.faculty}}</a></li>
-        </ul>
-      </div>
-
-      <div class="btn-group" dropdown>
-        <button dropdownToggle type="button" class="btn btn-default dropdown-toggle">
-          Виберіть спеціальність
-        </button>
-        <ul *dropdownMenu class="dropdown-menu" role="menu">
-          <li *ngFor="let tab of table; let i = index;" role="menuitem"><a class="dropdown-item" href="#">{{tab.speciality}}</a></li>
-        </ul>
-      </div> -->
-
       <input type="button" class="btn btn-success" value="Додати групу" id="addGroup" (click)="openDialog()">
 
     </header>
@@ -62,7 +44,7 @@
                     <td><i class="fa fa-list" title="Переглянути результати тестування групи {{tab.group}}"></i></td>
                     <td><i class="fa fa-user" title="Переглянути студентів групи {{tab.group}}"></i></td>
                     <td><i class="fa fa-calendar" title="Розклад тестування групи {{tab.group}}"></i></td>
-                    <td><i class="fa fa-cog" title="Редагувати групу {{tab.group}}"></i></td>
+                    <td><i class="fa fa-cog" title="Редагувати групу {{tab.group}}" (click)="openDialog(tab)"></i></td>
                     <td><i class="fa fa-close" title="Видалити групу {{tab.group}}" (click)="delGroup(tab.group_id)"></i></td>
                   </tr>
                 </tbody>

@@ -15,7 +15,6 @@ export class GroupsComponent implements OnInit {
   faculties: Faculties[] = [];
   specialities: any = [];
   table: Table[] = [];
-
   uniqueFac;
   uniqueSpec;
 
@@ -28,9 +27,6 @@ export class GroupsComponent implements OnInit {
     this.uniqueFac = new Set(uniqueFac);
     this.uniqueSpec = new Set(uniqueSpec);
   }
-
-
-
 
   constructor(private groupsService: GroupsService, public dialog: MatDialog) { }
 
@@ -79,17 +75,17 @@ export class GroupsComponent implements OnInit {
           }
           this.makeUnique();
           console.log("TABLE : " + JSON.stringify(this.table));
-          
-        }); 
+
+        });
       });
     });
   }
 
-  // DELETE SOME GROUP 
+  // DELETE GROUP 
   delGroup(id) {
     this.groupsService._delGroup(id).subscribe(response => {
       console.log("RESPONSE = " + JSON.stringify(response));
-      if (response.response === "ok"){
+      if (response.response === "ok") {
         for (let i = 0; i < this.table.length; i++) {
           if (this.table[i].group_id === id) {
             this.table.splice(i, 1);
@@ -99,34 +95,93 @@ export class GroupsComponent implements OnInit {
     });
   }
 
+  // EDIT GROUP
+  editGroup(groupData) {
+    let tempFaculty;
+    let tempSpeciality;
+    this.groupsService._editGroup(groupData).subscribe(response => {
 
+      this.groupsService._getFaculty(response[0].faculty_id).subscribe(facResponse => {
+        tempFaculty = facResponse[0].faculty_name;
+        this.groupsService._getSpeciality(response[0].speciality_id).subscribe(specResponse => {
+          tempSpeciality = specResponse[0].speciality_name;
+
+          for (let table of this.table) {
+            if (table.group_id == groupData.group_id) {
+              table.group = groupData.group_name;
+              table.faculty = tempFaculty;
+              table.speciality = tempSpeciality;
+            }
+          }
+        })
+      })
+    })
+  }
 
   // ************* DIALOG *****************
   addedGroup: AddGroup;
 
-  public openDialog(): void {
-
+  public openDialog(groupLine?: Table): void {
     const dialogConfig = new MatDialogConfig();
 
     dialogConfig.disableClose = true;
     dialogConfig.autoFocus = true;
-    dialogConfig.data = {
-      fac: this.faculties,
-      spec: this.specialities
+    if (groupLine) {
+      dialogConfig.data = {
+        group_id: groupLine.group_id,
+        group: groupLine.group,
+        faculty: groupLine.faculty,
+        speciality: groupLine.speciality
+      }
+    } else if (!groupLine) {
+      dialogConfig.data = {
+        group_id: 0
+      }
     }
 
     let dialogRef = this.dialog.open(DialogComponent, dialogConfig);
-
+    //IF GET DATA WE EDIT GROUP ELSE WE ADD GROUP
     dialogRef.afterClosed().subscribe(resultDialog => {
-      console.log("RESULT: " + JSON.stringify(resultDialog));
-    
-      this.groupsService._addGroup(resultDialog).subscribe(response =>{
-        console.log("GROUP RESULT : " + JSON.stringify(response));
-      })
+      if (!groupLine) {
+        this.addGroup(resultDialog);
+      } else if (groupLine) {
+        this.editGroup(resultDialog);
+      }
     });
   }
-
   // ********** END OF DIALOG *************
+
+  // GET DATA FROM DIALOG, SEND (POST) TO SERVER WITH NEW DATA, GET RESPONSE, AND PUSH DATA TO TABLE.
+  addGroup(groupData) {
+    this.groupsService._addGroup(groupData).subscribe(response => {
+      if (response[0].group_name == groupData.group_name) {
+
+        let tempFaculty;
+        let tempSpeciality;
+
+        for (let faculty of this.faculties) {
+          if (response[0].faculty_id === faculty.faculty_id) {
+            tempFaculty = faculty.faculty_name;
+            break;
+          }
+        }
+        for (let speciality of this.specialities) {
+          if (response[0].speciality_id === speciality.speciality_id) {
+            tempSpeciality = speciality.speciality_name;
+            break;
+          }
+        }
+        this.table.push({
+          group_id: parseInt(response[0].group_id),
+          group: response[0].group_name,
+          faculty: tempFaculty,
+          speciality: tempSpeciality
+        })
+      }
+    })
+  }
+
+
 
   ngOnInit() {
     this.printOut();

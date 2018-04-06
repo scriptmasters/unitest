@@ -44,7 +44,7 @@ export class DialogComponent implements OnInit {
  
 
   public close() {
-      this.dialogRef.close({ faculty_id: this.faculty, speciality_id: this.speciality, group_name: this.group });
+      this.dialogRef.close({ faculty_id: this.faculty, speciality_id: this.speciality, group_name: this.group, group_id: this.data.group_id });
   }
 
   ngOnInit() {

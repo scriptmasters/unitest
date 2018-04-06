@@ -1,5 +1,6 @@
 import { Faculties, Specialities } from './interface';
 import { group } from '@angular/core';
+
 export interface Table {
     group_id: number,
     group: string,
@@ -30,7 +31,8 @@ export interface DelGroup{
     response: string;
 }
 export interface AddGroup{
-    group_name: string
+    group_id: number,
+    group_name: string,
     speciality_id: number,
     faculty_id: number,
 }

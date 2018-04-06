@@ -1,5 +1,5 @@
 import { Groups, Faculties, Specialities, DelGroup, AddGroup } from './interface';
-import { Injectable, group } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 
@@ -32,9 +32,32 @@ export class GroupsService {
   _delGroup(id):Observable<DelGroup>{
     return this.http.get<DelGroup>(this.ROOT_URL_POST_GROUPS + "group/del/" + id, this.header);
   }
+
+  _getFaculty(id):Observable<Faculties>{
+    return this.http.get<Faculties>(this.ROOT_URL_POST_GROUPS + "Faculty/getRecords/" + id, this.header);
+  }
+
+  _getSpeciality(id):Observable<Specialities>{
+    return this.http.get<Specialities>(this.ROOT_URL_POST_GROUPS + "Speciality/getRecords/" + id, this.header);
+  }
   
   _addGroup(body):Observable<AddGroup>{
-    return this.http.post<AddGroup>(this.ROOT_URL_POST_GROUPS + "group/insertData",JSON.stringify(body) ,this.header);
+    let data = {
+      "group_name": body.group_name,
+      "speciality_id": body.speciality_id,
+      "faculty_id": body.faculty_id
+    };
+    return this.http.post<AddGroup>(this.ROOT_URL_POST_GROUPS + "group/insertData",JSON.stringify(data) ,this.header);
+  }
+  
+  _editGroup(body):Observable<AddGroup>{
+    let id = body.group_id;
+    let data = {
+      "group_name": body.group_name,
+      "speciality_id": body.speciality_id,
+      "faculty_id": body.faculty_id
+    };
+    return this.http.post<AddGroup>(this.ROOT_URL_POST_GROUPS + "group/update/" + id, JSON.stringify(data) ,this.header);
   }
   
 //  Two fucntions below are using for getting value for Dialog window
