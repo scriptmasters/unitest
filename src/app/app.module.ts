@@ -1,6 +1,7 @@
 import '../polyfills';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+
 import {AppRoutingModule} from './app-routing.module';
 import {CdkTableModule} from '@angular/cdk/table';
 import {HttpClientModule} from '@angular/common/http';
@@ -9,10 +10,7 @@ import {AuthService} from './shared/auth/auth.service';
 import {StudentsService} from './admin/students/students.service';
 import {StudentGuard} from './student-guard.service';
 import {AdminGuard} from './admin-guard.service';
-
-
-
-
+import { SubjectService } from './admin/subjects/services/subject.service';
 import {
     MatAutocompleteModule,
     MatButtonModule,
@@ -47,7 +45,6 @@ import {
     MatToolbarModule,
     MatTooltipModule,
 } from '@angular/material';
-
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import { AppComponent } from './app.component';
 import { AuthComponent } from './shared/auth/auth.component';
@@ -62,6 +59,8 @@ import { AdministratorsComponent } from './admin/administrators/administrators.c
 import { StudentRegistrationFormComponent } from './admin/students/student-registration-form/student-registration-form.component';
 import { GroupsComponent } from './admin/groups/groups.component';
 import { TimetableComponent } from './admin/timetable/timetable.component';
+import { EditSubjectComponent } from './admin/subjects/edit-subject/edit-subject.component';
+import { AddSubjectComponent } from './admin/subjects/add-subject/add-subject.component';
 
 
 
@@ -109,6 +108,7 @@ import { TimetableComponent } from './admin/timetable/timetable.component';
         MatToolbarModule,
         MatTooltipModule
     ],
+    entryComponents: [AppComponent, AddSubjectComponent, EditSubjectComponent],
     declarations: [
         AppComponent,
         AuthComponent,
@@ -117,13 +117,14 @@ import { TimetableComponent } from './admin/timetable/timetable.component';
         StatisticComponent,
         FacultiesComponent,
         SubjectsComponent,
+        EditSubjectComponent,
         SpecialitiesComponent,
         AdministratorsComponent,
         StudentsComponent,
         GroupsComponent,
         TimetableComponent,
         StudentRegistrationFormComponent,
-
+        AddSubjectComponent
     ],
     bootstrap: [AppComponent],
     providers: [
@@ -131,6 +132,9 @@ import { TimetableComponent } from './admin/timetable/timetable.component';
         StudentsService,
         StudentGuard,
         AdminGuard
+        SubjectService
+        AuthGuard,
+
     ]
 })
 

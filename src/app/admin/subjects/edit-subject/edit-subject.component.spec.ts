@@ -1,21 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { SubjectsComponent } from './subjects.component';
-import { MatDialog } from '@angular/material';
+import { EditSubjectComponent } from './edit-subject.component';
 
-describe('SubjectsComponent', () => {
-  let component: SubjectsComponent;
-  let fixture: ComponentFixture<SubjectsComponent>;
+describe('EditSubjectComponent', () => {
+  let component: EditSubjectComponent;
+  let fixture: ComponentFixture<EditSubjectComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ SubjectsComponent ]
+      declarations: [ EditSubjectComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(SubjectsComponent);
+    fixture = TestBed.createComponent(EditSubjectComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
