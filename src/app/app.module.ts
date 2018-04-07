@@ -7,7 +7,9 @@ import {HttpClientModule} from '@angular/common/http';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {AuthService} from './shared/auth/auth.service';
 import {StudentsService} from './admin/students/students.service';
-import {AuthGuard} from './auth-guard.service';
+import {StudentGuard} from './student-guard.service';
+import {AdminGuard} from './admin-guard.service';
+
 
 
 
@@ -46,9 +48,7 @@ import {
     MatTooltipModule,
 } from '@angular/material';
 
-import {platformBrowserDynamic} from '@angular/platform-browser-dynamic';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-
 import { AppComponent } from './app.component';
 import { AuthComponent } from './shared/auth/auth.component';
 import { AdminComponent } from './admin/admin.component';
@@ -109,7 +109,6 @@ import { TimetableComponent } from './admin/timetable/timetable.component';
         MatToolbarModule,
         MatTooltipModule
     ],
-    entryComponents: [AppComponent],
     declarations: [
         AppComponent,
         AuthComponent,
@@ -130,11 +129,9 @@ import { TimetableComponent } from './admin/timetable/timetable.component';
     providers: [
         AuthService,
         StudentsService,
-        AuthGuard,
-
+        StudentGuard,
+        AdminGuard
     ]
 })
 
-export class AppModule { }
-platformBrowserDynamic().bootstrapModule(AppModule);
-
+export class AppModule {}
