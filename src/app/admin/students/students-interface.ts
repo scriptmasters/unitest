@@ -15,12 +15,12 @@ export interface StudentAdd {
     student_name: string;
     student_fname: string;
     group_id: string;
-    password: string;
-    password_confirm: string;
-    plain_password: string;
     username: string;
     email: string;
     photo: string;
+    password: string;
+    password_confirm?: string;
+    faculty_id?: string;
 }
 
 export interface GroupNameByID {
@@ -36,6 +36,8 @@ export interface Student {
     student_fname: string;
     gradebook_id: string;
     group: string;
+    user_id: string;
+    group_id?: string;
 }
 
 export interface Faculties {
@@ -49,5 +51,17 @@ export interface Groups {
     group_name: string;
     speciality_id: string;
     faculty_id: string;
-    response?: string;
+}
+
+export interface IResponse {
+    response: string;
+}
+
+export interface IUser {
+    id: string;
+    username: string;
+    password: string;
+    logins: string;
+    last_login: string;
+    email: string;
 }

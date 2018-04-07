@@ -62,6 +62,7 @@ import { AdministratorsComponent } from './admin/administrators/administrators.c
 import { StudentRegistrationFormComponent } from './admin/students/student-registration-form/student-registration-form.component';
 import { GroupsComponent } from './admin/groups/groups.component';
 import { TimetableComponent } from './admin/timetable/timetable.component';
+import { StudentEditFormComponent } from './admin/students/student-edit-form/student-edit-form.component';
 
 
 
@@ -109,7 +110,11 @@ import { TimetableComponent } from './admin/timetable/timetable.component';
         MatToolbarModule,
         MatTooltipModule
     ],
-    entryComponents: [AppComponent],
+    entryComponents: [
+        AppComponent,
+        StudentRegistrationFormComponent,
+        StudentEditFormComponent
+    ],
     declarations: [
         AppComponent,
         AuthComponent,
@@ -124,7 +129,7 @@ import { TimetableComponent } from './admin/timetable/timetable.component';
         GroupsComponent,
         TimetableComponent,
         StudentRegistrationFormComponent,
-
+        StudentEditFormComponent
     ],
     bootstrap: [AppComponent],
     providers: [

@@ -1,85 +1,116 @@
-import { Component, OnInit, Input, Output, EventEmitter, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, Inject, ViewEncapsulation } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms'
-import { StudentsService } from '../students.service';
 
-import { StudentAdd } from '../students-interface';
+import { StudentsService } from '../students.service';
+import { StudentAdd, StudentGet, IUser, GroupNameByID } from '../students-interface';
 import { Groups } from '../students-interface';
 import { Faculties } from '../students-interface';
-import { defaultImage } from './default-image'
 import { IResponse } from '../students-interface';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 
 @Component({
-  selector: 'app-student-registration-form',
-  templateUrl: './student-registration-form.component.html',
-  styleUrls: ['./student-registration-form.component.scss'],
+  selector: 'app-student-edit-form',
+  templateUrl: './student-edit-form.component.html',
+  styleUrls: ['./student-edit-form.component.scss'],
   providers: [ StudentsService ],
   encapsulation: ViewEncapsulation.None
 })
-export class StudentRegistrationFormComponent implements OnInit {
+export class StudentEditFormComponent implements OnInit {
 
   form;
   groups: Groups[] = [];
   faculties: Faculties[] = [];
   //Властивості, які вибираються з інпутів з використання "2 way data binding"
-  student: StudentAdd = {
+  student: StudentGet = {
+    user_id: '',
     gradebook_id: '',
     student_surname: '',
     student_name: '',
     student_fname: '',
     group_id: '',
-    password: '',
+    plain_password: '',
+    photo: '',
+  };
+  studentInfo: IUser = {
+    id: '',
     username: '',
-    email: '',
-    photo: defaultImage
-  }
+    password: '',
+    logins: '',
+    last_login: '',
+    email: ''
+  };
+  studentGroup: GroupNameByID = {
+    group_id: '',
+    group_name: '',
+    speciality_id: '',
+    faculty_id: ''
+  };
+  studentFaculty: Faculties = {
+    faculty_id: '',
+    faculty_name: '',
+    faculty_description: ''
+  };
 
   constructor(
     private service: StudentsService, 
-    private dialogRef: MatDialogRef<StudentRegistrationFormComponent>) { }
+    public dialogRef: MatDialogRef<StudentEditFormComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: any) { }
 
-  ngOnInit() {
-    //Підгружаємо дані факультетів і груп з сервера при першій ініціалізації компоненту
-    this.service.getAvailableFaculties().subscribe(response => {
-      this.faculties = response;
-      this.service.getAvailableGroups('1').subscribe(data => {
-        this.groups = data;
-        this.student.group_id = this.groups[0].group_id;
+  ngOnInit(): void {
+    //Запити на сервер, для відображення інформації про поточного студента
+    this.service.getPickedStudent(this.data.student.user_id).subscribe(data => {
+      this.student = data[0];
+    });
+    this.service.getUserInfo(this.data.student.user_id).subscribe(response => {
+      this.studentInfo = response[0];
+    });
+    let group = JSON.stringify({entity: "Group", ids: [this.data.student.group_id]});
+    this.service.getEntityValue(group).subscribe(resp => {
+      this.studentGroup = resp[0];
+      let faculty = JSON.stringify({entity: "Faculty", ids: [this.studentGroup.faculty_id]});
+      this.service.getEntityValue(faculty).subscribe(val => {
+        this.studentFaculty = val[0];
+        this.service.getAvailableFaculties().subscribe(value => {
+          this.faculties = value;
+          this.service.getAvailableGroups(this.studentFaculty.faculty_id).subscribe(values => {
+            this.groups = values;
+          })
+        });
       });
     });
     //Валідація форми
     this.form = new FormGroup({
-      firstname: new FormControl('', Validators.compose([
+      firstname: new FormControl(null, Validators.compose([
         Validators.required,
         Validators.minLength(2),
         Validators.maxLength(20)
       ])),
-      surname: new FormControl('', Validators.compose([
+      surname: new FormControl(null, Validators.compose([
         Validators.required,
         Validators.minLength(2),
         Validators.maxLength(20)
       ])),
-      fname: new FormControl('', Validators.compose([
+      fname: new FormControl(null, Validators.compose([
         Validators.required,
         Validators.minLength(2),
         Validators.maxLength(20)
       ])),
-      gradebook: new FormControl('', Validators.compose([
+      gradebook: new FormControl(null, Validators.compose([
         Validators.required,
         Validators.minLength(3),
         Validators.maxLength(20)
       ])),
-      login: new FormControl('', Validators.compose([
+      login: new FormControl(null, Validators.compose([
         Validators.required,
         Validators.minLength(3),
         Validators.maxLength(20)
       ])),
-      password: new FormControl('', Validators.compose([
+      password: new FormControl(null, Validators.compose([
         Validators.required,
         Validators.minLength(3),
         Validators.maxLength(20)
       ])),
-      email: new FormControl('', Validators.compose([
+      email: new FormControl(null, Validators.compose([
         Validators.required,
         Validators.minLength(3),
         Validators.maxLength(32),
@@ -136,21 +167,21 @@ export class StudentRegistrationFormComponent implements OnInit {
     reader.readAsDataURL(input.files[0]);
   }
   //Відправляємо дані на сервер
-  handleSubmit() {
+  handleSubmit(value) {
     let studentJSON = JSON.stringify({
-      gradebook_id: this.student.gradebook_id,
-      student_surname: this.student.student_surname,
-      student_name: this.student.student_name,
-      student_fname: this.student.student_fname,
+      gradebook_id: value.gradebook,
+      student_surname: value.surname,
+      student_name: value.firstname,
+      student_fname: value.fname,
       group_id: this.student.group_id,
-      password: this.student.password,
-      username: this.student.username,
-      email: this.student.email,
+      password: value.password,
+      username: value.login,
+      email: value.email,
       photo: this.student.photo,
-      password_confirm: this.student.password,
-      plain_password: this.student.password
+      password_confirm: value.password,
+      plain_password: value.password
     });
-    this.service.addStudent(studentJSON).subscribe((data: IResponse) => {
+    this.service.editStudent(this.data.student.user_id ,studentJSON).subscribe((data: IResponse) => {
       if (data.response === 'ok') {
         this.dialogRef.close();
       }
