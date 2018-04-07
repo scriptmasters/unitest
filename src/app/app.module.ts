@@ -131,10 +131,8 @@ import { AddSubjectComponent } from './admin/subjects/add-subject/add-subject.co
         AuthService,
         StudentsService,
         StudentGuard,
-        AdminGuard
+        AdminGuard,
         SubjectService
-        AuthGuard,
-
     ]
 })
 
