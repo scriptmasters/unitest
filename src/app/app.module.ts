@@ -8,9 +8,9 @@ import {HttpClientModule} from '@angular/common/http';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {AuthService} from './shared/auth/auth.service';
 import {StudentsService} from './admin/students/students.service';
+import {StudentGuard} from './student-guard.service';
+import {AdminGuard} from './admin-guard.service';
 import { SubjectService } from './admin/subjects/services/subject.service';
-import {AuthGuard} from './auth-guard.service';
-
 import {
     MatAutocompleteModule,
     MatButtonModule,
@@ -45,10 +45,7 @@ import {
     MatToolbarModule,
     MatTooltipModule,
 } from '@angular/material';
-
-import {platformBrowserDynamic} from '@angular/platform-browser-dynamic';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-
 import { AppComponent } from './app.component';
 import { AuthComponent } from './shared/auth/auth.component';
 import { AdminComponent } from './admin/admin.component';
@@ -133,11 +130,12 @@ import { AddSubjectComponent } from './admin/subjects/add-subject/add-subject.co
     providers: [
         AuthService,
         StudentsService,
+        StudentGuard,
+        AdminGuard
         SubjectService
         AuthGuard,
+
     ]
 })
 
-export class AppModule { }
-platformBrowserDynamic().bootstrapModule(AppModule);
-
+export class AppModule {}
