@@ -181,10 +181,9 @@ export class StudentEditFormComponent implements OnInit {
       password_confirm: value.password,
       plain_password: value.password
     });
-    this.service.editStudent(this.data.student.user_id ,studentJSON).subscribe((data: IResponse) => {
-      if (data.response === 'ok') {
-        this.dialogRef.close();
-      }
-    });
+    this.service.editStudent(this.data.student.user_id ,studentJSON).subscribe(
+      (data: IResponse) => this.dialogRef.close(data.response),
+      error => this.dialogRef.close(error.error.response)
+    );
   }
 }

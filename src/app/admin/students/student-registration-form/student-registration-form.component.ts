@@ -150,10 +150,9 @@ export class StudentRegistrationFormComponent implements OnInit {
       password_confirm: this.student.password,
       plain_password: this.student.password
     });
-    this.service.addStudent(studentJSON).subscribe((data: IResponse) => {
-      if (data.response === 'ok') {
-        this.dialogRef.close();
-      }
-    });
+    this.service.addStudent(studentJSON).subscribe(
+      (data: IResponse) => this.dialogRef.close(data.response),
+      error => this.dialogRef.close(error.error.response)
+    );
   }
 }

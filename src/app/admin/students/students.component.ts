@@ -4,7 +4,9 @@ import { StudentGet, IResponse } from './students-interface';
 import { Student } from './students-interface';
 import { group } from '@angular/animations';
 import { StudentRegistrationFormComponent } from './student-registration-form/student-registration-form.component';
-import { StudentEditFormComponent } from './student-edit-form/student-edit-form.component'
+import { StudentEditFormComponent } from './student-edit-form/student-edit-form.component';
+import { StudentDeleteConfirmComponent } from './student-delete-confirm/student-delete-confirm.component';
+import { StudentMessageComponent } from './student-message/student-message.component';
 import { MatDialog } from '@angular/material';
 
 @Component({
@@ -27,16 +29,47 @@ export class StudentsComponent implements OnInit {
   // Відкриває діалогове вікно
   showRegForm(): void {
     let dialogRef = this.dialog.open(StudentRegistrationFormComponent);
-    dialogRef.afterClosed().subscribe(() => {
-      this.fillOutStudentsTable();
+    dialogRef.afterClosed().subscribe((Response: string) => {
+      if (Response === 'ok') {
+        this.dialog.open(StudentMessageComponent, {
+          width: '400px',
+          data: {
+            message: 'Профіль цього студента було успішно додано!'
+          }
+        })
+        this.fillOutStudentsTable();
+      } else if (Response.includes("ERROR")) {
+        this.dialog.open(StudentMessageComponent, {
+          width: '400px',
+          data: {
+            message: 'Виникла помилка при додаванні цього студента!'
+          }
+        })
+      }
     });
   }
   //Редагування студента
   showEditForm(user: Student): void {
     let dialogRef = this.dialog.open(StudentEditFormComponent, {data: {student: user}});
-    dialogRef.afterClosed().subscribe(() => {
-      this.fillOutStudentsTable();
-    });
+    dialogRef.afterClosed().subscribe((Response: string) => {
+        if (Response === 'ok') {
+          this.dialog.open(StudentMessageComponent, {
+            width: '400px',
+            data: {
+              message: 'Профіль цього студента було успішно відредаговано!'
+            }
+          })
+          this.fillOutStudentsTable();
+        } else if (Response.includes("ERROR")) {
+          this.dialog.open(StudentMessageComponent, {
+            width: '400px',
+            data: {
+              message: 'Виникла помилка при редагуванні цього студента!'
+            }
+          })
+        }
+      }
+    );
   }
   // метод який записує в масив "students" дані про кожного студента
   fillOutStudentsTable(): void {
@@ -78,9 +111,28 @@ export class StudentsComponent implements OnInit {
   }
   //Видалення студента
   handleDelete(index): void {
-    this.service.deleteStudent(index).subscribe((data: IResponse) => {
-      if(data.response === 'ok') {
+    let dialogRef = this.dialog.open(StudentDeleteConfirmComponent, {
+      width: '400px',
+      data: {
+        id: index
+      }
+    });
+    dialogRef.afterClosed().subscribe((Response: string) => {
+      if (Response === 'ok') {
+        this.dialog.open(StudentMessageComponent, {
+          width: '400px',
+          data: {
+            message: 'Профіль цього студента було успішно видалено!'
+          }
+        })
         this.fillOutStudentsTable();
+      } else if (Response.includes("ERROR")) {
+        this.dialog.open(StudentMessageComponent, {
+          width: '400px',
+          data: {
+            message: 'Виникла помилка при видаленні цього студента!'
+          }
+        })
       }
     });
   }

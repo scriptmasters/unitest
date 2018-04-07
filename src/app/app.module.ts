@@ -63,6 +63,8 @@ import { StudentRegistrationFormComponent } from './admin/students/student-regis
 import { GroupsComponent } from './admin/groups/groups.component';
 import { TimetableComponent } from './admin/timetable/timetable.component';
 import { StudentEditFormComponent } from './admin/students/student-edit-form/student-edit-form.component';
+import { StudentDeleteConfirmComponent } from './admin/students/student-delete-confirm/student-delete-confirm.component';
+import { StudentMessageComponent } from './admin/students/student-message/student-message.component';
 
 
 
@@ -113,7 +115,9 @@ import { StudentEditFormComponent } from './admin/students/student-edit-form/stu
     entryComponents: [
         AppComponent,
         StudentRegistrationFormComponent,
-        StudentEditFormComponent
+        StudentEditFormComponent,
+        StudentDeleteConfirmComponent,
+        StudentMessageComponent
     ],
     declarations: [
         AppComponent,
@@ -129,7 +133,9 @@ import { StudentEditFormComponent } from './admin/students/student-edit-form/stu
         GroupsComponent,
         TimetableComponent,
         StudentRegistrationFormComponent,
-        StudentEditFormComponent
+        StudentEditFormComponent,
+        StudentDeleteConfirmComponent,
+        StudentMessageComponent
     ],
     bootstrap: [AppComponent],
     providers: [
