@@ -65,8 +65,9 @@ import { TimetableComponent } from './admin/timetable/timetable.component';
 import { EditSubjectComponent } from './admin/subjects/edit-subject/edit-subject.component';
 import { AddSubjectComponent } from './admin/subjects/add-subject/add-subject.component';
 
-
-
+import {StatisticService} from '../app/admin/statistic/statistic.service';
+import {SpecialityService} from '../app/admin/specialities/speciality.service';
+import { PopupFormComponent } from './admin/specialities/popup-form/popup-form.component';
 
 @NgModule({
     imports: [
@@ -111,7 +112,7 @@ import { AddSubjectComponent } from './admin/subjects/add-subject/add-subject.co
         MatToolbarModule,
         MatTooltipModule
     ],
-    entryComponents: [AppComponent, AddSubjectComponent, EditSubjectComponent],
+    entryComponents: [AppComponent, AddSubjectComponent, EditSubjectComponent,PopupFormComponent],
     declarations: [
         AppComponent,
         AuthComponent,
@@ -127,14 +128,17 @@ import { AddSubjectComponent } from './admin/subjects/add-subject/add-subject.co
         GroupsComponent,
         TimetableComponent,
         StudentRegistrationFormComponent,
-        AddSubjectComponent
+        AddSubjectComponent,
+        PopupFormComponent
     ],
     bootstrap: [AppComponent],
     providers: [
         AuthService,
         StudentsService,
-        SubjectService
+        SubjectService,
         AuthGuard,
+        StatisticService,
+        SpecialityService
     ]
 })
 
