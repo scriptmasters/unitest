@@ -136,7 +136,6 @@ import { AddSubjectComponent } from './admin/subjects/add-subject/add-subject.co
     providers: [
         AuthService,
         StudentsService,
-        SubjectService
         StudentGuard,
         AdminGuard,
         SubjectService
