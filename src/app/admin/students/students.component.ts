@@ -38,7 +38,7 @@ export class StudentsComponent implements OnInit {
           }
         })
         this.fillOutStudentsTable();
-      } else if (Response.includes("ERROR")) {
+      } else if (Response.toLowerCase().includes("error")) {
         this.dialog.open(StudentMessageComponent, {
           width: '400px',
           data: {
@@ -60,7 +60,7 @@ export class StudentsComponent implements OnInit {
             }
           })
           this.fillOutStudentsTable();
-        } else if (Response.includes("ERROR")) {
+        } else if (Response.toLowerCase().includes("error")) {
           this.dialog.open(StudentMessageComponent, {
             width: '400px',
             data: {
@@ -126,7 +126,7 @@ export class StudentsComponent implements OnInit {
           }
         })
         this.fillOutStudentsTable();
-      } else if (Response.includes("ERROR")) {
+      } else if (Response.toLowerCase().includes("error")) {
         this.dialog.open(StudentMessageComponent, {
           width: '400px',
           data: {
