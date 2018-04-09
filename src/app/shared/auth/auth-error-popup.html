@@ -1,0 +1,8 @@
+<mat-card>
+    <mat-card-title>{{this.authService.loginError[0]}}</mat-card-title>
+    <mat-card-content>What would you like to do?</mat-card-content>
+    <mat-card-actions>
+        <button mat-raised-button color="primary" [mat-dialog-close]="data.error">Login as {{this.authService.loginError[2]}}</button>
+        <button mat-raised-button color="primary" [mat-dialog-close]="data.error">Go to {{this.authService.loginError[1]}} page</button>
+    </mat-card-actions>
+</mat-card>
