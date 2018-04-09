@@ -42,10 +42,10 @@ export class StudentRegistrationFormComponent implements OnInit {
     //Підгружаємо дані факультетів і груп з сервера при першій ініціалізації компоненту
     this.service.getAvailableFaculties().subscribe(response => {
       this.faculties = response;
-      this.service.getAvailableGroups('1').subscribe(data => {
-        this.groups = data;
-        this.student.group_id = this.groups[0].group_id;
-      });
+      // this.service.getAvailableGroups('1').subscribe(data => {
+      //   this.groups = data;
+      //   this.student.group_id = this.groups[0].group_id;
+      // });
     });
     //Валідація форми
     this.form = new FormGroup({
@@ -64,6 +64,8 @@ export class StudentRegistrationFormComponent implements OnInit {
         Validators.minLength(2),
         Validators.maxLength(20)
       ])),
+      group: new FormControl(null, this.handleGroupValidator),
+      faculty: new FormControl(null, this.handleFacultyValidator),
       gradebook: new FormControl('', Validators.compose([
         Validators.required,
         Validators.minLength(3),
@@ -124,14 +126,29 @@ export class StudentRegistrationFormComponent implements OnInit {
     });
     this.student.group_id = index;
   }
+  //Валідатор для груп
+  handleGroupValidator(control) {
+    if (control.value === 'Виберіть групу' || control.value === 'Немає зареєстрованих груп для даного факультету' || control.value === null) {
+      return {
+        'group': true
+      }
+    }
+  }
+  //Валідатор для факультетів
+  handleFacultyValidator(control) {
+    if (control.value === 'Виберіть факультет' || control.value === null) {
+      return {
+        'faculty': true
+      }
+    }
+  }
   //Рендеримо фотку в base64 код перед відправкою на сервер
   handleAddPhoto(event) {
     let input = event.target;
     const reader = new FileReader();
-    const that = this;
-    reader.onload = function() {
+    reader.onload = () => {
       let dataURL = reader.result;
-      that.student.photo = dataURL;
+      this.student.photo = dataURL;
     };
     reader.readAsDataURL(input.files[0]);
   }
