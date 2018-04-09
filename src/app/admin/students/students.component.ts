@@ -30,21 +30,23 @@ export class StudentsComponent implements OnInit {
   showRegForm(): void {
     let dialogRef = this.dialog.open(StudentRegistrationFormComponent);
     dialogRef.afterClosed().subscribe((Response: string) => {
-      if (Response === 'ok') {
-        this.dialog.open(StudentMessageComponent, {
-          width: '400px',
-          data: {
-            message: 'Профіль цього студента було успішно додано!'
-          }
-        })
-        this.fillOutStudentsTable();
-      } else if (Response.includes("ERROR")) {
-        this.dialog.open(StudentMessageComponent, {
-          width: '400px',
-          data: {
-            message: 'Виникла помилка при додаванні цього студента!'
-          }
-        })
+      if (Response) {
+        if (Response === 'ok') {
+          this.dialog.open(StudentMessageComponent, {
+            width: '400px',
+            data: {
+              message: 'Профіль цього студента було успішно додано!'
+            }
+          })
+          this.fillOutStudentsTable();
+        } else if (Response.includes("ERROR")) {
+          this.dialog.open(StudentMessageComponent, {
+            width: '400px',
+            data: {
+              message: 'Виникла помилка при додаванні цього студента!'
+            }
+          })
+        }
       }
     });
   }
@@ -52,6 +54,7 @@ export class StudentsComponent implements OnInit {
   showEditForm(user: Student): void {
     let dialogRef = this.dialog.open(StudentEditFormComponent, {data: {student: user}});
     dialogRef.afterClosed().subscribe((Response: string) => {
+      if (Response) {
         if (Response === 'ok') {
           this.dialog.open(StudentMessageComponent, {
             width: '400px',
@@ -69,7 +72,7 @@ export class StudentsComponent implements OnInit {
           })
         }
       }
-    );
+    });
   }
   // метод який записує в масив "students" дані про кожного студента
   fillOutStudentsTable(): void {
@@ -118,21 +121,23 @@ export class StudentsComponent implements OnInit {
       }
     });
     dialogRef.afterClosed().subscribe((Response: string) => {
-      if (Response === 'ok') {
-        this.dialog.open(StudentMessageComponent, {
-          width: '400px',
-          data: {
-            message: 'Профіль цього студента було успішно видалено!'
-          }
-        })
-        this.fillOutStudentsTable();
-      } else if (Response.includes("ERROR")) {
-        this.dialog.open(StudentMessageComponent, {
-          width: '400px',
-          data: {
-            message: 'Виникла помилка при видаленні цього студента!'
-          }
-        })
+      if (Response) {
+        if (Response === 'ok') {
+          this.dialog.open(StudentMessageComponent, {
+            width: '400px',
+            data: {
+              message: 'Профіль цього студента було успішно видалено!'
+            }
+          })
+          this.fillOutStudentsTable();
+        } else if (Response.includes("ERROR")) {
+          this.dialog.open(StudentMessageComponent, {
+            width: '400px',
+            data: {
+              message: 'Виникла помилка при видаленні цього студента!'
+            }
+          })
+        }
       }
     });
   }
