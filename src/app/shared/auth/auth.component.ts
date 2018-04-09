@@ -89,7 +89,7 @@ export class AuthComponent implements OnInit {
                 this.authService.isLogged().subscribe((result: any) => {
                     if (result.response === 'non logged') {
                         if (params['return']) {this.snackBar.open('You are not logged in', 'OK', {
-                            duration: 2000,
+                            duration: 2000, panelClass: 'snackbar'
                         });
                         }
                     } else {
