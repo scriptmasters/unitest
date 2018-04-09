@@ -1,9 +1,8 @@
-<div class="card">
+<section class="card">
   <div class="card-header d-flex align-items-center">
     <h4>Додати предмет</h4>
   </div>
   <div class="card-body">
-    <p>Lorem ipsum dolor sit amet consectetur.</p>
     <form class="form-horizontal" [formGroup]="form" (ngSubmit)="onSubmit()">
       <div class="form-group row">
         <label class="col-sm-3">Предмет</label>
@@ -37,12 +36,19 @@
           </small>
         </div>
       </div>
+      <div class="row card-error">
+        <div class="col-sm-10 offset-sm-2">
+          <small>
+            <span *ngIf="error" class="form-has-error">Помилка! Спробуйте ще раз!</span>
+          </small>
+        </div>
+      </div>
       <div class="form-group row">
         <div class="col-sm-10 offset-sm-2">
-          <input [disabled]="form.invalid" type="submit" value="Додати" class="btn btn-primary">
-          <input (click)="closeDialog()" value="Відмінити" class="btn btn-danger">
+          <button [disabled]="form.invalid" type="submit" class="btn btn-primary">Додати</button>
+          <button (click)="closeDialog()" type="button" class="btn btn-danger">Відмінити</button>
         </div>
       </div>
     </form>
   </div>
-</div>
+</section>

@@ -1,25 +1,23 @@
-import { Component, OnInit } from '@angular/core';
-import { FormGroup } from '@angular/forms';
-import { MatDialog } from '@angular/material';
+import {Component, OnInit} from '@angular/core';
+import {FormGroup} from '@angular/forms';
+import {MatDialog} from '@angular/material';
+import {OnDestroy} from '@angular/core';
+import {ISubscription} from 'rxjs/Subscription';
 
-import { SubjectService } from './services/subject.service';
+import {SubjectService} from './services/subject.service';
 import {AddSubjectComponent} from './add-subject/add-subject.component';
 import {EditSubjectComponent} from './edit-subject/edit-subject.component';
-
-interface Subjects {
-  subject_id: number;
-  subject_name: string;
-  subject_description: string;
-}
+import {Subject} from './subject';
 
 @Component({
   selector: 'app-subjects',
   templateUrl: './subjects.component.html',
   styleUrls: ['./subjects.component.scss']
 })
-export class SubjectsComponent implements OnInit {
+export class SubjectsComponent implements OnInit, OnDestroy {
 
-  subjects: Subjects;
+  private subscription: ISubscription;
+  subjects: Subject[];
   form: FormGroup;
 
   constructor(
@@ -28,38 +26,40 @@ export class SubjectsComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.getSub();
+    this.showSubjects();
   }
 
-  getSub() {
-    this.subjectService.getSubjects()
-      .subscribe((data: Subjects) => {
-        this.subjects = data;
+  showSubjects(): void {
+    this.subscription = this.subjectService.getSubjects()
+      .subscribe((subjects: Subject[]) => {
+        this.subjects = subjects;
       });
   }
 
-  openModalAdd() {
+  openModalAdd(): void {
     const matDialogRef = this.dialog.open(AddSubjectComponent, {
-      width: '600px',
-      data: {name: 'test'}
+      width: '600px'
     });
 
-    matDialogRef.afterClosed().subscribe(result => {
-      this.getSub();
+    matDialogRef.afterClosed().subscribe(() => {
+      this.showSubjects();
     });
   }
 
 
-  openModalEdit(id) {
+  openModalEdit(id): void {
     const matDialogRef = this.dialog.open(EditSubjectComponent, {
-      height: '400px',
       width: '600px',
-      data: {subject_id: id, name: 'test'}
+      data: {subject_id: id}
     });
 
-    matDialogRef.afterClosed().subscribe(result => {
-      this.getSub();
+    matDialogRef.afterClosed().subscribe( () => {
+      this.showSubjects();
     });
+  }
+
+  ngOnDestroy() {
+    this.subscription.unsubscribe();
   }
 
 }

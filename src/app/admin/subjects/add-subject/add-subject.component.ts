@@ -1,23 +1,23 @@
-import {Component, EventEmitter, Inject, OnInit, Output} from '@angular/core';
+import {Component, Inject, OnInit} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
-import {SubjectService} from '../services/subject.service';
+import {OnDestroy} from '@angular/core';
+import {ISubscription} from 'rxjs/Subscription';
 
-interface Subjects {
-  subject_id: number;
-  subject_name: string;
-  subject_description: string;
-}
+import {SubjectService} from '../services/subject.service';
+import {Subject} from '../subject';
 
 @Component({
   selector: 'app-add-subject',
   templateUrl: './add-subject.component.html',
   styleUrls: ['./add-subject.component.scss']
 })
-export class AddSubjectComponent implements OnInit {
+export class AddSubjectComponent implements OnInit, OnDestroy {
 
-  subjects: Subjects;
+  private subscription: ISubscription;
+  subjects: Subject[];
   form: FormGroup;
+  error;
 
   constructor(
     private subjectService: SubjectService,
@@ -26,11 +26,6 @@ export class AddSubjectComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.subjectService.getSubjects()
-      .subscribe((subjects: Subjects) => {
-        this.subjects = subjects;
-      });
-
     this.form = new FormGroup({
       'title': new FormControl(null, [
         Validators.required,
@@ -45,17 +40,25 @@ export class AddSubjectComponent implements OnInit {
     });
   }
 
-  closeDialog() {
-    this.matDialogRef.close();
-  }
-
   onSubmit() {
     const formData = this.form.value;
-    this.subjectService.addSubject(formData.title, formData.description)
-      .subscribe((subject: Subjects) => {
+    this.subscription = this.subjectService.addSubject(formData.title, formData.description)
+      .subscribe((subject: Subject[]) => {
         if (subject) {
           return this.matDialogRef.close();
         }
-      });
+      },
+        error => this.error = error
+      );
+  }
+
+  closeDialog(): void {
+    this.matDialogRef.close();
+  }
+
+  ngOnDestroy() {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
   }
 }
