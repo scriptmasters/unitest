@@ -159,10 +159,9 @@ export class StudentEditFormComponent implements OnInit {
   handleAddPhoto(event) {
     let input = event.target;
     const reader = new FileReader();
-    const that = this;
-    reader.onload = function() {
+    reader.onload = () => {
       let dataURL = reader.result;
-      that.student.photo = dataURL;
+      this.student.photo = dataURL;
     };
     reader.readAsDataURL(input.files[0]);
   }
