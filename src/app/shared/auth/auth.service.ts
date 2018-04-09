@@ -7,6 +7,7 @@ import {Router} from '@angular/router';
 export class AuthService {
     authLoginUrl = 'http://vps9615.hyperhost.name:443/api/login/index/';
     authLogoutUrl = 'http://vps9615.hyperhost.name:443/api/login/logout';
+    isLoggedUrl = 'http://vps9615.hyperhost.name:443/api/login/isLogged';
 
     httpOptions = {
         headers: new HttpHeaders({
@@ -25,5 +26,9 @@ export class AuthService {
             .subscribe(undefined, undefined, () => {
                 this.router.navigate(['/login']);
             });
+    }
+
+    isLogged() {
+            return this.http.get(this.isLoggedUrl);
     }
 }

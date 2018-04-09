@@ -1,7 +1,6 @@
 import '../polyfills';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-
 import {AppRoutingModule} from './app-routing.module';
 import {CdkTableModule} from '@angular/cdk/table';
 import {HttpClientModule} from '@angular/common/http';
@@ -10,6 +9,7 @@ import {AuthService} from './shared/auth/auth.service';
 import {StudentsService} from './admin/students/students.service';
 import {StudentGuard} from './student-guard.service';
 import {AdminGuard} from './admin-guard.service';
+import {AuthErrorPopupComponent} from './shared/auth/auth-error-popup/auth-error-popup.component';
 import { SubjectService } from './admin/subjects/services/subject.service';
 import {
     MatAutocompleteModule,
@@ -108,7 +108,12 @@ import { AddSubjectComponent } from './admin/subjects/add-subject/add-subject.co
         MatToolbarModule,
         MatTooltipModule
     ],
-    entryComponents: [AppComponent, AddSubjectComponent, EditSubjectComponent],
+    entryComponents: [
+        AppComponent,
+        AddSubjectComponent,
+        EditSubjectComponent,
+        AuthErrorPopupComponent
+    ],
     declarations: [
         AppComponent,
         AuthComponent,
@@ -124,7 +129,8 @@ import { AddSubjectComponent } from './admin/subjects/add-subject/add-subject.co
         GroupsComponent,
         TimetableComponent,
         StudentRegistrationFormComponent,
-        AddSubjectComponent
+        AddSubjectComponent,
+        AuthErrorPopupComponent
     ],
     bootstrap: [AppComponent],
     providers: [
