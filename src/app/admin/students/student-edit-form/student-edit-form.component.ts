@@ -115,7 +115,8 @@ export class StudentEditFormComponent implements OnInit {
         Validators.minLength(3),
         Validators.maxLength(32),
         Validators.email
-      ]))
+      ])),
+      group: new FormControl(null, this.handleGroupValidator)
     });
   }
   //Записуємо масив об'єктів "Group" які приходять з сервера в масив "groups"
@@ -137,7 +138,7 @@ export class StudentEditFormComponent implements OnInit {
       } else {
         this.groups = [{
           group_id: 'none',
-          group_name: 'Немає зареєстрованих груп для даного факультету',
+          group_name: '---',
           speciality_id: 'none',
           faculty_id: 'none'
         }]
@@ -154,6 +155,14 @@ export class StudentEditFormComponent implements OnInit {
       }
     });
     this.student.group_id = index;
+  }
+  //Валідатор для груп
+  handleGroupValidator(control) {
+    if (control.value === '---' || control.value === undefined) {
+      return {
+        'group': true
+      }
+    }
   }
   //Рендеримо фотку в base64 код перед відправкою на сервер
   handleAddPhoto(event) {

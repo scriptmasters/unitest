@@ -70,7 +70,7 @@
                 formControlName="faculty"
                 #facultyField 
                 (change)="getGroups(facultyField)">
-                <option>Виберіть факультет</option>
+                <option [selected]="true">Виберіть факультет</option>
                 <option *ngFor="let faculty of faculties">{{faculty.faculty_name}}</option>
               </select>
             </div>
@@ -83,7 +83,7 @@
                 name="group" 
                 formControlName="group"
                 #groupField (change)="handleSetGroup(groupField)">
-                <option>Виберіть групу</option>
+                <option [selected]="true">Виберіть групу</option>
                 <option *ngFor="let group of groups">{{group.group_name}}</option>
               </select>
             </div>
@@ -171,7 +171,7 @@
                   name="image-input"
                   accept="image/*" 
                   (change)="handleAddPhoto($event)">
-                <label class="custom-file-label" for="customFile">Choose file</label>
+                <label class="custom-file-label" for="customFile">Виберіть фото</label>
             </div>
           </div>
         </div>

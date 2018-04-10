@@ -108,7 +108,7 @@ export class StudentRegistrationFormComponent implements OnInit {
       } else {
         this.groups = [{
           group_id: 'none',
-          group_name: 'Немає зареєстрованих груп для даного факультету',
+          group_name: '---',
           speciality_id: 'none',
           faculty_id: 'none'
         }]
@@ -128,7 +128,7 @@ export class StudentRegistrationFormComponent implements OnInit {
   }
   //Валідатор для груп
   handleGroupValidator(control) {
-    if (control.value === 'Виберіть групу' || control.value === 'Немає зареєстрованих груп для даного факультету' || control.value === null) {
+    if (control.value === 'Виберіть групу' || control.value === '---' || control.value === null) {
       return {
         'group': true
       }
