@@ -6,15 +6,12 @@ import { FacultiesAddComponent } from './faculties-add/faculties-add.component';
 import { FacultiesUpdateComponent } from './faculties-update/faculties-update.component';
 //import { FacultiesDeleteComponent } from './faculties-delete/faculties-delete.component';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-
-
 @Component({
   selector: 'app-faculties',
   templateUrl: './faculties.component.html',
   styleUrls: ['./faculties.component.scss']
 })
 export class FacultiesComponent implements OnInit {
-  
    
   faculties: Faculties;
   form: FormGroup;
@@ -65,3 +62,4 @@ export class FacultiesComponent implements OnInit {
     });
   }
 }
+

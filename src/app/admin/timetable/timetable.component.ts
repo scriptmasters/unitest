@@ -9,6 +9,8 @@ export class TimetableComponent implements OnInit {
 
   constructor() { }
 
+  table: any;
+
   ngOnInit() {
   }
 
