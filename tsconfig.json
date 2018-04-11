@@ -16,11 +16,12 @@
       "dom"
     ],
 
-    "module": "commonjs",
-    "strict": true,
-    "esModuleInterop": true,
-    "include": [
-      "**/*.ts"
-    ]
+
+//    "module": "commonjs",
+//    "strict": true,
+//    "esModuleInterop": true,
+//    "include": [
+//      "**/*.ts"
+//    ]
   }
 }
