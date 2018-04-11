@@ -64,7 +64,7 @@ import { GroupsComponent } from './admin/groups/groups.component';
 import { TimetableComponent } from './admin/timetable/timetable.component';
 import { StudentEditFormComponent } from './admin/students/student-edit-form/student-edit-form.component';
 import { StudentDeleteConfirmComponent } from './admin/students/student-delete-confirm/student-delete-confirm.component';
-import { StudentMessageComponent } from './admin/students/student-message/student-message.component';
+import { ResponseMessageComponent } from './shared/response-message/response-message.component';
 
 
 
@@ -117,7 +117,7 @@ import { StudentMessageComponent } from './admin/students/student-message/studen
         StudentRegistrationFormComponent,
         StudentEditFormComponent,
         StudentDeleteConfirmComponent,
-        StudentMessageComponent
+        ResponseMessageComponent
     ],
     declarations: [
         AppComponent,
@@ -135,7 +135,7 @@ import { StudentMessageComponent } from './admin/students/student-message/studen
         StudentRegistrationFormComponent,
         StudentEditFormComponent,
         StudentDeleteConfirmComponent,
-        StudentMessageComponent
+        ResponseMessageComponent
     ],
     bootstrap: [AppComponent],
     providers: [
