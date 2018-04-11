@@ -1,6 +1,6 @@
 import { Component, OnInit, Inject } from "@angular/core";
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from "@angular/material";
-import TableService, { Subject, Group, TimeEntity } from "./timetable.service";
+import TableService, {Subject, Group, TimeEntity } from "./timetable.service";
 import {
   FormControl,
   FormGroup,

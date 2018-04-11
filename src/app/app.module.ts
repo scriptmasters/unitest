@@ -69,6 +69,7 @@ import { FacultiesAddComponent } from './admin/faculties/faculties-add/faculties
 import { FacultiesUpdateComponent } from './admin/faculties/faculties-update/faculties-update.component';
 import { FacultiesDeleteComponent } from './admin/faculties/faculties-delete/faculties-delete.component';
 import { TimeTableModal } from './admin/timetable/timetable-modal/timetable-modal.component';
+import TableService from './admin/timetable/timetable.service';
 
 @NgModule({
     imports: [
@@ -164,7 +165,8 @@ import { TimeTableModal } from './admin/timetable/timetable-modal/timetable-moda
         SubjectService,
         AdminGuard,
         StudentGuard,
-        FacultiesService
+        FacultiesService,
+        TableService
     ]
 })
 
