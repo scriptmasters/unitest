@@ -7,10 +7,10 @@ import {HttpClientModule} from '@angular/common/http';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {AuthService} from './shared/auth/auth.service';
 import {StudentsService} from './admin/students/students.service';
-import {AuthGuard} from './auth-guard.service';
-
-
-
+import {StudentGuard} from './student-guard.service';
+import {AdminGuard} from './admin-guard.service';
+import {AuthErrorPopupComponent} from './shared/auth/auth-error-popup/auth-error-popup.component';
+import { SubjectService } from './admin/subjects/services/subject.service';
 import {
     MatAutocompleteModule,
     MatButtonModule,
@@ -45,10 +45,7 @@ import {
     MatToolbarModule,
     MatTooltipModule,
 } from '@angular/material';
-
-import {platformBrowserDynamic} from '@angular/platform-browser-dynamic';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-
 import { AppComponent } from './app.component';
 import { AuthComponent } from './shared/auth/auth.component';
 import { AdminComponent } from './admin/admin.component';
@@ -65,6 +62,8 @@ import { TimetableComponent } from './admin/timetable/timetable.component';
 import { StudentEditFormComponent } from './admin/students/student-edit-form/student-edit-form.component';
 import { StudentDeleteConfirmComponent } from './admin/students/student-delete-confirm/student-delete-confirm.component';
 import { StudentMessageComponent } from './admin/students/student-message/student-message.component';
+import { EditSubjectComponent } from './admin/subjects/edit-subject/edit-subject.component';
+import { AddSubjectComponent } from './admin/subjects/add-subject/add-subject.component';
 
 
 
@@ -117,7 +116,10 @@ import { StudentMessageComponent } from './admin/students/student-message/studen
         StudentRegistrationFormComponent,
         StudentEditFormComponent,
         StudentDeleteConfirmComponent,
-        StudentMessageComponent
+        StudentMessageComponent,
+        AddSubjectComponent,
+        EditSubjectComponent,
+        AuthErrorPopupComponent
     ],
     declarations: [
         AppComponent,
@@ -127,6 +129,7 @@ import { StudentMessageComponent } from './admin/students/student-message/studen
         StatisticComponent,
         FacultiesComponent,
         SubjectsComponent,
+        EditSubjectComponent,
         SpecialitiesComponent,
         AdministratorsComponent,
         StudentsComponent,
@@ -135,17 +138,18 @@ import { StudentMessageComponent } from './admin/students/student-message/studen
         StudentRegistrationFormComponent,
         StudentEditFormComponent,
         StudentDeleteConfirmComponent,
-        StudentMessageComponent
+        StudentMessageComponent,
+        AddSubjectComponent,
+        AuthErrorPopupComponent
     ],
     bootstrap: [AppComponent],
     providers: [
         AuthService,
         StudentsService,
-        AuthGuard,
-
+        StudentGuard,
+        AdminGuard,
+        SubjectService
     ]
 })
 
-export class AppModule { }
-platformBrowserDynamic().bootstrapModule(AppModule);
-
+export class AppModule {}
