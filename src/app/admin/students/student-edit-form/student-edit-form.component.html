@@ -67,7 +67,6 @@
                   class="form-control col-12" 
                   id="facultySelect" 
                   name="faculty" 
-                  aria-placeholder="Факультет..." 
                   #facultyField 
                   (change)="getGroups(facultyField)">
                   <option 
@@ -84,7 +83,7 @@
                   class="form-control col-12" 
                   id="groupsSelect" 
                   name="group" 
-                  aria-placeholder="Група..." 
+                  formControlName="group" 
                   #groupField 
                   (change)="handleSetGroup(groupField)">
                   <option 
@@ -178,7 +177,7 @@
                     name="image-input"
                     accept="image/*" 
                     (change)="handleAddPhoto($event)">
-                  <label class="custom-file-label" for="customFile">Choose file</label>
+                  <label class="custom-file-label" for="customFile">Виберіть фото</label>
               </div>
             </div>
           </div>
