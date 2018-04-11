@@ -5,10 +5,17 @@ header {
     margin-top: 10px;
     margin-bottom: 10px;
     background-color: #FFFFFF;
-    border-radius: 0.25rem;
-    border: 1px solid rgba(0,0,0,.125);
+    box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
     padding: 0.8rem;
     h1 {
         margin: 0;
     }
+}
+
+.card {
+    margin: 0;
+}
+
+table {
+    margin: 0;
 }

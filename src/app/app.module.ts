@@ -7,6 +7,10 @@ import {HttpClientModule} from '@angular/common/http';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {AuthService} from './shared/auth/auth.service';
 import {StudentsService} from './admin/students/students.service';
+<<<<<<< HEAD
+=======
+import {FacultiesService} from './admin/faculties/faculties.service';
+>>>>>>> 7d59ff75a44fda39a706e1a88d6d1d5ddb3a42a1
 import {StudentGuard} from './student-guard.service';
 import {AdminGuard} from './admin-guard.service';
 import {AuthErrorPopupComponent} from './shared/auth/auth-error-popup/auth-error-popup.component';
@@ -59,11 +63,22 @@ import { AdministratorsComponent } from './admin/administrators/administrators.c
 import { StudentRegistrationFormComponent } from './admin/students/student-registration-form/student-registration-form.component';
 import { GroupsComponent } from './admin/groups/groups.component';
 import { TimetableComponent } from './admin/timetable/timetable.component';
+import { StudentEditFormComponent } from './admin/students/student-edit-form/student-edit-form.component';
+import { StudentDeleteConfirmComponent } from './admin/students/student-delete-confirm/student-delete-confirm.component';
 import { EditSubjectComponent } from './admin/subjects/edit-subject/edit-subject.component';
 import { AddSubjectComponent } from './admin/subjects/add-subject/add-subject.component';
+import { ResponseMessageComponent } from './shared/response-message/response-message.component';
+import { FacultiesAddComponent } from './admin/faculties/faculties-add/faculties-add.component';
+import { FacultiesUpdateComponent } from './admin/faculties/faculties-update/faculties-update.component';
+import { FacultiesDeleteComponent } from './admin/faculties/faculties-delete/faculties-delete.component';
+import { EditSubjectComponent } from './admin/subjects/edit-subject/edit-subject.component';
+import { AddSubjectComponent } from './admin/subjects/add-subject/add-subject.component';
+<<<<<<< HEAD
 import { TimeTableModal } from "./admin/timetable/timetable-modal/timetable-modal.component";
 
 
+=======
+>>>>>>> 7d59ff75a44fda39a706e1a88d6d1d5ddb3a42a1
 @NgModule({
     imports: [
         BrowserModule,
@@ -107,6 +122,7 @@ import { TimeTableModal } from "./admin/timetable/timetable-modal/timetable-moda
         MatToolbarModule,
         MatTooltipModule
     ],
+<<<<<<< HEAD
 
     entryComponents: [
         AppComponent,
@@ -114,6 +130,20 @@ import { TimeTableModal } from "./admin/timetable/timetable-modal/timetable-moda
         EditSubjectComponent,
         AuthErrorPopupComponent,
         TimeTableModal
+=======
+    entryComponents: [
+        AppComponent,
+        StudentRegistrationFormComponent,
+        StudentEditFormComponent,
+        StudentDeleteConfirmComponent,
+        AddSubjectComponent,
+        EditSubjectComponent,
+        AuthErrorPopupComponent,
+        ResponseMessageComponent
+        FacultiesAddComponent,
+        FacultiesUpdateComponent,
+        FacultiesDeleteComponent
+>>>>>>> 7d59ff75a44fda39a706e1a88d6d1d5ddb3a42a1
     ],
     declarations: [
         AppComponent,
@@ -130,17 +160,38 @@ import { TimeTableModal } from "./admin/timetable/timetable-modal/timetable-moda
         GroupsComponent,
         TimetableComponent,
         StudentRegistrationFormComponent,
+<<<<<<< HEAD
         AddSubjectComponent,
         TimeTableModal,
         AuthErrorPopupComponent
+=======
+        StudentEditFormComponent,
+        StudentDeleteConfirmComponent,
+        FacultiesAddComponent,
+        FacultiesUpdateComponent,
+        FacultiesDeleteComponent,
+        AddSubjectComponent,
+        AuthErrorPopupComponent,
+        ResponseMessageComponent
+>>>>>>> 7d59ff75a44fda39a706e1a88d6d1d5ddb3a42a1
     ],
     bootstrap: [AppComponent],
     providers: [
         AuthService,
         StudentsService,
         SubjectService,
+<<<<<<< HEAD
         AdminGuard
     ]
 })
 
 export class AppModule {}
+=======
+        AdminGuard,
+        StudentGuard,
+        FacultiesService
+    ]
+})
+export class AppModule {}
+
+>>>>>>> 7d59ff75a44fda39a706e1a88d6d1d5ddb3a42a1
