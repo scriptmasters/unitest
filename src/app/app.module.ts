@@ -7,6 +7,7 @@ import {HttpClientModule} from '@angular/common/http';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {AuthService} from './shared/auth/auth.service';
 import {StudentsService} from './admin/students/students.service';
+import {FacultiesService} from './admin/faculties/faculties.service';
 import {StudentGuard} from './student-guard.service';
 import {AdminGuard} from './admin-guard.service';
 import {AuthErrorPopupComponent} from './shared/auth/auth-error-popup/auth-error-popup.component';
@@ -64,10 +65,11 @@ import { StudentDeleteConfirmComponent } from './admin/students/student-delete-c
 import { EditSubjectComponent } from './admin/subjects/edit-subject/edit-subject.component';
 import { AddSubjectComponent } from './admin/subjects/add-subject/add-subject.component';
 import { ResponseMessageComponent } from './shared/response-message/response-message.component';
-
-
-
-
+import { FacultiesAddComponent } from './admin/faculties/faculties-add/faculties-add.component';
+import { FacultiesUpdateComponent } from './admin/faculties/faculties-update/faculties-update.component';
+import { FacultiesDeleteComponent } from './admin/faculties/faculties-delete/faculties-delete.component';
+import { EditSubjectComponent } from './admin/subjects/edit-subject/edit-subject.component';
+import { AddSubjectComponent } from './admin/subjects/add-subject/add-subject.component';
 @NgModule({
     imports: [
         BrowserModule,
@@ -120,6 +122,9 @@ import { ResponseMessageComponent } from './shared/response-message/response-mes
         EditSubjectComponent,
         AuthErrorPopupComponent,
         ResponseMessageComponent
+        FacultiesAddComponent,
+        FacultiesUpdateComponent,
+        FacultiesDeleteComponent
     ],
     declarations: [
         AppComponent,
@@ -138,6 +143,9 @@ import { ResponseMessageComponent } from './shared/response-message/response-mes
         StudentRegistrationFormComponent,
         StudentEditFormComponent,
         StudentDeleteConfirmComponent,
+        FacultiesAddComponent,
+        FacultiesUpdateComponent,
+        FacultiesDeleteComponent,
         AddSubjectComponent,
         AuthErrorPopupComponent,
         ResponseMessageComponent
@@ -146,10 +154,11 @@ import { ResponseMessageComponent } from './shared/response-message/response-mes
     providers: [
         AuthService,
         StudentsService,
-        StudentGuard,
+        SubjectService,
         AdminGuard,
-        SubjectService
+        StudentGuard,
+        FacultiesService
     ]
 })
-
 export class AppModule {}
+
