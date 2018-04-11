@@ -9,6 +9,8 @@ import { PopupFormComponent } from '../specialities/popup-form/popup-form.compon
 const URL = "http://vps9615.hyperhost.name:443/api";
 
 
+import {MatPaginatorModule} from '@angular/material/paginator';
+
 
 @Component({
   selector: 'app-specialities',
@@ -19,17 +21,15 @@ export class SpecialitiesComponent implements OnInit {
   constructor(private speciality: SpecialityService,
     private http: HttpClient,
     public dialog: MatDialog) { }
-  
+
   ngOnInit() {
     this.speciality.getSpecialities().subscribe(value => {
-      this.speciality.oldspeciality=value;
-      console.log(this.speciality.oldspeciality);
       this.speciality.specialitiesObject = value;
-      
+
     }, error => {
       console.log("error" + error);
     })
-    
+
   }
 
 
@@ -41,8 +41,10 @@ export class SpecialitiesComponent implements OnInit {
 
   }
 
-  
+
   update(key) {
+    this.speciality.oldspeciality = {};
+    Object.assign(this.speciality.oldspeciality,key);
     this.speciality.speciality = key;
     this.dialog.open(PopupFormComponent, {
       width: '600px',
@@ -50,12 +52,14 @@ export class SpecialitiesComponent implements OnInit {
   }
 
   openModal() {
-    this.speciality.speciality={speciality_name:"",
-    speciality_code:"",
-    speciality_id:""};
+    this.speciality.speciality = {
+      speciality_name: "",
+      speciality_code: "",
+      speciality_id: ""
+    };
     this.dialog.open(PopupFormComponent, {
       width: '600px',
     })
   };
- 
+
 }
