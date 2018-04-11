@@ -24,11 +24,15 @@
                 <tbody>
                   <tr *ngFor="let student of students; let i = index">
                     <th>{{i+1}}</th>
-                    <td><span>{{student.student_surname}} </span><span>{{student.student_name}} </span><span>{{student.student_fname}}</span></td>
+                    <td>
+                      <span>{{student.student_surname}}</span>
+                      <span>{{student.student_name}}</span>
+                      <span>{{student.student_fname}}</span>
+                    </td>
                     <th>{{student.gradebook_id}}</th>
                     <th>{{student.group}}</th>
-                    <td><i class="fa fa-cog"></i></td>
-                    <td><i class="fa fa-close"></i></td>
+                    <td><i class="fa fa-cog" (click)="showEditForm(student)"></i></td>
+                    <td><i class="fa fa-close" (click)="handleDelete(student.user_id)"></i></td>
                   </tr>
                 </tbody>
               </table>
@@ -38,6 +42,4 @@
       </div>
     </div>
   </div>
-  <!-- Компонент форми реєстрації -->
-  <app-student-registration-form></app-student-registration-form>
 </section>
