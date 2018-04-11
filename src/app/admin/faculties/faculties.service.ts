@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs/Observable';
 import { Faculties, IResponse } from './facultiesInterface';
 
 
@@ -35,9 +34,4 @@ private urlAddFaculties = 'http://vps9615.hyperhost.name:443/api/Faculty/insertD
     const body = {faculty_name: title, faculty_description: description};
     return this.http.post(this.urlEditFaculties + '/' + id, body);
   }
-
-
-
-  
-
 }

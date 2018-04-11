@@ -1,11 +1,9 @@
 .ng-valid {
     border-color: #33b35a;
-    /* green  */
 }
 
 form .ng-invalid:not(.ng-untouched) {
     border-color: red;
-    /* red */
 }
 
  .btn-primary:disabled {
