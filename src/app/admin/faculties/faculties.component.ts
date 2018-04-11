@@ -4,7 +4,7 @@ import { MatDialog } from '@angular/material';
 import { Faculties, IResponse } from './facultiesInterface';
 import { FacultiesAddComponent } from './faculties-add/faculties-add.component';
 import { FacultiesUpdateComponent } from './faculties-update/faculties-update.component';
-//import { FacultiesDeleteComponent } from './faculties-delete/faculties-delete.component';
+import { FacultiesDeleteComponent } from './faculties-delete/faculties-delete.component';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 @Component({
   selector: 'app-faculties',
@@ -54,11 +54,13 @@ export class FacultiesComponent implements OnInit {
   }
 
 // Видалення
- deleteItem(index): void {
-    this.facultiesService.delFaculties(index).subscribe((data: IResponse) => {
-      if(data.response === 'ok') {
-        this.getAllFaculties();
-      }
+public openDeleteModal(num): void {
+    let dialogRef = this.dialog.open(FacultiesDeleteComponent, {
+      width: '400px',
+      data: { id: num }
+    });   
+    dialogRef.afterClosed().subscribe(() => {
+      this.getAllFaculties();
     });
   }
 }
