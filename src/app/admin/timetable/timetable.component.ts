@@ -29,11 +29,6 @@ export class TimetableComponent implements OnInit {
   subjectsMap: Map<string, string> = new Map();
 
   constructor(public tableService: TableService, public dialog: MatDialog) {
-  /** 
-   *  login is FOR TEST ONLY
-   * TODO: REMOVE before prod 
-   */
-    
       tableService.getTable().subscribe(
         async data => {
           await tableService
