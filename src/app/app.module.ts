@@ -62,8 +62,6 @@ import { GroupsComponent } from './admin/groups/groups.component';
 import { TimetableComponent } from './admin/timetable/timetable.component';
 import { StudentEditFormComponent } from './admin/students/student-edit-form/student-edit-form.component';
 import { StudentDeleteConfirmComponent } from './admin/students/student-delete-confirm/student-delete-confirm.component';
-import { EditSubjectComponent } from './admin/subjects/edit-subject/edit-subject.component';
-import { AddSubjectComponent } from './admin/subjects/add-subject/add-subject.component';
 import { ResponseMessageComponent } from './shared/response-message/response-message.component';
 import { FacultiesAddComponent } from './admin/faculties/faculties-add/faculties-add.component';
 import { FacultiesUpdateComponent } from './admin/faculties/faculties-update/faculties-update.component';
@@ -121,7 +119,7 @@ import { AddSubjectComponent } from './admin/subjects/add-subject/add-subject.co
         AddSubjectComponent,
         EditSubjectComponent,
         AuthErrorPopupComponent,
-        ResponseMessageComponent
+        ResponseMessageComponent,
         FacultiesAddComponent,
         FacultiesUpdateComponent,
         FacultiesDeleteComponent

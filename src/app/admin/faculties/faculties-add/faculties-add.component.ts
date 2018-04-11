@@ -1,9 +1,8 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from '@angular/material';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
-import {FacultiesService} from '../faculties.service';
+import { FacultiesService } from '../faculties.service';
 import { Faculties } from '../facultiesInterface';
-
 
 @Component({
   selector: 'app-faculties-add',
@@ -12,28 +11,26 @@ import { Faculties } from '../facultiesInterface';
 })
 export class FacultiesAddComponent implements OnInit {
 
-	faculties: Faculties;
+	  faculties: Faculties;
     form: FormGroup;
 
   constructor(private facultiesService: FacultiesService,
     private matDialogRef: MatDialogRef<FacultiesAddComponent>,
      @Inject(MAT_DIALOG_DATA) public data: any) { }
 
-  ngOnInit() {
-      
-      this.form = new FormGroup({
-      'title': new FormControl(null, [
-        Validators.required,
-        Validators.minLength(5),
-        Validators.maxLength(100)]),
-      'description': new FormControl(null, [
-        Validators.required,
-        Validators.minLength(5),
-        Validators.maxLength(100)])
-    });
-    };
+     ngOnInit() {
 
-
+        this.form = new FormGroup({
+         'title': new FormControl(null, [
+          Validators.required,
+          Validators.minLength(5),
+          Validators.maxLength(100)]),
+         'description': new FormControl(null, [
+            Validators.required,
+            Validators.minLength(5),
+            Validators.maxLength(100)])
+        });
+     };
 
  closeDialog() {
      this.matDialogRef.close();
@@ -48,5 +45,4 @@ export class FacultiesAddComponent implements OnInit {
         }
       });
   }
-
 }
