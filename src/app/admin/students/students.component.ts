@@ -37,7 +37,7 @@ export class StudentsComponent implements OnInit {
             data: {
               message: 'Профіль цього студента було успішно додано!'
             }
-          })
+          });
           this.fillOutStudentsTable();
         } else if (Response.toLowerCase().includes("error")) {
           this.dialog.open(ResponseMessageComponent, {
@@ -45,7 +45,7 @@ export class StudentsComponent implements OnInit {
             data: {
               message: 'Виникла помилка при додаванні цього студента!'
             }
-          })
+          });
         }
       }
     });
@@ -61,7 +61,7 @@ export class StudentsComponent implements OnInit {
             data: {
               message: 'Профіль цього студента було успішно відредаговано!'
             }
-          })
+          });
           this.fillOutStudentsTable();
         } else if (Response.toLowerCase().includes("error")) {
           this.dialog.open(ResponseMessageComponent, {
@@ -69,7 +69,7 @@ export class StudentsComponent implements OnInit {
             data: {
               message: 'Виникла помилка при редагуванні цього студента!'
             }
-          })
+          });
         }
       }
     });
@@ -88,7 +88,7 @@ export class StudentsComponent implements OnInit {
           return {
             group_id: val.group_id,
             group_name: val.group_name
-          }
+          };
         });
         this.students = [];
         // Додавання студентів в масив "students"
@@ -128,7 +128,7 @@ export class StudentsComponent implements OnInit {
             data: {
               message: 'Профіль цього студента було успішно видалено!'
             }
-          })
+          });
           this.fillOutStudentsTable();
         } else if (Response.toLowerCase().includes("error")) {
           this.dialog.open(ResponseMessageComponent, {
@@ -136,7 +136,7 @@ export class StudentsComponent implements OnInit {
             data: {
               message: 'Виникла помилка при видаленні цього студента!'
             }
-          })
+          });
         }
       }
     });

@@ -21,14 +21,14 @@ export class FacultiesComponent implements OnInit {
 
    ngOnInit() {
       this.getAllFaculties();
-    };
+    }
 
 
       getAllFaculties(): void { 
          this.facultiesService.getFaculties()
             .subscribe((data: Faculties) => {
             this.faculties = data;
-    })
+    });
    }
 
   // Модальне вікно додавання

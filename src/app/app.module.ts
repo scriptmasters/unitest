@@ -68,8 +68,7 @@ import { ResponseMessageComponent } from './shared/response-message/response-mes
 import { FacultiesAddComponent } from './admin/faculties/faculties-add/faculties-add.component';
 import { FacultiesUpdateComponent } from './admin/faculties/faculties-update/faculties-update.component';
 import { FacultiesDeleteComponent } from './admin/faculties/faculties-delete/faculties-delete.component';
-import { EditSubjectComponent } from './admin/subjects/edit-subject/edit-subject.component';
-import { AddSubjectComponent } from './admin/subjects/add-subject/add-subject.component';
+
 @NgModule({
     imports: [
         BrowserModule,
@@ -121,7 +120,7 @@ import { AddSubjectComponent } from './admin/subjects/add-subject/add-subject.co
         AddSubjectComponent,
         EditSubjectComponent,
         AuthErrorPopupComponent,
-        ResponseMessageComponent
+        ResponseMessageComponent,
         FacultiesAddComponent,
         FacultiesUpdateComponent,
         FacultiesDeleteComponent
@@ -160,5 +159,6 @@ import { AddSubjectComponent } from './admin/subjects/add-subject/add-subject.co
         FacultiesService
     ]
 })
+
 export class AppModule {}
 
