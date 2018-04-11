@@ -6,7 +6,8 @@ const URL = "http://vps9615.hyperhost.name:443/api";
 @Injectable()
 export class SpecialityService {
   specialitiesObject:any;
-  speciality:any;
+  speciality :any
+  oldspeciality:any;
   constructor(private http: HttpClient) { }
 
   login(jsonForm: String): Observable<any> {
@@ -24,4 +25,8 @@ export class SpecialityService {
   addSpecialities(popupForm: String): Observable<any> {
     return this.http.post(URL + "/Speciality/insertData", popupForm, { withCredentials: true });
   }
+  editSpecialities(id, popupForm) {
+    return this.http.post(URL + '/Speciality/update/' + id, popupForm, { withCredentials: true });
+  }
+ 
 }
