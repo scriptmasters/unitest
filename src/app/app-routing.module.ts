@@ -1,10 +1,10 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import {StudentComponent} from './student/student.component';
-import {AdminComponent} from './admin/admin.component';
-import {AuthComponent } from './shared/auth/auth.component';
-import { AuthGuard } from './auth-guard.service';
-
+import { StudentComponent } from './student/student.component';
+import { AdminComponent } from './admin/admin.component';
+import { AuthComponent } from './shared/auth/auth.component';
+import { StudentGuard } from './student-guard.service';
+import { AdminGuard } from './admin-guard.service';
 import { StatisticComponent } from './admin/statistic/statistic.component';
 import { FacultiesComponent } from './admin/faculties/faculties.component';
 import { SubjectsComponent } from './admin/subjects/subjects.component';
@@ -13,17 +13,17 @@ import { AdministratorsComponent } from './admin/administrators/administrators.c
 import { StudentsComponent } from './admin/students/students.component';
 import { GroupsComponent } from './admin/groups/groups.component';
 import { TimetableComponent } from './admin/timetable/timetable.component';
-import { TestsComponent } from './admin/tests/tests.component';
-
+import { patch } from 'webdriver-js-extender';
+import { TestsComponent } from './admin/subjects/tests/tests.component';
 
 const routes: Routes = [
     { path: '', redirectTo: '/admin', pathMatch: 'full' },
-    { path: 'student', canActivate: [AuthGuard], component: StudentComponent },
+    { path: 'student', canActivate: [StudentGuard], component: StudentComponent },
     { path: 'login', component: AuthComponent },
     {
         path: 'admin',
         component: AdminComponent,
-        canActivate: [AuthGuard],
+        canActivate: [AdminGuard],
         children: [
           {
             path: 'statistic',
@@ -69,8 +69,6 @@ const routes: Routes = [
 
 @NgModule({
     imports: [ RouterModule.forRoot(routes) ],
-    exports: [ RouterModule ],
-    providers: [AuthGuard]
+    exports: [ RouterModule ]
 })
-
-export class AppRoutingModule { }
+export class AppRoutingModule {}

@@ -1,17 +1,14 @@
-
 import {Injectable} from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { HttpHeaders } from '@angular/common/http';
 import {Router} from '@angular/router';
-
-import 'rxjs/add/observable/of';
-import 'rxjs/add/operator/do';
-import 'rxjs/add/operator/delay';
+import {Observable} from 'rxjs/Observable';
 
 @Injectable()
 export class AuthService {
     authLoginUrl = 'http://vps9615.hyperhost.name:443/api/login/index/';
     authLogoutUrl = 'http://vps9615.hyperhost.name:443/api/login/logout';
+    isLoggedUrl = 'http://vps9615.hyperhost.name:443/api/login/isLogged';
 
     httpOptions = {
         headers: new HttpHeaders({
@@ -19,27 +16,10 @@ export class AuthService {
         })
     };
 
-    auth = {
-        'username': undefined,
-        'password': undefined,
-    };
-    response: any = {};
-
     constructor(private http: HttpClient, private router: Router) {}
 
-// store the URL so we can redirect after logging in
-    redirectUrl: string;
-
-    login(username, password) {
-        this.auth.username = username;
-        this.auth.password = password;
-        this.http.post(this.authLoginUrl, this.auth, this.httpOptions)
-                   .subscribe(data => { this.response = data;
-                       if (this.response.roles[1] === 'admin') {this.router.navigate(['/admin']); } else {
-                           if (this.response.roles[1] === 'student') {this.router.navigate(['/student']); }}}
-
-
-                   );
+    login(authData): Observable<Object> {
+        return this.http.post(this.authLoginUrl, authData, this.httpOptions);
     }
 
     logout(): void {
@@ -47,5 +27,9 @@ export class AuthService {
             .subscribe(undefined, undefined, () => {
                 this.router.navigate(['/login']);
             });
+    }
+
+    isLogged(): Observable<Object> {
+            return this.http.get(this.isLoggedUrl);
     }
 }

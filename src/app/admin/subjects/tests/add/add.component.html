@@ -19,7 +19,7 @@
   </mat-form-field>
   
   <mat-form-field>
-    <mat-select formControlName="subject_id">
+    <mat-select formControlName="subject_id" placeholder="Предмет">
       <mat-option *ngFor="let s of subject_id" [value]="s.value">{{s.text}}</mat-option>
     </mat-select>
   </mat-form-field>
@@ -34,38 +34,6 @@
   </div>
   <div mat-dialog-actions>
       <button mat-button mat-dialog-close>Відміна</button>
-      <button mat-button>Ok</button>
+      <button mat-button color="primary">Зберегти</button>
   </div>
 </form>
-
-
-<!--
-  <div class="example-container">
-    <h1 mat-dialog-title>Редагування</h1>
-    <mat-form-field>
-      <input matInput placeholder="Назава тесту" [(ngModel)]="data.test.test_name" required>
-    </mat-form-field>
-
-    <mat-form-field>
-      <input matInput placeholder="Кількість завдань" [(ngModel)]="data.test.tasks" required>
-    </mat-form-field>
-
-    <mat-form-field>
-      <input matInput placeholder="Тривалість тесту" [(ngModel)]="data.test.time_for_test" required>
-    </mat-form-field>
-
-    <mat-form-field>
-      <input matInput placeholder="Кількість спроб" [(ngModel)]="data.test.attempts" required>
-    </mat-form-field>
-      
-    <mat-form-field>
-      <mat-select placeholder="Статус">
-        <mat-option *ngFor="let s of status" [value]="s.value">{{s.text}}</mat-option>
-      </mat-select>
-    </mat-form-field>
-    <div mat-dialog-actions>
-      <button mat-button (click)="onNoClick()">Відміна</button>
-      <button mat-button (click)="submit()">Ok</button>
-    </div>
-  </div>
--->

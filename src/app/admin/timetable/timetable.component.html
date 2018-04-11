@@ -1,3 +1,48 @@
-<p>
-  timetable works!
-</p>
+<div class="container-fluid">
+    <!--Page Header  -->
+    <header>
+        <h1 class="h3 display">Розклад</h1>
+    </header>
+    <div class="row justify-content-end">
+        <div class="col-lg-2 pb-3">
+            <button type="submit" class="btn btn-primary" (click)="openDialog()">Додати новий параметр</button>
+        </div>
+    </div>
+    <div class="row">
+        <div class="card col-lg-12">
+            <div class="card-body">
+                <div class="table-responsive">
+
+                    <table class="table table-striped table-hover">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Назва групи</th>
+                                <th>Назва предмету</th>
+                                <th>Дата початку</th>
+                                <th>Час початку</th>
+                                <th>Дата закінчення</th>
+                                <th>Час закінчення</th>
+                                <th></th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let tableItem of table; index as i">
+                                <th scope="row">{{i+1}}</th>
+                                <td>{{tableItem.group_name}}</td>
+                                <td>{{tableItem.subject_name}}</td>
+                                <td>{{tableItem.start_date}}</td>
+                                <td>{{tableItem.start_time}}</td>
+                                <td>{{tableItem.end_date}}</td>
+                                <td>{{tableItem.end_time}}</td>
+                                <td><i class="fa fa-cog" (click)="openDialog(tableItem)"></i></td>
+                                <td><i class="fa fa-close" (click)="onDelete(tableItem)"></i></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

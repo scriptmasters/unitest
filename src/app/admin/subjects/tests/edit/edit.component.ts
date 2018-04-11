@@ -30,9 +30,9 @@ initForm() {
     time_for_test: [this.data.test.time_for_test, [Validators.required,
     Validators.pattern(/[0-9]/)]
   ],
-    enabled: [this.data.test.enabled['value']],
+    enabled: [this.data.test.enabled['value'], [Validators.required]],
 
-    subject_id: [this.data.test.subject_id['value']],
+    subject_id: [this.data.test.subject_id['value'], [Validators.required]],
 
     attempts: [this.data.test.attempts, [Validators.required,
     Validators.pattern(/[0-9]/)]

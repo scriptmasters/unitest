@@ -1,8 +1,9 @@
 import { Component, OnInit} from '@angular/core';
 import {TestService } from './test.service';
 import {Test} from './test';
-import { MatDialog, MatDialogRef } from '@angular/material';
+import { MatDialog, MatDialogRef, MatButtonModule } from '@angular/material';
 import { EditComponent } from './edit/edit.component';
+import { AddComponent } from './add/add.component';
 
 
 @Component({
@@ -37,7 +38,13 @@ export class TestsComponent implements OnInit{
    }
  
    openDialog(t: object, id: number) {
-   const matDialogRef = this.dialog.open(EditComponent, {data: {id: id, test: t}});
+   const matDialogRef = this.dialog.open(EditComponent, {
+    width: '350px',
+    data: {id: id, test: t}});
    matDialogRef.afterClosed().subscribe(()=>this.getTests())
+   }
+   addDialog() {
+    const matDialogRef = this.dialog.open(AddComponent, {width: '350px'});
+    matDialogRef.afterClosed().subscribe(() => this.getTests())
    }
 }

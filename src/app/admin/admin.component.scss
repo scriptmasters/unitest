@@ -58,6 +58,13 @@
         .content-wrapper {
             min-height: calc(100vh - 40px);
             .header {
+
+                z-index: 9;
+                position: fixed; ///
+                top: 0;///////////
+                right: 0;///////// Фіксований хідер медіаквері на width 100% знизу
+                width: 85%;/////////
+
                 background-color: #393836;
                 height: 65px;
                 padding-left: 48px;
@@ -67,6 +74,7 @@
                 justify-content: space-between;
                 .Headers {
                     display: flex;
+
                     align-items: center;
                     justify-content: flex-start;
                     .burger {
@@ -85,6 +93,9 @@
                         &:hover {
                             background-color: #33B357;
                             color: #fff;
+                        }
+                        i:hover {
+                            color: white;
                         }
                     }
                     .admin-title {
@@ -112,7 +123,7 @@
                 }
             }
             .content {
-        
+
             }
         }
         .footer {
@@ -131,6 +142,12 @@
 
 .vertical-navigation {
     display: none;
+z-index: 9;
+    position: fixed; ///
+    top: 65px;///////////
+    right: 0;///////// Фіксований хідер медіаквері на width 100% знизу
+    width: 85%;/////////
+
     background-color: #222222;
     a {
         font-size: 1rem;
@@ -164,5 +181,14 @@
     }
     #burger {
         display: flex;
+    }
+    .header, .vertical-navigation  {
+        width: 100%!important; /// коли зникає лівий навбар верхній навбар не на всю ширину
+    }
+}
+
+@media (min-width: 992px) {
+    .vertical-navigation {
+        display: none;
     }
 }

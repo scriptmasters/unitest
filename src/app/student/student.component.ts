@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {AuthService} from '../shared/auth/auth.service';
 
+
 @Component({
   selector: 'app-student',
   templateUrl: './student.component.html',
@@ -9,10 +10,16 @@ import {AuthService} from '../shared/auth/auth.service';
 })
 export class StudentComponent implements OnInit {
 
-    constructor() {}
+    constructor(public authService: AuthService) {}
+
+
+
 
   ngOnInit() {
-      /*this.authService.authStatusGet ();*/
+
   }
 
 }
+
+
+

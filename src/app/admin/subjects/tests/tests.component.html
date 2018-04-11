@@ -1,3 +1,13 @@
+<div class="breadcrumb-holder">
+  <div class="container-fluid">
+    <ul class="breadcrumb">
+      <li class="breadcrumb-item"><a routerLink="" color="primary">Головна</a></li>
+      <li class="breadcrumb-item"><a routerLink="/admin/subjects" color="primary">Предмети</a></li>
+      <li class="breadcrumb-item active">Тести</li>
+    </ul>
+    <button mat-raised-button color="primary" (click)="addDialog()">Додати тест</button>
+  </div>
+</div>
 <div class="table-responsive">
     <table class="table table-striped table-hover">
       <thead>
@@ -8,10 +18,10 @@
           <th>Тривалість</th>
           <th>Кількість спроб</th>
           <th>Статус</th>
-          <th>Edit</th>
-          <th>list of tasks</th>
-          <th>Details</th>
-          <th>Delete</th>
+          <th>Редагування</th>
+          <th>Список завдань</th>
+          <th>Деталі</th>
+          <th>Видалити</th>
         </tr>
       </thead>
       <tbody>
@@ -25,12 +35,10 @@
           <ng-template #disabled>
             <td>Недоступно</td> 
           </ng-template>
-          <td><button mat-raised-button (click)="openDialog(t, t.test_id)">Edit</button></td>
+          <td><i class="fa fa-cog" (click)="openDialog(t, t.test_id)"></i></td>
           <td>All tasks</td>
           <td>Details</td>
-          <td class="form-group"><button (click)="deleteTest(t.test_id)">Delete</button></td>
+          <td><i class="fa fa-close" (click)="deleteTest(t.test_id)"></i></td>
         </tr>
       </tbody>
-      <!--
-      <button (click)="openDialog()">Додати тест</button>
-      -->
+     
