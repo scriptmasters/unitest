@@ -68,6 +68,7 @@ import { ResponseMessageComponent } from './shared/response-message/response-mes
 import { FacultiesAddComponent } from './admin/faculties/faculties-add/faculties-add.component';
 import { FacultiesUpdateComponent } from './admin/faculties/faculties-update/faculties-update.component';
 import { FacultiesDeleteComponent } from './admin/faculties/faculties-delete/faculties-delete.component';
+import { TimeTableModal } from './admin/timetable/timetable-modal/timetable-modal.component';
 
 @NgModule({
     imports: [
@@ -114,6 +115,10 @@ import { FacultiesDeleteComponent } from './admin/faculties/faculties-delete/fac
     ],
     entryComponents: [
         AppComponent,
+        AddSubjectComponent,
+        EditSubjectComponent,
+        AuthErrorPopupComponent,
+        TimeTableModal,
         StudentRegistrationFormComponent,
         StudentEditFormComponent,
         StudentDeleteConfirmComponent,
@@ -140,6 +145,9 @@ import { FacultiesDeleteComponent } from './admin/faculties/faculties-delete/fac
         GroupsComponent,
         TimetableComponent,
         StudentRegistrationFormComponent,
+        AddSubjectComponent,
+        TimeTableModal,
+        AuthErrorPopupComponent,
         StudentEditFormComponent,
         StudentDeleteConfirmComponent,
         FacultiesAddComponent,
