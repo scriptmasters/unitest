@@ -12,10 +12,8 @@ import {StudentGuard} from './student-guard.service';
 import {AdminGuard} from './admin-guard.service';
 import {AuthErrorPopupComponent} from './shared/auth/auth-error-popup/auth-error-popup.component';
 import { SubjectService } from './admin/subjects/services/subject.service';
-<<<<<<< HEAD
 import {TestService} from './admin/subjects/tests/test.service';
-=======
->>>>>>> 0c7ec1903f3dd187828d805043eb26377483a2a5
+
 import {
     MatAutocompleteModule,
     MatButtonModule,
@@ -74,13 +72,9 @@ import { FacultiesUpdateComponent } from './admin/faculties/faculties-update/fac
 import { FacultiesDeleteComponent } from './admin/faculties/faculties-delete/faculties-delete.component';
 import { TimeTableModal } from './admin/timetable/timetable-modal/timetable-modal.component';
 import TableService from './admin/timetable/timetable.service';
-<<<<<<< HEAD
 import {TestsComponent} from './admin/subjects/tests/tests.component';
 import { EditComponent } from './admin/subjects/tests/edit/edit.component';
 import { AddComponent } from './admin/subjects/tests/add/add.component';
-=======
-
->>>>>>> 0c7ec1903f3dd187828d805043eb26377483a2a5
 @NgModule({
     imports: [
         BrowserModule,
@@ -139,13 +133,9 @@ import { AddComponent } from './admin/subjects/tests/add/add.component';
         ResponseMessageComponent,
         FacultiesAddComponent,
         FacultiesUpdateComponent,
-<<<<<<< HEAD
         FacultiesDeleteComponent,
         EditComponent,
         AddComponent
-=======
-        FacultiesDeleteComponent
->>>>>>> 0c7ec1903f3dd187828d805043eb26377483a2a5
     ],
     declarations: [
         AppComponent,
@@ -172,14 +162,10 @@ import { AddComponent } from './admin/subjects/tests/add/add.component';
         FacultiesDeleteComponent,
         AddSubjectComponent,
         AuthErrorPopupComponent,
-<<<<<<< HEAD
         ResponseMessageComponent,
         TestsComponent,
         EditComponent,
         AddComponent
-=======
-        ResponseMessageComponent
->>>>>>> 0c7ec1903f3dd187828d805043eb26377483a2a5
     ],
     bootstrap: [AppComponent],
     providers: [
@@ -189,12 +175,8 @@ import { AddComponent } from './admin/subjects/tests/add/add.component';
         AdminGuard,
         StudentGuard,
         FacultiesService,
-<<<<<<< HEAD
         TableService,
         TestService
-=======
-        TableService
->>>>>>> 0c7ec1903f3dd187828d805043eb26377483a2a5
     ]
 })
 
