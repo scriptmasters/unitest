@@ -1,16 +1,16 @@
 import '../polyfills';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-
 import {AppRoutingModule} from './app-routing.module';
 import {CdkTableModule} from '@angular/cdk/table';
 import {HttpClientModule} from '@angular/common/http';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {AuthService} from './shared/auth/auth.service';
 import {StudentsService} from './admin/students/students.service';
+import {StudentGuard} from './student-guard.service';
+import {AdminGuard} from './admin-guard.service';
+import {AuthErrorPopupComponent} from './shared/auth/auth-error-popup/auth-error-popup.component';
 import { SubjectService } from './admin/subjects/services/subject.service';
-import {AuthGuard} from './auth-guard.service';
-
 import {
     MatAutocompleteModule,
     MatButtonModule,
@@ -45,10 +45,7 @@ import {
     MatToolbarModule,
     MatTooltipModule,
 } from '@angular/material';
-
-import {platformBrowserDynamic} from '@angular/platform-browser-dynamic';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-
 import { AppComponent } from './app.component';
 import { AuthComponent } from './shared/auth/auth.component';
 import { AdminComponent } from './admin/admin.component';
@@ -64,8 +61,7 @@ import { GroupsComponent } from './admin/groups/groups.component';
 import { TimetableComponent } from './admin/timetable/timetable.component';
 import { EditSubjectComponent } from './admin/subjects/edit-subject/edit-subject.component';
 import { AddSubjectComponent } from './admin/subjects/add-subject/add-subject.component';
-
-
+import { TimeTableModal } from "./admin/timetable/timetable-modal/timetable-modal.component";
 
 
 @NgModule({
@@ -111,7 +107,14 @@ import { AddSubjectComponent } from './admin/subjects/add-subject/add-subject.co
         MatToolbarModule,
         MatTooltipModule
     ],
-    entryComponents: [AppComponent, AddSubjectComponent, EditSubjectComponent],
+
+    entryComponents: [
+        AppComponent,
+        AddSubjectComponent,
+        EditSubjectComponent,
+        AuthErrorPopupComponent,
+        TimeTableModal
+    ],
     declarations: [
         AppComponent,
         AuthComponent,
@@ -127,17 +130,17 @@ import { AddSubjectComponent } from './admin/subjects/add-subject/add-subject.co
         GroupsComponent,
         TimetableComponent,
         StudentRegistrationFormComponent,
-        AddSubjectComponent
+        AddSubjectComponent,
+        TimeTableModal,
+        AuthErrorPopupComponent
     ],
     bootstrap: [AppComponent],
     providers: [
         AuthService,
         StudentsService,
-        SubjectService
-        AuthGuard,
+        SubjectService,
+        AdminGuard
     ]
 })
 
-export class AppModule { }
-platformBrowserDynamic().bootstrapModule(AppModule);
-
+export class AppModule {}

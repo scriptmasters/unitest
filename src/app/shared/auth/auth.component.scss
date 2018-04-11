@@ -1,3 +1,18 @@
+.snackbar {
+  width: 30%;
+  text-align: center;
+}
+
+.wrapper {
+    background: white url(/assets/adobestock_68948606.jpg) center;
+    position: absolute;
+    min-width: 100%;
+    min-height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
 .mat-input-container {
     display: flex;
     flex-direction: column;
@@ -18,7 +33,13 @@
 
 }
 .mat-input-container mat-card {
-    background-color: white;
+  background-color: #ffffffbf;
+  border: 1px solid black;
+  border-radius: 5px;
+    mat-card {
+      background-color: #ffffff00;
+      box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+    }
 }
 
 .mat-input-container mat-divider {
@@ -29,6 +50,7 @@
 
 .mat-input-container h1 {
     text-align: center;
+    color: #28a745
 }
 
 #error {
@@ -39,6 +61,7 @@
 }
 
 .mat-raised-button.mat-primary[disabled] {
-    background-color: #4caf5070;
+    background-color: #4caf50b5;
+    color: black;
 }
 
