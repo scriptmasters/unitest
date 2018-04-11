@@ -36,17 +36,6 @@ export class TableService {
     })
   };
 
-  /** 
-   * FOR TEST ONLY
-   * TODO: REMOVE before prod
-   */
-  // login() {
-  //   return this.http.post("http://vps9615.hyperhost.name:443/api/login/index", {
-  //     username: "admin",
-  //     password: "dtapi_admin"
-  //   });
-  // }
-
   constructor(public http: HttpClient) {}
 
   getSubjects(): Observable<Subject[]> {
