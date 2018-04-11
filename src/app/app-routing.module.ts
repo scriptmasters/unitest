@@ -13,11 +13,9 @@ import { AdministratorsComponent } from './admin/administrators/administrators.c
 import { StudentsComponent } from './admin/students/students.component';
 import { GroupsComponent } from './admin/groups/groups.component';
 import { TimetableComponent } from './admin/timetable/timetable.component';
-<<<<<<< HEAD
 import { patch } from 'webdriver-js-extender';
 import { TestsComponent } from './admin/subjects/tests/tests.component';
-=======
->>>>>>> 0c7ec1903f3dd187828d805043eb26377483a2a5
+
 
 const routes: Routes = [
     { path: '', redirectTo: '/admin', pathMatch: 'full' },
