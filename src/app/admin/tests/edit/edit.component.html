@@ -1,0 +1,71 @@
+<form [formGroup]="rForm" (submit)="onSubmit()">
+  <div class="example-container">
+  <h2 mat-dialog-title>Редагування</h2>
+
+  <mat-form-field>
+    <input type="text" formControlName="test_name" matInput placeholder="Назава тесту">
+  </mat-form-field>
+
+  <mat-form-field>
+    <input type="text" formControlName="tasks" matInput placeholder="Кількість завдань">
+  </mat-form-field>
+
+  <mat-form-field>
+    <input type="text" formControlName="time_for_test" matInput placeholder="Тривалість тесту">
+  </mat-form-field>
+
+  <mat-form-field>
+    <input type="text" formControlName="attempts" matInput placeholder="Кількість спроб">
+  </mat-form-field>
+  
+  <mat-form-field>
+    <mat-select formControlName="subject_id">
+      <mat-option *ngFor="let s of subject_id" [value]="s.value">{{s.text}}</mat-option>
+    </mat-select>
+  </mat-form-field>
+  
+
+  <mat-form-field>
+    <mat-select formControlName="enabled" placeholder="Статус">
+      <mat-option *ngFor="let s of enabled" [value]="s.value">{{s.text}}</mat-option>
+    </mat-select>
+  </mat-form-field>
+  
+  </div>
+  <div mat-dialog-actions>
+      <button mat-button mat-dialog-close>Відміна</button>
+      <button mat-button>Ok</button>
+  </div>
+</form>
+
+
+<!--
+  <div class="example-container">
+    <h1 mat-dialog-title>Редагування</h1>
+    <mat-form-field>
+      <input matInput placeholder="Назава тесту" [(ngModel)]="data.test.test_name" required>
+    </mat-form-field>
+
+    <mat-form-field>
+      <input matInput placeholder="Кількість завдань" [(ngModel)]="data.test.tasks" required>
+    </mat-form-field>
+
+    <mat-form-field>
+      <input matInput placeholder="Тривалість тесту" [(ngModel)]="data.test.time_for_test" required>
+    </mat-form-field>
+
+    <mat-form-field>
+      <input matInput placeholder="Кількість спроб" [(ngModel)]="data.test.attempts" required>
+    </mat-form-field>
+      
+    <mat-form-field>
+      <mat-select placeholder="Статус">
+        <mat-option *ngFor="let s of status" [value]="s.value">{{s.text}}</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <div mat-dialog-actions>
+      <button mat-button (click)="onNoClick()">Відміна</button>
+      <button mat-button (click)="submit()">Ok</button>
+    </div>
+  </div>
+-->

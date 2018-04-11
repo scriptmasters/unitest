@@ -59,6 +59,10 @@ import { AdministratorsComponent } from './admin/administrators/administrators.c
 import { StudentRegistrationFormComponent } from './admin/students/student-registration-form/student-registration-form.component';
 import { GroupsComponent } from './admin/groups/groups.component';
 import { TimetableComponent } from './admin/timetable/timetable.component';
+import { TestsComponent } from './admin/tests/tests.component';
+import { TestService } from './admin/tests/test.service';
+import { EditComponent } from './admin/tests/edit/edit.component';
+
 
 
 @NgModule({
@@ -104,7 +108,10 @@ import { TimetableComponent } from './admin/timetable/timetable.component';
         MatToolbarModule,
         MatTooltipModule
     ],
-    entryComponents: [AppComponent],
+    entryComponents: [
+    AppComponent,
+    EditComponent
+    ],
     declarations: [
         AppComponent,
         AuthComponent,
@@ -118,12 +125,15 @@ import { TimetableComponent } from './admin/timetable/timetable.component';
         StudentsComponent,
         GroupsComponent,
         TimetableComponent,
-        StudentRegistrationFormComponent
+        StudentRegistrationFormComponent,
+        TestsComponent,
+        EditComponent,
     ],
     bootstrap: [AppComponent],
     providers: [
         AuthService,
-        StudentsService
+        StudentsService,
+        TestService
     ]
 })
 

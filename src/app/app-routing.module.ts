@@ -13,6 +13,7 @@ import { AdministratorsComponent } from './admin/administrators/administrators.c
 import { StudentsComponent } from './admin/students/students.component';
 import { GroupsComponent } from './admin/groups/groups.component';
 import { TimetableComponent } from './admin/timetable/timetable.component';
+import { TestsComponent } from './admin/tests/tests.component';
 
 
 const routes: Routes = [
@@ -54,6 +55,10 @@ const routes: Routes = [
           {
             path: 'timetable',
             component: TimetableComponent
+          },
+          {
+            path: 'tests',
+            component: TestsComponent
           }
         ]
 
