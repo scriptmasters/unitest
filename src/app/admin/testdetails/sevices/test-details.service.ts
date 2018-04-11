@@ -13,4 +13,22 @@ export class TestDetailsService {
     return this.http.get(url)
       .map((response) => response);
   }
+
+  addNewTestDetail(testDetail) {
+    const url = 'http://vps9615.hyperhost.name:443/api/testDetail/insertData';
+    return this.http.post(url, testDetail)
+      .map((response) => response);
+  }
+
+  editTestDetail(testDetail) {
+    const url = 'http://vps9615.hyperhost.name:443/api/testDetail/update/' + testDetail.id;
+    return this.http.post(url, testDetail)
+      .map((response) => response);
+  }
+
+  deleteTestDetail(id) {
+    const url = 'http://vps9615.hyperhost.name:443/api/testDetail/del/' + id;
+    return this.http.delete(url)
+      .map((response) => response);
+  }
 }

@@ -61,10 +61,9 @@ import { AdministratorsComponent } from './admin/administrators/administrators.c
 import { StudentRegistrationFormComponent } from './admin/students/student-registration-form/student-registration-form.component';
 import { GroupsComponent } from './admin/groups/groups.component';
 import { TimetableComponent } from './admin/timetable/timetable.component';
-import { TestDetailsComponent } from './admin/testdetails/component/test-details.component';
-import { TestComponent } from './admin/test/component/test.component';
-
-
+import { TestDetailsComponent } from './admin/testdetails/component/test-details.component'; // added
+import { TestComponent } from './admin/test/component/test.component'; // added
+import { TestDetailCreateComponent } from './admin/testdetails/modals/test-detail-create/test-detail-create.component'; // added
 
 @NgModule({
   imports: [
@@ -109,7 +108,7 @@ import { TestComponent } from './admin/test/component/test.component';
     MatToolbarModule,
     MatTooltipModule
   ],
-  entryComponents: [AppComponent],
+  entryComponents: [AppComponent, TestDetailCreateComponent],
   declarations: [
     AppComponent,
     AuthComponent,
@@ -126,6 +125,7 @@ import { TestComponent } from './admin/test/component/test.component';
     StudentRegistrationFormComponent,
     TestDetailsComponent,
     TestComponent,
+    TestDetailCreateComponent,  // Maryan
   ],
   bootstrap: [AppComponent],
   providers: [
