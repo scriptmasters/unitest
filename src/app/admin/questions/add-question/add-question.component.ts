@@ -1,7 +1,7 @@
 import {Component, Inject, OnInit, Input, Output, EventEmitter, ViewEncapsulation } from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import { QuestionsService } from '../questions.service';
-import { QuestionsComponent } from '../questions.component';
+/*import { QuestionsComponent } from '../questions.component';*/
 
 import { IQuestions } from '../questions-interface';
 import { IQuestionAdd } from '../questions-interface';
@@ -38,7 +38,7 @@ constructor(
 ) { }
 
   ngOnInit() {
-    console.log('QuestionsComponent.selectedTestId = ', QuestionsComponent.selectedTestId);
+    console.log('QuestionsComponent.selectedTestId = ',/* QuestionsComponent.selectedTestId*/);
 
     this.questionService.getAllQuestions()
       .subscribe((dataQuestions: IQuestions[]) => {
@@ -96,7 +96,7 @@ addQuestionSubmit() {
 
   const questionJSON = JSON.stringify({
 
-    test_id: QuestionsComponent.selectedTestId,
+    /*test_id: QuestionsComponent.selectedTestId,*/
     question_text: this.new_question.type_name + ' [ ' + this.new_question.question_text + ' ]',
     level: this.new_question.level,
     type: this.new_question.type_index,
