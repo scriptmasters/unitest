@@ -194,4 +194,16 @@ export class StudentEditFormComponent implements OnInit {
       error => this.dialogRef.close(error.error.response)
     );
   }
+  //Щоб побачити пароль
+  handleTogglePasswordVisibility(elem: HTMLInputElement) {
+    if (elem.type === 'password') {
+      elem.type = 'text';
+    } else {
+      elem.type = 'password';
+    }
+  }
+  //Метод який закриває діалогове вікно
+  handleClose(): void {
+    this.dialogRef.close();
+  }
 }

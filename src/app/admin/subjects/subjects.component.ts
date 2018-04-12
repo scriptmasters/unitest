@@ -1,39 +1,49 @@
 import {Component, OnInit} from '@angular/core';
 import {FormGroup} from '@angular/forms';
 import {MatDialog} from '@angular/material';
-import {OnDestroy} from '@angular/core';
-import {ISubscription} from 'rxjs/Subscription';
 
 import {SubjectService} from './services/subject.service';
 import {AddSubjectComponent} from './add-subject/add-subject.component';
 import {EditSubjectComponent} from './edit-subject/edit-subject.component';
 import {Subject} from './subject';
+import {PaginationInstance} from 'ngx-pagination';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-subjects',
   templateUrl: './subjects.component.html',
   styleUrls: ['./subjects.component.scss']
 })
-export class SubjectsComponent implements OnInit, OnDestroy {
+export class SubjectsComponent implements OnInit {
 
-  private subscription: ISubscription;
   subjects: Subject[];
   form: FormGroup;
 
+  public config: PaginationInstance = {
+    itemsPerPage: 3,
+    currentPage: 1
+  };
+
   constructor(
     private subjectService: SubjectService,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    private router: Router
   ) { }
 
   ngOnInit() {
-    this.showSubjects();
+    this.getSubjects();
   }
 
-  showSubjects(): void {
-    this.subscription = this.subjectService.getSubjects()
+  getSubjects(): void {
+    this.subjectService.getSubjects()
       .subscribe((subjects: Subject[]) => {
         this.subjects = subjects;
       });
+  }
+
+  getTimetable(id): void {
+    console.log(id);
+    this.router.navigate(['timetable'], { queryParams: { subjectId: id} });
   }
 
   openModalAdd(): void {
@@ -42,10 +52,9 @@ export class SubjectsComponent implements OnInit, OnDestroy {
     });
 
     matDialogRef.afterClosed().subscribe(() => {
-      this.showSubjects();
+      this.getSubjects();
     });
   }
-
 
   openModalEdit(id): void {
     const matDialogRef = this.dialog.open(EditSubjectComponent, {
@@ -54,12 +63,14 @@ export class SubjectsComponent implements OnInit, OnDestroy {
     });
 
     matDialogRef.afterClosed().subscribe( () => {
-      this.showSubjects();
+      this.getSubjects();
     });
   }
-
-  ngOnDestroy() {
-    this.subscription.unsubscribe();
+  
+  subjectId(id: any) {
+    this.router.navigate(['/admin/tests'], {
+      queryParams: {id: id}
+    });
   }
 
 }
