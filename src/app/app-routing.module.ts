@@ -19,7 +19,7 @@ import { TestDetailsComponent} from './admin/testdetails/component/test-details.
 
 
 const routes: Routes = [
-    { path: '', redirectTo: '/admin', pathMatch: 'full' },
+    { path: '', redirectTo: '/admin/statistic', pathMatch: 'full' },
     { path: 'student', canActivate: [StudentGuard], component: StudentComponent },
     { path: 'login', component: AuthComponent },
     {

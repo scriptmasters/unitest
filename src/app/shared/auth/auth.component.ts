@@ -67,7 +67,7 @@ export class AuthComponent implements OnInit {
                             if (this.rgxpAdmin.test(this.returnUrl)) {
                                 this.router.navigate([this.returnUrl]);
                             } else {
-                                this.router.navigate(['/admin']);
+                                this.router.navigate(['/admin/statistic']);
                             }
                             break;
 
