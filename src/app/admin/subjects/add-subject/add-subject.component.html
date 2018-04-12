@@ -16,7 +16,8 @@
               </span>
             <span *ngIf="form.get('title')['errors']['maxlength']">
                 Перевищено максимальну к-сть допустимих символів. ({{form.get('title')['errors']['maxlength']['requiredLength']}})
-              </span>
+            </span>
+            <span *ngIf="form.get('title')['errors']['sameTitle']==true">Предмет з такою назвою вже існує</span>
           </small>
         </div>
       </div>
