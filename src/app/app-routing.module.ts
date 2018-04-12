@@ -44,6 +44,10 @@ const routes: Routes = [
             component: SubjectsComponent
           },
           {
+            path: 'subjects/:id/timetable',
+            component: TimetableComponent
+          },
+          {
             path: 'specialities',
             component: SpecialitiesComponent
           },      {
@@ -56,8 +60,8 @@ const routes: Routes = [
           }
         ]
 
-    },
-    { path: '**', redirectTo: '/admin', pathMatch: 'full' }
+    }
+    // { path: '**', redirectTo: '/admin', pathMatch: 'full' }
 
 ];
 
