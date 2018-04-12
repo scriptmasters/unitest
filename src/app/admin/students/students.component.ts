@@ -49,7 +49,7 @@ export class StudentsComponent implements OnInit {
             data: {
               message: 'Профіль цього студента було успішно додано!'
             }
-          })
+          });
           this.fillOutStudentsTable();
         } else if (Response.toLowerCase().includes("error")) {
           this.dialog.open(ResponseMessageComponent, {
@@ -57,7 +57,7 @@ export class StudentsComponent implements OnInit {
             data: {
               message: 'Виникла помилка при додаванні цього студента!'
             }
-          })
+          });
         }
       }
     });
@@ -80,7 +80,7 @@ export class StudentsComponent implements OnInit {
             data: {
               message: 'Профіль цього студента було успішно відредаговано!'
             }
-          })
+          });
           this.fillOutStudentsTable();
         } else if (Response.toLowerCase().includes("error")) {
           this.dialog.open(ResponseMessageComponent, {
@@ -88,7 +88,7 @@ export class StudentsComponent implements OnInit {
             data: {
               message: 'Виникла помилка при редагуванні цього студента!'
             }
-          })
+          });
         }
       }
     });

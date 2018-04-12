@@ -84,8 +84,6 @@ table {
     color: #666;
 }
 
-thead {}
-
 .page {
     position: absolute;
     top: 0;
@@ -504,6 +502,11 @@ button {
     color: color-yiq(#218838);
     background-color: #218838;
     border-color: #1e7e34;
+}
+
+.btn-primary:disabled {
+    background-color: #727b84;
+    border-color: #727b84;
 }
 
 

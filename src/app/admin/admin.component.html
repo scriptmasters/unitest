@@ -15,6 +15,7 @@
                     <a routerLink="/admin/specialities"><i class="fa fa-table" aria-hidden="true"></i><span>Спеціальності</span></a>
                     <a routerLink="/admin/administrators"><i class="fa fa-user-secret" aria-hidden="true"></i><span>Адміністратори</span></a>
                     <a routerLink="/admin/timetable"><i class="fa fa-user-secret" aria-hidden="true"></i><span>Розклад</span></a>
+                    <a routerLink="/admin/questions"><i class="fa fa-check-square-o" aria-hidden="true"></i><span>Завдання</span></a>
                 </nav>
             </div>
         </section>
@@ -29,11 +30,11 @@
                     <a class="log-out" (click)="this.authService.logout()"><span>Вийти</span><i class="fa fa-sign-out" aria-hidden="true"></i></a>
                 </header>
 
-                      <!--Добавив сюди пустий дів для заповнення простору під верхнім навбаром-->
+                <!--Добавив сюди пустий дів для заповнення простору під верхнім навбаром-->
 
-                    <div style="height:65px; display: block; position: relative; visibility: hidden">
+                <div style="height:65px; display: block; position: relative; visibility: hidden">
 
-                    </div>
+                </div>
 
                 <nav class="vertical-navigation" #verticalNavigation (click)="handleClick(verticalNavigation)">
 
@@ -45,6 +46,7 @@
                     <a routerLink="/admin/specialities"><i class="fa fa-table" aria-hidden="true"></i><span>Спеціальності</span></a>
                     <a routerLink="/admin/administrators"><i class="fa fa-user-secret" aria-hidden="true"></i><span>Адміністратори</span></a>
                     <a routerLink="/admin/timetable"><i class="fa fa-user-secret" aria-hidden="true"></i><span>Розклад</span></a>
+                    <a routerLink="/admin/questions"><i class="fa fa-check-square-o" aria-hidden="true"></i><span>Завдання</span></a>
                 </nav>
                 <div class="content">
                     <router-outlet></router-outlet>

@@ -1,16 +1,24 @@
 import '../polyfills';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import {AppRoutingModule} from './app-routing.module';
-import {CdkTableModule} from '@angular/cdk/table';
-import {HttpClientModule} from '@angular/common/http';
-import {FormsModule, ReactiveFormsModule} from '@angular/forms';
-import {AuthService} from './shared/auth/auth.service';
-import {StudentsService} from './admin/students/students.service';
-import {StudentGuard} from './student-guard.service';
-import {AdminGuard} from './admin-guard.service';
-import {AuthErrorPopupComponent} from './shared/auth/auth-error-popup/auth-error-popup.component';
+import { AppRoutingModule} from './app-routing.module';
+import { CdkTableModule } from '@angular/cdk/table';
+import { HttpClientModule } from '@angular/common/http';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { AuthService } from './shared/auth/auth.service';
+import { StudentsService } from './admin/students/students.service';
+import { FacultiesService } from './admin/faculties/faculties.service';
+import { StudentGuard } from './student-guard.service';
+import { AdminGuard } from './admin-guard.service';
+import { AuthErrorPopupComponent } from './shared/auth/auth-error-popup/auth-error-popup.component';
 import { SubjectService } from './admin/subjects/services/subject.service';
+import { TestService } from './admin/subjects/tests/test.service';
+import { GroupsService } from './admin/groups/groups.service';
+import TableService from './admin/timetable/timetable.service';
+import { TestDetailsService } from './admin/testdetails/sevices/test-details.service'; // Maryan
+import { TestDetailsComponent } from './admin/testdetails/component/test-details.component'; // Maryan
+import { TestDetailCreateComponent } from './admin/testdetails/modals/test-detail-create/test-detail-create.component'; // Maryan
+import { QuestionsService } from './admin/questions/questions.service';
 import {
     MatAutocompleteModule,
     MatButtonModule,
@@ -46,7 +54,7 @@ import {
     MatTooltipModule,
 } from '@angular/material';
 import { NgxPaginationModule } from 'ngx-pagination';
-import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppComponent } from './app.component';
 import { AuthComponent } from './shared/auth/auth.component';
 import { AdminComponent } from './admin/admin.component';
@@ -63,11 +71,20 @@ import { TimetableComponent } from './admin/timetable/timetable.component';
 import { StudentEditFormComponent } from './admin/students/student-edit-form/student-edit-form.component';
 import { EditSubjectComponent } from './admin/subjects/edit-subject/edit-subject.component';
 import { AddSubjectComponent } from './admin/subjects/add-subject/add-subject.component';
-import { ResponseMessageComponent } from './shared/response-message/response-message.component';
 import { DeleteConfirmComponent } from './shared/delete-confirm/delete-confirm.component';
-
-
-
+import { ResponseMessageComponent } from './shared/response-message/response-message.component';
+import { FacultiesAddComponent } from './admin/faculties/faculties-add/faculties-add.component';
+import { FacultiesUpdateComponent } from './admin/faculties/faculties-update/faculties-update.component';
+import { FacultiesDeleteComponent } from './admin/faculties/faculties-delete/faculties-delete.component';
+import { TimeTableModal } from './admin/timetable/timetable-modal/timetable-modal.component';
+import { TimetableDeleteConfirmComponent } from './admin/timetable/timetable-delete-confirm/timetable-delete-confirm.component';
+import { TestsComponent } from './admin/subjects/tests/tests.component';
+import { EditComponent } from './admin/subjects/tests/edit/edit.component';
+import { AddComponent } from './admin/subjects/tests/add/add.component';
+import { DialogComponent } from './admin/groups/dialog/dialog.component';
+import { QuestionsComponent } from './admin/questions/questions.component';
+import { EditQuestionComponent } from './admin/questions/edit-question/edit-question.component';
+import { AddQuestionComponent } from './admin/questions/add-question/add-question.component';
 
 @NgModule({
     imports: [
@@ -79,6 +96,7 @@ import { DeleteConfirmComponent } from './shared/delete-confirm/delete-confirm.c
         MatNativeDateModule,
         ReactiveFormsModule,
         CdkTableModule,
+        NgxPaginationModule,
         MatAutocompleteModule,
         MatButtonModule,
         MatButtonToggleModule,
@@ -115,13 +133,29 @@ import { DeleteConfirmComponent } from './shared/delete-confirm/delete-confirm.c
     ],
     entryComponents: [
         AppComponent,
+        AuthErrorPopupComponent,
+        TimeTableModal,
         StudentRegistrationFormComponent,
         StudentEditFormComponent,
         AddSubjectComponent,
         EditSubjectComponent,
         AuthErrorPopupComponent,
         ResponseMessageComponent,
-        DeleteConfirmComponent
+        DeleteConfirmComponent,
+        AuthErrorPopupComponent,
+        ResponseMessageComponent,
+        TimeTableModal,
+        TimetableDeleteConfirmComponent,
+        FacultiesAddComponent,
+        FacultiesUpdateComponent,
+        FacultiesDeleteComponent,
+        EditComponent,
+        AddComponent,
+        DialogComponent,
+        TestDetailCreateComponent, // Maryan
+        AddQuestionComponent,
+        EditQuestionComponent
+
     ],
     declarations: [
         AppComponent,
@@ -137,21 +171,50 @@ import { DeleteConfirmComponent } from './shared/delete-confirm/delete-confirm.c
         StudentsComponent,
         GroupsComponent,
         TimetableComponent,
+        TimeTableModal,
         StudentRegistrationFormComponent,
+        AddSubjectComponent,
+        TimeTableModal,
+        AuthErrorPopupComponent,
+        TimetableDeleteConfirmComponent,
+        DialogComponent,
+        TimeTableModal,
+        AuthErrorPopupComponent,
         StudentEditFormComponent,
         AddSubjectComponent,
         AuthErrorPopupComponent,
         ResponseMessageComponent,
-        DeleteConfirmComponent
+        DeleteConfirmComponent,
+        FacultiesAddComponent,
+        FacultiesUpdateComponent,
+        FacultiesDeleteComponent,
+        AuthErrorPopupComponent,
+        ResponseMessageComponent,
+        TestsComponent,
+        EditComponent,
+        AddComponent,
+        TestDetailsComponent, // Maryan
+        TestDetailCreateComponent,  // Maryan
+        QuestionsComponent,
+        AddQuestionComponent,
+        EditQuestionComponent
     ],
     bootstrap: [AppComponent],
     providers: [
         AuthService,
         StudentsService,
-        StudentGuard,
+        SubjectService,
         AdminGuard,
-        SubjectService
+        StudentGuard,
+        FacultiesService,
+        TableService,
+        TestService,
+        GroupsService,
+        TestDetailsService, // Maryan
+        QuestionsService
+
     ]
 })
 
 export class AppModule {}
+
