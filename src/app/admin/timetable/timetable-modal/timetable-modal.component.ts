@@ -13,7 +13,7 @@ import {
 @Component({
   selector: "timetable-modal",
   templateUrl: "./timetable-modal.component.html",
-  styleUrls: ["./timetable-modal.component.css"],
+  styleUrls: ["./timetable-modal.component.scss"],
   providers: [TableService]
 })
 export class TimeTableModal implements OnInit {
