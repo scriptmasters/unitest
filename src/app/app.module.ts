@@ -7,9 +7,13 @@ import {HttpClientModule} from '@angular/common/http';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {AuthService} from './shared/auth/auth.service';
 import {StudentsService} from './admin/students/students.service';
-import {AuthGuard} from './auth-guard.service';
+import {FacultiesService} from './admin/faculties/faculties.service';
+import {StudentGuard} from './student-guard.service';
+import {AdminGuard} from './admin-guard.service';
+import {AuthErrorPopupComponent} from './shared/auth/auth-error-popup/auth-error-popup.component';
+import { SubjectService } from './admin/subjects/services/subject.service';
+import {TestService} from './admin/subjects/tests/test.service';
 import { GroupsService } from './admin/groups/groups.service';
-
 import {
     MatAutocompleteModule,
     MatButtonModule,
@@ -44,10 +48,7 @@ import {
     MatToolbarModule,
     MatTooltipModule,
 } from '@angular/material';
-
-import {platformBrowserDynamic} from '@angular/platform-browser-dynamic';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-
 import { AppComponent } from './app.component';
 import { AuthComponent } from './shared/auth/auth.component';
 import { AdminComponent } from './admin/admin.component';
@@ -61,10 +62,20 @@ import { AdministratorsComponent } from './admin/administrators/administrators.c
 import { StudentRegistrationFormComponent } from './admin/students/student-registration-form/student-registration-form.component';
 import { GroupsComponent } from './admin/groups/groups.component';
 import { TimetableComponent } from './admin/timetable/timetable.component';
+import { StudentEditFormComponent } from './admin/students/student-edit-form/student-edit-form.component';
+import { StudentDeleteConfirmComponent } from './admin/students/student-delete-confirm/student-delete-confirm.component';
+import { EditSubjectComponent } from './admin/subjects/edit-subject/edit-subject.component';
+import { AddSubjectComponent } from './admin/subjects/add-subject/add-subject.component';
+import { ResponseMessageComponent } from './shared/response-message/response-message.component';
+import { FacultiesAddComponent } from './admin/faculties/faculties-add/faculties-add.component';
+import { FacultiesUpdateComponent } from './admin/faculties/faculties-update/faculties-update.component';
+import { FacultiesDeleteComponent } from './admin/faculties/faculties-delete/faculties-delete.component';
+import { TimeTableModal } from './admin/timetable/timetable-modal/timetable-modal.component';
+import TableService from './admin/timetable/timetable.service';
+import {TestsComponent} from './admin/subjects/tests/tests.component';
+import { EditComponent } from './admin/subjects/tests/edit/edit.component';
+import { AddComponent } from './admin/subjects/tests/add/add.component';
 import { DialogComponent } from './admin/groups/dialog/dialog.component';
-
-
-
 @NgModule({
     imports: [
         BrowserModule,
@@ -108,7 +119,26 @@ import { DialogComponent } from './admin/groups/dialog/dialog.component';
         MatToolbarModule,
         MatTooltipModule
     ],
-    entryComponents: [AppComponent, DialogComponent],
+    entryComponents: [
+        AppComponent,
+        AddSubjectComponent,
+        EditSubjectComponent,
+        AuthErrorPopupComponent,
+        TimeTableModal,
+        StudentRegistrationFormComponent,
+        StudentEditFormComponent,
+        StudentDeleteConfirmComponent,
+        AddSubjectComponent,
+        EditSubjectComponent,
+        AuthErrorPopupComponent,
+        ResponseMessageComponent,
+        FacultiesAddComponent,
+        FacultiesUpdateComponent,
+        FacultiesDeleteComponent,
+        EditComponent,
+        AddComponent,
+        DialogComponent
+    ],
     declarations: [
         AppComponent,
         AuthComponent,
@@ -117,6 +147,7 @@ import { DialogComponent } from './admin/groups/dialog/dialog.component';
         StatisticComponent,
         FacultiesComponent,
         SubjectsComponent,
+        EditSubjectComponent,
         SpecialitiesComponent,
         AdministratorsComponent,
         StudentsComponent,
@@ -124,16 +155,34 @@ import { DialogComponent } from './admin/groups/dialog/dialog.component';
         TimetableComponent,
         StudentRegistrationFormComponent,
         DialogComponent,
+        AddSubjectComponent,
+        TimeTableModal,
+        AuthErrorPopupComponent,
+        StudentEditFormComponent,
+        StudentDeleteConfirmComponent,
+        FacultiesAddComponent,
+        FacultiesUpdateComponent,
+        FacultiesDeleteComponent,
+        AddSubjectComponent,
+        AuthErrorPopupComponent,
+        ResponseMessageComponent,
+        TestsComponent,
+        EditComponent,
+        AddComponent
     ],
     bootstrap: [AppComponent],
     providers: [
         AuthService,
         StudentsService,
-        AuthGuard,
+        SubjectService,
+        AdminGuard,
+        StudentGuard,
+        FacultiesService,
+        TableService,
+        TestService, 
         GroupsService
     ]
 })
 
-export class AppModule { }
-platformBrowserDynamic().bootstrapModule(AppModule);
+export class AppModule {}
 

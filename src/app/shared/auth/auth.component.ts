@@ -1,6 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {Router, ActivatedRoute} from '@angular/router';
 import {AuthService} from './auth.service';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {MatDialog} from '@angular/material';
+import {AuthErrorPopupComponent} from './auth-error-popup/auth-error-popup.component';
+import {MatSnackBar} from '@angular/material';
+import {Ilogin, IisLogged} from '../Interfaces/server_response';
 
 
 @Component({
@@ -11,22 +16,94 @@ import {AuthService} from './auth.service';
 
 })
 
-
 export class AuthComponent implements OnInit {
-  auth1: any = {};
-  returnUrl: string;
+    returnUrl: string;
+    user: string;
+    loginForm: FormGroup;
+    rgxpStudent = /^\/student.*/g;
+    rgxpAdmin = /^\/admin.*/g;
 
-  constructor(public authService: AuthService,
-              private router: Router,
-              private route: ActivatedRoute) {}
+    constructor(public authService: AuthService,
+                private router: Router,
+                private formBuilder: FormBuilder,
+                private route: ActivatedRoute,
+                public dialog: MatDialog,
+                public snackBar: MatSnackBar) {
+        this.createForm();
+    }
 
-  submit() {
-    this.authService.login(this.auth1.username, this.auth1.password, this.returnUrl);
-  }
+    openDialog() {
+        const dialogRef = this.dialog.open(AuthErrorPopupComponent, {
+            width: '500px',
+            data: {user: this.user, returnUrl: this.returnUrl}
+        });
 
-  ngOnInit() {
-      this.route.queryParams
-          .subscribe(params => {this.returnUrl = params['return']; } );
-  }
+        dialogRef.afterClosed().subscribe((result: string) => {
 
-  }
+            if (result === 'student') {
+                this.router.navigate(['/student']);
+            } else {
+                if (result === 'admin') {
+                    this.router.navigate(['/admin']);
+                }
+            }
+            });
+    }
+
+    createForm(): void {
+        this.loginForm = this.formBuilder.group({
+            username: ['', Validators.required],
+            password: ['', Validators.compose([Validators.required, Validators.minLength(8)])]
+        });
+    }
+
+    submit(): void {
+        if (!this.loginForm.invalid) {
+            this.authService.login(this.loginForm.value)
+                .subscribe((data: Ilogin) => {
+                    switch (data.roles[1]) {
+                        case 'admin' :
+                            if (this.rgxpAdmin.test(this.returnUrl)) {
+                                this.router.navigate([this.returnUrl]);
+                            } else {
+                                this.router.navigate(['/admin']);
+                            }
+                            break;
+
+                        case 'student' :
+                            if (this.rgxpStudent.test(this.returnUrl)) {
+                                this.router.navigate([this.returnUrl]);
+                            } else {
+                                this.router.navigate(['/student']);
+                            }
+                            break;
+                    }
+                }, error => document.getElementById('error').innerHTML = error.error.response
+            );
+        }
+    }
+
+    ngOnInit() {
+        this.route.queryParams
+            .subscribe(params => {
+                this.returnUrl = params['return'];
+                if (params['return']) {
+                    this.authService.isLogged().subscribe((result: IisLogged) => {
+                        if (result.response === 'non logged') {
+                                    this.snackBar.open('You are not logged in', 'OK', {
+                                    duration: 2000, panelClass: 'snackbar'
+                                });
+                        } else {
+                            if (this.rgxpAdmin.test(params['return'])) {
+                                this.user = 'admin';
+                                this.openDialog();
+                            } else {
+                                this.user = 'student';
+                                this.openDialog();
+                            }
+                        }
+                    });
+                }
+            });
+    }
+}
