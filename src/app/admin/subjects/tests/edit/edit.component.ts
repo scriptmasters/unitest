@@ -10,6 +10,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
   styleUrls: ['./edit.component.scss']
 })
 export class EditComponent implements OnInit {
+  
   rForm: FormGroup;
   constructor(public dialogRef: MatDialogRef<EditComponent>, @Inject(MAT_DIALOG_DATA) public data: any, private httpService: TestService, private fb: FormBuilder) { 
   this.initForm();
@@ -22,20 +23,19 @@ export class EditComponent implements OnInit {
 initForm() {
   this.rForm = this.fb.group({
     test_name: [this.data.test.test_name, [Validators.required,
-    Validators.pattern(/[А-я]/)]
+    Validators.maxLength(70), Validators.minLength(2)]
   ],
-    tasks: [this.data.test.tasks, [Validators.required,
-    Validators.pattern(/[0-9]/)]
+    tasks: [this.data.test.tasks, [Validators.required,Validators.pattern(/^\d{1,3}$/)]
   ],
     time_for_test: [this.data.test.time_for_test, [Validators.required,
-    Validators.pattern(/[0-9]/)]
+    Validators.pattern(/\d\d:\d\d:\d\d/)]
   ],
     enabled: [this.data.test.enabled['value'], [Validators.required]],
 
     subject_id: [this.data.test.subject_id['value'], [Validators.required]],
 
     attempts: [this.data.test.attempts, [Validators.required,
-    Validators.pattern(/[0-9]/)]
+    Validators.pattern(/\d{1,3}/)]
   ]
   })
 }
