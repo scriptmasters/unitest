@@ -1,8 +1,6 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
-import {OnDestroy} from '@angular/core';
-import {ISubscription} from 'rxjs/Subscription';
 
 import {SubjectService} from '../services/subject.service';
 import {Subject} from '../subject';
@@ -12,9 +10,8 @@ import {Subject} from '../subject';
   templateUrl: './add-subject.component.html',
   styleUrls: ['./add-subject.component.scss']
 })
-export class AddSubjectComponent implements OnInit, OnDestroy {
+export class AddSubjectComponent implements OnInit {
 
-  private subscription: ISubscription;
   subjects: Subject[];
   form: FormGroup;
   error;
@@ -30,7 +27,8 @@ export class AddSubjectComponent implements OnInit, OnDestroy {
       'title': new FormControl(null, [
         Validators.required,
         Validators.minLength(2),
-        Validators.maxLength(50)
+        Validators.maxLength(50),
+        // this.checkSubjectName.bind(this)
       ]),
       'description': new FormControl(null, [
         Validators.required,
@@ -42,7 +40,7 @@ export class AddSubjectComponent implements OnInit, OnDestroy {
 
   onSubmit() {
     const formData = this.form.value;
-    this.subscription = this.subjectService.addSubject(formData.title, formData.description)
+    this.subjectService.addSubject(formData.title, formData.description)
       .subscribe((subject: Subject[]) => {
         if (subject) {
           return this.matDialogRef.close();
@@ -52,13 +50,20 @@ export class AddSubjectComponent implements OnInit, OnDestroy {
       );
   }
 
+  // checkSubjectName(control: FormControl): Promise<any> {
+  //   return new Promise ((resolve, reject) => {
+  //     this.subjectService.getSubjectByName(control.value)
+  //       .subscribe((subject: Subject[]) => {
+  //         if (subject && (subject[0].subject_name === control.value)) {
+  //           resolve({sameTitle: true});
+  //         } else {
+  //           resolve (null);
+  //         }
+  //       });
+  //   });
+  // }
+
   closeDialog(): void {
     this.matDialogRef.close();
-  }
-
-  ngOnDestroy() {
-    if (this.subscription) {
-      this.subscription.unsubscribe();
-    }
   }
 }

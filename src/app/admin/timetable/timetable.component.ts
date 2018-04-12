@@ -84,7 +84,6 @@ export class TimetableComponent implements OnInit {
       }
     );
   }
-
   /**
    * Opens dialog to create table entity or edit it
    * table item we want to edit

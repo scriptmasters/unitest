@@ -11,7 +11,8 @@ import {FacultiesService} from './admin/faculties/faculties.service';
 import {StudentGuard} from './student-guard.service';
 import {AdminGuard} from './admin-guard.service';
 import {AuthErrorPopupComponent} from './shared/auth/auth-error-popup/auth-error-popup.component';
-import { SubjectService } from './admin/subjects/services/subject.service';
+import {SubjectService} from './admin/subjects/services/subject.service';
+import {NgxPaginationModule} from 'ngx-pagination';
 import {TestService} from './admin/subjects/tests/test.service';
 import { GroupsService } from './admin/groups/groups.service';
 import {NgxPaginationModule} from 'ngx-pagination';
@@ -87,6 +88,7 @@ import { DialogComponent } from './admin/groups/dialog/dialog.component';
         MatNativeDateModule,
         ReactiveFormsModule,
         CdkTableModule,
+        NgxPaginationModule,
         MatAutocompleteModule,
         MatButtonModule,
         MatButtonToggleModule,
