@@ -1,58 +1,77 @@
-import {Injectable, NgModule} from '@angular/core';
+import {Injectable} from '@angular/core';
 import { Router, ActivatedRouteSnapshot, RouterStateSnapshot, CanActivate } from '@angular/router';
 import {AuthService} from './shared/auth/auth.service';
 import { HttpClient } from '@angular/common/http';
 
 
+
 @Injectable()
 export class AuthGuard implements CanActivate {
+    constructor(private authService: AuthService, private router: Router, private http: HttpClient ) {}
 
-    constructor(private authService: AuthService, private router: Router, private http: HttpClient) {}
+    canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
 
-    canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
-        let url: string = state.url;
+        const rgxpStudent = /^\/student.*/g;
+        const rgxpAdmin = /^\/admin.*/g;
 
-        return this.checkLogin(url);
-    }
 
-    checkLogin(url: string): boolean {
-        let authStatusUrl = 'http://vps9615.hyperhost.name:443/api/login/isLogged';
+        const authStatusUrl = 'http://vps9615.hyperhost.name:443/api/login/isLogged';
         let authStatus: any = {
-            'roles': [undefined, undefined],
-            'id': undefined,
-            'username': undefined,
-            'response': undefined
+            response: undefined,
+            roles: [undefined]
         };
-        let status: string;
 
-        this.http.get(authStatusUrl)
-            .subscribe(data =>  authStatus = data, undefined, () => {
-                if (authStatus.response === 'logged') {
-                    if (authStatus.roles[1] === 'student') {
-                        if (status === 'student') {
-                            return status = 'student';
+        const promise = new Promise((resolve, reject) => {
+                this.http.get(authStatusUrl)
+                    .subscribe((data) => {
+                        authStatus = data;
+                        if (authStatus.response === 'logged') {
+                                if (authStatus.roles[1] === 'student') {
+                                    resolve('student');
+                                } else { if (authStatus.roles[1] === 'admin') {
+                                    resolve('admin'); }
+                                }
+                            } else {resolve ('non logged'); }
                         }
-                    } else {
-                        return status = 'admin';
-                    }
-                } else {
-                    return status = 'non logged';
-                }
+                    );
             }
-
-            );
-
+        );
 
 
-
-
-
-        // Store the attempted URL for redirecting
-        this.authService.redirectUrl = url;
-
-        // Navigate to the login page with extras
-        this.router.navigate(['/login']);
-        return true;
+    return promise.then(
+        result => {
+            switch (result) {
+                case 'student' :
+                    if (rgxpStudent.test(state.url)) {
+                        return true;
+                    } else {
+                        console.log('student, wrong page');
+                        this.router.navigate(['/login'], {
+                            queryParams: {
+                                return: state.url
+                            }
+                        });
+                        return false;
+                    }
+                case 'admin' :
+                    if (rgxpAdmin.test(state.url)) {
+                        return true;
+                    } else {this.router.navigate(['/login'], {
+                        queryParams: {
+                            return: state.url
+                        }
+                    });
+                        return false;
+                    }
+                case 'non logged' :
+                    this.router.navigate(['/login'], {
+                        queryParams: {
+                            return: state.url
+                        }
+                    });
+                    return false;
+            }
+        }
+    );
     }
-
 }

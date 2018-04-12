@@ -1,0 +1,7 @@
+ .btn-primary:disabled {
+ 	background-color: gray;
+ }
+
+ form .ng-invalid:not(.ng-untouched) {
+    border-color: red;
+}

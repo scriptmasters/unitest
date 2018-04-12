@@ -36,17 +36,6 @@ export class TableService {
     })
   };
 
-  /** 
-   * FOR TEST ONLY
-   * TODO: REMOVE before prod
-   */
-  login() {
-    return this.http.post("http://vps9615.hyperhost.name:443/api/login/index", {
-      username: "admin",
-      password: "dtapi_admin"
-    });
-  }
-
   constructor(public http: HttpClient) {}
 
   getSubjects(): Observable<Subject[]> {
@@ -64,6 +53,22 @@ export class TableService {
   getTable(): Observable<TimeEntity[]> {
     return this.http
       .get("http://vps9615.hyperhost.name:443/api/TimeTable/getRecords")
+      .pipe(tap(table => table), catchError(() => []));
+  }
+
+  getTableBySubjectId(id: string): Observable<TimeEntity[]> {
+    return this.http
+      .get(
+        `http://vps9615.hyperhost.name:443/api/TimeTable/getTimeTablesForSubject/${id}`
+      )
+      .pipe(tap(table => table), catchError(() => []));
+  }
+
+  getTableByGroupId(id: string): Observable<TimeEntity[]> {
+    return this.http
+      .get(
+        `http://vps9615.hyperhost.name:443/api/TimeTable/getTimeTablesForGroup/${id}`
+      )
       .pipe(tap(table => table), catchError(() => []));
   }
 

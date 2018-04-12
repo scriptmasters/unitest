@@ -1,0 +1,27 @@
+input.ng-touched.ng-invalid {
+    border:solid #DC3545 2px;
+}
+
+input.ng-touched.ng-valid {
+    border:solid #28A745 2px;
+}
+
+.btn-success, .btn-danger {
+    margin: {
+        left: 5px;
+        right: 5px;
+    }
+}
+
+.user-image {
+    width: 100px;
+    height: 100px;
+    margin-bottom: 10px;
+}
+
+.custom-file {
+    width: 180px;
+    #customFile {
+        cursor: pointer;
+    }
+}
