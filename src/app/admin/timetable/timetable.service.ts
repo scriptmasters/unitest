@@ -56,6 +56,22 @@ export class TableService {
       .pipe(tap(table => table), catchError(() => []));
   }
 
+  getTableBySubjectId(id: string): Observable<TimeEntity[]> {
+    return this.http
+      .get(
+        `http://vps9615.hyperhost.name:443/api/TimeTable/getTimeTablesForSubject/${id}`
+      )
+      .pipe(tap(table => table), catchError(() => []));
+  }
+
+  getTableByGroupId(id: string): Observable<TimeEntity[]> {
+    return this.http
+      .get(
+        `http://vps9615.hyperhost.name:443/api/TimeTable/getTimeTablesForGroup/${id}`
+      )
+      .pipe(tap(table => table), catchError(() => []));
+  }
+
   addTableItem(timeEntity: TimeEntity): Observable<TimeEntity[]> {
     return this.http
       .post(

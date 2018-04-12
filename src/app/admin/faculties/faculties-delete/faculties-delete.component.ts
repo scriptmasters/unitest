@@ -15,22 +15,18 @@ export class FacultiesDeleteComponent implements OnInit {
     public dialogRef: MatDialogRef<FacultiesDeleteComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any) { }
 
-  ngOnInit() {
-  }
+    ngOnInit() {
+    }
 
-  facultyDelete():void {
-    this.facultiesService.delFaculties(this.data.id).subscribe(
-      (data: IResponse) => this.dialogRef.close(data.response));
-  }
+    facultyDelete():void {
+       this.facultiesService.delFaculties(this.data.id).subscribe(
+       (data: IResponse) => this.dialogRef.close(data.response),
+       error => {
+        this.dialogRef.close(error.error.response);
+      });
+     }
 
-  onNoClick():void {
-    this.dialogRef.close();
-  } 
-  }
-
-  
- 
-
- 
-
-
+     onNoClick():void {
+        this.dialogRef.close();
+     } 
+}

@@ -1,6 +1,7 @@
 import { Component, OnInit, Inject } from "@angular/core";
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from "@angular/material";
 import TableService, { Subject, Group, TimeEntity } from "../timetable.service";
+import { startDateValidator, matchDates } from './date-validation';
 
 import {
   FormControl,
@@ -45,11 +46,16 @@ export class TimeTableModal implements OnInit {
     this.form = new FormGroup({
       group: new FormControl(null, [Validators.required]),
       subject: new FormControl(null, [Validators.required]),
-      startDate: new FormControl(null, [Validators.required]),
+      startDate: new FormControl(null, [
+        Validators.required,
+        startDateValidator
+      ]),
       startTime: new FormControl(null, [Validators.required]),
       endDate: new FormControl(null, [Validators.required]),
-      endTime: new FormControl(null, [Validators.required])
-    });
+      endTime: new FormControl(null, [Validators.required]),
+    }, {
+        validators: [matchDates]
+      });
   }
 
   onSubmit = evt => {

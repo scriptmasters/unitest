@@ -79,4 +79,11 @@ export class SubjectsComponent implements OnInit {
   deleteSubject(id): void {
     console.log(id);
   }
+  
+  subjectId(id: any) {
+    this.router.navigate(['/admin/tests'], {
+      queryParams: {id: id}
+    });
+  }
+
 }

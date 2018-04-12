@@ -1,5 +1,5 @@
-import { Component, OnInit, Input, Output, EventEmitter, ViewEncapsulation } from '@angular/core';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { Component, OnInit, Input, Output, EventEmitter, ViewEncapsulation, Inject } from '@angular/core';
+import { FormGroup, FormControl, Validators } from '@angular/forms'
 import { StudentsService } from '../students.service';
 
 import { StudentAdd } from '../students-interface';
@@ -36,7 +36,8 @@ export class StudentRegistrationFormComponent implements OnInit {
 
   constructor(
     private service: StudentsService, 
-    private dialogRef: MatDialogRef<StudentRegistrationFormComponent>) { }
+    private dialogRef: MatDialogRef<StudentRegistrationFormComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: any) { }
 
   ngOnInit() {
     //Підгружаємо дані факультетів і груп з сервера при першій ініціалізації компоненту
@@ -74,8 +75,8 @@ export class StudentRegistrationFormComponent implements OnInit {
       ])),
       password: new FormControl('', Validators.compose([
         Validators.required,
-        Validators.minLength(3),
-        Validators.maxLength(20)
+        Validators.minLength(8),
+        Validators.maxLength(32)
       ])),
       email: new FormControl('', Validators.compose([
         Validators.required,
@@ -88,6 +89,7 @@ export class StudentRegistrationFormComponent implements OnInit {
   //Записуємо масив об'єктів "Group" які приходять з сервера в масив "groups"
   getGroups(elem: HTMLSelectElement) {
     let value = elem.options[elem.selectedIndex].value;
+    if (value === 'Виберіть факультет') return;
     let index: string;
     //Шукаємо айдішку факультету яку було вибрано в селекті
     this.faculties.forEach(val => {
@@ -167,5 +169,17 @@ export class StudentRegistrationFormComponent implements OnInit {
       (data: IResponse) => this.dialogRef.close(data.response),
       error => this.dialogRef.close(error.error.response)
     );
+  }
+  //Щоб побачити пароль
+  handleTogglePasswordVisibility(elem: HTMLInputElement) {
+    if (elem.type === 'password') {
+      elem.type = 'text';
+    } else {
+      elem.type = 'password';
+    }
+  }
+  //Метод який закриває діалогове вікно
+  handleClose(): void {
+    this.dialogRef.close();
   }
 }
