@@ -4,6 +4,7 @@ import {Test} from './test';
 import { MatDialog, MatDialogRef, MatButtonModule } from '@angular/material';
 import { EditComponent } from './edit/edit.component';
 import { AddComponent } from './add/add.component';
+import { Router} from '@angular/router';
 
 
 @Component({
@@ -14,14 +15,14 @@ import { AddComponent } from './add/add.component';
 export class TestsComponent implements OnInit{
 
   public test;
-  
-  constructor(private httpService: TestService, public dialog: MatDialog) { }
 
- 
+  constructor(private httpService: TestService, public dialog: MatDialog, private router: Router) { }
+
+
   ngOnInit() {
     this.getTests();
   }
-  
+
   deleteTest(id: number) {
     this.httpService.deleteTest(id).subscribe(
       data => {console.log(data)},
@@ -36,7 +37,7 @@ export class TestsComponent implements OnInit{
       ()=> console.log()
     );
    }
- 
+
    openDialog(t: object, id: number) {
    const matDialogRef = this.dialog.open(EditComponent, {
     width: '350px',
@@ -45,6 +46,14 @@ export class TestsComponent implements OnInit{
    }
    addDialog() {
     const matDialogRef = this.dialog.open(AddComponent, {width: '350px'});
-    matDialogRef.afterClosed().subscribe(() => this.getTests())
+    matDialogRef.afterClosed().subscribe(() => this.getTests());
+   }
+
+   openDetails(id: any){
+    this.router.navigate(['/admin/testdetails'], {
+      queryParams: {
+        id: id
+      }
+    });
    }
 }

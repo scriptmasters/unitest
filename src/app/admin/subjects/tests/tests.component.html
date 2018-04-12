@@ -33,12 +33,11 @@
           <td>{{t.attempts}}</td>
           <td *ngIf="t.enabled==1;else disabled">Доступно</td>
           <ng-template #disabled>
-            <td>Недоступно</td> 
+            <td>Недоступно</td>
           </ng-template>
           <td><i class="fa fa-cog" title="Редагувати" (click)="openDialog(t, t.test_id)"></i></td>
           <td><i class="fa fa-list-ol" title="Cписок завдань {{t.test_name}}"></i></td>
-          <td><i class="fa fa-file-text" title="Деталі тесту {{t.test_name}}"></i></td>
+          <td><i class="fa fa-file-text" title="Деталі тесту {{t.test_name}}" (click)="openDetails(t.test_id)"></i></td>
           <td><i class="fa fa-close" title="Видалити тест {{t.test_name}}" (click)="deleteTest(t.test_id)"></i></td>
         </tr>
       </tbody>
-     

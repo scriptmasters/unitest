@@ -2,8 +2,6 @@ import {Component, Inject, OnInit} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {ActivatedRoute} from '@angular/router';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material';
-import {OnDestroy} from '@angular/core';
-import {ISubscription} from 'rxjs/Subscription';
 
 import {SubjectService} from '../services/subject.service';
 import {Subject} from '../subject';
@@ -13,9 +11,8 @@ import {Subject} from '../subject';
   templateUrl: './edit-subject.component.html',
   styleUrls: ['./edit-subject.component.scss']
 })
-export class EditSubjectComponent implements OnInit, OnDestroy {
+export class EditSubjectComponent implements OnInit {
 
-  private subscription: ISubscription;
   subject: Subject[];
   form: FormGroup;
   error;
@@ -46,7 +43,7 @@ export class EditSubjectComponent implements OnInit, OnDestroy {
 
   getSubject(): void {
     const id = this.data.subject_id;
-    this.subscription = this.subjectService.getSubjectById(id)
+    this.subjectService.getSubjectById(id)
       .subscribe((subject: Subject[]) => {
         this.subject = subject;
         this.isLoaded = true;
@@ -56,8 +53,7 @@ export class EditSubjectComponent implements OnInit, OnDestroy {
   onSubmit() {
     const id = this.data.subject_id;
     const formData = this.form.value;
-    console.log(this.form);
-    this.subscription = this.subjectService.editSubject(id, formData.title, formData.description)
+    this.subjectService.editSubject(id, formData.title, formData.description)
       .subscribe((subject: Subject[]) => {
         if (subject) {
           return this.matDialogRef.close();
@@ -70,9 +66,4 @@ export class EditSubjectComponent implements OnInit, OnDestroy {
   closeDialog(): void {
     this.matDialogRef.close();
   }
-
-  ngOnDestroy() {
-    this.subscription.unsubscribe();
-  }
-
 }
