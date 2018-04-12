@@ -30,7 +30,7 @@ export class PopupFormComponent implements OnInit {
   }
 
   onSubmit(value: any) {
- 
+
 
     if (this.specialityUpdate.speciality_id == '') {
       this.popupValue = value;
@@ -45,7 +45,7 @@ export class PopupFormComponent implements OnInit {
       let id = this.specialityUpdate.speciality_id;
       console.log(this.specialityUpdate);
       this.speciality.specialitiesObject.forEach(element => {
-        if (element.speciality_id == this.speciality.oldspeciality.speciality_id || element.speciality_name == this.speciality.oldspeciality.speciality_name) {
+        if (element.speciality_id == this.speciality.oldspeciality.speciality_id && element.speciality_name == this.speciality.oldspeciality.speciality_name) {
           alert("Дані вже існують")
           return;
         }

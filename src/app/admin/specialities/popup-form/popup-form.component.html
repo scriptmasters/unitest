@@ -3,14 +3,14 @@
     <h4>Спеціальність</h4>
   </div>
   <div class="card-body">
-    <form class="form-horizontal" novalidate #p="ngForm" (submit)="onSubmit(p.value)" >
+    <form class="form-horizontal" novalidate #p="ngForm" (submit)="onSubmit(p.value)">
       <div class="form-group row">
         <label class="col-sm-3">Код</label>
         <div class="col-sm-9">
           <input type="text" placeholder="Код" #code="ngModel" required class="form-control form-control-success ng-valid ng-untouched ng-pristine"
             name="speciality_code" ng-reflect-name="speciality_code" id="code" [(ngModel)]="specialityUpdate.speciality_code"
             pattern="[0-9].[0-9]+">
-          <div [hidden]="code.valid || code.untouched" class="alert alert-danger">
+          <div [hidden]="code.valid|| name.untouched" class="alert alert-danger">
             Некоректні дані
           </div>
         </div>
