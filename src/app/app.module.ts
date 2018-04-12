@@ -58,6 +58,7 @@ import { StudentComponent } from './student/student.component';
 import { StatisticComponent } from './admin/statistic/statistic.component';
 import { FacultiesComponent } from './admin/faculties/faculties.component';
 import { SubjectsComponent } from './admin/subjects/subjects.component';
+import { ModalSubjectComponent } from './admin/subjects/modal-subject/modal-subject.component';
 import { SpecialitiesComponent } from './admin/specialities/specialities.component';
 import { AdministratorsComponent } from './admin/administrators/administrators.component';
 import { StudentRegistrationFormComponent } from './admin/students/student-registration-form/student-registration-form.component';
@@ -65,8 +66,6 @@ import { GroupsComponent } from './admin/groups/groups.component';
 import { TimetableComponent } from './admin/timetable/timetable.component';
 import { StudentEditFormComponent } from './admin/students/student-edit-form/student-edit-form.component';
 import { StudentDeleteConfirmComponent } from './admin/students/student-delete-confirm/student-delete-confirm.component';
-import { EditSubjectComponent } from './admin/subjects/edit-subject/edit-subject.component';
-import { AddSubjectComponent } from './admin/subjects/add-subject/add-subject.component';
 import { ResponseMessageComponent } from './shared/response-message/response-message.component';
 import { FacultiesAddComponent } from './admin/faculties/faculties-add/faculties-add.component';
 import { FacultiesUpdateComponent } from './admin/faculties/faculties-update/faculties-update.component';
@@ -123,15 +122,12 @@ import { DialogComponent } from './admin/groups/dialog/dialog.component';
     ],
     entryComponents: [
         AppComponent,
-        AddSubjectComponent,
-        EditSubjectComponent,
         AuthErrorPopupComponent,
         TimeTableModal,
         StudentRegistrationFormComponent,
         StudentEditFormComponent,
         StudentDeleteConfirmComponent,
-        AddSubjectComponent,
-        EditSubjectComponent,
+        ModalSubjectComponent,
         AuthErrorPopupComponent,
         ResponseMessageComponent,
         FacultiesAddComponent,
@@ -149,7 +145,7 @@ import { DialogComponent } from './admin/groups/dialog/dialog.component';
         StatisticComponent,
         FacultiesComponent,
         SubjectsComponent,
-        EditSubjectComponent,
+        ModalSubjectComponent,
         SpecialitiesComponent,
         AdministratorsComponent,
         StudentsComponent,
@@ -157,7 +153,6 @@ import { DialogComponent } from './admin/groups/dialog/dialog.component';
         TimetableComponent,
         StudentRegistrationFormComponent,
         DialogComponent,
-        AddSubjectComponent,
         TimeTableModal,
         AuthErrorPopupComponent,
         StudentEditFormComponent,
@@ -165,7 +160,6 @@ import { DialogComponent } from './admin/groups/dialog/dialog.component';
         FacultiesAddComponent,
         FacultiesUpdateComponent,
         FacultiesDeleteComponent,
-        AddSubjectComponent,
         AuthErrorPopupComponent,
         ResponseMessageComponent,
         TestsComponent,
@@ -181,7 +175,7 @@ import { DialogComponent } from './admin/groups/dialog/dialog.component';
         StudentGuard,
         FacultiesService,
         TableService,
-        TestService, 
+        TestService,
         GroupsService
     ]
 })
