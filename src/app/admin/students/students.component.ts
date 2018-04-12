@@ -201,8 +201,7 @@ export class StudentsComponent implements OnInit {
             })
             this.fillOutStudentsTable();
           }},
-          error => {
-            console.log(error);
+          () => {
             this.dialog.open(ResponseMessageComponent, {
               width: '400px',
               data: {
