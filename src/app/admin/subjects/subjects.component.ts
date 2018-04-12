@@ -66,4 +66,11 @@ export class SubjectsComponent implements OnInit {
       this.getSubjects();
     });
   }
+  
+  subjectId(id: any) {
+    this.router.navigate(['/admin/tests'], {
+      queryParams: {id: id}
+    });
+  }
+
 }

@@ -28,7 +28,7 @@
                   <!--<th class="col-sm-1" scope="row">{{ i +1 }}</th>-->
                   <td class="col-sm-4">{{subject.subject_name}}</td>
                   <td class="col-sm-4">{{subject.subject_description}}</td>
-                  <td class="col-sm-1"><a routerLink="timetable" (click)="getTimetable(subject.subject_id)"><i class="fa fa-calendar-check-o table-icon" title="Тести: {{subject.subject_name}}"></i></a></td>
+                  <td class="col-sm-1"><a routerLink="tests" (click)="subjectId(subject.subject_id)"><i class="fa fa-calendar-check-o table-icon" title="Тести: {{subject.subject_name}}"></i></a></td>
                   <td class="col-sm-1"><a (click)="getTimetable(subject.subject_id)"><i class="fa fa-calendar table-icon" title="Розклад: {{subject.subject_name}}"></i></a></td>
                   <td class="col-sm-1"><a (click)="openModalEdit(subject.subject_id)"><i class="fa fa-cog table-icon" title="Редагувати"></i></a></td>
                 </tr>

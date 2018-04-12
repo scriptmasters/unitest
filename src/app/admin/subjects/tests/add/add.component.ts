@@ -34,7 +34,7 @@ initForm() {
   ],
     enabled: [, [Validators.required]],
 
-    subject_id: [, Validators.required],
+    subject_id: [1, Validators.required],
     attempts: [, [Validators.required, Validators.pattern(/\d{1,3}/)]]
   })
 }

@@ -65,8 +65,6 @@ import { StudentComponent } from './student/student.component';
 import { StatisticComponent } from './admin/statistic/statistic.component';
 import { FacultiesComponent } from './admin/faculties/faculties.component';
 import { SubjectsComponent } from './admin/subjects/subjects.component';
-import { AddSubjectComponent } from './admin/subjects/add-subject/add-subject.component';
-import { EditSubjectComponent } from './admin/subjects/edit-subject/edit-subject.component';
 import { SpecialitiesComponent } from './admin/specialities/specialities.component';
 import { AdministratorsComponent } from './admin/administrators/administrators.component';
 import { StudentRegistrationFormComponent } from './admin/students/student-registration-form/student-registration-form.component';

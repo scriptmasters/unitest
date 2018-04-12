@@ -46,12 +46,12 @@ subject_id = [{value: 1, text: 'Вища математика'}, {value: 2, text
 onSubmit() {
   const controls = this.rForm.controls;
   if (this.rForm.invalid) {
-  /** Если форма не валидна, то помечаем все контролы как touched*/
+  
   Object.keys(controls)
     .forEach(controlName => controls[controlName].markAsTouched());
     return;
     }
-   /** TODO: Обработка данных формы */
+   
    this.httpService.editTest(this.data.id, this.rForm.value).subscribe(
     () => console.log(),
     () => console.log(),
