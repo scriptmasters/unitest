@@ -61,10 +61,10 @@ import { StudentRegistrationFormComponent } from './admin/students/student-regis
 import { GroupsComponent } from './admin/groups/groups.component';
 import { TimetableComponent } from './admin/timetable/timetable.component';
 import { StudentEditFormComponent } from './admin/students/student-edit-form/student-edit-form.component';
-import { StudentDeleteConfirmComponent } from './admin/students/student-delete-confirm/student-delete-confirm.component';
 import { EditSubjectComponent } from './admin/subjects/edit-subject/edit-subject.component';
 import { AddSubjectComponent } from './admin/subjects/add-subject/add-subject.component';
 import { ResponseMessageComponent } from './shared/response-message/response-message.component';
+import { DeleteConfirmComponent } from './shared/delete-confirm/delete-confirm.component';
 
 
 
@@ -117,11 +117,11 @@ import { ResponseMessageComponent } from './shared/response-message/response-mes
         AppComponent,
         StudentRegistrationFormComponent,
         StudentEditFormComponent,
-        StudentDeleteConfirmComponent,
         AddSubjectComponent,
         EditSubjectComponent,
         AuthErrorPopupComponent,
-        ResponseMessageComponent
+        ResponseMessageComponent,
+        DeleteConfirmComponent
     ],
     declarations: [
         AppComponent,
@@ -139,10 +139,10 @@ import { ResponseMessageComponent } from './shared/response-message/response-mes
         TimetableComponent,
         StudentRegistrationFormComponent,
         StudentEditFormComponent,
-        StudentDeleteConfirmComponent,
         AddSubjectComponent,
         AuthErrorPopupComponent,
-        ResponseMessageComponent
+        ResponseMessageComponent,
+        DeleteConfirmComponent
     ],
     bootstrap: [AppComponent],
     providers: [

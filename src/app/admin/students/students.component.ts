@@ -5,11 +5,11 @@ import { Student } from './students-interface';
 import { group } from '@angular/animations';
 import { StudentRegistrationFormComponent } from './student-registration-form/student-registration-form.component';
 import { StudentEditFormComponent } from './student-edit-form/student-edit-form.component';
-import { StudentDeleteConfirmComponent } from './student-delete-confirm/student-delete-confirm.component';
 import { ResponseMessageComponent } from '../../shared/response-message/response-message.component';
 import { MatDialog } from '@angular/material';
 import { PaginationInstance } from 'ngx-pagination';
 import { ActivatedRoute } from '@angular/router';
+import { DeleteConfirmComponent } from '../../shared/delete-confirm/delete-confirm.component';
 @Component({
   selector: 'app-students',
   templateUrl: './students.component.html',
@@ -183,30 +183,33 @@ export class StudentsComponent implements OnInit {
   }
   //Видалення студента
   handleDelete(index): void {
-    let dialogRef = this.dialog.open(StudentDeleteConfirmComponent, {
+    let dialogRef = this.dialog.open(DeleteConfirmComponent, {
       width: '400px',
       data: {
-        id: index
+        message: 'Ви справді бажаєте видалити профіль цього студента?'
       }
     });
-    dialogRef.afterClosed().subscribe((Response: string) => {
+    dialogRef.afterClosed().subscribe((Response: boolean) => {
       if (Response) {
-        if (Response === 'ok') {
-          this.dialog.open(ResponseMessageComponent, {
-            width: '400px',
-            data: {
-              message: 'Профіль цього студента було успішно видалено!'
-            }
-          })
-          this.fillOutStudentsTable();
-        } else if (Response.toLowerCase().includes("error")) {
-          this.dialog.open(ResponseMessageComponent, {
-            width: '400px',
-            data: {
-              message: 'Виникла помилка при видаленні цього студента!'
-            }
-          })
-        }
+        this.service.deleteStudent(index).subscribe((data: IResponse) => {
+          if (data.response === 'ok') {
+            this.dialog.open(ResponseMessageComponent, {
+              width: '400px',
+              data: {
+                message: 'Профіль цього студента було успішно видалено!'
+              }
+            })
+            this.fillOutStudentsTable();
+          }},
+          error => {
+            console.log(error);
+            this.dialog.open(ResponseMessageComponent, {
+              width: '400px',
+              data: {
+                message: 'Виникла помилка при видаленні цього студента!'
+              }
+            })
+        })
       }
     });
   }
