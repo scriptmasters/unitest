@@ -8,6 +8,6 @@ import {MAT_DIALOG_DATA} from '@angular/material';
 })
 export class AuthErrorPopupComponent {
 
-    constructor( @Inject(MAT_DIALOG_DATA) public data: object ) { }
+    constructor( @Inject(MAT_DIALOG_DATA) public data: any ) { }
 
 }

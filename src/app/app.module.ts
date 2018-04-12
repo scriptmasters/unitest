@@ -181,7 +181,7 @@ import { DialogComponent } from './admin/groups/dialog/dialog.component';
         StudentGuard,
         FacultiesService,
         TableService,
-        TestService, 
+        TestService,
         GroupsService
     ]
 })
