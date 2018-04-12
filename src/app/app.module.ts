@@ -7,11 +7,16 @@ import {HttpClientModule} from '@angular/common/http';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {AuthService} from './shared/auth/auth.service';
 import {StudentsService} from './admin/students/students.service';
+import { EditSubjectComponent } from './admin/subjects/edit-subject/edit-subject.component';
+import { AddSubjectComponent } from './admin/subjects/add-subject/add-subject.component';
 import {FacultiesService} from './admin/faculties/faculties.service';
 import {StudentGuard} from './student-guard.service';
 import {AdminGuard} from './admin-guard.service';
 import {AuthErrorPopupComponent} from './shared/auth/auth-error-popup/auth-error-popup.component';
 import { SubjectService } from './admin/subjects/services/subject.service';
+import {TestService} from './admin/subjects/tests/test.service';
+import { GroupsService } from './admin/groups/groups.service';
+import TableService from './admin/timetable/timetable.service';
 import {
     MatAutocompleteModule,
     MatButtonModule,
@@ -66,12 +71,12 @@ import { ResponseMessageComponent } from './shared/response-message/response-mes
 import { FacultiesAddComponent } from './admin/faculties/faculties-add/faculties-add.component';
 import { FacultiesUpdateComponent } from './admin/faculties/faculties-update/faculties-update.component';
 import { FacultiesDeleteComponent } from './admin/faculties/faculties-delete/faculties-delete.component';
-import { EditSubjectComponent } from './admin/subjects/edit-subject/edit-subject.component';
-import { AddSubjectComponent } from './admin/subjects/add-subject/add-subject.component';
-import { TimeTableModal } from "./admin/timetable/timetable-modal/timetable-modal.component";
+import { TimeTableModal } from './admin/timetable/timetable-modal/timetable-modal.component';
 import { TimetableDeleteConfirmComponent } from './admin/timetable/timetable-delete-confirm/timetable-delete-confirm.component';
-
-
+import {TestsComponent} from './admin/subjects/tests/tests.component';
+import { EditComponent } from './admin/subjects/tests/edit/edit.component';
+import { AddComponent } from './admin/subjects/tests/add/add.component';
+import { DialogComponent } from './admin/groups/dialog/dialog.component';
 @NgModule({
     imports: [
         BrowserModule,
@@ -117,18 +122,23 @@ import { TimetableDeleteConfirmComponent } from './admin/timetable/timetable-del
     ],
     entryComponents: [
         AppComponent,
+        AddSubjectComponent,
+        EditSubjectComponent,
+        AuthErrorPopupComponent,
+        TimeTableModal,
         StudentRegistrationFormComponent,
         StudentEditFormComponent,
         StudentDeleteConfirmComponent,
-        AddSubjectComponent,
-        EditSubjectComponent,
         AuthErrorPopupComponent,
         ResponseMessageComponent,
         TimeTableModal,
         TimetableDeleteConfirmComponent,
         FacultiesAddComponent,
         FacultiesUpdateComponent,
-        FacultiesDeleteComponent
+        FacultiesDeleteComponent,
+        EditComponent,
+        AddComponent,
+        DialogComponent
     ],
     declarations: [
         AppComponent,
@@ -149,14 +159,19 @@ import { TimetableDeleteConfirmComponent } from './admin/timetable/timetable-del
         TimeTableModal,
         AuthErrorPopupComponent,
         TimetableDeleteConfirmComponent,
+        DialogComponent,
+        TimeTableModal,
+        AuthErrorPopupComponent,
         StudentEditFormComponent,
         StudentDeleteConfirmComponent,
         FacultiesAddComponent,
         FacultiesUpdateComponent,
         FacultiesDeleteComponent,
-        AddSubjectComponent,
         AuthErrorPopupComponent,
-        ResponseMessageComponent
+        ResponseMessageComponent,
+        TestsComponent,
+        EditComponent,
+        AddComponent
     ],
     bootstrap: [AppComponent],
     providers: [
@@ -165,8 +180,12 @@ import { TimetableDeleteConfirmComponent } from './admin/timetable/timetable-del
         SubjectService,
         AdminGuard,
         StudentGuard,
-        FacultiesService
+        FacultiesService,
+        TableService,
+        TestService, 
+        GroupsService
     ]
 })
+
 export class AppModule {}
 

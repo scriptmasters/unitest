@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter, Inject, ViewEncapsulation } from '@angular/core';
-import { FormGroup, FormControl, Validators } from '@angular/forms'
+import { FormGroup, FormControl, Validators } from '@angular/forms';
 
 import { StudentsService } from '../students.service';
 import { StudentAdd, StudentGet, IUser, GroupNameByID } from '../students-interface';
@@ -74,7 +74,7 @@ export class StudentEditFormComponent implements OnInit {
           this.faculties = value;
           this.service.getAvailableGroups(this.studentFaculty.faculty_id).subscribe(values => {
             this.groups = values;
-          })
+          });
         });
       });
     });
@@ -141,7 +141,7 @@ export class StudentEditFormComponent implements OnInit {
           group_name: '---',
           speciality_id: 'none',
           faculty_id: 'none'
-        }]
+        }];
       }
     });
   }
@@ -161,7 +161,7 @@ export class StudentEditFormComponent implements OnInit {
     if (control.value === '---' || control.value === undefined) {
       return {
         'group': true
-      }
+      };
     }
   }
   //Рендеримо фотку в base64 код перед відправкою на сервер

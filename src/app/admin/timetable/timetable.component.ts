@@ -1,7 +1,7 @@
 import { Component, OnInit, Inject } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from "@angular/material";
-import TableService, { Subject, Group, TimeEntity } from "./timetable.service";
+import TableService, {Subject, Group, TimeEntity } from "./timetable.service";
 import {
   FormControl,
   FormGroup,
@@ -72,7 +72,11 @@ export class TimetableComponent implements OnInit {
 
       // If not records found
       if (!Array.isArray(data)) {
-        return (this.table = []);
+        return (this.table = [], this.dialog.open(ResponseMessageComponent, {
+            width: '400px',
+            data: {
+              message: 'За даним запитом розкладу не знайдено '
+            }}));
       }
 
       this.table = data.map((timeEntity: TimeEntity): TimeEntityTable => {
@@ -110,7 +114,8 @@ export class TimetableComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe((response: string) => {
-      if (response === "ok") {
+      if(response){
+        if (response === "ok") {
         this.tableService.deleteTableItem(timeEntity.timetable_id).subscribe(
           response => {
             this.table.splice(this.table.indexOf(timeEntity), 1);
@@ -133,6 +138,7 @@ export class TimetableComponent implements OnInit {
         );
       } else {
         alert("Відмінено");
+      }
       }
     });
   }

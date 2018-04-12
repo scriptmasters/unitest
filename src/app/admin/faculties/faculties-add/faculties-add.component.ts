@@ -31,7 +31,7 @@ export class FacultiesAddComponent implements OnInit {
         Validators.minLength(5),
         Validators.maxLength(100)])
     });
-    };
+    }
 
 
 

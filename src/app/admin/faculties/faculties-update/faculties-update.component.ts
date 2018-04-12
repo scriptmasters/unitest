@@ -55,7 +55,7 @@ import {Faculties} from '../facultiesInterface';
          if (faculty) {
            return this.matDialogRef.close();
          }
-      })
+      });
   }
 
   closeDialog(): void {
