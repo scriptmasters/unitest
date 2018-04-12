@@ -58,14 +58,14 @@ export class SpecialitiesComponent implements OnInit {
         this.dialog.open(ResponseMessageComponent, {
           width: '400px',
           data: {
-            message: 'Профіль цього студента було успішно додано!'
+            message: 'Cпеціальність було успішно додано!'
           }
         });
       } else if  ((response =='error')) {
         this.dialog.open(ResponseMessageComponent, {
           width: '400px',
           data: {
-            message: 'Виникла помилка при додаванні цього студента!'
+            message: 'Виникла помилка при додаванні спеціальності!'
           }
         });
       }

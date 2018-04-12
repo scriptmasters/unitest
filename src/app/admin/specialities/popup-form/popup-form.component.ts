@@ -20,8 +20,9 @@ export class PopupFormComponent implements OnInit {
   popupValue: any;
   specialityUpdate = this.speciality.speciality;
   constructor(
-    @Inject(MAT_DIALOG_DATA)
+    
     private matDialogRef: MatDialogRef<PopupFormComponent>, 
+    @Inject(MAT_DIALOG_DATA)
     private http: HttpClient,
     private speciality: SpecialityService) { }
 
