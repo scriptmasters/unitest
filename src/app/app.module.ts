@@ -22,11 +22,6 @@ import { TestDetailsService } from './admin/testdetails/sevices/test-details.ser
 import { TestDetailsComponent } from './admin/testdetails/component/test-details.component'; // Maryan
 import { TestDetailCreateComponent } from './admin/testdetails/modals/test-detail-create/test-detail-create.component'; // Maryan
 import { QuestionsService } from './admin/questions/questions.service';
-
-
-
-
-
 import {
     MatAutocompleteModule,
     MatButtonModule,
@@ -70,6 +65,8 @@ import { StudentComponent } from './student/student.component';
 import { StatisticComponent } from './admin/statistic/statistic.component';
 import { FacultiesComponent } from './admin/faculties/faculties.component';
 import { SubjectsComponent } from './admin/subjects/subjects.component';
+import { AddSubjectComponent } from './admin/subjects/add-subject/add-subject.component';
+import { EditSubjectComponent } from './admin/subjects/edit-subject/edit-subject.component';
 import { SpecialitiesComponent } from './admin/specialities/specialities.component';
 import { AdministratorsComponent } from './admin/administrators/administrators.component';
 import { StudentRegistrationFormComponent } from './admin/students/student-registration-form/student-registration-form.component';
@@ -133,12 +130,11 @@ import { AddQuestionComponent } from './admin/questions/add-question/add-questio
         MatTableModule,
         MatTabsModule,
         MatToolbarModule,
-        MatTooltipModule
+        MatTooltipModule,
+        NgxPaginationModule
     ],
     entryComponents: [
         AppComponent,
-        AddSubjectComponent,
-        EditSubjectComponent,
         AuthErrorPopupComponent,
         TimeTableModal,
         StudentRegistrationFormComponent,
