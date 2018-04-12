@@ -13,7 +13,7 @@ import {AdminGuard} from './admin-guard.service';
 import {AuthErrorPopupComponent} from './shared/auth/auth-error-popup/auth-error-popup.component';
 import { SubjectService } from './admin/subjects/services/subject.service';
 import {TestService} from './admin/subjects/tests/test.service';
-
+import {NgxPaginationModule} from 'ngx-pagination';
 import {
     MatAutocompleteModule,
     MatButtonModule,
@@ -116,7 +116,8 @@ import { AddComponent } from './admin/subjects/tests/add/add.component';
         MatTableModule,
         MatTabsModule,
         MatToolbarModule,
-        MatTooltipModule
+        MatTooltipModule,
+        NgxPaginationModule
     ],
     entryComponents: [
         AppComponent,

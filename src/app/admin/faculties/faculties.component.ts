@@ -7,6 +7,8 @@ import { FacultiesUpdateComponent } from './faculties-update/faculties-update.co
 import { FacultiesDeleteComponent } from './faculties-delete/faculties-delete.component';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ResponseMessageComponent } from '../../shared/response-message/response-message.component';
+import {PaginationInstance} from 'ngx-pagination';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-faculties',
@@ -18,7 +20,12 @@ export class FacultiesComponent implements OnInit {
   faculties: Faculties[];
   form: FormGroup;
 
- constructor(private facultiesService: FacultiesService, public dialog: MatDialog) { }
+  public config: PaginationInstance = {
+     itemsPerPage: 5,
+     currentPage: 1
+  };
+  
+ constructor(private facultiesService: FacultiesService, public dialog: MatDialog, private router: Router) { }
   
    ngOnInit() {
       this.getAllFaculties();
@@ -31,13 +38,16 @@ export class FacultiesComponent implements OnInit {
     })
    };
 
+    getGroups(id): void {
+    this.router.navigate(['admin/groups'], { queryParams: { facultyId: id} });
+  }
 
   // Модальне вікно додавання
   openAddModal() {
     let dialogRef =this.dialog.open(FacultiesAddComponent, {
         width: '400px'
     });
-    dialogRef.afterClosed().subscribe(()=> {
+    dialogRef.afterClosed().subscribe((Response: string)=> {
           this.getAllFaculties();
         });
   }
