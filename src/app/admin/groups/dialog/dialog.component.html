@@ -1,30 +1,45 @@
 <div class="header-container">
-  <h2 mat-dialog-title>Додати групу <i  class="fa fa-times close"  aria-hidden="true" (click)="close()"></i></h2>  
+  <h2 mat-dialog-title>Додати групу
+    <i class="fa fa-times close" aria-hidden="true" (click)="handleClose()"></i>
+  </h2>
 </div>
+<form class="form-group" novalidate [formGroup]="myForm"  >
+  <mat-dialog-content class="row">
 
-<mat-dialog-content>
+    <div class="form-group ">
+      <label>Факультет</label>
+      <select name="faculty" class="form-control col-md-12" [(ngModel)]="faculty" formControlName="facultyValid" required>
+        <option value=""  disabled hidden>Факультет</option>
+        <option  *ngFor="let fac of facultiesArr" [selected]="fac.faculty_name === data.faculty">{{fac.faculty_name}}</option>
+      </select>
+    </div>
 
-  
-    <mat-form-field>
-      <mat-select placeholder="Факультет" [(ngModel)]="faculty" required>
-        <mat-option value="{{fac.faculty_id}}" *ngFor="let fac of facultiesArr" >{{fac.faculty_name}}</mat-option>
-      </mat-select>
-    </mat-form-field>
+    <div class="form-group ">
+      <label>Спеціальність</label>
+      <select name="speciality" class="form-control col-md-12" [(ngModel)]="speciality" formControlName="specialityValid" required>
+        <option value=""  disabled hidden>Спеціальність</option>
+        <option *ngFor="let spec of specialitiesArr" [selected]="spec.speciality_name === data.speciality">{{spec.speciality_name}}</option>
+      </select>
+    </div>
 
-    <mat-form-field>
-      <mat-select placeholder="Спеціальність" [(ngModel)]="speciality" required>
-          <mat-option value="{{spec.speciality_id}}" *ngFor="let spec of specialitiesArr">{{spec.speciality_name}}</mat-option>
-      </mat-select>
-    </mat-form-field>
+    <div class="form-group">
+      <label for="groupNameInp">Назвагрупи</label>
+      <input placeholder="Назва групи" class="form-control" [(ngModel)]="group" id="groupNameInp" formControlName="groupValid" [ngClass]="{
+        'validInp': groupValid.valid && (groupValid.dirty || groupValid.touched),
+        'invalidInp': groupValid.invalid && (groupValid.dirty || groupValid.touched)
+       }" required value="data.group">
 
-    <mat-form-field>
-      <input matInput placeholder="Назва групи" [(ngModel)]="group" required>
-    </mat-form-field>
-  
+      <div class="invalidMessage" *ngIf="groupValid.errors && (groupValid.dirty || groupValid.touched)">
+        <p *ngIf="groupValid.errors['required']">Це поле є обовязковим</p>
+        <p *ngIf="groupValid.errors['pattern']">Це поле повинне бути формату АА-00-0 або ААА-00-0</p>
+      </div>
+    </div>
+  </mat-dialog-content>
 
-</mat-dialog-content>
+  <mat-dialog-actions>
+    <input type="submit" class="btn btn-success" mat-button (click)="close({faculty: this.faculty, speciality: this.speciality, group: this.group})"
+      value="Готово" [disabled]="!myForm.valid">
+    <input type="button" class="btn btn-success" value="Очистити" (click)="resetModal()">
+  </mat-dialog-actions>
 
-<mat-dialog-actions >
-  <button class="btn btn-success" mat-button (click)="close({faculty: this.faculty, speciality: this.speciality, group: this.group})">Готово</button>
-  <button class="btn btn-success" mat-button [mat-dialog-close]="true">Відмінити</button>
-</mat-dialog-actions>
+</form>

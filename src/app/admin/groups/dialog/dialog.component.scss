@@ -23,3 +23,14 @@ header-container{
 .close[_ngcontent-c7]{
     border: 1px solid white;
 }
+.invalidMessage {
+    color: #ff0000;
+    background-color: #ffd2c7;
+  }
+.invalidInp{
+    color: #ff0000;
+    border-color: #ff0000;
+  }
+.validInp{
+    border-color: green;
+  }

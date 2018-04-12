@@ -40,15 +40,10 @@ export class GroupsComponent implements OnInit {
         arrFaculty.push(groupData[i].faculty_id);
         arrSpeciality.push(groupData[i].speciality_id);
       }
-      console.log(groupData);
-
-      let facultyBody = ({ entity: "Faculty", ids: arrFaculty });
-      this.groupsService._getFacultysByEntityManager(facultyBody).subscribe(facultyData => {
+      this.groupsService._getFaculties().subscribe(facultyData=>{
         this.faculties = facultyData;
-        console.log(facultyData);
 
-        let specialityBody = ({ entity: "Speciality", ids: arrSpeciality });
-        this.groupsService._getSpecialitiesByEntityManager(specialityBody).subscribe(specialityData => {
+        this.groupsService._getSpecialities().subscribe(specialityData=>{
           this.specialities = specialityData;
 
           for (let i = 0; i < this.groups.length; i++) {
@@ -74,17 +69,14 @@ export class GroupsComponent implements OnInit {
             }
           }
           this.makeUnique();
-          console.log("TABLE : " + JSON.stringify(this.table));
-
-        });
-      });
+        })
+      })
     });
   }
 
   // DELETE GROUP 
   delGroup(id) {
     this.groupsService._delGroup(id).subscribe(response => {
-      console.log("RESPONSE = " + JSON.stringify(response));
       if (response.response === "ok") {
         for (let i = 0; i < this.table.length; i++) {
           if (this.table[i].group_id === id) {
@@ -95,28 +87,6 @@ export class GroupsComponent implements OnInit {
     });
   }
 
-  // EDIT GROUP
-  editGroup(groupData) {
-    let tempFaculty;
-    let tempSpeciality;
-    this.groupsService._editGroup(groupData).subscribe(response => {
-
-      this.groupsService._getFaculty(response[0].faculty_id).subscribe(facResponse => {
-        tempFaculty = facResponse[0].faculty_name;
-        this.groupsService._getSpeciality(response[0].speciality_id).subscribe(specResponse => {
-          tempSpeciality = specResponse[0].speciality_name;
-
-          for (let table of this.table) {
-            if (table.group_id == groupData.group_id) {
-              table.group = groupData.group_name;
-              table.faculty = tempFaculty;
-              table.speciality = tempSpeciality;
-            }
-          }
-        })
-      })
-    })
-  }
 
   // ************* DIALOG *****************
   addedGroup: AddGroup;
@@ -125,17 +95,17 @@ export class GroupsComponent implements OnInit {
     const dialogConfig = new MatDialogConfig();
 
     dialogConfig.disableClose = true;
-    dialogConfig.autoFocus = true;
     if (groupLine) {
-      dialogConfig.data = {
+        dialogConfig.data = {
         group_id: groupLine.group_id,
         group: groupLine.group,
         faculty: groupLine.faculty,
         speciality: groupLine.speciality
       }
-    } else if (!groupLine) {
+    }
+     else if (!groupLine) {
       dialogConfig.data = {
-        group_id: 0
+        group_id: null
       }
     }
 
@@ -153,34 +123,86 @@ export class GroupsComponent implements OnInit {
 
   // GET DATA FROM DIALOG, SEND (POST) TO SERVER WITH NEW DATA, GET RESPONSE, AND PUSH DATA TO TABLE.
   addGroup(groupData) {
-    this.groupsService._addGroup(groupData).subscribe(response => {
+    let tempFacultyId;
+    let tempSpecialityId;
+    let addGroupData: AddGroup;
+    console.log(groupData);
+
+    for (let faculty of this.faculties) {
+      if (groupData.faculty === faculty.faculty_name) {
+        tempFacultyId = faculty.faculty_id;
+        break;
+      }
+    }
+    for (let speciality of this.specialities) {
+      if (groupData.speciality === speciality.speciality_name) {
+        tempSpecialityId = speciality.speciality_id;
+        break;
+      }
+    }
+   
+    addGroupData = {
+      group_name: groupData.group_name,
+      speciality_id: tempSpecialityId,
+      faculty_id: tempFacultyId,
+    }
+
+    this.groupsService._addGroup(addGroupData).subscribe(response => {
+
       if (response[0].group_name == groupData.group_name) {
-
-        let tempFaculty;
-        let tempSpeciality;
-
-        for (let faculty of this.faculties) {
-          if (response[0].faculty_id === faculty.faculty_id) {
-            tempFaculty = faculty.faculty_name;
-            break;
-          }
-        }
-        for (let speciality of this.specialities) {
-          if (response[0].speciality_id === speciality.speciality_id) {
-            tempSpeciality = speciality.speciality_name;
-            break;
-          }
-        }
         this.table.push({
           group_id: parseInt(response[0].group_id),
           group: response[0].group_name,
-          faculty: tempFaculty,
-          speciality: tempSpeciality
+          faculty:groupData.faculty,
+          speciality: groupData.speciality
         })
       }
     })
   }
 
+   // EDIT GROUP
+   editGroup(groupData) {
+    let tempFaculty;
+    let tempSpeciality;
+    let tempFacultyId;
+    let tempSpecialityId;
+    let editGroupData: AddGroup;
+    for (let faculty of this.faculties) {
+      if (groupData.faculty === faculty.faculty_name) {
+        tempFacultyId = faculty.faculty_id;
+        break;
+      }
+    }
+    for (let speciality of this.specialities) {
+      if (groupData.speciality === speciality.speciality_name) {
+        tempSpecialityId = speciality.speciality_id;
+        break;
+      }
+    }
+    editGroupData = {
+      group_id: groupData.group_id,
+      group_name: groupData.group_name,
+      speciality_id: tempSpecialityId,
+      faculty_id: tempFacultyId,
+    }
+    this.groupsService._editGroup(editGroupData).subscribe(response => {
+
+      this.groupsService._getFaculty(response[0].faculty_id).subscribe(facResponse => {
+        tempFaculty = facResponse[0].faculty_name;
+        this.groupsService._getSpeciality(response[0].speciality_id).subscribe(specResponse => {
+          tempSpeciality = specResponse[0].speciality_name;
+          
+          for (let table of this.table) {
+            if (table.group_id == groupData.group_id) {
+              table.group = groupData.group_name;
+              table.faculty = tempFaculty;
+              table.speciality = tempSpeciality;
+            }
+          }
+        })
+      })
+    })
+  }
 
 
   ngOnInit() {
