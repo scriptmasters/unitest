@@ -13,8 +13,8 @@ import { AdministratorsComponent } from './admin/administrators/administrators.c
 import { StudentsComponent } from './admin/students/students.component';
 import { GroupsComponent } from './admin/groups/groups.component';
 import { TimetableComponent } from './admin/timetable/timetable.component';
-import { TestComponent } from './admin/test/component/test.component'; // added
-import { TestDetailsComponent } from './admin/testdetails/component/test-details.component'; // added
+import { TestComponent } from './admin/test/component/test.component'; // Maryan
+import { TestDetailsComponent } from './admin/testdetails/component/test-details.component'; // Maryan
 
 
 const routes: Routes = [
@@ -58,11 +58,11 @@ const routes: Routes = [
         component: TimetableComponent
       },
       {
-        path: 'tests',                     // reworking 05.04
+        path: 'tests',                     // Maryan
         component: TestComponent
       },
       {
-        path: 'tests/details/:id',        // reworking 05.04
+        path: 'tests/details/:id',        // Maryan
         component: TestDetailsComponent
       }
     ]
