@@ -22,7 +22,6 @@ export class TestDetailsComponent implements OnInit {
 
   ngOnInit() {
     this.testId = parseInt(this.route.snapshot.paramMap.get('id'), 10);
-    this.getTestDetails();
 
     this.route.queryParams.subscribe(params => {
       this.testId = params['id'];
@@ -31,7 +30,7 @@ export class TestDetailsComponent implements OnInit {
 
   }
 
-  openDialog(testDetails: any) {
+  openDialog(testDetails: any[]) {
     const dialogRef = this.dialog.open(TestDetailCreateComponent, {
       width: '700px',
       data: testDetails
