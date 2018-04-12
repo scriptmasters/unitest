@@ -155,9 +155,9 @@ import { AddQuestionComponent } from './admin/questions/add-question/add-questio
         AddComponent,
         DialogComponent,
         TestDetailCreateComponent, // Maryan
-        AddQuestionComponent, 
+        AddQuestionComponent,
         EditQuestionComponent
-        
+
     ],
     declarations: [
         AppComponent,
@@ -211,7 +211,7 @@ import { AddQuestionComponent } from './admin/questions/add-question/add-questio
         GroupsService,
         TestDetailsService, // Maryan
         QuestionsService
-        
+
     ]
 })
 
