@@ -43,7 +43,7 @@ const routes: Routes = [
             component: StudentsComponent
           },
           {
-            path: 'students/:id',
+            path: 'students/byGroup/:id',
             component: StudentsComponent
           },
           {
