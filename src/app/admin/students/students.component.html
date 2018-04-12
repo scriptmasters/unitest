@@ -21,8 +21,8 @@
                   </tr>
                 </thead>
                 <tbody>
-                  <tr *ngFor="let student of students; let i = index">
-                    <th>{{i+1}}</th>
+                  <tr *ngFor="let student of students | paginate: { itemsPerPage: config.itemsPerPage, currentPage: page}; let i = index">
+                    <th>{{(config.currentPage - 1) * config.itemsPerPage + i +1}}</th>
                     <td>
                       <span>{{student.student_surname}}</span>
                       <span>{{student.student_name}}</span>
@@ -39,6 +39,7 @@
             </div>
           </div>
         </div>
+        <pagination-controls (pageChange)="page=$event" autoHide="true"></pagination-controls>
       </div>
     </div>
   </div>

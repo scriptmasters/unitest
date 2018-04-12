@@ -8,6 +8,7 @@ import { StudentEditFormComponent } from './student-edit-form/student-edit-form.
 import { StudentDeleteConfirmComponent } from './student-delete-confirm/student-delete-confirm.component';
 import { ResponseMessageComponent } from '../../shared/response-message/response-message.component';
 import { MatDialog } from '@angular/material';
+import { PaginationInstance } from 'ngx-pagination';
 
 @Component({
   selector: 'app-students',
@@ -19,6 +20,11 @@ export class StudentsComponent implements OnInit {
 
   title: string = 'Студенти';
   students: Student[] = [];
+  //Для пагінації
+  public config: PaginationInstance = {
+    itemsPerPage: 5,
+    currentPage: 1
+  };
 
   constructor(private service: StudentsService, private dialog: MatDialog) { }
 
