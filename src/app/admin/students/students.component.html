@@ -17,8 +17,7 @@
                     <th>ПІБ</th>
                     <th>№ залікової книжки</th>
                     <th>Група</th>
-                    <th></th>
-                    <th></th>
+                    <th class="table-colspan" colspan="2">Керування</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -31,8 +30,9 @@
                     </td>
                     <th>{{student.gradebook_id}}</th>
                     <th>{{student.group}}</th>
-                    <td><i class="fa fa-cog" (click)="showEditForm(student)"></i></td>
-                    <td><i class="fa fa-close" (click)="handleDelete(student.user_id)"></i></td>
+                    <td><i class="fa fa-address-card" aria-hidden="true" title="Детальна інформація" (click)="showAdvancedInfo(student)"></i></td>
+                    <td><i class="fa fa-cog" (click)="showEditForm(student)" title="Редагувати"></i></td>
+                    <td><i class="fa fa-close" (click)="handleDelete(student.user_id)" title="Видалити"></i></td>
                   </tr>
                 </tbody>
               </table>

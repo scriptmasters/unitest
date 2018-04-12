@@ -28,7 +28,9 @@ export class StudentsComponent implements OnInit {
   }
   // Відкриває діалогове вікно
   showRegForm(): void {
-    let dialogRef = this.dialog.open(StudentRegistrationFormComponent);
+    let dialogRef = this.dialog.open(StudentRegistrationFormComponent, {
+      width: '600px'
+    });
     dialogRef.afterClosed().subscribe((Response: string) => {
       if (Response) {
         if (Response === 'ok') {
@@ -52,7 +54,13 @@ export class StudentsComponent implements OnInit {
   }
   //Редагування студента
   showEditForm(user: Student): void {
-    let dialogRef = this.dialog.open(StudentEditFormComponent, {data: {student: user}});
+    let dialogRef = this.dialog.open(StudentEditFormComponent, {
+      width: '600px',
+      data: {
+        editing: true,
+        student: user
+      }
+    });
     dialogRef.afterClosed().subscribe((Response: string) => {
       if (Response) {
         if (Response === 'ok') {
@@ -71,6 +79,16 @@ export class StudentsComponent implements OnInit {
             }
           })
         }
+      }
+    });
+  }
+  //Розширена інформація про студента
+  showAdvancedInfo(user: Student): void {
+    this.dialog.open(StudentEditFormComponent, {
+      width: '600px',
+      data: {
+        editing: false,
+        student: user
       }
     });
   }
