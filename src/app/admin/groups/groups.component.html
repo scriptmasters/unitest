@@ -36,7 +36,7 @@
                   <th></th>
                 </thead>
                 <tbody>
-                  <tr *ngFor="let tab of table; let i = index;">
+                  <tr *ngFor="let tab of table | paginate: { itemsPerPage: 10, currentPage: p}; let i = index; ">
                     <th>{{(i+1)}}</th>
                     <td>{{tab.group}}</td>
                     <td>{{tab.faculty}}</td>
@@ -55,4 +55,5 @@
       </div>
     </div>
   </div>
+  <pagination-controls (pageChange)="p = $event"></pagination-controls>
 </section>
