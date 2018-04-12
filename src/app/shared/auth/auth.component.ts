@@ -5,6 +5,7 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {MatDialog} from '@angular/material';
 import {AuthErrorPopupComponent} from './auth-error-popup/auth-error-popup.component';
 import {MatSnackBar} from '@angular/material';
+import {Ilogin, IisLogged} from '../Interfaces/server_response';
 
 
 @Component({
@@ -31,13 +32,13 @@ export class AuthComponent implements OnInit {
         this.createForm();
     }
 
-    openDialog(): void {
+    openDialog() {
         const dialogRef = this.dialog.open(AuthErrorPopupComponent, {
             width: '500px',
             data: {user: this.user, returnUrl: this.returnUrl}
         });
 
-        dialogRef.afterClosed().subscribe(result => {
+        dialogRef.afterClosed().subscribe((result: string) => {
 
             if (result === 'student') {
                 this.router.navigate(['/student']);
@@ -49,17 +50,17 @@ export class AuthComponent implements OnInit {
             });
     }
 
-    createForm() {
+    createForm(): void {
         this.loginForm = this.formBuilder.group({
             username: ['', Validators.required],
             password: ['', Validators.compose([Validators.required, Validators.minLength(8)])]
         });
     }
 
-    submit() {
+    submit(): void {
         if (!this.loginForm.invalid) {
             this.authService.login(this.loginForm.value)
-                .subscribe((data: any) => {
+                .subscribe((data: Ilogin) => {
                     switch (data.roles[1]) {
                         case 'admin' :
                             if (this.rgxpAdmin.test(this.returnUrl)) {
@@ -87,7 +88,7 @@ export class AuthComponent implements OnInit {
             .subscribe(params => {
                 this.returnUrl = params['return'];
                 if (params['return']) {
-                    this.authService.isLogged().subscribe((result: any) => {
+                    this.authService.isLogged().subscribe((result: IisLogged) => {
                         if (result.response === 'non logged') {
                                     this.snackBar.open('You are not logged in', 'OK', {
                                     duration: 2000, panelClass: 'snackbar'

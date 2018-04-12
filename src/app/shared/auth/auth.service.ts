@@ -2,6 +2,7 @@ import {Injectable} from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { HttpHeaders } from '@angular/common/http';
 import {Router} from '@angular/router';
+import {Observable} from 'rxjs/Observable';
 
 @Injectable()
 export class AuthService {
@@ -17,7 +18,7 @@ export class AuthService {
 
     constructor(private http: HttpClient, private router: Router) {}
 
-    login(authData) {
+    login(authData): Observable<Object> {
         return this.http.post(this.authLoginUrl, authData, this.httpOptions);
     }
 
@@ -28,7 +29,7 @@ export class AuthService {
             });
     }
 
-    isLogged() {
+    isLogged(): Observable<Object> {
             return this.http.get(this.isLoggedUrl);
     }
 }
