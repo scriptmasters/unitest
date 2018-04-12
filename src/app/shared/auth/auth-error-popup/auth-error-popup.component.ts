@@ -1,7 +1,5 @@
 import {Component, Inject} from '@angular/core';
-import {MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
-
-
+import {MAT_DIALOG_DATA} from '@angular/material';
 
 @Component({
     selector: 'app-auth-error-popup.component',
@@ -10,12 +8,6 @@ import {MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
 })
 export class AuthErrorPopupComponent {
 
-    constructor(
-        public dialogRef: MatDialogRef<AuthErrorPopupComponent>,
-        @Inject(MAT_DIALOG_DATA) public data: any) { }
-
-    onNoClick(): void {
-        this.dialogRef.close();
-    }
+    constructor( @Inject(MAT_DIALOG_DATA) public data: object ) { }
 
 }

@@ -13,6 +13,9 @@ import { AdministratorsComponent } from './admin/administrators/administrators.c
 import { StudentsComponent } from './admin/students/students.component';
 import { GroupsComponent } from './admin/groups/groups.component';
 import { TimetableComponent } from './admin/timetable/timetable.component';
+import { patch } from 'webdriver-js-extender';
+import { TestsComponent } from './admin/subjects/tests/tests.component';
+
 
 const routes: Routes = [
     { path: '', redirectTo: '/admin', pathMatch: 'full' },
@@ -53,6 +56,10 @@ const routes: Routes = [
           {
             path: 'timetable',
             component: TimetableComponent
+          },
+          {
+            path: 'tests',
+            component: TestsComponent
           }
         ]
 
@@ -65,5 +72,4 @@ const routes: Routes = [
     imports: [ RouterModule.forRoot(routes) ],
     exports: [ RouterModule ]
 })
-
-export class AppRoutingModule { }
+export class AppRoutingModule {}

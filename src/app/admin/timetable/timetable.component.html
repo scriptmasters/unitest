@@ -5,7 +5,7 @@
     </header>
     <div class="row justify-content-end">
         <div class="col-lg-2 pb-3">
-            <button type="submit" class="btn btn-primary">Додати новий параметр</button>
+            <button type="submit" class="btn btn-primary" (click)="openDialog()">Додати новий параметр</button>
         </div>
     </div>
     <div class="row">
@@ -28,73 +28,20 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr *ngFor="let tableItem of table">
-                                <th scope="row">1</th>
+                            <tr *ngFor="let tableItem of table; index as i">
+                                <th scope="row">{{i+1}}</th>
                                 <td>{{tableItem.group_name}}</td>
                                 <td>{{tableItem.subject_name}}</td>
                                 <td>{{tableItem.start_date}}</td>
                                 <td>{{tableItem.start_time}}</td>
                                 <td>{{tableItem.end_date}}</td>
                                 <td>{{tableItem.end_time}}</td>
-                                <td><i class="fa fa-cog"></i></td>
-                                <td><i class="fa fa-close"></i></td>
+                                <td><i class="fa fa-cog" (click)="openDialog(tableItem)"></i></td>
+                                <td><i class="fa fa-close" (click)="onDelete(tableItem)"></i></td>
                             </tr>
                         </tbody>
                     </table>
                 </div>
-            </div>
-        </div>
-    </div>
-    <div class="row">
-        <div class="card col-lg-9">
-            <div class="card-body">
-                <form>
-                    <div class="form-row">
-                        <div class="form-group col-lg-4">
-                            <label>Назва групи</label>
-                            <select name="account" class="form-control col-md-12">
-                          <option>група №</option>
-                          <option>група №</option>
-                          <option>група №</option>
-                          <option>група №</option>
-                        </select>
-                        </div>
-                        <div class="form-group col-lg-8">
-                            <label>Назва предмету</label>
-                            <select name="account" class="form-control col-md-12">
-                          <option>Вища математика</option>
-                          <option>Вища математика</option>
-                          <option>Вища математика</option>
-                          <option>Вища математика</option>
-                        </select>
-                        </div>
-                    </div>
-                    <div class="form-row">
-                        <div class="form-group col-md-6">
-                            <label>Виберіть дату початку</label>
-                            <input type="date" id="date" class="form-control  col-md-12">
-                        </div>
-                        <div class="form-group col-md-6">
-                            <label for="time">Виберіть час початку</label>
-                            <input type="time" id="time" class="form-control  col-md-12">
-                        </div>
-                    </div>
-                    <div class="form-row">
-                        <div class="form-group col-md-6">
-                            <label for="date">Виберіть дату кінця</label>
-                            <input type="date" id="date" class="form-control col-md-12">
-                        </div>
-                        <div class="form-group col-md-6">
-                            <label for="time">Виберіть час кінця</label>
-                            <input type="time" id="time" class="form-control col-md-12">
-                        </div>
-                    </div>
-                    <div class="form-row justify-content-center">
-                        <div class="form-group">
-                            <input type="submit" value="Зареєструвати" class="btn btn-primary">
-                        </div>
-                    </div>
-                </form>
             </div>
         </div>
     </div>

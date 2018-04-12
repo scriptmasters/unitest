@@ -1,0 +1,54 @@
+<form [formGroup]="form" (ngSubmit)="onSubmit()">
+    <div class="form-row justify-content-end">
+        <i class="fa fa-close" (click)="onNoClick()"></i>
+    </div>
+    <div class="form-row">
+        <div class="form-group col-lg-4">
+            <label>Назва групи</label>
+            <select name="account" class="form-control col-md-12" [(ngModel)]="formData.group_id" formControlName="group"> 
+                                <option value="">Виберіть групу</option>
+                                <option *ngFor="let group of data.groups" [value]="group.group_id">{{group.group_name}}</option>
+                            </select>
+            <div *ngIf="form.get('group').invalid && (form.get('group').dirty || form.get('group').touched)" class="alert alert-danger">
+                <div *ngIf="form.get('group').errors.required">Group name is required.</div>
+            </div>
+
+        </div>
+        <div class="form-group col-lg-8">
+            <label>Назва предмету</label>
+            <select name="account" class="form-control col-md-12" [(ngModel)]="formData.subject_id" formControlName="subject" required>
+                                <option value="">Виберіть предмет</option>
+                                <option *ngFor="let subject of data.subjects" [value]="subject.subject_id">{{subject.subject_name}}</option>
+                            </select>
+            <div *ngIf="form.get('subject').invalid && (form.get('subject').dirty || form.get('subject').touched)" class="alert alert-danger">
+                <div *ngIf="form.get('subject').errors.required">Group name is required.</div>
+            </div>
+        </div>
+    </div>
+    <div class="form-row">
+        <div class="form-group col-md-6">
+            <label>Виберіть дату початку</label>
+            <input type="date" id="date" class="form-control col-md-12" [(ngModel)]="formData.start_date" formControlName="startDate">
+        </div>
+        <div class="form-group col-md-6">
+            <label for="time">Виберіть час початку</label>
+            <input type="time" id="time" class="form-control  col-md-12" [(ngModel)]="formData.start_time" formControlName="startTime">
+        </div>
+    </div>
+    <div class="form-row">
+        <div class="form-group col-md-6">
+            <label for="date">Виберіть дату кінця</label>
+            <input type="date" id="date" class="form-control col-md-12" [(ngModel)]="formData.end_date" formControlName="endDate">
+        </div>
+        <div class="form-group col-md-6">
+            <label for="time">Виберіть час кінця</label>
+            <input type="time" id="time" class="form-control col-md-12" [(ngModel)]="formData.end_time" formControlName="endTime">
+        </div>
+    </div>
+    <div class="form-row justify-content-center">
+        <div class="form-group">
+            <input type="submit" [value]="formData.timetable_id ? 'Редагувати' : 'Зареєструвати'" class="btn btn-primary mr-2" [disabled]="!form.valid">
+            <input class="btn btn-danger" type="reset" value="Очистити форму">
+        </div>
+    </div>
+</form>
