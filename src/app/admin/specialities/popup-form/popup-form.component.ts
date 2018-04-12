@@ -19,54 +19,58 @@ export class PopupFormComponent implements OnInit {
   popup: any;
   popupValue: any;
   specialityUpdate = this.speciality.speciality;
-  constructor(private matDialogRef: MatDialogRef<PopupFormComponent>, @Inject(MAT_DIALOG_DATA)
-  private http: HttpClient,
+  constructor(
+    @Inject(MAT_DIALOG_DATA)
+    private matDialogRef: MatDialogRef<PopupFormComponent>, 
+    private http: HttpClient,
     private speciality: SpecialityService) { }
 
   ngOnInit() {
-    console.log(this.popupValue);
-
   }
 
   onSubmit(value: any) {
     if (this.specialityUpdate.speciality_id == '') {
       this.popupValue = value;
       let popupForm = JSON.stringify(this.popupValue)
-      this.speciality.addSpecialities(popupForm).subscribe(response => {
-        this.matDialogRef.close("ok"), 
-        error => this.matDialogRef.close("error");
-        this.speciality.specialitiesObject.push(response.pop());
-      });
-      this.matDialogRef.close();
+      this.speciality.addSpecialities(popupForm).subscribe(
+        response => {
+          this.matDialogRef.close("ok")
+          this.speciality.specialitiesObject.push(response.pop());
+        },
+        error => {
+          this.matDialogRef.close("error");
+        });
     } else {
       let id = this.specialityUpdate.speciality_id;
-      // console.log(this.specialityUpdate);
-      // this.speciality.specialitiesObject.forEach(element => {
-      //   if (element.speciality_id == this.speciality.oldspeciality.speciality_id &&
-      //     element.speciality_name == this.speciality.oldspeciality.speciality_name) {
-      //   }
-      // });
+
       this.popup = value;
-      let popupForm = JSON.stringify(this.popup)
-      this.speciality.editSpecialities(id, popupForm).subscribe(response => {
-        this.matDialogRef.close("ok"), 
-        error => this.matDialogRef.close("error");
-      });
-      this.matDialogRef.close();
+      let popupForm = JSON.stringify(this.popup);
+      this.speciality.editSpecialities(id, popupForm).subscribe(
+        response => {
+          this.matDialogRef.close("ok")
+        },
+        error => {
+          this.revertEditedValue();
+          this.matDialogRef.close("error")
+        });
     }
   }
 
   public close() {
+    this.revertEditedValue();
+    this.matDialogRef.close();
+  }
+
+  private revertEditedValue() {
+    if (!this.speciality.oldspeciality) {
+      return;
+    }
     const id = this.speciality.oldspeciality.speciality_id;
     this.speciality.specialitiesObject.forEach(element => {
       if (element.speciality_id == id) {
         Object.assign(element, this.speciality.oldspeciality);
       }
     });
-
-    this.matDialogRef.close();
   }
-
-
 
 }

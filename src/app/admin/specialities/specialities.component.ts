@@ -38,10 +38,8 @@ export class SpecialitiesComponent implements OnInit {
 
   delete(id) {
     this.speciality.specialitiesObject = this.speciality.specialitiesObject.filter(item => item.speciality_id !== id);
-    return this.http.get(URL + "/Speciality/del/" + id, { withCredentials: true }).subscribe(value => {
+      return this.http.get(URL + "/Speciality/del/" + id, { withCredentials: true }).subscribe(value => {
     })
-
-
   }
 
   getGroups(id): void {
@@ -63,7 +61,7 @@ export class SpecialitiesComponent implements OnInit {
             message: 'Профіль цього студента було успішно додано!'
           }
         });
-      } else if  (!(response =='ok')) {
+      } else if  ((response =='error')) {
         this.dialog.open(ResponseMessageComponent, {
           width: '400px',
           data: {
@@ -92,7 +90,7 @@ export class SpecialitiesComponent implements OnInit {
             message: 'Профіль цього студента було успішно додано!'
           }
         });
-      } else if (!(response =='ok')) {
+      } else if ((response =='error')) {
         this.dialog.open(ResponseMessageComponent, {
           width: '400px',
           data: {
