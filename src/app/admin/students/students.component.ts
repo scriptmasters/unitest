@@ -112,6 +112,8 @@ export class StudentsComponent implements OnInit {
         for (let i = 0; i < data.length; i++) {
           groupsArr.push(data[i].group_id);
         }
+        // Щоб не кидало реквест на сервак, якщо нема студентів в групі
+        if (groupsArr.length < 1) return;
         let body = JSON.stringify({entity: "Group", ids: groupsArr});
         this.service.getEntityValue(body).subscribe(response => {
           // Фільтр для властивостей об'єкта
