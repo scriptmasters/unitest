@@ -7,14 +7,11 @@ import { HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AuthService } from './shared/auth/auth.service';
 import { StudentsService } from './admin/students/students.service';
-import { EditSubjectComponent } from './admin/subjects/edit-subject/edit-subject.component';
-import { AddSubjectComponent } from './admin/subjects/add-subject/add-subject.component';
 import { FacultiesService } from './admin/faculties/faculties.service';
 import { StudentGuard } from './student-guard.service';
 import { AdminGuard } from './admin-guard.service';
 import { AuthErrorPopupComponent } from './shared/auth/auth-error-popup/auth-error-popup.component';
 import { SubjectService } from './admin/subjects/services/subject.service';
-import { NgxPaginationModule } from 'ngx-pagination';
 import { TestService } from './admin/subjects/tests/test.service';
 import { GroupsService } from './admin/groups/groups.service';
 import TableService from './admin/timetable/timetable.service';
@@ -56,6 +53,7 @@ import {
     MatToolbarModule,
     MatTooltipModule,
 } from '@angular/material';
+import { NgxPaginationModule } from 'ngx-pagination';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppComponent } from './app.component';
 import { AuthComponent } from './shared/auth/auth.component';
@@ -71,7 +69,9 @@ import { StudentRegistrationFormComponent } from './admin/students/student-regis
 import { GroupsComponent } from './admin/groups/groups.component';
 import { TimetableComponent } from './admin/timetable/timetable.component';
 import { StudentEditFormComponent } from './admin/students/student-edit-form/student-edit-form.component';
-import { StudentDeleteConfirmComponent } from './admin/students/student-delete-confirm/student-delete-confirm.component';
+import { EditSubjectComponent } from './admin/subjects/edit-subject/edit-subject.component';
+import { AddSubjectComponent } from './admin/subjects/add-subject/add-subject.component';
+import { DeleteConfirmComponent } from './shared/delete-confirm/delete-confirm.component';
 import { ResponseMessageComponent } from './shared/response-message/response-message.component';
 import { FacultiesAddComponent } from './admin/faculties/faculties-add/faculties-add.component';
 import { FacultiesUpdateComponent } from './admin/faculties/faculties-update/faculties-update.component';
@@ -137,7 +137,11 @@ import { AddQuestionComponent } from './admin/questions/add-question/add-questio
         TimeTableModal,
         StudentRegistrationFormComponent,
         StudentEditFormComponent,
-        StudentDeleteConfirmComponent,
+        AddSubjectComponent,
+        EditSubjectComponent,
+        AuthErrorPopupComponent,
+        ResponseMessageComponent,
+        DeleteConfirmComponent,
         AuthErrorPopupComponent,
         ResponseMessageComponent,
         TimeTableModal,
@@ -177,7 +181,10 @@ import { AddQuestionComponent } from './admin/questions/add-question/add-questio
         TimeTableModal,
         AuthErrorPopupComponent,
         StudentEditFormComponent,
-        StudentDeleteConfirmComponent,
+        AddSubjectComponent,
+        AuthErrorPopupComponent,
+        ResponseMessageComponent,
+        DeleteConfirmComponent,
         FacultiesAddComponent,
         FacultiesUpdateComponent,
         FacultiesDeleteComponent,
