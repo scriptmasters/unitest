@@ -44,10 +44,6 @@ const routes: Routes = [
             component: SubjectsComponent
           },
           {
-            path: 'subjects/:id/timetable',
-            component: TimetableComponent
-          },
-          {
             path: 'specialities',
             component: SpecialitiesComponent
           },      {
