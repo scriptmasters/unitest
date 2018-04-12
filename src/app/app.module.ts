@@ -14,12 +14,13 @@ import {AuthErrorPopupComponent} from './shared/auth/auth-error-popup/auth-error
 import { SubjectService } from './admin/subjects/services/subject.service';
 import {TestService} from './admin/subjects/tests/test.service';
 import { GroupsService } from './admin/groups/groups.service';
+import {NgxPaginationModule} from 'ngx-pagination';
 import {
     MatAutocompleteModule,
     MatButtonModule,
     MatButtonToggleModule,
     MatCardModule,
-    MatCheckboxModule,
+    MatCheckboxModule,  
     MatChipsModule,
     MatDatepickerModule,
     MatDialogModule,
@@ -117,7 +118,8 @@ import { DialogComponent } from './admin/groups/dialog/dialog.component';
         MatTableModule,
         MatTabsModule,
         MatToolbarModule,
-        MatTooltipModule
+        MatTooltipModule,
+        NgxPaginationModule
     ],
     entryComponents: [
         AppComponent,

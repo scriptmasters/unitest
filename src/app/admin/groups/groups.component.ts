@@ -35,7 +35,8 @@ export class GroupsComponent implements OnInit {
       this.groups = groupData;
       let arrFaculty = [];
       let arrSpeciality = [];
-
+      console.log("GROUP DATA");
+      console.log(groupData);
       for (let i = 0; i < this.groups.length; i++) {
         arrFaculty.push(groupData[i].faculty_id);
         arrSpeciality.push(groupData[i].speciality_id);
@@ -148,7 +149,8 @@ export class GroupsComponent implements OnInit {
     }
 
     this.groupsService._addGroup(addGroupData).subscribe(response => {
-
+      console.log("RESPONSE");
+      console.log(response);
       if (response[0].group_name == groupData.group_name) {
         this.table.push({
           group_id: parseInt(response[0].group_id),
