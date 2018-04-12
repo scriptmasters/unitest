@@ -15,7 +15,7 @@ import {SubjectService} from './admin/subjects/services/subject.service';
 import {NgxPaginationModule} from 'ngx-pagination';
 import {TestService} from './admin/subjects/tests/test.service';
 import { GroupsService } from './admin/groups/groups.service';
-import {NgxPaginationModule} from 'ngx-pagination';
+
 import {
     MatAutocompleteModule,
     MatButtonModule,
@@ -78,6 +78,8 @@ import {TestsComponent} from './admin/subjects/tests/tests.component';
 import { EditComponent } from './admin/subjects/tests/edit/edit.component';
 import { AddComponent } from './admin/subjects/tests/add/add.component';
 import { DialogComponent } from './admin/groups/dialog/dialog.component';
+import { GroupsDeleteConfirmComponent } from './admin/groups/groups-delete-confirm/groups-delete-confirm.component';
+
 @NgModule({
     imports: [
         BrowserModule,
@@ -141,7 +143,8 @@ import { DialogComponent } from './admin/groups/dialog/dialog.component';
         FacultiesDeleteComponent,
         EditComponent,
         AddComponent,
-        DialogComponent
+        DialogComponent,
+        GroupsDeleteConfirmComponent
     ],
     declarations: [
         AppComponent,
@@ -172,7 +175,9 @@ import { DialogComponent } from './admin/groups/dialog/dialog.component';
         ResponseMessageComponent,
         TestsComponent,
         EditComponent,
-        AddComponent
+        AddComponent,
+        GroupsDeleteConfirmComponent,
+
     ],
     bootstrap: [AppComponent],
     providers: [

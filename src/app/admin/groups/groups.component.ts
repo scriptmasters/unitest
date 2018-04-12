@@ -3,6 +3,9 @@ import { GroupsService } from './groups.service';
 import { Component, OnInit, group, Inject } from '@angular/core';
 import { MatDialog, MatDialogRef, MatDialogConfig, MAT_DIALOG_DATA } from '@angular/material';
 import { Table, Groups, Faculties, Specialities, AddGroup, DelGroup } from './interface';
+import { GroupsDeleteConfirmComponent } from './groups-delete-confirm/groups-delete-confirm.component';
+import { Router }from '@angular/router'
+import { ResponseMessageComponent } from '../../shared/response-message/response-message.component';
 
 @Component({
   selector: 'app-groups',
@@ -28,7 +31,7 @@ export class GroupsComponent implements OnInit {
     this.uniqueSpec = new Set(uniqueSpec);
   }
 
-  constructor(private groupsService: GroupsService, public dialog: MatDialog) { }
+  constructor(private groupsService: GroupsService, public dialog: MatDialog, private router: Router) { }
 
   printOut() {
     this.groupsService._getGroup().subscribe(groupData => {
@@ -41,10 +44,10 @@ export class GroupsComponent implements OnInit {
         arrFaculty.push(groupData[i].faculty_id);
         arrSpeciality.push(groupData[i].speciality_id);
       }
-      this.groupsService._getFaculties().subscribe(facultyData=>{
+      this.groupsService._getFaculties().subscribe(facultyData => {
         this.faculties = facultyData;
 
-        this.groupsService._getSpecialities().subscribe(specialityData=>{
+        this.groupsService._getSpecialities().subscribe(specialityData => {
           this.specialities = specialityData;
 
           for (let i = 0; i < this.groups.length; i++) {
@@ -75,18 +78,6 @@ export class GroupsComponent implements OnInit {
     });
   }
 
-  // DELETE GROUP 
-  delGroup(id) {
-    this.groupsService._delGroup(id).subscribe(response => {
-      if (response.response === "ok") {
-        for (let i = 0; i < this.table.length; i++) {
-          if (this.table[i].group_id === id) {
-            this.table.splice(i, 1);
-          }
-        }
-      }
-    });
-  }
 
 
   // ************* DIALOG *****************
@@ -97,14 +88,14 @@ export class GroupsComponent implements OnInit {
 
     dialogConfig.disableClose = true;
     if (groupLine) {
-        dialogConfig.data = {
+      dialogConfig.data = {
         group_id: groupLine.group_id,
         group: groupLine.group,
         faculty: groupLine.faculty,
         speciality: groupLine.speciality
       }
     }
-     else if (!groupLine) {
+    else if (!groupLine) {
       dialogConfig.data = {
         group_id: null
       }
@@ -120,7 +111,64 @@ export class GroupsComponent implements OnInit {
       }
     });
   }
+
+  responseMessage(){
+    const dialogConfig = new MatDialogConfig();
+    let dialogRef = this.dialog.open(ResponseMessageComponent, dialogConfig);
+  }
+
+  delGroup(id) {
+    let confirm: boolean;
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.disableClose = true;
+
+    let dialogRef = this.dialog.open(GroupsDeleteConfirmComponent, dialogConfig);
+    dialogRef.afterClosed().subscribe(resultDialog => {
+      console.log("RESULT DIALOG: " + resultDialog);
+      console.log("id = " + id);
+      if (resultDialog === true) {
+        this.groupsService._delGroup(id).subscribe(response => {
+          console.log("response : ")
+          console.log(response);
+          if (response.response === "ok") {
+            this.dialog.open(ResponseMessageComponent, {
+              width: '400px',
+              data: {
+                message: 'Профіль цього студента було успішно додано!'
+              }
+            });
+            for (let i = 0; i < this.table.length; i++) {
+              if (this.table[i].group_id === id) {
+                this.table.splice(i, 1);
+              }
+            }
+          }else{
+            this.dialog.open(ResponseMessageComponent, {
+              width: '400px',
+              data: {
+                message: 'Виникла помилка при додаванні цього студента!'
+              }
+            });
+          }
+        });
+      }
+    })
+    return confirm;
+  }
   // ********** END OF DIALOG *************
+
+
+  //  delGroup(id) {
+  //   this.groupsService._delGroup(id).subscribe(response => {
+  //     if (response.response === "ok") {
+  //       for (let i = 0; i < this.table.length; i++) {
+  //         if (this.table[i].group_id === id) {
+  //           this.table.splice(i, 1);
+  //         }
+  //       }
+  //     }
+  //   });
+  // }
 
   // GET DATA FROM DIALOG, SEND (POST) TO SERVER WITH NEW DATA, GET RESPONSE, AND PUSH DATA TO TABLE.
   addGroup(groupData) {
@@ -141,7 +189,7 @@ export class GroupsComponent implements OnInit {
         break;
       }
     }
-   
+
     addGroupData = {
       group_name: groupData.group_name,
       speciality_id: tempSpecialityId,
@@ -155,15 +203,15 @@ export class GroupsComponent implements OnInit {
         this.table.push({
           group_id: parseInt(response[0].group_id),
           group: response[0].group_name,
-          faculty:groupData.faculty,
+          faculty: groupData.faculty,
           speciality: groupData.speciality
         })
       }
     })
   }
 
-   // EDIT GROUP
-   editGroup(groupData) {
+  // EDIT GROUP
+  editGroup(groupData) {
     let tempFaculty;
     let tempSpeciality;
     let tempFacultyId;
@@ -193,7 +241,7 @@ export class GroupsComponent implements OnInit {
         tempFaculty = facResponse[0].faculty_name;
         this.groupsService._getSpeciality(response[0].speciality_id).subscribe(specResponse => {
           tempSpeciality = specResponse[0].speciality_name;
-          
+
           for (let table of this.table) {
             if (table.group_id == groupData.group_id) {
               table.group = groupData.group_name;
@@ -206,7 +254,13 @@ export class GroupsComponent implements OnInit {
     })
   }
 
+  goTimetabel(id):void {
+    this.router.navigate(['admin/timetable'], { queryParams: {groupId: id } });
+  }
 
+  goStudents(id):void {
+    this.router.navigate(['admin/students/' + id]);
+  }
   ngOnInit() {
     this.printOut();
   }
