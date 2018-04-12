@@ -85,7 +85,9 @@ import { DialogComponent } from './admin/groups/dialog/dialog.component';
 import { QuestionsComponent } from './admin/questions/questions.component';
 import { EditQuestionComponent } from './admin/questions/edit-question/edit-question.component';
 import { AddQuestionComponent } from './admin/questions/add-question/add-question.component';
-
+import { StatisticService } from '../app/admin/statistic/statistic.service';
+import { SpecialityService } from '../app/admin/specialities/speciality.service';
+import { PopupFormComponent } from './admin/specialities/popup-form/popup-form.component';
 @NgModule({
     imports: [
         BrowserModule,
@@ -131,6 +133,7 @@ import { AddQuestionComponent } from './admin/questions/add-question/add-questio
         MatTooltipModule,
         NgxPaginationModule
     ],
+
     entryComponents: [
         AppComponent,
         AuthErrorPopupComponent,
@@ -151,11 +154,13 @@ import { AddQuestionComponent } from './admin/questions/add-question/add-questio
         FacultiesDeleteComponent,
         EditComponent,
         AddComponent,
+        PopupFormComponent,
         DialogComponent,
         TestDetailCreateComponent, // Maryan
         AddQuestionComponent,
         EditQuestionComponent
     ],
+
     declarations: [
         AppComponent,
         AuthComponent,
@@ -192,6 +197,7 @@ import { AddQuestionComponent } from './admin/questions/add-question/add-questio
         TestsComponent,
         EditComponent,
         AddComponent,
+        PopupFormComponent,
         TestDetailsComponent, // Maryan
         TestDetailCreateComponent,  // Maryan
         QuestionsComponent,
@@ -208,6 +214,8 @@ import { AddQuestionComponent } from './admin/questions/add-question/add-questio
         FacultiesService,
         TableService,
         TestService,
+        StatisticService,
+        SpecialityService,
         GroupsService,
         TestDetailsService, // Maryan
         QuestionsService
