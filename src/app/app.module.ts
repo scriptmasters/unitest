@@ -63,14 +63,14 @@ import { StudentComponent } from './student/student.component';
 import { StatisticComponent } from './admin/statistic/statistic.component';
 import { FacultiesComponent } from './admin/faculties/faculties.component';
 import { SubjectsComponent } from './admin/subjects/subjects.component';
+import { ModalSubjectComponent } from './admin/subjects/modal-subject/modal-subject.component';
 import { SpecialitiesComponent } from './admin/specialities/specialities.component';
 import { AdministratorsComponent } from './admin/administrators/administrators.component';
 import { StudentRegistrationFormComponent } from './admin/students/student-registration-form/student-registration-form.component';
 import { GroupsComponent } from './admin/groups/groups.component';
 import { TimetableComponent } from './admin/timetable/timetable.component';
 import { StudentEditFormComponent } from './admin/students/student-edit-form/student-edit-form.component';
-import { EditSubjectComponent } from './admin/subjects/edit-subject/edit-subject.component';
-import { AddSubjectComponent } from './admin/subjects/add-subject/add-subject.component';
+import { StudentDeleteConfirmComponent } from './admin/students/student-delete-confirm/student-delete-confirm.component';
 import { DeleteConfirmComponent } from './shared/delete-confirm/delete-confirm.component';
 import { ResponseMessageComponent } from './shared/response-message/response-message.component';
 import { FacultiesAddComponent } from './admin/faculties/faculties-add/faculties-add.component';
@@ -140,8 +140,8 @@ import { PopupFormComponent } from './admin/specialities/popup-form/popup-form.c
         TimeTableModal,
         StudentRegistrationFormComponent,
         StudentEditFormComponent,
-        AddSubjectComponent,
-        EditSubjectComponent,
+        StudentDeleteConfirmComponent,
+        ModalSubjectComponent,
         AuthErrorPopupComponent,
         ResponseMessageComponent,
         DeleteConfirmComponent,
@@ -169,7 +169,7 @@ import { PopupFormComponent } from './admin/specialities/popup-form/popup-form.c
         StatisticComponent,
         FacultiesComponent,
         SubjectsComponent,
-        EditSubjectComponent,
+        ModalSubjectComponent,
         SpecialitiesComponent,
         AdministratorsComponent,
         StudentsComponent,
@@ -177,7 +177,7 @@ import { PopupFormComponent } from './admin/specialities/popup-form/popup-form.c
         TimetableComponent,
         TimeTableModal,
         StudentRegistrationFormComponent,
-        AddSubjectComponent,
+        DialogComponent,
         TimeTableModal,
         AuthErrorPopupComponent,
         TimetableDeleteConfirmComponent,
@@ -185,7 +185,6 @@ import { PopupFormComponent } from './admin/specialities/popup-form/popup-form.c
         TimeTableModal,
         AuthErrorPopupComponent,
         StudentEditFormComponent,
-        AddSubjectComponent,
         AuthErrorPopupComponent,
         ResponseMessageComponent,
         DeleteConfirmComponent,
@@ -214,6 +213,7 @@ import { PopupFormComponent } from './admin/specialities/popup-form/popup-form.c
         FacultiesService,
         TableService,
         TestService,
+        GroupsService,
         StatisticService,
         SpecialityService,
         GroupsService,
