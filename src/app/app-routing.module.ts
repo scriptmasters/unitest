@@ -36,6 +36,10 @@ const routes: Routes = [
             component: StudentsComponent
           },
           {
+            path: 'students/:id',
+            component: StudentsComponent
+          },
+          {
             path: 'faculties',
             component: FacultiesComponent
           },
