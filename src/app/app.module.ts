@@ -15,6 +15,15 @@ import {SubjectService} from './admin/subjects/services/subject.service';
 import {NgxPaginationModule} from 'ngx-pagination';
 import {TestService} from './admin/subjects/tests/test.service';
 import { GroupsService } from './admin/groups/groups.service';
+
+import { TestDetailsService } from './admin/testdetails/sevices/test-details.service'; // Maryan
+import { TestDetailsComponent } from './admin/testdetails/component/test-details.component'; // Maryan
+import { TestDetailCreateComponent } from './admin/testdetails/modals/test-detail-create/test-detail-create.component'; // Maryan
+
+
+
+
+
 import {
     MatAutocompleteModule,
     MatButtonModule,
@@ -139,7 +148,8 @@ import { DialogComponent } from './admin/groups/dialog/dialog.component';
         FacultiesDeleteComponent,
         EditComponent,
         AddComponent,
-        DialogComponent
+        DialogComponent,
+        TestDetailCreateComponent // Maryan
     ],
     declarations: [
         AppComponent,
@@ -170,7 +180,9 @@ import { DialogComponent } from './admin/groups/dialog/dialog.component';
         ResponseMessageComponent,
         TestsComponent,
         EditComponent,
-        AddComponent
+        AddComponent,
+        TestDetailsComponent, // Maryan
+        TestDetailCreateComponent  // Maryan
     ],
     bootstrap: [AppComponent],
     providers: [
@@ -181,8 +193,9 @@ import { DialogComponent } from './admin/groups/dialog/dialog.component';
         StudentGuard,
         FacultiesService,
         TableService,
-        TestService, 
-        GroupsService
+        TestService,
+        GroupsService,
+        TestDetailsService // Maryan
     ]
 })
 

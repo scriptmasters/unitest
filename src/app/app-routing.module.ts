@@ -15,6 +15,7 @@ import { GroupsComponent } from './admin/groups/groups.component';
 import { TimetableComponent } from './admin/timetable/timetable.component';
 import { patch } from 'webdriver-js-extender';
 import { TestsComponent } from './admin/subjects/tests/tests.component';
+import { TestDetailsComponent} from './admin/testdetails/component/test-details.component';
 
 
 const routes: Routes = [
@@ -60,6 +61,10 @@ const routes: Routes = [
           {
             path: 'tests',
             component: TestsComponent
+          },
+          {
+            path: 'testdetails',
+            component: TestDetailsComponent
           }
         ]
 
