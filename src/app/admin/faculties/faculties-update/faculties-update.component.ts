@@ -53,7 +53,7 @@ export class FacultiesUpdateComponent implements OnInit {
          if (faculty) {
            return this.matDialogRef.close();
          }
-      })
+      });
   }
 
   closeDialog(): void {

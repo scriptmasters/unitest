@@ -11,7 +11,7 @@ import { Faculties } from '../facultiesInterface';
 })
 export class FacultiesAddComponent implements OnInit {
 
-	  faculties: Faculties;
+	  faculties: Faculties[];
     form: FormGroup;
 
   constructor(private facultiesService: FacultiesService,
@@ -19,7 +19,6 @@ export class FacultiesAddComponent implements OnInit {
      @Inject(MAT_DIALOG_DATA) public data: any) { }
 
      ngOnInit() {
-
         this.form = new FormGroup({
          'title': new FormControl(null, [
           Validators.required,
@@ -39,7 +38,7 @@ export class FacultiesAddComponent implements OnInit {
   onSubmit() {
     const formData = this.form.value;
     this.facultiesService.addFaculty(formData.title, formData.description)
-      .subscribe((faculty: Faculties) => {
+      .subscribe((faculty: Faculties[]) => {
         if (faculty) { 
           this.matDialogRef.close();
         }

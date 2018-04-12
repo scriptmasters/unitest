@@ -12,6 +12,8 @@ import {StudentGuard} from './student-guard.service';
 import {AdminGuard} from './admin-guard.service';
 import {AuthErrorPopupComponent} from './shared/auth/auth-error-popup/auth-error-popup.component';
 import { SubjectService } from './admin/subjects/services/subject.service';
+import {TestService} from './admin/subjects/tests/test.service';
+
 import {
     MatAutocompleteModule,
     MatButtonModule,
@@ -55,6 +57,8 @@ import { StudentComponent } from './student/student.component';
 import { StatisticComponent } from './admin/statistic/statistic.component';
 import { FacultiesComponent } from './admin/faculties/faculties.component';
 import { SubjectsComponent } from './admin/subjects/subjects.component';
+import { AddSubjectComponent } from './admin/subjects/add-subject/add-subject.component';
+import { EditSubjectComponent } from './admin/subjects/edit-subject/edit-subject.component';
 import { SpecialitiesComponent } from './admin/specialities/specialities.component';
 import { AdministratorsComponent } from './admin/administrators/administrators.component';
 import { StudentRegistrationFormComponent } from './admin/students/student-registration-form/student-registration-form.component';
@@ -66,8 +70,11 @@ import { ResponseMessageComponent } from './shared/response-message/response-mes
 import { FacultiesAddComponent } from './admin/faculties/faculties-add/faculties-add.component';
 import { FacultiesUpdateComponent } from './admin/faculties/faculties-update/faculties-update.component';
 import { FacultiesDeleteComponent } from './admin/faculties/faculties-delete/faculties-delete.component';
-import { EditSubjectComponent } from './admin/subjects/edit-subject/edit-subject.component';
-import { AddSubjectComponent } from './admin/subjects/add-subject/add-subject.component';
+import { TimeTableModal } from './admin/timetable/timetable-modal/timetable-modal.component';
+import TableService from './admin/timetable/timetable.service';
+import {TestsComponent} from './admin/subjects/tests/tests.component';
+import { EditComponent } from './admin/subjects/tests/edit/edit.component';
+import { AddComponent } from './admin/subjects/tests/add/add.component';
 @NgModule({
     imports: [
         BrowserModule,
@@ -113,6 +120,8 @@ import { AddSubjectComponent } from './admin/subjects/add-subject/add-subject.co
     ],
     entryComponents: [
         AppComponent,
+        AuthErrorPopupComponent,
+        TimeTableModal,
         StudentRegistrationFormComponent,
         StudentEditFormComponent,
         StudentDeleteConfirmComponent,
@@ -122,7 +131,9 @@ import { AddSubjectComponent } from './admin/subjects/add-subject/add-subject.co
         ResponseMessageComponent,
         FacultiesAddComponent,
         FacultiesUpdateComponent,
-        FacultiesDeleteComponent
+        FacultiesDeleteComponent,
+        EditComponent,
+        AddComponent
     ],
     declarations: [
         AppComponent,
@@ -139,14 +150,19 @@ import { AddSubjectComponent } from './admin/subjects/add-subject/add-subject.co
         GroupsComponent,
         TimetableComponent,
         StudentRegistrationFormComponent,
+        AddSubjectComponent,
+        TimeTableModal,
+        AuthErrorPopupComponent,
         StudentEditFormComponent,
         StudentDeleteConfirmComponent,
         FacultiesAddComponent,
         FacultiesUpdateComponent,
         FacultiesDeleteComponent,
-        AddSubjectComponent,
         AuthErrorPopupComponent,
-        ResponseMessageComponent
+        ResponseMessageComponent,
+        TestsComponent,
+        EditComponent,
+        AddComponent
     ],
     bootstrap: [AppComponent],
     providers: [
@@ -155,8 +171,11 @@ import { AddSubjectComponent } from './admin/subjects/add-subject/add-subject.co
         SubjectService,
         AdminGuard,
         StudentGuard,
-        FacultiesService
+        FacultiesService,
+        TableService,
+        TestService
     ]
 })
+
 export class AppModule {}
 

@@ -15,7 +15,7 @@ export class ResponseMessageComponent implements OnInit {
   ngOnInit() {
   }
 
-  handleClose():void {
+  handleClose(): void {
     this.dialogRef.close();
   }
 }

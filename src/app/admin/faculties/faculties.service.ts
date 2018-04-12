@@ -12,25 +12,25 @@ private urlAddFaculties = 'http://vps9615.hyperhost.name:443/api/Faculty/insertD
 
   constructor(private http: HttpClient) { }
 
-  getFaculties() {
-    return this.http.get(this.urlGetFaculties);
+  getFaculties(): Observable<Faculties[]> {
+    return this.http.get<Faculties[]>(this.urlGetFaculties);
   }
 
-  delFaculties(id: number) {
-    return this.http.get(this.urlDelFaculties + '/' + id);
+  delFaculties(id: number): Observable<IResponse>  {
+    return this.http.get<IResponse>(this.urlDelFaculties + '/' + id);
   }
 
-  getFacultyById(id: number) {
-    return this.http.get(this.urlGetFaculties + '/' + id);
+  getFacultyById(id: number): Observable<Faculties[]>  {
+    return this.http.get<Faculties[]>(this.urlGetFaculties + '/' + id);
   }
 
-  addFaculty(title: string, description: string){
+  addFaculty(title: string, description: string): Observable<Faculties[]> {
     const body = {faculty_name: title, faculty_description: description};
-    return this.http.post(this.urlAddFaculties, body);
+    return this.http.post<Faculties[]>(this.urlAddFaculties, body);
   }
 
-  editFaculty(id: number, title: string, description: string){
+  editFaculty(id: number, title: string, description: string): Observable<Faculties[]> {
     const body = {faculty_name: title, faculty_description: description};
-    return this.http.post(this.urlEditFaculties + '/' + id, body);
+    return this.http.post<Faculties[]>(this.urlEditFaculties + '/' + id, body);
   }
 }

@@ -1,0 +1,61 @@
+import { Component, OnInit, Inject } from '@angular/core';
+import { Test } from '../test';
+import { MatDialogRef} from '@angular/material';
+import {TestService } from '../test.service';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+@Component({
+  selector: 'app-add',
+  templateUrl: './add.component.html',
+  styleUrls: ['./add.component.scss']
+})
+export class AddComponent implements OnInit {
+
+  rForm: FormGroup;
+  constructor(public dialogRef: MatDialogRef<AddComponent>, private httpService: TestService, private fb: FormBuilder) { 
+  this.initForm();
+  }
+  
+  ngOnInit() {
+  
+  }
+  
+initForm() {
+  this.rForm = this.fb.group({
+    test_name: [, [Validators.required,
+    Validators.pattern(/[А-я]/)]
+  ],
+    tasks: [, [Validators.required,
+    Validators.pattern(/[0-9]/)]
+  ],
+    time_for_test: [, [Validators.required,
+    Validators.pattern(/[0-9]/)]
+  ],
+    enabled: [, [Validators.required]],
+
+    subject_id: [, Validators.required],
+    attempts: [, [Validators.required,
+    Validators.pattern(/[0-9]/)]
+  ]
+  })
+}
+
+enabled = [{value: 1, text: 'Доступний'}, {value: 0, text: 'Недоступний'}];
+subject_id = [{value: 1, text: 'Вища математика'}, {value: 2, text: 'Теорія ймовірності'}];
+
+onSubmit() {
+  const controls = this.rForm.controls;
+  if (this.rForm.invalid) {
+  /** якщо форма не валідна то помічаємо всі контроли як touched*/
+  Object.keys(controls)
+    .forEach(controlName => controls[controlName].markAsTouched());
+    return;
+    }
+  /*Опрацювання даних форми*/
+   this.httpService.addTest(this.rForm.value).subscribe(
+    () => console.log(),
+    () => console.log(),
+    () => this.dialogRef.close()
+  )
+  } 
+}
+

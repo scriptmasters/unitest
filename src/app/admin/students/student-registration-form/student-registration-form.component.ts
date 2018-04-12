@@ -1,11 +1,11 @@
 import { Component, OnInit, Input, Output, EventEmitter, ViewEncapsulation } from '@angular/core';
-import { FormGroup, FormControl, Validators } from '@angular/forms'
+import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { StudentsService } from '../students.service';
 
 import { StudentAdd } from '../students-interface';
 import { Groups } from '../students-interface';
 import { Faculties } from '../students-interface';
-import { defaultImage } from './default-image'
+import { defaultImage } from './default-image';
 import { IResponse } from '../students-interface';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 
@@ -32,7 +32,7 @@ export class StudentRegistrationFormComponent implements OnInit {
     username: '',
     email: '',
     photo: defaultImage
-  }
+  };
 
   constructor(
     private service: StudentsService, 
@@ -107,7 +107,7 @@ export class StudentRegistrationFormComponent implements OnInit {
           group_name: '---',
           speciality_id: 'none',
           faculty_id: 'none'
-        }]
+        }];
       }
     });
   }
@@ -127,7 +127,7 @@ export class StudentRegistrationFormComponent implements OnInit {
     if (control.value === 'Виберіть групу' || control.value === '---' || control.value === null) {
       return {
         'group': true
-      }
+      };
     }
   }
   //Валідатор для факультетів
@@ -135,7 +135,7 @@ export class StudentRegistrationFormComponent implements OnInit {
     if (control.value === 'Виберіть факультет' || control.value === null) {
       return {
         'faculty': true
-      }
+      };
     }
   }
   //Рендеримо фотку в base64 код перед відправкою на сервер

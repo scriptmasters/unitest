@@ -20,7 +20,10 @@ export class FacultiesDeleteComponent implements OnInit {
 
     facultyDelete():void {
        this.facultiesService.delFaculties(this.data.id).subscribe(
-       (data: IResponse) => this.dialogRef.close(data.response));
+       (data: IResponse) => this.dialogRef.close(data.response),
+       error => {
+        this.dialogRef.close(error.error.response);
+      });
      }
 
      onNoClick():void {
