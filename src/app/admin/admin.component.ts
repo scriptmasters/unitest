@@ -10,7 +10,9 @@ export class AdminComponent implements OnInit {
 
   constructor(public authService: AuthService ) { }
 
+
   ngOnInit() {
+
   }
 
   handleClick(elem: HTMLElement) {

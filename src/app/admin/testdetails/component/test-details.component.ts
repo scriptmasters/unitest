@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material';
 import { TestDetailsService } from '../sevices/test-details.service';
-import { ActivatedRoute } from '@angular/router';
+
 import { TestDetailCreateComponent } from '../modals/test-detail-create/test-detail-create.component';
+import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-testdetails',
@@ -15,13 +16,19 @@ export class TestDetailsComponent implements OnInit {
   testDetails: any[];
   testId: number;
 
-  constructor(private activatedRoute: ActivatedRoute,
+  constructor(private route: ActivatedRoute,
               private dialog: MatDialog,
               private testDetailsService: TestDetailsService) { }
 
   ngOnInit() {
-    this.testId = parseInt(this.activatedRoute.snapshot.paramMap.get('id'), 10);
+    this.testId = parseInt(this.route.snapshot.paramMap.get('id'), 10);
     this.getTestDetails();
+
+    this.route.queryParams.subscribe(params => {
+      this.testId = params['id'];
+      this.getTestDetails();
+    });
+
   }
 
   openDialog(testDetails: any) {
