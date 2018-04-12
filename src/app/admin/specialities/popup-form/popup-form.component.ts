@@ -18,7 +18,6 @@ const URL = "http://vps9615.hyperhost.name:443/api";
 export class PopupFormComponent implements OnInit {
   popup: any;
   popupValue: any;
-  // oldspeciality = this.speciality.speciality;
   specialityUpdate = this.speciality.speciality;
   constructor(private matDialogRef: MatDialogRef<PopupFormComponent>, @Inject(MAT_DIALOG_DATA)
   private http: HttpClient,
@@ -30,33 +29,30 @@ export class PopupFormComponent implements OnInit {
   }
 
   onSubmit(value: any) {
-
-
     if (this.specialityUpdate.speciality_id == '') {
       this.popupValue = value;
       let popupForm = JSON.stringify(this.popupValue)
       this.speciality.addSpecialities(popupForm).subscribe(response => {
+        this.matDialogRef.close("ok"), 
+        error => this.matDialogRef.close("error");
         this.speciality.specialitiesObject.push(response.pop());
-
       });
-
       this.matDialogRef.close();
     } else {
       let id = this.specialityUpdate.speciality_id;
-      console.log(this.specialityUpdate);
-      this.speciality.specialitiesObject.forEach(element => {
-        if (element.speciality_id == this.speciality.oldspeciality.speciality_id && element.speciality_name == this.speciality.oldspeciality.speciality_name) {
-          alert("Дані вже існують")
-          return;
-        }
-      });
+      // console.log(this.specialityUpdate);
+      // this.speciality.specialitiesObject.forEach(element => {
+      //   if (element.speciality_id == this.speciality.oldspeciality.speciality_id &&
+      //     element.speciality_name == this.speciality.oldspeciality.speciality_name) {
+      //   }
+      // });
       this.popup = value;
       let popupForm = JSON.stringify(this.popup)
       this.speciality.editSpecialities(id, popupForm).subscribe(response => {
-        {
-          this.matDialogRef.close();
-        }
+        this.matDialogRef.close("ok"), 
+        error => this.matDialogRef.close("error");
       });
+      this.matDialogRef.close();
     }
   }
 

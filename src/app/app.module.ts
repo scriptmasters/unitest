@@ -78,7 +78,7 @@ import { AddComponent } from './admin/subjects/tests/add/add.component';
 import {StatisticService} from '../app/admin/statistic/statistic.service';
 import {SpecialityService} from '../app/admin/specialities/speciality.service';
 import { PopupFormComponent } from './admin/specialities/popup-form/popup-form.component';
-
+import {NgxPaginationModule} from 'ngx-pagination';
 @NgModule({
     imports: [
         BrowserModule,
@@ -120,7 +120,8 @@ import { PopupFormComponent } from './admin/specialities/popup-form/popup-form.c
         MatTableModule,
         MatTabsModule,
         MatToolbarModule,
-        MatTooltipModule
+        MatTooltipModule,
+        NgxPaginationModule
     ],
 
     entryComponents: [

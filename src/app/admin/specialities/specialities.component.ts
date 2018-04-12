@@ -6,10 +6,12 @@ import { catchError, map, tap } from 'rxjs/operators';
 import { identifierModuleUrl } from '@angular/compiler';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { PopupFormComponent } from '../specialities/popup-form/popup-form.component'
+import { ResponseMessageComponent } from '../../shared/response-message/response-message.component';
+import {Router} from '@angular/router';
 const URL = "http://vps9615.hyperhost.name:443/api";
 
 
-import {MatPaginatorModule} from '@angular/material/paginator';
+import { MatPaginatorModule } from '@angular/material/paginator';
 
 
 @Component({
@@ -20,7 +22,8 @@ import {MatPaginatorModule} from '@angular/material/paginator';
 export class SpecialitiesComponent implements OnInit {
   constructor(private speciality: SpecialityService,
     private http: HttpClient,
-    public dialog: MatDialog) { }
+    public dialog: MatDialog,
+    private router: Router) { }
 
   ngOnInit() {
     this.speciality.getSpecialities().subscribe(value => {
@@ -41,14 +44,34 @@ export class SpecialitiesComponent implements OnInit {
 
   }
 
-
+  getGroups(id): void {
+    this.router.navigate(['admin/groups'], { queryParams: { facultyId: id} });
+  }
   update(key) {
     this.speciality.oldspeciality = {};
-    Object.assign(this.speciality.oldspeciality,key);
+    Object.assign(this.speciality.oldspeciality, key);
     this.speciality.speciality = key;
-    this.dialog.open(PopupFormComponent, {
+    let dialogRef = this.dialog.open(PopupFormComponent, {
       width: '600px',
-    })
+      height: "calc(100vh - 50px)",
+    });
+    dialogRef.afterClosed().subscribe((response: any) => {
+      if (response === "ok") {
+        this.dialog.open(ResponseMessageComponent, {
+          width: '400px',
+          data: {
+            message: 'Профіль цього студента було успішно додано!'
+          }
+        });
+      } else if  (!(response =='ok')) {
+        this.dialog.open(ResponseMessageComponent, {
+          width: '400px',
+          data: {
+            message: 'Виникла помилка при додаванні цього студента!'
+          }
+        });
+      }
+    });
   }
 
   openModal() {
@@ -57,9 +80,27 @@ export class SpecialitiesComponent implements OnInit {
       speciality_code: "",
       speciality_id: ""
     };
-    this.dialog.open(PopupFormComponent, {
+    let dialogRef = this.dialog.open(PopupFormComponent, {
       width: '600px',
-    })
+      height: "calc(100vh - 50px)",
+    });
+    dialogRef.afterClosed().subscribe((response: any) => {
+      if (response === "ok") {
+        this.dialog.open(ResponseMessageComponent, {
+          width: '400px',
+          data: {
+            message: 'Профіль цього студента було успішно додано!'
+          }
+        });
+      } else if (!(response =='ok')) {
+        this.dialog.open(ResponseMessageComponent, {
+          width: '400px',
+          data: {
+            message: 'Виникла помилка при додаванні цього студента!'
+          }
+        });
+      }
+    });
   };
 
 }
