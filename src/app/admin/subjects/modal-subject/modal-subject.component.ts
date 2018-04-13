@@ -15,7 +15,7 @@ export class ModalSubjectComponent implements OnInit {
 
   subject = [{subject_name: '', subject_description: ''}];
   form: FormGroup;
-  isLoaded = true; // for checking status download data
+  isLoaded = true;
 
   constructor(
     private route: ActivatedRoute,
@@ -60,19 +60,19 @@ export class ModalSubjectComponent implements OnInit {
       this.subjectService.editSubject(id, formData.title, formData.description)
         .subscribe(() =>
             this.matDialogRef.close({status: 'SUCCESS', message: 'Предмет було успішно відредаговано!'}),
-          error => this.matDialogRef.close({status: 'ERROR', message: 'Виникла помилка при редагуванні предмета!'})
+          () => this.matDialogRef.close({status: 'ERROR', message: 'Виникла помилка при редагуванні предмета!'})
         );
     } else {
       this.subjectService.addSubject(formData.title, formData.description)
         .subscribe(() =>
             this.matDialogRef.close({status: 'SUCCESS', message: 'Предмет було успішно додано!'}),
-          error => this.matDialogRef.close({status: 'ERROR', message: 'Виникла помилка при додаванні предмета!'})
+          () => this.matDialogRef.close({status: 'ERROR', message: 'Виникла помилка при додаванні предмета!'})
         );
     }
   }
 
   closeDialog(): void {
-    this.matDialogRef.close({status: 'CANCEL'});
+    this.matDialogRef.close();
   }
 }
 

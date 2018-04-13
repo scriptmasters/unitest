@@ -50,8 +50,7 @@ export class SpecialitiesComponent implements OnInit {
     Object.assign(this.speciality.oldspeciality, key);
     this.speciality.speciality = key;
     let dialogRef = this.dialog.open(PopupFormComponent, {
-      width: '600px',
-      height: "calc(100vh - 50px)",
+      width: '600px'
     });
     dialogRef.afterClosed().subscribe((response: any) => {
       if (response === "ok") {
@@ -79,22 +78,21 @@ export class SpecialitiesComponent implements OnInit {
       speciality_id: ""
     };
     let dialogRef = this.dialog.open(PopupFormComponent, {
-      width: '600px',
-      height: "calc(100vh - 50px)",
+      width: '600px'
     });
     dialogRef.afterClosed().subscribe((response: any) => {
       if (response === "ok") {
         this.dialog.open(ResponseMessageComponent, {
           width: '400px',
           data: {
-            message: 'Профіль цього студента було успішно додано!'
+            message: 'Cпеціальність було успішно додано!'
           }
         });
       } else if ((response =='error')) {
         this.dialog.open(ResponseMessageComponent, {
           width: '400px',
           data: {
-            message: 'Виникла помилка при додаванні цього студента!'
+            message: 'Виникла помилка при додаванні спеціальності!'
           }
         });
       }
