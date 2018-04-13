@@ -60,3 +60,12 @@
     color: black;
 }
 
+@media (max-width: 667px) {
+  .mat-input-container {
+    width: 270px;
+  }
+  .mat-form-field {
+  width: 90%;
+  }
+}
+

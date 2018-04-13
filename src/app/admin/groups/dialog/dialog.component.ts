@@ -53,7 +53,7 @@ export class DialogComponent implements OnInit {
     this.specialityValid = new FormControl('', Validators.required),
     this.groupValid = new FormControl('', [
       Validators.required,
-      Validators.pattern('^([А-Я]){2,3}-[0-9]{2}-[0-9]{1}'),
+      Validators.pattern('^([А-ЯІЇ]){2,3}-[0-9]{2}-[0-9]{1}'),
     ]); 
   }
 

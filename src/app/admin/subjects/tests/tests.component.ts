@@ -19,22 +19,23 @@ export class TestsComponent implements OnInit{
   constructor(private httpService: TestService, public dialog: MatDialog, private router: Router, private activatedRoute: ActivatedRoute) {
     console.log('Called Constructor');
     this.activatedRoute.queryParams.subscribe(params => {
-    this.subjectId = params['id'];
+    this.subjectId = params['subjectId'];
     });
    }
  
 
   ngOnInit() {
-    this.getTestsById();
+    this.getTestsById(this.subjectId);
   }
 
   deleteTest(id: number) {
     this.httpService.deleteTest(id).subscribe(
       data => {console.log(data)},
       err => {console.log(err)},
-      ()=> this.getTests()
+      ()=> this.getTestsById(this.subjectId)
     );
    }
+   /*
    getTests():void {
     this.httpService.getTests().subscribe(
       data => {this.test = data},
@@ -42,8 +43,8 @@ export class TestsComponent implements OnInit{
       ()=> console.log()
     );
    }
-
-   getTestsById() {
+*/
+   getTestsById(id: number) {
      this.httpService.getTestsById(this.subjectId).subscribe(
        data => {this.test = data}
      );
@@ -53,11 +54,11 @@ export class TestsComponent implements OnInit{
    const matDialogRef = this.dialog.open(EditComponent, {
     width: '350px',
     data: {id: id, test: t}});
-   matDialogRef.afterClosed().subscribe(()=>this.getTestsById())
+   matDialogRef.afterClosed().subscribe(()=>this.getTestsById(this.subjectId))
    }
    addDialog() {
-    const matDialogRef = this.dialog.open(AddComponent, {width: '350px'});
-    matDialogRef.afterClosed().subscribe(() => this.getTestsById());
+    const matDialogRef = this.dialog.open(AddComponent, {width: '350px', data: {id: this.subjectId}});
+    matDialogRef.afterClosed().subscribe(() => this.getTestsById(this.subjectId));
    }
 
    openDetails(id: any){

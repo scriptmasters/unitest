@@ -18,13 +18,13 @@ input.ng-touched.ng-valid {
 }
 
 .user-image {
-    width: 100px;
-    height: 100px;
+    width: 200px;
+    height: 200px;
     margin-bottom: 10px;
 }
 
 .custom-file {
-    width: 180px;
+    width: 200px;
     #customFile {
         cursor: pointer;
     }
@@ -41,7 +41,7 @@ div.error.col-12 {
     position: relative;
 }
 
-#visibility-toggler {
+#eye-vision {
     position: absolute;
     cursor: pointer;
     right: 15px;

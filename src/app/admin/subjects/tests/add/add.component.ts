@@ -1,6 +1,6 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { Test } from '../test';
-import { MatDialogRef} from '@angular/material';
+import { MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
 import {TestService } from '../test.service';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { SubjectService } from '../../services/subject.service';
@@ -14,7 +14,7 @@ import { SubjectService } from '../../services/subject.service';
 export class AddComponent implements OnInit {
 
   rForm: FormGroup;
-  constructor(public dialogRef: MatDialogRef<AddComponent>, private httpService: TestService, private fb: FormBuilder) { 
+  constructor(public dialogRef: MatDialogRef<AddComponent>, @Inject(MAT_DIALOG_DATA) public data: any, private httpService: TestService, private fb: FormBuilder) { 
   this.initForm();
   }
   
@@ -34,13 +34,12 @@ initForm() {
   ],
     enabled: [, [Validators.required]],
 
-    subject_id: [1, Validators.required],
+    subject_id: [this.data.id, Validators.required],
     attempts: [, [Validators.required, Validators.pattern(/\d{1,3}/)]]
   })
 }
 
 enabled = [{value: 1, text: 'Доступний'}, {value: 0, text: 'Недоступний'}];
-subject_id = [{value: 1, text: 'Вища математика'}, {value: 2, text: 'Теорія ймовірності'}];
 
 onSubmit() {
   const controls = this.rForm.controls;
