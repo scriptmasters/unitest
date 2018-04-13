@@ -199,7 +199,7 @@ import { PopupFormComponent } from './admin/specialities/popup-form/popup-form.c
         AddComponent,
         GroupsDeleteConfirmComponent,
         PopupFormComponent,
-        TestDetailsComponent,
+        TestDetailsComponent, // Maryan
         TestDetailCreateComponent,
         QuestionsComponent,
         AddQuestionComponent,
