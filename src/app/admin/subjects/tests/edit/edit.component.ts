@@ -32,7 +32,7 @@ initForm() {
   ],
     enabled: [this.data.test.enabled['value'], [Validators.required]],
 
-    subject_id: [this.data.test.subject_id['value'], [Validators.required]],
+    subject_id: [this.data.test.subject_id , [Validators.required]],
 
     attempts: [this.data.test.attempts, [Validators.required,
     Validators.pattern(/\d{1,3}/)]
@@ -41,7 +41,7 @@ initForm() {
 }
 
 enabled = [{value: 1, text: 'Доступний'}, {value: 0, text: 'Недоступний'}];
-subject_id = [{value: 1, text: 'Вища математика'}, {value: 2, text: 'Теорія ймовірності'}];
+
 
 onSubmit() {
   const controls = this.rForm.controls;
@@ -51,10 +51,10 @@ onSubmit() {
     .forEach(controlName => controls[controlName].markAsTouched());
     return;
     }
-   
+   console.log(this.rForm.value)
    this.httpService.editTest(this.data.id, this.rForm.value).subscribe(
     () => console.log(),
-    () => console.log(),
+    (err) => console.log(err),
     () => this.dialogRef.close()
   )
   } 
