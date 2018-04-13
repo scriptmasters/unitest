@@ -1,14 +1,19 @@
+<!-- EDIT SUBJECT-->
 <section class="card">
   <div class="card-header d-flex align-items-center">
-    <h4>Додати предмет</h4>
+    <h4>{{subject[0].subject_id ? 'Редагувати' : 'Додати'}} предмет</h4>
   </div>
-  <div class="card-body">
+  <div class="card-body" *ngIf="!isLoaded">
+    Завантаження...
+  </div>
+  <div class="card-body" *ngIf="isLoaded">
     <form class="form-horizontal" [formGroup]="form" (ngSubmit)="onSubmit()">
       <div class="form-group row">
         <label class="col-sm-3">Предмет</label>
         <div class="col-sm-9"
              [ngClass]="{'form-has-error': form.get('title').invalid && (form.get('title').dirty || form.get('title').touched)}">
-          <input type="text" id="title" placeholder="Назва предмету" class="form-control form-control-success" formControlName="title">
+          <input type="text" id="title" placeholder="Назва предмету"
+                 class="form-control form-control-success" formControlName="title" [(ngModel)]="subject[0].subject_name">
           <small class="form-text" *ngIf="form.get('title').invalid && (form.get('title').dirty || form.get('title').touched)">
             <span *ngIf="form.get('title')['errors']['required']">Дане поле не може бути порожнім</span>
             <span *ngIf="form.get('title')['errors']['minlength']">
@@ -24,7 +29,8 @@
         <label class="col-sm-3">Опис</label>
         <div class="col-sm-9"
              [ngClass]="{'form-has-error': form.get('description').invalid && (form.get('description').dirty || form.get('description').touched)}">
-          <input type="text" id="description" placeholder="Опис" class="form-control form-control-warning" formControlName="description">
+          <input type="text" id="description" placeholder="Опис" [(ngModel)]="subject[0].subject_description"
+                 class="form-control form-control-warning" formControlName="description">
           <small class="form-text" *ngIf="form.get('description').invalid && (form.get('description').dirty || form.get('description').touched)">
             <span *ngIf="form.get('description')['errors']['required']">Дане поле не може бути порожнім</span>
             <span *ngIf="form.get('description')['errors']['minlength']">
@@ -36,16 +42,9 @@
           </small>
         </div>
       </div>
-      <div class="row card-error">
-        <div class="col-sm-10 offset-sm-2">
-          <small>
-            <span *ngIf="error" class="form-has-error">Помилка! Спробуйте ще раз!</span>
-          </small>
-        </div>
-      </div>
       <div class="form-group row">
         <div class="col-sm-10 offset-sm-2">
-          <button [disabled]="form.invalid" type="submit" class="btn btn-primary">Додати</button>
+          <button [disabled]="form.invalid" type="submit" class="btn btn-primary">{{subject[0].subject_id ? 'Редагувати' : 'Додати'}}</button>
           <button (click)="closeDialog()" type="button" class="btn btn-danger">Відмінити</button>
         </div>
       </div>

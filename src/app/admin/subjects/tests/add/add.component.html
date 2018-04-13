@@ -16,14 +16,7 @@
 
   <mat-form-field>
     <input type="text" formControlName="attempts" matInput placeholder="Кількість спроб">
-  </mat-form-field>
-  
-  <mat-form-field>
-    <mat-select formControlName="subject_id" placeholder="Предмет">
-      <mat-option *ngFor="let s of subject_id" [value]="s.value">{{s.text}}</mat-option>
-    </mat-select>
-  </mat-form-field>
-  
+  </mat-form-field>  
 
   <mat-form-field>
     <mat-select formControlName="enabled" placeholder="Статус">

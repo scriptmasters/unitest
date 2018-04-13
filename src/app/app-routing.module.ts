@@ -5,20 +5,21 @@ import { AdminComponent } from './admin/admin.component';
 import { AuthComponent } from './shared/auth/auth.component';
 import { StudentGuard } from './student-guard.service';
 import { AdminGuard } from './admin-guard.service';
-import { StatisticComponent } from './admin/statistic/statistic.component';
 import { FacultiesComponent } from './admin/faculties/faculties.component';
+import { TestsComponent } from './admin/subjects/tests/tests.component';
+import { StatisticComponent } from './admin/statistic/statistic.component';
 import { SubjectsComponent } from './admin/subjects/subjects.component';
 import { SpecialitiesComponent } from './admin/specialities/specialities.component';
 import { AdministratorsComponent } from './admin/administrators/administrators.component';
 import { StudentsComponent } from './admin/students/students.component';
 import { GroupsComponent } from './admin/groups/groups.component';
 import { TimetableComponent } from './admin/timetable/timetable.component';
-import { patch } from 'webdriver-js-extender';
-import { TestsComponent } from './admin/subjects/tests/tests.component';
+import { QuestionsComponent } from './admin/questions/questions.component';
+import { TestDetailsComponent} from './admin/testdetails/component/test-details.component';
 
 
 const routes: Routes = [
-    { path: '', redirectTo: '/admin', pathMatch: 'full' },
+    { path: '', redirectTo: '/admin/statistic', pathMatch: 'full' },
     { path: 'student', canActivate: [StudentGuard], component: StudentComponent },
     { path: 'login', component: AuthComponent },
     {
@@ -36,6 +37,10 @@ const routes: Routes = [
           },
           {
             path: 'students',
+            component: StudentsComponent
+          },
+          {
+            path: 'students/byGroup/:id',
             component: StudentsComponent
           },
           {
@@ -60,12 +65,18 @@ const routes: Routes = [
           {
             path: 'tests',
             component: TestsComponent
+          },
+          {
+            path: 'questions',
+            component: QuestionsComponent
+          },
+          {
+            path: 'testdetails',
+            component: TestDetailsComponent
           }
         ]
-
-    },
-    { path: '**', redirectTo: '/admin', pathMatch: 'full' }
-
+    }
+    // { path: '**', redirectTo: '/admin', pathMatch: 'full' }
 ];
 
 @NgModule({

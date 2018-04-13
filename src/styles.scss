@@ -84,8 +84,6 @@ table {
     color: #666;
 }
 
-thead {}
-
 .page {
     position: absolute;
     top: 0;
@@ -543,4 +541,19 @@ button {
         margin-right: 15px;
         margin-left: 15px;
     }
+}
+
+
+/*pagination*/
+
+.pagination /*/deep/*/ .ngx-pagination {
+  .current {
+    background: #33B357;
+  }
+  .pagination-previous a:before, .pagination-previous.disabled:before {
+    content: '';
+  }
+  .pagination-next a:after, .pagination-next.disabled:after {
+    content: '';
+  }
 }

@@ -54,4 +54,8 @@ export class StudentsService {
   editStudent(id, body) {
     return this.http.post(`http://vps9615.hyperhost.name:443/api/Student/update/${id}`, body);
   }
+  //Отримати всіх студентів вибраної групи
+  getStudentsByGroup(id: any): Observable<StudentGet[]> {
+    return this.http.get<StudentGet[]>(`http://vps9615.hyperhost.name:443/api/student/getStudentsByGroup/${id}`);
+  }
 }
