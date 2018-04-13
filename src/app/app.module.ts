@@ -16,9 +16,9 @@ import { TestService } from './admin/subjects/tests/test.service';
 import { GroupsService } from './admin/groups/groups.service';
 
 import TableService from './admin/timetable/timetable.service';
-import { TestDetailsService } from './admin/testdetails/sevices/test-details.service'; // Maryan
-import { TestDetailsComponent } from './admin/testdetails/component/test-details.component'; // Maryan
-import { TestDetailCreateComponent } from './admin/testdetails/modals/test-detail-create/test-detail-create.component'; // Maryan
+import { TestDetailsService } from './admin/testdetails/sevices/test-details.service';
+import { TestDetailsComponent } from './admin/testdetails/component/test-details.component';
+import { TestDetailCreateComponent } from './admin/testdetails/modals/test-detail-create/test-detail-create.component';
 import { QuestionsService } from './admin/questions/questions.service';
 import {
     MatAutocompleteModule,
@@ -156,8 +156,12 @@ import { PopupFormComponent } from './admin/specialities/popup-form/popup-form.c
         AddComponent,
         PopupFormComponent,
         DialogComponent,
+<<<<<<< Updated upstream
         GroupsDeleteConfirmComponent,
         TestDetailCreateComponent, // Maryan
+=======
+        TestDetailCreateComponent,
+>>>>>>> Stashed changes
         AddQuestionComponent,
         EditQuestionComponent
     ],
@@ -197,10 +201,15 @@ import { PopupFormComponent } from './admin/specialities/popup-form/popup-form.c
         TestsComponent,
         EditComponent,
         AddComponent,
+<<<<<<< Updated upstream
         GroupsDeleteConfirmComponent,
         PopupFormComponent,
         TestDetailsComponent, // Maryan
         TestDetailCreateComponent,  // Maryan
+=======
+        TestDetailsComponent,
+        TestDetailCreateComponent,
+>>>>>>> Stashed changes
         QuestionsComponent,
         AddQuestionComponent,
         EditQuestionComponent
@@ -218,7 +227,7 @@ import { PopupFormComponent } from './admin/specialities/popup-form/popup-form.c
         StatisticService,
         SpecialityService,
         GroupsService,
-        TestDetailsService, // Maryan
+        TestDetailsService,
         QuestionsService
     ]
 })
