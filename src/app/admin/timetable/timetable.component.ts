@@ -152,12 +152,14 @@ export class TimetableComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      this.dialog.open(ResponseMessageComponent, {
+      if(result){
+         this.dialog.open(ResponseMessageComponent, {
         width: "400px",
         data: {
           message: result
         }
       });
+      }
     });
   }
   
