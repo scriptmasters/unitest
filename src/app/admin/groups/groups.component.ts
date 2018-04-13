@@ -280,7 +280,6 @@ export class GroupsComponent implements OnInit {
   ngOnInit() {
     this.printOut();
 
-    
 
   }
 
