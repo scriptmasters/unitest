@@ -64,14 +64,13 @@ import { StudentComponent } from './student/student.component';
 import { StatisticComponent } from './admin/statistic/statistic.component';
 import { FacultiesComponent } from './admin/faculties/faculties.component';
 import { SubjectsComponent } from './admin/subjects/subjects.component';
+import { ModalSubjectComponent } from './admin/subjects/modal-subject/modal-subject.component';
 import { SpecialitiesComponent } from './admin/specialities/specialities.component';
 import { AdministratorsComponent } from './admin/administrators/administrators.component';
 import { StudentRegistrationFormComponent } from './admin/students/student-registration-form/student-registration-form.component';
 import { GroupsComponent } from './admin/groups/groups.component';
 import { TimetableComponent } from './admin/timetable/timetable.component';
 import { StudentEditFormComponent } from './admin/students/student-edit-form/student-edit-form.component';
-import { EditSubjectComponent } from './admin/subjects/edit-subject/edit-subject.component';
-import { AddSubjectComponent } from './admin/subjects/add-subject/add-subject.component';
 import { DeleteConfirmComponent } from './shared/delete-confirm/delete-confirm.component';
 import { ResponseMessageComponent } from './shared/response-message/response-message.component';
 import { FacultiesAddComponent } from './admin/faculties/faculties-add/faculties-add.component';
@@ -87,7 +86,9 @@ import { GroupsDeleteConfirmComponent } from './admin/groups/groups-delete-confi
 import { QuestionsComponent } from './admin/questions/questions.component';
 import { EditQuestionComponent } from './admin/questions/edit-question/edit-question.component';
 import { AddQuestionComponent } from './admin/questions/add-question/add-question.component';
-
+import { StatisticService } from './admin/statistic/statistic.service';
+import { SpecialityService } from './admin/specialities/speciality.service';
+import { PopupFormComponent } from './admin/specialities/popup-form/popup-form.component';
 @NgModule({
     imports: [
         BrowserModule,
@@ -133,14 +134,14 @@ import { AddQuestionComponent } from './admin/questions/add-question/add-questio
         MatTooltipModule,
         NgxPaginationModule
     ],
+
     entryComponents: [
         AppComponent,
         AuthErrorPopupComponent,
         TimeTableModal,
         StudentRegistrationFormComponent,
         StudentEditFormComponent,
-        AddSubjectComponent,
-        EditSubjectComponent,
+        ModalSubjectComponent,
         AuthErrorPopupComponent,
         ResponseMessageComponent,
         DeleteConfirmComponent,
@@ -153,13 +154,14 @@ import { AddQuestionComponent } from './admin/questions/add-question/add-questio
         FacultiesDeleteComponent,
         EditComponent,
         AddComponent,
+        PopupFormComponent,
         DialogComponent,
         GroupsDeleteConfirmComponent,
         TestDetailCreateComponent, // Maryan
         AddQuestionComponent,
         EditQuestionComponent
-
     ],
+
     declarations: [
         AppComponent,
         AuthComponent,
@@ -168,7 +170,7 @@ import { AddQuestionComponent } from './admin/questions/add-question/add-questio
         StatisticComponent,
         FacultiesComponent,
         SubjectsComponent,
-        EditSubjectComponent,
+        ModalSubjectComponent,
         SpecialitiesComponent,
         AdministratorsComponent,
         StudentsComponent,
@@ -176,7 +178,7 @@ import { AddQuestionComponent } from './admin/questions/add-question/add-questio
         TimetableComponent,
         TimeTableModal,
         StudentRegistrationFormComponent,
-        AddSubjectComponent,
+        DialogComponent,
         TimeTableModal,
         AuthErrorPopupComponent,
         TimetableDeleteConfirmComponent,
@@ -184,7 +186,6 @@ import { AddQuestionComponent } from './admin/questions/add-question/add-questio
         TimeTableModal,
         AuthErrorPopupComponent,
         StudentEditFormComponent,
-        AddSubjectComponent,
         AuthErrorPopupComponent,
         ResponseMessageComponent,
         DeleteConfirmComponent,
@@ -197,7 +198,7 @@ import { AddQuestionComponent } from './admin/questions/add-question/add-questio
         EditComponent,
         AddComponent,
         GroupsDeleteConfirmComponent,
-
+        PopupFormComponent,
         TestDetailsComponent, // Maryan
         TestDetailCreateComponent,  // Maryan
         QuestionsComponent,
@@ -214,10 +215,11 @@ import { AddQuestionComponent } from './admin/questions/add-question/add-questio
         FacultiesService,
         TableService,
         TestService,
+        StatisticService,
+        SpecialityService,
         GroupsService,
         TestDetailsService, // Maryan
         QuestionsService
-
     ]
 })
 

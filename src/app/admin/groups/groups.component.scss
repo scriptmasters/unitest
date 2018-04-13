@@ -25,5 +25,8 @@ header{
     .pagination-next a:after, .pagination-next.disabled:after {
       content: '';
     }
-    
+}
+
+i{
+    cursor: pointer;
 }
