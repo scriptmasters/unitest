@@ -70,7 +70,6 @@ import { StudentRegistrationFormComponent } from './admin/students/student-regis
 import { GroupsComponent } from './admin/groups/groups.component';
 import { TimetableComponent } from './admin/timetable/timetable.component';
 import { StudentEditFormComponent } from './admin/students/student-edit-form/student-edit-form.component';
-import { StudentDeleteConfirmComponent } from './admin/students/student-delete-confirm/student-delete-confirm.component';
 import { DeleteConfirmComponent } from './shared/delete-confirm/delete-confirm.component';
 import { ResponseMessageComponent } from './shared/response-message/response-message.component';
 import { FacultiesAddComponent } from './admin/faculties/faculties-add/faculties-add.component';
@@ -85,8 +84,8 @@ import { DialogComponent } from './admin/groups/dialog/dialog.component';
 import { QuestionsComponent } from './admin/questions/questions.component';
 import { EditQuestionComponent } from './admin/questions/edit-question/edit-question.component';
 import { AddQuestionComponent } from './admin/questions/add-question/add-question.component';
-import { StatisticService } from '../app/admin/statistic/statistic.service';
-import { SpecialityService } from '../app/admin/specialities/speciality.service';
+import { StatisticService } from './admin/statistic/statistic.service';
+import { SpecialityService } from './admin/specialities/speciality.service';
 import { PopupFormComponent } from './admin/specialities/popup-form/popup-form.component';
 @NgModule({
     imports: [
@@ -140,7 +139,6 @@ import { PopupFormComponent } from './admin/specialities/popup-form/popup-form.c
         TimeTableModal,
         StudentRegistrationFormComponent,
         StudentEditFormComponent,
-        StudentDeleteConfirmComponent,
         ModalSubjectComponent,
         AuthErrorPopupComponent,
         ResponseMessageComponent,
@@ -213,7 +211,6 @@ import { PopupFormComponent } from './admin/specialities/popup-form/popup-form.c
         FacultiesService,
         TableService,
         TestService,
-        GroupsService,
         StatisticService,
         SpecialityService,
         GroupsService,
