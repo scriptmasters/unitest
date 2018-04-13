@@ -4,6 +4,7 @@ import {Test} from './test';
 import { MatDialog, MatDialogRef, MatButtonModule } from '@angular/material';
 import { EditComponent } from './edit/edit.component';
 import { AddComponent } from './add/add.component';
+import { Router, ActivatedRoute, Params } from '@angular/router';
 
 
 @Component({
@@ -14,14 +15,19 @@ import { AddComponent } from './add/add.component';
 export class TestsComponent implements OnInit{
 
   public test;
-  
-  constructor(private httpService: TestService, public dialog: MatDialog) { }
-
+  public subjectId: number;
+  constructor(private httpService: TestService, public dialog: MatDialog, private router: Router, private activatedRoute: ActivatedRoute) {
+    console.log('Called Constructor');
+    this.activatedRoute.queryParams.subscribe(params => {
+    this.subjectId = params['id'];
+    });
+   }
  
+
   ngOnInit() {
-    this.getTests();
+    this.getTestsById();
   }
-  
+
   deleteTest(id: number) {
     this.httpService.deleteTest(id).subscribe(
       data => {console.log(data)},
@@ -36,15 +42,29 @@ export class TestsComponent implements OnInit{
       ()=> console.log()
     );
    }
- 
+
+   getTestsById() {
+     this.httpService.getTestsById(this.subjectId).subscribe(
+       data => {this.test = data}
+     );
+   }
+
    openDialog(t: object, id: number) {
    const matDialogRef = this.dialog.open(EditComponent, {
     width: '350px',
     data: {id: id, test: t}});
-   matDialogRef.afterClosed().subscribe(()=>this.getTests())
+   matDialogRef.afterClosed().subscribe(()=>this.getTestsById())
    }
    addDialog() {
     const matDialogRef = this.dialog.open(AddComponent, {width: '350px'});
-    matDialogRef.afterClosed().subscribe(() => this.getTests())
+    matDialogRef.afterClosed().subscribe(() => this.getTestsById());
+   }
+
+   openDetails(id: any){
+    this.router.navigate(['/admin/testdetails'], {
+      queryParams: {
+        id: id
+      }
+    });
    }
 }

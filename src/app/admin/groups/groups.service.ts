@@ -19,7 +19,7 @@ export class GroupsService {
   };
 
   _getGroup():Observable<Groups[]>{
-    return this.http.get<Groups[]>(this.ROOT_URL_POST_GROUPS + "group/getRecords", this.header);
+    return this.http.get<Groups[]>(this.ROOT_URL_POST_GROUPS + "group/getRecords/", this.header);
   }
 
   _getFacultysByEntityManager(body):Observable<Faculties[]>{

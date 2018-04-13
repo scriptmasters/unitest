@@ -3,6 +3,9 @@ import { Test } from '../test';
 import { MatDialogRef} from '@angular/material';
 import {TestService } from '../test.service';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { SubjectService } from '../../services/subject.service';
+
+
 @Component({
   selector: 'app-add',
   templateUrl: './add.component.html',
@@ -16,26 +19,23 @@ export class AddComponent implements OnInit {
   }
   
   ngOnInit() {
-  
+
   }
   
 initForm() {
   this.rForm = this.fb.group({
     test_name: [, [Validators.required,
-    Validators.pattern(/[А-я]/)]
+      Validators.maxLength(70), Validators.minLength(2)]
   ],
     tasks: [, [Validators.required,
-    Validators.pattern(/[0-9]/)]
-  ],
+    Validators.pattern(/^\d{1,3}$/)]],
     time_for_test: [, [Validators.required,
     Validators.pattern(/[0-9]/)]
   ],
     enabled: [, [Validators.required]],
 
-    subject_id: [, Validators.required],
-    attempts: [, [Validators.required,
-    Validators.pattern(/[0-9]/)]
-  ]
+    subject_id: [1, Validators.required],
+    attempts: [, [Validators.required, Validators.pattern(/\d{1,3}/)]]
   })
 }
 
