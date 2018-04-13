@@ -27,7 +27,7 @@
       <input placeholder="Назва групи" class="form-control" [(ngModel)]="group" id="groupNameInp" formControlName="groupValid" [ngClass]="{
         'validInp': groupValid.valid && (groupValid.dirty || groupValid.touched),
         'invalidInp': groupValid.invalid && (groupValid.dirty || groupValid.touched)
-       }" required value="data.group">
+       }" required >
 
       <div class="invalidMessage" *ngIf="groupValid.errors && (groupValid.dirty || groupValid.touched)">
         <p *ngIf="groupValid.errors['required']">Це поле є обовязковим</p>

@@ -14,6 +14,7 @@ import { AuthErrorPopupComponent } from './shared/auth/auth-error-popup/auth-err
 import { SubjectService } from './admin/subjects/services/subject.service';
 import { TestService } from './admin/subjects/tests/test.service';
 import { GroupsService } from './admin/groups/groups.service';
+
 import TableService from './admin/timetable/timetable.service';
 import { TestDetailsService } from './admin/testdetails/sevices/test-details.service'; // Maryan
 import { TestDetailsComponent } from './admin/testdetails/component/test-details.component'; // Maryan
@@ -24,7 +25,7 @@ import {
     MatButtonModule,
     MatButtonToggleModule,
     MatCardModule,
-    MatCheckboxModule,
+    MatCheckboxModule,  
     MatChipsModule,
     MatDatepickerModule,
     MatDialogModule,
@@ -81,6 +82,7 @@ import { TestsComponent } from './admin/subjects/tests/tests.component';
 import { EditComponent } from './admin/subjects/tests/edit/edit.component';
 import { AddComponent } from './admin/subjects/tests/add/add.component';
 import { DialogComponent } from './admin/groups/dialog/dialog.component';
+import { GroupsDeleteConfirmComponent } from './admin/groups/groups-delete-confirm/groups-delete-confirm.component';
 import { QuestionsComponent } from './admin/questions/questions.component';
 import { EditQuestionComponent } from './admin/questions/edit-question/edit-question.component';
 import { AddQuestionComponent } from './admin/questions/add-question/add-question.component';
@@ -154,6 +156,7 @@ import { PopupFormComponent } from './admin/specialities/popup-form/popup-form.c
         AddComponent,
         PopupFormComponent,
         DialogComponent,
+        GroupsDeleteConfirmComponent,
         TestDetailCreateComponent, // Maryan
         AddQuestionComponent,
         EditQuestionComponent
@@ -194,6 +197,7 @@ import { PopupFormComponent } from './admin/specialities/popup-form/popup-form.c
         TestsComponent,
         EditComponent,
         AddComponent,
+        GroupsDeleteConfirmComponent,
         PopupFormComponent,
         TestDetailsComponent, // Maryan
         TestDetailCreateComponent,  // Maryan
