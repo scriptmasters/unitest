@@ -1,0 +1,12 @@
+.delete-confirm {
+    display: flex;
+    flex-direction: column;
+    .top, .middle, .bottom {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        h3 {
+            text-align: center;
+        }
+    }
+}
