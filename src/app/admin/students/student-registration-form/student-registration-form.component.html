@@ -134,7 +134,7 @@
               #passwordInput
               placeholder="Пароль..." 
               [(ngModel)]="student.password">
-              <i id="visibility-toggler" class="fa fa-eye" aria-hidden="true" (click)="handleTogglePasswordVisibility(passwordInput)"></i>
+              <i id="eye-vision" class="fa fa-eye" aria-hidden="true" (click)="handleTogglePasswordVisibility(passwordInput)"></i>
               <div 
                 *ngIf="form.get('password').invalid && (form.get('password').dirty || form.get('password').touched)" 
                 class="error col-12">

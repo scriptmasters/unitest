@@ -1,8 +1,3 @@
-.snackbar {
-  width: 30%;
-  text-align: center;
-}
-
 .wrapper {
     background: white url(/assets/adobestock_68948606.jpg) center;
     position: absolute;
@@ -63,5 +58,14 @@
 .mat-raised-button.mat-primary[disabled] {
     background-color: #4caf50b5;
     color: black;
+}
+
+@media (max-width: 667px) {
+  .mat-input-container {
+    width: 270px;
+  }
+  .mat-form-field {
+  width: 90%;
+  }
 }
 

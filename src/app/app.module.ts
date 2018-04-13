@@ -63,14 +63,13 @@ import { StudentComponent } from './student/student.component';
 import { StatisticComponent } from './admin/statistic/statistic.component';
 import { FacultiesComponent } from './admin/faculties/faculties.component';
 import { SubjectsComponent } from './admin/subjects/subjects.component';
+import { ModalSubjectComponent } from './admin/subjects/modal-subject/modal-subject.component';
 import { SpecialitiesComponent } from './admin/specialities/specialities.component';
 import { AdministratorsComponent } from './admin/administrators/administrators.component';
 import { StudentRegistrationFormComponent } from './admin/students/student-registration-form/student-registration-form.component';
 import { GroupsComponent } from './admin/groups/groups.component';
 import { TimetableComponent } from './admin/timetable/timetable.component';
 import { StudentEditFormComponent } from './admin/students/student-edit-form/student-edit-form.component';
-import { EditSubjectComponent } from './admin/subjects/edit-subject/edit-subject.component';
-import { AddSubjectComponent } from './admin/subjects/add-subject/add-subject.component';
 import { DeleteConfirmComponent } from './shared/delete-confirm/delete-confirm.component';
 import { ResponseMessageComponent } from './shared/response-message/response-message.component';
 import { FacultiesAddComponent } from './admin/faculties/faculties-add/faculties-add.component';
@@ -85,8 +84,8 @@ import { DialogComponent } from './admin/groups/dialog/dialog.component';
 import { QuestionsComponent } from './admin/questions/questions.component';
 import { EditQuestionComponent } from './admin/questions/edit-question/edit-question.component';
 import { AddQuestionComponent } from './admin/questions/add-question/add-question.component';
-import { StatisticService } from '../app/admin/statistic/statistic.service';
-import { SpecialityService } from '../app/admin/specialities/speciality.service';
+import { StatisticService } from './admin/statistic/statistic.service';
+import { SpecialityService } from './admin/specialities/speciality.service';
 import { PopupFormComponent } from './admin/specialities/popup-form/popup-form.component';
 @NgModule({
     imports: [
@@ -140,8 +139,7 @@ import { PopupFormComponent } from './admin/specialities/popup-form/popup-form.c
         TimeTableModal,
         StudentRegistrationFormComponent,
         StudentEditFormComponent,
-        AddSubjectComponent,
-        EditSubjectComponent,
+        ModalSubjectComponent,
         AuthErrorPopupComponent,
         ResponseMessageComponent,
         DeleteConfirmComponent,
@@ -169,7 +167,7 @@ import { PopupFormComponent } from './admin/specialities/popup-form/popup-form.c
         StatisticComponent,
         FacultiesComponent,
         SubjectsComponent,
-        EditSubjectComponent,
+        ModalSubjectComponent,
         SpecialitiesComponent,
         AdministratorsComponent,
         StudentsComponent,
@@ -177,7 +175,7 @@ import { PopupFormComponent } from './admin/specialities/popup-form/popup-form.c
         TimetableComponent,
         TimeTableModal,
         StudentRegistrationFormComponent,
-        AddSubjectComponent,
+        DialogComponent,
         TimeTableModal,
         AuthErrorPopupComponent,
         TimetableDeleteConfirmComponent,
@@ -185,7 +183,6 @@ import { PopupFormComponent } from './admin/specialities/popup-form/popup-form.c
         TimeTableModal,
         AuthErrorPopupComponent,
         StudentEditFormComponent,
-        AddSubjectComponent,
         AuthErrorPopupComponent,
         ResponseMessageComponent,
         DeleteConfirmComponent,

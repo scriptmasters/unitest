@@ -29,6 +29,7 @@ table {
 }
 
 .pagination /deep/ .ngx-pagination {
+    margin-top: 10px;
     .current {
       background: #33B357;
     }
