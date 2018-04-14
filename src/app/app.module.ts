@@ -25,7 +25,7 @@ import {
     MatButtonModule,
     MatButtonToggleModule,
     MatCardModule,
-    MatCheckboxModule,  
+    MatCheckboxModule,
     MatChipsModule,
     MatDatepickerModule,
     MatDialogModule,
@@ -89,6 +89,7 @@ import { AddQuestionComponent } from './admin/questions/add-question/add-questio
 import { StatisticService } from './admin/statistic/statistic.service';
 import { SpecialityService } from './admin/specialities/speciality.service';
 import { PopupFormComponent } from './admin/specialities/popup-form/popup-form.component';
+import { SearchStudentPipe } from './admin/students/searchStudent.pipe';
 @NgModule({
     imports: [
         BrowserModule,
@@ -203,7 +204,8 @@ import { PopupFormComponent } from './admin/specialities/popup-form/popup-form.c
         TestDetailCreateComponent,
         QuestionsComponent,
         AddQuestionComponent,
-        EditQuestionComponent
+        EditQuestionComponent,
+        SearchStudentPipe
     ],
     bootstrap: [AppComponent],
     providers: [

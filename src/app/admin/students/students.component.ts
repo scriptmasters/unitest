@@ -10,6 +10,7 @@ import { ActivatedRoute } from '@angular/router';
 import { DeleteConfirmComponent } from '../../shared/delete-confirm/delete-confirm.component';
 import IStudent from './interfaces/IStudent';
 import IResponse from './interfaces/IResponse';
+import IGroup from './interfaces/IGroup';
 @Component({
   selector: 'app-students',
   templateUrl: './students.component.html',
@@ -18,7 +19,7 @@ import IResponse from './interfaces/IResponse';
 })
 export class StudentsComponent implements OnInit {
 
-  title = 'Студенти';
+  searchString = '';
   students: IStudent[] = [];
   // Для пагінації
   public config: PaginationInstance = {
@@ -44,20 +45,10 @@ export class StudentsComponent implements OnInit {
     dialogRef.afterClosed().subscribe((Response: string) => {
       if (Response) {
         if (Response === 'ok') {
-          this.dialog.open(ResponseMessageComponent, {
-            width: '400px',
-            data: {
-              message: 'Профіль цього студента було успішно додано!'
-            }
-          });
+          this.openModalMessage('Профіль цього студента було успішно додано!');
           this.fillOutStudentsTable();
         } else if (Response.toLowerCase().includes('error')) {
-          this.dialog.open(ResponseMessageComponent, {
-            width: '400px',
-            data: {
-              message: 'Виникла помилка при додаванні цього студента!'
-            }
-          });
+          this.openModalMessage('Виникла помилка при додаванні цього студента!');
         }
       }
     });
@@ -75,20 +66,10 @@ export class StudentsComponent implements OnInit {
     dialogRef.afterClosed().subscribe((Response: string) => {
       if (Response) {
         if (Response === 'ok') {
-          this.dialog.open(ResponseMessageComponent, {
-            width: '400px',
-            data: {
-              message: 'Профіль цього студента було успішно відредаговано!'
-            }
-          });
+          this.openModalMessage('Профіль цього студента було успішно оновлено!');
           this.fillOutStudentsTable();
         } else if (Response.toLowerCase().includes('error')) {
-          this.dialog.open(ResponseMessageComponent, {
-            width: '400px',
-            data: {
-              message: 'Виникла помилка при редагуванні цього студента!'
-            }
-          });
+          this.openModalMessage('Виникла помилка при редагуванні профілю цього студента!');
         }
       }
     });
@@ -114,12 +95,7 @@ export class StudentsComponent implements OnInit {
         }
         // Щоб не кидало реквест на сервак, якщо нема студентів в групі
         if (groupsArr.length < 1) {
-          this.dialog.open(ResponseMessageComponent, {
-            width: '400px',
-            data: {
-              message: 'Немає зареєстрованих студентів в даній групі!'
-            }
-          });
+          this.openModalMessage('Немає зареєстрованих студентів в даній групі!');
           return;
         }
         const body = JSON.stringify({entity: 'Group', ids: groupsArr});
@@ -133,23 +109,7 @@ export class StudentsComponent implements OnInit {
           });
           this.students = [];
           // Додавання студентів в масив "students"
-          for (let i = 0; i < data.length; i++) {
-            this.students.push({
-              student_fname: data[i].student_fname,
-              student_name: `${data[i].student_name} `,
-              student_surname: `${data[i].student_surname} `,
-              gradebook_id: data[i].gradebook_id,
-              user_id: data[i].user_id,
-              group_id: data[i].group_id,
-              group: ''
-            });
-            // Додавання групи кожному студенту
-            for (let j = 0; j < groupsArr.length; j++) {
-              if (data[i].group_id === groupsArr[j].group_id) {
-                this.students[i].group = groupsArr[j].group_name;
-              }
-            }
-          }
+          this.students = this.fillOutStudentsArray(data, groupsArr);
         });
       });
     }
@@ -170,23 +130,7 @@ export class StudentsComponent implements OnInit {
           });
           this.students = [];
           // Додавання студентів в масив "students"
-          for (let i = 0; i < data.length; i++) {
-            this.students.push({
-              student_fname: data[i].student_fname,
-              student_name: `${data[i].student_name} `,
-              student_surname: `${data[i].student_surname} `,
-              gradebook_id: data[i].gradebook_id,
-              user_id: data[i].user_id,
-              group_id: data[i].group_id,
-              group: ''
-            });
-            // Додавання групи кожному студенту
-            for (let j = 0; j < groupsArr.length; j++) {
-              if (data[i].group_id === groupsArr[j].group_id) {
-                this.students[i].group = groupsArr[j].group_name;
-              }
-            }
-          }
+          this.students = this.fillOutStudentsArray(data, groupsArr);
         });
       });
     }
@@ -203,23 +147,43 @@ export class StudentsComponent implements OnInit {
       if (Response) {
         this.service.deleteStudent(index).subscribe((data: IResponse) => {
           if (data.response === 'ok') {
-            this.dialog.open(ResponseMessageComponent, {
-              width: '400px',
-              data: {
-                message: 'Профіль цього студента було успішно видалено!'
-              }
-            });
+            this.openModalMessage('Профіль цього студента було успішно видалено!');
             this.fillOutStudentsTable();
           }},
           () => {
-            this.dialog.open(ResponseMessageComponent, {
-              width: '400px',
-              data: {
-                message: 'Виникла помилка при видаленні цього студента!'
-              }
-            });
+            this.openModalMessage('Виникла помилка при видаленні цього студента!');
         });
       }
+    });
+  }
+  // Dialog modal message
+  openModalMessage(msg: string, w: string = '400px'): void {
+    this.dialog.open(ResponseMessageComponent, {
+      width: w,
+      data: {
+        message: msg
+      }
+    });
+  }
+  // This method is called to create new students array
+  fillOutStudentsArray(response: IStudent[], groups: IGroup[]): IStudent[] {
+    return response.map(value => {
+      const student: IStudent = {
+        student_fname: value.student_fname,
+        student_name: `${value.student_name} `,
+        student_surname: `${value.student_surname} `,
+        gradebook_id: value.gradebook_id,
+        user_id: value.user_id,
+        group_id: value.group_id,
+        group: ''
+      };
+      // Adding group name for each student
+      groups.forEach(val => {
+        if (value.group_id === val.group_id) {
+          student.group = val.group_name;
+        }
+      });
+      return student;
     });
   }
 }
