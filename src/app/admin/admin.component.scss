@@ -5,6 +5,7 @@
 .admin-panel {
     height: 100%;
     .side-bar {
+        z-index: 1;
         padding: 0;
         background-color: #393836;
         min-height: 100vh;
@@ -59,7 +60,7 @@
             min-height: calc(100vh - 40px);
             .header {
 
-                z-index: 9;
+                z-index: 0;
                 position: fixed; ///
                 top: 0;///////////
                 right: 0;///////// Фіксований хідер медіаквері на width 100% знизу
@@ -142,7 +143,7 @@
 
 .vertical-navigation {
     display: none;
-z-index: 9;
+z-index: 1;
     position: fixed; ///
     top: 65px;///////////
     right: 0;///////// Фіксований хідер медіаквері на width 100% знизу

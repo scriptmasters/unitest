@@ -11,3 +11,8 @@ export interface Ilogin {
     username: string;
     response: string;
 }
+
+export interface Idata {
+    user: string;
+    returnUrl: string;
+}

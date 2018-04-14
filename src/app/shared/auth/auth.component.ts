@@ -33,6 +33,33 @@ export class AuthComponent implements OnInit {
         this.createForm();
     }
 
+    createForm(): void {
+        this.loginForm = this.formBuilder.group({
+            username: ['', Validators.required],
+            password: ['', Validators.required]
+        });
+    }
+
+    submit(): void {
+        if (!this.loginForm.invalid) {
+            this.authService.login(this.loginForm.value)
+                .subscribe((data: Ilogin) => {
+                    switch (data.roles[1]) {
+                        case 'admin' :
+                            (this.rgxpAdmin.test(this.returnUrl)) ?
+                                this.router.navigate([this.returnUrl]) : this.router.navigate(['/admin/']);
+                            break;
+
+                        case 'student' :
+                            (this.rgxpStudent.test(this.returnUrl)) ?
+                                this.router.navigate([this.returnUrl]) : this.router.navigate(['/student']);
+                            break;
+                    }
+                }, error => this.requestError = error.error.response
+            );
+        }
+    }
+
     openDialog() {
         const dialogRef = this.dialog.open(AuthErrorPopupComponent, {
             width: '500px',
@@ -45,43 +72,10 @@ export class AuthComponent implements OnInit {
                 this.router.navigate(['/student']);
             } else {
                 if (result === 'admin') {
-                    this.router.navigate(['/admin']);
+                    this.router.navigate(['/admin/statistic']);
                 }
             }
-            });
-    }
-
-    createForm(): void {
-        this.loginForm = this.formBuilder.group({
-            username: ['', Validators.required],
-            password: ['', Validators.compose([Validators.required, Validators.minLength(8)])]
         });
-    }
-
-    submit(): void {
-        if (!this.loginForm.invalid) {
-            this.authService.login(this.loginForm.value)
-                .subscribe((data: Ilogin) => {
-                    switch (data.roles[1]) {
-                        case 'admin' :
-                            if (this.rgxpAdmin.test(this.returnUrl)) {
-                                this.router.navigate([this.returnUrl]);
-                            } else {
-                                this.router.navigate(['/admin/statistic']);
-                            }
-                            break;
-
-                        case 'student' :
-                            if (this.rgxpStudent.test(this.returnUrl)) {
-                                this.router.navigate([this.returnUrl]);
-                            } else {
-                                this.router.navigate(['/student']);
-                            }
-                            break;
-                    }
-                }, error => this.requestError = error.error.response
-            );
-        }
     }
 
     ngOnInit() {
@@ -95,13 +89,8 @@ export class AuthComponent implements OnInit {
                                     duration: 2000
                                 });
                         } else {
-                            if (this.rgxpAdmin.test(params['return'])) {
-                                this.user = 'admin';
-                                this.openDialog();
-                            } else {
-                                this.user = 'student';
-                                this.openDialog();
-                            }
+                            (this.rgxpAdmin.test(params['return'])) ? this.user = 'admin' : this.user = 'student';
+                            this.openDialog();
                         }
                     });
                 }
