@@ -1,13 +1,13 @@
 import { Component, OnInit, Input, Output, EventEmitter, ViewEncapsulation, Inject } from '@angular/core';
-import { FormGroup, FormControl, Validators } from '@angular/forms'
+import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { StudentsService } from '../students.service';
 
-import { StudentAdd } from '../students-interface';
-import { Groups } from '../students-interface';
-import { Faculties } from '../students-interface';
 import { defaultImage } from './default-image';
-import { IResponse } from '../students-interface';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
+import IGroup from '../interfaces/IGroup';
+import IFaculty from '../interfaces/IFaculty';
+import IStudent from '../interfaces/IStudent';
+import IResponse from '../interfaces/IResponse';
 
 @Component({
   selector: 'app-student-registration-form',
@@ -19,10 +19,10 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 export class StudentRegistrationFormComponent implements OnInit {
 
   form;
-  groups: Groups[] = [];
-  faculties: Faculties[] = [];
-  //Властивості, які вибираються з інпутів з використання "2 way data binding"
-  student: StudentAdd = {
+  groups: IGroup[] = [];
+  faculties: IFaculty[] = [];
+  // Властивості, які вибираються з інпутів з використання "2 way data binding"
+  student: IStudent = {
     gradebook_id: '',
     student_surname: '',
     student_name: '',
@@ -35,16 +35,16 @@ export class StudentRegistrationFormComponent implements OnInit {
   };
 
   constructor(
-    private service: StudentsService, 
+    private service: StudentsService,
     private dialogRef: MatDialogRef<StudentRegistrationFormComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any) { }
 
   ngOnInit() {
-    //Підгружаємо дані факультетів і груп з сервера при першій ініціалізації компоненту
+    // Підгружаємо дані факультетів і груп з сервера при першій ініціалізації компоненту
     this.service.getAvailableFaculties().subscribe(response => {
       this.faculties = response;
     });
-    //Валідація форми
+    // Валідація форми
     this.form = new FormGroup({
       firstname: new FormControl('', Validators.compose([
         Validators.required,
@@ -86,40 +86,42 @@ export class StudentRegistrationFormComponent implements OnInit {
       ]))
     });
   }
-  //Записуємо масив об'єктів "Group" які приходять з сервера в масив "groups"
+  // Записуємо масив об'єктів "Group" які приходять з сервера в масив "groups"
   getGroups(elem: HTMLSelectElement) {
-    let value = elem.options[elem.selectedIndex].value;
-    if (value === 'Виберіть факультет') return;
+    const value = elem.options[elem.selectedIndex].value;
+    if (value === 'Виберіть факультет') {
+      return;
+    }
     let index: string;
-    //Шукаємо айдішку факультету яку було вибрано в селекті
+    // Шукаємо айдішку факультету яку було вибрано в селекті
     this.faculties.forEach(val => {
-      if(val.faculty_name === value) {
+      if (val.faculty_name === value) {
         index = val.faculty_id;
       }
     });
-    //По айдішці факультету витягуємо всі його групи і записуємо в масив groups, якщо є групи в цьому факультеті
+    // По айдішці факультету витягуємо всі його групи і записуємо в масив groups, якщо є групи в цьому факультеті
     this.service.getAvailableGroups(index).subscribe(data => {
       if (data[0]) {
         this.groups = data;
         this.student.group_id = this.groups[0].group_id;
-      //якщо факультет по якихось причинах немає груп
+      // якщо факультет по якихось причинах немає груп
       } else {
         this.groups = [];
       }
     });
   }
-  //Сетим айдішку групи в об'єкт "student"
+  // Сетим айдішку групи в об'єкт "student"
   handleSetGroup(elem: HTMLSelectElement) {
-    let value = elem.options[elem.selectedIndex].value;
+    const value = elem.options[elem.selectedIndex].value;
     let index: string;
     this.groups.forEach(val => {
-      if(val.group_name === value) {
+      if (val.group_name === value) {
         index = val.group_id;
       }
     });
     this.student.group_id = index;
   }
-  //Валідатор для груп
+  // Валідатор для груп
   handleGroupValidator(control) {
     if (control.value === 'Виберіть групу' || control.value === '---' || control.value === null) {
       return {
@@ -127,7 +129,7 @@ export class StudentRegistrationFormComponent implements OnInit {
       };
     }
   }
-  //Валідатор для факультетів
+  // Валідатор для факультетів
   handleFacultyValidator(control) {
     if (control.value === 'Виберіть факультет' || control.value === null) {
       return {
@@ -135,19 +137,19 @@ export class StudentRegistrationFormComponent implements OnInit {
       };
     }
   }
-  //Рендеримо фотку в base64 код перед відправкою на сервер
+  // Рендеримо фотку в base64 код перед відправкою на сервер
   handleAddPhoto(event) {
-    let input = event.target;
+    const input = event.target;
     const reader = new FileReader();
     reader.onload = () => {
-      let dataURL = reader.result;
+      const dataURL = reader.result;
       this.student.photo = dataURL;
     };
     reader.readAsDataURL(input.files[0]);
   }
-  //Відправляємо дані на сервер
+  // Відправляємо дані на сервер
   handleSubmit() {
-    let studentJSON = JSON.stringify({
+    const studentJSON = JSON.stringify({
       gradebook_id: this.student.gradebook_id,
       student_surname: this.student.student_surname,
       student_name: this.student.student_name,
@@ -165,7 +167,7 @@ export class StudentRegistrationFormComponent implements OnInit {
       error => this.dialogRef.close(error.error.response)
     );
   }
-  //Щоб побачити пароль
+  // Щоб побачити пароль
   handleTogglePasswordVisibility(elem: HTMLInputElement) {
     if (elem.type === 'password') {
       elem.type = 'text';
@@ -173,7 +175,7 @@ export class StudentRegistrationFormComponent implements OnInit {
       elem.type = 'password';
     }
   }
-  //Метод який закриває діалогове вікно
+  // Метод який закриває діалогове вікно
   handleClose(): void {
     this.dialogRef.close();
   }

@@ -1,7 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { StudentsService } from './students.service';
-import { StudentGet, IResponse } from './students-interface';
-import { Student } from './students-interface';
 import { group } from '@angular/animations';
 import { StudentRegistrationFormComponent } from './student-registration-form/student-registration-form.component';
 import { StudentEditFormComponent } from './student-edit-form/student-edit-form.component';
@@ -10,6 +8,8 @@ import { MatDialog } from '@angular/material';
 import { PaginationInstance } from 'ngx-pagination';
 import { ActivatedRoute } from '@angular/router';
 import { DeleteConfirmComponent } from '../../shared/delete-confirm/delete-confirm.component';
+import IStudent from './interfaces/IStudent';
+import IResponse from './interfaces/IResponse';
 @Component({
   selector: 'app-students',
   templateUrl: './students.component.html',
@@ -18,9 +18,9 @@ import { DeleteConfirmComponent } from '../../shared/delete-confirm/delete-confi
 })
 export class StudentsComponent implements OnInit {
 
-  title: string = 'Студенти';
-  students: Student[] = [];
-  //Для пагінації
+  title = 'Студенти';
+  students: IStudent[] = [];
+  // Для пагінації
   public config: PaginationInstance = {
     itemsPerPage: 5,
     currentPage: 1
@@ -32,12 +32,12 @@ export class StudentsComponent implements OnInit {
     private route: ActivatedRoute) {}
 
   ngOnInit() {
-    //При кожному ререндері компоненту будуть братись нові дані з сервера
+    // При кожному ререндері компоненту будуть братись нові дані з сервера
     this.route.params.subscribe(params => this.fillOutStudentsTable(params.id));
   }
   // Відкриває діалогове вікно
   showRegForm(): void {
-    let dialogRef = this.dialog.open(StudentRegistrationFormComponent, {
+    const dialogRef = this.dialog.open(StudentRegistrationFormComponent, {
       width: '600px',
       height: 'calc(100vh - 50px)',
     });
@@ -51,7 +51,7 @@ export class StudentsComponent implements OnInit {
             }
           });
           this.fillOutStudentsTable();
-        } else if (Response.toLowerCase().includes("error")) {
+        } else if (Response.toLowerCase().includes('error')) {
           this.dialog.open(ResponseMessageComponent, {
             width: '400px',
             data: {
@@ -62,9 +62,9 @@ export class StudentsComponent implements OnInit {
       }
     });
   }
-  //Редагування студента
-  showEditForm(user: Student): void {
-    let dialogRef = this.dialog.open(StudentEditFormComponent, {
+  // Редагування студента
+  showEditForm(user: IStudent): void {
+    const dialogRef = this.dialog.open(StudentEditFormComponent, {
       width: '600px',
       height: 'calc(100vh - 50px)',
       data: {
@@ -82,7 +82,7 @@ export class StudentsComponent implements OnInit {
             }
           });
           this.fillOutStudentsTable();
-        } else if (Response.toLowerCase().includes("error")) {
+        } else if (Response.toLowerCase().includes('error')) {
           this.dialog.open(ResponseMessageComponent, {
             width: '400px',
             data: {
@@ -93,8 +93,8 @@ export class StudentsComponent implements OnInit {
       }
     });
   }
-  //Розширена інформація про студента
-  showAdvancedInfo(user: Student): void {
+  // Розширена інформація про студента
+  showAdvancedInfo(user: IStudent): void {
     this.dialog.open(StudentEditFormComponent, {
       width: '600px',
       height: 'calc(100vh - 50px)',
@@ -119,17 +119,17 @@ export class StudentsComponent implements OnInit {
             data: {
               message: 'Немає зареєстрованих студентів в даній групі!'
             }
-          })
+          });
           return;
         }
-        let body = JSON.stringify({entity: "Group", ids: groupsArr});
+        const body = JSON.stringify({entity: 'Group', ids: groupsArr});
         this.service.getEntityValue(body).subscribe(response => {
           // Фільтр для властивостей об'єкта
           groupsArr = response.map(val => {
             return {
               group_id: val.group_id,
               group_name: val.group_name
-            }
+            };
           });
           this.students = [];
           // Додавання студентів в масив "students"
@@ -151,22 +151,22 @@ export class StudentsComponent implements OnInit {
             }
           }
         });
-      })
-    } 
+      });
+    }
     if (!id) {
       this.service.getStudents().subscribe(data => {
         let groupsArr = [];
         for (let i = 0; i < data.length; i++) {
           groupsArr.push(data[i].group_id);
         }
-        let body = JSON.stringify({entity: "Group", ids: groupsArr});
+        const body = JSON.stringify({entity: 'Group', ids: groupsArr});
         this.service.getEntityValue(body).subscribe(response => {
           // Фільтр для властивостей об'єкта
           groupsArr = response.map(val => {
             return {
               group_id: val.group_id,
               group_name: val.group_name
-            }
+            };
           });
           this.students = [];
           // Додавання студентів в масив "students"
@@ -191,9 +191,9 @@ export class StudentsComponent implements OnInit {
       });
     }
   }
-  //Видалення студента
+  // Видалення студента
   handleDelete(index): void {
-    let dialogRef = this.dialog.open(DeleteConfirmComponent, {
+    const dialogRef = this.dialog.open(DeleteConfirmComponent, {
       width: '400px',
       data: {
         message: 'Ви справді бажаєте видалити профіль цього студента?'
@@ -208,7 +208,7 @@ export class StudentsComponent implements OnInit {
               data: {
                 message: 'Профіль цього студента було успішно видалено!'
               }
-            })
+            });
             this.fillOutStudentsTable();
           }},
           () => {
@@ -217,8 +217,8 @@ export class StudentsComponent implements OnInit {
               data: {
                 message: 'Виникла помилка при видаленні цього студента!'
               }
-            })
-        })
+            });
+        });
       }
     });
   }
