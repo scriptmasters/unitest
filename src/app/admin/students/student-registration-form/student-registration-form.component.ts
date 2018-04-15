@@ -102,14 +102,9 @@ export class StudentRegistrationFormComponent implements OnInit {
       if (data[0]) {
         this.groups = data;
         this.student.group_id = this.groups[0].group_id;
-      //якщо факультет по якихось причинах немає груп, ЛОЛ :)
+      //якщо факультет по якихось причинах немає груп
       } else {
-        this.groups = [{
-          group_id: 'none',
-          group_name: '---',
-          speciality_id: 'none',
-          faculty_id: 'none'
-        }];
+        this.groups = [];
       }
     });
   }
