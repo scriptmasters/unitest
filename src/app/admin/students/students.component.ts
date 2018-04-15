@@ -177,7 +177,7 @@ export class StudentsComponent implements OnInit {
         group_id: value.group_id,
         group: ''
       };
-      // Adding group name for each student
+      // Adding group name to display it at table
       groups.forEach(val => {
         if (value.group_id === val.group_id) {
           student.group = val.group_name;
