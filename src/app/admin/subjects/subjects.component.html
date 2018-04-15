@@ -5,7 +5,7 @@
     </header>
     <div class="row justify-content-end">
       <div class="col-lg-2 pb-3">
-        <button mat-raised-button (click)="openModalAdd()"  class="btn btn-primary">Додати предмет</button>
+        <button mat-raised-button (click)="openModal()"  class="btn btn-primary">Додати предмет</button>
       </div>
     </div>
     <div class="row">
@@ -17,20 +17,20 @@
                 <thead>
                 <tr class="d-flex">
                   <th class="col-1">#</th>
-                  <th class="col-4">Назва предмету</th>
+                  <th class="col-3">Назва предмету</th>
                   <th class="col-4">Опис</th>
-                  <th class="col-3 table-colspan" colspan="3">Керування</th>
+                  <th class="col-4 table-colspan" colspan="2">Керування</th>
                 </tr>
                 </thead>
                 <tbody>
                 <tr class="d-flex" *ngFor="let subject of subjects | paginate: config; let i = index">
-                  <th class="col-sm-1" scope="row">{{ (config.currentPage - 1) * config.itemsPerPage + i +1 }}</th>
-                  <!--<th class="col-sm-1" scope="row">{{ i +1 }}</th>-->
-                  <td class="col-sm-4">{{subject.subject_name}}</td>
+                  <th class="col-sm-1" scope="row">{{ (config.currentPage - 1) * config.itemsPerPage + (i + 1) }}</th>
+                  <td class="col-sm-3">{{subject.subject_name}}</td>
                   <td class="col-sm-4">{{subject.subject_description}}</td>
-                  <td class="col-sm-1"><a routerLink="tests" (click)="subjectId(subject.subject_id)"><i class="fa fa-calendar-check-o table-icon" title="Тести: {{subject.subject_name}}"></i></a></td>
+                  <td class="col-sm-1"><a (click)="getTests(subject.subject_id)"><i class="fa fa-calendar-check-o table-icon" title="Тести: {{subject.subject_name}}"></i></a></td>
                   <td class="col-sm-1"><a (click)="getTimetable(subject.subject_id)"><i class="fa fa-calendar table-icon" title="Розклад: {{subject.subject_name}}"></i></a></td>
-                  <td class="col-sm-1"><a (click)="openModalEdit(subject.subject_id)"><i class="fa fa-cog table-icon" title="Редагувати"></i></a></td>
+                  <td class="col-sm-1"><a (click)="openModal(subject.subject_id)"><i class="fa fa-cog table-icon" title="Редагувати"></i></a></td>
+                  <td class="col-sm-1"><a (click)="deleteSubject(subject.subject_id)"><i class="fa fa-close table-icon" title="Видалити"></i></a></td>
                 </tr>
               </tbody>
               </table>
@@ -43,6 +43,7 @@
       <div class="col-lg-12">
         <pagination-controls class="pagination justify-content-center"
                              (pageChange)="config.currentPage = $event"
+                             maxSize="5"
                              previousLabel="<<"
                              nextLabel=">>"
                              autoHide="true"

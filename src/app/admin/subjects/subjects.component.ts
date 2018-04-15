@@ -1,13 +1,14 @@
 import {Component, OnInit} from '@angular/core';
 import {FormGroup} from '@angular/forms';
 import {MatDialog} from '@angular/material';
+import {Router} from '@angular/router';
+import {PaginationInstance} from 'ngx-pagination';
 
 import {SubjectService} from './services/subject.service';
-import {AddSubjectComponent} from './add-subject/add-subject.component';
-import {EditSubjectComponent} from './edit-subject/edit-subject.component';
 import {Subject} from './subject';
-import {PaginationInstance} from 'ngx-pagination';
-import {Router} from '@angular/router';
+import {ResponseMessageComponent} from '../../shared/response-message/response-message.component';
+import {ModalSubjectComponent} from './modal-subject/modal-subject.component';
+import {DeleteConfirmComponent} from '../../shared/delete-confirm/delete-confirm.component';
 
 @Component({
   selector: 'app-subjects',
@@ -20,7 +21,7 @@ export class SubjectsComponent implements OnInit {
   form: FormGroup;
 
   public config: PaginationInstance = {
-    itemsPerPage: 3,
+    itemsPerPage: 10,
     currentPage: 1
   };
 
@@ -42,35 +43,69 @@ export class SubjectsComponent implements OnInit {
   }
 
   getTimetable(id): void {
-    console.log(id);
-    this.router.navigate(['timetable'], { queryParams: { subjectId: id} });
+    this.router.navigate(['admin/timetable'], { queryParams: { subjectId: id} });
   }
 
-  openModalAdd(): void {
-    const matDialogRef = this.dialog.open(AddSubjectComponent, {
-      width: '600px'
-    });
-
-    matDialogRef.afterClosed().subscribe(() => {
-      this.getSubjects();
-    });
+  getTests(id): void {
+    this.router.navigate(['admin/tests'], { queryParams: { subjectId: id} });
   }
 
-  openModalEdit(id): void {
-    const matDialogRef = this.dialog.open(EditSubjectComponent, {
+  openModal(id): void {
+    const matDialogRef = this.dialog.open(ModalSubjectComponent, {
       width: '600px',
       data: {subject_id: id}
     });
 
-    matDialogRef.afterClosed().subscribe( () => {
-      this.getSubjects();
-    });
-  }
-  
-  subjectId(id: any) {
-    this.router.navigate(['/admin/tests'], {
-      queryParams: {id: id}
-    });
+      matDialogRef.afterClosed().subscribe((response: any) => {
+        if (response) {
+          if (response.status === 'SUCCESS') {
+            this.dialog.open(ResponseMessageComponent, {
+              width: '400px',
+              data: {
+                message: response.message
+              }
+            });
+            this.getSubjects();
+          } else if (response.status === 'ERROR') {
+            this.dialog.open(ResponseMessageComponent, {
+              width: '400px',
+              data: {
+                message: response.message
+              }
+            });
+          }
+          }
+      });
   }
 
+  deleteSubject(id): void {
+    const matDialogRef = this.dialog.open(DeleteConfirmComponent, {
+      width: '400px',
+      data: {
+        message: 'Ви справді бажаєте видалити даний предмет?'
+      }
+    });
+    matDialogRef.afterClosed().subscribe((response: boolean) => {
+      if (response) {
+        this.subjectService.deleteSubject(id).subscribe((data: any) => {
+            if (data.response === 'ok') {
+              this.dialog.open(ResponseMessageComponent, {
+                width: '400px',
+                data: {
+                  message: 'Даний предмет успішно видалено!'
+                }
+              });
+              this.getSubjects();
+            }},
+          () => {
+            this.dialog.open(ResponseMessageComponent, {
+              width: '400px',
+              data: {
+                message: 'Виникла помилка при видаленні предмета!'
+              }
+            });
+          });
+      }
+    });
+  }
 }

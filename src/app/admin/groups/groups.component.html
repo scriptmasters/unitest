@@ -8,13 +8,15 @@
       <input type="text" class="form-control" placeholder="пошук">
       <div class="form-group ">
         <select name="account" class="form-control col-md-12">
-          <option *ngFor="let tab of uniqueFac; let i = index;" value="{{tab.faculty}}">{{tab}}</option>
+          <option value="none" selected>Виберіть факультет</option>
+          <option *ngFor="let tab of faculties; let i = index;" value="{{tab.faculty}}">{{tab.faculty_name}}</option>
         </select>
       </div>
 
       <div class="form-group ">
         <select name="account" class="form-control col-md-12">
-          <option *ngFor="let tab of uniqueSpec; let i = index;" value="{{tab.speciality}}">{{tab}}</option>
+            <option value="none" selected>Виберіть спецільність</option>
+          <option *ngFor="let tab of specialities; let i = index;" value="{{tab.speciality}}">{{tab.speciality_name}}</option>
         </select>
       </div>
 
@@ -36,14 +38,14 @@
                   <th></th>
                 </thead>
                 <tbody>
-                  <tr *ngFor="let tab of table | paginate: { itemsPerPage: 10, currentPage: p}; let i = index; ">
-                    <th>{{(i+1)}}</th>
+                  <tr *ngFor="let tab of table | paginate: config; let i = index; ">
+                    <th>{{(config.currentPage - 1) * config.itemsPerPage + i +1}}</th>
                     <td>{{tab.group}}</td>
                     <td>{{tab.faculty}}</td>
                     <td>{{tab.speciality}}</td>
-                    <td><i class="fa fa-list" title="Переглянути результати тестування групи {{tab.group}}"></i></td>
-                    <td><i class="fa fa-user" title="Переглянути студентів групи {{tab.group}}"></i></td>
-                    <td><i class="fa fa-calendar" title="Розклад тестування групи {{tab.group}}"></i></td>
+                    <td><i class="fa fa-list" title="Переглянути результати тестування групи {{tab.group}}" ></i></td>
+                    <td><i class="fa fa-user" title="Переглянути студентів групи {{tab.group}}" routerLink="/admin/students/byGroup/{{tab.group_id}}"></i></td>
+                    <td><i class="fa fa-calendar" title="Розклад тестування групи {{tab.group}}" (click)="goTimetabel(tab.group_id)"></i></td>
                     <td><i class="fa fa-cog" title="Редагувати групу {{tab.group}}" (click)="openDialog(tab)"></i></td>
                     <td><i class="fa fa-close" title="Видалити групу {{tab.group}}" (click)="delGroup(tab.group_id)"></i></td>
                   </tr>
@@ -55,5 +57,5 @@
       </div>
     </div>
   </div>
-  <pagination-controls (pageChange)="p = $event"></pagination-controls>
+  <pagination-controls class="pagination" (pageChange)="config.currentPage=$event"></pagination-controls>
 </section>

@@ -1,16 +1,9 @@
-.table a{
-  color: #666;
+.table th {
+  text-align: center;
 }
-.pagination /deep/ .ngx-pagination {
-  .current {
-    background: #33B357;
-  }
-  .pagination-previous a:before, .pagination-previous.disabled:before {
-    content: '';
-  }
-  .pagination-next a:after, .pagination-next.disabled:after {
-    content: '';
-  }
+.table a{
+  cursor: pointer;
+  color: #666;
 }
 
 

@@ -137,10 +137,10 @@ export class StudentEditFormComponent implements OnInit {
       //якщо факультет по якихось причинах немає груп, ЛОЛ :)
       } else {
         this.groups = [{
-          group_id: 'none',
-          group_name: '---',
-          speciality_id: 'none',
-          faculty_id: 'none'
+          group_id: '',
+          group_name: 'Немає груп',
+          speciality_id: '',
+          faculty_id: ''
         }];
       }
     });
@@ -158,7 +158,7 @@ export class StudentEditFormComponent implements OnInit {
   }
   //Валідатор для груп
   handleGroupValidator(control) {
-    if (control.value === '---' || control.value === undefined) {
+    if (control.value === 'Немає груп' || control.value === '') {
       return {
         'group': true
       };
