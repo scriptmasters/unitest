@@ -16,7 +16,7 @@ import {Router} from '@angular/router';
   styleUrls: ['./faculties.component.scss']
 })
 export class FacultiesComponent implements OnInit {
-   
+
   faculties: Faculties[];
   form: FormGroup;
 
@@ -24,19 +24,19 @@ export class FacultiesComponent implements OnInit {
      itemsPerPage: 5,
      currentPage: 1
   };
-  
+
  constructor(private facultiesService: FacultiesService, public dialog: MatDialog, private router: Router) { }
-  
+
    ngOnInit() {
       this.getAllFaculties();
     }
 
-    getAllFaculties(): void { 
+    getAllFaculties(): void {
       this.facultiesService.getFaculties()
            .subscribe((data: Faculties[]) => {
            this.faculties = data;
-    })
-   };
+    });
+   }
 
     getGroups(id): void {
     this.router.navigate(['admin/groups'], { queryParams: { facultyId: id} });
@@ -44,20 +44,20 @@ export class FacultiesComponent implements OnInit {
 
   // Модальне вікно додавання
   openAddModal() {
-    let dialogRef =this.dialog.open(FacultiesAddComponent, {
+    const dialogRef = this.dialog.open(FacultiesAddComponent, {
         width: '400px'
     });
-    dialogRef.afterClosed().subscribe((Response: string)=> {
+    dialogRef.afterClosed().subscribe((Response: string) => {
           this.getAllFaculties();
         });
   }
 
 // Модальне вікно редагування
   openUpdateModal(id): void {
-    let dialogRef = this.dialog.open(FacultiesUpdateComponent, {
+    const dialogRef = this.dialog.open(FacultiesUpdateComponent, {
         width: '400px',
         data: { faculty_id: id }
-    });   
+    });
         dialogRef.afterClosed().subscribe(() => {
         this.getAllFaculties();
         });
@@ -65,11 +65,11 @@ export class FacultiesComponent implements OnInit {
 
 // Модальне вікно видалення
  openDeleteModal(num): void {
-    let dialogRef = this.dialog.open(FacultiesDeleteComponent, {
+    const dialogRef = this.dialog.open(FacultiesDeleteComponent, {
         width: '400px',
         data: { id: num }
-    });   
-        dialogRef.afterClosed().subscribe((Response: string)=> {
+    });
+        dialogRef.afterClosed().subscribe((Response: string) => {
       if (Response) {
         if (Response === 'ok') {
           this.dialog.open(ResponseMessageComponent, {
@@ -79,7 +79,7 @@ export class FacultiesComponent implements OnInit {
             }
           });
           this.getAllFaculties();
-        } else if (Response.toLowerCase().includes("error")) {
+        } else if (Response.toLowerCase().includes('error')) {
           this.dialog.open(ResponseMessageComponent, {
             width: '400px',
             data: {

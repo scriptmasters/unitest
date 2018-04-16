@@ -3,29 +3,29 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { AppRoutingModule} from './app-routing.module';
 import { CdkTableModule } from '@angular/cdk/table';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS  } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { AuthService } from './shared/auth/auth.service';
+import { AuthService } from './auth/auth.service';
 import { StudentsService } from './admin/students/students.service';
 import { FacultiesService } from './admin/faculties/faculties.service';
 import { StudentGuard } from './student-guard.service';
 import { AdminGuard } from './admin-guard.service';
-import { AuthErrorPopupComponent } from './shared/auth/auth-error-popup/auth-error-popup.component';
+import { AuthErrorPopupComponent } from './auth/auth-error-popup/auth-error-popup.component';
 import { SubjectService } from './admin/subjects/services/subject.service';
 import { TestService } from './admin/subjects/tests/test.service';
 import { GroupsService } from './admin/groups/groups.service';
-
 import TableService from './admin/timetable/timetable.service';
 import { TestDetailsService } from './admin/testdetails/sevices/test-details.service';
 import { TestDetailsComponent } from './admin/testdetails/component/test-details.component';
 import { TestDetailCreateComponent } from './admin/testdetails/modals/test-detail-create/test-detail-create.component';
 import { QuestionsService } from './admin/questions/questions.service';
+import {RequestInterceptor} from './shared/request-interceptor';
 import {
     MatAutocompleteModule,
     MatButtonModule,
     MatButtonToggleModule,
     MatCardModule,
-    MatCheckboxModule,  
+    MatCheckboxModule,
     MatChipsModule,
     MatDatepickerModule,
     MatDialogModule,
@@ -57,7 +57,7 @@ import {
 import { NgxPaginationModule } from 'ngx-pagination';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppComponent } from './app.component';
-import { AuthComponent } from './shared/auth/auth.component';
+import { AuthComponent } from './auth/auth.component';
 import { AdminComponent } from './admin/admin.component';
 import { StudentsComponent } from './admin/students/students.component';
 import { StudentComponent } from './student/student.component';
@@ -89,6 +89,7 @@ import { AddQuestionComponent } from './admin/questions/add-question/add-questio
 import { StatisticService } from './admin/statistic/statistic.service';
 import { SpecialityService } from './admin/specialities/speciality.service';
 import { PopupFormComponent } from './admin/specialities/popup-form/popup-form.component';
+
 @NgModule({
     imports: [
         BrowserModule,
@@ -219,7 +220,8 @@ import { PopupFormComponent } from './admin/specialities/popup-form/popup-form.c
         SpecialityService,
         GroupsService,
         TestDetailsService,
-        QuestionsService
+        QuestionsService,
+        { provide: HTTP_INTERCEPTORS, useClass: RequestInterceptor, multi: true }
     ]
 })
 

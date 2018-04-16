@@ -1,14 +1,13 @@
 import { Component, OnInit } from '@angular/core';
-import { SpecialityService } from './speciality.service'
+import { SpecialityService } from './speciality.service';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { Observable } from 'rxjs/Observable';
 import { catchError, map, tap } from 'rxjs/operators';
 import { identifierModuleUrl } from '@angular/compiler';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { PopupFormComponent } from '../specialities/popup-form/popup-form.component'
+import { PopupFormComponent } from '../specialities/popup-form/popup-form.component';
 import { ResponseMessageComponent } from '../../shared/response-message/response-message.component';
 import {Router} from '@angular/router';
-const URL = "http://vps9615.hyperhost.name:443/api";
 
 
 import { MatPaginatorModule } from '@angular/material/paginator';
@@ -30,16 +29,16 @@ export class SpecialitiesComponent implements OnInit {
       this.speciality.specialitiesObject = value;
 
     }, error => {
-      console.log("error" + error);
-    })
+      console.log('error' + error);
+    });
 
   }
 
 
   delete(id) {
     this.speciality.specialitiesObject = this.speciality.specialitiesObject.filter(item => item.speciality_id !== id);
-      return this.http.get(URL + "/Speciality/del/" + id, { withCredentials: true }).subscribe(value => {
-    })
+      return this.http.get('Speciality/del/' + id, { withCredentials: true }).subscribe(value => {
+    });
   }
 
   getGroups(id): void {
@@ -49,18 +48,18 @@ export class SpecialitiesComponent implements OnInit {
     this.speciality.oldspeciality = {};
     Object.assign(this.speciality.oldspeciality, key);
     this.speciality.speciality = key;
-    let dialogRef = this.dialog.open(PopupFormComponent, {
+    const dialogRef = this.dialog.open(PopupFormComponent, {
       width: '600px'
     });
     dialogRef.afterClosed().subscribe((response: any) => {
-      if (response === "ok") {
+      if (response === 'ok') {
         this.dialog.open(ResponseMessageComponent, {
           width: '400px',
           data: {
             message: 'Cпеціальність було успішно додано!'
           }
         });
-      } else if  ((response =='error')) {
+      } else if  ((response == 'error')) {
         this.dialog.open(ResponseMessageComponent, {
           width: '400px',
           data: {
@@ -73,22 +72,22 @@ export class SpecialitiesComponent implements OnInit {
 
   openModal() {
     this.speciality.speciality = {
-      speciality_name: "",
-      speciality_code: "",
-      speciality_id: ""
+      speciality_name: '',
+      speciality_code: '',
+      speciality_id: ''
     };
-    let dialogRef = this.dialog.open(PopupFormComponent, {
+    const dialogRef = this.dialog.open(PopupFormComponent, {
       width: '600px'
     });
     dialogRef.afterClosed().subscribe((response: any) => {
-      if (response === "ok") {
+      if (response === 'ok') {
         this.dialog.open(ResponseMessageComponent, {
           width: '400px',
           data: {
             message: 'Cпеціальність було успішно додано!'
           }
         });
-      } else if ((response =='error')) {
+      } else if ((response == 'error')) {
         this.dialog.open(ResponseMessageComponent, {
           width: '400px',
           data: {
@@ -97,6 +96,6 @@ export class SpecialitiesComponent implements OnInit {
         });
       }
     });
-  };
+  }
 
 }

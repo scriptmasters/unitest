@@ -4,11 +4,11 @@ import { HttpClient } from '@angular/common/http';
 @Injectable()
 export class TestService {
 
-  getTest_URL = 'http://vps9615.hyperhost.name:443/api/Test/getRecords';
-  delTest_URL = 'http://vps9615.hyperhost.name:443/api/Test/del/';
-  editTest_URL = 'http://vps9615.hyperhost.name:443/api/Test/update/';
-  addTest_URL = 'http://vps9615.hyperhost.name:443/api/Test/insertData';
-  getTestById_URL = 'http://vps9615.hyperhost.name:443/api/test/getTestsBySubject/';
+  getTest_URL = 'Test/getRecords';
+  delTest_URL = 'Test/del/';
+  editTest_URL = 'Test/update/';
+  addTest_URL = 'Test/insertData';
+  getTestById_URL = 'test/getTestsBySubject/';
   constructor(private http: HttpClient) { }
   getTests() {
     return this.http.get(this.getTest_URL);

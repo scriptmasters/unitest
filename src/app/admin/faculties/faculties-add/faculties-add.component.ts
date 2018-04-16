@@ -29,7 +29,7 @@ export class FacultiesAddComponent implements OnInit {
             Validators.minLength(5),
             Validators.maxLength(100)])
         });
-     };
+     }
 
  closeDialog() {
      this.matDialogRef.close();
@@ -39,7 +39,7 @@ export class FacultiesAddComponent implements OnInit {
     const formData = this.form.value;
     this.facultiesService.addFaculty(formData.title, formData.description)
       .subscribe((faculty: Faculties[]) => {
-        if (faculty) { 
+        if (faculty) {
           this.matDialogRef.close();
         }
       });
