@@ -11,7 +11,6 @@ export class RequestInterceptor implements HttpInterceptor {
     intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
 
         const httpReq = req.clone({ url: this.hostName + req.url});
-        console.log ('interceptor');
 
         return next.handle(httpReq)
             .catch((error, caught) => {
