@@ -88,52 +88,34 @@ export class StudentsComponent implements OnInit {
   // метод який записує в масив "students" дані про кожного студента
   fillOutStudentsTable(id?: any): void {
     if (id) {
-      this.service.getStudentsByGroup(id).subscribe(data => {
-        let groupsArr = [];
-        for (let i = 0; i < data.length; i++) {
-          groupsArr.push(data[i].group_id);
-        }
-        // Щоб не кидало реквест на сервак, якщо нема студентів в групі
-        if (groupsArr.length < 1) {
-          this.openModalMessage('Немає зареєстрованих студентів в даній групі!');
-          return;
-        }
-        const body = JSON.stringify({entity: 'Group', ids: groupsArr});
-        this.service.getEntityValue(body).subscribe(response => {
-          // Фільтр для властивостей об'єкта
-          groupsArr = response.map(val => {
-            return {
-              group_id: val.group_id,
-              group_name: val.group_name
-            };
-          });
-          this.students = [];
-          // Додавання студентів в масив "students"
-          this.students = this.fillOutStudentsArray(data, groupsArr);
-        });
-      });
+      this.service.getStudentsByGroup(id).subscribe(
+        (data: IStudent[]&IResponse) => this.processDataFromAPI(data),
+        () => this.openModalMessage('Сталась помилка при завантаженні даних')
+    );
     }
     if (!id) {
-      this.service.getStudents().subscribe(data => {
-        let groupsArr = [];
-        for (let i = 0; i < data.length; i++) {
-          groupsArr.push(data[i].group_id);
-        }
-        const body = JSON.stringify({entity: 'Group', ids: groupsArr});
-        this.service.getEntityValue(body).subscribe(response => {
-          // Фільтр для властивостей об'єкта
-          groupsArr = response.map(val => {
-            return {
-              group_id: val.group_id,
-              group_name: val.group_name
-            };
-          });
-          this.students = [];
-          // Додавання студентів в масив "students"
-          this.students = this.fillOutStudentsArray(data, groupsArr);
-        });
-      });
+      this.service.getStudents().subscribe(
+        (data: IStudent[]&IResponse) => this.processDataFromAPI(data),
+        () => this.openModalMessage('Сталась помилка при завантаженні даних')
+      );
     }
+  }
+  // Processing data
+  processDataFromAPI(data: IStudent[]&IResponse) {
+    // Щоб не кидало реквест на сервак, якщо нема студентів в групі
+    if (data.response === 'no records') {
+      this.openModalMessage('Немає зареєстрованих студентів в даній групі!');
+      return;
+    }
+    let groupsArr: any[] = data.map(value => value.group_id);
+    const body = JSON.stringify({entity: 'Group', ids: groupsArr});
+    this.service.getEntityValue(body).subscribe(response => {
+      groupsArr = response;
+      // Reseting existing array
+      this.students = [];
+      // Додавання студентів в масив "students"
+      this.students = this.fillOutStudentsArray(data, groupsArr);
+    });
   }
   // Видалення студента
   handleDelete(index): void {
