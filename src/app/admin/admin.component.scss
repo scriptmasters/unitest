@@ -186,6 +186,12 @@ z-index: 1;
     .header, .vertical-navigation  {
         width: 100%!important; /// коли зникає лівий навбар верхній навбар не на всю ширину
     }
+    .footer span, .admin-title, .dtester-title {
+        font-size: 1rem!important;
+    }
+    .admin-panel .main .content-wrapper .header {
+        padding: 0 2rem;
+    }
 }
 
 @media (min-width: 992px) {

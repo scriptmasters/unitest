@@ -2,24 +2,24 @@
     <div  class="mat-input-container">
         <mat-card>
             <mat-card >
-                <h1> Welcome to D-tester</h1>
+                <h1> Програма тестування D-tester</h1>
             </mat-card>
             <form [formGroup]="loginForm" (keydown.enter)="submit()">
                 <div id="error">{{requestError}}</div>
                 <mat-form-field>
-                    <mat-label>Username</mat-label>
-                    <input autocomplete="on" id="login" formControlName="username" matInput placeholder="vasyapupkin" name="username" >
+                    <mat-label>Логін</mat-label>
+                    <input id="login" formControlName="username" type="text" matInput placeholder="vasyapupkin">
                     <mat-error *ngIf="loginForm.get('username').hasError('required')">
-                        This field must not be empty
+                        Поле не може бути порожнім
                     </mat-error>
                 </mat-form-field>
                 <mat-form-field>
-                    <input autocomplete="on" id="password" formControlName="password" name="password" type="password" matInput placeholder="Password" >
+                    <input id="password" formControlName="password" type="password" matInput placeholder="Пароль" >
                     <mat-error *ngIf="loginForm.get('password').hasError('required')">
-                        This field must not be empty
+                        Поле не може бути порожнім
                     </mat-error>
                 </mat-form-field>
-                <button id="submit" type="button" (click)="submit()" [disabled]="loginForm.invalid" mat-raised-button color="primary">Sign In</button>
+                <button id="submit" type="button" (click)="submit()" [disabled]="loginForm.invalid" mat-raised-button color="primary">Ввійти</button>
             </form>
         </mat-card>
 </div>

@@ -47,7 +47,7 @@ export class AuthComponent implements OnInit {
                     switch (data.roles[1]) {
                         case 'admin' :
                             (this.rgxpAdmin.test(this.returnUrl)) ?
-                                this.router.navigate([this.returnUrl]) : this.router.navigate(['/admin/']);
+                                this.router.navigate([this.returnUrl]) : this.router.navigate(['/admin/statistic']);
                             break;
 
                         case 'student' :
@@ -55,7 +55,8 @@ export class AuthComponent implements OnInit {
                                 this.router.navigate([this.returnUrl]) : this.router.navigate(['/student']);
                             break;
                     }
-                }, error => this.requestError = error.error.response
+                }, error => error.error.response === 'Invalid login or password' ?
+                    this.requestError = 'Невірний логін або пароль' : this.requestError = 'Перевірте з\'єднання інтернет'
             );
         }
     }
