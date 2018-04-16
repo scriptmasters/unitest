@@ -172,6 +172,7 @@ export class StudentsComponent implements OnInit {
         student_fname: value.student_fname,
         student_name: `${value.student_name} `,
         student_surname: `${value.student_surname} `,
+        fullName: `${value.student_surname} ${value.student_name} ${value.student_fname}`,
         gradebook_id: value.gradebook_id,
         user_id: value.user_id,
         group_id: value.group_id,

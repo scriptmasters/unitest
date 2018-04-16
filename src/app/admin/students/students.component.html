@@ -28,11 +28,7 @@
                 <tbody>
                   <tr *ngFor="let student of students | searchStudent: searchString | paginate: config; let i = index">
                     <th>{{(config.currentPage - 1) * config.itemsPerPage + i +1}}</th>
-                    <td>
-                      <span>{{student.student_surname}}</span>
-                      <span>{{student.student_name}}</span>
-                      <span>{{student.student_fname}}</span>
-                    </td>
+                    <td>{{student.fullName}}</td>
                     <th>{{student.gradebook_id}}</th>
                     <th>{{student.group}}</th>
                     <td><i class="fa fa-address-card" aria-hidden="true" title="Детальна інформація" (click)="showAdvancedInfo(student)"></i></td>
