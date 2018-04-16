@@ -22,6 +22,7 @@ export class AuthComponent implements OnInit {
     loginForm: FormGroup;
     rgxpStudent = /^\/student.*/g;
     rgxpAdmin = /^\/admin.*/g;
+    requestError: string;
 
     constructor(public authService: AuthService,
                 private router: Router,
@@ -34,7 +35,7 @@ export class AuthComponent implements OnInit {
 
     openDialog() {
         const dialogRef = this.dialog.open(AuthErrorPopupComponent, {
-            width: '500px',
+            width: '1000px',
             data: {user: this.user, returnUrl: this.returnUrl}
         });
 
@@ -66,7 +67,7 @@ export class AuthComponent implements OnInit {
                             if (this.rgxpAdmin.test(this.returnUrl)) {
                                 this.router.navigate([this.returnUrl]);
                             } else {
-                                this.router.navigate(['/admin']);
+                                this.router.navigate(['/admin/statistic']);
                             }
                             break;
 
@@ -78,7 +79,7 @@ export class AuthComponent implements OnInit {
                             }
                             break;
                     }
-                }, error => document.getElementById('error').innerHTML = error.error.response
+                }, error => this.requestError = error.error.response
             );
         }
     }
@@ -91,17 +92,12 @@ export class AuthComponent implements OnInit {
                     this.authService.isLogged().subscribe((result: IisLogged) => {
                         if (result.response === 'non logged') {
                                     this.snackBar.open('You are not logged in', 'OK', {
-                                    duration: 2000, panelClass: 'snackbar'
+                                    duration: 2000
                                 });
                         } else {
-                            if (this.rgxpAdmin.test(params['return'])) {
-                                this.user = 'admin';
-                                this.openDialog();
-                            } else {
-                                this.user = 'student';
-                                this.openDialog();
+                            this.rgxpAdmin.test(params['return']) ? this.user = 'admin' : this.user = 'student';
+                            this.openDialog();
                             }
-                        }
                     });
                 }
             });

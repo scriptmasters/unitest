@@ -17,13 +17,12 @@
                     <th>ПІБ</th>
                     <th>№ залікової книжки</th>
                     <th>Група</th>
-                    <th></th>
-                    <th></th>
+                    <th class="table-colspan" colspan="2">Керування</th>
                   </tr>
                 </thead>
                 <tbody>
-                  <tr *ngFor="let student of students; let i = index">
-                    <th>{{i+1}}</th>
+                  <tr *ngFor="let student of students | paginate: config; let i = index">
+                    <th>{{(config.currentPage - 1) * config.itemsPerPage + i +1}}</th>
                     <td>
                       <span>{{student.student_surname}}</span>
                       <span>{{student.student_name}}</span>
@@ -31,14 +30,16 @@
                     </td>
                     <th>{{student.gradebook_id}}</th>
                     <th>{{student.group}}</th>
-                    <td><i class="fa fa-cog" (click)="showEditForm(student)"></i></td>
-                    <td><i class="fa fa-close" (click)="handleDelete(student.user_id)"></i></td>
+                    <td><i class="fa fa-address-card" aria-hidden="true" title="Детальна інформація" (click)="showAdvancedInfo(student)"></i></td>
+                    <td><i class="fa fa-cog" (click)="showEditForm(student)" title="Редагувати"></i></td>
+                    <td><i class="fa fa-close" (click)="handleDelete(student.user_id)" title="Видалити"></i></td>
                   </tr>
                 </tbody>
               </table>
             </div>
           </div>
         </div>
+        <pagination-controls class="pagination justify-content-center" (pageChange)="config.currentPage=$event" previousLabel="<<" nextLabel=">>" autoHide="true"></pagination-controls>
       </div>
     </div>
   </div>

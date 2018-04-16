@@ -4,6 +4,7 @@ import { TestDetailsService } from '../sevices/test-details.service';
 
 import { TestDetailCreateComponent } from '../modals/test-detail-create/test-detail-create.component';
 import { Router, ActivatedRoute } from '@angular/router';
+import {DeleteConfirmComponent} from '../../../shared/delete-confirm/delete-confirm.component';
 
 @Component({
   selector: 'app-testdetails',
@@ -22,12 +23,10 @@ export class TestDetailsComponent implements OnInit {
 
   ngOnInit() {
     this.testId = parseInt(this.route.snapshot.paramMap.get('id'), 10);
-
     this.route.queryParams.subscribe(params => {
       this.testId = params['id'];
       this.getTestDetails();
     });
-
   }
 
   openDialog(testDetails: any) {
@@ -44,10 +43,18 @@ export class TestDetailsComponent implements OnInit {
   }
 
   delete(id: number) {
-    this.testDetailsService.deleteTestDetail(id).subscribe(() => {
-      this.getTestDetails();
-    }, err => {
-      alert(err.error.response);
+    const dialogRef = this.dialog.open(DeleteConfirmComponent, {
+      data: {message: 'Ви впевнені, що хочете видалити цей запис?'}
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.testDetailsService.deleteTestDetail(id).subscribe(() => {
+          this.getTestDetails();
+        }, err => {
+          alert(err.error.response);
+        });
+      }
     });
   }
 

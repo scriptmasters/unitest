@@ -19,3 +19,24 @@ header {
 table {
     margin: 0;
 }
+
+.table-colspan {
+    text-align: center;
+}
+
+.fa.fa-cog, .fa.fa-close, .fa.fa-address-card {
+    cursor: pointer;
+}
+
+.pagination /deep/ .ngx-pagination {
+    margin-top: 10px;
+    .current {
+      background: #33B357;
+    }
+    .pagination-previous a:before, .pagination-previous.disabled:before {
+      content: '';
+    }
+    .pagination-next a:after, .pagination-next.disabled:after {
+      content: '';
+    }
+}

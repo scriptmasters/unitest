@@ -1,8 +1,11 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { Test } from '../test';
-import { MatDialogRef} from '@angular/material';
+import { MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
 import {TestService } from '../test.service';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { SubjectService } from '../../services/subject.service';
+
+
 @Component({
   selector: 'app-add',
   templateUrl: './add.component.html',
@@ -11,36 +14,32 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 export class AddComponent implements OnInit {
 
   rForm: FormGroup;
-  constructor(public dialogRef: MatDialogRef<AddComponent>, private httpService: TestService, private fb: FormBuilder) { 
+  constructor(public dialogRef: MatDialogRef<AddComponent>, @Inject(MAT_DIALOG_DATA) public data: any, private httpService: TestService, private fb: FormBuilder) { 
   this.initForm();
   }
   
   ngOnInit() {
-  
+
   }
   
 initForm() {
   this.rForm = this.fb.group({
     test_name: [, [Validators.required,
-    Validators.pattern(/[А-я]/)]
+      Validators.maxLength(70), Validators.minLength(2)]
   ],
     tasks: [, [Validators.required,
-    Validators.pattern(/[0-9]/)]
-  ],
+    Validators.pattern(/^\d{1,3}$/)]],
     time_for_test: [, [Validators.required,
     Validators.pattern(/[0-9]/)]
   ],
     enabled: [, [Validators.required]],
 
-    subject_id: [, Validators.required],
-    attempts: [, [Validators.required,
-    Validators.pattern(/[0-9]/)]
-  ]
+    subject_id: [this.data.id, Validators.required],
+    attempts: [, [Validators.required, Validators.pattern(/\d{1,3}/)]]
   })
 }
 
 enabled = [{value: 1, text: 'Доступний'}, {value: 0, text: 'Недоступний'}];
-subject_id = [{value: 1, text: 'Вища математика'}, {value: 2, text: 'Теорія ймовірності'}];
 
 onSubmit() {
   const controls = this.rForm.controls;
