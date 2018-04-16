@@ -33,28 +33,10 @@ export class AuthComponent implements OnInit {
         this.createForm();
     }
 
-    openDialog() {
-        const dialogRef = this.dialog.open(AuthErrorPopupComponent, {
-            width: '1000px',
-            data: {user: this.user, returnUrl: this.returnUrl}
-        });
-
-        dialogRef.afterClosed().subscribe((result: string) => {
-
-            if (result === 'student') {
-                this.router.navigate(['/student']);
-            } else {
-                if (result === 'admin') {
-                    this.router.navigate(['/admin']);
-                }
-            }
-            });
-    }
-
     createForm(): void {
         this.loginForm = this.formBuilder.group({
             username: ['', Validators.required],
-            password: ['', Validators.compose([Validators.required, Validators.minLength(8)])]
+            password: ['', Validators.required]
         });
     }
 
@@ -64,24 +46,37 @@ export class AuthComponent implements OnInit {
                 .subscribe((data: Ilogin) => {
                     switch (data.roles[1]) {
                         case 'admin' :
-                            if (this.rgxpAdmin.test(this.returnUrl)) {
-                                this.router.navigate([this.returnUrl]);
-                            } else {
-                                this.router.navigate(['/admin/statistic']);
-                            }
+                            (this.rgxpAdmin.test(this.returnUrl)) ?
+                                this.router.navigate([this.returnUrl]) : this.router.navigate(['/admin/statistic']);
                             break;
 
                         case 'student' :
-                            if (this.rgxpStudent.test(this.returnUrl)) {
-                                this.router.navigate([this.returnUrl]);
-                            } else {
-                                this.router.navigate(['/student']);
-                            }
+                            (this.rgxpStudent.test(this.returnUrl)) ?
+                                this.router.navigate([this.returnUrl]) : this.router.navigate(['/student']);
                             break;
                     }
-                }, error => this.requestError = error.error.response
+                }, error => error.error.response === 'Invalid login or password' ?
+                    this.requestError = 'Невірний логін або пароль' : this.requestError = 'Перевірте з\'єднання інтернет'
             );
         }
+    }
+
+    openDialog() {
+        const dialogRef = this.dialog.open(AuthErrorPopupComponent, {
+            width: '500px',
+            data: {user: this.user, returnUrl: this.returnUrl}
+        });
+
+        dialogRef.afterClosed().subscribe((result: string) => {
+
+            if (result === 'student') {
+                this.router.navigate(['/student']);
+            } else {
+                if (result === 'admin') {
+                    this.router.navigate(['/admin/statistic']);
+                }
+            }
+        });
     }
 
     ngOnInit() {
@@ -95,9 +90,9 @@ export class AuthComponent implements OnInit {
                                     duration: 2000
                                 });
                         } else {
-                            this.rgxpAdmin.test(params['return']) ? this.user = 'admin' : this.user = 'student';
+                            (this.rgxpAdmin.test(params['return'])) ? this.user = 'admin' : this.user = 'student';
                             this.openDialog();
-                            }
+                        }
                     });
                 }
             });

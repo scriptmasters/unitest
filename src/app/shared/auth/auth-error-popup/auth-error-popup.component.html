@@ -1,12 +1,15 @@
-<mat-card-title>
-    You tried to enter {{data.user}} panel but not authorised to do this
+<mat-card-title *ngIf="data.user === 'admin'">
+    Ви не авторизовані для входу до панелі адміністратора
+</mat-card-title>
+<mat-card-title *ngIf="data.user === 'student'">
+    Ви не авторизовані для входу до панелі студента
 </mat-card-title>
 <mat-card-content>
-    What would you like to do?
+    Куди ви бажаєте перейти?
 </mat-card-content>
 <mat-card-actions>
-    <button mat-raised-button color="primary" [mat-dialog-close]="'login'"> Login as {{data.user}}</button>
-    <button *ngIf="data.user === 'admin'" mat-raised-button color="primary" [mat-dialog-close]="'student'">Pass to student panel</button>
-    <button *ngIf="data.user === 'student'" mat-raised-button color="primary" [mat-dialog-close]="'admin'">Pass to admin panel</button>
+    <button mat-raised-button color="primary" [mat-dialog-close]="'login'"> Панель авторизації</button>
+    <button *ngIf="data.user === 'admin'" mat-raised-button color="primary" [mat-dialog-close]="'student'">Панель студента</button>
+    <button *ngIf="data.user === 'student'" mat-raised-button color="primary" [mat-dialog-close]="'admin'">Панель адміністратора</button>
 </mat-card-actions>
 
