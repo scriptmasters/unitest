@@ -11,10 +11,10 @@ import { IResponse } from './students-interface';
 @Injectable()
 export class StudentsService {
   //Посилання на бек-енд
-  private getStudentsURL = 'http://vps9615.hyperhost.name:443/api/Student/getRecordsRange/20/0';
-  private addStudentURL = 'http://vps9615.hyperhost.name:443/api/Student/insertData';
-  private getFacultiesURL = 'http://vps9615.hyperhost.name:443/api/Faculty/getRecords';
-  private getEntityValueURL = 'http://vps9615.hyperhost.name:443/api/EntityManager/getEntityValues';
+  private getStudentsURL = 'Student/getRecordsRange/20/0';
+  private addStudentURL = 'Student/insertData';
+  private getFacultiesURL = 'Faculty/getRecords';
+  private getEntityValueURL = 'EntityManager/getEntityValues';
 
   constructor(private http: HttpClient) { }
 
@@ -24,11 +24,11 @@ export class StudentsService {
   }
   //Отримати дані конкретного студента
   getPickedStudent(user_id: string): Observable<StudentGet[]> {
-    return this.http.get<StudentGet[]>(`http://vps9615.hyperhost.name:443/api/Student/getRecords/${user_id}`);
+    return this.http.get<StudentGet[]>(`Student/getRecords/${user_id}`);
   }
   //Інфо про юзера
   getUserInfo(id: string): Observable<IUser[]> {
-    return this.http.get<IUser[]>(`http://vps9615.hyperhost.name:443/api/AdminUser/getRecords/${id}`);
+    return this.http.get<IUser[]>(`AdminUser/getRecords/${id}`);
   }
   //Отримання масиву об'єктів груп по заданих айдішках(айдішки прописуються в "body")
   getEntityValue(body): Observable<GroupNameByID[]&Faculties[]> {
@@ -40,7 +40,7 @@ export class StudentsService {
   }
   //Отримання всіх груп вибраного факультету
   getAvailableGroups(value): Observable<Groups[]> {
-    return this.http.get<Groups[]>(`http://vps9615.hyperhost.name:443/api/group/getGroupsByFaculty/${value}`);
+    return this.http.get<Groups[]>(`group/getGroupsByFaculty/${value}`);
   }
   //Отримання всіх факультетів
   getAvailableFaculties(): Observable<Faculties[]> {
@@ -48,14 +48,14 @@ export class StudentsService {
   }
   //Видалення студента
   deleteStudent(id: string): Observable<IResponse> {
-    return this.http.delete<IResponse>(`http://vps9615.hyperhost.name:443/api/Student/del/${id}`);
+    return this.http.delete<IResponse>(`Student/del/${id}`);
   }
   //Редагування студента
   editStudent(id, body) {
-    return this.http.post(`http://vps9615.hyperhost.name:443/api/Student/update/${id}`, body);
+    return this.http.post(`Student/update/${id}`, body);
   }
   //Отримати всіх студентів вибраної групи
   getStudentsByGroup(id: any): Observable<StudentGet[]> {
-    return this.http.get<StudentGet[]>(`http://vps9615.hyperhost.name:443/api/student/getStudentsByGroup/${id}`);
+    return this.http.get<StudentGet[]>(`student/getStudentsByGroup/${id}`);
   }
 }

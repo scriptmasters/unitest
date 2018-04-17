@@ -1,6 +1,6 @@
 import {Component, Inject} from '@angular/core';
 import {MAT_DIALOG_DATA} from '@angular/material';
-import {Idata} from '../../Interfaces/server_response';
+import {Idata} from '../../shared/Interfaces/server_response';
 
 @Component({
     selector: 'app-auth-error-popup.component',

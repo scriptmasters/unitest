@@ -7,11 +7,11 @@ import {Subject} from '../subject';
 @Injectable()
 export class SubjectService {
 
-  private urlGetSubjects = 'http://vps9615.hyperhost.name:443/api/Subject/getRecords';
-  // private urlGetSubjectByName = 'http://vps9615.hyperhost.name:443/api/Subject/getRecordsBySearch';
-  private urlAddSubject = 'http://vps9615.hyperhost.name:443/api/Subject/insertData';
-  private urlEditSubject = 'http://vps9615.hyperhost.name:443/api/Subject/update';
-  private urlDeleteSubject = 'http://vps9615.hyperhost.name:443/api/Subject/del';
+  private urlGetSubjects = 'Subject/getRecords';
+  // private urlGetSubjectByName = 'Subject/getRecordsBySearch';
+  private urlAddSubject = 'Subject/insertData';
+  private urlEditSubject = 'Subject/update';
+  private urlDeleteSubject = 'Subject/del';
 
   constructor(
     private http: HttpClient

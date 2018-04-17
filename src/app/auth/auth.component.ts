@@ -5,7 +5,8 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {MatDialog} from '@angular/material';
 import {AuthErrorPopupComponent} from './auth-error-popup/auth-error-popup.component';
 import {MatSnackBar} from '@angular/material';
-import {Ilogin, IisLogged} from '../Interfaces/server_response';
+import {Ilogin, IisLogged} from '../shared/Interfaces/server_response';
+import {SymbolValidator} from './custom-validator';
 
 
 @Component({
@@ -35,8 +36,8 @@ export class AuthComponent implements OnInit {
 
     createForm(): void {
         this.loginForm = this.formBuilder.group({
-            username: ['', Validators.required],
-            password: ['', Validators.required]
+            username: ['', Validators.compose([Validators.required, SymbolValidator(' ')])],
+            password: ['', Validators.compose([Validators.required, SymbolValidator(' ')])],
         });
     }
 

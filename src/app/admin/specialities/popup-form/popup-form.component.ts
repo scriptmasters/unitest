@@ -9,7 +9,7 @@ import { catchError, map, tap } from 'rxjs/operators';
 import { SpecialityService } from '../speciality.service';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { FormsModule } from '@angular/forms';
-const URL = 'http://vps9615.hyperhost.name:443/api';
+
 @Component({
   selector: 'app-popup-form',
   templateUrl: './popup-form.component.html',

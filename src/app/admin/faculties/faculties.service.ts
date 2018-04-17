@@ -5,10 +5,10 @@ import {Observable} from 'rxjs/Observable';
 
 @Injectable()
 export class FacultiesService {
-private urlGetFaculties = 'http://vps9615.hyperhost.name:443/api/Faculty/getRecords';
-private urlDelFaculties = 'http://vps9615.hyperhost.name:443/api/Faculty/del';
-private urlAddFaculties = 'http://vps9615.hyperhost.name:443/api/Faculty/insertData';
- private urlEditFaculties = 'http://vps9615.hyperhost.name:443/api/Faculty/update';
+private urlGetFaculties = 'Faculty/getRecords';
+private urlDelFaculties = 'Faculty/del';
+private urlAddFaculties = 'Faculty/insertData';
+ private urlEditFaculties = 'Faculty/update';
 
   constructor(private http: HttpClient) { }
 

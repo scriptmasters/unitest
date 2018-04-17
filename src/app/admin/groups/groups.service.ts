@@ -6,8 +6,8 @@ import { Observable } from 'rxjs/Observable';
 @Injectable()
 
 export class GroupsService {
-  readonly ROOT_URL_POST: string = 'http://vps9615.hyperhost.name:443/api/login/index';
-  readonly ROOT_URL_POST_GROUPS: string = 'http://vps9615.hyperhost.name:443/api/';
+  readonly ROOT_URL_POST: string = 'login/index';
+  readonly ROOT_URL_POST_GROUPS: string = '';
 
   constructor(private http: HttpClient) {}
 

@@ -8,7 +8,6 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { PopupFormComponent } from '../specialities/popup-form/popup-form.component';
 import { ResponseMessageComponent } from '../../shared/response-message/response-message.component';
 import {Router} from '@angular/router';
-const URL = 'http://vps9615.hyperhost.name:443/api';
 
 
 import { MatPaginatorModule } from '@angular/material/paginator';
@@ -38,7 +37,7 @@ export class SpecialitiesComponent implements OnInit {
 
   delete(id) {
     this.speciality.specialitiesObject = this.speciality.specialitiesObject.filter(item => item.speciality_id !== id);
-      return this.http.get(URL + '/Speciality/del/' + id, { withCredentials: true }).subscribe(value => {
+      return this.http.get('Speciality/del/' + id, { withCredentials: true }).subscribe(value => {
     });
   }
 

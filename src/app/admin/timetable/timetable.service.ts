@@ -40,37 +40,37 @@ export class TableService {
 
   getSubjects(): Observable<Object> {
     return this.http.get(
-      'http://vps9615.hyperhost.name:443/api/Subject/getRecords'
+      'Subject/getRecords'
     );
   }
 
   getGroups(): Observable<Object> {
     return this.http.get(
-      'http://vps9615.hyperhost.name:443/api/Group/getRecords'
+      'Group/getRecords'
     );
   }
 
   getTable(): Observable<Object> {
     return this.http.get(
-      'http://vps9615.hyperhost.name:443/api/TimeTable/getRecords'
+      'TimeTable/getRecords'
     );
   }
 
   getTableBySubjectId(id: string): Observable<Object> {
     return this.http.get(
-      `http://vps9615.hyperhost.name:443/api/TimeTable/getTimeTablesForSubject/${id}`
+      `TimeTable/getTimeTablesForSubject/${id}`
     );
   }
 
   getTableByGroupId(id: string): Observable<Object> {
     return this.http.get(
-      `http://vps9615.hyperhost.name:443/api/TimeTable/getTimeTablesForGroup/${id}`
+      `TimeTable/getTimeTablesForGroup/${id}`
     );
   }
 
   addTableItem(tableItem: TableItem): Observable<Object> {
     return this.http.post(
-      'http://vps9615.hyperhost.name:443/api/TimeTable/insertData',
+      'TimeTable/insertData',
       tableItem
     );
   }
@@ -80,14 +80,14 @@ export class TableService {
     tableItem: TableItem
   ): Observable<Object> {
     return this.http.post(
-      `http://vps9615.hyperhost.name:443/api/TimeTable/update/${timetable_id}`,
+      `TimeTable/update/${timetable_id}`,
       tableItem
     );
   }
 
   deleteTableItem(timetable_id: string): Observable<any> {
     return this.http.delete(
-      `http://vps9615.hyperhost.name:443/api/TimeTable/del/${timetable_id}`
+      `TimeTable/del/${timetable_id}`
     );
   }
 }
