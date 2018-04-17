@@ -3,9 +3,6 @@ import { RouterModule, Routes } from '@angular/router';
 import { StudentGuard } from './student-guard.service';
 import { AdminGuard } from './admin-guard.service';
 
-
-
-
 const routes: Routes = [
     { path: '', redirectTo: '/admin/statistic', pathMatch: 'full' },
     { path: 'student', canActivate: [StudentGuard], loadChildren: './student/student.module#StudentModule' },
