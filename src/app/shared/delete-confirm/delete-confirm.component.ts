@@ -9,18 +9,18 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 })
 export class DeleteConfirmComponent implements OnInit {
 
-  constructor( 
+  constructor(
     public dialogRef: MatDialogRef<DeleteConfirmComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any) { }
 
   ngOnInit() {
   }
 
-  handleDelete():void {
+  handleDelete(): void {
     this.dialogRef.close(true);
   }
 
-  handleClose():void {
+  handleClose(): void {
     this.dialogRef.close();
   }
 

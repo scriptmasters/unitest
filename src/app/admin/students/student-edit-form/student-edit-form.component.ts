@@ -52,7 +52,7 @@ export class StudentEditFormComponent implements OnInit {
   };
 
   constructor(
-    private service: StudentsService, 
+    private service: StudentsService,
     public dialogRef: MatDialogRef<StudentEditFormComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any) { }
 
@@ -64,10 +64,10 @@ export class StudentEditFormComponent implements OnInit {
     this.service.getUserInfo(this.data.student.user_id).subscribe(response => {
       this.studentInfo = response[0];
     });
-    let group = JSON.stringify({entity: "Group", ids: [this.data.student.group_id]});
+    const group = JSON.stringify({entity: 'Group', ids: [this.data.student.group_id]});
     this.service.getEntityValue(group).subscribe(resp => {
       this.studentGroup = resp[0];
-      let faculty = JSON.stringify({entity: "Faculty", ids: [this.studentGroup.faculty_id]});
+      const faculty = JSON.stringify({entity: 'Faculty', ids: [this.studentGroup.faculty_id]});
       this.service.getEntityValue(faculty).subscribe(val => {
         this.studentFaculty = val[0];
         this.service.getAvailableFaculties().subscribe(value => {
@@ -121,11 +121,11 @@ export class StudentEditFormComponent implements OnInit {
   }
   //Записуємо масив об'єктів "Group" які приходять з сервера в масив "groups"
   getGroups(elem: HTMLSelectElement) {
-    let value = elem.options[elem.selectedIndex].value;
+    const value = elem.options[elem.selectedIndex].value;
     let index: string;
     //Шукаємо айдішку факультету яку було вибрано в селекті
     this.faculties.forEach(val => {
-      if(val.faculty_name === value) {
+      if (val.faculty_name === value) {
         index = val.faculty_id;
       }
     });
@@ -147,10 +147,10 @@ export class StudentEditFormComponent implements OnInit {
   }
   //Сетим айдішку групи в об'єкт "student"
   handleSetGroup(elem: HTMLSelectElement) {
-    let value = elem.options[elem.selectedIndex].value;
+    const value = elem.options[elem.selectedIndex].value;
     let index: string;
     this.groups.forEach(val => {
-      if(val.group_name === value) {
+      if (val.group_name === value) {
         index = val.group_id;
       }
     });
@@ -166,17 +166,17 @@ export class StudentEditFormComponent implements OnInit {
   }
   //Рендеримо фотку в base64 код перед відправкою на сервер
   handleAddPhoto(event) {
-    let input = event.target;
+    const input = event.target;
     const reader = new FileReader();
     reader.onload = () => {
-      let dataURL = reader.result;
+      const dataURL = reader.result;
       this.student.photo = dataURL;
     };
     reader.readAsDataURL(input.files[0]);
   }
   //Відправляємо дані на сервер
   handleSubmit(value) {
-    let studentJSON = JSON.stringify({
+    const studentJSON = JSON.stringify({
       gradebook_id: value.gradebook,
       student_surname: value.surname,
       student_name: value.firstname,
@@ -189,7 +189,7 @@ export class StudentEditFormComponent implements OnInit {
       password_confirm: value.password,
       plain_password: value.password
     });
-    this.service.editStudent(this.data.student.user_id ,studentJSON).subscribe(
+    this.service.editStudent(this.data.student.user_id , studentJSON).subscribe(
       (data: IResponse) => this.dialogRef.close(data.response),
       error => this.dialogRef.close(error.error.response)
     );

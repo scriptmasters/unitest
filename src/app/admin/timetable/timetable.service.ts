@@ -1,9 +1,9 @@
-import { Injectable, NgModule } from "@angular/core";
-import { HttpClient } from "@angular/common/http";
-import { HttpHeaders } from "@angular/common/http";
+import { Injectable, NgModule } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { HttpHeaders } from '@angular/common/http';
 
-import { Observable } from "rxjs/Observable";
-import { catchError, map, tap } from "rxjs/operators";
+import { Observable } from 'rxjs/Observable';
+import { catchError, map, tap } from 'rxjs/operators';
 
 export interface Subject {
   subject_id: string;
@@ -32,7 +32,7 @@ export interface TableItem {
 export class TableService {
   httpOptions = {
     headers: new HttpHeaders({
-      "Content-Type": "application/json;charset=utf8"
+      'Content-Type': 'application/json;charset=utf8'
     })
   };
 
@@ -40,19 +40,19 @@ export class TableService {
 
   getSubjects(): Observable<Object> {
     return this.http.get(
-      "http://vps9615.hyperhost.name:443/api/Subject/getRecords"
+      'http://vps9615.hyperhost.name:443/api/Subject/getRecords'
     );
   }
 
   getGroups(): Observable<Object> {
     return this.http.get(
-      "http://vps9615.hyperhost.name:443/api/Group/getRecords"
+      'http://vps9615.hyperhost.name:443/api/Group/getRecords'
     );
   }
 
   getTable(): Observable<Object> {
     return this.http.get(
-      "http://vps9615.hyperhost.name:443/api/TimeTable/getRecords"
+      'http://vps9615.hyperhost.name:443/api/TimeTable/getRecords'
     );
   }
 
@@ -70,7 +70,7 @@ export class TableService {
 
   addTableItem(tableItem: TableItem): Observable<Object> {
     return this.http.post(
-      "http://vps9615.hyperhost.name:443/api/TimeTable/insertData",
+      'http://vps9615.hyperhost.name:443/api/TimeTable/insertData',
       tableItem
     );
   }

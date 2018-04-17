@@ -38,7 +38,7 @@ constructor(
 ) { }
 
   ngOnInit() {
-    console.log('QuestionsComponent.selectedTestId = ',/* QuestionsComponent.selectedTestId*/);
+    console.log('QuestionsComponent.selectedTestId = ', /* QuestionsComponent.selectedTestId*/);
 
     this.questionService.getAllQuestions()
       .subscribe((dataQuestions: IQuestions[]) => {
