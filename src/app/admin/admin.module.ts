@@ -54,8 +54,6 @@ import { SearchStudentPipe } from './students/searchStudent.pipe';
     ],
     entryComponents: [
         TimeTableModal,
-        StudentRegistrationFormComponent,
-        StudentEditFormComponent,
         ModalSubjectComponent,
         ResponseMessageComponent,
         DeleteConfirmComponent,
@@ -80,14 +78,11 @@ import { SearchStudentPipe } from './students/searchStudent.pipe';
         ModalSubjectComponent,
         SpecialitiesComponent,
         AdministratorsComponent,
-        StudentsComponent,
         GroupsComponent,
         TimetableComponent,
-        StudentRegistrationFormComponent,
         TimetableDeleteConfirmComponent,
         DialogComponent,
         TimeTableModal,
-        StudentEditFormComponent,
         ResponseMessageComponent,
         DeleteConfirmComponent,
         FacultiesAddComponent,
@@ -102,12 +97,10 @@ import { SearchStudentPipe } from './students/searchStudent.pipe';
         TestDetailCreateComponent,
         QuestionsComponent,
         AddQuestionComponent,
-        EditQuestionComponent,
-        SearchStudentPipe
+        EditQuestionComponent
     ],
     providers: [
         AuthService,
-        StudentsService,
         SubjectService,
         FacultiesService,
         TableService,
@@ -117,7 +110,6 @@ import { SearchStudentPipe } from './students/searchStudent.pipe';
         GroupsService,
         TestDetailsService,
         QuestionsService,
-        StudentsResolver
     ]
 })
 

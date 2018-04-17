@@ -31,17 +31,11 @@ const routes: Routes = [
             },
             {
                 path: 'students',
-                component: StudentsComponent,
-                resolve: {
-                    students: StudentsResolver
-                }
+                loadChildren: './students/students.module#StudentsModule'
             },
             {
-                path: 'students/byGroup/:id',
-                component: StudentsComponent,
-                resolve: {
-                    students: StudentsResolver
-                }
+                path: 'students/byGroup',
+                loadChildren: './students/students.module#StudentsModule'
             },
             {
                 path: 'faculties',
