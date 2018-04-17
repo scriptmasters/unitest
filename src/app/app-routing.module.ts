@@ -16,6 +16,8 @@ import { GroupsComponent } from './admin/groups/groups.component';
 import { TimetableComponent } from './admin/timetable/timetable.component';
 import { QuestionsComponent } from './admin/questions/questions.component';
 import { TestDetailsComponent} from './admin/testdetails/component/test-details.component';
+import { resolve } from 'url';
+import { StudentsResolver } from './admin/students/students-resolver.service';
 
 
 const routes: Routes = [
@@ -37,11 +39,17 @@ const routes: Routes = [
           },
           {
             path: 'students',
-            component: StudentsComponent
+            component: StudentsComponent,
+            resolve: {
+              students: StudentsResolver
+            }
           },
           {
             path: 'students/byGroup/:id',
-            component: StudentsComponent
+            component: StudentsComponent,
+            resolve: {
+              students: StudentsResolver
+            }
           },
           {
             path: 'faculties',

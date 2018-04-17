@@ -90,6 +90,7 @@ import { StatisticService } from './admin/statistic/statistic.service';
 import { SpecialityService } from './admin/specialities/speciality.service';
 import { PopupFormComponent } from './admin/specialities/popup-form/popup-form.component';
 import { SearchStudentPipe } from './admin/students/searchStudent.pipe';
+import { StudentsResolver } from './admin/students/students-resolver.service';
 @NgModule({
     imports: [
         BrowserModule,
@@ -209,7 +210,8 @@ import { SearchStudentPipe } from './admin/students/searchStudent.pipe';
         SpecialityService,
         GroupsService,
         TestDetailsService,
-        QuestionsService
+        QuestionsService,
+        StudentsResolver
     ]
 })
 

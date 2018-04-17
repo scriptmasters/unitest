@@ -98,17 +98,17 @@ export class StudentEditFormComponent implements OnInit {
       ])),
       gradebook: new FormControl(null, Validators.compose([
         Validators.required,
-        Validators.minLength(3),
+        Validators.minLength(6),
         Validators.maxLength(20)
       ])),
       login: new FormControl(null, Validators.compose([
         Validators.required,
-        Validators.minLength(3),
+        Validators.minLength(5),
         Validators.maxLength(20)
       ])),
       password: new FormControl(null, Validators.compose([
         Validators.required,
-        Validators.minLength(3),
+        Validators.minLength(8),
         Validators.maxLength(20)
       ])),
       email: new FormControl(null, Validators.compose([
@@ -191,8 +191,8 @@ export class StudentEditFormComponent implements OnInit {
       plain_password: value.password
     });
     this.service.editStudent(this.data.student.user_id, studentJSON).subscribe(
-      (data: IResponse) => this.dialogRef.close(data.response),
-      error => this.dialogRef.close(error.error.response)
+      (data: IResponse) => this.dialogRef.close(data),
+      error => this.dialogRef.close(error)
     );
   }
   // Щоб побачити пароль

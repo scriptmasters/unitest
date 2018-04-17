@@ -65,12 +65,12 @@ export class StudentRegistrationFormComponent implements OnInit {
       faculty: new FormControl(null, this.handleFacultyValidator),
       gradebook: new FormControl('', Validators.compose([
         Validators.required,
-        Validators.minLength(3),
+        Validators.minLength(6),
         Validators.maxLength(20)
       ])),
       login: new FormControl('', Validators.compose([
         Validators.required,
-        Validators.minLength(3),
+        Validators.minLength(5),
         Validators.maxLength(20)
       ])),
       password: new FormControl('', Validators.compose([
@@ -80,7 +80,7 @@ export class StudentRegistrationFormComponent implements OnInit {
       ])),
       email: new FormControl('', Validators.compose([
         Validators.required,
-        Validators.minLength(3),
+        Validators.minLength(8),
         Validators.maxLength(32),
         Validators.email
       ]))
@@ -163,8 +163,8 @@ export class StudentRegistrationFormComponent implements OnInit {
       plain_password: this.student.password
     });
     this.service.addStudent(studentJSON).subscribe(
-      (data: IResponse) => this.dialogRef.close(data.response),
-      error => this.dialogRef.close(error.error.response)
+      (data: IResponse) => this.dialogRef.close(data),
+      error => this.dialogRef.close(error)
     );
   }
   // Щоб побачити пароль

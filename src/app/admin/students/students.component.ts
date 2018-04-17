@@ -6,11 +6,12 @@ import { StudentEditFormComponent } from './student-edit-form/student-edit-form.
 import { ResponseMessageComponent } from '../../shared/response-message/response-message.component';
 import { MatDialog } from '@angular/material';
 import { PaginationInstance } from 'ngx-pagination';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Params } from '@angular/router';
 import { DeleteConfirmComponent } from '../../shared/delete-confirm/delete-confirm.component';
 import IStudent from './interfaces/IStudent';
 import IResponse from './interfaces/IResponse';
 import IGroup from './interfaces/IGroup';
+import { StudentsResolver } from './students-resolver.service';
 @Component({
   selector: 'app-students',
   templateUrl: './students.component.html',
@@ -30,11 +31,12 @@ export class StudentsComponent implements OnInit {
   constructor(
     private service: StudentsService,
     private dialog: MatDialog,
-    private route: ActivatedRoute) {}
+    private route: ActivatedRoute,
+    private resolver: StudentsResolver) {}
 
   ngOnInit() {
-    // При кожному ререндері компоненту будуть братись нові дані з сервера
-    this.route.params.subscribe(params => this.fillOutStudentsTable(params.id));
+    const students = this.route.snapshot.data['students'];
+    this.processDataFromAPI(students);
   }
   // Відкриває діалогове вікно
   showRegForm(): void {
@@ -42,12 +44,12 @@ export class StudentsComponent implements OnInit {
       width: '600px',
       height: 'calc(100vh - 50px)',
     });
-    dialogRef.afterClosed().subscribe((Response: string) => {
+    dialogRef.afterClosed().subscribe((Response: any) => {
       if (Response) {
-        if (Response === 'ok') {
+        if (Response.response === 'ok') {
           this.openModalMessage('Профіль цього студента було успішно додано!');
-          this.fillOutStudentsTable();
-        } else if (Response.toLowerCase().includes('error')) {
+          this.updateData();
+        } else if (Response.error || Response.response === 'Failed to validate array') {
           this.openModalMessage('Виникла помилка при додаванні цього студента!');
         }
       }
@@ -63,12 +65,12 @@ export class StudentsComponent implements OnInit {
         student: user
       }
     });
-    dialogRef.afterClosed().subscribe((Response: string) => {
+    dialogRef.afterClosed().subscribe((Response: any) => {
       if (Response) {
-        if (Response === 'ok') {
+        if (Response.response === 'ok') {
           this.openModalMessage('Профіль цього студента було успішно оновлено!');
-          this.fillOutStudentsTable();
-        } else if (Response.toLowerCase().includes('error')) {
+          this.updateData();
+        } else if (Response.error || Response.response === 'Error when update') {
           this.openModalMessage('Виникла помилка при редагуванні профілю цього студента!');
         }
       }
@@ -86,7 +88,8 @@ export class StudentsComponent implements OnInit {
     });
   }
   // метод який записує в масив "students" дані про кожного студента
-  fillOutStudentsTable(id?: any): void {
+  updateData(): void {
+    const id = this.route.snapshot.paramMap.get('id');
     if (id) {
       this.service.getStudentsByGroup(id).subscribe(
         (data: IStudent[]&IResponse) => this.processDataFromAPI(data),
@@ -130,7 +133,7 @@ export class StudentsComponent implements OnInit {
         this.service.deleteStudent(index).subscribe((data: IResponse) => {
           if (data.response === 'ok') {
             this.openModalMessage('Профіль цього студента було успішно видалено!');
-            this.fillOutStudentsTable();
+            this.updateData();
           }},
           () => {
             this.openModalMessage('Виникла помилка при видаленні цього студента!');
