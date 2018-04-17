@@ -31,12 +31,10 @@ export class StudentsComponent implements OnInit {
   constructor(
     private service: StudentsService,
     private dialog: MatDialog,
-    private route: ActivatedRoute,
-    private resolver: StudentsResolver) {}
+    private route: ActivatedRoute) {}
 
   ngOnInit() {
-    const students = this.route.snapshot.data['students'];
-    this.processDataFromAPI(students);
+    this.students = this.route.snapshot.data['students'];
   }
   // Відкриває діалогове вікно
   showRegForm(): void {
