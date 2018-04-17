@@ -1,0 +1,21 @@
+mat-card-actions {
+  display: flex;
+  justify-content: space-around;
+}
+mat-card-title, mat-card-content {
+  text-align: center;
+}
+@media (max-width: 667px) {
+  .mat-raised-button {
+    padding: 0 5px;
+  }
+  .mat-card-actions {
+    text-align: center;
+    display: inline-block;
+    margin: 0 auto;
+    width: 100%;
+  }
+  .mat-raised-button {
+    margin: 5px;
+  }
+}

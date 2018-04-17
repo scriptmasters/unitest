@@ -1,0 +1,32 @@
+header{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #fff;
+    padding: 0.8em;
+    border: 1px solid rgba(0,0,0,.125);
+    border-radius: .25rem;
+    margin: 10px 0;
+    input.form-control{
+        width: 13em;
+    }
+    > *{
+        margin: 5px;
+    }
+}
+
+.pagination /deep/ .ngx-pagination {
+    .current {
+      background: #33B357;
+    }
+    .pagination-previous a:before, .pagination-previous.disabled:before {
+      content: '';
+    }
+    .pagination-next a:after, .pagination-next.disabled:after {
+      content: '';
+    }
+}
+
+i{
+    cursor: pointer;
+}
