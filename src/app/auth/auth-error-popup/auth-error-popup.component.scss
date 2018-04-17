@@ -9,4 +9,13 @@ mat-card-title, mat-card-content {
   .mat-raised-button {
     padding: 0 5px;
   }
+  .mat-card-actions {
+    text-align: center;
+    display: inline-block;
+    margin: 0 auto;
+    width: 100%;
+  }
+  .mat-raised-button {
+    margin: 5px;
+  }
 }
