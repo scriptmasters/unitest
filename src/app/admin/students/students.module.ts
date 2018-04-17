@@ -17,9 +17,9 @@ import { CommonModule } from '@angular/common';
         SearchStudentPipe
     ],
     imports: [
+        CommonModule,
         StudentsRoutingModule,
-        SharedModule,
-        CommonModule
+        SharedModule
     ],
     providers: [
         StudentsService,

@@ -54,7 +54,7 @@ export class StudentsService {
     return this.http.post(`${this.updateStudentUrl}/${id}`, body);
   }
   // Отримати всіх студентів вибраної групи
-  getStudentsByGroup(id: any): Observable<IStudent[]> {
-    return this.http.get<IStudent[]>(`student/getStudentsByGroup/${id}`);
+  getStudentsByGroup(id: any): Observable<IStudent[] & IResponse> {
+    return this.http.get<IStudent[] & IResponse>(`student/getStudentsByGroup/${id}`);
   }
 }

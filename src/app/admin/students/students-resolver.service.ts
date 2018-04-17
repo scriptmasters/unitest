@@ -6,15 +6,32 @@ import 'rxjs/add/observable/of';
 import { StudentsService } from './students.service';
 import IGroup from './interfaces/IGroup';
 import { switchMap } from 'rxjs/operators';
+import { ErrorObservable } from 'rxjs/observable/ErrorObservable';
+import { catchError } from 'rxjs/operators/catchError';
+import { ResponseMessageComponent } from '../../shared/response-message/response-message.component';
+import { MatDialog } from '@angular/material';
 
 @Injectable()
 export class StudentsResolver implements Resolve<IStudent[]> {
-    constructor(private service: StudentsService) {}
+    constructor(
+        private service: StudentsService,
+        private dialog: MatDialog) {}
     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<IStudent[]> {
         const id = route.paramMap.get('id');
         if (id) {
             return this.service.getStudentsByGroup(id).pipe(switchMap(
-                data => this.onDataRetrieve(data)
+                data => {
+                    if (data.response === 'no records') {
+                        this.dialog.open(ResponseMessageComponent, {
+                            width: '400px',
+                            data: {
+                                message: 'Немає зареєстрованих студентів в даній групі'
+                            }
+                        });
+                        return new ErrorObservable('Немає зареєстрованих студентів в даній групі');
+                    }
+                    return this.onDataRetrieve(data);
+                }
             ));
         }
         if (!id) {

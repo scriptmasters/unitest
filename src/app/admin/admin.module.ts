@@ -55,8 +55,6 @@ import { SearchStudentPipe } from './students/searchStudent.pipe';
     entryComponents: [
         TimeTableModal,
         ModalSubjectComponent,
-        ResponseMessageComponent,
-        DeleteConfirmComponent,
         TimetableDeleteConfirmComponent,
         FacultiesAddComponent,
         FacultiesUpdateComponent,
@@ -83,8 +81,6 @@ import { SearchStudentPipe } from './students/searchStudent.pipe';
         TimetableDeleteConfirmComponent,
         DialogComponent,
         TimeTableModal,
-        ResponseMessageComponent,
-        DeleteConfirmComponent,
         FacultiesAddComponent,
         FacultiesUpdateComponent,
         FacultiesDeleteComponent,
