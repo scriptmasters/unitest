@@ -8,7 +8,6 @@ import { StudentGuard } from './student-guard.service';
 import { AdminGuard } from './admin-guard.service';
 import { HttpClientModule, HTTP_INTERCEPTORS  } from '@angular/common/http';
 import {RequestInterceptor} from './shared/request-interceptor';
-
 @NgModule({
     imports: [
         BrowserModule,

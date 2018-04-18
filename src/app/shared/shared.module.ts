@@ -38,84 +38,35 @@ import {
     MatToolbarModule,
     MatTooltipModule,
 } from '@angular/material';
+import { CommonModule } from '@angular/common';
+import { DeleteConfirmComponent } from './delete-confirm/delete-confirm.component';
+import { ResponseMessageComponent } from './response-message/response-message.component';
 
 
 @NgModule({
-    imports: [
-        MatNativeDateModule,
-        NgxPaginationModule,
-        MatAutocompleteModule,
-        MatButtonModule,
-        MatButtonToggleModule,
-        MatCardModule,
-        MatCheckboxModule,
-        MatChipsModule,
-        MatStepperModule,
-        MatDatepickerModule,
-        MatDialogModule,
-        MatDividerModule,
-        MatExpansionModule,
-        MatGridListModule,
-        MatIconModule,
-        MatInputModule,
-        MatListModule,
-        MatMenuModule,
-        MatPaginatorModule,
-        MatProgressBarModule,
-        MatProgressSpinnerModule,
-        MatRadioModule,
-        MatRippleModule,
-        MatSelectModule,
-        MatSidenavModule,
-        MatSliderModule,
-        MatSlideToggleModule,
-        MatSnackBarModule,
-        MatSortModule,
-        MatTableModule,
-        MatTabsModule,
-        MatToolbarModule,
-        MatTooltipModule
+    declarations: [
+        ResponseMessageComponent,
+        DeleteConfirmComponent
     ],
     exports: [
-        HttpClientModule,
         FormsModule,
+        HttpClientModule,
         ReactiveFormsModule,
-        CdkTableModule,
-        MatNativeDateModule,
-        NgxPaginationModule,
-        MatAutocompleteModule,
-        MatButtonModule,
-        MatButtonToggleModule,
         MatCardModule,
-        MatCheckboxModule,
-        MatChipsModule,
-        MatStepperModule,
-        MatDatepickerModule,
         MatDialogModule,
-        MatDividerModule,
-        MatExpansionModule,
-        MatGridListModule,
-        MatIconModule,
         MatInputModule,
-        MatListModule,
-        MatMenuModule,
-        MatPaginatorModule,
-        MatProgressBarModule,
-        MatProgressSpinnerModule,
-        MatRadioModule,
-        MatRippleModule,
-        MatSelectModule,
-        MatSidenavModule,
-        MatSliderModule,
-        MatSlideToggleModule,
         MatSnackBarModule,
-        MatSortModule,
-        MatTableModule,
-        MatTabsModule,
-        MatToolbarModule,
-        MatTooltipModule
+        MatButtonModule,
+        MatSelectModule,
+        DeleteConfirmComponent,
+        ResponseMessageComponent,
+        NgxPaginationModule
     ],
-    providers: [{ provide: HTTP_INTERCEPTORS, useClass: RequestInterceptor, multi: true }]
+    providers: [{ provide: HTTP_INTERCEPTORS, useClass: RequestInterceptor, multi: true }],
+    entryComponents: [
+        ResponseMessageComponent,
+        DeleteConfirmComponent
+    ]
 })
 
 export class SharedModule {}

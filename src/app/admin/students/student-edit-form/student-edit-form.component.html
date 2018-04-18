@@ -114,7 +114,7 @@
               <div 
                 *ngIf="form.get('gradebook').invalid && (form.get('gradebook').dirty || form.get('gradebook').touched)" 
                 class="error col-12">
-                <span *ngIf="form.get('gradebook').errors.minlength">Мінімум 3 символи</span>
+                <span *ngIf="form.get('gradebook').errors.minlength">Мінімум 6 символів</span>
                 <span *ngIf="form.get('gradebook').errors.required">Це поле є обов'язковим</span>
               </div>
             </div>
@@ -133,7 +133,7 @@
                 <div 
                   *ngIf="form.get('login').invalid && (form.get('login').dirty || form.get('login').touched)" 
                   class="error col-12">
-                  <span *ngIf="form.get('login').errors.minlength">Мінімум 2 символи</span>
+                  <span *ngIf="form.get('login').errors.minlength">Мінімум 5 символів</span>
                   <span *ngIf="form.get('login').errors.required">Це поле є обов'язковим</span>
                 </div>
             </div>
@@ -152,7 +152,7 @@
                 <div 
                   *ngIf="form.get('password').invalid && (form.get('password').dirty || form.get('password').touched)" 
                   class="error col-12">
-                  <span *ngIf="form.get('password').errors.minlength">Мінімум 2 символи</span>
+                  <span *ngIf="form.get('password').errors.minlength">Мінімум 8 символів</span>
                   <span *ngIf="form.get('password').errors.required">Це поле є обов'язковим</span>
                 </div>
             </div>
@@ -193,9 +193,9 @@
               </div>
             </div>
           </div>
-          <div class="form-row d-flex justify-content-center">
-            <input class="btn btn-success" type="submit" [disabled]="!form.valid" value="Редагувати студента"> 
+          <div class="form-row d-flex justify-content-center"> 
             <input class="btn btn-danger" type="reset" value="Очистити форму">
+            <input class="btn btn-success" type="submit" [disabled]="!form.valid" value="Редагувати студента">
           </div>
         </form>
       </div>

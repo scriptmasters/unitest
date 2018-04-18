@@ -13,6 +13,7 @@ import {TestDetailsComponent} from './testdetails/component/test-details.compone
 import {TimetableComponent} from './timetable/timetable.component';
 import {TestsComponent} from './subjects/tests/tests.component';
 import {SpecialitiesComponent} from './specialities/specialities.component';
+import { StudentsResolver } from './students/students-resolver.service';
 
 
 const routes: Routes = [
@@ -30,11 +31,11 @@ const routes: Routes = [
             },
             {
                 path: 'students',
-                component: StudentsComponent
+                loadChildren: './students/students.module#StudentsModule'
             },
             {
-                path: 'students/byGroup/:id',
-                component: StudentsComponent
+                path: 'students/byGroup',
+                loadChildren: './students/students.module#StudentsModule'
             },
             {
                 path: 'faculties',

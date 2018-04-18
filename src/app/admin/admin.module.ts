@@ -43,6 +43,8 @@ import { SpecialityService } from './specialities/speciality.service';
 import { PopupFormComponent } from './specialities/popup-form/popup-form.component';
 import { DeleteConfirmComponent } from '../shared/delete-confirm/delete-confirm.component';
 import { ResponseMessageComponent } from '../shared/response-message/response-message.component';
+import { StudentsResolver } from './students/students-resolver.service';
+import { SearchStudentPipe } from './students/searchStudent.pipe';
 
 @NgModule({
     imports: [
@@ -52,11 +54,7 @@ import { ResponseMessageComponent } from '../shared/response-message/response-me
     ],
     entryComponents: [
         TimeTableModal,
-        StudentRegistrationFormComponent,
-        StudentEditFormComponent,
         ModalSubjectComponent,
-        ResponseMessageComponent,
-        DeleteConfirmComponent,
         TimetableDeleteConfirmComponent,
         FacultiesAddComponent,
         FacultiesUpdateComponent,
@@ -78,16 +76,11 @@ import { ResponseMessageComponent } from '../shared/response-message/response-me
         ModalSubjectComponent,
         SpecialitiesComponent,
         AdministratorsComponent,
-        StudentsComponent,
         GroupsComponent,
         TimetableComponent,
-        StudentRegistrationFormComponent,
         TimetableDeleteConfirmComponent,
         DialogComponent,
         TimeTableModal,
-        StudentEditFormComponent,
-        ResponseMessageComponent,
-        DeleteConfirmComponent,
         FacultiesAddComponent,
         FacultiesUpdateComponent,
         FacultiesDeleteComponent,
@@ -104,7 +97,6 @@ import { ResponseMessageComponent } from '../shared/response-message/response-me
     ],
     providers: [
         AuthService,
-        StudentsService,
         SubjectService,
         FacultiesService,
         TableService,
@@ -113,7 +105,7 @@ import { ResponseMessageComponent } from '../shared/response-message/response-me
         SpecialityService,
         GroupsService,
         TestDetailsService,
-        QuestionsService
+        QuestionsService,
     ]
 })
 
