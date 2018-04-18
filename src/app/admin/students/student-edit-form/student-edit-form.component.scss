@@ -3,14 +3,11 @@
 }
 
 input.ng-touched.ng-invalid {
-    border:solid #DC3545 2px;
-}
-
-input.ng-touched.ng-valid {
-    border:solid #28A745 2px;
+    border:solid #DC3545 1px;
 }
 
 .btn-success, .btn-danger {
+    width: 150px;
     margin: {
         left: 5px;
         right: 5px;

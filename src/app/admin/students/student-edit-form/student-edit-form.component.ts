@@ -2,11 +2,12 @@ import { Component, OnInit, Input, Output, EventEmitter, Inject, ViewEncapsulati
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 
 import { StudentsService } from '../students.service';
-import { StudentAdd, StudentGet, IUser, GroupNameByID } from '../students-interface';
-import { Groups } from '../students-interface';
-import { Faculties } from '../students-interface';
-import { IResponse } from '../students-interface';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
+import IGroup from '../interfaces/IGroup';
+import IFaculty from '../interfaces/IFaculty';
+import IStudent from '../interfaces/IStudent';
+import IUser from '../interfaces/IUser';
+import IResponse from '../interfaces/IResponse';
 
 @Component({
   selector: 'app-student-edit-form',
@@ -18,10 +19,10 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 export class StudentEditFormComponent implements OnInit {
 
   form;
-  groups: Groups[] = [];
-  faculties: Faculties[] = [];
-  //Властивості, які вибираються з інпутів з використання "2 way data binding"
-  student: StudentGet = {
+  groups: IGroup[] = [];
+  faculties: IFaculty[] = [];
+  // Властивості, які вибираються з інпутів з використання "2 way data binding"
+  student: IStudent = {
     user_id: '',
     gradebook_id: '',
     student_surname: '',
@@ -39,13 +40,13 @@ export class StudentEditFormComponent implements OnInit {
     last_login: '',
     email: ''
   };
-  studentGroup: GroupNameByID = {
+  studentGroup: IGroup = {
     group_id: '',
     group_name: '',
     speciality_id: '',
     faculty_id: ''
   };
-  studentFaculty: Faculties = {
+  studentFaculty: IFaculty = {
     faculty_id: '',
     faculty_name: '',
     faculty_description: ''
@@ -57,7 +58,7 @@ export class StudentEditFormComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: any) { }
 
   ngOnInit(): void {
-    //Запити на сервер, для відображення інформації про поточного студента
+    // Запити на сервер, для відображення інформації про поточного студента
     this.service.getPickedStudent(this.data.student.user_id).subscribe(data => {
       this.student = data[0];
     });
@@ -78,7 +79,7 @@ export class StudentEditFormComponent implements OnInit {
         });
       });
     });
-    //Валідація форми
+    // Валідація форми
     this.form = new FormGroup({
       firstname: new FormControl(null, Validators.compose([
         Validators.required,
@@ -97,17 +98,17 @@ export class StudentEditFormComponent implements OnInit {
       ])),
       gradebook: new FormControl(null, Validators.compose([
         Validators.required,
-        Validators.minLength(3),
+        Validators.minLength(6),
         Validators.maxLength(20)
       ])),
       login: new FormControl(null, Validators.compose([
         Validators.required,
-        Validators.minLength(3),
+        Validators.minLength(5),
         Validators.maxLength(20)
       ])),
       password: new FormControl(null, Validators.compose([
         Validators.required,
-        Validators.minLength(3),
+        Validators.minLength(8),
         Validators.maxLength(20)
       ])),
       email: new FormControl(null, Validators.compose([
@@ -119,22 +120,22 @@ export class StudentEditFormComponent implements OnInit {
       group: new FormControl(null, this.handleGroupValidator)
     });
   }
-  //Записуємо масив об'єктів "Group" які приходять з сервера в масив "groups"
+  // Записуємо масив об'єктів "Group" які приходять з сервера в масив "groups"
   getGroups(elem: HTMLSelectElement) {
     const value = elem.options[elem.selectedIndex].value;
     let index: string;
-    //Шукаємо айдішку факультету яку було вибрано в селекті
+    // Шукаємо айдішку факультету яку було вибрано в селекті
     this.faculties.forEach(val => {
       if (val.faculty_name === value) {
         index = val.faculty_id;
       }
     });
-    //По айдішці факультету витягуємо всі його групи і записуємо в масив groups, якщо є групи в цьому факультеті
+    // По айдішці факультету витягуємо всі його групи і записуємо в масив groups, якщо є групи в цьому факультеті
     this.service.getAvailableGroups(index).subscribe(data => {
       if (data[0]) {
         this.groups = data;
         this.student.group_id = this.groups[0].group_id;
-      //якщо факультет по якихось причинах немає груп, ЛОЛ :)
+      // якщо факультет по якихось причинах немає груп
       } else {
         this.groups = [{
           group_id: '',
@@ -145,7 +146,7 @@ export class StudentEditFormComponent implements OnInit {
       }
     });
   }
-  //Сетим айдішку групи в об'єкт "student"
+  // Сетим айдішку групи в об'єкт "student"
   handleSetGroup(elem: HTMLSelectElement) {
     const value = elem.options[elem.selectedIndex].value;
     let index: string;
@@ -156,7 +157,7 @@ export class StudentEditFormComponent implements OnInit {
     });
     this.student.group_id = index;
   }
-  //Валідатор для груп
+  // Валідатор для груп
   handleGroupValidator(control) {
     if (control.value === 'Немає груп' || control.value === '') {
       return {
@@ -164,7 +165,7 @@ export class StudentEditFormComponent implements OnInit {
       };
     }
   }
-  //Рендеримо фотку в base64 код перед відправкою на сервер
+  // Рендеримо фотку в base64 код перед відправкою на сервер
   handleAddPhoto(event) {
     const input = event.target;
     const reader = new FileReader();
@@ -174,7 +175,7 @@ export class StudentEditFormComponent implements OnInit {
     };
     reader.readAsDataURL(input.files[0]);
   }
-  //Відправляємо дані на сервер
+  // Відправляємо дані на сервер
   handleSubmit(value) {
     const studentJSON = JSON.stringify({
       gradebook_id: value.gradebook,
@@ -189,12 +190,12 @@ export class StudentEditFormComponent implements OnInit {
       password_confirm: value.password,
       plain_password: value.password
     });
-    this.service.editStudent(this.data.student.user_id , studentJSON).subscribe(
-      (data: IResponse) => this.dialogRef.close(data.response),
-      error => this.dialogRef.close(error.error.response)
+    this.service.editStudent(this.data.student.user_id, studentJSON).subscribe(
+      (data: IResponse) => this.dialogRef.close(data),
+      error => this.dialogRef.close(error)
     );
   }
-  //Щоб побачити пароль
+  // Щоб побачити пароль
   handleTogglePasswordVisibility(elem: HTMLInputElement) {
     if (elem.type === 'password') {
       elem.type = 'text';
@@ -202,7 +203,7 @@ export class StudentEditFormComponent implements OnInit {
       elem.type = 'password';
     }
   }
-  //Метод який закриває діалогове вікно
+  // Метод який закриває діалогове вікно
   handleClose(): void {
     this.dialogRef.close();
   }
