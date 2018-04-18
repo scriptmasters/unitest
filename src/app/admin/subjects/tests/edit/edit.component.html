@@ -5,11 +5,15 @@
   <mat-form-field>
     <input type="text" formControlName="test_name" matInput placeholder="Назава тесту">
   </mat-form-field>
-
-  <mat-form-field>
-    <input type="text" formControlName="tasks" matInput placeholder="Кількість завдань">
-    
-  </mat-form-field>
+  
+    <mat-form-field>
+      <input type="text" formControlName="tasks" matInput placeholder="Кількість завдань">
+    </mat-form-field>
+    <div *ngIf="rForm.controls.tasks.invalid && (rForm.controls.tasks.dirty || rForm.controls.tasks.touched)" class="alert alert-danger">
+      <div *ngIf="rForm.controls.tasks.errors.forbiddenName">Дане поле може містити тільки літери</div>
+      <div *ngIf="rForm.controls.tasks.errors.required">Дане поле не може бути пустим</div>  
+    </div>
+  
 
   <mat-form-field>
     <input type="text" formControlName="time_for_test" matInput placeholder="Тривалість тесту">
