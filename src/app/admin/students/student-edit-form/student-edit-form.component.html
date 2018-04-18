@@ -15,13 +15,13 @@
             <div class="form-group col-6">
               <!-- Прізвище -->
               <label>Прізвище</label>
-              <input 
+              <input
                 class="form-control col-12" 
                 type="text" 
                 formControlName="surname" 
                 [(ngModel)]="student.student_surname"
                 name="surname" placeholder="Прізвище...">
-              <div 
+              <div
                 *ngIf="form.get('surname').invalid && (form.get('surname').dirty || form.get('surname').touched)" 
                 class="error col-12">
                 <span *ngIf="form.get('surname').errors.minlength">Мінімум 2 символи</span>
@@ -31,7 +31,7 @@
             <!-- Ім'я -->
             <div class="form-group col-6">
                 <label>Ім'я</label>
-              <input 
+              <input
                 class="form-control col-12" 
                 type="text" 
                 formControlName="firstname" 
