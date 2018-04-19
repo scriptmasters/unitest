@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { StudentsService } from './students.service';
 import { group } from '@angular/animations';
-import { StudentRegistrationFormComponent } from './student-registration-form/student-registration-form.component';
-import { StudentEditFormComponent } from './student-edit-form/student-edit-form.component';
+import { StudentsModalWindowComponent } from './students-modal-window/students-modal-window.component';
 import { ResponseMessageComponent } from '../../shared/response-message/response-message.component';
 import { MatDialog } from '@angular/material';
 import { PaginationInstance } from 'ngx-pagination';
@@ -38,10 +37,16 @@ export class StudentsComponent implements OnInit {
     this.students = this.route.snapshot.data['students'];
   }
   // Відкриває діалогове вікно
-  showRegForm(): void {
-    const dialogRef = this.dialog.open(StudentRegistrationFormComponent, {
+  showRegForm(user: IStudent): void {
+    const dialogRef = this.dialog.open(StudentsModalWindowComponent, {
       width: '600px',
       height: 'calc(100vh - 50px)',
+      data: {
+        editing: true,
+        updating: false,
+        student: user,
+        submitButtonText: 'Додати студента'
+      }
     });
     dialogRef.afterClosed().subscribe((Response: any) => {
       if (Response) {
@@ -56,12 +61,14 @@ export class StudentsComponent implements OnInit {
   }
   // Редагування студента
   showEditForm(user: IStudent): void {
-    const dialogRef = this.dialog.open(StudentEditFormComponent, {
+    const dialogRef = this.dialog.open(StudentsModalWindowComponent, {
       width: '600px',
       height: 'calc(100vh - 50px)',
       data: {
         editing: true,
-        student: user
+        updating: true,
+        student: user,
+        submitButtonText: 'Редагувати студента'
       }
     });
     dialogRef.afterClosed().subscribe((Response: any) => {
@@ -77,11 +84,12 @@ export class StudentsComponent implements OnInit {
   }
   // Розширена інформація про студента
   showAdvancedInfo(user: IStudent): void {
-    this.dialog.open(StudentEditFormComponent, {
+    this.dialog.open(StudentsModalWindowComponent, {
       width: '600px',
       height: 'calc(100vh - 50px)',
       data: {
         editing: false,
+        updating: true,
         student: user
       }
     });
