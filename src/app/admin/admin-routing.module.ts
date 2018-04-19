@@ -11,7 +11,7 @@ import {SubjectsComponent} from './subjects/subjects.component';
 import {StatisticComponent} from './statistic/statistic.component';
 import {TestDetailsComponent} from './testdetails/component/test-details.component';
 import {TimetableComponent} from './timetable/timetable.component';
-import {TestsComponent} from './subjects/tests/tests.component';
+import {TestsComponent} from './tests/tests.component';
 import {SpecialitiesComponent} from './specialities/specialities.component';
 import { StudentsResolver } from './students/students-resolver.service';
 
