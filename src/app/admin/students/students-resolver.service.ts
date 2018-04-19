@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Resolve, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
+import { Resolve, ActivatedRouteSnapshot, RouterStateSnapshot, Router } from '@angular/router';
 import IStudent from './interfaces/IStudent';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/of';
@@ -15,7 +15,8 @@ import { MatDialog } from '@angular/material';
 export class StudentsResolver implements Resolve<IStudent[]> {
     constructor(
         private service: StudentsService,
-        private dialog: MatDialog) {}
+        private dialog: MatDialog,
+        private router: Router) {}
     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<IStudent[]> {
         const id = route.paramMap.get('id');
         if (id) {
@@ -28,6 +29,7 @@ export class StudentsResolver implements Resolve<IStudent[]> {
                                 message: 'Немає зареєстрованих студентів в даній групі'
                             }
                         });
+                        this.router.navigate(['admin/students/']);
                         return new ErrorObservable('Немає зареєстрованих студентів в даній групі');
                     }
                     return this.onDataRetrieve(data);

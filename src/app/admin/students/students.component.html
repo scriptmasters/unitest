@@ -2,10 +2,10 @@
   <!-- Таблиця з студентами -->
   <div class="container-fluid">
     <header> 
-      <div>
+      <div class="d-flex justify-content-start align-items-center">
           <h1 class="h3 display">Студенти</h1>
           <div class="search-field">
-            <input type="text" [(ngModel)]="searchString" placeholder="Пошук..." class="search">
+            <input type="text" [(ngModel)]="searchString" placeholder="Пошук..." class="form-control search">
           </div>
       </div>
       <button type="button" class="btn btn-success" (click)="showRegForm()">Додати студента</button>
@@ -22,7 +22,7 @@
                     <th>ПІБ</th>
                     <th>№ залікової книжки</th>
                     <th>Група</th>
-                    <th class="table-colspan" colspan="2">Керування</th>
+                    <th class="table-colspan" colspan="3"></th>
                   </tr>
                 </thead>
                 <tbody>

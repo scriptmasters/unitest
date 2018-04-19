@@ -6,7 +6,7 @@ import { StudentEditFormComponent } from './student-edit-form/student-edit-form.
 import { ResponseMessageComponent } from '../../shared/response-message/response-message.component';
 import { MatDialog } from '@angular/material';
 import { PaginationInstance } from 'ngx-pagination';
-import { ActivatedRoute, Params } from '@angular/router';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 import { DeleteConfirmComponent } from '../../shared/delete-confirm/delete-confirm.component';
 import IStudent from './interfaces/IStudent';
 import IResponse from './interfaces/IResponse';
@@ -31,7 +31,8 @@ export class StudentsComponent implements OnInit {
   constructor(
     private service: StudentsService,
     private dialog: MatDialog,
-    private route: ActivatedRoute) {}
+    private route: ActivatedRoute,
+    private router: Router) {}
 
   ngOnInit() {
     this.students = this.route.snapshot.data['students'];

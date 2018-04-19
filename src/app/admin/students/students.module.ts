@@ -8,13 +8,15 @@ import { SearchStudentPipe } from './searchStudent.pipe';
 import { SharedModule } from '../../shared/shared.module';
 import { StudentsResolver } from './students-resolver.service';
 import { CommonModule } from '@angular/common';
+import { StudentsModalWindowComponent } from './students-modal-window/students-modal-window.component';
 
 @NgModule({
     declarations: [
         StudentsComponent,
         StudentRegistrationFormComponent,
         StudentEditFormComponent,
-        SearchStudentPipe
+        SearchStudentPipe,
+        StudentsModalWindowComponent
     ],
     imports: [
         CommonModule,

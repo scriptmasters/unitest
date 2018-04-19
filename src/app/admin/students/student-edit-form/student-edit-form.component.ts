@@ -31,6 +31,7 @@ export class StudentEditFormComponent implements OnInit {
     group_id: '',
     plain_password: '',
     photo: '',
+    password_confirm: ''
   };
   studentInfo: IUser = {
     id: '',
@@ -61,6 +62,8 @@ export class StudentEditFormComponent implements OnInit {
     // Запити на сервер, для відображення інформації про поточного студента
     this.service.getPickedStudent(this.data.student.user_id).subscribe(data => {
       this.student = data[0];
+      this.student.password_confirm = data[0].plain_password;
+      console.log(this.student);
     });
     this.service.getUserInfo(this.data.student.user_id).subscribe(response => {
       this.studentInfo = response[0];
@@ -109,7 +112,7 @@ export class StudentEditFormComponent implements OnInit {
       password: new FormControl(null, Validators.compose([
         Validators.required,
         Validators.minLength(8),
-        Validators.maxLength(20)
+        Validators.maxLength(32)
       ])),
       email: new FormControl(null, Validators.compose([
         Validators.required,
@@ -117,7 +120,13 @@ export class StudentEditFormComponent implements OnInit {
         Validators.maxLength(32),
         Validators.email
       ])),
-      group: new FormControl(null, this.handleGroupValidator)
+      group: new FormControl(null, this.handleGroupValidator),
+      password_confirm: new FormControl(null, Validators.compose([
+        this.passwordConfirmValidator,
+        Validators.required,
+        Validators.minLength(8),
+        Validators.maxLength(32)
+      ]))
     });
   }
   // Записуємо масив об'єктів "Group" які приходять з сервера в масив "groups"
@@ -165,6 +174,14 @@ export class StudentEditFormComponent implements OnInit {
       };
     }
   }
+  // Валідатор для поля підтвердження паролю. Не Працює!!!
+  passwordConfirmValidator(control) {
+    if (control.value === '') {
+      return {
+        'group': true
+      };
+    }
+  }
   // Рендеримо фотку в base64 код перед відправкою на сервер
   handleAddPhoto(event) {
     const input = event.target;
@@ -187,7 +204,7 @@ export class StudentEditFormComponent implements OnInit {
       username: value.login,
       email: value.email,
       photo: this.student.photo,
-      password_confirm: value.password,
+      password_confirm: value.password_confirm,
       plain_password: value.password
     });
     this.service.editStudent(this.data.student.user_id, studentJSON).subscribe(

@@ -10,6 +10,10 @@ header {
     h1 {
         margin: 0;
     }
+    .search {
+        width: 122px;
+        margin-left: 10px;
+    }
 }
 
 .card {
@@ -26,17 +30,4 @@ table {
 
 .fa.fa-cog, .fa.fa-close, .fa.fa-address-card {
     cursor: pointer;
-}
-
-.pagination /deep/ .ngx-pagination {
-    margin-top: 10px;
-    .current {
-      background: #33B357;
-    }
-    .pagination-previous a:before, .pagination-previous.disabled:before {
-      content: '';
-    }
-    .pagination-next a:after, .pagination-next.disabled:after {
-      content: '';
-    }
 }
