@@ -7,12 +7,12 @@ import { identifierModuleUrl } from '@angular/compiler';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { PopupFormComponent } from '../specialities/popup-form/popup-form.component';
 import { ResponseMessageComponent } from '../../shared/response-message/response-message.component';
-import {Router} from '@angular/router';
+import { Router } from '@angular/router';
+import { DeleteSpecialityFormComponent } from './delete-speciality-form/delete-speciality-form.component';
 const URL = 'http://vps9615.hyperhost.name:443/api';
 
 
 import { MatPaginatorModule } from '@angular/material/paginator';
-
 
 @Component({
   selector: 'app-specialities',
@@ -20,6 +20,7 @@ import { MatPaginatorModule } from '@angular/material/paginator';
   styleUrls: ['./specialities.component.scss']
 })
 export class SpecialitiesComponent implements OnInit {
+  searchStr = '';
   constructor(private speciality: SpecialityService,
     private http: HttpClient,
     public dialog: MatDialog,
@@ -35,15 +36,20 @@ export class SpecialitiesComponent implements OnInit {
 
   }
 
-
-  delete(id) {
-    this.speciality.specialitiesObject = this.speciality.specialitiesObject.filter(item => item.speciality_id !== id);
-      return this.http.get(URL + '/Speciality/del/' + id, { withCredentials: true }).subscribe(value => {
+  delete(num): void {
+    // this.speciality.specialitiesObject = this.speciality.specialitiesObject.filter(item => item.speciality_id !== id);
+    const dialogRef = this.dialog.open(DeleteSpecialityFormComponent, {
+      width: '400px',
+      data: { id: num }
     });
   }
+  // delete(id) {
+  //   return this.http.get(URL + '/Speciality/del/' + id, { withCredentials: true }).subscribe(value => {
+  //   });
+  // }
 
   getGroups(id): void {
-    this.router.navigate(['admin/groups'], { queryParams: { facultyId: id} });
+    this.router.navigate(['admin/groups'], { queryParams: { facultyId: id } });
   }
   update(key) {
     this.speciality.oldspeciality = {};
@@ -60,7 +66,7 @@ export class SpecialitiesComponent implements OnInit {
             message: 'Cпеціальність було успішно додано!'
           }
         });
-      } else if  ((response === 'error')) {
+      } else if ((response === 'error')) {
         this.dialog.open(ResponseMessageComponent, {
           width: '400px',
           data: {

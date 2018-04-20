@@ -25,7 +25,7 @@ import {
     MatButtonModule,
     MatButtonToggleModule,
     MatCardModule,
-    MatCheckboxModule,  
+    MatCheckboxModule,
     MatChipsModule,
     MatDatepickerModule,
     MatDialogModule,
@@ -89,6 +89,8 @@ import { AddQuestionComponent } from './admin/questions/add-question/add-questio
 import { StatisticService } from './admin/statistic/statistic.service';
 import { SpecialityService } from './admin/specialities/speciality.service';
 import { PopupFormComponent } from './admin/specialities/popup-form/popup-form.component';
+import { SpecialityPipe } from './admin/specialities/speciality.pipe';
+import { DeleteSpecialityFormComponent } from './admin/specialities/delete-speciality-form/delete-speciality-form.component';
 @NgModule({
     imports: [
         BrowserModule,
@@ -159,7 +161,8 @@ import { PopupFormComponent } from './admin/specialities/popup-form/popup-form.c
         GroupsDeleteConfirmComponent,
         TestDetailCreateComponent, // Maryan
         AddQuestionComponent,
-        EditQuestionComponent
+        EditQuestionComponent,
+        DeleteSpecialityFormComponent
     ],
 
     declarations: [
@@ -203,7 +206,9 @@ import { PopupFormComponent } from './admin/specialities/popup-form/popup-form.c
         TestDetailCreateComponent,
         QuestionsComponent,
         AddQuestionComponent,
-        EditQuestionComponent
+        EditQuestionComponent,
+        SpecialityPipe,
+        DeleteSpecialityFormComponent,
     ],
     bootstrap: [AppComponent],
     providers: [
