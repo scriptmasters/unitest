@@ -6,10 +6,11 @@ import IUser from './interfaces/IUser';
 import IGroup from './interfaces/IGroup';
 import IFaculty from './interfaces/IFaculty';
 import IResponse from './interfaces/IResponse';
+import IResponseRec from './interfaces/IResponseRec';
 
 @Injectable()
 export class StudentsService {
-  // Посилання на бек-енд
+  // CRUD endpoints
   private readonly createStudentUrl = 'Student/insertData';
   private readonly readStudentUrl = 'Student/getRecords';
   private readonly updateStudentUrl = 'Student/update';
@@ -17,43 +18,47 @@ export class StudentsService {
 
   constructor(private http: HttpClient) { }
 
-  // Отримування масиву студентів з бек-енду
-  getStudents(): Observable<IStudent[]> {
-    return this.http.get<IStudent[]>(`Student/getRecordsRange/20/0`);
+  // Retrieve array of students from back-end
+  getStudents(num: string = '20'): Observable<IStudent[]> {
+    return this.http.get<IStudent[]>(`Student/getRecordsRange/${num}/0`);
   }
-  // Отримати дані конкретного студента
+  // Count students
+  countStudent(): Observable<IResponseRec> {
+    return this.http.get<IResponseRec>('Student/countRecords');
+  }
+  // get current student's data
   getPickedStudent(user_id: string): Observable<IStudent[]> {
     return this.http.get<IStudent[]>(`${this.readStudentUrl}/${user_id}`);
   }
-  // Інфо про юзера
+  // Info of current student
   getUserInfo(id: string): Observable<IUser[]> {
     return this.http.get<IUser[]>(`AdminUser/getRecords/${id}`);
   }
-  // Отримання масиву об'єктів груп по заданих айдішках(айдішки прописуються в "body")
+  // To get neccessary Entity from server
   getEntityValue(body): Observable<IGroup[]&IFaculty[]> {
     return this.http.post<IGroup[]&IFaculty[]>(`EntityManager/getEntityValues`, body);
   }
-  // Додавання студента
+  // Creating new student
   addStudent(body): Observable<IStudent|IResponse> {
     return this.http.post<IStudent|IResponse>(`${this.createStudentUrl}`, body);
   }
-  // Отримання всіх груп вибраного факультету
+  // get current groups by faculty
   getAvailableGroups(value): Observable<IGroup[]> {
     return this.http.get<IGroup[]>(`group/getGroupsByFaculty/${value}`);
   }
-  // Отримання всіх факультетів
+  // get all faculties
   getAvailableFaculties(): Observable<IFaculty[]> {
     return this.http.get<IFaculty[]>(`Faculty/getRecords`);
   }
-  // Видалення студента
+  // Deleting a student
   deleteStudent(id: string): Observable<IResponse> {
     return this.http.delete<IResponse>(`${this.deleteStudentUrl}/${id}`);
   }
-  // Редагування студента
+  // Updating student info
   editStudent(id, body) {
     return this.http.post(`${this.updateStudentUrl}/${id}`, body);
   }
-  // Отримати всіх студентів вибраної групи
+  // get all students that are currently in picked group
   getStudentsByGroup(id: any): Observable<IStudent[] & IResponse> {
     return this.http.get<IStudent[] & IResponse>(`student/getStudentsByGroup/${id}`);
   }

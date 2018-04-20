@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter, Inject, ViewEncapsulation } from '@angular/core';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { FormGroup, FormControl, Validators, AbstractControl } from '@angular/forms';
 
 import { StudentsService } from '../students.service';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
@@ -56,10 +56,61 @@ export class StudentsModalWindowComponent implements OnInit {
   constructor(
     private service: StudentsService,
     public dialogRef: MatDialogRef<StudentsModalWindowComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: any) { }
+    @Inject(MAT_DIALOG_DATA) public data: any) {
+      this.getData();
+    }
 
   ngOnInit(): void {
-    if (this.data.updating) {
+    // Валідація форми
+    this.form = new FormGroup({
+      firstname: new FormControl('', Validators.compose([
+        Validators.required,
+        Validators.minLength(2),
+        Validators.maxLength(20)
+      ])),
+      surname: new FormControl('', Validators.compose([
+        Validators.required,
+        Validators.minLength(2),
+        Validators.maxLength(20)
+      ])),
+      fname: new FormControl('', Validators.compose([
+        Validators.required,
+        Validators.minLength(2),
+        Validators.maxLength(20)
+      ])),
+      group: new FormControl(this.data.updating ?
+        null : 'Виберіть групу', this.selectGroupValidator.bind(this)),
+      faculty: new FormControl(this.data.updating ?
+        null : 'Виберіть факультет', this.selectFacultyValidator.bind(this)),
+      gradebook: new FormControl('', Validators.compose([
+        Validators.required,
+        Validators.minLength(6),
+        Validators.maxLength(20)
+      ])),
+      login: new FormControl('', Validators.compose([
+        Validators.required,
+        Validators.minLength(5),
+        Validators.maxLength(20)
+      ])),
+      password: new FormControl(this.data.updating ?
+        this.data.student.plain_password : '', Validators.compose([
+        Validators.required,
+        Validators.minLength(8),
+        Validators.maxLength(32)
+      ])),
+      password_confirm: new FormControl(this.data.updating ?
+        this.data.student.plain_password : '', this.passwordConfirmValidator.bind(this)),
+      email: new FormControl('', Validators.compose([
+        Validators.required,
+        Validators.minLength(8),
+        Validators.maxLength(32),
+        Validators.email
+      ]))
+    });
+  }
+  // Get data from server
+  getData() {
+    if (this.data.updating || this.data.reading) {
       // Запити на сервер, для відображення інформації про поточного студента
       this.service.getPickedStudent(this.data.student.user_id).subscribe(data => {
         this.student = data[0];
@@ -71,114 +122,23 @@ export class StudentsModalWindowComponent implements OnInit {
       const group = JSON.stringify({entity: 'Group', ids: [this.data.student.group_id]});
       this.service.getEntityValue(group).subscribe(resp => {
         this.studentGroup = resp[0];
-        const faculty = JSON.stringify({entity: 'Faculty', ids: [this.studentGroup.faculty_id]});
-        this.service.getEntityValue(faculty).subscribe(val => {
-          this.studentFaculty = val[0];
-          this.service.getAvailableFaculties().subscribe(value => {
-            this.faculties = value;
-            this.service.getAvailableGroups(this.studentFaculty.faculty_id).subscribe(values => {
-              this.groups = values;
-            });
-          });
+      });
+      const faculty = JSON.stringify({entity: 'Faculty', ids: [this.data.student.faculty_id]});
+      this.service.getEntityValue(faculty).subscribe(val => {
+        this.studentFaculty = val[0];
+      });
+      if (this.data.updating) {
+        this.service.getAvailableFaculties().subscribe(value => {
+          this.faculties = value;
         });
-      });
-      // Валідація форми
-      this.form = new FormGroup({
-        firstname: new FormControl(null, Validators.compose([
-          Validators.required,
-          Validators.minLength(2),
-          Validators.maxLength(20)
-        ])),
-        surname: new FormControl(null, Validators.compose([
-          Validators.required,
-          Validators.minLength(2),
-          Validators.maxLength(20)
-        ])),
-        fname: new FormControl(null, Validators.compose([
-          Validators.required,
-          Validators.minLength(2),
-          Validators.maxLength(20)
-        ])),
-        gradebook: new FormControl(null, Validators.compose([
-          Validators.required,
-          Validators.minLength(6),
-          Validators.maxLength(20)
-        ])),
-        login: new FormControl(null, Validators.compose([
-          Validators.required,
-          Validators.minLength(5),
-          Validators.maxLength(20)
-        ])),
-        password: new FormControl(null, Validators.compose([
-          Validators.required,
-          Validators.minLength(8),
-          Validators.maxLength(32)
-        ])),
-        email: new FormControl(null, Validators.compose([
-          Validators.required,
-          Validators.minLength(3),
-          Validators.maxLength(32),
-          Validators.email
-        ])),
-        group: new FormControl(null, this.updatingGroupValidator),
-        password_confirm: new FormControl(null, Validators.compose([
-          this.passwordConfirmValidator,
-          Validators.required,
-          Validators.minLength(8),
-          Validators.maxLength(32)
-        ]))
-      });
+        this.service.getAvailableGroups(this.data.student.faculty_id).subscribe(values => {
+          this.groups = values;
+        });
+      }
     }
     if (!this.data.updating) {
       this.service.getAvailableFaculties().subscribe(response => {
         this.faculties = response;
-      });
-      // Валідація форми
-      this.form = new FormGroup({
-        firstname: new FormControl('', Validators.compose([
-          Validators.required,
-          Validators.minLength(2),
-          Validators.maxLength(20)
-        ])),
-        surname: new FormControl('', Validators.compose([
-          Validators.required,
-          Validators.minLength(2),
-          Validators.maxLength(20)
-        ])),
-        fname: new FormControl('', Validators.compose([
-          Validators.required,
-          Validators.minLength(2),
-          Validators.maxLength(20)
-        ])),
-        group: new FormControl(null, this.creatingGroupValidator),
-        faculty: new FormControl(null, this.handleFacultyValidator),
-        gradebook: new FormControl('', Validators.compose([
-          Validators.required,
-          Validators.minLength(6),
-          Validators.maxLength(20)
-        ])),
-        login: new FormControl('', Validators.compose([
-          Validators.required,
-          Validators.minLength(5),
-          Validators.maxLength(20)
-        ])),
-        password: new FormControl('', Validators.compose([
-          Validators.required,
-          Validators.minLength(8),
-          Validators.maxLength(32)
-        ])),
-        email: new FormControl('', Validators.compose([
-          Validators.required,
-          Validators.minLength(8),
-          Validators.maxLength(32),
-          Validators.email
-        ])),
-        password_confirm: new FormControl(null, Validators.compose([
-          this.passwordConfirmValidator,
-          Validators.required,
-          Validators.minLength(8),
-          Validators.maxLength(32)
-        ]))
       });
     }
   }
@@ -211,6 +171,9 @@ export class StudentsModalWindowComponent implements OnInit {
   // Сетим айдішку групи в об'єкт "student"
   handleSetGroup(elem: HTMLSelectElement) {
     const value = elem.options[elem.selectedIndex].value;
+    if (value === 'Виберіть групу') {
+      return;
+    }
     let index: string;
     this.groups.forEach(val => {
       if (val.group_name === value) {
@@ -220,34 +183,26 @@ export class StudentsModalWindowComponent implements OnInit {
     this.student.group_id = index;
   }
   // Валідатор для груп
-  updatingGroupValidator(control) {
-    if (control.value === 'Немає груп' || control.value === '') {
-      return {
-        'group': true
-      };
-    }
-  }
-  // Валідатор для груп
-  creatingGroupValidator(control) {
-    if (control.value === 'Виберіть групу' || control.value === '---' || control.value === null) {
+  selectGroupValidator(control) {
+    if (control.value === 'Немає груп' || control.value === 'Виберіть групу') {
       return {
         'group': true
       };
     }
   }
   // Валідатор для факультетів
-  handleFacultyValidator(control) {
-    if (control.value === 'Виберіть факультет' || control.value === null) {
+  selectFacultyValidator(control) {
+    if (control.value === 'Виберіть факультет') {
       return {
         'faculty': true
       };
     }
   }
   // Валідатор для поля підтвердження паролю. Не Працює!!!
-  passwordConfirmValidator(control) {
-    if (control.value === '') {
+  passwordConfirmValidator(control: AbstractControl) {
+    if (control.value !== this.student.plain_password) {
       return {
-        'group': true
+        'password_confirm': true
       };
     }
   }
@@ -288,12 +243,13 @@ export class StudentsModalWindowComponent implements OnInit {
       error => this.dialogRef.close(error)
     );
   }
-  // Щоб побачити пароль
-  handleTogglePasswordVisibility(elem: HTMLInputElement) {
-    if (elem.type === 'password') {
-      elem.type = 'text';
+  // To see a password
+  handleTogglePasswordVisibility(event: Event) {
+    const elem = event.srcElement.previousElementSibling;
+    if (elem.getAttribute('type') === 'password') {
+      elem.setAttribute('type', 'text');
     } else {
-      elem.type = 'password';
+      elem.setAttribute('type', 'password');
     }
   }
   // Метод який закриває діалогове вікно

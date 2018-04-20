@@ -17,23 +17,25 @@
             <div class="table-responsive">
               <table class="table table-striped table-hover">
                 <thead>
-                  <tr>
-                    <th>#</th>
-                    <th>ПІБ</th>
-                    <th>№ залікової книжки</th>
-                    <th>Група</th>
-                    <th class="table-colspan" colspan="3"></th>
+                  <tr class="d-flex">
+                    <th class="col-1">№</th>
+                    <th class="col-5">ПІБ</th>
+                    <th class="col-2">№ залікової книжки</th>
+                    <th class="col-2">Група</th>
+                    <th class="table-colspan col-2" colspan="3"></th>
                   </tr>
                 </thead>
                 <tbody>
-                  <tr *ngFor="let student of students | searchStudent: searchString | paginate: config; let i = index">
-                    <th>{{(config.currentPage - 1) * config.itemsPerPage + i +1}}</th>
-                    <td>{{student.fullName}}</td>
-                    <th>{{student.gradebook_id}}</th>
-                    <th>{{student.group}}</th>
-                    <td><i class="fa fa-address-card" aria-hidden="true" title="Детальна інформація" (click)="showAdvancedInfo(student)"></i></td>
-                    <td><i class="fa fa-cog" (click)="showEditForm(student)" title="Редагувати"></i></td>
-                    <td><i class="fa fa-close" (click)="handleDelete(student.user_id)" title="Видалити"></i></td>
+                  <tr *ngFor="let student of students | searchStudent: searchString | paginate: config; let i = index" class="d-flex">
+                    <th class="col-1">{{(config.currentPage - 1) * config.itemsPerPage + i +1}}</th>
+                    <td class="col-5">{{student.fullName}}</td>
+                    <th class="col-2">{{student.gradebook_id}}</th>
+                    <th class="col-2">{{student.group}}</th>
+                    <td colspan="3" class="col-2 d-flex justify-content-between">
+                      <i class="fa fa-address-card" aria-hidden="true" title="Детальна інформація" (click)="showAdvancedInfo(student)"></i>
+                      <i class="fa fa-cog" (click)="showEditForm(student)" title="Редагувати"></i>
+                      <i class="fa fa-close" (click)="handleDelete(student.user_id)" title="Видалити"></i>
+                    </td>
                   </tr>
                 </tbody>
               </table>

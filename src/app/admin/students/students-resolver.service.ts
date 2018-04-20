@@ -10,6 +10,7 @@ import { ErrorObservable } from 'rxjs/observable/ErrorObservable';
 import { catchError } from 'rxjs/operators/catchError';
 import { ResponseMessageComponent } from '../../shared/response-message/response-message.component';
 import { MatDialog } from '@angular/material';
+import { mergeMap } from 'rxjs/operators';
 
 @Injectable()
 export class StudentsResolver implements Resolve<IStudent[]> {
@@ -37,8 +38,9 @@ export class StudentsResolver implements Resolve<IStudent[]> {
             ));
         }
         if (!id) {
-            return this.service.getStudents().pipe(switchMap(
-                data => this.onDataRetrieve(data)
+            return this.service.countStudent().pipe(
+                mergeMap(data => this.service.getStudents(data.numberOfRecords).pipe(
+                    switchMap(response => this.onDataRetrieve(response)))
             ));
         }
     }
@@ -66,7 +68,8 @@ export class StudentsResolver implements Resolve<IStudent[]> {
             // Adding group name to display it at table
             groups.forEach(val => {
                 if (value.group_id === val.group_id) {
-                student.group = val.group_name;
+                    student.group = val.group_name;
+                    student.faculty_id = val.faculty_id;
                 }
             });
             return student;

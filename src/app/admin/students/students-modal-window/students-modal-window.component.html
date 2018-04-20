@@ -1,19 +1,18 @@
 <div [ngSwitch]="data.editing">
-  <!-- Редагування студента -->
+  <!-- creating or updating student -->
   <div *ngSwitchCase="true" class="container-fluid">
     <div class="header raw d-flex justify-content-between">
         <h1>Редагування студента</h1>
-        <button class="btn" type="button" (click)="handleClose()">Назад</button>
+        <i class="fa fa-times close" (click)="handleClose()"></i>
     </div>
     <div class="row">
       <div class="col">
-        <!-- Форма додавання студента -->
         <form class="form-group" 
           [formGroup]="form" 
           (submit)="handleSubmit(form.value)">
           <div class="form-row">
             <div class="form-group col-6">
-              <!-- Прізвище -->
+              <!-- lastname -->
               <label>Прізвище</label>
               <input 
                 class="form-control col-12" 
@@ -28,7 +27,7 @@
                 <span *ngIf="form.get('surname').errors.required">Це поле є обов'язковим</span>
               </div>
             </div>
-            <!-- Ім'я -->
+            <!-- firstname -->
             <div class="form-group col-6">
                 <label>Ім'я</label>
               <input 
@@ -48,7 +47,7 @@
           </div>
           <div class="form-row">
             <div class="form-group col-12">
-              <!-- По-батькові -->
+              <!-- Fathers name -->
               <label>По-батькові</label>
               <input 
               class="form-control col-12" 
@@ -69,7 +68,7 @@
             <!-- While creating a student -->
             <span *ngIf="!data.updating" class="form-row">
               <div class="form-group col-6">
-                <!-- Факультет -->
+                <!-- Faculty -->
                 <label>Факультет</label>
                 <select 
                   class="form-control col-12" 
@@ -83,7 +82,7 @@
                 </select>
               </div>
               <div class="form-group col-6">
-                <!-- Група -->
+                <!-- Group -->
                 <label>Група</label>
                 <select 
                   class="form-control col-12" 
@@ -99,7 +98,7 @@
             <!-- While updating student's data -->
             <span *ngIf="data.updating" class="form-row">
               <div class="form-group col-6">
-                <!-- Факультет -->
+                <!-- Faculty -->
                 <label>Факультет</label>
                 <select 
                   class="form-control col-12" 
@@ -115,7 +114,7 @@
                 </select>
               </div>
               <div class="form-group col-6">
-                <!-- Група -->
+                <!-- Group -->
                 <label>Група</label>
                 <select 
                   class="form-control col-12" 
@@ -135,7 +134,7 @@
           </div>
           <div class="form-row">
             <div class="form-group col-12">
-              <!-- Номер заліковки -->
+              <!-- Gradebook id -->
               <label>Номер заліковки</label>
               <input 
               class="form-control col-12" 
@@ -154,7 +153,7 @@
           </div>
           <div class="form-row">
             <div class="form-group col-12">
-              <!-- Логін -->
+              <!-- Username -->
               <label>Логін</label>
               <input 
                 class="form-control col-12" 
@@ -173,17 +172,16 @@
           </div>
           <div class="form-row">
             <div class="form-group col-6">
-              <!-- Пароль -->
+              <!-- Password -->
               <label>Пароль</label>
               <input 
                 class="form-control col-12" 
                 type="password" 
                 formControlName="password" 
                 name="password" 
-                #passwordInput
                 [(ngModel)]="student.plain_password"
                 placeholder="Пароль...">
-                <i class="visibility-toggler fa fa-eye" aria-hidden="true" (click)="handleTogglePasswordVisibility(passwordInput)"></i>
+                <i class="visibility-toggler fa fa-eye" aria-hidden="true" (click)="handleTogglePasswordVisibility($event)"></i>
                 <div 
                   *ngIf="form.get('password').invalid && (form.get('password').dirty || form.get('password').touched)" 
                   class="error col-12">
@@ -192,17 +190,16 @@
                 </div>
             </div>
             <div id="password_confirm" class="form-group col-6">
-              <!-- Підтвердження паролю -->
+              <!-- Password confirm -->
               <label>Підтвердити пароль</label>
               <input 
                 class="form-control col-12" 
                 type="password" 
                 formControlName="password_confirm" 
-                name="password_confirm" 
-                #passwordConfirmInput
+                name="password_confirm"
                 [(ngModel)]="student.password_confirm"
                 placeholder="Підтвердити пароль...">
-                <i class="visibility-toggler fa fa-eye" aria-hidden="true" (click)="handleTogglePasswordVisibility(passwordConfirmInput)"></i>
+                <i class="visibility-toggler fa fa-eye" aria-hidden="true" (click)="handleTogglePasswordVisibility($event)"></i>
                 <div 
                   *ngIf="form.get('password_confirm').invalid && (form.get('password_confirm').dirty || form.get('password_confirm').touched)" 
                   class="error col-12">
@@ -212,7 +209,7 @@
           </div>
           <div class="form-row">
             <div class="form-group col-12">
-              <!-- Пошта -->
+              <!-- Email -->
               <label>Поштова скринька</label>
               <input 
               class="form-control col-12" 
@@ -226,13 +223,12 @@
                 *ngIf="form.get('email').invalid && (form.get('email').dirty || form.get('email').touched)" 
                 class="error col-12">
                 <span *ngIf="form.get('email').errors.email">Поштова скринька повинна бути формату логін@домен</span>
-                <span *ngIf="form.get('email').errors.required">Це поле є обов'язковим</span>
               </div>
             </div>
           </div>
           <div class="form-row">
             <div class="form-group col-12 d-flex align-items-center flex-column">
-              <!-- Фото -->
+              <!-- Photo -->
               <img class="user-image" [src]="student.photo" alt="your picture">
               <div class="custom-file">
                   <input 
@@ -254,68 +250,68 @@
       </div>
     </div>
   </div>
-    <!-- Розширена інформація -->
+    <!-- Extended info -->
   <div *ngSwitchCase="false" class="container-fluid">
     <div class="header raw d-flex justify-content-between">
       <h1>Детальна інформація</h1>
-      <button class="btn" type="button" (click)="handleClose()">Назад</button>
+      <i class="fa fa-times close" (click)="handleClose()"></i>
     </div>
     <div class="row">
       <div class="col">
-        <!-- Інфо про студента -->
+        <!-- User info -->
           <div class="form-group">
             <div class="form-row">
                 <div class="form-group col-12 d-flex align-items-center flex-column">
-                  <!-- Фото -->
+                  <!-- Photo -->
                   <img class="user-image" [src]="student.photo" alt="your picture">
                 </div>
             </div>
             <div class="form-row">
               <div class="form-group col-6">
-                <!-- Прізвище -->
+                <!-- lastname -->
                 <label>Прізвище</label>
                 <span class="form-control col-12">{{student.student_surname}}</span>
               </div>
               <div class="form-group col-6">
-                <!-- Ім'я -->
+                <!-- name -->
                 <label>Ім'я</label>
                 <span class="form-control col-12">{{student.student_name}}</span>
               </div>
             </div>
             <div class="form-row">
               <div class="form-group col-12">
-                <!-- По-батькові -->
+                <!-- fathers name -->
                 <label>По-батькові</label>
                 <span class="form-control col-12">{{student.student_fname}}</span>
               </div>
             </div>
             <div class="form-row">
               <div class="form-group col-6">
-                <!-- Факультет -->
+                <!-- faculty -->
                 <label>Факультет</label>
                 <span class="form-control col-12">{{studentFaculty.faculty_name}}</span>
               </div>
               <div class="form-group col-6">
-                <!-- Група -->
+                <!-- group -->
                 <label>Група</label>
                 <span class="form-control col-12">{{studentGroup.group_name}}</span>
               </div>
             </div>
             <div class="form-row">
               <div class="form-group col-12">
-                <!-- Номер заліковки -->
+                <!-- gradebook id -->
                 <label>Номер заліковки</label>
                 <span class="form-control col-12">{{student.gradebook_id}}</span>
               </div>
             </div>
           <div class="form-row">
             <div class="form-group col-6">
-              <!-- Логін -->
+              <!-- username -->
               <label>Логін</label>
               <span class="form-control col-12">{{studentInfo.username}}</span>
             </div>
             <div class="form-group col-6">
-                <!-- Пошта -->
+                <!-- email -->
                 <label>Поштова скринька</label>
                 <span class="form-control col-12">{{studentInfo.email}}</span>
             </div>

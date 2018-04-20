@@ -13,5 +13,6 @@ export default interface IStudent {
     photo?: string;
     group_id?: string;
     faculty_id?: string;
+    faculty_name?: string;
     fullName?: string;
 }

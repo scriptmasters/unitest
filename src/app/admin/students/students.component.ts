@@ -21,7 +21,7 @@ export class StudentsComponent implements OnInit {
 
   searchString = '';
   students: IStudent[] = [];
-  // Для пагінації
+  // NgXPagination
   public config: PaginationInstance = {
     itemsPerPage: 5,
     currentPage: 1
@@ -36,7 +36,7 @@ export class StudentsComponent implements OnInit {
   ngOnInit() {
     this.students = this.route.snapshot.data['students'];
   }
-  // Відкриває діалогове вікно
+  // Opening creating student form
   showRegForm(user: IStudent): void {
     const dialogRef = this.dialog.open(StudentsModalWindowComponent, {
       width: '600px',
@@ -59,7 +59,7 @@ export class StudentsComponent implements OnInit {
       }
     });
   }
-  // Редагування студента
+  // Editing student
   showEditForm(user: IStudent): void {
     const dialogRef = this.dialog.open(StudentsModalWindowComponent, {
       width: '600px',
@@ -82,19 +82,20 @@ export class StudentsComponent implements OnInit {
       }
     });
   }
-  // Розширена інформація про студента
+  // Extended info about student
   showAdvancedInfo(user: IStudent): void {
     this.dialog.open(StudentsModalWindowComponent, {
       width: '600px',
       height: 'calc(100vh - 50px)',
       data: {
         editing: false,
-        updating: true,
+        updating: false,
+        reading: true,
         student: user
       }
     });
   }
-  // метод який записує в масив "students" дані про кожного студента
+  // to update data after changes(deleting, editing)
   updateData(): void {
     const id = this.route.snapshot.paramMap.get('id');
     if (id) {
@@ -112,7 +113,7 @@ export class StudentsComponent implements OnInit {
   }
   // Processing data
   processDataFromAPI(data: IStudent[]&IResponse) {
-    // Щоб не кидало реквест на сервак, якщо нема студентів в групі
+    // If there is no students in the current group don't process data
     if (data.response === 'no records') {
       this.openModalMessage('Немає зареєстрованих студентів в даній групі!');
       return;
@@ -123,11 +124,11 @@ export class StudentsComponent implements OnInit {
       groupsArr = response;
       // Reseting existing array
       this.students = [];
-      // Додавання студентів в масив "students"
+      // Adding students to array "students"
       this.students = this.fillOutStudentsArray(data, groupsArr);
     });
   }
-  // Видалення студента
+  // Deleting student
   handleDelete(index): void {
     const dialogRef = this.dialog.open(DeleteConfirmComponent, {
       width: '400px',
