@@ -136,7 +136,7 @@ export class StudentsModalWindowComponent implements OnInit {
         });
       }
     }
-    if (!this.data.updating) {
+    if (this.data.creating) {
       this.service.getAvailableFaculties().subscribe(response => {
         this.faculties = response;
       });

@@ -43,7 +43,7 @@ export class StudentsComponent implements OnInit {
       height: 'calc(100vh - 50px)',
       data: {
         editing: true,
-        updating: false,
+        creating: true,
         student: user,
         submitButtonText: 'Додати студента'
       }
