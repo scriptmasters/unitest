@@ -21,7 +21,6 @@ export class StudentsModalWindowComponent implements OnInit {
   form;
   groups: IGroup[] = [];
   faculties: IFaculty[] = [];
-  // Властивості, які вибираються з інпутів з використання "2 way data binding"
   student: IStudent = {
     user_id: '',
     gradebook_id: '',
@@ -61,7 +60,7 @@ export class StudentsModalWindowComponent implements OnInit {
     }
 
   ngOnInit(): void {
-    // Валідація форми
+    // Form validation
     this.form = new FormGroup({
       firstname: new FormControl('', Validators.compose([
         Validators.required,
@@ -111,7 +110,7 @@ export class StudentsModalWindowComponent implements OnInit {
   // Get data from server
   getData() {
     if (this.data.updating || this.data.reading) {
-      // Запити на сервер, для відображення інформації про поточного студента
+      // Requests for updating and checking student info
       this.service.getPickedStudent(this.data.student.user_id).subscribe(data => {
         this.student = data[0];
         this.student.password_confirm = data[0].plain_password;
@@ -136,13 +135,14 @@ export class StudentsModalWindowComponent implements OnInit {
         });
       }
     }
+    // Initial request for creating student profile
     if (this.data.creating) {
       this.service.getAvailableFaculties().subscribe(response => {
         this.faculties = response;
       });
     }
   }
-  // Записуємо масив об'єктів "Group" які приходять з сервера в масив "groups"
+  // Getting available groups for picked faculty by faculty ID
   getGroups(elem: HTMLSelectElement) {
     const value = elem.options[elem.selectedIndex].value;
     if (this.data.updating) {
@@ -151,24 +151,23 @@ export class StudentsModalWindowComponent implements OnInit {
       }
     }
     let index: string;
-    // Шукаємо айдішку факультету яку було вибрано в селекті
+    // Iterate array to find neccessary faculty id
     this.faculties.forEach(val => {
       if (val.faculty_name === value) {
         index = val.faculty_id;
       }
     });
-    // По айдішці факультету витягуємо всі його групи і записуємо в масив groups, якщо є групи в цьому факультеті
+    // Request for the available groups
     this.service.getAvailableGroups(index).subscribe(data => {
       if (data[0]) {
         this.groups = data;
-        this.student.group_id = this.groups[0].group_id;
-      // якщо факультет по якихось причинах немає груп
+      // if there is no available group
       } else {
         this.groups = [];
       }
     });
   }
-  // Сетим айдішку групи в об'єкт "student"
+  // set group id to student object value when group name is picked
   handleSetGroup(elem: HTMLSelectElement) {
     const value = elem.options[elem.selectedIndex].value;
     if (value === 'Виберіть групу') {
@@ -182,7 +181,7 @@ export class StudentsModalWindowComponent implements OnInit {
     });
     this.student.group_id = index;
   }
-  // Валідатор для груп
+  // custom group validator
   selectGroupValidator(control) {
     if (control.value === 'Немає груп' || control.value === 'Виберіть групу') {
       return {
@@ -190,7 +189,7 @@ export class StudentsModalWindowComponent implements OnInit {
       };
     }
   }
-  // Валідатор для факультетів
+  // custom faculty validator
   selectFacultyValidator(control) {
     if (control.value === 'Виберіть факультет') {
       return {
@@ -198,7 +197,7 @@ export class StudentsModalWindowComponent implements OnInit {
       };
     }
   }
-  // Валідатор для поля підтвердження паролю. Не Працює!!!
+  // custom password validator
   passwordConfirmValidator(control: AbstractControl) {
     if (control.value !== this.student.plain_password) {
       return {
@@ -206,7 +205,7 @@ export class StudentsModalWindowComponent implements OnInit {
       };
     }
   }
-  // Рендеримо фотку в base64 код перед відправкою на сервер
+  // rendering photo to base64 code befor it's sent to the server
   handleAddPhoto(event) {
     const input = event.target;
     const reader = new FileReader();
@@ -216,7 +215,7 @@ export class StudentsModalWindowComponent implements OnInit {
     };
     reader.readAsDataURL(input.files[0]);
   }
-  // Відправляємо дані на сервер
+  // Submitting form
   handleSubmit(value) {
     const studentJSON = JSON.stringify({
       gradebook_id: value.gradebook,
@@ -252,7 +251,7 @@ export class StudentsModalWindowComponent implements OnInit {
       elem.setAttribute('type', 'password');
     }
   }
-  // Метод який закриває діалогове вікно
+  // close mat dialog window
   handleClose(): void {
     this.dialogRef.close();
   }
