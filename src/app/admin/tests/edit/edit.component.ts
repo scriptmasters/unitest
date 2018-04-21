@@ -52,4 +52,8 @@ Object.keys(controls)
     () => this.dialogRef.close()
   );
 }
+
+onNoClick() {
+  this.dialogRef.close();
+}
 }
