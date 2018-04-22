@@ -51,6 +51,17 @@ export class StudentsModalWindowComponent implements OnInit {
     faculty_name: '',
     faculty_description: ''
   };
+  // form controls
+  firstnameC: FormControl;
+  surnameC: FormControl;
+  fnameC: FormControl;
+  gradebookC: FormControl;
+  groupC: FormControl;
+  facultyC: FormControl;
+  loginC: FormControl;
+  emailC: FormControl;
+  passwordC: FormControl;
+  password_confirmC: FormControl;
 
   constructor(
     private service: StudentsService,
@@ -61,50 +72,72 @@ export class StudentsModalWindowComponent implements OnInit {
 
   ngOnInit(): void {
     // Form validation
-    this.form = new FormGroup({
-      firstname: new FormControl('', Validators.compose([
-        Validators.required,
-        Validators.minLength(2),
-        Validators.maxLength(20)
-      ])),
-      surname: new FormControl('', Validators.compose([
-        Validators.required,
-        Validators.minLength(2),
-        Validators.maxLength(20)
-      ])),
-      fname: new FormControl('', Validators.compose([
-        Validators.required,
-        Validators.minLength(2),
-        Validators.maxLength(20)
-      ])),
-      group: new FormControl(this.data.updating ?
-        null : 'Виберіть групу', this.selectGroupValidator.bind(this)),
-      faculty: new FormControl(this.data.updating ?
-        null : 'Виберіть факультет', this.selectFacultyValidator.bind(this)),
-      gradebook: new FormControl('', Validators.compose([
-        Validators.required,
-        Validators.minLength(6),
-        Validators.maxLength(20)
-      ])),
-      login: new FormControl('', Validators.compose([
+    this.createFormControls();
+    this.createForm();
+  }
+  // create form controls
+  createFormControls() {
+    this.firstnameC = new FormControl('', [
+      Validators.required,
+      Validators.minLength(2),
+      Validators.maxLength(20)
+    ]);
+    this.surnameC = new FormControl('', [
+      Validators.required,
+      Validators.minLength(2),
+      Validators.maxLength(20)
+    ]);
+    this.fnameC = new FormControl('', [
+      Validators.required,
+      Validators.minLength(2),
+      Validators.maxLength(20)
+    ]);
+    this.gradebookC = new FormControl('', [
+      Validators.required,
+      Validators.minLength(6),
+      Validators.maxLength(20)
+    ]);
+    this.groupC = new FormControl(this.data.updating ?
+      null : 'Виберіть групу', this.selectGroupValidator.bind(this));
+    this.facultyC = new FormControl(this.data.updating ?
+      null : 'Виберіть факультет', this.selectFacultyValidator.bind(this));
+    this.loginC = new FormControl('', {
+      validators: [
         Validators.required,
         Validators.minLength(5),
-        Validators.maxLength(20)
-      ])),
-      password: new FormControl(this.data.updating ?
-        this.data.student.plain_password : '', Validators.compose([
-        Validators.required,
-        Validators.minLength(8),
         Validators.maxLength(32)
-      ])),
-      password_confirm: new FormControl(this.data.updating ?
-        this.data.student.plain_password : '', this.passwordConfirmValidator.bind(this)),
-      email: new FormControl('', Validators.compose([
-        Validators.required,
-        Validators.minLength(8),
-        Validators.maxLength(32),
-        Validators.email
-      ]))
+      ],
+      asyncValidators: [],
+      updateOn: 'blur'
+    });
+    this.emailC = new FormControl('', [
+      Validators.required,
+      Validators.minLength(8),
+      Validators.maxLength(32),
+      Validators.email
+    ]);
+    this.passwordC =  new FormControl(this.data.updating ?
+      this.data.student.plain_password : '', Validators.compose([
+      Validators.required,
+      Validators.minLength(8),
+      Validators.maxLength(32)
+    ]));
+    this.password_confirmC = new FormControl(this.data.updating ?
+      this.data.student.plain_password : '', this.passwordConfirmValidator.bind(this));
+  }
+  // create Form validation
+  createForm() {
+    this.form = new FormGroup({
+      firstname: this.firstnameC,
+      surname: this.surnameC,
+      fname: this.fnameC,
+      group: this.groupC,
+      faculty: this.facultyC,
+      gradebook: this.gradebookC,
+      login: this.loginC,
+      password: this.passwordC,
+      password_confirm: this.password_confirmC,
+      email: this.emailC
     });
   }
   // Get data from server
