@@ -1,7 +1,8 @@
 import { Component, OnInit, Inject } from '@angular/core';
-import { MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
+import { MatDialogRef, MAT_DIALOG_DATA, MatDialog} from '@angular/material';
 import {TestService } from '../test.service';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { ResponseMessageComponent } from '../../../shared/response-message/response-message.component';
 
 
 
@@ -14,7 +15,7 @@ export class AddComponent implements OnInit {
 
   rForm: FormGroup;
   constructor(public dialogRef: MatDialogRef<AddComponent>, @Inject(MAT_DIALOG_DATA) public data: any,
-              private httpService: TestService, private fb: FormBuilder) {
+              private httpService: TestService, private fb: FormBuilder, public dialog: MatDialog) {
     this.initForm();
   }
 ngOnInit() {}
@@ -45,11 +46,18 @@ onSubmit() {
     .forEach(controlName => controls[controlName].markAsTouched());
     return;
     }
+  
   /*Опрацювання даних форми*/
    this.httpService.addTest(this.rForm.value).subscribe(
     () => console.log(),
     () => console.log(),
-    () => this.dialogRef.close());
+    () => { this.dialogRef.close();
+    const matDialogRef = this.dialog.open(ResponseMessageComponent, {
+      width: '350px',
+      data: {message: 'Тест успішно додано'}
+    });
+  }
+  );
   }
   
   onNoClick() {
