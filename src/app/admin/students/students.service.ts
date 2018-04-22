@@ -62,4 +62,8 @@ export class StudentsService {
   getStudentsByGroup(id: any): Observable<IStudent[] & IResponse> {
     return this.http.get<IStudent[] & IResponse>(`student/getStudentsByGroup/${id}`);
   }
+  // To find out is there same username or not
+  checkUsername(value: string): Observable<any> {
+    return this.http.get<any>(`AdminUser/checkUserName/${value}`).map(res => !res.response);
+  }
 }

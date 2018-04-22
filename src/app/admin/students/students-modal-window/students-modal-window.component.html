@@ -163,10 +163,11 @@
                 [(ngModel)]="studentInfo.username"
                 placeholder="Логін...">
                 <div 
-                  *ngIf="form.get('login').invalid && (form.get('login').dirty || form.get('login').touched)" 
+                  *ngIf="loginC.invalid && (loginC.dirty || loginC.touched)" 
                   class="error col-12">
-                  <span *ngIf="form.get('login').errors.minlength">Мінімум 5 символів</span>
-                  <span *ngIf="form.get('login').errors.required">Це поле є обов'язковим</span>
+                  <span *ngIf="loginC.errors.minlength">Мінімум 5 символів</span>
+                  <span *ngIf="loginC.errors.required">Це поле є обов'язковим</span>
+                  <span *ngIf="loginC.errors.loginTaken">Цей логін вже зайнятий</span>
                 </div>
             </div>
           </div>

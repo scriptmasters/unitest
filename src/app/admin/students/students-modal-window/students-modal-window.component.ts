@@ -9,6 +9,7 @@ import IStudent from '../interfaces/IStudent';
 import IUser from '../interfaces/IUser';
 import IResponse from '../interfaces/IResponse';
 import { defaultImage } from './default-image';
+import { ValidateLoginNotTaken } from '../async-login.validator';
 
 @Component({
   selector: 'app-students-modal-window',
@@ -107,7 +108,7 @@ export class StudentsModalWindowComponent implements OnInit {
         Validators.minLength(5),
         Validators.maxLength(32)
       ],
-      asyncValidators: [],
+      asyncValidators: ValidateLoginNotTaken.createValidator(this.service),
       updateOn: 'blur'
     });
     this.emailC = new FormControl('', [
