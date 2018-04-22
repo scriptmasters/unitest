@@ -124,7 +124,7 @@ export class StudentsModalWindowComponent implements OnInit {
       Validators.maxLength(32)
     ]));
     this.password_confirmC = new FormControl(this.data.updating ?
-      this.data.student.plain_password : '', this.passwordConfirmValidator.bind(this));
+      this.data.student.plain_password : '', this.matchOtherValidator('password'));
   }
   // create Form validation
   createForm() {
@@ -231,14 +231,6 @@ export class StudentsModalWindowComponent implements OnInit {
       };
     }
   }
-  // custom password validator
-  passwordConfirmValidator(control: AbstractControl) {
-    if (control.value !== this.student.plain_password) {
-      return {
-        'password_confirm': true
-      };
-    }
-  }
   // rendering photo to base64 code befor it's sent to the server
   handleAddPhoto(event) {
     const input = event.target;
@@ -288,5 +280,43 @@ export class StudentsModalWindowComponent implements OnInit {
   // close mat dialog window
   handleClose(): void {
     this.dialogRef.close();
+  }
+  // Passwod confirm validator
+  matchOtherValidator = (otherControlName: string) => {
+
+    let thisControl: FormControl;
+    let otherControl: FormControl;
+
+    return (control: FormControl) => {
+
+      if (!control.parent) {
+        return null;
+      }
+
+      // Initializing the validator.
+      if (!thisControl) {
+        thisControl = control;
+        otherControl = control.parent.get(otherControlName) as FormControl;
+        if (!otherControl) {
+          throw new Error('matchOtherValidator(): other control is not found in parent group');
+        }
+        otherControl.valueChanges.subscribe(() => {
+          thisControl.updateValueAndValidity();
+        });
+      }
+
+      if (!otherControl) {
+        return null;
+      }
+
+      if (otherControl.value !== thisControl.value) {
+        return {
+          matchOther: true
+        };
+      }
+
+      return null;
+
+    };
   }
 }
