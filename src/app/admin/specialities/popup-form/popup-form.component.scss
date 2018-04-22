@@ -4,3 +4,12 @@
 .buttonMargin:first-of-type{
     width: 90px;
 }
+.error {
+    height: 30px;
+    color: red;
+}
+@media only screen and (max-width: 576px) {
+    .buttonMargin:first-of-type{
+        width: 100%;
+    }
+}
