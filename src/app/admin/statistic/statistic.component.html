@@ -1,3 +1,79 @@
-<p>
-  statistic works!
-</p>
+<section class="dashboard-counts section-padding">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-xl-2 col-md-4 col-6">
+        <div class="wrapper count-title d-flex">
+          <div class="icon">
+            <i class="fa fa-address-book" aria-hidden="true"></i>
+          </div>
+          <div class="name">
+            <strong class="text-uppercase">Студенти</strong>
+            <div class="count-number"> {{studentObject?.numberOfRecords}}
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-xl-2 col-md-4 col-6">
+        <div class="wrapper count-title d-flex">
+          <div class="icon">
+            <i class="fa fa-user-o" aria-hidden="true"></i>
+          </div>
+          <div class="name">
+            <strong class="text-uppercase">Групи</strong>
+            <div class="count-number"> {{groupObject?.numberOfRecords}}
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-xl-2 col-md-4 col-6">
+        <div class="wrapper count-title d-flex">
+          <div class="icon">
+            <i class="fa fa-book" aria-hidden="true"></i>
+          </div>
+          <div class="name">
+            <strong class="text-uppercase">Предмети</strong>
+            <div class="count-number"> {{subjectObject?.numberOfRecords}}
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-xl-2 col-md-4 col-6">
+        <div class="wrapper count-title d-flex">
+          <div class="icon">
+            <i class="fa fa-calendar-check-o" aria-hidden="true"></i>
+          </div>
+          <div class="name">
+            <strong class="text-uppercase">Тести</strong>
+            <div class="count-number"> {{testObject?.numberOfRecords}}
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-xl-2 col-md-4 col-6">
+        <div class="wrapper count-title d-flex">
+          <div class="icon">
+            <i class="fa fa-check-square-o" aria-hidden="true"></i>
+          </div>
+          <div class="name">
+            <strong class="text-uppercase">Завдання</strong>
+            <div class="count-number"> {{questionObject?.numberOfRecords}}
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-xl-2 col-md-4 col-6">
+        <div class="wrapper count-title d-flex">
+          <div class="icon">
+            <i class="fa fa-user-secret" aria-hidden="true"></i>
+          </div>
+          <div class="name">
+            <strong class="text-uppercase">Адміни</strong>
+
+            <div class="count-number"> {{adminObject?.numberOfRecords}}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

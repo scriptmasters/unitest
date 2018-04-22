@@ -13,7 +13,7 @@ export class FacultiesUpdateComponent implements OnInit {
 
   faculty: Faculties[];
   form: FormGroup;
-  isLoaded = false; 
+  isLoaded = false;
   constructor(
     private matDialogRef: MatDialogRef<FacultiesUpdateComponent>, @Inject(MAT_DIALOG_DATA) public data: any,
     private facultiesService: FacultiesService

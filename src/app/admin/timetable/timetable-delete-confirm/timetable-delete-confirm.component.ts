@@ -1,11 +1,11 @@
-import { Component, OnInit, Inject } from "@angular/core";
+import { Component, OnInit, Inject } from '@angular/core';
 
-import { MatDialogRef, MAT_DIALOG_DATA } from "@angular/material";
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 
 @Component({
-  selector: "app-timetable-delete-confirm",
-  templateUrl: "./timetable-delete-confirm.component.html",
-  styleUrls: ["./timetable-delete-confirm.component.scss"]
+  selector: 'app-timetable-delete-confirm',
+  templateUrl: './timetable-delete-confirm.component.html',
+  styleUrls: ['./timetable-delete-confirm.component.scss']
 })
 export class TimetableDeleteConfirmComponent implements OnInit {
   constructor(
@@ -16,7 +16,7 @@ export class TimetableDeleteConfirmComponent implements OnInit {
   ngOnInit() {}
 
   handleDelete(): void {
-    this.dialogRef.close("ok");
+    this.dialogRef.close('ok');
   }
 
   handleClose(): void {

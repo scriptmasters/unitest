@@ -1,9 +1,9 @@
-import { Injectable, NgModule } from "@angular/core";
-import { HttpClient } from "@angular/common/http";
-import { HttpHeaders } from "@angular/common/http";
+import { Injectable, NgModule } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { HttpHeaders } from '@angular/common/http';
 
-import { Observable } from "rxjs/Observable";
-import { catchError, map, tap } from "rxjs/operators";
+import { Observable } from 'rxjs/Observable';
+import { catchError, map, tap } from 'rxjs/operators';
 
 export interface Subject {
   subject_id: string;
@@ -18,7 +18,7 @@ export interface Group {
   faculty_id: string;
 }
 
-export interface TimeEntity {
+export interface TableItem {
   timetable_id?: string;
   group_id: string;
   subject_id: string;
@@ -32,70 +32,62 @@ export interface TimeEntity {
 export class TableService {
   httpOptions = {
     headers: new HttpHeaders({
-      "Content-Type": "application/json;charset=utf8"
+      'Content-Type': 'application/json;charset=utf8'
     })
   };
 
   constructor(public http: HttpClient) {}
 
-  getSubjects(): Observable<Subject[]> {
-    return this.http
-      .get("http://vps9615.hyperhost.name:443/api/Subject/getRecords")
-      .pipe(tap(subjects => subjects), catchError(() => []));
+  getSubjects(): Observable<Object> {
+    return this.http.get(
+      'Subject/getRecords'
+    );
   }
 
-  getGroups(): Observable<Group[]> {
-    return this.http
-      .get("http://vps9615.hyperhost.name:443/api/Group/getRecords")
-      .pipe(tap(groups => groups), catchError(() => []));
+  getGroups(): Observable<Object> {
+    return this.http.get(
+      'Group/getRecords'
+    );
   }
 
-  getTable(): Observable<TimeEntity[]> {
-    return this.http
-      .get("http://vps9615.hyperhost.name:443/api/TimeTable/getRecords")
-      .pipe(tap(table => table), catchError(() => []));
+  getTable(): Observable<Object> {
+    return this.http.get(
+      'TimeTable/getRecords'
+    );
   }
 
-  getTableBySubjectId(id: string): Observable<TimeEntity[]> {
-    return this.http
-      .get(
-        `http://vps9615.hyperhost.name:443/api/TimeTable/getTimeTablesForSubject/${id}`
-      )
-      .pipe(tap(table => table), catchError(() => []));
+  getTableBySubjectId(id: string): Observable<Object> {
+    return this.http.get(
+      `TimeTable/getTimeTablesForSubject/${id}`
+    );
   }
 
-  getTableByGroupId(id: string): Observable<TimeEntity[]> {
-    return this.http
-      .get(
-        `http://vps9615.hyperhost.name:443/api/TimeTable/getTimeTablesForGroup/${id}`
-      )
-      .pipe(tap(table => table), catchError(() => []));
+  getTableByGroupId(id: string): Observable<Object> {
+    return this.http.get(
+      `TimeTable/getTimeTablesForGroup/${id}`
+    );
   }
 
-  addTableItem(timeEntity: TimeEntity): Observable<TimeEntity[]> {
-    return this.http
-      .post(
-        "http://vps9615.hyperhost.name:443/api/TimeTable/insertData",
-        timeEntity
-      )
-      .pipe(tap(timeEntity => timeEntity), catchError(() => []));
+  addTableItem(tableItem: TableItem): Observable<Object> {
+    return this.http.post(
+      'TimeTable/insertData',
+      tableItem
+    );
   }
 
   updateTableItem(
     timetable_id: string,
-    timeEntity: TimeEntity
-  ): Observable<TimeEntity[]> {
-    return this.http
-      .post(
-        `http://vps9615.hyperhost.name:443/api/TimeTable/update/${timetable_id}`,
-        timeEntity
-      )
-      .pipe(tap(timeEntity => timeEntity), catchError(() => []));
+    tableItem: TableItem
+  ): Observable<Object> {
+    return this.http.post(
+      `TimeTable/update/${timetable_id}`,
+      tableItem
+    );
   }
 
   deleteTableItem(timetable_id: string): Observable<any> {
     return this.http.delete(
-      `http://vps9615.hyperhost.name:443/api/TimeTable/del/${timetable_id}`
+      `TimeTable/del/${timetable_id}`
     );
   }
 }

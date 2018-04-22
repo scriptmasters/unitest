@@ -3,14 +3,11 @@
 }
 
 input.ng-touched.ng-invalid {
-    border:solid #DC3545 2px;
-}
-
-input.ng-touched.ng-valid {
-    border:solid #28A745 2px;
+    border:solid #DC3545 1px;
 }
 
 .btn-success, .btn-danger {
+    width: 150px;
     margin: {
         left: 5px;
         right: 5px;
@@ -18,13 +15,13 @@ input.ng-touched.ng-valid {
 }
 
 .user-image {
-    width: 100px;
-    height: 100px;
+    width: 200px;
+    height: 200px;
     margin-bottom: 10px;
 }
 
 .custom-file {
-    width: 180px;
+    width: 200px;
     #customFile {
         cursor: pointer;
     }
@@ -41,16 +38,16 @@ div.error.col-12 {
     position: relative;
 }
 
-#visibility-toggler {
+#eye-vision {
     position: absolute;
     cursor: pointer;
     right: 15px;
-    top: 8px;
+    top: 30px;
 }
 
 label:not(.custom-file-label) {
     margin-bottom: 0;
-    font-size: 0.8rem;
+    font-size: 1rem;
 }
 
 .header {
@@ -61,4 +58,8 @@ label:not(.custom-file-label) {
     button {
         margin-left: -60px;
     }
+}
+
+.invisible {
+    visibility: hidden;
 }

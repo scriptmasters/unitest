@@ -2,7 +2,12 @@
   <!-- Таблиця з студентами -->
   <div class="container-fluid">
     <header> 
-      <h1 class="h3 display">{{ title }}</h1>
+      <div>
+          <h1 class="h3 display">Студенти</h1>
+          <div class="search-field">
+            <input type="text" [(ngModel)]="searchString" placeholder="Пошук..." class="search">
+          </div>
+      </div>
       <button type="button" class="btn btn-success" (click)="showRegForm()">Додати студента</button>
     </header>
     <div class="row">
@@ -21,13 +26,9 @@
                   </tr>
                 </thead>
                 <tbody>
-                  <tr *ngFor="let student of students | paginate: config; let i = index">
+                  <tr *ngFor="let student of students | searchStudent: searchString | paginate: config; let i = index">
                     <th>{{(config.currentPage - 1) * config.itemsPerPage + i +1}}</th>
-                    <td>
-                      <span>{{student.student_surname}}</span>
-                      <span>{{student.student_name}}</span>
-                      <span>{{student.student_fname}}</span>
-                    </td>
+                    <td>{{student.fullName}}</td>
                     <th>{{student.gradebook_id}}</th>
                     <th>{{student.group}}</th>
                     <td><i class="fa fa-address-card" aria-hidden="true" title="Детальна інформація" (click)="showAdvancedInfo(student)"></i></td>
@@ -39,7 +40,7 @@
             </div>
           </div>
         </div>
-        <pagination-controls class="pagination" (pageChange)="config.currentPage=$event" autoHide="true"></pagination-controls>
+        <pagination-controls class="pagination justify-content-center" (pageChange)="config.currentPage=$event" previousLabel="<<" nextLabel=">>" autoHide="true"></pagination-controls>
       </div>
     </div>
   </div>
