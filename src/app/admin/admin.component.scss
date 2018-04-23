@@ -103,11 +103,12 @@
                         color: #fff;
                         font-size: 1.2rem;
                     }
-                    .dtester-title {
-                        margin-left: 5px;
-                        color: #33B357;
-                        font-size: 1.5rem;
-                    }
+
+                }
+                .dtester-title {
+                  margin-right: 10rem;
+                  color: #33B357;
+                  font-size: 1.5rem;
                 }
                 .log-out {
                     display: inline-block;
@@ -148,7 +149,7 @@
 
 .vertical-navigation {
     display: none;
-z-index: 1;
+    z-index: 1;
     position: fixed; ///
     top: 65px;///////////
     right: 0;///////// Фіксований хідер медіаквері на width 100% знизу
@@ -182,20 +183,24 @@ z-index: 1;
 }
 
 @media (max-width: 992px) {
+
     .side-bar {
         display: none;
     }
     #burger {
         display: flex;
     }
-    .header, .vertical-navigation  {
-        width: 100%!important; /// коли зникає лівий навбар верхній навбар не на всю ширину
+    .header, .vertical-navigation, .footer   {
+        width: 100%!important;
     }
     .footer span, .admin-title, .dtester-title {
         font-size: 1rem!important;
     }
     .admin-panel .main .content-wrapper .header {
         padding: 0 2rem;
+    }
+    .admin-panel .main .content-wrapper .header .dtester-title {
+        margin-right: 2rem;
     }
 }
 

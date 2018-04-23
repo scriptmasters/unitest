@@ -2,7 +2,7 @@
   <div class="container-fluid">
     <header> 
             
-            <h1 class="h3 display ">{{ title_component }} 
+           <!-- <h1 class="h3 display ">{{ title_component }}
                 <span>
                   <select 
                     class="col-12" 
@@ -23,7 +23,7 @@
             </h1>
 
             <button mat-raised-button class="btn btn-primary" 
-            (click)="openModalAdd(selectedTestId, setSelectedTestName($event.target.value, selName))">Додати завдання</button>
+            (click)="openModalAdd(selectedTestId, setSelectedTestName($event.target.value, selName))">Додати завдання</button>-->
 
     </header> 
   
@@ -46,7 +46,7 @@
                   </tr>
                 </thead>
                 <tbody>
-                  <tr *ngFor="let question of questions; let i = index">
+                  <tr *ngFor="let question of questionsRange; let i = index">
                     <th>{{i+1}}</th>
                     <td>{{question.question_text}} </td>
                     <td>{{question.test}} </td>
@@ -54,11 +54,18 @@
                     <td>{{question.level}}</td>
                     <td>{{question.type}}</td>
                     <td>{{question.attachment}}</td>
-                    <td><i class="fa fa-cog" (click)="openModalEdit(question.question_id)"></i></td>
-                    <td><i class="fa fa-close" (click)="handleDelete(question.question_id)"></i></td> 
+                    <td><i class="fa fa-cog" routerLink="/admin/add-question"></i></td>
+                    <td><i class="fa fa-close" ></i></td>
                   </tr>
                 </tbody>
               </table>
+              <mat-paginator [length]="length"
+                             [pageSize]="pageSize"
+                             [pageSizeOptions]="[5, 10, 25, 100]"
+                             [pageIndex]="pageIndex"
+                             [showFirstLastButtons]="true"
+                             (page) = "pageEvent = displayQuestions($event)">
+              </mat-paginator>
             </div>
           </div>
         </div>
