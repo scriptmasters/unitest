@@ -13,13 +13,13 @@ export class GroupsDeleteConfirmComponent implements OnInit {
 
   ngOnInit() {
   }
-  
 
-  public delete(){
+
+  public delete() {
     this.dialogRef.close(true);
   }
-  public cancel(){
+  public cancel() {
     this.dialogRef.close(false);
   }
-  
+
 }

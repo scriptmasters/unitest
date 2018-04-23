@@ -11,14 +11,14 @@ import {Faculties, IResponse} from '../facultiesInterface';
 export class FacultiesDeleteComponent implements OnInit {
 
   constructor(
-    private facultiesService: FacultiesService, 
+    private facultiesService: FacultiesService,
     public dialogRef: MatDialogRef<FacultiesDeleteComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any) { }
 
     ngOnInit() {
     }
 
-    facultyDelete():void {
+    facultyDelete(): void {
        this.facultiesService.delFaculties(this.data.id).subscribe(
        (data: IResponse) => this.dialogRef.close(data.response),
        error => {
@@ -26,7 +26,7 @@ export class FacultiesDeleteComponent implements OnInit {
       });
      }
 
-     onNoClick():void {
+     onNoClick(): void {
         this.dialogRef.close();
-     } 
+     }
 }

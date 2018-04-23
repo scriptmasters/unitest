@@ -1,30 +1,32 @@
-import { Component, OnInit, Inject } from "@angular/core";
-import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from "@angular/material";
-import TableService, { Subject, Group, TimeEntity } from "../timetable.service";
+import { Component, OnInit, Inject } from '@angular/core';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
+import TableService from '../timetable.service';
 import { startDateValidator, matchDates } from './date-validation';
+import { ResponseMessageComponent } from '../../../shared/response-message/response-message.component';
 
 import {
   FormControl,
   FormGroup,
   Validators,
   ReactiveFormsModule
-} from "@angular/forms";
+} from '@angular/forms';
 
 @Component({
-  selector: "timetable-modal",
-  templateUrl: "./timetable-modal.component.html",
-  styleUrls: ["./timetable-modal.component.css"],
+  selector: 'timetable-modal',
+  templateUrl: './timetable-modal.component.html',
+  styleUrls: ['./timetable-modal.component.scss'],
   providers: [TableService]
 })
 export class TimeTableModal implements OnInit {
   private form: FormGroup;
-  formData: TimeEntity = {
-    group_id: "",
-    subject_id: "",
-    start_date: "",
-    start_time: "",
-    end_date: "",
-    end_time: ""
+  formData = {
+    group_id: '',
+    subject_id: '',
+    start_date: '',
+    start_time: '',
+    end_date: '',
+    end_time: '',
+    timetable_id: undefined
   };
 
   constructor(
@@ -32,9 +34,18 @@ export class TimeTableModal implements OnInit {
     public tableService: TableService,
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {
-    if (this.data.editData instanceof Object) {
+    if (this.data.tableItem instanceof Object) {
       // Create copy to prevent editing of table item object directly
-      this.formData = Object.assign({}, this.data.editData);
+      this.formData = Object.assign({}, this.data.tableItem);
+
+      // this.formData.group_id = this.data.editData.group_id;
+      // this.formData.subject_id = this.data.editData.subject_id;
+      // this.formData.start_date = this.data.editData.start_date;
+      // this.formData.start_time = this.data.editData.start_time;
+      // this.formData.end_date = this.data.editData.end_date;
+      // this.formData.end_time = this.data.editData.end_time;
+      // this.formData.end_date = this.data.editData.end_date;
+      // this.formData.timetable_id = this.formData.timetable_id;
     }
   }
 
@@ -43,19 +54,22 @@ export class TimeTableModal implements OnInit {
   }
 
   ngOnInit(): void {
-    this.form = new FormGroup({
-      group: new FormControl(null, [Validators.required]),
-      subject: new FormControl(null, [Validators.required]),
-      startDate: new FormControl(null, [
-        Validators.required,
-        startDateValidator
-      ]),
-      startTime: new FormControl(null, [Validators.required]),
-      endDate: new FormControl(null, [Validators.required]),
-      endTime: new FormControl(null, [Validators.required]),
-    }, {
+    this.form = new FormGroup(
+      {
+        group: new FormControl(null, [Validators.required]),
+        subject: new FormControl(null, [Validators.required]),
+        startDate: new FormControl(null, [
+          Validators.required,
+          startDateValidator
+        ]),
+        startTime: new FormControl(null, [Validators.required]),
+        endDate: new FormControl(null, [Validators.required]),
+        endTime: new FormControl(null, [Validators.required])
+      },
+      {
         validators: [matchDates]
-      });
+      }
+    );
   }
 
   onSubmit = evt => {
@@ -73,7 +87,7 @@ export class TimeTableModal implements OnInit {
         })
         .subscribe(response => {
           if (Array.isArray(response) && response.length >= 1) {
-            for (let item of this.data.table) {
+            for (const item of this.data.table) {
               if (item.timetable_id === response[0].timetable_id) {
                 Object.assign(item, response[0], {
                   subject_name: this.data.subjectsMap.get(
@@ -83,11 +97,10 @@ export class TimeTableModal implements OnInit {
                 });
               }
             }
-            return this.dialogRef.close();
+            return this.dialogRef.close('Редагування успішно завершено');
           }
-
-          return alert("Сервер вернув помилку. Спробуйте пізніше...");
-        });
+          return this.dialogRef.close('Виникла помилка при редагуванні. Повторіть спробу пізніше');
+        }, () => this.dialogRef.close('Виникла помилка при редагуванні. Повторіть спробу пізніше'));
       return;
     }
 
@@ -102,7 +115,7 @@ export class TimeTableModal implements OnInit {
       })
       .subscribe(response => {
         if (!Array.isArray(response) || response.length <= 0) {
-          return console.error("ERROR");
+          return this.dialogRef.close('Виникла помилка при додаванні. Повторіть спробу пізніше');
         }
 
         this.data.table.push(
@@ -113,9 +126,10 @@ export class TimeTableModal implements OnInit {
             },
             response[0]
           )
+
         );
 
-        return this.dialogRef.close();
-      });
-  };
+        return this.dialogRef.close('Додавання успішно завершено');
+      }, () => this.dialogRef.close('Виникла помилка при додаванні. Повторіть спробу пізніше'));
+  }
 }

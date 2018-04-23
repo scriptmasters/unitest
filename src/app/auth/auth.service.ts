@@ -6,9 +6,9 @@ import {Observable} from 'rxjs/Observable';
 
 @Injectable()
 export class AuthService {
-    authLoginUrl = 'http://vps9615.hyperhost.name:443/api/login/index/';
-    authLogoutUrl = 'http://vps9615.hyperhost.name:443/api/login/logout';
-    isLoggedUrl = 'http://vps9615.hyperhost.name:443/api/login/isLogged';
+    authLoginUrl = 'login/index/';
+    authLogoutUrl = 'login/logout';
+    isLoggedUrl = 'login/isLogged';
 
     httpOptions = {
         headers: new HttpHeaders({
