@@ -30,7 +30,7 @@ export class StudentsResolver implements Resolve<IStudent[]> {
                                 message: 'Немає зареєстрованих студентів в даній групі'
                             }
                         });
-                        this.router.navigate(['admin/students/']);
+                        this.router.navigate(['admin/groups/']);
                         return new ErrorObservable('Немає зареєстрованих студентів в даній групі');
                     }
                     return this.onDataRetrieve(data);

@@ -66,4 +66,8 @@ export class StudentsService {
   checkUsername(value: string): Observable<any> {
     return this.http.get<any>(`AdminUser/checkUserName/${value}`).map(res => !res.response);
   }
+  // To find out is there same username or not
+  checkEmailAddress(value: string): Observable<any> {
+    return this.http.get<any>(`AdminUser/checkEmailAddress/${value}`).map(res => !res.response);
+  }
 }

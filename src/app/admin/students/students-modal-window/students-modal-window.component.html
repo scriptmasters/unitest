@@ -21,10 +21,11 @@
                 [(ngModel)]="student.student_surname"
                 name="surname" placeholder="Прізвище...">
               <div 
-                *ngIf="form.get('surname').invalid && (form.get('surname').dirty || form.get('surname').touched)" 
+                *ngIf="surnameC.invalid && (surnameC.dirty || surnameC.touched)" 
                 class="error col-12">
-                <span *ngIf="form.get('surname').errors.minlength">Мінімум 2 символи</span>
-                <span *ngIf="form.get('surname').errors.required">Це поле є обов'язковим</span>
+                <span *ngIf="surnameC.errors.minlength">Мінімум 2 символи</span>
+                <span *ngIf="surnameC.errors.maxlength">Максимум 20 символів</span>
+                <span *ngIf="surnameC.errors.required">Це поле є обов'язковим</span>
               </div>
             </div>
             <!-- firstname -->
@@ -38,10 +39,11 @@
                 [(ngModel)]="student.student_name"
                 placeholder="Ім'я...">
               <div 
-                *ngIf="form.get('firstname').invalid && (form.get('firstname').dirty || form.get('firstname').touched)" 
+                *ngIf="firstnameC.invalid && (firstnameC.dirty || firstnameC.touched)" 
                 class="error col-12">
-                <span *ngIf="form.get('firstname').errors.minlength">Мінімум 2 символи</span>
-                <span *ngIf="form.get('firstname').errors.required">Це поле є обов'язковим</span>
+                <span *ngIf="firstnameC.errors.minlength">Мінімум 2 символи</span>
+                <span *ngIf="firstnameC.errors.maxlength">Максимум 20 символів</span>
+                <span *ngIf="firstnameC.errors.required">Це поле є обов'язковим</span>
               </div>
             </div>
           </div>
@@ -57,10 +59,11 @@
               [(ngModel)]="student.student_fname"
               placeholder="По-батькові...">
               <div 
-                *ngIf="form.get('fname').invalid && (form.get('fname').dirty || form.get('fname').touched)" 
+                *ngIf="fnameC.invalid && (fnameC.dirty || fnameC.touched)" 
                 class="error col-12">
-                <span *ngIf="form.get('fname').errors.minlength">Мінімум 2 символи</span>
-                <span *ngIf="form.get('fname').errors.required">Це поле є обов'язковим</span>
+                <span *ngIf="fnameC.errors.minlength">Мінімум 2 символи</span>
+                <span *ngIf="fnameC.errors.maxlength">Максимум 20 символів</span>
+                <span *ngIf="fnameC.errors.required">Це поле є обов'язковим</span>
               </div>
             </div>
           </div>
@@ -80,6 +83,11 @@
                   <option [selected]="true">Виберіть факультет</option>
                   <option *ngFor="let faculty of faculties">{{faculty.faculty_name}}</option>
                 </select>
+                <div 
+                  *ngIf="facultyC.touched && facultyC.errors.faculty" 
+                  class="error col-12">
+                  Виберіть факультет!
+                </div>
               </div>
               <div class="form-group col-6">
                 <!-- Group -->
@@ -93,6 +101,11 @@
                   <option [selected]="true">Виберіть групу</option>
                   <option *ngFor="let group of groups">{{group.group_name}}</option>
                 </select>
+                <div 
+                  *ngIf="groupC.touched && groupC.errors.group" 
+                  class="error col-12">
+                  Виберіть групу!
+                </div>
               </div>
             </span>
             <!-- While updating student's data -->
@@ -104,6 +117,7 @@
                   class="form-control col-12" 
                   id="facultySelect" 
                   name="faculty" 
+                  formControlName="faculty"
                   #facultyField 
                   (change)="getGroups(facultyField)">
                   <option 
@@ -112,6 +126,11 @@
                       {{faculty.faculty_name}}
                   </option>
                 </select>
+                <div 
+                  *ngIf="facultyC.touched && facultyC.errors.faculty" 
+                  class="error col-12">
+                  Виберіть факультет!
+                </div>
               </div>
               <div class="form-group col-6">
                 <!-- Group -->
@@ -129,6 +148,11 @@
                       {{group.group_name}}
                   </option>
                 </select>
+                <div 
+                  *ngIf="groupC.touched && groupC.errors.group" 
+                  class="error col-12">
+                  Виберіть групу!
+                </div>
               </div>
             </span>
           </div>
@@ -144,10 +168,11 @@
               [(ngModel)]="student.gradebook_id"
               placeholder="№ заліковки...">
               <div 
-                *ngIf="form.get('gradebook').invalid && (form.get('gradebook').dirty || form.get('gradebook').touched)" 
+                *ngIf="gradebookC.invalid && (gradebookC.dirty || gradebookC.touched)" 
                 class="error col-12">
-                <span *ngIf="form.get('gradebook').errors.minlength">Мінімум 6 символів</span>
-                <span *ngIf="form.get('gradebook').errors.required">Це поле є обов'язковим</span>
+                <span *ngIf="gradebookC.errors.minlength">Мінімум 6 символів</span>
+                <span *ngIf="gradebookC.errors.maxlength">Максимум 20 символів</span>
+                <span *ngIf="gradebookC.errors.required">Це поле є обов'язковим</span>
               </div>
             </div>
           </div>
@@ -166,6 +191,7 @@
                   *ngIf="loginC.invalid && (loginC.dirty || loginC.touched)" 
                   class="error col-12">
                   <span *ngIf="loginC.errors.minlength">Мінімум 5 символів</span>
+                  <span *ngIf="loginC.errors.maxlength">Максимум 32 символи</span>
                   <span *ngIf="loginC.errors.required">Це поле є обов'язковим</span>
                   <span *ngIf="loginC.errors.loginTaken">Цей логін вже зайнятий</span>
                 </div>
@@ -184,10 +210,11 @@
                 placeholder="Пароль...">
                 <i class="visibility-toggler fa fa-eye" aria-hidden="true" (click)="handleTogglePasswordVisibility($event)"></i>
                 <div 
-                  *ngIf="form.get('password').invalid && (form.get('password').dirty || form.get('password').touched)" 
+                  *ngIf="passwordC.invalid && (passwordC.dirty || passwordC.touched)" 
                   class="error col-12">
-                  <span *ngIf="form.get('password').errors.minlength">Мінімум 8 символів</span>
-                  <span *ngIf="form.get('password').errors.required">Це поле є обов'язковим</span>
+                  <span *ngIf="passwordC.errors.minlength">Мінімум 8 символів</span>
+                  <span *ngIf="passwordC.errors.maxlength">Максимум 32 символи</span>
+                  <span *ngIf="passwordC.errors.required">Це поле є обов'язковим</span>
                 </div>
             </div>
             <div id="password_confirm" class="form-group col-6">
@@ -202,7 +229,7 @@
                 placeholder="Підтвердити пароль...">
                 <i class="visibility-toggler fa fa-eye" aria-hidden="true" (click)="handleTogglePasswordVisibility($event)"></i>
                 <div 
-                  *ngIf="form.get('password_confirm').invalid && (form.get('password_confirm').dirty || form.get('password_confirm').touched)" 
+                  *ngIf="password_confirmC.invalid && password_confirmC.errors.matchOther" 
                   class="error col-12">
                   Це поле повинно збігатись з полем "Пароль"
                 </div>
@@ -221,9 +248,10 @@
               placeholder="Поштова скринька..."
               email>
               <div 
-                *ngIf="form.get('email').invalid && (form.get('email').dirty || form.get('email').touched)" 
+                *ngIf="emailC.invalid && (emailC.dirty || emailC.touched)" 
                 class="error col-12">
-                <span *ngIf="form.get('email').errors.email">Поштова скринька повинна бути формату логін@домен</span>
+                <span *ngIf="emailC.errors.email">Поштова скринька повинна бути формату логін@домен</span>
+                <span *ngIf="emailC.errors.emailTaken">Ця адреса вже зайнята</span>
               </div>
             </div>
           </div>

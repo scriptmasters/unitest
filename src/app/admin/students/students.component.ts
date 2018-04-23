@@ -175,6 +175,7 @@ export class StudentsComponent implements OnInit {
       groups.forEach(val => {
         if (value.group_id === val.group_id) {
           student.group = val.group_name;
+          student.faculty_id = val.faculty_id;
         }
       });
       return student;

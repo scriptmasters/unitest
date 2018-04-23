@@ -9,7 +9,11 @@ import IStudent from '../interfaces/IStudent';
 import IUser from '../interfaces/IUser';
 import IResponse from '../interfaces/IResponse';
 import { defaultImage } from './default-image';
-import { ValidateLoginNotTaken } from '../async-login.validator';
+import { ValidateLoginNotTaken } from '../custom-validators/async-login.validator';
+import { ValidateEmailNotTaken } from '../custom-validators/async-email.validator';
+import { matchOtherValidator } from '../custom-validators/password-confirm.validator';
+import { getGroupsByFaulty } from '../reusable-functions/get-groups-by-faculty';
+import { setGroupAsID } from '../reusable-functions/set-group-as-id';
 
 @Component({
   selector: 'app-students-modal-window',
@@ -68,10 +72,10 @@ export class StudentsModalWindowComponent implements OnInit {
     private service: StudentsService,
     public dialogRef: MatDialogRef<StudentsModalWindowComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any) {
-      this.getData();
     }
 
   ngOnInit(): void {
+    this.getData();
     // Form validation
     this.createFormControls();
     this.createForm();
@@ -108,23 +112,31 @@ export class StudentsModalWindowComponent implements OnInit {
         Validators.minLength(5),
         Validators.maxLength(32)
       ],
-      asyncValidators: ValidateLoginNotTaken.createValidator(this.service),
+      asyncValidators: this.data.updating ?
+        ValidateLoginNotTaken.createValidator(this.service, true) :
+        ValidateLoginNotTaken.createValidator(this.service, false),
       updateOn: 'blur'
     });
-    this.emailC = new FormControl('', [
-      Validators.required,
-      Validators.minLength(8),
-      Validators.maxLength(32),
-      Validators.email
-    ]);
-    this.passwordC =  new FormControl(this.data.updating ?
-      this.data.student.plain_password : '', Validators.compose([
+    this.emailC = new FormControl('', {
+      validators: [
+        Validators.required,
+        Validators.minLength(8),
+        Validators.maxLength(32),
+        Validators.email
+      ],
+      asyncValidators: this.data.updating ?
+        ValidateEmailNotTaken.createValidator(this.service, true) :
+        ValidateEmailNotTaken.createValidator(this.service, false),
+      updateOn: 'blur'
+    });
+    this.passwordC = new FormControl(this.data.updating ?
+      this.data.student.plain_password : '', [
       Validators.required,
       Validators.minLength(8),
       Validators.maxLength(32)
-    ]));
+    ]);
     this.password_confirmC = new FormControl(this.data.updating ?
-      this.data.student.plain_password : '', this.matchOtherValidator('password'));
+      this.data.student.plain_password : '', matchOtherValidator('password'));
   }
   // create Form validation
   createForm() {
@@ -178,46 +190,34 @@ export class StudentsModalWindowComponent implements OnInit {
   }
   // Getting available groups for picked faculty by faculty ID
   getGroups(elem: HTMLSelectElement) {
-    const value = elem.options[elem.selectedIndex].value;
-    if (this.data.updating) {
-      if (value === 'Виберіть факультет') {
-        return;
-      }
+    const index = getGroupsByFaulty(elem, this.data.updating, this.faculties);
+    if (index) {
+      // Request for the available groups
+      this.service.getAvailableGroups(index).subscribe(data => {
+        if (data[0]) {
+          this.groups = data;
+        // if there is no available group
+        } else {
+          this.data.updating ?
+          this.groups = [{
+            group_name: 'Немає груп',
+            group_id: ''
+          }] : this.groups = [];
+        }
+      });
     }
-    let index: string;
-    // Iterate array to find neccessary faculty id
-    this.faculties.forEach(val => {
-      if (val.faculty_name === value) {
-        index = val.faculty_id;
-      }
-    });
-    // Request for the available groups
-    this.service.getAvailableGroups(index).subscribe(data => {
-      if (data[0]) {
-        this.groups = data;
-      // if there is no available group
-      } else {
-        this.groups = [];
-      }
-    });
   }
   // set group id to student object value when group name is picked
   handleSetGroup(elem: HTMLSelectElement) {
-    const value = elem.options[elem.selectedIndex].value;
-    if (value === 'Виберіть групу') {
-      return;
+    const index = setGroupAsID(elem, this.groups);
+    if (index) {
+      this.student.group_id = index;
     }
-    let index: string;
-    this.groups.forEach(val => {
-      if (val.group_name === value) {
-        index = val.group_id;
-      }
-    });
-    this.student.group_id = index;
   }
   // custom group validator
   selectGroupValidator(control) {
     if (control.value === 'Немає груп' || control.value === 'Виберіть групу') {
+      console.log(control.value);
       return {
         'group': true
       };
@@ -280,43 +280,5 @@ export class StudentsModalWindowComponent implements OnInit {
   // close mat dialog window
   handleClose(): void {
     this.dialogRef.close();
-  }
-  // Passwod confirm validator
-  matchOtherValidator = (otherControlName: string) => {
-
-    let thisControl: FormControl;
-    let otherControl: FormControl;
-
-    return (control: FormControl) => {
-
-      if (!control.parent) {
-        return null;
-      }
-
-      // Initializing the validator.
-      if (!thisControl) {
-        thisControl = control;
-        otherControl = control.parent.get(otherControlName) as FormControl;
-        if (!otherControl) {
-          throw new Error('matchOtherValidator(): other control is not found in parent group');
-        }
-        otherControl.valueChanges.subscribe(() => {
-          thisControl.updateValueAndValidity();
-        });
-      }
-
-      if (!otherControl) {
-        return null;
-      }
-
-      if (otherControl.value !== thisControl.value) {
-        return {
-          matchOther: true
-        };
-      }
-
-      return null;
-
-    };
   }
 }
