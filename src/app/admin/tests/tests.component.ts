@@ -27,7 +27,7 @@ export class TestsComponent implements OnInit {
     this.getTestsById(this.subjectId);
   }
 
-  deleteTest(id: number) {
+  deleteTest(id: number) : void {
    const matDialogRef = this.dialog.open(DeleteConfirmComponent,{
     width: '350px',
     data: {message: 'Ви справді хочете видалити цей тест?'}
@@ -45,13 +45,13 @@ export class TestsComponent implements OnInit {
    })
   }
 
-   getTestsById(id: number) {
+   getTestsById(id: number) : void {
      this.httpService.getTestsById(this.subjectId).subscribe(
        data => {this.test = data; }
      );
    }
 
-   openDialog(t: object, id: number) {
+   openDialog(t: object, id: number) : void {
    const matDialogRef = this.dialog.open(EditComponent, {
     width: '350px',
     data: {id: id, test: t}});
@@ -62,14 +62,14 @@ export class TestsComponent implements OnInit {
     matDialogRef.afterClosed().subscribe(() => this.getTestsById(this.subjectId));
    }
 
-   openDetails(id: any) {
+   openDetails(id: any): void {
     this.router.navigate(['/admin/testdetails'], {
       queryParams: {
         id: id
       }
     });
    }
-   openModalMessage(msg: string, w: string = '400px'): void {
+   openModalMessage(msg: string, w: string = '400px') : void {
     this.dialog.open(ResponseMessageComponent, {
       width: w,
       data: {

@@ -1,8 +1,9 @@
 import { Component, Inject, OnInit} from '@angular/core';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
+import { MatDialogRef, MAT_DIALOG_DATA, MatDialog } from '@angular/material';
 import {TestService } from '../test.service';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import {NgClass} from '@angular/common';
+import { ResponseMessageComponent } from '../../../shared/response-message/response-message.component';
 
 @Component({
   selector: 'app-edit',
@@ -13,7 +14,7 @@ export class EditComponent implements OnInit {
 
 rForm: FormGroup;
 constructor(public dialogRef: MatDialogRef<EditComponent>, @Inject(MAT_DIALOG_DATA) public data: any,
-            private httpService: TestService, private fb: FormBuilder) {
+            private httpService: TestService, private fb: FormBuilder, public dialog: MatDialog) {
 this.initForm();
 }
 ngOnInit() {}
@@ -49,7 +50,13 @@ Object.keys(controls)
    this.httpService.editTest(this.data.id, this.rForm.value).subscribe(
     () => console.log(),
     (err) => console.log(err),
-    () => this.dialogRef.close()
+    () => {
+      this.dialogRef.close();
+      const matDialogRef = this.dialog.open(ResponseMessageComponent, {
+        width: '350px',
+        data: {message: 'Зміни збережено'}
+      });
+    }
   );
 }
 
