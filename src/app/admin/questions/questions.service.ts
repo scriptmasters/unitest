@@ -7,6 +7,9 @@ export class QuestionsService {
 
   questionsGetUrl = 'question/getRecordsRangeByTest/';
   questionsQuantUrl = 'question/countRecordsByTest/';
+  questionAddUrl = 'question/insertData/';
+  answerAddUrl = 'answer/insertData/';
+  getAnswerByQuestionUrl = 'answer/getAnswersByQuestion/';
 
   constructor(private http: HttpClient) {
   }
@@ -18,4 +21,23 @@ export class QuestionsService {
     return this.http.get(`${this.questionsQuantUrl}${testId}`);
   }
 
+  questionAdd (questionBody) {
+      return this.http.post(this.questionAddUrl, questionBody);
+  }
+
+  answerAdd (answerBody) {
+      return this.http.post(this.answerAddUrl, answerBody);
+  }
+
+  questionDelete (id) {
+    return this.http.get(`question/del/${id}`);
+  }
+
+  answerDelete (id) {
+      return this.http.get(`answer/del/${id}`);
+  }
+
+  getAnswersByQuestion (id) {
+    return this.http.get(`${this.getAnswerByQuestionUrl}${id}`);
+  }
 }
