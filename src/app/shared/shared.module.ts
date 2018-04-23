@@ -1,44 +1,18 @@
 import { NgModule } from '@angular/core';
-import { CdkTableModule } from '@angular/cdk/table';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS  } from '@angular/common/http';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { RequestInterceptor } from './request-interceptor';
 import {
-    MatAutocompleteModule,
-    MatButtonModule,
-    MatButtonToggleModule,
-    MatCardModule,
-    MatCheckboxModule,
-    MatChipsModule,
-    MatDatepickerModule,
-    MatDialogModule,
-    MatDividerModule,
-    MatExpansionModule,
-    MatGridListModule,
-    MatIconModule,
-    MatInputModule,
-    MatListModule,
-    MatMenuModule,
-    MatNativeDateModule,
+    MatPaginatorIntl,
     MatPaginatorModule,
-    MatProgressBarModule,
-    MatProgressSpinnerModule,
-    MatRadioModule,
-    MatRippleModule,
+    MatButtonModule,
+    MatCardModule,
+    MatDialogModule,
+    MatInputModule,
     MatSelectModule,
-    MatSidenavModule,
-    MatSliderModule,
-    MatSlideToggleModule,
-    MatSnackBarModule,
-    MatSortModule,
-    MatStepperModule,
-    MatTableModule,
-    MatTabsModule,
-    MatToolbarModule,
-    MatTooltipModule,
+    MatSnackBarModule
 } from '@angular/material';
-import { CommonModule } from '@angular/common';
 import { DeleteConfirmComponent } from './delete-confirm/delete-confirm.component';
 import { ResponseMessageComponent } from './response-message/response-message.component';
 
@@ -60,9 +34,10 @@ import { ResponseMessageComponent } from './response-message/response-message.co
         MatSelectModule,
         DeleteConfirmComponent,
         ResponseMessageComponent,
-        NgxPaginationModule
+        NgxPaginationModule,
+        MatPaginatorModule
     ],
-    providers: [{ provide: HTTP_INTERCEPTORS, useClass: RequestInterceptor, multi: true }],
+    providers: [{ provide: HTTP_INTERCEPTORS, useClass: RequestInterceptor, multi: true }, MatPaginatorIntl],
     entryComponents: [
         ResponseMessageComponent,
         DeleteConfirmComponent

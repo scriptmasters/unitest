@@ -61,4 +61,12 @@ export class TestsComponent implements OnInit {
       }
     });
    }
+
+    openQuestions(id: any) {
+        this.router.navigate(['/admin/questions'], {
+            queryParams: {
+                testId: id
+            }
+        });
+    }
 }

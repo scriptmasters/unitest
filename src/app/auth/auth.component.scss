@@ -60,6 +60,10 @@
     color: black;
 }
 
+input.ng-touched.ng-invalid {
+  border:0;
+}
+
 @media (max-width: 667px) {
   .mat-input-container {
     width: 270px;
