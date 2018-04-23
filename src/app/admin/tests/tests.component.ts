@@ -69,12 +69,12 @@ export class TestsComponent implements OnInit {
       }
     });
    }
-   openModalMessage(msg: string, w: string = '400px'): void {
-    this.dialog.open(ResponseMessageComponent, {
-      width: w,
-      data: {
-        message: msg
-      }
-    });
-  }
+
+    openQuestions(id: any) {
+        this.router.navigate(['/admin/questions'], {
+            queryParams: {
+                testId: id
+            }
+        });
+    }
 }
