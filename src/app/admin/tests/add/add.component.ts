@@ -51,5 +51,9 @@ onSubmit() {
     () => console.log(),
     () => this.dialogRef.close());
   }
+  
+  onNoClick() {
+    this.dialogRef.close();
+  }
 }
 

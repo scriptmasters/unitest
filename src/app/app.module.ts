@@ -15,7 +15,6 @@ import {RequestInterceptor} from './shared/request-interceptor';
         AppRoutingModule,
         HttpClientModule
     ],
-
     entryComponents: [ AppComponent ],
     declarations: [ AppComponent ],
     bootstrap: [ AppComponent ],

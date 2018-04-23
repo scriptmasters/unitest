@@ -1,3 +1,4 @@
+<!--
 <form [formGroup]="rForm" (submit)="onSubmit()">
   <div class="example-container">
   <h2 mat-dialog-title>Додати предмет</h2>
@@ -30,4 +31,38 @@
       <button mat-button mat-dialog-close>Відміна</button>
       <button mat-button color="primary">Зберегти</button>
   </div>
+</form>
+-->
+<form [formGroup]="rForm" (submit)="onSubmit()">
+    <div class="form-row justify-content-end">
+      <i class="fa fa-close" (click)="onNoClick()"></i>
+    </div>
+    <div class="form-group">
+        <label for="name">Назава тесту</label>
+        <input type="text" class="form-control" id="name" placeholder="Назва тесту" formControlName="test_name">
+      </div>
+      <div class="form-group">
+        <label for="tasks">Кількість завдань</label>
+        <input type="text" class="form-control" id="tasks" placeholder="Кількість завдань" formControlName="tasks">
+      </div>
+      <div class="form-group">
+        <label for="duration">Тривалість тесту</label>
+        <input type="text" class="form-control" id="duration" placeholder="Тривалість тесту" formControlName="time_for_test">
+      </div>
+      <div class="form-group">
+        <label for="attempts">Кількість спроб</label>
+        <input type="text" class="form-control" id="attempts" placeholder="Кількість спроб" formControlName="attempts">
+      </div>
+      <div class="form-group">
+        <label>Статус</label>
+        <select class="form-control" formControlName="enabled">
+          <option *ngFor="let s of enabled" [value]="s.value">{{s.text}}</option>
+        </select>
+      </div>
+      <div class="form-row justify-content-center">
+        <div class="form-group">
+            <button class="btn btn-danger" (click)="onNoClick()">Відміна</button>
+            <button class="btn btn-primary mr-2">Зберегти</button>
+        </div>
+    </div>
 </form>
