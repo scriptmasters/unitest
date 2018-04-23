@@ -25,8 +25,8 @@ import {
     MatButtonModule,
     MatButtonToggleModule,
     MatCardModule,
-    MatCheckboxModule,  
-    MatChipsModule,
+    MatCheckboxModule,
+  MatChipsModule,
     MatDatepickerModule,
     MatDialogModule,
     MatDividerModule,
@@ -156,12 +156,9 @@ import { PopupFormComponent } from './admin/specialities/popup-form/popup-form.c
         AddComponent,
         PopupFormComponent,
         DialogComponent,
-<<<<<<< Updated upstream
         GroupsDeleteConfirmComponent,
-        TestDetailCreateComponent, // Maryan
-=======
         TestDetailCreateComponent,
->>>>>>> Stashed changes
+        TestDetailCreateComponent,
         AddQuestionComponent,
         EditQuestionComponent
     ],
@@ -201,15 +198,10 @@ import { PopupFormComponent } from './admin/specialities/popup-form/popup-form.c
         TestsComponent,
         EditComponent,
         AddComponent,
-<<<<<<< Updated upstream
         GroupsDeleteConfirmComponent,
         PopupFormComponent,
-        TestDetailsComponent, // Maryan
-        TestDetailCreateComponent,  // Maryan
-=======
         TestDetailsComponent,
         TestDetailCreateComponent,
->>>>>>> Stashed changes
         QuestionsComponent,
         AddQuestionComponent,
         EditQuestionComponent
