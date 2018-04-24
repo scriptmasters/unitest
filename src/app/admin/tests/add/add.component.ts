@@ -1,10 +1,9 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA, MatDialog} from '@angular/material';
 import {TestService } from '../test.service';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 import { ResponseMessageComponent } from '../../../shared/response-message/response-message.component';
-
-
+import {forbiddenCharValidator} from '../tests-validator.directive';
 
 @Component({
   selector: 'app-add',
@@ -21,20 +20,14 @@ export class AddComponent implements OnInit {
 ngOnInit() {}
 initForm() {
   this.rForm = this.fb.group({
-    test_name: [, [Validators.required,
-      Validators.maxLength(70), Validators.minLength(2)]
-  ],
-    tasks: [, [Validators.required,
-    Validators.pattern(/^\d{1,3}$/)]],
-    time_for_test: [, [Validators.required,
-    Validators.pattern(/[0-9]/)]
-  ],
-    enabled: [, [Validators.required]],
-
-    subject_id: [this.data.id, Validators.required],
-    attempts: [, [Validators.required, Validators.pattern(/\d{1,3}/)]]
+  test_name: ['', [Validators.required, Validators.maxLength(70), Validators.minLength(2)]],
+  tasks: ['', [Validators.required, Validators.maxLength(3), forbiddenCharValidator(/\D/i)]],
+  time_for_test: ['', [Validators.required, Validators.pattern(/[0-9]/)]],
+  enabled: ['', [Validators.required]],
+  subject_id: [this.data.id, Validators.required],
+  attempts: ['', [Validators.required, Validators.maxLength(2), forbiddenCharValidator(/\D/i)]]
   });
-  }
+}
 
 enabled = [{value: 1, text: 'Доступний'}, {value: 0, text: 'Недоступний'}];
 
@@ -46,8 +39,7 @@ onSubmit() {
     .forEach(controlName => controls[controlName].markAsTouched());
     return;
     }
-  
-  /*Опрацювання даних форми*/
+    // Опрацювання даних форми
    this.httpService.addTest(this.rForm.value).subscribe(
     () => console.log(),
     () => console.log(),
@@ -59,9 +51,25 @@ onSubmit() {
   }
   );
   }
-  
   onNoClick() {
     this.dialogRef.close();
+  }
+
+  get test_name() {
+    return this.rForm.get('test_name');
+  }
+
+  get attempts() {
+    return this.rForm.get('attempts');
+  }
+  get tasks() {
+    return this.rForm.get('tasks');
+  }
+  get time_for_test() {
+    return this.rForm.get('time_for_test');
+  }
+  get status() {
+    return this.rForm.get('enabled');
   }
 }
 

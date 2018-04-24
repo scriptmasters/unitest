@@ -4,6 +4,7 @@ import {TestService } from '../test.service';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import {NgClass} from '@angular/common';
 import { ResponseMessageComponent } from '../../../shared/response-message/response-message.component';
+import {forbiddenCharValidator} from '../tests-validator.directive';
 
 @Component({
   selector: 'app-edit',
@@ -20,21 +21,12 @@ this.initForm();
 ngOnInit() {}
 initForm() {
   this.rForm = this.fb.group({
-    test_name: [this.data.test.test_name, [Validators.required,
-    Validators.maxLength(70), Validators.minLength(2)]
-  ],
-    tasks: [this.data.test.tasks, [Validators.required, Validators.pattern(/^\d{1,3}$/)]
-  ],
-    time_for_test: [this.data.test.time_for_test, [Validators.required,
-    Validators.pattern(/\d\d:\d\d:\d\d/)]
-  ],
+    test_name: [this.data.test.test_name, [Validators.required, Validators.maxLength(70), Validators.minLength(2)]],
+    tasks: [this.data.test.tasks, [Validators.required, Validators.maxLength(3), forbiddenCharValidator(/\D/i)]],
+    time_for_test: [this.data.test.time_for_test, [Validators.required, Validators.pattern(/\d\d:\d\d:\d\d/)]],
     enabled: [this.data.test.enabled['value'], [Validators.required]],
-
     subject_id: [this.data.test.subject_id , [Validators.required]],
-
-    attempts: [this.data.test.attempts, [Validators.required,
-    Validators.pattern(/\d{1,3}/)]
-  ]
+    attempts: [this.data.test.attempts, [Validators.required, Validators.maxLength(2), forbiddenCharValidator(/\D/i)]]
   });
 }
 
@@ -62,5 +54,22 @@ Object.keys(controls)
 
 onNoClick() {
   this.dialogRef.close();
+}
+
+get test_name() {
+  return this.rForm.get('test_name');
+}
+
+get attempts() {
+  return this.rForm.get('attempts');
+}
+get tasks() {
+  return this.rForm.get('tasks');
+}
+get time_for_test() {
+  return this.rForm.get('time_for_test');
+}
+get status() {
+  return this.rForm.get('enabled');
 }
 }

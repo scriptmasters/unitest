@@ -45,6 +45,7 @@ import { DeleteConfirmComponent } from '../shared/delete-confirm/delete-confirm.
 import { ResponseMessageComponent } from '../shared/response-message/response-message.component';
 import { StudentsResolver } from './students/students-resolver.service';
 import { SearchStudentPipe } from './students/searchStudent.pipe';
+import { TestsValidatorDirective } from './tests/tests-validator.directive';
 
 @NgModule({
     imports: [
@@ -93,7 +94,8 @@ import { SearchStudentPipe } from './students/searchStudent.pipe';
         TestDetailCreateComponent,
         QuestionsComponent,
         AddQuestionComponent,
-        EditQuestionComponent
+        EditQuestionComponent,
+        TestsValidatorDirective
     ],
     providers: [
         AuthService,
