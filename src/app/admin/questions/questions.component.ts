@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {QuestionsService} from './questions.service';
-import {MatDialog, MatPaginator, PageEvent} from '@angular/material';
+import {MatDialog, PageEvent} from '@angular/material';
 import {IQuestionsTotal} from './questions-interface';
 import {IQuestionsRange} from './questions-interface';
 import {Router, ActivatedRoute} from '@angular/router';
@@ -59,32 +59,32 @@ export class QuestionsComponent implements OnInit {
     /*Event from pagination controls*/
     displayQuestions(event?) {
         if (event) {
-            this.questionService.questionsGet(this.test_id, event.pageIndex, event.pageSize)
-                .subscribe(data => this.questionsRange = data);
-            this.pageIndex = event.pageIndex;
-            this.pageSize = event.pageSize;
-            this.router.navigate(['/admin/questions'], {
-                queryParams: {
-                    testId: this.test_id,
-                    page: event.pageIndex
-                }
-            });
-            } else {
-            this.questionService.questionsGet(this.test_id, this.pageIndex, this.pageSize)
-                .subscribe((data: IQuestionsRange) => {
-                    if (data.response === 'no records') {
-                        console.log('no such page'); // TODO: open popup instead of console.log() when typed pageIndex is not reachable
-                        this.router.navigate(['/admin/questions'], {
-                            queryParams: {
-                                testId: this.test_id,
-                                page: 0
-                            }
-                        });
-                    } else {
-                        this.questionsRange = data;
+                this.questionService.questionsGet(this.test_id, event.pageIndex, event.pageSize)
+                    .subscribe(data => this.questionsRange = data);
+                this.pageIndex = event.pageIndex;
+                this.pageSize = event.pageSize;
+                this.router.navigate(['/admin/questions'], {
+                    queryParams: {
+                        testId: this.test_id,
+                        page: event.pageIndex
                     }
                 });
-        }
+            } else {
+                    this.questionService.questionsGet(this.test_id, this.pageIndex, this.pageSize)
+                    .subscribe((data: IQuestionsRange) => {
+                        if (data.response === 'no records') {
+                            console.log('no such page'); // TODO: open popup instead of console.log() when typed pageIndex is not reachable
+                            this.router.navigate(['/admin/questions'], {
+                                queryParams: {
+                                    testId: this.test_id,
+                                    page: 0
+                                }
+                            });
+                        } else {
+                            this.questionsRange = data;
+                        }
+                    });
+                    }
     }
 
     /*Transfer test_id to add-question component and open it*/
@@ -98,17 +98,19 @@ export class QuestionsComponent implements OnInit {
 
     questionDelete(id) {
         this.questionService.getAnswersByQuestion(id)
-            .subscribe((data: Array<Object>) => {
-                for (let i = 0; i < data.length; i++) {
-                    this.questionService.answerDelete(data[i].answer_id)
-                        .subscribe(response => console.log(response));
+            .subscribe((data: any) => {
+                if (!data[0].response) {
+                    for (let i = 0; i < data.length; i++) {
+                        this.questionService.answerDelete(data[i].answer_id)
+                            .subscribe(response => console.log(response));
+                    }
                 }
             }, undefined, () => {
                 this.questionService.questionDelete(id)
-                    .subscribe(_ => {
+                    .subscribe(() => {
                             this.openModalMessage('Запитання з відповідями видалене');
                             this.displayQuestions();
-                        }, _ => this.openModalMessage('Видалено лише відповіді! Спробуйте ще раз видалити запитання')
+                        }, () => this.questionDelete(id)
                     );
             });
     }
