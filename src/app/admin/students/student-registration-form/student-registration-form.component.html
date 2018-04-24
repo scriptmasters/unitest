@@ -1,7 +1,7 @@
 <div class="container-fluid">
   <div class="header raw d-flex justify-content-between">
       <h1>Додати студента</h1>
-      <button class="btn" type="button" (click)="handleClose()">Назад</button>
+      <button class="btn" type="button" (click)="handleClose()">Відмінити</button>
   </div>
   <div class="row">
     <div class="col">
@@ -106,7 +106,7 @@
             <div 
               *ngIf="form.get('gradebook').invalid && (form.get('gradebook').dirty || form.get('gradebook').touched)" 
               class="error col-12">
-              <div *ngIf="form.get('gradebook').errors.minlength">Мінімум 3 символи</div>
+              <div *ngIf="form.get('gradebook').errors.minlength">Мінімум 6 символів</div>
               <div *ngIf="form.get('gradebook').errors.required">Це поле є обов'язковим</div>
             </div>
           </div>
@@ -125,7 +125,7 @@
               <div 
                 *ngIf="form.get('login').invalid && (form.get('login').dirty || form.get('login').touched)" 
                 class="error col-12">
-                <div *ngIf="form.get('login').errors.minlength">Мінімум 2 символи</div>
+                <div *ngIf="form.get('login').errors.minlength">Мінімум 5 символів</div>
                 <div *ngIf="form.get('login').errors.required">Це поле є обов'язковим</div>
               </div>
           </div>

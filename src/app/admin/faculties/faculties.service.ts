@@ -29,7 +29,7 @@ private urlAddFaculties = 'Faculty/insertData';
     return this.http.post<Faculties[]>(this.urlAddFaculties, body);
   }
 
-  editFaculty(id: number, title: string, description: string): Observable<Faculties[]> {
+  updateFaculty(id: number, title: string, description: string): Observable<Faculties[]> {
     const body = {faculty_name: title, faculty_description: description};
     return this.http.post<Faculties[]>(this.urlEditFaculties + '/' + id, body);
   }
