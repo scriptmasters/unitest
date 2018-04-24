@@ -1,5 +1,4 @@
   <form [formGroup]="form" (ngSubmit)="onSubmit()" *ngIf="isLoaded">
-
     <div class="form-row title ">
       <div class="col-11">
         <h2 class='facultyName'><b>{{faculty[0].faculty_id ? 'Редагувати' : 'Додати'}} факультет</b></h2>
@@ -24,6 +23,7 @@
             <span *ngIf="form.get('title')['errors']['maxlength']">
             Поле повинно містити не більше ніж {{form.get('title')['errors']['maxlength']['requiredLength']}} символів
             </span>
+            <span *ngIf="form.get('title')['errors']['pattern']">Це поле повинне містити тільки кириличні символи</span>
           </small>
         </div>
       </div>
@@ -51,8 +51,8 @@
    
          
     <div class="form-group row justify-content-center">
-      <input  class="btn btn-danger col-sm-2 col-11" type="button" (click)="closeDialog()" value="Відмінити">
-      <input class="btn btn-primary col-sm-2 col-11" type="submit" value="{{faculty[0].faculty_id ? 'Редагувати' : 'Додати'}}"  [disabled]="!form.valid">
+      <input  class="btn btn-danger col-sm-3 col-11" type="button" (click)="closeDialog()" value="Відмінити">
+      <input class="btn btn-primary col-sm-3 col-11" type="submit" value="{{faculty[0].faculty_id ? 'Редагувати' : 'Додати'}}"  [disabled]="!form.valid">
     </div>
     
   </form>

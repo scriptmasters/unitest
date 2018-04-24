@@ -26,14 +26,15 @@ export class FacultiesDialogComponent implements OnInit {
       'title': new FormControl(null, [
         Validators.required,
         Validators.minLength(5),
-        Validators.maxLength(50)
+        Validators.maxLength(50), 
+        Validators.pattern('([А-ЯІЇ])')
       ]),
       'description': new FormControl(null, [
         Validators.required,
         Validators.minLength(5),
         Validators.maxLength(100)
       ])
-    });
+    }, { updateOn: 'blur' });
   }
 
   getFaculty(): void {
