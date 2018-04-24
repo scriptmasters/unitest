@@ -2,14 +2,48 @@
   <!-- Таблиця з студентами -->
   <div class="container-fluid">
     <header> 
-      <div class="d-flex justify-content-start align-items-center">
+      <div class="raw d-flex justify-content-start align-items-center">
           <h1 class="h3 display">Студенти</h1>
-          <div class="search-field">
-            <input type="text" [(ngModel)]="searchString" placeholder="Пошук..." class="form-control search">
-          </div>
       </div>
       <button type="button" class="btn btn-success" (click)="showRegForm()">Додати студента</button>
     </header>
+    <div class="col-lg-12">
+      <div class="row d-flex justify-content-between align-items-center filters">
+        <input
+          type="text"
+          [(ngModel)]="searchString"
+          placeholder="Пошук..."
+          class="col-sm-12 col-md-3 form-control search">
+        <select
+          name="facultyFilter"
+          class="col-sm-12 col-md-4 form-control faculty-filter"
+          #facultySelector
+          (change)="getGroups(facultySelector)">
+          <option
+            [selected]="false"
+            value="Виберіть факультет">
+            Виберіть факультет
+          </option>
+          <option
+            *ngFor="let faculty of faculties">
+            {{faculty.faculty_name}}
+          </option>
+        </select>
+        <select
+          name="groupFilter"
+          [(ngModel)]="filterByGroupStr"
+          class="col-sm-12 col-md-4 form-control">
+          <option
+            [selected]="true">
+            Виберіть групу
+          </option>
+          <option
+            *ngFor="let group of groups">
+            {{group.group_name}}
+          </option>
+        </select>
+      </div>
+    </div>
     <div class="row">
       <div class="col-lg-12">
         <div class="card">
@@ -26,7 +60,7 @@
                   </tr>
                 </thead>
                 <tbody>
-                  <tr *ngFor="let student of students | searchStudent: searchString | paginate: config; let i = index" class="d-flex">
+                  <tr *ngFor="let student of students | filterByGroup: filterByGroupStr | searchStudent: searchString | paginate: config; let i = index" class="d-flex">
                     <th class="col-1">{{(config.currentPage - 1) * config.itemsPerPage + i +1}}</th>
                     <td class="col-5">{{student.fullName}}</td>
                     <th class="col-2">{{student.gradebook_id}}</th>

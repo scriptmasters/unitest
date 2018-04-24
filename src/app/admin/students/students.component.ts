@@ -11,6 +11,8 @@ import IStudent from './interfaces/IStudent';
 import IResponse from './interfaces/IResponse';
 import IGroup from './interfaces/IGroup';
 import { StudentsResolver } from './students-resolver.service';
+import IFaculty from './interfaces/IFaculty';
+import { getGroupsByFaulty } from './reusable-functions/get-groups-by-faculty';
 @Component({
   selector: 'app-students',
   templateUrl: './students.component.html',
@@ -19,7 +21,10 @@ import { StudentsResolver } from './students-resolver.service';
 })
 export class StudentsComponent implements OnInit {
 
+  groups: IGroup[] = [];
+  faculties: IFaculty[] = [];
   searchString = '';
+  filterByGroupStr = 'Виберіть групу';
   students: IStudent[] = [];
   // NgXPagination
   public config: PaginationInstance = {
@@ -35,6 +40,7 @@ export class StudentsComponent implements OnInit {
 
   ngOnInit() {
     this.students = this.route.snapshot.data['students'];
+    this.service.getAvailableFaculties().subscribe(res => this.faculties = res);
   }
   // Opening creating student form
   showRegForm(user: IStudent): void {
@@ -180,5 +186,20 @@ export class StudentsComponent implements OnInit {
       });
       return student;
     });
+  }
+  getGroups(elem: HTMLSelectElement) {
+    const index = getGroupsByFaulty(elem, true, this.faculties);
+    if (index) {
+      // Request for the available groups
+      this.service.getAvailableGroups(index).subscribe(data => {
+        if (data[0]) {
+          this.groups = data;
+        // if there is no available group
+        } else {
+          this.filterByGroupStr = 'Виберіть групу';
+          this.groups = [];
+        }
+      });
+    }
   }
 }

@@ -23,6 +23,7 @@ import { setGroupAsID } from '../reusable-functions/set-group-as-id';
 })
 export class StudentsModalWindowComponent implements OnInit {
 
+  isValidGroupFiefd = true;
   form;
   groups: IGroup[] = [];
   faculties: IFaculty[] = [];
@@ -77,8 +78,10 @@ export class StudentsModalWindowComponent implements OnInit {
   ngOnInit(): void {
     this.getData();
     // Form validation
-    this.createFormControls();
-    this.createForm();
+    if (this.data.updating || this.data.creating) {
+      this.createFormControls();
+      this.createForm();
+    }
   }
   // create form controls
   createFormControls() {
@@ -103,9 +106,9 @@ export class StudentsModalWindowComponent implements OnInit {
       Validators.maxLength(20)
     ]);
     this.groupC = new FormControl(this.data.updating ?
-      null : 'Виберіть групу', this.selectGroupValidator.bind(this));
+      '' : 'Виберіть групу', this.selectGroupValidator());
     this.facultyC = new FormControl(this.data.updating ?
-      null : 'Виберіть факультет', this.selectFacultyValidator.bind(this));
+      null : 'Виберіть факультет', this.selectFacultyValidator);
     this.loginC = new FormControl('', {
       validators: [
         Validators.required,
@@ -144,8 +147,8 @@ export class StudentsModalWindowComponent implements OnInit {
       firstname: this.firstnameC,
       surname: this.surnameC,
       fname: this.fnameC,
-      group: this.groupC,
-      faculty: this.facultyC,
+      groupFC: this.groupC,
+      facultyFC: this.facultyC,
       gradebook: this.gradebookC,
       login: this.loginC,
       password: this.passwordC,
@@ -196,13 +199,13 @@ export class StudentsModalWindowComponent implements OnInit {
       this.service.getAvailableGroups(index).subscribe(data => {
         if (data[0]) {
           this.groups = data;
+          this.isValidGroupFiefd = true;
+          this.groupC.updateValueAndValidity();
         // if there is no available group
         } else {
-          this.data.updating ?
-          this.groups = [{
-            group_name: 'Немає груп',
-            group_id: ''
-          }] : this.groups = [];
+          this.groups = [];
+          this.isValidGroupFiefd = false;
+          this.groupC.updateValueAndValidity();
         }
       });
     }
@@ -210,26 +213,30 @@ export class StudentsModalWindowComponent implements OnInit {
   // set group id to student object value when group name is picked
   handleSetGroup(elem: HTMLSelectElement) {
     const index = setGroupAsID(elem, this.groups);
+    this.groupC.updateValueAndValidity();
     if (index) {
       this.student.group_id = index;
     }
   }
   // custom group validator
-  selectGroupValidator(control) {
-    if (control.value === 'Немає груп' || control.value === 'Виберіть групу') {
-      console.log(control.value);
-      return {
-        'group': true
-      };
-    }
+  selectGroupValidator = () => {
+    return (control: FormControl) => {
+      if (control.value === 'Виберіть групу' || !this.isValidGroupFiefd) {
+        return {
+          'group': true
+        };
+      }
+      return null;
+    };
   }
   // custom faculty validator
-  selectFacultyValidator(control) {
+  selectFacultyValidator(control: FormControl) {
     if (control.value === 'Виберіть факультет') {
       return {
         'faculty': true
       };
     }
+    return null;
   }
   // rendering photo to base64 code befor it's sent to the server
   handleAddPhoto(event) {

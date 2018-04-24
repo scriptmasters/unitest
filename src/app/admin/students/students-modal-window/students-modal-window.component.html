@@ -77,14 +77,20 @@
                   class="form-control col-12" 
                   id="facultySelect" 
                   name="faculty" 
-                  formControlName="faculty"
+                  formControlName="facultyFC"
                   #facultyField 
                   (change)="getGroups(facultyField)">
-                  <option [selected]="true">Виберіть факультет</option>
-                  <option *ngFor="let faculty of faculties">{{faculty.faculty_name}}</option>
+                  <option
+                    [selected]="true"
+                    value="Виберіть факультет">
+                    Виберіть факультет
+                  </option>
+                  <option *ngFor="let faculty of faculties">
+                    {{faculty.faculty_name}}
+                  </option>
                 </select>
                 <div 
-                  *ngIf="facultyC.touched && facultyC.errors.faculty" 
+                  *ngIf="facultyC.touched && facultyC.errors?.faculty" 
                   class="error col-12">
                   Виберіть факультет!
                 </div>
@@ -96,13 +102,19 @@
                   class="form-control col-12" 
                   id="groupsSelect" 
                   name="group" 
-                  formControlName="group"
+                  formControlName="groupFC"
                   #groupField (change)="handleSetGroup(groupField)">
-                  <option [selected]="true">Виберіть групу</option>
-                  <option *ngFor="let group of groups">{{group.group_name}}</option>
+                  <option
+                    [selected]="true"
+                    value="Виберіть групу">
+                    Виберіть групу
+                  </option>
+                  <option *ngFor="let group of groups">
+                    {{group.group_name}}
+                  </option>
                 </select>
                 <div 
-                  *ngIf="groupC.touched && groupC.errors.group" 
+                  *ngIf="groupC.touched && groupC.errors?.group" 
                   class="error col-12">
                   Виберіть групу!
                 </div>
@@ -117,17 +129,17 @@
                   class="form-control col-12" 
                   id="facultySelect" 
                   name="faculty" 
-                  formControlName="faculty"
+                  formControlName="facultyFC"
                   #facultyField 
                   (change)="getGroups(facultyField)">
                   <option 
-                    *ngFor="let faculty of faculties" 
+                    *ngFor="let faculty of faculties"
                     [selected]="faculty.faculty_name === studentFaculty.faculty_name">
                       {{faculty.faculty_name}}
                   </option>
                 </select>
                 <div 
-                  *ngIf="facultyC.touched && facultyC.errors.faculty" 
+                  *ngIf="facultyC.touched && facultyC.errors?.faculty" 
                   class="error col-12">
                   Виберіть факультет!
                 </div>
@@ -139,7 +151,7 @@
                   class="form-control col-12" 
                   id="groupsSelect" 
                   name="group" 
-                  formControlName="group" 
+                  formControlName="groupFC"
                   #groupField 
                   (change)="handleSetGroup(groupField)">
                   <option 
@@ -147,9 +159,15 @@
                     [selected]="group.group_name === studentGroup.group_name">
                       {{group.group_name}}
                   </option>
+                  <option
+                    *ngIf="groups.length < 1"
+                    value="Виберіть групу"
+                    [selected]="true">
+                    Виберіть групу
+                  </option>
                 </select>
                 <div 
-                  *ngIf="groupC.touched && groupC.errors.group" 
+                  *ngIf="groupC.touched && (groupC.errors?.group || groupC.errors?.required)" 
                   class="error col-12">
                   Виберіть групу!
                 </div>

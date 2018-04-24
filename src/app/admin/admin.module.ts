@@ -42,7 +42,6 @@ import { PopupFormComponent } from './specialities/popup-form/popup-form.compone
 import { DeleteConfirmComponent } from '../shared/delete-confirm/delete-confirm.component';
 import { ResponseMessageComponent } from '../shared/response-message/response-message.component';
 import { StudentsResolver } from './students/students-resolver.service';
-import { SearchStudentPipe } from './students/searchStudent.pipe';
 
 @NgModule({
     imports: [

@@ -10,10 +10,13 @@ header {
     h1 {
         margin: 0;
     }
-    .search {
-        width: 122px;
-        margin-left: 10px;
-    }
+}
+
+.filters {
+    margin-bottom: 10px;
+    background-color: #FFFFFF;
+    box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+    padding: 0.8rem;
 }
 
 .card {
@@ -30,4 +33,10 @@ table {
 
 .fa.fa-cog, .fa.fa-close, .fa.fa-address-card {
     cursor: pointer;
+}
+
+@media (max-width: 768px) {
+    .search, .faculty-filter {
+        margin-bottom: 10px;
+    }
 }
