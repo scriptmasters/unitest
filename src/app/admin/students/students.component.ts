@@ -202,4 +202,9 @@ export class StudentsComponent implements OnInit {
       });
     }
   }
+  // clear filters
+  resetFilters(): void {
+    this.searchString = '';
+    this.filterByGroupStr = 'Виберіть групу';
+  }
 }

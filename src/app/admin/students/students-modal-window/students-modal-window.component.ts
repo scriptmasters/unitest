@@ -188,6 +188,8 @@ export class StudentsModalWindowComponent implements OnInit {
     if (this.data.creating) {
       this.service.getAvailableFaculties().subscribe(response => {
         this.faculties = response;
+        this.facultyC.updateValueAndValidity();
+        this.groupC.updateValueAndValidity();
       });
     }
   }
