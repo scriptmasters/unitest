@@ -1,48 +1,51 @@
-<div class="card">
-  <div class="card-header d-flex row">
-    <div class="col-10">
-      <h4>Спеціальність</h4>
+<form [formGroup]="form" (ngSubmit)="onSubmit()" *ngIf="isLoaded">
+  <div class="form-row title ">
+    <div class="col-11">
+      <h2 class='facultyName'>
+        <b>{{specialitys[0].speciality_id ? 'Редагувати' : 'Додати'}} спеціальність</b>
+      </h2>
     </div>
-    <div class="col-2 pull-right">
-      <i class="fa fa-close justify-content-end" (click)="close()"></i>
+    <div class="col-1">
+      <div class="form-row justify-content-end">
+        <i class="fa fa-close" (click)="closeDialog()"></i>
+      </div>
     </div>
   </div>
-  <div class="card-body">
-    <form class="form-horizontal" novalidate #p="ngForm" (submit)="onSubmit(p.value)">
-      <div class="form-group row">
-        <div class="col-sm-12">
-          <label class="col-sm-12">Код Спеціальністі</label>
-          <input type="text" placeholder="Код" #code="ngModel" required class="form-control form-control-success ng-valid ng-untouched ng-pristine"
-            name="speciality_code" ng-reflect-name="speciality_code" id="code" [(ngModel)]="specialityUpdate.speciality_code"
-            pattern="[0-9]+">
-          <span [hidden]="code.valid|| name.untouched" class="error">
-            Некоректні дані
+  <div class="form-group row" [ngClass]="{'form-has-error': form.get('code').invalid && (form.get('code').dirty || form.get('code').touched)}">
+    <label class="col-sm-12 labels">Код спеціальності</label>
+    <div class="col-sm-12">
+      <input type="text" id="code" placeholder="Код спеціальності" class="form-control form-control-success" formControlName="code"
+        [(ngModel)]="specialitys[0].speciality_code">
+      <div class="inputMessage">
+        <small *ngIf="form.get('code').invalid && (form.get('code').dirty || form.get('code').touched)">
+          <span *ngIf="form.get('code')['errors']['required']">Дане поле є обов'язковим</span>
+          <span *ngIf="form.get('code')['errors']['maxlength']">
+            Поле повинно містити не більше ніж {{form.get('code')['errors']['maxlength']['requiredLength']}} символів
           </span>
-        </div>
+          <span *ngIf="form.get('code')['errors']['pattern']">Це поле повинне складатися не менш ніж з 3 цифер</span>
+        </small>
       </div>
-      <div class="form-group row">
-        <div class="col-sm-12">
-          <label class="col-sm-12">Назва Спеціальністі</label>
-          <input type="text" placeholder="Імя" #name="ngModel" required class="form-control form-control-success ng-valid ng-untouched ng-pristine"
-            name="speciality_name" ng-reflect-name="speciality_name" id="name" [(ngModel)]="specialityUpdate.speciality_name"
-            pattern="[A-Za-zА-Яа-яюЮЄєІіЇї'.-`’ ]\D+">
-          <span [hidden]="name.valid || name.untouched" class="error">
-            Некоректні дані
-          </span>
-        </div>
-      </div>
-      <div class="form-group row">
-        <div class="col-12 text-center">
-          <div class="row">
-            <div class="col-12 col-sm-6 ">
-              <button (click)="close()" class="btn btn-danger buttonMargin float-right">Відмінити</button>
-            </div>
-            <div class="col-12 col-sm-6 ">
-              <button [disabled]="code.invalid || name.invalid " class="btn btn-default buttonMargin float-left" type="submit" class="btn btn-success buttonMargin float-left">Відправити</button>
-            </div>
-          </div>
-        </div>
-      </div>
-    </form>
+    </div>
   </div>
-</div>
+  <div class="form-group row" [ngClass]="{'form-has-error': form.get('name').invalid && form.get('name').touched}">
+    <label class="col-sm-12 labels">Опис спеціальності</label>
+    <div class="col-sm-12">
+      <input type="text" id="name" placeholder="Опис спеціальності" class="form-control form-control-warning " formControlName="name"
+        [(ngModel)]="specialitys[0].speciality_name">
+      <div class="inputMessage">
+        <small *ngIf="form.get('name').invalid && (form.get('name').dirty || form.get('name').touched)">
+          <span *ngIf="form.get('name')['errors']['required']">Дане поле є обов'язковим</span>
+          <span *ngIf="form.get('name')['errors']['maxlength']">
+            Поле повинно містити не більше ніж {{form.get('name')['errors']['maxlength']['requiredLength']}} символів
+          </span>
+          <span *ngIf="form.get('name')['errors']['pattern']">Це поле повинне складатися не менш ніж з 5 літер українського алфавіту та пробілів</span>
+        </small>
+      </div>
+    </div>
+  </div>
+  <div class="form-group row justify-content-center">
+    <input class="btn btn-danger col-sm-3 col-11" type="button" (click)="closeDialog()" value="Відмінити">
+    <input class="btn btn-primary col-sm-3 col-11" type="submit" value="{{specialitys[0].speciality_id ? 'Редагувати' : 'Додати'}}"
+      [disabled]="!form.valid">
+  </div>
+</form>

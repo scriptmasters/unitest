@@ -90,7 +90,6 @@ import { StatisticService } from './admin/statistic/statistic.service';
 import { SpecialityService } from './admin/specialities/speciality.service';
 import { PopupFormComponent } from './admin/specialities/popup-form/popup-form.component';
 import { SpecialityPipe } from './admin/specialities/speciality.pipe';
-import { DeleteSpecialityFormComponent } from './admin/specialities/delete-speciality-form/delete-speciality-form.component';
 @NgModule({
     imports: [
         BrowserModule,
@@ -162,7 +161,6 @@ import { DeleteSpecialityFormComponent } from './admin/specialities/delete-speci
         TestDetailCreateComponent, // Maryan
         AddQuestionComponent,
         EditQuestionComponent,
-        DeleteSpecialityFormComponent
     ],
 
     declarations: [
@@ -208,7 +206,7 @@ import { DeleteSpecialityFormComponent } from './admin/specialities/delete-speci
         AddQuestionComponent,
         EditQuestionComponent,
         SpecialityPipe,
-        DeleteSpecialityFormComponent,
+
     ],
     bootstrap: [AppComponent],
     providers: [

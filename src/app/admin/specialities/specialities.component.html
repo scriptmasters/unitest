@@ -1,19 +1,19 @@
 <section>
   <div class="container-fluid">
-      <div class="row">
-          <div class="col-lg-12 headerTable">
-            <div class="card">
-              <div class="card-body d-flex justify-content-between">       
-                <div>
-                  <h3>Спеціальності</h3>
-                </div>
-                <div>
-                    <button type="button" class="btn btn-success" (click)="openModal()">Додати</button>
-                </div>
-              </div>
+    <div class="row">
+      <div class="col-lg-12 headerTable">
+        <div class="card">
+          <div class="card-body d-flex justify-content-between">
+            <div>
+              <h3>Спеціальності</h3>
             </div>
-          </div>     
+            <div>
+              <button type="button" class="btn btn-success" (click)="openModal()">Додати</button>
+            </div>
+          </div>
         </div>
+      </div>
+    </div>
     <div class="row">
       <div class="col-lg-12">
         <div class="card">
@@ -37,17 +37,17 @@
                   </tr>
                 </thead>
                 <tbody>
-                  <tr *ngFor="let key of  this.speciality.specialitiesObject |specialitySearch:searchStr | paginate: { itemsPerPage: 5, currentPage: p}">
+                  <tr *ngFor="let key of specialitys |specialitySearch:searchStr | paginate: { itemsPerPage: 5, currentPage: p}">
                     <th>{{key.speciality_code}}</th>
                     <td>{{key.speciality_name}}</td>
                     <td>
-                      <i class="fa fa-bars" (click)="getGroups(key.speciality_id)"></i>
+                      <i class="fa fa-bars" title="Групи спеціальностей" (click)="getGroups(key.speciality_id)"></i>
                     </td>
                     <td>
-                      <i class="fa fa-cog" (click)="update(key)"></i>
+                      <i class="fa fa-cog" title="Редагувати" (click)="openModal(key.speciality_id)"></i>
                     </td>
                     <td>
-                      <i class="fa fa-close" (click)="delete(key.speciality_id)"></i>
+                      <i class="fa fa-close" title="Видалити" (click)="delete(key.speciality_id)"></i>
                     </td>
                   </tr>
                 </tbody>

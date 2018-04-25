@@ -1,15 +1,29 @@
-.buttonMargin {
-    margin-bottom: 10px;
+form .ng-invalid:not(.ng-untouched) {
+    border-color: red;
 }
-.buttonMargin:first-of-type{
-    width: 90px;
+
+span {
+	color: red;
 }
-.error {
-    height: 30px;
-    color: red;
+
+.btn-danger, .btn-primary {
+	margin: 2px;
 }
-@media only screen and (max-width: 576px) {
-    .buttonMargin:first-of-type{
-        width: 100%;
-    }
+
+.title {
+	justify-content: space-between;
+	align-items: center;
+	margin-bottom: 10px;
+}
+
+.facultyName, .form-group.row, .labels {
+	margin-bottom: 0;
+}
+
+i {
+    cursor: pointer;
+}
+
+.inputMessage {
+	height: 1.5rem;
 }
