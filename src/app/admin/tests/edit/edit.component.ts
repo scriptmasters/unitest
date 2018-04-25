@@ -23,7 +23,7 @@ initForm() {
   this.rForm = this.fb.group({
     test_name: [this.data.test.test_name, [Validators.required, Validators.maxLength(70), Validators.minLength(2)]],
     tasks: [this.data.test.tasks, [Validators.required, Validators.maxLength(3), forbiddenCharValidator(/\D/i)]],
-    time_for_test: [this.data.test.time_for_test, [Validators.required, Validators.pattern(/\d\d:\d\d:\d\d/)]],
+    time_for_test: [this.data.test.time_for_test, [Validators.required, Validators.maxLength(3), forbiddenCharValidator(/\D/i)]],
     enabled: [this.data.test.enabled['value'], [Validators.required]],
     subject_id: [this.data.test.subject_id , [Validators.required]],
     attempts: [this.data.test.attempts, [Validators.required, Validators.maxLength(2), forbiddenCharValidator(/\D/i)]]
@@ -52,24 +52,28 @@ Object.keys(controls)
   );
 }
 
-onNoClick() {
-  this.dialogRef.close();
-}
+  onNoClick() {
+    this.dialogRef.close();
+  }
 
-get test_name() {
-  return this.rForm.get('test_name');
-}
+  get test_name() {
+    return this.rForm.get('test_name');
+  }
 
-get attempts() {
-  return this.rForm.get('attempts');
-}
-get tasks() {
-  return this.rForm.get('tasks');
-}
-get time_for_test() {
-  return this.rForm.get('time_for_test');
-}
-get status() {
-  return this.rForm.get('enabled');
-}
+  get attempts() {
+    return this.rForm.get('attempts');
+  }
+
+  get tasks() {
+    return this.rForm.get('tasks');
+  }
+
+  get time_for_test() {
+    return this.rForm.get('time_for_test');
+  }
+
+  get status() {
+    return this.rForm.get('enabled');
+  }
+
 }
