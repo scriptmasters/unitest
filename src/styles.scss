@@ -116,15 +116,20 @@ h2 {
 
 .breadcrumb-holder .breadcrumb {
     padding: 15px 0;
-    font-size: 0.85em;
+    font-size: 1em;
     font-weight: 300;
     color: #999;
     margin-bottom: 0;
 }
 
+.breadcrumb-item a {
+    color: #666;
+}
+
 .breadcrumb-holder .breadcrumb a:hover,
 .breadcrumb-holder .breadcrumb:focus {
     text-decoration: none;
+    color: #33b35a;
 }
 
 .breadcrumb-holder .breadcrumb .container {
