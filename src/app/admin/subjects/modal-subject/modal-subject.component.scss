@@ -1,3 +1,9 @@
-.form-has-error {
+.form-has-error span {
   color: #ff261a;
+}
+.form-msg {
+  height: 1rem;
+}
+.form-group div[class*='col-'] {
+  margin-bottom: 0;
 }

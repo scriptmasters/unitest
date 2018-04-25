@@ -1,29 +1,8 @@
 <section>
   <div class="container-fluid">
-    <header> 
-            
-            <h1 class="h3 display ">{{ title_component }} 
-                <span>
-                  <select 
-                    class="col-12" 
-                    id="testSelect" 
-                    selName="$event.target.value" 
-                    (change)="setSelectedTestName($event.target.value)"
-                    (change)="fillOutQuestionsTable($event.target.value)"
-                    >
-                    <option disabled>Виберіть тест</option>
-                    <option *ngFor="let t of testNameSet" [value]="t" >
-                      {{t}}
+    <header>
 
-                    </option>
-                    
-                  </select>
-                </span>
-                
-            </h1>
-
-            <button mat-raised-button class="btn btn-primary" 
-            (click)="openModalAdd(selectedTestId, setSelectedTestName($event.target.value, selName))">Додати завдання</button>
+      <button type="default" class="btn btn-primary" (click) = "questionAdd()">Додати завдання</button>
 
     </header> 
   
@@ -37,28 +16,29 @@
                   <tr>
                     <th>№</th>
                     <th>Завдання</th>
-                    <th>Тест</th>
-                    <th>question_id</th>
                     <th>Рівень</th>
                     <th>Тип</th>
-                    <th>Вкладення</th>
                     <th colspan="2">Керування</th>
                   </tr>
                 </thead>
                 <tbody>
-                  <tr *ngFor="let question of questions; let i = index">
-                    <th>{{i+1}}</th>
+                  <tr *ngFor="let question of questionsRange; let i = index ">
+                    <th>{{i+1+pageIndex*pageSize}}</th>
                     <td>{{question.question_text}} </td>
-                    <td>{{question.test}} </td>
-                    <td>{{question.question_id}} </td>
                     <td>{{question.level}}</td>
                     <td>{{question.type}}</td>
-                    <td>{{question.attachment}}</td>
-                    <td><i class="fa fa-cog" (click)="openModalEdit(question.question_id)"></i></td>
-                    <td><i class="fa fa-close" (click)="handleDelete(question.question_id)"></i></td> 
+                    <td><i class="fa fa-cog"></i></td>
+                    <td><i class="fa fa-close" (click)="questionDelete(question.question_id)"></i></td>
                   </tr>
                 </tbody>
               </table>
+              <mat-paginator [length]="length"
+                             [pageSize]="pageSize"
+                             [pageSizeOptions]="[5, 10, 25, 100]"
+                             [pageIndex]="pageIndex"
+                             [showFirstLastButtons]="true"
+                             (page) = "pageEvent = displayQuestions($event)">
+              </mat-paginator>
             </div>
           </div>
         </div>

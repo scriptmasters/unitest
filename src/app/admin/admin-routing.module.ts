@@ -3,7 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 
 import {AdminComponent} from './admin.component';
 import {GroupsComponent} from './groups/groups.component';
-import {StudentsComponent} from './students/students.component';
+import {AddQuestionComponent} from './questions/add-question/add-question.component';
 import {QuestionsComponent} from './questions/questions.component';
 import {FacultiesComponent} from './faculties/faculties.component';
 import {AdministratorsComponent} from './administrators/administrators.component';
@@ -63,6 +63,10 @@ const routes: Routes = [
             {
                 path: 'questions',
                 component: QuestionsComponent
+            },
+            {
+                path: 'add-question',
+                component: AddQuestionComponent
             },
             {
                 path: 'testdetails',

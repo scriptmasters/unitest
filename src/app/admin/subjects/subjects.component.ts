@@ -20,14 +20,14 @@ export class SubjectsComponent implements OnInit {
   subjects: Subject[];
   form: FormGroup;
 
-  public config: PaginationInstance = {
+  config: PaginationInstance = {
     itemsPerPage: 10,
     currentPage: 1
   };
 
   constructor(
     private subjectService: SubjectService,
-    public dialog: MatDialog,
+    private dialog: MatDialog,
     private router: Router
   ) { }
 
@@ -52,7 +52,7 @@ export class SubjectsComponent implements OnInit {
 
   openModal(id): void {
     const matDialogRef = this.dialog.open(ModalSubjectComponent, {
-      width: '600px',
+      width: '1200px',
       data: {subject_id: id}
     });
 
