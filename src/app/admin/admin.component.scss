@@ -6,6 +6,10 @@
     outline: none;
 }
 
+.active-link {
+    background-color: #33B357;
+}
+
 .admin-panel {
     height: 100%;
     .side-bar {
@@ -37,7 +41,7 @@
         }
         .nav-bar {
             color: #fff;
-            li {
+            a {
                 font-size: 1rem;
                 display: flex;
                 height: 45px;
@@ -148,7 +152,7 @@
     right: 0; ///////// Фіксований хідер медіаквері на width 100% знизу
     width: 85%; /////////
     background-color: #222222;
-    li {
+    a {
         font-size: 1rem;
         display: flex;
         height: 45px;
