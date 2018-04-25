@@ -5,7 +5,6 @@ import { AdminRoutingModule } from './admin-routing.module';
 import { SharedModule } from '../shared/shared.module';
 import { StudentsService } from './students/students.service';
 import { FacultiesService } from './faculties/faculties.service';
-import { SubjectService } from './subjects/services/subject.service';
 import { TestService } from './tests/test.service';
 import { GroupsService } from './groups/groups.service';
 import TableService from './timetable/timetable.service';
@@ -54,7 +53,6 @@ import { SearchStudentPipe } from './students/searchStudent.pipe';
     ],
     entryComponents: [
         TimeTableModal,
-        ModalSubjectComponent,
         TimetableDeleteConfirmComponent,
         FacultiesAddComponent,
         FacultiesUpdateComponent,
@@ -72,8 +70,6 @@ import { SearchStudentPipe } from './students/searchStudent.pipe';
         AdminComponent,
         StatisticComponent,
         FacultiesComponent,
-        SubjectsComponent,
-        ModalSubjectComponent,
         SpecialitiesComponent,
         AdministratorsComponent,
         GroupsComponent,
@@ -97,7 +93,6 @@ import { SearchStudentPipe } from './students/searchStudent.pipe';
     ],
     providers: [
         AuthService,
-        SubjectService,
         FacultiesService,
         TableService,
         TestService,

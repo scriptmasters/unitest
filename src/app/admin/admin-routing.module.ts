@@ -1,13 +1,11 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-
 import {AdminComponent} from './admin.component';
 import {GroupsComponent} from './groups/groups.component';
 import {StudentsComponent} from './students/students.component';
 import {QuestionsComponent} from './questions/questions.component';
 import {FacultiesComponent} from './faculties/faculties.component';
 import {AdministratorsComponent} from './administrators/administrators.component';
-import {SubjectsComponent} from './subjects/subjects.component';
 import {StatisticComponent} from './statistic/statistic.component';
 import {TestDetailsComponent} from './testdetails/component/test-details.component';
 import {TimetableComponent} from './timetable/timetable.component';
@@ -43,7 +41,7 @@ const routes: Routes = [
             },
             {
                 path: 'subjects',
-                component: SubjectsComponent
+                loadChildren: './subjects/subjects.module#SubjectsModule'
             },
             {
                 path: 'specialities',
