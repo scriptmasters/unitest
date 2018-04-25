@@ -2,6 +2,10 @@
     padding: 0;
 }
 
+:focus {
+    outline: none;
+}
+
 .admin-panel {
     height: 100%;
     .side-bar {
