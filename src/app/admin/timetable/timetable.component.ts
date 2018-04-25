@@ -149,7 +149,7 @@ export class TimetableComponent implements OnInit {
         tableItem
       }
     });
-
+    
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
          this.dialog.open(ResponseMessageComponent, {
@@ -160,6 +160,7 @@ export class TimetableComponent implements OnInit {
       });
       }
     });
+    dialogRef.disableClose = true;
   }
 
   ngOnInit() {}
