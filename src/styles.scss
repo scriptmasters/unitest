@@ -567,15 +567,15 @@ form .ng-invalid:not(.ng-untouched) {
 }
 
 /*pagination*/
-    .current {
-        background: #33B357;
-    }
-    .pagination-previous a:before,
-    .pagination-previous.disabled:before {
-        content: '';
-    }
-    .pagination-next a:after,
-    .pagination-next.disabled:after {
-        content: '';
-    }
+
+.pagination .ngx-pagination {
+  .current {
+    background: #33B357;
+  }
+  .pagination-previous a:before, .pagination-previous.disabled:before {
+    content: '';
+  }
+  .pagination-next a:after, .pagination-next.disabled:after {
+    content: '';
+  }
 }
