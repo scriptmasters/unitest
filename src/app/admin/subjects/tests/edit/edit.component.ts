@@ -1,5 +1,4 @@
 import { Component, Inject, OnInit} from '@angular/core';
-import { Test } from '../test';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import {TestService } from '../test.service';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
@@ -11,15 +10,12 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 })
 export class EditComponent implements OnInit {
 
-  rForm: FormGroup;
-  constructor(public dialogRef: MatDialogRef<EditComponent>, @Inject(MAT_DIALOG_DATA) public data: any, private httpService: TestService, private fb: FormBuilder) {
-  this.initForm();
-  }
-
-  ngOnInit() {
-
-  }
-
+rForm: FormGroup;
+constructor(public dialogRef: MatDialogRef<EditComponent>, @Inject(MAT_DIALOG_DATA) public data: any,
+            private httpService: TestService, private fb: FormBuilder) {
+this.initForm();
+}
+ngOnInit() {}
 initForm() {
   this.rForm = this.fb.group({
     test_name: [this.data.test.test_name, [Validators.required,
@@ -45,16 +41,14 @@ enabled = [{value: 1, text: 'Доступний'}, {value: 0, text: 'Недос�
 onSubmit() {
   const controls = this.rForm.controls;
   if (this.rForm.invalid) {
-
-  Object.keys(controls)
+Object.keys(controls)
     .forEach(controlName => controls[controlName].markAsTouched());
     return;
     }
-   console.log(this.rForm.value);
    this.httpService.editTest(this.data.id, this.rForm.value).subscribe(
     () => console.log(),
     (err) => console.log(err),
     () => this.dialogRef.close()
   );
-  }
+}
 }

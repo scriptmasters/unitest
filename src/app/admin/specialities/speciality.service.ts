@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { RequestOptions, Request, RequestMethod } from '@angular/http';
-const URL = 'http://vps9615.hyperhost.name:443/api';
 @Injectable()
 export class SpecialityService {
   specialitiesObject: any;
@@ -11,22 +10,22 @@ export class SpecialityService {
   constructor(private http: HttpClient) { }
 
   login(jsonForm: String): Observable<any> {
-    return this.http.post(URL + '/login/index', jsonForm, { withCredentials: true });
+    return this.http.post('login/index', jsonForm, { withCredentials: true });
   }
 
   getSubject(): Observable<any> {
-    return this.http.get(URL + '/Subject/getRecords', { withCredentials: true });
+    return this.http.get('Subject/getRecords', { withCredentials: true });
   }
 
   getSpecialities(): Observable<any> {
-    return this.http.get(URL + '/Speciality/getRecords', { withCredentials: true });
+    return this.http.get('Speciality/getRecords', { withCredentials: true });
   }
 
   addSpecialities(popupForm: String): Observable<any> {
-    return this.http.post(URL + '/Speciality/insertData', popupForm, { withCredentials: true });
+    return this.http.post('Speciality/insertData', popupForm, { withCredentials: true });
   }
   editSpecialities(id, popupForm) {
-    return this.http.post(URL + '/Speciality/update/' + id, popupForm, { withCredentials: true });
+    return this.http.post('Speciality/update/' + id, popupForm, { withCredentials: true });
   }
 
 }

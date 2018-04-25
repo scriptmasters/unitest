@@ -1,9 +1,8 @@
 import { Component, OnInit, Inject } from '@angular/core';
-import { Test } from '../test';
 import { MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
 import {TestService } from '../test.service';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { SubjectService } from '../../services/subject.service';
+
 
 
 @Component({
@@ -14,14 +13,11 @@ import { SubjectService } from '../../services/subject.service';
 export class AddComponent implements OnInit {
 
   rForm: FormGroup;
-  constructor(public dialogRef: MatDialogRef<AddComponent>, @Inject(MAT_DIALOG_DATA) public data: any, private httpService: TestService, private fb: FormBuilder) {
-  this.initForm();
+  constructor(public dialogRef: MatDialogRef<AddComponent>, @Inject(MAT_DIALOG_DATA) public data: any,
+              private httpService: TestService, private fb: FormBuilder) {
+    this.initForm();
   }
-
-  ngOnInit() {
-
-  }
-
+ngOnInit() {}
 initForm() {
   this.rForm = this.fb.group({
     test_name: [, [Validators.required,
@@ -37,7 +33,7 @@ initForm() {
     subject_id: [this.data.id, Validators.required],
     attempts: [, [Validators.required, Validators.pattern(/\d{1,3}/)]]
   });
-}
+  }
 
 enabled = [{value: 1, text: 'Доступний'}, {value: 0, text: 'Недоступний'}];
 
@@ -53,8 +49,7 @@ onSubmit() {
    this.httpService.addTest(this.rForm.value).subscribe(
     () => console.log(),
     () => console.log(),
-    () => this.dialogRef.close()
-  );
+    () => this.dialogRef.close());
   }
 }
 

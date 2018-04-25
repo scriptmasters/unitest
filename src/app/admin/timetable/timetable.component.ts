@@ -1,7 +1,7 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
-import TableService, {Subject, Group, TimeEntity } from './timetable.service';
+import TableService, { Subject, Group, TableItem } from './timetable.service';
 import {
   FormControl,
   FormGroup,
@@ -12,7 +12,7 @@ import { TimeTableModal } from './timetable-modal/timetable-modal.component';
 import { TimetableDeleteConfirmComponent } from './timetable-delete-confirm/timetable-delete-confirm.component';
 import { ResponseMessageComponent } from '../../shared/response-message/response-message.component';
 
-interface TimeEntityTable extends TimeEntity {
+interface TableItemModified extends TableItem {
   subject_name: string;
   group_name: string;
 }
@@ -24,12 +24,9 @@ interface TimeEntityTable extends TimeEntity {
   providers: [TableService]
 })
 export class TimetableComponent implements OnInit {
-  table: TimeEntityTable[] = [];
+  table: TableItemModified[] = [];
   subjects: Subject[] = [];
   groups: Group[] = [];
-
-  groupId: string;
-  subjectId: string;
 
   groupsMap: Map<string, string> = new Map();
   subjectsMap: Map<string, string> = new Map();
@@ -39,19 +36,11 @@ export class TimetableComponent implements OnInit {
     public dialog: MatDialog,
     private route: ActivatedRoute
   ) {
-    this.route.queryParams.subscribe(params => {
-      if (params.subjectId) {
-        this.subjectId = params.subjectId;
-      } else if (params.groupId) {
-        this.groupId = params.groupId;
-      }
-    });
-
     const onSuccess = async data => {
       await tableService
         .getGroups()
         .toPromise()
-        .then(groups => {
+        .then((groups: Group[]) => {
           this.groups = groups;
 
           groups.forEach(group =>
@@ -62,7 +51,7 @@ export class TimetableComponent implements OnInit {
       await tableService
         .getSubjects()
         .toPromise()
-        .then(subjects => {
+        .then((subjects: Subject[]) => {
           this.subjects = subjects;
 
           subjects.forEach(subject =>
@@ -70,45 +59,48 @@ export class TimetableComponent implements OnInit {
           );
         });
 
-      // If not records found
+      // If no records found
       if (!Array.isArray(data)) {
-        return (this.table = [], this.dialog.open(ResponseMessageComponent, {
-            width: '400px',
-            data: {
-              message: 'За даним запитом розкладу не знайдено '
-            }}));
+        this.table = [];
+        this.dialog.open(ResponseMessageComponent, {
+          width: '400px',
+          data: {
+            message: 'За даним запитом розкладу не знайдено'
+          }
+        });
+        return;
       }
 
-      this.table = data.map((timeEntity: TimeEntity): TimeEntityTable => {
+      this.table = data.map((timeEntity: TableItem): TableItemModified => {
         return Object.assign({}, timeEntity, {
           group_name: this.groupsMap.get(timeEntity.group_id),
           subject_name: this.subjectsMap.get(timeEntity.subject_id)
         });
       });
-
-      console.log(this.table);
     };
 
     const onError = () => (this.table = []);
 
-    if (this.groupId) {
-      tableService
-        .getTableByGroupId(this.groupId)
-        .subscribe(onSuccess, onError);
-    } else if (this.subjectId) {
-      tableService
-        .getTableBySubjectId(this.subjectId)
-        .subscribe(onSuccess, onError);
-    } else {
-      tableService.getTable().subscribe(onSuccess, onError);
-    }
+    this.route.queryParams.subscribe(params => {
+      if (params.subjectId) {
+        tableService
+          .getTableBySubjectId(params.subjectId)
+          .subscribe(onSuccess, onError);
+      } else if (params.groupId) {
+        tableService
+          .getTableByGroupId(params.groupId)
+          .subscribe(onSuccess, onError);
+      } else {
+        tableService.getTable().subscribe(onSuccess, onError);
+      }
+    });
   }
 
   /**
    * Delete table item
    * id of table item to delete
    */
-  onDelete(timeEntity: TimeEntityTable) {
+  onDelete(timeEntity: TableItemModified) {
     const dialogRef = this.dialog.open(TimetableDeleteConfirmComponent, {
       width: '400px'
     });
@@ -116,29 +108,27 @@ export class TimetableComponent implements OnInit {
     dialogRef.afterClosed().subscribe((response: string) => {
       if (response) {
         if (response === 'ok') {
-        this.tableService.deleteTableItem(timeEntity.timetable_id).subscribe(
-          response => {
-            this.table.splice(this.table.indexOf(timeEntity), 1);
-            this.dialog.open(ResponseMessageComponent, {
-            width: '400px',
-            data: {
-              message: 'Профіль цього студента було успішно видалено!'
+          this.tableService.deleteTableItem(timeEntity.timetable_id).subscribe(
+            response => {
+              this.table.splice(this.table.indexOf(timeEntity), 1);
+              this.dialog.open(ResponseMessageComponent, {
+                width: '400px',
+                data: {
+                  message: 'Розклад успішно видалено!'
+                }
+              });
+            },
+            err => {
+              console.error('err:', err);
+              this.dialog.open(ResponseMessageComponent, {
+                width: '400px',
+                data: {
+                  message: 'Виникла помилка при видаленні розкладу!'
+                }
+              });
             }
-          });
-          },
-          err => {
-            console.error('err:', err);
-            this.dialog.open(ResponseMessageComponent, {
-            width: '400px',
-            data: {
-              message: 'Виникла помилка при видаленні цього студента!'
-            }
-          });
-          }
-        );
-      } else {
-        alert('Відмінено');
-      }
+          );
+        }
       }
     });
   }
@@ -147,21 +137,28 @@ export class TimetableComponent implements OnInit {
    * table item we want to edit
    * if not presented we open modal to add new entity
    */
-  openDialog(editData: TimeEntityTable): void {
+  openDialog(tableItem: TableItemModified): void {
     const dialogRef = this.dialog.open(TimeTableModal, {
-      width: '800px',
+      width: '650px',
       data: {
         table: this.table,
         subjects: this.subjects,
         groups: this.groups,
         groupsMap: this.groupsMap,
         subjectsMap: this.subjectsMap,
-        editData
+        tableItem
       }
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed, result:' + result);
+      if (result) {
+         this.dialog.open(ResponseMessageComponent, {
+        width: '400px',
+        data: {
+          message: result
+        }
+      });
+      }
     });
   }
 
