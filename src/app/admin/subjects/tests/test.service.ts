@@ -6,11 +6,11 @@ import { Test } from './test';
 @Injectable()
 export class TestService {
 
-  getTest_URL: string = 'http://vps9615.hyperhost.name:443/api/Test/getRecords';
-  delTest_URL: string = 'http://vps9615.hyperhost.name:443/api/Test/del/';
-  editTest_URL: string = 'http://vps9615.hyperhost.name:443/api/Test/update/';
-  addTest_URL: string = 'http://vps9615.hyperhost.name:443/api/Test/insertData';
-  getTestById_URL: string = 'http://vps9615.hyperhost.name:443/api/test/getTestsBySubject/';
+  getTest_URL = 'http://vps9615.hyperhost.name:443/api/Test/getRecords';
+  delTest_URL = 'http://vps9615.hyperhost.name:443/api/Test/del/';
+  editTest_URL = 'http://vps9615.hyperhost.name:443/api/Test/update/';
+  addTest_URL = 'http://vps9615.hyperhost.name:443/api/Test/insertData';
+  getTestById_URL = 'http://vps9615.hyperhost.name:443/api/test/getTestsBySubject/';
   constructor(private http: HttpClient) { }
   getTests() {
     return this.http.get(this.getTest_URL);
@@ -21,7 +21,7 @@ export class TestService {
   editTest(id: number, body: object) {
   return this.http.post(this.editTest_URL + id, body);
   }
-  
+
  addTest(body: object) {
   return this.http.post(this.addTest_URL, body);
  }

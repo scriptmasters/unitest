@@ -1,16 +1,16 @@
-import { Component, OnInit, Inject } from "@angular/core";
-import { ActivatedRoute } from "@angular/router";
-import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from "@angular/material";
-import TableService, {Subject, Group, TimeEntity } from "./timetable.service";
+import { Component, OnInit, Inject } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
+import TableService, {Subject, Group, TimeEntity } from './timetable.service';
 import {
   FormControl,
   FormGroup,
   Validators,
   ReactiveFormsModule
-} from "@angular/forms";
-import { TimeTableModal } from "./timetable-modal/timetable-modal.component";
-import { TimetableDeleteConfirmComponent } from "./timetable-delete-confirm/timetable-delete-confirm.component";
-import { ResponseMessageComponent } from "../../shared/response-message/response-message.component";
+} from '@angular/forms';
+import { TimeTableModal } from './timetable-modal/timetable-modal.component';
+import { TimetableDeleteConfirmComponent } from './timetable-delete-confirm/timetable-delete-confirm.component';
+import { ResponseMessageComponent } from '../../shared/response-message/response-message.component';
 
 interface TimeEntityTable extends TimeEntity {
   subject_name: string;
@@ -18,9 +18,9 @@ interface TimeEntityTable extends TimeEntity {
 }
 
 @Component({
-  selector: "app-timetable",
-  templateUrl: "./timetable.component.html",
-  styleUrls: ["./timetable.component.css"],
+  selector: 'app-timetable',
+  templateUrl: './timetable.component.html',
+  styleUrls: ['./timetable.component.css'],
   providers: [TableService]
 })
 export class TimetableComponent implements OnInit {
@@ -109,13 +109,13 @@ export class TimetableComponent implements OnInit {
    * id of table item to delete
    */
   onDelete(timeEntity: TimeEntityTable) {
-    let dialogRef = this.dialog.open(TimetableDeleteConfirmComponent, {
-      width: "400px"
+    const dialogRef = this.dialog.open(TimetableDeleteConfirmComponent, {
+      width: '400px'
     });
 
     dialogRef.afterClosed().subscribe((response: string) => {
-      if(response){
-        if (response === "ok") {
+      if (response) {
+        if (response === 'ok') {
         this.tableService.deleteTableItem(timeEntity.timetable_id).subscribe(
           response => {
             this.table.splice(this.table.indexOf(timeEntity), 1);
@@ -124,20 +124,20 @@ export class TimetableComponent implements OnInit {
             data: {
               message: 'Профіль цього студента було успішно видалено!'
             }
-          })
+          });
           },
           err => {
-            console.error("err:", err);
+            console.error('err:', err);
             this.dialog.open(ResponseMessageComponent, {
             width: '400px',
             data: {
               message: 'Виникла помилка при видаленні цього студента!'
             }
-          })
+          });
           }
         );
       } else {
-        alert("Відмінено");
+        alert('Відмінено');
       }
       }
     });
@@ -148,8 +148,8 @@ export class TimetableComponent implements OnInit {
    * if not presented we open modal to add new entity
    */
   openDialog(editData: TimeEntityTable): void {
-    let dialogRef = this.dialog.open(TimeTableModal, {
-      width: "800px",
+    const dialogRef = this.dialog.open(TimeTableModal, {
+      width: '800px',
       data: {
         table: this.table,
         subjects: this.subjects,
@@ -161,7 +161,7 @@ export class TimetableComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      console.log("The dialog was closed, result:" + result);
+      console.log('The dialog was closed, result:' + result);
     });
   }
 

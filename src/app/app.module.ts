@@ -25,7 +25,7 @@ import {
     MatButtonModule,
     MatButtonToggleModule,
     MatCardModule,
-    MatCheckboxModule,  
+    MatCheckboxModule,
     MatChipsModule,
     MatDatepickerModule,
     MatDialogModule,
@@ -89,6 +89,10 @@ import { AddQuestionComponent } from './admin/questions/add-question/add-questio
 import { StatisticService } from './admin/statistic/statistic.service';
 import { SpecialityService } from './admin/specialities/speciality.service';
 import { PopupFormComponent } from './admin/specialities/popup-form/popup-form.component';
+import { SearchFilter } from './admin/groups/search.component';
+import {FacultyFilterComponent} from './admin/groups/selectFilters/facultyFilter.component';
+import {SpecialityFilterComponent} from './admin/groups/selectFilters/specialityFilter.component';
+
 @NgModule({
     imports: [
         BrowserModule,
@@ -203,7 +207,10 @@ import { PopupFormComponent } from './admin/specialities/popup-form/popup-form.c
         TestDetailCreateComponent,  // Maryan
         QuestionsComponent,
         AddQuestionComponent,
-        EditQuestionComponent
+        EditQuestionComponent,
+        SearchFilter,
+        FacultyFilterComponent,
+        SpecialityFilterComponent
     ],
     bootstrap: [AppComponent],
     providers: [
@@ -224,4 +231,3 @@ import { PopupFormComponent } from './admin/specialities/popup-form/popup-form.c
 })
 
 export class AppModule {}
-

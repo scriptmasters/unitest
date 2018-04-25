@@ -1,9 +1,9 @@
-import { Injectable, NgModule } from "@angular/core";
-import { HttpClient } from "@angular/common/http";
-import { HttpHeaders } from "@angular/common/http";
+import { Injectable, NgModule } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { HttpHeaders } from '@angular/common/http';
 
-import { Observable } from "rxjs/Observable";
-import { catchError, map, tap } from "rxjs/operators";
+import { Observable } from 'rxjs/Observable';
+import { catchError, map, tap } from 'rxjs/operators';
 
 export interface Subject {
   subject_id: string;
@@ -32,7 +32,7 @@ export interface TimeEntity {
 export class TableService {
   httpOptions = {
     headers: new HttpHeaders({
-      "Content-Type": "application/json;charset=utf8"
+      'Content-Type': 'application/json;charset=utf8'
     })
   };
 
@@ -40,19 +40,19 @@ export class TableService {
 
   getSubjects(): Observable<Subject[]> {
     return this.http
-      .get("http://vps9615.hyperhost.name:443/api/Subject/getRecords")
+      .get('http://vps9615.hyperhost.name:443/api/Subject/getRecords')
       .pipe(tap(subjects => subjects), catchError(() => []));
   }
 
   getGroups(): Observable<Group[]> {
     return this.http
-      .get("http://vps9615.hyperhost.name:443/api/Group/getRecords")
+      .get('http://vps9615.hyperhost.name:443/api/Group/getRecords')
       .pipe(tap(groups => groups), catchError(() => []));
   }
 
   getTable(): Observable<TimeEntity[]> {
     return this.http
-      .get("http://vps9615.hyperhost.name:443/api/TimeTable/getRecords")
+      .get('http://vps9615.hyperhost.name:443/api/TimeTable/getRecords')
       .pipe(tap(table => table), catchError(() => []));
   }
 
@@ -75,7 +75,7 @@ export class TableService {
   addTableItem(timeEntity: TimeEntity): Observable<TimeEntity[]> {
     return this.http
       .post(
-        "http://vps9615.hyperhost.name:443/api/TimeTable/insertData",
+        'http://vps9615.hyperhost.name:443/api/TimeTable/insertData',
         timeEntity
       )
       .pipe(tap(timeEntity => timeEntity), catchError(() => []));

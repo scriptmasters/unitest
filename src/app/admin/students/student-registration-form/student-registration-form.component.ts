@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter, ViewEncapsulation, Inject } from '@angular/core';
-import { FormGroup, FormControl, Validators } from '@angular/forms'
+import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { StudentsService } from '../students.service';
 
 import { StudentAdd } from '../students-interface';
@@ -35,7 +35,7 @@ export class StudentRegistrationFormComponent implements OnInit {
   };
 
   constructor(
-    private service: StudentsService, 
+    private service: StudentsService,
     private dialogRef: MatDialogRef<StudentRegistrationFormComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any) { }
 
@@ -88,12 +88,12 @@ export class StudentRegistrationFormComponent implements OnInit {
   }
   //Записуємо масив об'єктів "Group" які приходять з сервера в масив "groups"
   getGroups(elem: HTMLSelectElement) {
-    let value = elem.options[elem.selectedIndex].value;
-    if (value === 'Виберіть факультет') return;
+    const value = elem.options[elem.selectedIndex].value;
+    if (value === 'Виберіть факультет') { return; }
     let index: string;
     //Шукаємо айдішку факультету яку було вибрано в селекті
     this.faculties.forEach(val => {
-      if(val.faculty_name === value) {
+      if (val.faculty_name === value) {
         index = val.faculty_id;
       }
     });
@@ -115,10 +115,10 @@ export class StudentRegistrationFormComponent implements OnInit {
   }
   //Сетим айдішку групи в об'єкт "student"
   handleSetGroup(elem: HTMLSelectElement) {
-    let value = elem.options[elem.selectedIndex].value;
+    const value = elem.options[elem.selectedIndex].value;
     let index: string;
     this.groups.forEach(val => {
-      if(val.group_name === value) {
+      if (val.group_name === value) {
         index = val.group_id;
       }
     });
@@ -142,17 +142,17 @@ export class StudentRegistrationFormComponent implements OnInit {
   }
   //Рендеримо фотку в base64 код перед відправкою на сервер
   handleAddPhoto(event) {
-    let input = event.target;
+    const input = event.target;
     const reader = new FileReader();
     reader.onload = () => {
-      let dataURL = reader.result;
+      const dataURL = reader.result;
       this.student.photo = dataURL;
     };
     reader.readAsDataURL(input.files[0]);
   }
   //Відправляємо дані на сервер
   handleSubmit() {
-    let studentJSON = JSON.stringify({
+    const studentJSON = JSON.stringify({
       gradebook_id: this.student.gradebook_id,
       student_surname: this.student.student_surname,
       student_name: this.student.student_name,

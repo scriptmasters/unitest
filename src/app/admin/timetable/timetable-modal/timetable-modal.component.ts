@@ -1,6 +1,6 @@
-import { Component, OnInit, Inject } from "@angular/core";
-import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from "@angular/material";
-import TableService, { Subject, Group, TimeEntity } from "../timetable.service";
+import { Component, OnInit, Inject } from '@angular/core';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
+import TableService, { Subject, Group, TimeEntity } from '../timetable.service';
 import { startDateValidator, matchDates } from './date-validation';
 
 import {
@@ -8,23 +8,23 @@ import {
   FormGroup,
   Validators,
   ReactiveFormsModule
-} from "@angular/forms";
+} from '@angular/forms';
 
 @Component({
-  selector: "timetable-modal",
-  templateUrl: "./timetable-modal.component.html",
-  styleUrls: ["./timetable-modal.component.css"],
+  selector: 'timetable-modal',
+  templateUrl: './timetable-modal.component.html',
+  styleUrls: ['./timetable-modal.component.css'],
   providers: [TableService]
 })
 export class TimeTableModal implements OnInit {
   private form: FormGroup;
   formData: TimeEntity = {
-    group_id: "",
-    subject_id: "",
-    start_date: "",
-    start_time: "",
-    end_date: "",
-    end_time: ""
+    group_id: '',
+    subject_id: '',
+    start_date: '',
+    start_time: '',
+    end_date: '',
+    end_time: ''
   };
 
   constructor(
@@ -73,7 +73,7 @@ export class TimeTableModal implements OnInit {
         })
         .subscribe(response => {
           if (Array.isArray(response) && response.length >= 1) {
-            for (let item of this.data.table) {
+            for (const item of this.data.table) {
               if (item.timetable_id === response[0].timetable_id) {
                 Object.assign(item, response[0], {
                   subject_name: this.data.subjectsMap.get(
@@ -86,7 +86,7 @@ export class TimeTableModal implements OnInit {
             return this.dialogRef.close();
           }
 
-          return alert("Сервер вернув помилку. Спробуйте пізніше...");
+          return alert('Сервер вернув помилку. Спробуйте пізніше...');
         });
       return;
     }
@@ -102,7 +102,7 @@ export class TimeTableModal implements OnInit {
       })
       .subscribe(response => {
         if (!Array.isArray(response) || response.length <= 0) {
-          return console.error("ERROR");
+          return console.error('ERROR');
         }
 
         this.data.table.push(
@@ -117,5 +117,5 @@ export class TimeTableModal implements OnInit {
 
         return this.dialogRef.close();
       });
-  };
+  }
 }
