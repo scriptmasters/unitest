@@ -50,7 +50,6 @@ import { TestsValidatorDirective } from './tests/tests-validator.directive';
         AdminRoutingModule
     ],
     entryComponents: [
-        ModalSubjectComponent,
         FacultiesDialogComponent,
         EditComponent,
         AddComponent,
