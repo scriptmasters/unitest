@@ -6,10 +6,6 @@
     outline: none;
 }
 
-.active-link {
-    background-color: #33B357;
-}
-
 .admin-panel {
     height: 100%;
     .side-bar {
@@ -41,7 +37,7 @@
         }
         .nav-bar {
             color: #fff;
-            a {
+            li {
                 font-size: 1rem;
                 display: flex;
                 height: 45px;
@@ -72,7 +68,6 @@
                 top: 0;///////////
                 right: 0;///////// Фіксований хідер медіаквері на width 100% знизу
                 width: 83.33333%;/////////
-
                 background-color: #393836;
                 height: 65px;
                 padding-left: 48px;
@@ -121,9 +116,7 @@
                     color: #fff;
                     border-radius: 2px;
                     transition: all 0.2s;
-                    &:hover {
-                        font-size: 1.1rem;
-                    }
+
                     span {
                         margin-right: 5px;
                     }
@@ -156,9 +149,10 @@
     position: fixed; ///
     top: 65px;///////////
     right: 0;///////// Фіксований хідер медіаквері на width 100% знизу
-    width: 85%;/////////
+    width: 83.33333%;/////////
+
     background-color: #222222;
-    a {
+    li {
         font-size: 1rem;
         display: flex;
         height: 45px;
@@ -191,7 +185,9 @@
     #burger {
         display: flex;
     }
-    .header, .vertical-navigation, .footer   {
+    .header,
+    .vertical-navigation,
+    .footer   {
         width: 100%!important;
     }
     .footer span,

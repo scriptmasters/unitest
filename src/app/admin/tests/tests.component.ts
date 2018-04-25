@@ -61,14 +61,14 @@ export class TestsComponent implements OnInit {
     matDialogRef.afterClosed().subscribe(() => this.getTestsById(this.subjectId));
   }
 
-  openDetails(id: any): void {
+   openDetails(id: any): void {
     this.router.navigate(['/admin/testdetails'], {
       queryParams: {
         id: id
       }
     });
-  }
-  openModalMessage(msg: string, w: string = '400px'): void {
+   }
+   openModalMessage(msg: string, w: string = '400px') : void {
     this.dialog.open(ResponseMessageComponent, {
       width: w,
       data: {
