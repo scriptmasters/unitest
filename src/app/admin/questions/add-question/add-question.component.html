@@ -17,6 +17,10 @@
                 <label> Введіть рівень запитання
                     <input formControlName="level">
                 </label>
+                <label> Додати вкладення
+                    <input type="file" accept="image/*" (change)="addAttachment($event)">
+                </label>
+                <img *ngIf="attachment !== undefined" [src]="attachment" width="150">
                     <table>
                         <tr>
                             <td>Відповідь</td>
@@ -25,17 +29,18 @@
                         <tr *ngFor="let number of answerNumber">
                             <td>
                                 <label class="center-block" >
-                                    <textarea  class="form-control" [formControlName] = number></textarea>
+                                    <textarea  class="form-control" [formControlName] = "number"></textarea>
                                 </label>
                             </td>
                             <td>
-                                <input name="correctAnswer" [type]="answerType">
+                                <input name="correctAnswer" (click)="correctAnswer(number)" [type]="answerType">
                             </td>
                         </tr>
                     </table>
 
 
-                <button (click)="addAnswer()"> Додати запитання </button>
+                <button (click)="addAnswer()"> Додати відповідь </button>
+                <button (click)="questionSubmit()" [disabled]="questionForm.invalid"> Зберегти завдання </button>
             </div>
 
     </form>
