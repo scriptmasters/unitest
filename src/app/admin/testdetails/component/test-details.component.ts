@@ -22,6 +22,7 @@ export class TestDetailsComponent implements OnInit {
               private testDetailsService: TestDetailsService) { }
 
   ngOnInit() {
+    this.testId = parseInt(this.route.snapshot.paramMap.get('id'), 10);
     this.route.queryParams.subscribe(params => {
       this.testId = params['id'];
       this.getTestDetails();

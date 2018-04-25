@@ -2,6 +2,10 @@
     padding: 0;
 }
 
+:focus {
+    outline: none;
+}
+
 .admin-panel {
     height: 100%;
     .side-bar {
@@ -57,13 +61,14 @@
         padding: 0;
         background-color: #F4F7FA;
         .content-wrapper {
-            min-height: calc(100vh - 40px);
+            margin-bottom: 40px;
             .header {
-                z-index: 0;
+                z-index: 1;
                 position: fixed; ///
-                top: 0; ///////////
-                right: 0; ///////// Фіксований хідер медіаквері на width 100% знизу
-                width: 85%; /////////
+                top: 0;///////////
+                right: 0;///////// Фіксований хідер медіаквері на width 100% знизу
+                width: 83.33333%;/////////
+
                 background-color: #393836;
                 height: 65px;
                 padding-left: 48px;
@@ -100,11 +105,11 @@
                         color: #fff;
                         font-size: 1.2rem;
                     }
-                    .dtester-title {
-                        margin-left: 5px;
-                        color: #33B357;
-                        font-size: 1.5rem;
-                    }
+                }
+                .dtester-title {
+                  margin-right: 10rem;
+                  color: #33B357;
+                  font-size: 1.5rem;
                 }
                 .log-out {
                     display: inline-block;
@@ -124,6 +129,11 @@
         }
         .footer {
             display: flex;
+            position: fixed;
+            bottom: 0;
+            right: 0;
+            z-index: 1;
+            width: 83.3333%;
             justify-content: center;
             align-items: center;
             height: 40px;
@@ -140,9 +150,9 @@
     display: none;
     z-index: 1;
     position: fixed; ///
-    top: 65px; ///////////
-    right: 0; ///////// Фіксований хідер медіаквері на width 100% знизу
-    width: 85%; /////////
+    top: 65px;///////////
+    right: 0;///////// Фіксований хідер медіаквері на width 100% знизу
+    width: 85%;/////////
     background-color: #222222;
     li {
         font-size: 1rem;
@@ -177,9 +187,8 @@
     #burger {
         display: flex;
     }
-    .header,
-    .vertical-navigation {
-        width: 100%!important; /// коли зникає лівий навбар верхній навбар не на всю ширину
+    .header, .vertical-navigation, .footer   {
+        width: 100%!important;
     }
     .footer span,
     .admin-title,
@@ -188,6 +197,9 @@
     }
     .admin-panel .main .content-wrapper .header {
         padding: 0 2rem;
+    }
+    .admin-panel .main .content-wrapper .header .dtester-title {
+        margin-right: 2rem;
     }
 }
 

@@ -52,7 +52,7 @@ export class SubjectsComponent implements OnInit {
 
   openModal(id): void {
     const matDialogRef = this.dialog.open(ModalSubjectComponent, {
-      width: '600px',
+      width: '1200px',
       data: {subject_id: id}
     });
 

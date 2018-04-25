@@ -1,14 +1,9 @@
-import {Component, Inject, OnInit, Input, Output, EventEmitter, ViewEncapsulation } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
-import { QuestionsService } from '../questions.service';
-/*import { QuestionsComponent } from '../questions.component';*/
-
-import { IQuestions } from '../questions-interface';
-import { IQuestionAdd } from '../questions-interface';
-
-import { IResponse } from '../questions-interface';
-import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from '@angular/material';
-
+import {QuestionsService} from '../questions.service';
+import {ActivatedRoute, Router} from '@angular/router';
+import {ResponseMessageComponent} from '../../../shared/response-message/response-message.component';
+import {MatDialog} from '@angular/material';
 
 @Component({
   selector: 'app-add-question',
@@ -16,101 +11,103 @@ import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from '@angular/material';
   styleUrls: ['./add-question.component.scss'],
   providers: [ QuestionsService ]
 })
+
 export class AddQuestionComponent implements OnInit {
-  @Input()
-
-form;
- questions: IQuestions[];
- selTestId: string;
-
- new_question: IQuestionAdd = {
-    test_id: '', // this.questionsComponentInstance.selectedTestId,
-    question_text: 'some text',
-    level: '',
-    type_index: '',
-    type_name: '',
-    attachment: ''
-};
-
-constructor(
-  private questionService: QuestionsService,
-  private matDialogRef: MatDialogRef<AddQuestionComponent>
-) { }
-
-  ngOnInit() {
-    console.log('QuestionsComponent.selectedTestId = ', /* QuestionsComponent.selectedTestId*/);
-
-    this.questionService.getAllQuestions()
-      .subscribe((dataQuestions: IQuestions[]) => {
-        this.questions = dataQuestions;
-      });
-
-    this.form = new FormGroup({
-      'title': new FormControl(null, [Validators.required]),
-      'description': new FormControl(null, [Validators.required])
-    });
-
-  }
-
-
-
-  setQuestionType(elem: HTMLSelectElement) {
-    const value = elem.options[elem.selectedIndex].value;
-    const index = elem.options[elem.selectedIndex].index + 1; // починаємо нумерацію з одиниці
-    this.new_question.type_name = value;
-    this.new_question.type_index = '' + index;
-    console.log('type_index = ', index, ' type_name = ', value);
-
-  }
-
-  setQuestionLevel(elem: HTMLSelectElement) {
-    const value = elem.options[elem.selectedIndex].value;
-    this.new_question.level = value;
-    console.log('level = ', value);
-  }
-
-  setQuestionText(elem: HTMLSelectElement) {
-    const value = elem.value;
-    this.new_question.question_text = value;
-    console.log('QuestionText = ', value);
-  }
-
-  setVariantsNumber(elem: HTMLSelectElement) {
-    const value = elem.options[elem.selectedIndex].value;
-    console.log('Variants number = ', value);
-  }
-
-  setResourse(elem: HTMLSelectElement) {
-    const value = elem.options[elem.selectedIndex].value;
-    this.new_question.attachment = value;
-    console.log('Attachment = ', value);
-  }
-
-
-
-  closeDialog() {
-    this.matDialogRef.close();
-  }
-
-addQuestionSubmit() {
-
-  const questionJSON = JSON.stringify({
-
-    /*test_id: QuestionsComponent.selectedTestId,*/
-    question_text: this.new_question.type_name + ' [ ' + this.new_question.question_text + ' ]',
-    level: this.new_question.level,
-    type: this.new_question.type_index,
-    attachment: this.new_question.attachment
+  constructor (private route: ActivatedRoute,
+               private questionsService: QuestionsService,
+               private dialog: MatDialog,
+               private router: Router
+               ) {}
+  test_id: string;
+  answerType = 'radio';
+  answerNumber = ['1'];
+  correctAnswers = [];
+  attachment = '';
+  questionForm = new FormGroup ({
+      question_text: new FormControl('', Validators.required),
+      level: new FormControl('', Validators.compose([Validators.required, Validators.pattern(/^([1-9]|1[0-9]|20)$/)])),
+      type: new FormControl('1', Validators.required),
+      '1': new FormControl('', Validators.required)
   });
 
-  console.log('questionJSON = ', questionJSON);
+  ngOnInit () {
+    this.route.queryParams
+        .subscribe( params => this.test_id = params.testId);
+  }
 
-  this.questionService.addQuestion(questionJSON).subscribe((dataQuestions: IResponse) => {
-    if (dataQuestions.response === 'ok') {
-      this.matDialogRef.close();
+  addAnswer() {
+        this.questionForm.addControl((
+            Number(this.answerNumber[this.answerNumber.length - 1]) + 1).toString(),
+            new FormControl('', [Validators.required]
+        ));
+        this.answerNumber.push((Number(this.answerNumber[this.answerNumber.length - 1]) + 1).toString());
+  }
+
+  onQuestionTypeSelect(event) {
+    if (event.target.value === '2') {
+        this.answerType = 'checkbox';
+    } else {
+        this.answerType = 'radio';
+        this.correctAnswers = [Math.max(...this.correctAnswers) + ''];
     }
-  });
+  }
 
-}
+  correctAnswer(number) {
+      if (this.answerType === 'radio') {
+          this.correctAnswers = [number];
+      } else {
+              this.correctAnswers.indexOf(number) === -1 ?
+              this.correctAnswers.push(number) : this.correctAnswers.splice(this.correctAnswers.indexOf(number), 1);
+      }
+  }
 
+  addAttachment(event) {
+      const fileReader = new FileReader();
+      const img = event.target.files[0];
+      fileReader.onload = () => this.attachment = fileReader.result;
+      fileReader.readAsDataURL(img);
+  }
+
+  questionSubmit() { // TODO: add correct answer statement check
+      const questionBody = {
+          'test_id': this.test_id,
+          'question_text': this.questionForm.get('question_text').value,
+          'level': this.questionForm.get('level').value,
+          'type': this.questionForm.get('type').value,
+          'attachment': this.attachment
+      };
+
+      this.questionsService.questionAdd(questionBody)
+          .subscribe(data => {
+              for (let answer = 1; answer <= this.answerNumber.length; answer++) {
+                  const answerBody = {
+                      'question_id': data[0].question_id,
+                      true_answer: '',
+                      answer_text: this.questionForm.get(`${answer}`).value,
+                      attachment: ''
+                  };
+                  this.correctAnswers.indexOf(answer + '') !== -1 ? answerBody.true_answer = '1' : answerBody.true_answer = '0';
+
+                  this.questionsService.answerAdd(answerBody)
+                      .subscribe(undefined, error => console.log(error));
+              }
+              data[0].question_id ? this.openModalMessage('Завдання успішно додане') :
+                  this.openModalMessage('Виникла помилка при додаванні');
+                  this.router.navigate(['/admin/questions'], {
+                      queryParams: {
+                          testId: this.test_id,
+                          page: 0
+                      }
+                  });
+          }, error => console.log(error));
+  }
+
+    openModalMessage(msg: string, w: string = '400px'): void {
+        this.dialog.open(ResponseMessageComponent, {
+            width: w,
+            data: {
+                message: msg
+            }
+        });
+    }
 }
