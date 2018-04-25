@@ -38,11 +38,16 @@ div.error.col-12 {
     position: relative;
 }
 
-#eye-vision {
+.visibility-toggler {
     position: absolute;
     cursor: pointer;
     right: 15px;
     top: 30px;
+}
+
+.header {
+    align-items: center;
+    margin-bottom: 10px;
 }
 
 label:not(.custom-file-label) {
@@ -50,16 +55,6 @@ label:not(.custom-file-label) {
     font-size: 1rem;
 }
 
-.header {
-    margin-bottom: 10px;
-    h1 {
-        margin: 0 auto;
-    }
-    button {
-        margin-left: -60px;
-    }
-}
-
-.invisible {
-    visibility: hidden;
+.fa.fa-close {
+    cursor: pointer;
 }
