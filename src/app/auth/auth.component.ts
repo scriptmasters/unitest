@@ -48,7 +48,8 @@ export class AuthComponent implements OnInit {
                     switch (data.roles[1]) {
                         case 'admin' :
                             (this.rgxpAdmin.test(this.returnUrl)) ?
-                                this.router.navigate([this.returnUrl]) : this.router.navigate(['/admin/statistic']);
+                                this.router.navigate([this.returnUrl]) :
+                                this.router.navigate(['/admin/statistic']);
                             break;
 
                         case 'student' :

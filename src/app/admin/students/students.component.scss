@@ -12,6 +12,28 @@ header {
     }
 }
 
+.filters {
+    margin-bottom: 10px;
+    background-color: #FFFFFF;
+    box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+    padding: 0.8rem;
+    button.fa {
+        background-color: #28A745;
+        width: 24px;
+        height: 24px;
+        border: none;
+        color: #fff;
+        transition: all 0.2s;
+        &:hover {
+            font-size: 1.1rem;
+        }
+        &:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+    }
+}
+
 .card {
     margin: 0;
 }
@@ -28,15 +50,8 @@ table {
     cursor: pointer;
 }
 
-.pagination /deep/ .ngx-pagination {
-    margin-top: 10px;
-    .current {
-      background: #33B357;
-    }
-    .pagination-previous a:before, .pagination-previous.disabled:before {
-      content: '';
-    }
-    .pagination-next a:after, .pagination-next.disabled:after {
-      content: '';
+@media (max-width: 768px) {
+    .search, .faculty-filter, .group-filter {
+        margin-bottom: 10px;
     }
 }
