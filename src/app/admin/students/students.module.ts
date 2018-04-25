@@ -1,20 +1,20 @@
 import { NgModule } from '@angular/core';
 import { StudentsComponent } from './students.component';
-import { StudentRegistrationFormComponent } from './student-registration-form/student-registration-form.component';
-import { StudentEditFormComponent } from './student-edit-form/student-edit-form.component';
 import { StudentsRoutingModule } from './students-routing.module';
 import { StudentsService } from './students.service';
-import { SearchStudentPipe } from './searchStudent.pipe';
+import { SearchStudentPipe } from './/filters/searchStudent.pipe';
 import { SharedModule } from '../../shared/shared.module';
 import { StudentsResolver } from './students-resolver.service';
 import { CommonModule } from '@angular/common';
+import { StudentsModalWindowComponent } from './students-modal-window/students-modal-window.component';
+import { FilterByGroupPipe } from './filters/filter-by-group.pipe';
 
 @NgModule({
     declarations: [
         StudentsComponent,
-        StudentRegistrationFormComponent,
-        StudentEditFormComponent,
-        SearchStudentPipe
+        SearchStudentPipe,
+        FilterByGroupPipe,
+        StudentsModalWindowComponent
     ],
     imports: [
         CommonModule,
@@ -26,8 +26,7 @@ import { CommonModule } from '@angular/common';
         StudentsResolver
     ],
     entryComponents: [
-        StudentEditFormComponent,
-        StudentRegistrationFormComponent
+        StudentsModalWindowComponent
     ]
 })
 

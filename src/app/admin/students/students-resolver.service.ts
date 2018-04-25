@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Resolve, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
+import { Resolve, ActivatedRouteSnapshot, RouterStateSnapshot, Router } from '@angular/router';
 import IStudent from './interfaces/IStudent';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/of';
@@ -10,12 +10,14 @@ import { ErrorObservable } from 'rxjs/observable/ErrorObservable';
 import { catchError } from 'rxjs/operators/catchError';
 import { ResponseMessageComponent } from '../../shared/response-message/response-message.component';
 import { MatDialog } from '@angular/material';
+import { mergeMap } from 'rxjs/operators';
 
 @Injectable()
 export class StudentsResolver implements Resolve<IStudent[]> {
     constructor(
         private service: StudentsService,
-        private dialog: MatDialog) {}
+        private dialog: MatDialog,
+        private router: Router) {}
     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<IStudent[]> {
         const id = route.paramMap.get('id');
         if (id) {
@@ -28,6 +30,7 @@ export class StudentsResolver implements Resolve<IStudent[]> {
                                 message: 'Немає зареєстрованих студентів в даній групі'
                             }
                         });
+                        this.router.navigate(['admin/groups/']);
                         return new ErrorObservable('Немає зареєстрованих студентів в даній групі');
                     }
                     return this.onDataRetrieve(data);
@@ -35,8 +38,9 @@ export class StudentsResolver implements Resolve<IStudent[]> {
             ));
         }
         if (!id) {
-            return this.service.getStudents().pipe(switchMap(
-                data => this.onDataRetrieve(data)
+            return this.service.countStudent().pipe(
+                mergeMap(data => this.service.getStudents(data.numberOfRecords).pipe(
+                    switchMap(response => this.onDataRetrieve(response)))
             ));
         }
     }
@@ -64,7 +68,8 @@ export class StudentsResolver implements Resolve<IStudent[]> {
             // Adding group name to display it at table
             groups.forEach(val => {
                 if (value.group_id === val.group_id) {
-                student.group = val.group_name;
+                    student.group = val.group_name;
+                    student.faculty_id = val.faculty_id;
                 }
             });
             return student;

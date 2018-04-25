@@ -54,7 +54,8 @@ export class DialogComponent implements OnInit {
     this.groupValid = new FormControl('', [
       Validators.required,
       Validators.pattern('^([А-ЯІЇ]){2,3}-[0-9]{2}-[0-9]{1}'),
-    ]);
+    ]
+    );
   }
 
   createForm() {

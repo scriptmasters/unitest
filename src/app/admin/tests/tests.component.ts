@@ -1,12 +1,9 @@
 import { Component, OnInit} from '@angular/core';
 import {TestService } from './test.service';
-import { MatDialog, MatDialogRef } from '@angular/material';
+import { MatDialog } from '@angular/material';
 import { EditComponent } from './edit/edit.component';
 import { AddComponent } from './add/add.component';
 import { Router, ActivatedRoute } from '@angular/router';
-import { DeleteConfirmComponent } from '../../shared/delete-confirm/delete-confirm.component';
-import { IResponse } from '../faculties/facultiesInterface';
-import { ResponseMessageComponent } from '../../shared/response-message/response-message.component';
 
 
 @Component({
@@ -28,22 +25,16 @@ export class TestsComponent implements OnInit {
   }
 
   deleteTest(id: number) {
-   const matDialogRef = this.dialog.open(DeleteConfirmComponent,{
-    width: '350px',
-    data: {message: 'Ви справді хочете видалити цей тест?'}
-   });
-   matDialogRef.afterClosed().subscribe((Response: boolean) => {
-     if(Response) {
-    this.httpService.deleteTest(id).subscribe((data: IResponse) => {
-      if(data.response === 'ok') {
-        this.openModalMessage('Тест успішно видалено');
-      }
-    },
-  () => {this.openModalMessage('Виникла помилка при видаленні тесту')},
-  () => {this.getTestsById(this.subjectId)}
-  )}
-   })
-  }
+    this.httpService.deleteTest(id).subscribe(
+      data => {
+        console.log(data);
+      },
+      err => {
+        console.log(err);
+        },
+      () => this.getTestsById(this.subjectId)
+    );
+   }
 
    getTestsById(id: number) {
      this.httpService.getTestsById(this.subjectId).subscribe(
@@ -69,12 +60,12 @@ export class TestsComponent implements OnInit {
       }
     });
    }
-   openModalMessage(msg: string, w: string = '400px'): void {
-    this.dialog.open(ResponseMessageComponent, {
-      width: w,
-      data: {
-        message: msg
-      }
-    });
-  }
+
+    openQuestions(id: any) {
+        this.router.navigate(['/admin/questions'], {
+            queryParams: {
+                testId: id
+            }
+        });
+    }
 }
