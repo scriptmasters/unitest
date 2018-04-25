@@ -44,6 +44,7 @@ import { ResponseMessageComponent } from '../shared/response-message/response-me
 import { StudentsResolver } from './students/students-resolver.service';
 import { SearchStudentPipe } from './students/searchStudent.pipe';
 import { SearchPipe } from './faculties/search.pipe';
+import { TestsValidatorDirective } from './tests/tests-validator.directive';
 
 @NgModule({
     imports: [
@@ -82,14 +83,15 @@ import { SearchPipe } from './faculties/search.pipe';
         TestsComponent,
         EditComponent,
         AddComponent,
-        SearchPipe,
         GroupsDeleteConfirmComponent,
         PopupFormComponent,
         TestDetailsComponent, // Maryan
         TestDetailCreateComponent,
         QuestionsComponent,
         AddQuestionComponent,
-        EditQuestionComponent
+        EditQuestionComponent,
+        TestsValidatorDirective,
+        SearchPipe
     ],
     providers: [
         AuthService,

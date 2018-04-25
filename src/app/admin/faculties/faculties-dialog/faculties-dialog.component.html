@@ -23,7 +23,6 @@
             <span *ngIf="form.get('title')['errors']['maxlength']">
             Поле повинно містити не більше ніж {{form.get('title')['errors']['maxlength']['requiredLength']}} символів
             </span>
-            <span *ngIf="form.get('title')['errors']['pattern']">Це поле повинне містити тільки кириличні символи</span>
           </small>
         </div>
       </div>

@@ -26,8 +26,7 @@ export class FacultiesDialogComponent implements OnInit {
       'title': new FormControl(null, [
         Validators.required,
         Validators.minLength(5),
-        Validators.maxLength(50), 
-        Validators.pattern('([А-ЯІЇ])')
+        Validators.maxLength(50)
       ]),
       'description': new FormControl(null, [
         Validators.required,
