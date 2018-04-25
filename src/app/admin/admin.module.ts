@@ -25,9 +25,7 @@ import { StudentRegistrationFormComponent } from './students/student-registratio
 import { GroupsComponent } from './groups/groups.component';
 import { TimetableComponent } from './timetable/timetable.component';
 import { StudentEditFormComponent } from './students/student-edit-form/student-edit-form.component';
-import { FacultiesAddComponent } from './faculties/faculties-add/faculties-add.component';
-import { FacultiesUpdateComponent } from './faculties/faculties-update/faculties-update.component';
-import { FacultiesDeleteComponent } from './faculties/faculties-delete/faculties-delete.component';
+import { FacultiesDialogComponent } from './faculties/faculties-dialog/faculties-dialog.component';
 import { TimeTableModal } from './timetable/timetable-modal/timetable-modal.component';
 import { TimetableDeleteConfirmComponent } from './timetable/timetable-delete-confirm/timetable-delete-confirm.component';
 import { TestsComponent } from './tests/tests.component';
@@ -46,6 +44,7 @@ import { DeleteConfirmComponent } from '../shared/delete-confirm/delete-confirm.
 import { ResponseMessageComponent } from '../shared/response-message/response-message.component';
 import { StudentsResolver } from './students/students-resolver.service';
 import { SearchStudentPipe } from './students/searchStudent.pipe';
+import { SearchPipe } from './faculties/search.pipe';
 import { TestsValidatorDirective } from './tests/tests-validator.directive';
 
 @NgModule({
@@ -58,9 +57,7 @@ import { TestsValidatorDirective } from './tests/tests-validator.directive';
         TimeTableModal,
         ModalSubjectComponent,
         TimetableDeleteConfirmComponent,
-        FacultiesAddComponent,
-        FacultiesUpdateComponent,
-        FacultiesDeleteComponent,
+        FacultiesDialogComponent,
         EditComponent,
         AddComponent,
         PopupFormComponent,
@@ -83,9 +80,7 @@ import { TestsValidatorDirective } from './tests/tests-validator.directive';
         TimetableDeleteConfirmComponent,
         DialogComponent,
         TimeTableModal,
-        FacultiesAddComponent,
-        FacultiesUpdateComponent,
-        FacultiesDeleteComponent,
+        FacultiesDialogComponent,
         TestsComponent,
         EditComponent,
         AddComponent,
@@ -96,7 +91,8 @@ import { TestsValidatorDirective } from './tests/tests-validator.directive';
         QuestionsComponent,
         AddQuestionComponent,
         EditQuestionComponent,
-        TestsValidatorDirective
+        TestsValidatorDirective,
+        SearchPipe
     ],
     providers: [
         AuthService,
