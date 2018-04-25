@@ -1,5 +1,6 @@
 <form [formGroup]="form" (ngSubmit)="onSubmit()">
-    <div class="form-row justify-content-end">
+    <div class="form-row justify-content-between">
+        <h2>{{formData.timetable_id ? 'Редагувати' : 'Додати'}} розклад</h2>
         <i class="fa fa-close" (click)="onNoClick()"></i>
     </div>
     <div class="form-row">
@@ -9,7 +10,7 @@
                                 <option value="">Виберіть групу</option>
                                 <option *ngFor="let group of data.groups" [value]="group.group_id">{{group.group_name}}</option>
                             </select>
-            <div *ngIf="form.get('group').invalid && (form.get('group').dirty || form.get('group').touched)" class="alert alert-danger">
+            <div *ngIf="form.get('group').invalid && (form.get('group').dirty || form.get('group').touched)" class="form-msg">
                 <div *ngIf="form.get('group').errors.required">Назва групи є обов'язковою</div>
             </div>
 
@@ -20,7 +21,7 @@
                                 <option value="">Виберіть предмет</option>
                                 <option *ngFor="let subject of data.subjects" [value]="subject.subject_id">{{subject.subject_name}}</option>
                             </select>
-            <div *ngIf="form.get('subject').invalid && (form.get('subject').dirty || form.get('subject').touched)" class="alert alert-danger">
+            <div *ngIf="form.get('subject').invalid && (form.get('subject').dirty || form.get('subject').touched)" class="form-msg">
                 <div *ngIf="form.get('subject').errors.required">Назва предмету є обов'язковою</div>
             </div>
         </div>
@@ -29,7 +30,7 @@
         <div class="form-group col-md-6">
             <label>Виберіть дату початку</label>
             <input type="date" id="date" class="form-control col-md-12" [(ngModel)]="formData.start_date" formControlName="startDate">
-            <div *ngIf="form.get('startDate').invalid && (form.get('startDate').dirty || form.get('startDate').touched)" class="alert alert-danger">
+            <div *ngIf="form.get('startDate').invalid && (form.get('startDate').dirty || form.get('startDate').touched)" class="form-msg">
                 <div *ngIf="form.get('startDate').errors.required">
                     Дата початку є обов`язковим полем
                 </div>
@@ -47,7 +48,7 @@
         <div class="form-group col-md-6">
             <label for="date">Виберіть дату кінця</label>
             <input type="date" id="date" class="form-control col-md-12" [(ngModel)]="formData.end_date" formControlName="endDate">
-            <div *ngIf="form.get('endDate').invalid && (form.get('endDate').dirty || form.get('startDate').touched)" class="alert alert-danger">
+            <div *ngIf="form.get('endDate').invalid && (form.get('endDate').dirty || form.get('startDate').touched)" class="form-msg">
                 <div *ngIf="form.get('endDate').errors.required">
                     Дата початку є обов`язковим полем
                 </div>
@@ -61,10 +62,12 @@
             <input type="time" id="time" class="form-control col-md-12" [(ngModel)]="formData.end_time" formControlName="endTime">
         </div>
     </div>
-    <div class="form-row justify-content-center">
-        <div class="form-group">
-            <input type="submit" [value]="formData.timetable_id ? 'Редагувати' : 'Зареєструвати'" class="btn btn-primary mr-2" [disabled]="!form.valid">
-            <input class="btn btn-danger" type="reset" value="Очистити форму">
+    <div class="form-row d-flex justify-content-center">
+        <div class="form-group col-sm-6 col-md-4">
+            <input class="btn btn-danger col-sm-12" type="button" value="Очистити форму" (click)="onReset()">
+        </div>
+        <div class="form-group col-sm-6 col-md-4">
+            <input type="submit" [value]="formData.timetable_id ? 'Редагувати' : 'Зареєструвати'" class="btn btn-success col-sm-12" [disabled]="!form.valid">
         </div>
     </div>
 </form>

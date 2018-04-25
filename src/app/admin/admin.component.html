@@ -6,17 +6,19 @@
                     <img class="role-img" src="assets/avatar-1.jpg" alt="role">
                     <span class="role">ADMIN</span>
                 </div>
-                <nav class="nav-bar d-flex flex-column">
-                    <a routerLink="/admin/statistic"><i class="fa fa-bar-chart" aria-hidden="true"></i><span>Статистика</span></a>
-                    <a routerLink="/admin/groups"><i class="fa fa-users" aria-hidden="true"></i><span>Групи</span></a>
-                    <a routerLink="/admin/students"><i class="fa fa-address-book" aria-hidden="true"></i><span>Студенти</span></a>
-                    <a routerLink="/admin/faculties"><i class="fa fa-database" aria-hidden="true"></i><span>Факультети</span></a>
-                    <a routerLink="/admin/subjects"><i class="fa fa-book" aria-hidden="true"></i><span>Предмети</span></a>
-                    <a routerLink="/admin/specialities"><i class="fa fa-table" aria-hidden="true"></i><span>Спеціальності</span></a>
-                    <a routerLink="/admin/administrators"><i class="fa fa-user-secret" aria-hidden="true"></i><span>Адміністратори</span></a>
-                    <a routerLink="/admin/timetable"><i class="fa fa-user-secret" aria-hidden="true"></i><span>Розклад</span></a>
-                    <a routerLink="/admin/questions"><i class="fa fa-check-square-o" aria-hidden="true"></i><span>Завдання</span></a>
-                </nav>
+                <ul class="nav-bar d-flex flex-column">
+
+                    <li> <a routerLink="/admin/statistic" routerLinkActive="active-link"><i class="fa fa-bar-chart" aria-hidden="true"></i><span>Статистика</span></a></li>
+                    <li> <a routerLink="/admin/groups" routerLinkActive="active-link"><i class="fa fa-users" aria-hidden="true"></i><span>Групи</span></a></li>
+                    <li> <a routerLink="/admin/students" routerLinkActive="active-link"><i class="fa fa-address-book" aria-hidden="true"></i><span>Студенти</span></a></li>
+                    <li> <a routerLink="/admin/faculties" routerLinkActive="active-link"><i class="fa fa-database" aria-hidden="true"></i><span>Факультети</span></a></li>
+                    <li> <a routerLink="/admin/subjects" routerLinkActive="active-link"><i class="fa fa-book" aria-hidden="true"></i><span>Предмети</span></a></li>
+                    <li> <a routerLink="/admin/specialities" routerLinkActive="active-link"><i class="fa fa-table" aria-hidden="true"></i><span>Спеціальності</span></a></li>
+                    <li> <a routerLink="/admin/administrators" routerLinkActive="active-link"><i class="fa fa-user-secret" aria-hidden="true"></i><span>Адміністратори</span></a></li>
+                    <li> <a routerLink="/admin/timetable" routerLinkActive="active-link"><i class="fa fa-user-secret" aria-hidden="true"></i><span>Розклад</span></a></li>
+                    <li> <a routerLink="/admin/questions" routerLinkActive="active-link"><i class="fa fa-check-square-o" aria-hidden="true"></i><span>Завдання</span></a></li>
+
+                </ul>
             </div>
         </section>
         <section class="main col">
@@ -24,9 +26,10 @@
                 <header class="header">
                     <div class="Headers">
                         <span (click)="handleClick(verticalNavigation)" id="burger" class="burger"><i class="fa fa-bars" aria-hidden="true"></i></span>
-                        <span class="admin-title">ADMIN PANNEL</span>
-                        <span class="dtester-title">D-TESTER</span>
+                        <span class="admin-title">ПАНЕЛЬ АДМІНІСТРАТОРА</span>
+
                     </div>
+                    <div class="dtester-title">D-TESTER</div>
                     <a class="log-out" (click)="this.authService.logout()"><span>Вийти</span><i class="fa fa-sign-out" aria-hidden="true"></i></a>
                 </header>
 
@@ -36,18 +39,19 @@
 
                 </div>
 
-                <nav class="vertical-navigation" #verticalNavigation (click)="handleClick(verticalNavigation)">
+                <ul class="vertical-navigation" #verticalNavigation (click)="handleClick(verticalNavigation)">
 
-                    <a routerLink="/admin/statistic"><i class="fa fa-bar-chart" aria-hidden="true"></i><span>Статистика</span></a>
-                    <a routerLink="/admin/groups"><i class="fa fa-users" aria-hidden="true"></i><span>Групи</span></a>
-                    <a routerLink="/admin/students"><i class="fa fa-address-book" aria-hidden="true"></i><span>Студенти</span></a>
-                    <a routerLink="/admin/faculties"><i class="fa fa-database" aria-hidden="true"></i><span>Факультети</span></a>
-                    <a routerLink="/admin/subjects"><i class="fa fa-book" aria-hidden="true"></i><span>Предмети</span></a>
-                    <a routerLink="/admin/specialities"><i class="fa fa-table" aria-hidden="true"></i><span>Спеціальності</span></a>
-                    <a routerLink="/admin/administrators"><i class="fa fa-user-secret" aria-hidden="true"></i><span>Адміністратори</span></a>
-                    <a routerLink="/admin/timetable"><i class="fa fa-user-secret" aria-hidden="true"></i><span>Розклад</span></a>
-                    <a routerLink="/admin/questions"><i class="fa fa-check-square-o" aria-hidden="true"></i><span>Завдання</span></a>
-                </nav>
+                    <li> <a routerLink="/admin/statistic"><i class="fa fa-bar-chart" aria-hidden="true"></i><span>Статистика</span></a></li>
+                    <li> <a routerLink="/admin/groups"><i class="fa fa-users" aria-hidden="true"></i><span>Групи</span></a></li>
+                    <li> <a routerLink="/admin/students"><i class="fa fa-address-book" aria-hidden="true"></i><span>Студенти</span></a></li>
+                    <li> <a routerLink="/admin/faculties"><i class="fa fa-database" aria-hidden="true"></i><span>Факультети</span></a></li>
+                    <li> <a routerLink="/admin/subjects"><i class="fa fa-book" aria-hidden="true"></i><span>Предмети</span></a></li>
+                    <li> <a routerLink="/admin/specialities"><i class="fa fa-table" aria-hidden="true"></i><span>Спеціальності</span></a></li>
+                    <li> <a routerLink="/admin/administrators"><i class="fa fa-user-secret" aria-hidden="true"></i><span>Адміністратори</span></a></li>
+                    <li> <a routerLink="/admin/timetable"><i class="fa fa-user-secret" aria-hidden="true"></i><span>Розклад</span></a></li>
+                    <li> <a routerLink="/admin/questions"><i class="fa fa-check-square-o" aria-hidden="true"></i><span>Завдання</span></a></li>
+
+                </ul>
                 <div class="content">
                     <router-outlet></router-outlet>
                 </div>

@@ -1,15 +1,18 @@
 import { Component, OnInit } from '@angular/core';
 import { StudentsService } from './students.service';
-import { StudentGet, IResponse } from './students-interface';
-import { Student } from './students-interface';
 import { group } from '@angular/animations';
-import { StudentRegistrationFormComponent } from './student-registration-form/student-registration-form.component';
-import { StudentEditFormComponent } from './student-edit-form/student-edit-form.component';
+import { StudentsModalWindowComponent } from './students-modal-window/students-modal-window.component';
 import { ResponseMessageComponent } from '../../shared/response-message/response-message.component';
 import { MatDialog } from '@angular/material';
 import { PaginationInstance } from 'ngx-pagination';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 import { DeleteConfirmComponent } from '../../shared/delete-confirm/delete-confirm.component';
+import IStudent from './interfaces/IStudent';
+import IResponse from './interfaces/IResponse';
+import IGroup from './interfaces/IGroup';
+import { StudentsResolver } from './students-resolver.service';
+import IFaculty from './interfaces/IFaculty';
+import { getGroupsByFaulty } from './reusable-functions/get-groups-by-faculty';
 @Component({
   selector: 'app-students',
   templateUrl: './students.component.html',
@@ -18,9 +21,12 @@ import { DeleteConfirmComponent } from '../../shared/delete-confirm/delete-confi
 })
 export class StudentsComponent implements OnInit {
 
-  title: string = 'Студенти';
-  students: Student[] = [];
-  //Для пагінації
+  groups: IGroup[] = [];
+  faculties: IFaculty[] = [];
+  searchString = '';
+  filterByGroupStr = 'Виберіть групу';
+  students: IStudent[] = [];
+  // NgXPagination
   public config: PaginationInstance = {
     itemsPerPage: 5,
     currentPage: 1
@@ -29,171 +35,108 @@ export class StudentsComponent implements OnInit {
   constructor(
     private service: StudentsService,
     private dialog: MatDialog,
-    private route: ActivatedRoute) {}
+    private route: ActivatedRoute,
+    private router: Router) {}
 
   ngOnInit() {
-    //При кожному ререндері компоненту будуть братись нові дані з сервера
-    this.route.params.subscribe(params => this.fillOutStudentsTable(params.id));
+    this.students = this.route.snapshot.data['students'];
+    this.service.getAvailableFaculties().subscribe(res => this.faculties = res);
   }
-  // Відкриває діалогове вікно
-  showRegForm(): void {
-    let dialogRef = this.dialog.open(StudentRegistrationFormComponent, {
-      width: '600px',
-      height: 'calc(100vh - 50px)',
-    });
-    dialogRef.afterClosed().subscribe((Response: string) => {
-      if (Response) {
-        if (Response === 'ok') {
-          this.dialog.open(ResponseMessageComponent, {
-            width: '400px',
-            data: {
-              message: 'Профіль цього студента було успішно додано!'
-            }
-          });
-          this.fillOutStudentsTable();
-        } else if (Response.toLowerCase().includes("error")) {
-          this.dialog.open(ResponseMessageComponent, {
-            width: '400px',
-            data: {
-              message: 'Виникла помилка при додаванні цього студента!'
-            }
-          });
-        }
-      }
-    });
-  }
-  //Редагування студента
-  showEditForm(user: Student): void {
-    let dialogRef = this.dialog.open(StudentEditFormComponent, {
+  // Opening creating student form
+  showRegForm(user: IStudent): void {
+    const dialogRef = this.dialog.open(StudentsModalWindowComponent, {
       width: '600px',
       height: 'calc(100vh - 50px)',
       data: {
         editing: true,
-        student: user
+        creating: true,
+        student: user,
+        submitButtonText: 'Додати студента'
       }
     });
-    dialogRef.afterClosed().subscribe((Response: string) => {
+    dialogRef.afterClosed().subscribe((Response: any) => {
       if (Response) {
-        if (Response === 'ok') {
-          this.dialog.open(ResponseMessageComponent, {
-            width: '400px',
-            data: {
-              message: 'Профіль цього студента було успішно відредаговано!'
-            }
-          });
-          this.fillOutStudentsTable();
-        } else if (Response.toLowerCase().includes("error")) {
-          this.dialog.open(ResponseMessageComponent, {
-            width: '400px',
-            data: {
-              message: 'Виникла помилка при редагуванні цього студента!'
-            }
-          });
+        if (Response.response === 'ok') {
+          this.openModalMessage('Профіль цього студента було успішно додано!');
+          this.updateData();
+        } else if (Response.error || Response.response === 'Failed to validate array') {
+          this.openModalMessage('Виникла помилка при додаванні цього студента!');
         }
       }
     });
   }
-  //Розширена інформація про студента
-  showAdvancedInfo(user: Student): void {
-    this.dialog.open(StudentEditFormComponent, {
+  // Editing student
+  showEditForm(user: IStudent): void {
+    const dialogRef = this.dialog.open(StudentsModalWindowComponent, {
+      width: '600px',
+      height: 'calc(100vh - 50px)',
+      data: {
+        editing: true,
+        updating: true,
+        student: user,
+        submitButtonText: 'Редагувати студента'
+      }
+    });
+    dialogRef.afterClosed().subscribe((Response: any) => {
+      if (Response) {
+        if (Response.response === 'ok') {
+          this.openModalMessage('Профіль цього студента було успішно оновлено!');
+          this.updateData();
+        } else if (Response.error || Response.response === 'Error when update') {
+          this.openModalMessage('Виникла помилка при редагуванні профілю цього студента!');
+        }
+      }
+    });
+  }
+  // Extended info about student
+  showAdvancedInfo(user: IStudent): void {
+    this.dialog.open(StudentsModalWindowComponent, {
       width: '600px',
       height: 'calc(100vh - 50px)',
       data: {
         editing: false,
+        updating: false,
+        reading: true,
         student: user
       }
     });
   }
-  // метод який записує в масив "students" дані про кожного студента
-  fillOutStudentsTable(id?: any): void {
+  // to update data after changes(deleting, editing)
+  updateData(): void {
+    const id = this.route.snapshot.paramMap.get('id');
     if (id) {
-      this.service.getStudentsByGroup(id).subscribe(data => {
-        let groupsArr = [];
-        for (let i = 0; i < data.length; i++) {
-          groupsArr.push(data[i].group_id);
-        }
-        // Щоб не кидало реквест на сервак, якщо нема студентів в групі
-        if (groupsArr.length < 1) {
-          this.dialog.open(ResponseMessageComponent, {
-            width: '400px',
-            data: {
-              message: 'Немає зареєстрованих студентів в даній групі!'
-            }
-          })
-          return;
-        }
-        let body = JSON.stringify({entity: "Group", ids: groupsArr});
-        this.service.getEntityValue(body).subscribe(response => {
-          // Фільтр для властивостей об'єкта
-          groupsArr = response.map(val => {
-            return {
-              group_id: val.group_id,
-              group_name: val.group_name
-            }
-          });
-          this.students = [];
-          // Додавання студентів в масив "students"
-          for (let i = 0; i < data.length; i++) {
-            this.students.push({
-              student_fname: data[i].student_fname,
-              student_name: `${data[i].student_name} `,
-              student_surname: `${data[i].student_surname} `,
-              gradebook_id: data[i].gradebook_id,
-              user_id: data[i].user_id,
-              group_id: data[i].group_id,
-              group: ''
-            });
-            // Додавання групи кожному студенту
-            for (let j = 0; j < groupsArr.length; j++) {
-              if (data[i].group_id === groupsArr[j].group_id) {
-                this.students[i].group = groupsArr[j].group_name;
-              }
-            }
-          }
-        });
-      })
-    } 
+      this.service.getStudentsByGroup(id).subscribe(
+        (data: IStudent[]&IResponse) => this.processDataFromAPI(data),
+        () => this.openModalMessage('Сталась помилка при завантаженні даних')
+    );
+    }
     if (!id) {
-      this.service.getStudents().subscribe(data => {
-        let groupsArr = [];
-        for (let i = 0; i < data.length; i++) {
-          groupsArr.push(data[i].group_id);
-        }
-        let body = JSON.stringify({entity: "Group", ids: groupsArr});
-        this.service.getEntityValue(body).subscribe(response => {
-          // Фільтр для властивостей об'єкта
-          groupsArr = response.map(val => {
-            return {
-              group_id: val.group_id,
-              group_name: val.group_name
-            }
-          });
-          this.students = [];
-          // Додавання студентів в масив "students"
-          for (let i = 0; i < data.length; i++) {
-            this.students.push({
-              student_fname: data[i].student_fname,
-              student_name: `${data[i].student_name} `,
-              student_surname: `${data[i].student_surname} `,
-              gradebook_id: data[i].gradebook_id,
-              user_id: data[i].user_id,
-              group_id: data[i].group_id,
-              group: ''
-            });
-            // Додавання групи кожному студенту
-            for (let j = 0; j < groupsArr.length; j++) {
-              if (data[i].group_id === groupsArr[j].group_id) {
-                this.students[i].group = groupsArr[j].group_name;
-              }
-            }
-          }
-        });
-      });
+      this.service.getStudents().subscribe(
+        (data: IStudent[]&IResponse) => this.processDataFromAPI(data),
+        () => this.openModalMessage('Сталась помилка при завантаженні даних')
+      );
     }
   }
-  //Видалення студента
+  // Processing data
+  processDataFromAPI(data: IStudent[]&IResponse) {
+    // If there is no students in the current group don't process data
+    if (data.response === 'no records') {
+      this.openModalMessage('Немає зареєстрованих студентів в даній групі!');
+      return;
+    }
+    let groupsArr: any[] = data.map(value => value.group_id);
+    const body = JSON.stringify({entity: 'Group', ids: groupsArr});
+    this.service.getEntityValue(body).subscribe(response => {
+      groupsArr = response;
+      // Reseting existing array
+      this.students = [];
+      // Adding students to array "students"
+      this.students = this.fillOutStudentsArray(data, groupsArr);
+    });
+  }
+  // Deleting student
   handleDelete(index): void {
-    let dialogRef = this.dialog.open(DeleteConfirmComponent, {
+    const dialogRef = this.dialog.open(DeleteConfirmComponent, {
       width: '400px',
       data: {
         message: 'Ви справді бажаєте видалити профіль цього студента?'
@@ -203,23 +146,65 @@ export class StudentsComponent implements OnInit {
       if (Response) {
         this.service.deleteStudent(index).subscribe((data: IResponse) => {
           if (data.response === 'ok') {
-            this.dialog.open(ResponseMessageComponent, {
-              width: '400px',
-              data: {
-                message: 'Профіль цього студента було успішно видалено!'
-              }
-            })
-            this.fillOutStudentsTable();
+            this.openModalMessage('Профіль цього студента було успішно видалено!');
+            this.updateData();
           }},
           () => {
-            this.dialog.open(ResponseMessageComponent, {
-              width: '400px',
-              data: {
-                message: 'Виникла помилка при видаленні цього студента!'
-              }
-            })
-        })
+            this.openModalMessage('Виникла помилка при видаленні цього студента!');
+        });
       }
     });
+  }
+  // Dialog modal message
+  openModalMessage(msg: string, w: string = '400px'): void {
+    this.dialog.open(ResponseMessageComponent, {
+      width: w,
+      data: {
+        message: msg
+      }
+    });
+  }
+  // This method is called to create new students array
+  fillOutStudentsArray(response: IStudent[], groups: IGroup[]): IStudent[] {
+    return response.map(value => {
+      const student: IStudent = {
+        student_fname: value.student_fname,
+        student_name: `${value.student_name} `,
+        student_surname: `${value.student_surname} `,
+        fullName: `${value.student_surname} ${value.student_name} ${value.student_fname}`,
+        gradebook_id: value.gradebook_id,
+        user_id: value.user_id,
+        group_id: value.group_id,
+        group: ''
+      };
+      // Adding group name to display it at table
+      groups.forEach(val => {
+        if (value.group_id === val.group_id) {
+          student.group = val.group_name;
+          student.faculty_id = val.faculty_id;
+        }
+      });
+      return student;
+    });
+  }
+  getGroups(elem: HTMLSelectElement) {
+    const index = getGroupsByFaulty(elem, true, this.faculties);
+    if (index) {
+      // Request for the available groups
+      this.service.getAvailableGroups(index).subscribe(data => {
+        if (data[0]) {
+          this.groups = data;
+        // if there is no available group
+        } else {
+          this.filterByGroupStr = 'Виберіть групу';
+          this.groups = [];
+        }
+      });
+    }
+  }
+  // clear filters
+  resetFilters(): void {
+    this.searchString = '';
+    this.filterByGroupStr = 'Виберіть групу';
   }
 }

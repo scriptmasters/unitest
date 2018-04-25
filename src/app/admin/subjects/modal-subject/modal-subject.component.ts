@@ -19,7 +19,7 @@ export class ModalSubjectComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
-    private matDialogRef: MatDialogRef<ModalSubjectComponent>, @Inject(MAT_DIALOG_DATA) public data: any,
+    private matDialogRef: MatDialogRef<ModalSubjectComponent>, @Inject(MAT_DIALOG_DATA) private data: any,
     private subjectService: SubjectService
   ) { }
 

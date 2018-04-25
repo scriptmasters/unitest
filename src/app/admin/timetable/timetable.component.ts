@@ -1,16 +1,16 @@
-import { Component, OnInit, Inject } from "@angular/core";
-import { ActivatedRoute } from "@angular/router";
-import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from "@angular/material";
-import TableService, { Subject, Group, TableItem } from "./timetable.service";
+import { Component, OnInit, Inject } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
+import TableService, { Subject, Group, TableItem } from './timetable.service';
 import {
   FormControl,
   FormGroup,
   Validators,
   ReactiveFormsModule
-} from "@angular/forms";
-import { TimeTableModal } from "./timetable-modal/timetable-modal.component";
-import { TimetableDeleteConfirmComponent } from "./timetable-delete-confirm/timetable-delete-confirm.component";
-import { ResponseMessageComponent } from "../../shared/response-message/response-message.component";
+} from '@angular/forms';
+import { TimeTableModal } from './timetable-modal/timetable-modal.component';
+import { TimetableDeleteConfirmComponent } from './timetable-delete-confirm/timetable-delete-confirm.component';
+import { ResponseMessageComponent } from '../../shared/response-message/response-message.component';
 
 interface TableItemModified extends TableItem {
   subject_name: string;
@@ -18,9 +18,9 @@ interface TableItemModified extends TableItem {
 }
 
 @Component({
-  selector: "app-timetable",
-  templateUrl: "./timetable.component.html",
-  styleUrls: ["./timetable.component.css"],
+  selector: 'app-timetable',
+  templateUrl: './timetable.component.html',
+  styleUrls: ['./timetable.component.css'],
   providers: [TableService]
 })
 export class TimetableComponent implements OnInit {
@@ -63,9 +63,9 @@ export class TimetableComponent implements OnInit {
       if (!Array.isArray(data)) {
         this.table = [];
         this.dialog.open(ResponseMessageComponent, {
-          width: "400px",
+          width: '400px',
           data: {
-            message: "За даним запитом розкладу не знайдено"
+            message: 'За даним запитом розкладу не знайдено'
           }
         });
         return;
@@ -101,29 +101,29 @@ export class TimetableComponent implements OnInit {
    * id of table item to delete
    */
   onDelete(timeEntity: TableItemModified) {
-    let dialogRef = this.dialog.open(TimetableDeleteConfirmComponent, {
-      width: "400px"
+    const dialogRef = this.dialog.open(TimetableDeleteConfirmComponent, {
+      width: '400px'
     });
 
     dialogRef.afterClosed().subscribe((response: string) => {
       if (response) {
-        if (response === "ok") {
+        if (response === 'ok') {
           this.tableService.deleteTableItem(timeEntity.timetable_id).subscribe(
             response => {
               this.table.splice(this.table.indexOf(timeEntity), 1);
               this.dialog.open(ResponseMessageComponent, {
-                width: "400px",
+                width: '400px',
                 data: {
-                  message: "Розклад успішно видалено!"
+                  message: 'Розклад успішно видалено!'
                 }
               });
             },
             err => {
-              console.error("err:", err);
+              console.error('err:', err);
               this.dialog.open(ResponseMessageComponent, {
-                width: "400px",
+                width: '400px',
                 data: {
-                  message: "Виникла помилка при видаленні розкладу!"
+                  message: 'Виникла помилка при видаленні розкладу!'
                 }
               });
             }
@@ -138,8 +138,8 @@ export class TimetableComponent implements OnInit {
    * if not presented we open modal to add new entity
    */
   openDialog(tableItem: TableItemModified): void {
-    let dialogRef = this.dialog.open(TimeTableModal, {
-      width: "800px",
+    const dialogRef = this.dialog.open(TimeTableModal, {
+      width: '650px',
       data: {
         table: this.table,
         subjects: this.subjects,
@@ -149,18 +149,19 @@ export class TimetableComponent implements OnInit {
         tableItem
       }
     });
-
+    
     dialogRef.afterClosed().subscribe(result => {
-      if(result){
+      if (result) {
          this.dialog.open(ResponseMessageComponent, {
-        width: "400px",
+        width: '400px',
         data: {
           message: result
         }
       });
       }
     });
+    dialogRef.disableClose = true;
   }
-  
+
   ngOnInit() {}
 }

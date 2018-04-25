@@ -2,9 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { FacultiesService } from './faculties.service';
 import { MatDialog } from '@angular/material';
 import { Faculties, IResponse } from './facultiesInterface';
-import { FacultiesAddComponent } from './faculties-add/faculties-add.component';
-import { FacultiesUpdateComponent } from './faculties-update/faculties-update.component';
-import { FacultiesDeleteComponent } from './faculties-delete/faculties-delete.component';
+import { FacultiesDialogComponent } from './faculties-dialog/faculties-dialog.component';
+import { DeleteConfirmComponent } from '../../shared/delete-confirm/delete-confirm.component';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ResponseMessageComponent } from '../../shared/response-message/response-message.component';
 import {PaginationInstance} from 'ngx-pagination';
@@ -16,62 +15,74 @@ import {Router} from '@angular/router';
   styleUrls: ['./faculties.component.scss']
 })
 export class FacultiesComponent implements OnInit {
-   
+
   faculties: Faculties[];
   form: FormGroup;
+  searchStr = '';
+
 
   public config: PaginationInstance = {
      itemsPerPage: 5,
      currentPage: 1
   };
-  
+
  constructor(private facultiesService: FacultiesService, public dialog: MatDialog, private router: Router) { }
-  
+
    ngOnInit() {
       this.getAllFaculties();
     }
 
-    getAllFaculties(): void { 
+    getAllFaculties(): void {
       this.facultiesService.getFaculties()
            .subscribe((data: Faculties[]) => {
            this.faculties = data;
-    })
-   };
+    });
+   }
 
     getGroups(id): void {
     this.router.navigate(['admin/groups'], { queryParams: { facultyId: id} });
   }
 
-  // Модальне вікно додавання
-  openAddModal() {
-    let dialogRef =this.dialog.open(FacultiesAddComponent, {
-        width: '400px'
+
+// Add and update operations
+  openDialog(id): void {
+    const matDialogRef = this.dialog.open(FacultiesDialogComponent, {
+      width: '500px',
+      data: {faculty_id: id}
     });
-    dialogRef.afterClosed().subscribe((Response: string)=> {
-          this.getAllFaculties();
-        });
+
+      matDialogRef.afterClosed().subscribe((response: any) => {
+        if (response) {
+          if (response.status === 'SUCCESS') {
+            this.dialog.open(ResponseMessageComponent, {
+              width: '400px',
+              data: {
+                message: response.message
+              }
+            });
+            this.getAllFaculties();
+          } else if (response.status === 'ERROR') {
+            this.dialog.open(ResponseMessageComponent, {
+              width: '400px',
+              data: {
+                message: response.message
+              }
+            });
+          }
+          }
+      });
   }
 
-// Модальне вікно редагування
-  openUpdateModal(id): void {
-    let dialogRef = this.dialog.open(FacultiesUpdateComponent, {
-        width: '400px',
-        data: { faculty_id: id }
-    });   
-        dialogRef.afterClosed().subscribe(() => {
-        this.getAllFaculties();
-        });
-  }
-
-// Модальне вікно видалення
- openDeleteModal(num): void {
-    let dialogRef = this.dialog.open(FacultiesDeleteComponent, {
-        width: '400px',
-        data: { id: num }
-    });   
-        dialogRef.afterClosed().subscribe((Response: string)=> {
+// Delete operation
+ deleteFaculty(id): void {
+    const dialogRef = this.dialog.open(DeleteConfirmComponent, {
+        width: '500px',
+        data: { message: 'Ви справді бажаєте видалити даний факультет?'}
+    });
+        dialogRef.afterClosed().subscribe((Response: boolean) => {
       if (Response) {
-        if (Response === 'ok') {
+        this.facultiesService.delFaculties(id).subscribe((data: IResponse) => {
+        if (data.response === 'ok') {
           this.dialog.open(ResponseMessageComponent, {
             width: '400px',
             data: {
@@ -79,15 +90,16 @@ export class FacultiesComponent implements OnInit {
             }
           });
           this.getAllFaculties();
-        } else if (Response.toLowerCase().includes("error")) {
+        }},
+        () => {
           this.dialog.open(ResponseMessageComponent, {
             width: '400px',
             data: {
-              message: 'Виникла помилка при видаленні цього факультета!'
+              message: 'Неможливо видалити даний факультет, тому що він не є порожнім!'
             }
           });
-        }
+        });
       }
     });
- }
+  }
 }

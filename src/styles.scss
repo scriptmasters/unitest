@@ -75,6 +75,11 @@ i:hover {
     color: #D50000;
 }
 
+ul {
+    list-style-type: none;
+    -webkit-padding-start: 0px;
+}
+
 span {
     display: inline-block;
 }
@@ -111,15 +116,20 @@ h2 {
 
 .breadcrumb-holder .breadcrumb {
     padding: 15px 0;
-    font-size: 0.85em;
+    font-size: 1em;
     font-weight: 300;
     color: #999;
     margin-bottom: 0;
 }
 
+.breadcrumb-item a {
+    color: #666;
+}
+
 .breadcrumb-holder .breadcrumb a:hover,
 .breadcrumb-holder .breadcrumb:focus {
     text-decoration: none;
+    color: #33b35a;
 }
 
 .breadcrumb-holder .breadcrumb .container {
@@ -127,7 +137,8 @@ h2 {
 }
 
 .card {
-    margin-bottom: 30px;
+    margin-top: 15px;
+    margin-bottom: 15px;
     -webkit-box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
     box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
 }
@@ -504,7 +515,7 @@ button {
     border-color: #1e7e34;
 }
 
-.btn-primary:disabled {
+.btn-success:disabled {
     background-color: #727b84;
     border-color: #727b84;
 }
@@ -543,6 +554,22 @@ button {
     }
 }
 
+/*validation*/
+.form-msg {
+  height: 1rem;
+  color: red;
+}
+.form-group .btn {
+  margin-bottom: 10px;
+}
+.ng-valid {
+  border-color: #33b35a;
+  /* green  */
+}
+form .ng-invalid:not(.ng-untouched) {
+  border-color: red;
+  /* red */
+}
 
 /*pagination*/
 

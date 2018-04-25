@@ -11,9 +11,9 @@ import { Component, OnInit, Inject, group, Input } from '@angular/core';
   styleUrls: ['./dialog.component.scss'],
 })
 export class DialogComponent implements OnInit {
-  faculty: string = "";
-  speciality: string = "";
-  group: string = "";
+  faculty = '';
+  speciality = '';
+  group = '';
 
   facultiesArr = [];
   specialitiesArr = [];
@@ -30,31 +30,32 @@ export class DialogComponent implements OnInit {
         this.specialitiesArr = specData;
 
         this.group = this.data.group;
-      })
+      });
     });
-   
-  };
+
+  }
 
   public close() {
       this.dialogRef.close({ faculty: this.faculty, speciality: this.speciality, group_name: this.group, group_id: this.data.group_id });
   }
 
-  handleClose(){
+  handleClose() {
     this.dialogRef.close();
   }
-  
+
   myForm: FormGroup;
   facultyValid: FormControl;
   specialityValid: FormControl;
   groupValid: FormControl;
-  
+
   createFormControls() {
     this.facultyValid = new FormControl('', Validators.required),
     this.specialityValid = new FormControl('', Validators.required),
     this.groupValid = new FormControl('', [
       Validators.required,
       Validators.pattern('^([А-ЯІЇ]){2,3}-[0-9]{2}-[0-9]{1}'),
-    ]); 
+    ]
+    );
   }
 
   createForm() {
@@ -64,11 +65,11 @@ export class DialogComponent implements OnInit {
       groupValid: this.groupValid,
     });
   }
-  resetModal(){
-    this.group = "";
+  resetModal() {
+    this.group = '';
   }
 
- 
+
 
   ngOnInit() {
     this.dropDownsData();

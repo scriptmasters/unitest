@@ -1,0 +1,32 @@
+<div class="wrapper">
+    <div  class="mat-input-container">
+        <mat-card>
+            <mat-card >
+                <h1> Програма тестування D-tester</h1>
+            </mat-card>
+            <form [formGroup]="loginForm" (keydown.enter)="submit()">
+                <div id="error">{{requestError}}</div>
+                <mat-form-field>
+                    <mat-label>Логін</mat-label>
+                    <input id="login" formControlName="username" type="text" matInput placeholder="vasyapupkin">
+                    <mat-error  *ngIf="loginForm.get('username').hasError('required')">
+                        Поле не може бути порожнім
+                    </mat-error>
+                    <mat-hint *ngIf="loginForm.get('username').hasError('forbiddenSymbol')">
+                        Логін не може містити пробіл
+                    </mat-hint>
+                </mat-form-field>
+                <mat-form-field>
+                    <input id="password" formControlName="password" type="password" matInput placeholder="Пароль" >
+                    <mat-error *ngIf="loginForm.get('password').hasError('required')">
+                        Поле не може бути порожнім
+                    </mat-error>
+                    <mat-hint *ngIf="loginForm.get('password').hasError('forbiddenSymbol')">
+                        Пароль не може містити пробіл
+                    </mat-hint>
+                </mat-form-field>
+                <button id="submit" type="button" (click)="submit()" [disabled]="loginForm.invalid" mat-raised-button color="primary">Ввійти</button>
+            </form>
+        </mat-card>
+</div>
+</div>
