@@ -139,7 +139,7 @@ export class TimetableComponent implements OnInit {
    */
   openDialog(tableItem: TableItemModified): void {
     const dialogRef = this.dialog.open(TimeTableModal, {
-      width: '800px',
+      width: '650px',
       data: {
         table: this.table,
         subjects: this.subjects,
