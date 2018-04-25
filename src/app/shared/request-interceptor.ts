@@ -12,13 +12,7 @@ export class RequestInterceptor implements HttpInterceptor {
 
         const httpReq = req.clone({ url: this.hostName + req.url});
 
-        return next.handle(httpReq)
-            .catch((error, caught) => {
+        return next.handle(httpReq);
 
-                console.log('Error Occurred');
-                console.log(error);
-
-                return Observable.throw(error);
-            }) as any;
     }
 }

@@ -98,7 +98,7 @@ export class QuestionsComponent implements OnInit {
 
     questionDelete(id) {
         this.questionService.getAnswersByQuestion(id)
-            .subscribe((data: Array<Object>) => {
+            .subscribe((data: any) => {
                 for (let i = 0; i < data.length; i++) {
                     this.questionService.answerDelete(data[i].answer_id)
                         .subscribe(response => console.log(response));

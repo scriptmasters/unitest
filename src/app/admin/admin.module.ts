@@ -34,7 +34,7 @@ import { AddComponent } from './tests/add/add.component';
 import { DialogComponent } from './groups/dialog/dialog.component';
 import { GroupsDeleteConfirmComponent } from './groups/groups-delete-confirm/groups-delete-confirm.component';
 import { QuestionsComponent } from './questions/questions.component';
-import { EditQuestionComponent } from './questions/edit-question/edit-question.component';
+
 import { AddQuestionComponent } from './questions/add-question/add-question.component';
 import { StatisticService } from './statistic/statistic.service';
 import { SpecialityService } from './specialities/speciality.service';
@@ -64,8 +64,7 @@ import { TestsValidatorDirective } from './tests/tests-validator.directive';
         DialogComponent,
         GroupsDeleteConfirmComponent,
         TestDetailCreateComponent, // Maryan
-        AddQuestionComponent,
-        EditQuestionComponent
+        AddQuestionComponent
     ],
     declarations: [
         AdminComponent,
@@ -90,7 +89,6 @@ import { TestsValidatorDirective } from './tests/tests-validator.directive';
         TestDetailCreateComponent,
         QuestionsComponent,
         AddQuestionComponent,
-        EditQuestionComponent,
         TestsValidatorDirective,
         SearchPipe
     ],
