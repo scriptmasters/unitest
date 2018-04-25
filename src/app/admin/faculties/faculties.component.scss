@@ -1,16 +1,18 @@
 section {
- 	margin-top: 10px
+ 	margin-top: 10px;
  }
- .pagination /deep/ .ngx-pagination {
-  .current {
-    background: #33B357;
-  }
-  .pagination-previous a:before, .pagination-previous.disabled:before {
-    content: '';
-  }
-  .pagination-next a:after, .pagination-next.disabled:after {
-    content: '';
-  }
+
+i {
+    cursor: pointer;
 }
 
-  
+.display {
+	margin-bottom: 0;
+}
+
+.headTitle {
+	align-items: center;
+}
+.items {
+	margin-bottom: 0.3rem;
+}

@@ -75,6 +75,11 @@ i:hover {
     color: #D50000;
 }
 
+ul {
+    list-style-type: none;
+    -webkit-padding-start: 0px;
+}
+
 span {
     display: inline-block;
 }
@@ -127,7 +132,8 @@ h2 {
 }
 
 .card {
-    margin-bottom: 30px;
+    margin-top: 15px;
+    margin-bottom: 15px;
     -webkit-box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
     box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
 }
@@ -504,7 +510,7 @@ button {
     border-color: #1e7e34;
 }
 
-.btn-primary:disabled {
+.btn-success:disabled {
     background-color: #727b84;
     border-color: #727b84;
 }
@@ -547,13 +553,15 @@ button {
 /*pagination*/
 
 .pagination .ngx-pagination {
-  .current {
-    background: #33B357;
-  }
-  .pagination-previous a:before, .pagination-previous.disabled:before {
-    content: '';
-  }
-  .pagination-next a:after, .pagination-next.disabled:after {
-    content: '';
-  }
+    .current {
+        background: #33B357;
+    }
+    .pagination-previous a:before,
+    .pagination-previous.disabled:before {
+        content: '';
+    }
+    .pagination-next a:after,
+    .pagination-next.disabled:after {
+        content: '';
+    }
 }

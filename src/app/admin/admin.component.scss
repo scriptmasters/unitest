@@ -2,6 +2,10 @@
     padding: 0;
 }
 
+:focus {
+    outline: none;
+}
+
 .admin-panel {
     height: 100%;
     .side-bar {
@@ -33,7 +37,7 @@
         }
         .nav-bar {
             color: #fff;
-            a {
+            li {
                 font-size: 1rem;
                 display: flex;
                 height: 45px;
@@ -59,13 +63,11 @@
         .content-wrapper {
             margin-bottom: 40px;
             .header {
-
                 z-index: 1;
                 position: fixed; ///
                 top: 0;///////////
                 right: 0;///////// Фіксований хідер медіаквері на width 100% знизу
                 width: 83.33333%;/////////
-
                 background-color: #393836;
                 height: 65px;
                 padding-left: 48px;
@@ -75,7 +77,6 @@
                 justify-content: space-between;
                 .Headers {
                     display: flex;
-
                     align-items: center;
                     justify-content: flex-start;
                     .burger {
@@ -103,7 +104,6 @@
                         color: #fff;
                         font-size: 1.2rem;
                     }
-
                 }
                 .dtester-title {
                   margin-right: 10rem;
@@ -124,9 +124,7 @@
                     }
                 }
             }
-            .content {
-
-            }
+            .content {}
         }
         .footer {
             display: flex;
@@ -153,10 +151,10 @@
     position: fixed; ///
     top: 65px;///////////
     right: 0;///////// Фіксований хідер медіаквері на width 100% знизу
-    width: 85%;/////////
+    width: 83.33333%;/////////
 
     background-color: #222222;
-    a {
+    li {
         font-size: 1rem;
         display: flex;
         height: 45px;
@@ -183,17 +181,20 @@
 }
 
 @media (max-width: 992px) {
-
     .side-bar {
         display: none;
     }
     #burger {
         display: flex;
     }
-    .header, .vertical-navigation, .footer   {
+    .header,
+    .vertical-navigation,
+    .footer   {
         width: 100%!important;
     }
-    .footer span, .admin-title, .dtester-title {
+    .footer span,
+    .admin-title,
+    .dtester-title {
         font-size: 1rem!important;
     }
     .admin-panel .main .content-wrapper .header {
