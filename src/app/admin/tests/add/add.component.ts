@@ -22,7 +22,7 @@ initForm() {
   this.rForm = this.fb.group({
   test_name: ['', [Validators.required, Validators.maxLength(70), Validators.minLength(2)]],
   tasks: ['', [Validators.required, Validators.maxLength(3), forbiddenCharValidator(/\D/i)]],
-  time_for_test: ['', [Validators.required, Validators.pattern(/[0-9]/)]],
+  time_for_test: ['', [Validators.required, Validators.pattern(/[0-9]git /)]],
   enabled: ['', [Validators.required]],
   subject_id: [this.data.id, Validators.required],
   attempts: ['', [Validators.required, Validators.maxLength(2), forbiddenCharValidator(/\D/i)]]
