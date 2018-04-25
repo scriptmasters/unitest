@@ -1,139 +1,124 @@
-import { Component, OnInit } from '@angular/core';
-import { QuestionsService } from './questions.service';
-import {AddQuestionComponent} from './add-question/add-question.component';
-import {EditQuestionComponent} from './edit-question/edit-question.component';
+import {Component, OnInit} from '@angular/core';
+import {QuestionsService} from './questions.service';
+import {MatDialog, MatPaginator, PageEvent} from '@angular/material';
+import {IQuestionsTotal} from './questions-interface';
+import {IQuestionsRange} from './questions-interface';
+import {Router, ActivatedRoute} from '@angular/router';
+import {MatPaginatorIntl} from '@angular/material';
+import {ResponseMessageComponent} from '../../shared/response-message/response-message.component';
 
-import { IQuestionsGet } from './questions-interface';
-import { IQuestionAdd } from './questions-interface';
-import { IQuestions } from './questions-interface';
-import { group } from '@angular/animations';
-
-import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { MatDialog } from '@angular/material';
-
-import { IResponse } from './questions-interface';
 
 @Component({
   selector: 'app-questions',
   templateUrl: './questions.component.html',
   styleUrls: ['./questions.component.scss'],
-    providers: [ QuestionsService ]
+    providers: [QuestionsService, MatPaginatorIntl]
 })
 
 export class QuestionsComponent implements OnInit {
 
+    length: number;
+    test_id = 1;
+    questionsRange: object;
+    pageSize = 5;
+    pageIndex = 0;
+    lastPage: number;
+    pageEvent: PageEvent;
 
- static selectedTestId: string;
-      selectedTestName: string;
+    constructor(private questionService: QuestionsService,
+                private route: ActivatedRoute,
+                private router: Router,
+                private matPagIntl: MatPaginatorIntl,
+                private dialog: MatDialog
+                ) {
+    }
 
-      questions: IQuestions[] = [];
-      question: IQuestions;
-      testNameSet = new Set();
+    ngOnInit() {
+        this.matPagIntl.nextPageLabel = 'Наступна сторінка';
+        this.matPagIntl.previousPageLabel = 'Попередня сторінка';
+        this.matPagIntl.itemsPerPageLabel = 'Кількість рядків';
+        this.matPagIntl.firstPageLabel = 'Перша сторінка';
+        this.matPagIntl.lastPageLabel = 'Остання сторінка';
 
-      title_component = 'Завдання для тесту: ';
+        /*check whether test_id and page of pagination were received*/
+        this.route.queryParams
+            .subscribe(params => {
+                params.testId ? this.test_id = params['testId'] : this.test_id = 1;
+                params.page ? this.pageIndex = params.page : this.pageIndex = 0;
 
+                this.questionService.questionQuantGet(this.test_id)
+                    .subscribe((data: IQuestionsTotal) => {
+                        this.length = +data.numberOfRecords;
+                        this.lastPage = Math.floor(this.length / this.pageSize);
+                    });
 
-  form: FormGroup;
-  constructor(
-    private service: QuestionsService,
-    private dialog: MatDialog
-  ) { }
+                this.displayQuestions();
+            });
+    }
 
-  ngOnInit() {
-
-    this.fillOutQuestionsTable(event);
-  }
-
-
-openModalAdd(id, name, selName) {
-  console.log('id = ', id, 'name = ', name);
-  console.log('selName = ', selName);
-
-
-    this.dialog.open(AddQuestionComponent, {
-      height: '600px',
-      width: '800px',
-      data: {selId: id, selName: name}
-    });
-  }
-
-openModalEdit(id) {
-    this.dialog.open(EditQuestionComponent, {
-      height: '600px',
-      width: '800px',
-      data: {test_id: id, name: 'test'}
-    });
-  }
-
-
-  setSelectedTestName(selectedTestName): string {
-    console.log('SETselectedTestName = ', selectedTestName);
-    return selectedTestName;
-  }
-
-
-              fillOutQuestionsTable(selectedTestName): void {
-                console.log('selectedTestName = ', selectedTestName);
-
-                this.service.getAllQuestions().subscribe(data => {
-                          const testArr = [];
-                          let testIdNameArr = [];
-                          for (let i = 0; i < data.length; i++) {
-                                 testArr.push(data[i].test_id);
-                          }
-
-                  const body = JSON.stringify({entity: 'Test', ids: testArr});
-
-                  this.service.getEntityValue(body).subscribe(response => {
-                            testIdNameArr = response.map(val => {
-                              return {
-                                test_id: val.test_id,
-                                test_name: val.test_name
-                              };
-                            });
-
-                           for (let j = 0; j < testIdNameArr.length; j++) {
-                              this.testNameSet.add(testIdNameArr[j].test_name);
+    /*Event from pagination controls*/
+    displayQuestions(event?) {
+        if (event) {
+            this.questionService.questionsGet(this.test_id, event.pageIndex, event.pageSize)
+                .subscribe(data => this.questionsRange = data);
+            this.pageIndex = event.pageIndex;
+            this.pageSize = event.pageSize;
+            this.router.navigate(['/admin/questions'], {
+                queryParams: {
+                    testId: this.test_id,
+                    page: event.pageIndex
+                }
+            });
+            } else {
+            this.questionService.questionsGet(this.test_id, this.pageIndex, this.pageSize)
+                .subscribe((data: IQuestionsRange) => {
+                    if (data.response === 'no records') {
+                        console.log('no such page'); // TODO: open popup instead of console.log() when typed pageIndex is not reachable
+                        this.router.navigate(['/admin/questions'], {
+                            queryParams: {
+                                testId: this.test_id,
+                                page: 0
                             }
-
-
-                   this.questions = [];
-
-                    for (let i = 0; i < data.length; i++) {
-
-                     for (let j = 0; j < testIdNameArr.length; j++) {
-
-                          if ( testIdNameArr[j].test_name === selectedTestName  &&
-                            testIdNameArr[j].test_id === data[i].test_id) {
-                            this.questions.push({
-                              question_id: data[i].question_id,
-                              test_id: data[i].test_id,
-                              question_text: data[i].question_text,
-                              level: data[i].level,
-                              type: data[i].type,
-                              attachment: data[i].attachment,
-                              test: testIdNameArr[j].test_name
-                            });
-                            QuestionsComponent.selectedTestId = testIdNameArr[j].test_id;
-                           console.log('selectedTestId = ', QuestionsComponent.selectedTestId);
-                         }
-                      }
-
+                        });
+                    } else {
+                        this.questionsRange = data;
                     }
-
-                  });
                 });
-              }
+        }
+    }
 
+    /*Transfer test_id to add-question component and open it*/
+    questionAdd() {
+        this.router.navigate(['/admin/add-question'], {
+            queryParams: {
+                testId: this.test_id
+            }
+        });
+    }
 
+    questionDelete(id) {
+        this.questionService.getAnswersByQuestion(id)
+            .subscribe((data: Array<Object>) => {
+                for (let i = 0; i < data.length; i++) {
+                    this.questionService.answerDelete(data[i].answer_id)
+                        .subscribe(response => console.log(response));
+                }
+            }, undefined, () => {
+                this.questionService.questionDelete(id)
+                    .subscribe(_ => {
+                            this.openModalMessage('Запитання з відповідями видалене');
+                            this.displayQuestions();
+                        }, _ => this.openModalMessage('Видалено лише відповіді! Спробуйте ще раз видалити запитання')
+                    );
+            });
+    }
 
-    handleDelete(index): void {
-    this.service.deleteQuestion(index).subscribe((data: IResponse) => {
-      if (data.response === 'ok') {
-
-        this.fillOutQuestionsTable(event);
-      }
-    });
-  }
-
+    openModalMessage(msg: string, w: string = '400px'): void {
+        this.dialog.open(ResponseMessageComponent, {
+            width: w,
+            data: {
+                message: msg
+            }
+        });
+    }
 }

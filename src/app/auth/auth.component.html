@@ -9,7 +9,7 @@
                 <mat-form-field>
                     <mat-label>Логін</mat-label>
                     <input id="login" formControlName="username" type="text" matInput placeholder="vasyapupkin">
-                    <mat-error *ngIf="loginForm.get('username').hasError('required')">
+                    <mat-error  *ngIf="loginForm.get('username').hasError('required')">
                         Поле не може бути порожнім
                     </mat-error>
                     <mat-hint *ngIf="loginForm.get('username').hasError('forbiddenSymbol')">
