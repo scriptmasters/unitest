@@ -68,7 +68,7 @@ export class AddQuestionComponent implements OnInit {
       fileReader.readAsDataURL(img);
   }
 
-  questionSubmit() {//TODO: add correct answer statement check
+  questionSubmit() { // TODO: add correct answer statement check
       const questionBody = {
           'test_id': this.test_id,
           'question_text': this.questionForm.get('question_text').value,
