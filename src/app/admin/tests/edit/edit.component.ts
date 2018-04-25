@@ -40,15 +40,16 @@ Object.keys(controls)
     return;
     }
    this.httpService.editTest(this.data.id, this.rForm.value).subscribe(
+    () => {},
+    (err) => console.log(err),
     () => {
       this.dialogRef.close();
+      console.log('ONSUBM');
       const matDialogRef = this.dialog.open(ResponseMessageComponent, {
         width: '350px',
         data: {message: 'Зміни збережено'}
       });
-    },
-    (err) => console.log(err),
-    () => {}
+    }
   );
 }
 

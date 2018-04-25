@@ -27,30 +27,30 @@ export class TestsComponent implements OnInit {
     this.getTestsById(this.subjectId);
   }
 
-  deleteTest(id: number) : void {
-    const matDialogRef = this.dialog.open(DeleteConfirmComponent,{
+  deleteTest(id: number): void {
+    const matDialogRef = this.dialog.open(DeleteConfirmComponent, {
       width: '350px',
       data: {message: 'Ви справді хочете видалити цей тест?'}
     });
     matDialogRef.afterClosed().subscribe((Response: boolean) => {
-      if(Response) {
+      if (Response) {
         this.httpService.deleteTest(id).subscribe((data: IResponse) => {
-            if(data.response === 'ok') {
+            if (data.response === 'ok') {
               this.openModalMessage('Тест успішно видалено');
             }
           },
-          () => {this.openModalMessage('Виникла помилка при видаленні тесту')},
-          () => {this.getTestsById(this.subjectId)}
-        )}
+          () => {this.openModalMessage('Виникла помилка при видаленні тесту'); },
+          () => {this.getTestsById(this.subjectId); }
+        ); }
     });
   }
 
-  getTestsById(id: number) : void {
+  getTestsById(id: number): void {
     this.httpService.getTestsById(this.subjectId).subscribe(
       data => {this.test = data; }
     );
   }
-  openDialog(t: object, id: number) : void {
+  openDialog(t: object, id: number): void {
     const matDialogRef = this.dialog.open(EditComponent, {
       width: '350px',
       data: {id: id, test: t}});
@@ -68,7 +68,7 @@ export class TestsComponent implements OnInit {
       }
     });
    }
-   openModalMessage(msg: string, w: string = '400px') : void {
+   openModalMessage(msg: string, w: string = '400px'): void {
     this.dialog.open(ResponseMessageComponent, {
       width: w,
       data: {
