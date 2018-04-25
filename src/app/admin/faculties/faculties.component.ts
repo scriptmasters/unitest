@@ -9,7 +9,6 @@ import { ResponseMessageComponent } from '../../shared/response-message/response
 import {PaginationInstance} from 'ngx-pagination';
 import {Router} from '@angular/router';
 
-
 @Component({
   selector: 'app-faculties',
   templateUrl: './faculties.component.html',
@@ -21,11 +20,11 @@ export class FacultiesComponent implements OnInit {
   form: FormGroup;
   searchStr = '';
 
+
   public config: PaginationInstance = {
      itemsPerPage: 5,
      currentPage: 1
   };
-
 
  constructor(private facultiesService: FacultiesService, public dialog: MatDialog, private router: Router) { }
 
@@ -43,6 +42,7 @@ export class FacultiesComponent implements OnInit {
     getGroups(id): void {
     this.router.navigate(['admin/groups'], { queryParams: { facultyId: id} });
   }
+
 
 // Add and update operations
   openDialog(id): void {
