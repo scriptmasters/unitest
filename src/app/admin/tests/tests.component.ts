@@ -16,7 +16,6 @@ export class TestsComponent implements OnInit {
   public test;
   public subjectId: number;
   constructor(private httpService: TestService, public dialog: MatDialog, private router: Router, private activatedRoute: ActivatedRoute) {
-    console.log('Called Constructor');
     this.activatedRoute.queryParams.subscribe(params => {
     this.subjectId = params['subjectId'];
     });

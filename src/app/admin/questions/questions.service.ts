@@ -30,11 +30,11 @@ export class QuestionsService {
   }
 
   questionDelete (id) {
-    return this.http.get(`question/del/${id}`);
+    return this.http.delete(`question/del/${id}`);
   }
 
   answerDelete (id) {
-      return this.http.get(`answer/del/${id}`);
+      return this.http.delete(`answer/del/${id}`);
   }
 
   getAnswersByQuestion (id) {

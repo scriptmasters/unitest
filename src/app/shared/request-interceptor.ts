@@ -1,18 +1,30 @@
 import { Injectable} from '@angular/core';
-import { HttpEvent, HttpInterceptor, HttpHandler, HttpRequest } from '@angular/common/http';
+import {HttpEvent, HttpInterceptor, HttpHandler, HttpRequest} from '@angular/common/http';
 import 'rxjs/add/observable/throw';
 import 'rxjs/add/operator/catch';
 import {Observable} from 'rxjs/Observable';
+import {Router} from '@angular/router';
+import 'rxjs/add/operator/do';
 
 @Injectable()
 export class RequestInterceptor implements HttpInterceptor {
-    constructor() { }
+    constructor(private router: Router) { }
     hostName = 'http://vps9615.hyperhost.name:443/api/';
+
     intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
 
-        const httpReq = req.clone({ url: this.hostName + req.url});
+        const httpReq = req.clone({url: this.hostName + req.url, reportProgress: true});
 
-        return next.handle(httpReq);
+        return next.handle(httpReq)
+            .catch((error, caught) => {
+                if (error.status === 403) {
+                    this.router.navigate(['/login'], {
+                            queryParams: {return: this.router.url.split('?')[0]}
+                        }
+                    );
+                }
 
+                return this.router.url;
+            }) as any;
     }
 }
