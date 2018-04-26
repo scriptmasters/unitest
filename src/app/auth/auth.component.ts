@@ -45,6 +45,7 @@ export class AuthComponent implements OnInit {
         if (!this.loginForm.invalid) {
             this.authService.login(this.loginForm.value)
                 .subscribe((data: Ilogin) => {
+
                     switch (data.roles[1]) {
                         case 'admin' :
                             (this.rgxpAdmin.test(this.returnUrl)) ?

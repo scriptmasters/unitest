@@ -1,6 +1,7 @@
 <section>
-  <div class="d-flex align-items-center">
+  <div class="d-flex justify-content-between">
     <h2>{{subject[0].subject_id ? 'Редагувати' : 'Додати'}} предмет</h2>
+    <i class="fa fa-close" (click)="closeDialog()"></i>
   </div>
   <div *ngIf="!isLoaded">
     Завантаження...
@@ -13,7 +14,7 @@
           <input type="text" id="title" placeholder="Назва предмету"
                  class="form-control" formControlName="title" [(ngModel)]="subject[0].subject_name">
           <div class="form-msg">
-          <small *ngIf="form.get('title').invalid && (form.get('title').dirty || form.get('title').touched)">
+            <small *ngIf="form.get('title').invalid && (form.get('title').dirty || form.get('title').touched)">
               <span *ngIf="form.get('title')['errors']['required']">Дане поле не може бути порожнім</span>
               <span *ngIf="form.get('title')['errors']['minlength']">
                 Поле повинно містити мінімум {{form.get('title')['errors']['minlength']['requiredLength']}} символи
@@ -46,7 +47,7 @@
       <div class="form-row justify-content-center">
         <div class="form-group">
           <button (click)="closeDialog()" type="button" class="btn btn-danger">Відмінити</button>
-          <button [disabled]="form.invalid" type="submit" class="btn btn-primary">{{subject[0].subject_id ? 'Редагувати' : 'Додати'}}</button>
+          <button [disabled]="form.invalid" type="submit" class="btn btn-success">{{subject[0].subject_id ? 'Редагувати' : 'Додати'}}</button>
         </div>
       </div>
     </form>
