@@ -11,6 +11,7 @@ import { catchError } from 'rxjs/operators/catchError';
 import { ResponseMessageComponent } from '../../shared/response-message/response-message.component';
 import { MatDialog } from '@angular/material';
 import { mergeMap } from 'rxjs/operators';
+import { getFiltredStudents } from './reusable-functions/get-filtred-students';
 
 @Injectable()
 export class StudentsResolver implements Resolve<IStudent[]> {
@@ -54,25 +55,6 @@ export class StudentsResolver implements Resolve<IStudent[]> {
         ));
     }
     processingData(response: IStudent[], groups: IGroup[]): Observable<IStudent[]> {
-        return Observable.of(response.map(value => {
-            const student: IStudent = {
-                student_fname: value.student_fname,
-                student_name: `${value.student_name} `,
-                student_surname: `${value.student_surname} `,
-                fullName: `${value.student_surname} ${value.student_name} ${value.student_fname}`,
-                gradebook_id: value.gradebook_id,
-                user_id: value.user_id,
-                group_id: value.group_id,
-                group: ''
-            };
-            // Adding group name to display it at table
-            groups.forEach(val => {
-                if (value.group_id === val.group_id) {
-                    student.group = val.group_name;
-                    student.faculty_id = val.faculty_id;
-                }
-            });
-            return student;
-        }));
+        return Observable.of(getFiltredStudents(response, groups));
     }
 }

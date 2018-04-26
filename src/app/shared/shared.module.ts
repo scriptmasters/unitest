@@ -11,15 +11,18 @@ import {
     MatDialogModule,
     MatInputModule,
     MatSelectModule,
-    MatSnackBarModule
+    MatSnackBarModule,
+    MatProgressSpinnerModule
 } from '@angular/material';
 
 import { DeleteConfirmComponent } from './delete-confirm/delete-confirm.component';
 import { ResponseMessageComponent } from './response-message/response-message.component';
 import { PaginationComponent } from './pagination/pagination.component';
+import {CommonModule} from '@angular/common';
 
 
 @NgModule({
+    imports: [MatProgressSpinnerModule, CommonModule],
     declarations: [
         ResponseMessageComponent,
         DeleteConfirmComponent,
@@ -38,7 +41,9 @@ import { PaginationComponent } from './pagination/pagination.component';
         DeleteConfirmComponent,
         ResponseMessageComponent,
         NgxPaginationModule,
-        MatPaginatorModule
+        MatPaginatorModule,
+        MatProgressSpinnerModule,
+        PaginationComponent
     ],
     providers: [{ provide: HTTP_INTERCEPTORS, useClass: RequestInterceptor, multi: true }, MatPaginatorIntl],
     entryComponents: [

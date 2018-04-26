@@ -21,11 +21,12 @@ header {
         background-color: #28A745;
         width: 24px;
         height: 24px;
+        border-radius: 50%;
         border: none;
         color: #fff;
         transition: all 0.2s;
         &:hover {
-            font-size: 1.1rem;
+            background-color: #218838;
         }
         &:disabled {
             opacity: 0.5;

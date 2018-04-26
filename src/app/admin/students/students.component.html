@@ -1,5 +1,5 @@
 <section>
-  <!-- Таблиця з студентами -->
+  <!-- Main table with students -->
   <div class="container-fluid">
     <header> 
       <div class="raw d-flex justify-content-start align-items-center">
@@ -9,6 +9,7 @@
     </header>
     <div class="col-lg-12">
       <div class="row d-flex justify-content-between align-items-center filters">
+        <!-- Search input -->
         <div class="col-sm-12 col-md-3">
           <input
             type="text"
@@ -16,6 +17,7 @@
             placeholder="Пошук..."
             class="form-control search">
         </div>
+        <!-- List of faculties (dropdown) -->
         <div class="col-sm-12 col-md-4">
           <select
             name="facultyFilter"
@@ -33,11 +35,13 @@
             </option>
           </select>
         </div>
+        <!-- List of groups (dropdown) -->
         <div class="col-sm-12 col-md-4">
           <select
             name="groupFilter"
-            [(ngModel)]="filterByGroupStr"
-            class="form-control group-filter">
+            #groupsList
+            class="form-control group-filter"
+            (change)="getFiltredStudentsByGroup(groupsList)">
             <option
               [selected]="true">
               Виберіть групу
@@ -48,9 +52,11 @@
             </option>
           </select>
         </div>
+        <!-- refresh button -->
         <div class="col-sm-12 col-md-1 d-flex justify-content-center">
             <button
               type="button"
+              title="Очистити фільтри"
               class="fa fa-refresh"
               [disabled]="searchString.length < 1 && filterByGroupStr === 'Виберіть групу'"
               (click)="resetFilters()">
@@ -74,7 +80,7 @@
                   </tr>
                 </thead>
                 <tbody>
-                  <tr *ngFor="let student of students | filterByGroup: filterByGroupStr | searchStudent: searchString | paginate: config; let i = index" class="d-flex">
+                  <tr *ngFor="let student of students | searchStudent: searchString | paginate: config; let i = index" class="d-flex">
                     <th class="col-1">{{(config.currentPage - 1) * config.itemsPerPage + i +1}}</th>
                     <td class="col-5">{{student.fullName}}</td>
                     <th class="col-2">{{student.gradebook_id}}</th>
