@@ -20,25 +20,28 @@ export class TestDetailCreateComponent implements OnInit {
               public testDetailsService: TestDetailsService) { }
 
   ngOnInit() {
-    // this.levels = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20];
-    this.levels = Array.from(Array(20).keys()).map(i => i + 1);
+    this.levels = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20]; // Array.from(Array(20).keys()).map(i => i + 1);
     this.initForm();
   }
 
   save() {
     if (this.detailForm.valid && this.detailForm.dirty) {
       const isEdit = this.data && this.data.id;
-      !(isEdit) ? this.add() : this.edit();
+      if (isEdit) {
+        this.edit();
+      } else {
+        this.add();
+      }
     }
   }
+
   private add() {
     const rawValues = this.detailForm.getRawValue();
     delete rawValues['id'];
     this.testDetailsService.addNewTestDetail(rawValues).subscribe(() => {
       this.dialogRef.close(true);
     }, err => {
-      // const errorMessage = err.error.response;
-      const errorMessage = 'Введіть коректні дані';
+      const errorMessage = err.error.response; // 'Введіть коректні дані'
       this.dialog.open(ResponseMessageComponent, {
         data: { message: errorMessage}
       });
@@ -50,8 +53,7 @@ export class TestDetailCreateComponent implements OnInit {
     this.testDetailsService.editTestDetail(rawValues).subscribe(() => {
       this.dialogRef.close(true);
     }, err => {
-      // const errorMessage = err.error.response;
-      const errorMessage = 'Введіть коректні дані';
+      const errorMessage = err.error.response; // 'Введіть коректні дані'
       this.dialog.open(ResponseMessageComponent, {
         data: { message: errorMessage}
       });
@@ -69,6 +71,6 @@ export class TestDetailCreateComponent implements OnInit {
       rate: [(this.data && this.data.rate ? this.data.rate : null), [Validators.required,
                   Validators.min(1),
                   Validators.max(250)]]
-    }, {updateOn : 'blur'});
+    });
   }
 }

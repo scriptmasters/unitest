@@ -1,35 +1,29 @@
-<form class="form-horizontal"
-      [formGroup]="detailForm"  >
+<form class="form-horizontal" [formGroup]="detailForm"  >
   <div class="form-row justify-content-end">
-    <i class="fa fa-close"
-       (click)="dialogRef.close(false)"></i>
+    <i class="fa fa-close" (click)="dialogRef.close(false)"></i>
   </div>
   <div class="form-row">
     <div class="form-group col-md-12">
       <label>Рівень</label>
       <select type="number"
               class="form-control col-md-12"
-              [ngClass]="{'red-border': !detailForm.controls['level'].valid
-                                     && !detailForm.controls['level'].untouched}"
+              [ngClass]="{'red-border': !detailForm.controls['level'].valid && !detailForm.controls['level'].untouched}"
               formControlName="level" >
         <option [value]=""></option>
-        <option *ngFor="let item of levels"
-                [value]="item">{{item}}</option>
+        <option *ngFor="let item of levels" [value]="item">{{item}}</option>
       </select>
     </div>
     <div class="form-group col-md-12">
       <label>Кількість завдань</label>
       <input type="number"
-             [ngClass]="{'red-border': !detailForm.controls['tasks'].valid
-                                    && !detailForm.controls['tasks'].untouched}"
+             [ngClass]="{'red-border': !detailForm.controls['tasks'].valid && !detailForm.controls['tasks'].untouched}"
              formControlName="tasks"
              class="form-control col-md-12">
     </div>
     <div class="form-group col-md-12">
       <label>Кількість балів</label>
         <input type="number"
-               [ngClass]="{'red-border': !detailForm.controls['rate'].valid
-                                      && !detailForm.controls['rate'].untouched}"
+               [ngClass]="{'red-border': !detailForm.controls['rate'].valid && !detailForm.controls['rate'].untouched}"
                formControlName="rate"
                class="form-control col-md-12">
     </div>
@@ -37,17 +31,8 @@
 
   <div class="form-row justify-content-center">
     <div class="form-group">
-      <!--<input class="btn btn-default"
-                  type="button"
-                  (click)="dialogRef.close(false)"
-                  value="Відміна">-->
-      <input class="btn btn-danger"
-             type="reset"
-             value="Очистити форму">
-      <input type="submit"
-             (click)="save()"
-             class="btn btn-primary mr-2"
-             [disabled]="!detailForm.valid">
+      <input type="submit" (click)="save()" class="btn btn-primary mr-2">
+      <input class="btn btn-default" type="button" (click)="dialogRef.close(false)" value="Відміна">
     </div>
   </div>
 </form>

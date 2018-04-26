@@ -19,7 +19,7 @@ import { setGroupAsID } from '../reusable-functions/set-group-as-id';
   selector: 'app-students-modal-window',
   templateUrl: './students-modal-window.component.html',
   styleUrls: ['./students-modal-window.component.scss'],
-  /*encapsulation: ViewEncapsulation.None*/
+  encapsulation: ViewEncapsulation.None
 })
 export class StudentsModalWindowComponent implements OnInit {
 
