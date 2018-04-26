@@ -16,12 +16,14 @@ import {
 
 import { DeleteConfirmComponent } from './delete-confirm/delete-confirm.component';
 import { ResponseMessageComponent } from './response-message/response-message.component';
+import { PaginationComponent } from './pagination/pagination.component';
 
 
 @NgModule({
     declarations: [
         ResponseMessageComponent,
-        DeleteConfirmComponent
+        DeleteConfirmComponent,
+        PaginationComponent
     ],
     exports: [
         FormsModule,
