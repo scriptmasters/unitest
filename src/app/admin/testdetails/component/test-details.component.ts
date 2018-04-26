@@ -4,7 +4,7 @@ import { TestDetailsService } from '../sevices/test-details.service';
 
 import { TestDetailCreateComponent } from '../modals/test-detail-create/test-detail-create.component';
 import { Router, ActivatedRoute } from '@angular/router';
-import {DeleteConfirmComponent} from '../../../shared/delete-confirm/delete-confirm.component';
+import { DeleteConfirmComponent} from '../../../shared/delete-confirm/delete-confirm.component';
 
 @Component({
   selector: 'app-testdetails',
@@ -16,16 +16,21 @@ export class TestDetailsComponent implements OnInit {
 
   testDetails: any[];
   testId: number;
+  testName: string[];
 
   constructor(private route: ActivatedRoute,
               private dialog: MatDialog,
               private testDetailsService: TestDetailsService) { }
 
   ngOnInit() {
+
     this.route.queryParams.subscribe(params => {
       this.testId = params['id'];
       this.getTestDetails();
+      this.getTestById();
+
     });
+
   }
 
   openDialog(testDetails: any) {
@@ -62,4 +67,12 @@ export class TestDetailsComponent implements OnInit {
       this.testDetails = resp;
     });
   }
+
+  private getTestById(): void {
+    this.testDetailsService.getTestById(this.testId).subscribe((resp: any[]) => {
+        this.testName = resp[0].test_name;
+    });
+
+  }
+
 }
