@@ -6,22 +6,25 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppComponent } from './app.component';
 import { StudentGuard } from './student-guard.service';
 import { AdminGuard } from './admin-guard.service';
+<<<<<<< HEAD
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { RequestInterceptor } from './shared/request-interceptor';
+=======
+import {SharedModule} from './shared/shared.module';
+>>>>>>> develop
 @NgModule({
     imports: [
         BrowserModule,
         BrowserAnimationsModule,
         AppRoutingModule,
-        HttpClientModule
+        SharedModule
     ],
     entryComponents: [AppComponent],
     declarations: [AppComponent],
     bootstrap: [AppComponent],
     providers: [
         StudentGuard,
-        AdminGuard,
-        { provide: HTTP_INTERCEPTORS, useClass: RequestInterceptor, multi: true }
+        AdminGuard
     ]
 })
 
