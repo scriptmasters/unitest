@@ -1,4 +1,4 @@
-<ng-template #message><section class="delete-confirm">
+<section class="delete-confirm">
   <div class="top">
     <h2>Сповіщення!</h2>
   </div>
@@ -9,5 +9,3 @@
     <div class="btn btn-secondary" (click)="handleClose()">Ok</div>
   </div>
 </section>
-</ng-template>
-<mat-progress-spinner *ngIf="data.message === 'spinner' ; else message"  [mode]="'indeterminate'"  style="background: rgba(255, 255, 255, 0)"></mat-progress-spinner>

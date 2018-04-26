@@ -18,10 +18,11 @@ export class AdminGuard implements CanActivate {
                 if (data.response === 'logged' && data.roles[1] === 'admin') {
                     return true;
                 } else {
-                        this.router.navigate(['/login'], {
-                            queryParams: {return: state.url.split('?')[0]},
-                            queryParamsHandling: 'merge'
-                        });
+                    this.router.navigate(['/login'], {
+                        queryParams: {
+                            return: state.url
+                        }
+                    });
                     return false;
                 }
             });

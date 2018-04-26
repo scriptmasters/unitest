@@ -4,7 +4,6 @@ import { HttpClientModule, HTTP_INTERCEPTORS  } from '@angular/common/http';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { RequestInterceptor } from './request-interceptor';
 import {
-    
     MatPaginatorIntl,
     MatPaginatorModule,
     MatButtonModule,
@@ -12,17 +11,14 @@ import {
     MatDialogModule,
     MatInputModule,
     MatSelectModule,
-    MatSnackBarModule,
-    MatProgressSpinnerModule
+    MatSnackBarModule
 } from '@angular/material';
 
 import { DeleteConfirmComponent } from './delete-confirm/delete-confirm.component';
 import { ResponseMessageComponent } from './response-message/response-message.component';
-import {CommonModule} from '@angular/common';
 
 
 @NgModule({
-    imports: [MatProgressSpinnerModule, CommonModule],
     declarations: [
         ResponseMessageComponent,
         DeleteConfirmComponent
@@ -40,8 +36,7 @@ import {CommonModule} from '@angular/common';
         DeleteConfirmComponent,
         ResponseMessageComponent,
         NgxPaginationModule,
-        MatPaginatorModule,
-        MatProgressSpinnerModule
+        MatPaginatorModule
     ],
     providers: [{ provide: HTTP_INTERCEPTORS, useClass: RequestInterceptor, multi: true }, MatPaginatorIntl],
     entryComponents: [

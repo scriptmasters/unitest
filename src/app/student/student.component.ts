@@ -10,9 +10,10 @@ import {AuthService} from '../auth/auth.service';
 })
 export class StudentComponent implements OnInit {
 
-    constructor(
-      public authService: AuthService
-    ) {}
+    constructor(public authService: AuthService) {}
+
+
+
 
   ngOnInit() {
 
