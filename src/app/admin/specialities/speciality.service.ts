@@ -5,9 +5,6 @@ import { RequestOptions, Request, RequestMethod } from '@angular/http';
 import { Speciality, IResponse } from './specialityInterface';
 @Injectable()
 export class SpecialityService {
-  specialitiesObject: any;
-  speciality: any;
-  oldspeciality: any;
   constructor(private http: HttpClient) { }
 
   login(jsonForm: String): Observable<any> {
