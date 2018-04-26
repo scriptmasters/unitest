@@ -36,17 +36,17 @@ export class GroupsComponent implements OnInit {
     currentPage: 1
   };
 
-  @ViewChild('container') container;
+  // @ViewChild('container') container;
 
-  @HostListener('window:resize')
-  onResize(container) {
-    const resize = this.container.nativeElement.clientWidth;
-    if (resize < 692) {
-      this.resize = true;
-    } else {
-      this.resize = false;
-    }
-  }
+  // @HostListener('window:resize')
+  // onResize(container) {
+  //   const resize = this.container.nativeElement.clientWidth;
+  //   if (resize < 692) {
+  //     this.resize = true;
+  //   } else {
+  //     this.resize = false;
+  //   }
+  // }
 
   constructor(private groupsService: GroupsService,
               public dialog: MatDialog,
