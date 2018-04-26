@@ -8,7 +8,6 @@ import {Subject} from '../subject';
 export class SubjectService {
 
   private urlGetSubjects = 'Subject/getRecords';
-  // private urlGetSubjectByName = 'Subject/getRecordsBySearch';
   private urlAddSubject = 'Subject/insertData';
   private urlEditSubject = 'Subject/update';
   private urlDeleteSubject = 'Subject/del';
@@ -24,10 +23,6 @@ export class SubjectService {
   getSubjectById(id: number): Observable<Subject[]> {
     return this.http.get<Subject[]>(this.urlGetSubjects + '/' + id);
   }
-
-  // getSubjectByName(title: string): Observable<Subject[]> {
-  //   return this.http.get<Subject[]>(this.urlGetSubjectByName + '/' + title);
-  // }
 
   addSubject(title: string, description: string): Observable<Subject[]> {
     const body = {subject_name: title, subject_description: description};

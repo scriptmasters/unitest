@@ -42,17 +42,18 @@ export class SubjectsComponent implements OnInit {
       });
   }
 
-  getTimetable(id): void {
+  getTimetable(id: number): void {
     this.router.navigate(['admin/timetable'], { queryParams: { subjectId: id} });
   }
 
-  getTests(id): void {
+  getTests(id: number): void {
     this.router.navigate(['admin/tests'], { queryParams: { subjectId: id} });
   }
 
-  openModal(id): void {
+  openModal(id?: number): void {
     const matDialogRef = this.dialog.open(ModalSubjectComponent, {
-      width: '1200px',
+      disableClose: true,
+      width: '600px',
       data: {subject_id: id}
     });
 
@@ -78,8 +79,9 @@ export class SubjectsComponent implements OnInit {
       });
   }
 
-  deleteSubject(id): void {
+  deleteSubject(id: number): void {
     const matDialogRef = this.dialog.open(DeleteConfirmComponent, {
+      disableClose: true,
       width: '400px',
       data: {
         message: 'Ви справді бажаєте видалити даний предмет?'
@@ -90,6 +92,7 @@ export class SubjectsComponent implements OnInit {
         this.subjectService.deleteSubject(id).subscribe((data: any) => {
             if (data.response === 'ok') {
               this.dialog.open(ResponseMessageComponent, {
+                disableClose: true,
                 width: '400px',
                 data: {
                   message: 'Даний предмет успішно видалено!'
@@ -99,6 +102,7 @@ export class SubjectsComponent implements OnInit {
             }},
           () => {
             this.dialog.open(ResponseMessageComponent, {
+              disableClose: true,
               width: '400px',
               data: {
                 message: 'Виникла помилка при видаленні предмета!'
