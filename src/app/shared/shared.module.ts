@@ -4,6 +4,7 @@ import { HttpClientModule, HTTP_INTERCEPTORS  } from '@angular/common/http';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { RequestInterceptor } from './request-interceptor';
 import {
+    
     MatPaginatorIntl,
     MatPaginatorModule,
     MatButtonModule,

@@ -20,46 +20,47 @@ export class TestsComponent implements OnInit {
   public subjectId: number;
   constructor(private httpService: TestService, public dialog: MatDialog, private router: Router, private activatedRoute: ActivatedRoute) {
     this.activatedRoute.queryParams.subscribe(params => {
-      this.subjectId = params['subjectId'];
+    this.subjectId = params['subjectId'];
     });
-  }
-  ngOnInit() {
+   }
+   ngOnInit() {
     this.getTestsById(this.subjectId);
   }
 
-  deleteTest(id: number): void {
-    const matDialogRef = this.dialog.open(DeleteConfirmComponent, {
-      width: '350px',
-      data: {message: 'Ви справді хочете видалити цей тест?'}
-    });
-    matDialogRef.afterClosed().subscribe((Response: boolean) => {
-      if (Response) {
-        this.httpService.deleteTest(id).subscribe((data: IResponse) => {
-            if (data.response === 'ok') {
-              this.openModalMessage('Тест успішно видалено');
-            }
-          },
-          () => {this.openModalMessage('Виникла помилка при видаленні тесту'); },
-          () => {this.getTestsById(this.subjectId); }
-        ); }
-    });
+  deleteTest(id: number) : void {
+   const matDialogRef = this.dialog.open(DeleteConfirmComponent,{
+    width: '350px',
+    data: {message: 'Ви справді хочете видалити цей тест?'}
+   });
+   matDialogRef.afterClosed().subscribe((Response: boolean) => {
+     if(Response) {
+    this.httpService.deleteTest(id).subscribe((data: IResponse) => {
+      if(data.response === 'ok') {
+        this.openModalMessage('Тест успішно видалено');
+      }
+    },
+  () => {this.openModalMessage('Виникла помилка при видаленні тесту')},
+  () => {this.getTestsById(this.subjectId)}
+  )}
+   })
   }
 
-  getTestsById(id: number): void {
-    this.httpService.getTestsById(this.subjectId).subscribe(
-      data => {this.test = data; }
-    );
+   getTestsById(id: number) : void {
+     this.httpService.getTestsById(this.subjectId).subscribe(
+       data => {this.test = data; }
+     );
+   }
+
+   openDialog(t: object, id: number) : void {
+   const matDialogRef = this.dialog.open(EditComponent, {
+    width: '350px',
+    data: {id: id, test: t}});
+   matDialogRef.afterClosed().subscribe(() => this.getTestsById(this.subjectId));
   }
-  openDialog(t: object, id: number): void {
-    const matDialogRef = this.dialog.open(EditComponent, {
-      width: '350px',
-      data: {id: id, test: t}});
-    matDialogRef.afterClosed().subscribe(() => this.getTestsById(this.subjectId));
-  }
-  addDialog() {
+   addDialog() {
     const matDialogRef = this.dialog.open(AddComponent, {width: '350px', data: {id: this.subjectId}});
     matDialogRef.afterClosed().subscribe(() => this.getTestsById(this.subjectId));
-  }
+   }
 
    openDetails(id: any): void {
     this.router.navigate(['/admin/testdetails'], {
@@ -68,18 +69,11 @@ export class TestsComponent implements OnInit {
       }
     });
    }
-   openModalMessage(msg: string, w: string = '400px'): void {
+   openModalMessage(msg: string, w: string = '400px') : void {
     this.dialog.open(ResponseMessageComponent, {
       width: w,
       data: {
         message: msg
-      }
-    });
-  }
-  openQuestions(id: any) {
-    this.router.navigate(['/admin/questions'], {
-      queryParams: {
-        testId: id
       }
     });
   }

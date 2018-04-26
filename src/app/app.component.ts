@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {NavigationEnd, NavigationStart, Router} from '@angular/router';
+import {NavigationCancel, NavigationEnd, NavigationError, NavigationStart, Router} from '@angular/router';
 import {ResponseMessageComponent} from './shared/response-message/response-message.component';
 import {MatDialogRef} from '@angular/material/dialog';
 import {MatDialog} from '@angular/material';
@@ -35,7 +35,9 @@ export class AppComponent implements OnInit {
       .subscribe((event) => {
           // example: NavigationStart, RoutesRecognized, NavigationEnd
           if (event instanceof NavigationStart) {this.spinnerStart(); }
-          if (event instanceof  NavigationEnd) {this.spinnerEnd(); }
+          if (event instanceof NavigationEnd || event instanceof NavigationCancel || event instanceof NavigationError ) {
+              this.spinnerEnd();
+          }
       });
   }
 }
