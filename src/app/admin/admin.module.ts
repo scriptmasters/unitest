@@ -5,7 +5,6 @@ import { AdminRoutingModule } from './admin-routing.module';
 import { SharedModule } from '../shared/shared.module';
 import { StudentsService } from './students/students.service';
 import { FacultiesService } from './faculties/faculties.service';
-import { SubjectService } from './subjects/services/subject.service';
 import { TestService } from './tests/test.service';
 import { GroupsService } from './groups/groups.service';
 import TableService from './timetable/timetable.service';
@@ -51,9 +50,6 @@ import { TestsValidatorDirective } from './tests/tests-validator.directive';
         AdminRoutingModule
     ],
     entryComponents: [
-        TimeTableModal,
-        ModalSubjectComponent,
-        TimetableDeleteConfirmComponent,
         FacultiesDialogComponent,
         EditComponent,
         AddComponent,
@@ -67,15 +63,10 @@ import { TestsValidatorDirective } from './tests/tests-validator.directive';
         AdminComponent,
         StatisticComponent,
         FacultiesComponent,
-        SubjectsComponent,
-        ModalSubjectComponent,
         SpecialitiesComponent,
         AdministratorsComponent,
         GroupsComponent,
-        TimetableComponent,
-        TimetableDeleteConfirmComponent,
         DialogComponent,
-        TimeTableModal,
         FacultiesDialogComponent,
         TestsComponent,
         EditComponent,
@@ -91,7 +82,6 @@ import { TestsValidatorDirective } from './tests/tests-validator.directive';
     ],
     providers: [
         AuthService,
-        SubjectService,
         FacultiesService,
         TableService,
         TestService,

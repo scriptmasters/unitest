@@ -1,13 +1,13 @@
-<div class="breadcrumb-holder">
-  <div class="container-fluid">
-    <ul class="breadcrumb">
-      <li class="breadcrumb-item"><a routerLink="">Головна</a></li>
-      <li class="breadcrumb-item"><a routerLink="/admin/subjects">Предмети</a></li>
-      <li class="breadcrumb-item active">Тести</li>
-    </ul>
-    <button class="btn btn-success" (click)="addDialog()">Додати тест</button>
+  <div class="breadcrumb-holder">
+    <div class="container-fluid">
+      <ul class="breadcrumb">
+        <li class="breadcrumb-item"><a routerLink="">Головна</a></li>
+        <li class="breadcrumb-item"><a routerLink="/admin/subjects">Предмети</a></li>
+        <li class="breadcrumb-item active">Тести</li>
+      </ul>
+      <button class="btn btn-success" (click)="addDialog()">Додати тест</button>
+    </div>
   </div>
-</div>
 <div class="table-responsive">
     <table class="table table-striped table-hover">
       <thead>
@@ -15,7 +15,7 @@
           <th>№</th>
           <th>Назва</th>
           <th>Завдань</th>
-          <th>Тривалість</th>
+          <th>Тривалість (хвилин)</th>
           <th>Спроб</th>
           <th>Статус</th>
           <th></th>
