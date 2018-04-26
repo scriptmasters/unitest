@@ -1,0 +1,47 @@
+<div class="card">
+  <div class="card-header d-flex align-items-center">
+    <h3>Реєстрація нового завдання для тесту: </h3>
+  </div>
+    <form [formGroup]="questionForm">
+
+            <div class="form-group">
+                <label class="center-block">Введіть запитання:
+                    <textarea  class="form-control" formControlName="question_text"></textarea>
+                </label>
+                <label> Виберіть вид відповідей
+                    <select name="questionType" (change)="onQuestionTypeSelect($event)" formControlName="type">
+                        <option value="1">Одна правильна відповідь</option>
+                        <option value="2" >Декілька правильних відповідей</option>
+                    </select>
+                </label>
+                <label> Введіть рівень запитання
+                    <input formControlName="level">
+                </label>
+                <label> Додати вкладення
+                    <input type="file" accept="image/*" (change)="addAttachment($event)">
+                </label>
+                <img *ngIf="attachment !== undefined" [src]="attachment" width="150">
+                    <table>
+                        <tr>
+                            <td>Відповідь</td>
+                            <td>Позначте правильну відповідь</td>
+                        </tr>
+                        <tr *ngFor="let number of answerNumber">
+                            <td>
+                                <label class="center-block" >
+                                    <textarea  class="form-control" [formControlName] = "number"></textarea>
+                                </label>
+                            </td>
+                            <td>
+                                <input name="correctAnswer" (click)="correctAnswer(number)" [type]="answerType">
+                            </td>
+                        </tr>
+                    </table>
+
+
+                <button (click)="addAnswer()"> Додати відповідь </button>
+                <button (click)="questionSubmit()" [disabled]="questionForm.invalid"> Зберегти завдання </button>
+            </div>
+
+    </form>
+</div>

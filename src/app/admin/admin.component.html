@@ -1,0 +1,62 @@
+<div class="container-fluid">
+    <div class="admin-panel raw d-flex">
+        <section class="side-bar col-2">
+            <div class="sticky-top">
+                <div class="side-header">
+                    <img class="role-img" src="assets/avatar-1.jpg" alt="role">
+                    <span class="role">ADMIN</span>
+                </div>
+                <ul class="nav-bar d-flex flex-column">
+
+                    <li> <a routerLink="/admin/statistic" routerLinkActive="active-link"><i class="fa fa-bar-chart" aria-hidden="true"></i><span>Статистика</span></a></li>
+                    <li> <a routerLink="/admin/groups" routerLinkActive="active-link"><i class="fa fa-users" aria-hidden="true"></i><span>Групи</span></a></li>
+                    <li> <a routerLink="/admin/students" routerLinkActive="active-link"><i class="fa fa-address-book" aria-hidden="true"></i><span>Студенти</span></a></li>
+                    <li> <a routerLink="/admin/faculties" routerLinkActive="active-link"><i class="fa fa-database" aria-hidden="true"></i><span>Факультети</span></a></li>
+                    <li> <a routerLink="/admin/subjects" routerLinkActive="active-link"><i class="fa fa-book" aria-hidden="true"></i><span>Предмети</span></a></li>
+                    <li> <a routerLink="/admin/specialities" routerLinkActive="active-link"><i class="fa fa-table" aria-hidden="true"></i><span>Спеціальності</span></a></li>
+                    <li> <a routerLink="/admin/administrators" routerLinkActive="active-link"><i class="fa fa-user-secret" aria-hidden="true"></i><span>Адміністратори</span></a></li>
+                    <li> <a routerLink="/admin/timetable" routerLinkActive="active-link"><i class="fa fa-user-secret" aria-hidden="true"></i><span>Розклад</span></a></li>
+                    <li> <a routerLink="/admin/questions" routerLinkActive="active-link"><i class="fa fa-check-square-o" aria-hidden="true"></i><span>Завдання</span></a></li>
+
+                </ul>
+            </div>
+        </section>
+        <section class="main col">
+            <div class="content-wrapper">
+                <header class="header">
+                    <div class="Headers">
+                        <span (click)="handleClick(verticalNavigation)" id="burger" class="burger"><i class="fa fa-bars" aria-hidden="true"></i></span>
+                        <span class="admin-title">ПАНЕЛЬ АДМІНІСТРАТОРА</span>
+
+                    </div>
+                    <div class="dtester-title">D-TESTER</div>
+                    <a class="log-out" (click)="this.authService.logout()"><span>Вийти</span><i class="fa fa-sign-out" aria-hidden="true"></i></a>
+                </header>
+
+                <!--Добавив сюди пустий дів для заповнення простору під верхнім навбаром-->
+
+                <div style="height:65px; display: block; position: relative; visibility: hidden">
+
+                </div>
+
+                <ul class="vertical-navigation" #verticalNavigation (click)="handleClick(verticalNavigation)">
+
+                    <li> <a routerLink="/admin/statistic"><i class="fa fa-bar-chart" aria-hidden="true"></i><span>Статистика</span></a></li>
+                    <li> <a routerLink="/admin/groups"><i class="fa fa-users" aria-hidden="true"></i><span>Групи</span></a></li>
+                    <li> <a routerLink="/admin/students"><i class="fa fa-address-book" aria-hidden="true"></i><span>Студенти</span></a></li>
+                    <li> <a routerLink="/admin/faculties"><i class="fa fa-database" aria-hidden="true"></i><span>Факультети</span></a></li>
+                    <li> <a routerLink="/admin/subjects"><i class="fa fa-book" aria-hidden="true"></i><span>Предмети</span></a></li>
+                    <li> <a routerLink="/admin/specialities"><i class="fa fa-table" aria-hidden="true"></i><span>Спеціальності</span></a></li>
+                    <li> <a routerLink="/admin/administrators"><i class="fa fa-user-secret" aria-hidden="true"></i><span>Адміністратори</span></a></li>
+                    <li> <a routerLink="/admin/timetable"><i class="fa fa-user-secret" aria-hidden="true"></i><span>Розклад</span></a></li>
+                    <li> <a routerLink="/admin/questions"><i class="fa fa-check-square-o" aria-hidden="true"></i><span>Завдання</span></a></li>
+
+                </ul>
+                <div class="content">
+                    <router-outlet></router-outlet>
+                </div>
+            </div>
+            <footer class="footer"><span>Created by IF-085.Web-UI&#169; "Superteam&#9787;"</span></footer>
+        </section>
+    </div>
+</div>
