@@ -43,6 +43,7 @@ export class SpecialitiesComponent implements OnInit {
   }
   openModal(id): void {
     const dialogRef = this.dialog.open(PopupFormComponent, {
+      disableClose : true,
       width: '600px',
       data: { speciality_id: id }
     });

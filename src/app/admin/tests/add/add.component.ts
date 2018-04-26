@@ -1,9 +1,9 @@
 import { Component, OnInit, Inject } from '@angular/core';
-import { MatDialogRef, MAT_DIALOG_DATA, MatDialog } from '@angular/material';
-import { TestService } from '../test.service';
+import { MatDialogRef, MAT_DIALOG_DATA, MatDialog} from '@angular/material';
+import {TestService } from '../test.service';
 import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 import { ResponseMessageComponent } from '../../../shared/response-message/response-message.component';
-import { forbiddenCharValidator } from '../tests-validator.directive';
+import {forbiddenCharValidator} from '../tests-validator.directive';
 
 @Component({
   selector: 'app-add',
@@ -14,34 +14,22 @@ export class AddComponent implements OnInit {
 
   rForm: FormGroup;
   constructor(public dialogRef: MatDialogRef<AddComponent>, @Inject(MAT_DIALOG_DATA) public data: any,
-    private httpService: TestService, private fb: FormBuilder, public dialog: MatDialog) {
+              private httpService: TestService, private fb: FormBuilder, public dialog: MatDialog) {
     this.initForm();
   }
-<<<<<<< HEAD
-  ngOnInit() { }
-=======
   ngOnInit() {}
->>>>>>> develop
   initForm() {
     this.rForm = this.fb.group({
       test_name: ['', [Validators.required, Validators.maxLength(70), Validators.minLength(2)]],
       tasks: ['', [Validators.required, Validators.maxLength(3), forbiddenCharValidator(/\D/i)]],
-<<<<<<< HEAD
-      time_for_test: ['', [Validators.required, Validators.maxLength(3), forbiddenCharValidator(/\D/i)]],
-=======
       time_for_test: ['', [Validators.required, Validators.pattern(/[0-9]/)]],
->>>>>>> develop
       enabled: ['', [Validators.required]],
       subject_id: [this.data.id, Validators.required],
       attempts: ['', [Validators.required, Validators.maxLength(2), forbiddenCharValidator(/\D/i)]]
     });
   }
 
-<<<<<<< HEAD
-  enabled = [{ value: 1, text: 'Доступний' }, { value: 0, text: 'Недоступний' }];
-=======
-  enabled = [{value: 1, text: 'Доступний'}, {value: 0, text: 'Недоступний'}];
->>>>>>> develop
+// enabled = [{value: 1, text: 'Доступний'}, {value: 0, text: 'Недоступний'}];
 
   onSubmit() {
     const controls = this.rForm.controls;
@@ -55,18 +43,10 @@ export class AddComponent implements OnInit {
     this.httpService.addTest(this.rForm.value).subscribe(
       () => console.log(),
       () => console.log(),
-<<<<<<< HEAD
-      () => {
-        this.dialogRef.close();
-        const matDialogRef = this.dialog.open(ResponseMessageComponent, {
-          width: '350px',
-          data: { message: 'Тест успішно додано' }
-=======
       () => { this.dialogRef.close();
         const matDialogRef = this.dialog.open(ResponseMessageComponent, {
           width: '350px',
           data: {message: 'Тест успішно додано'}
->>>>>>> develop
         });
       }
     );

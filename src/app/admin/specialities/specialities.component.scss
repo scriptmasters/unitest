@@ -26,7 +26,23 @@ header {
   .search {
     margin-bottom: 10px;
   }
-  .headerTable {
-    margin-top: 15px;
-    height: 80px
+
+  section {
+    margin-top: 10px;
   }
+ 
+ i {
+     cursor: pointer;
+ }
+ 
+ .display {
+   margin-bottom: 0;
+ }
+ 
+ .headTitle {
+   align-items: center;
+ }
+ .items {
+   margin-bottom: 0.3rem;
+ }
+  
