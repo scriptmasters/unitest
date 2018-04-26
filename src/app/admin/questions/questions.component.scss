@@ -23,3 +23,6 @@ header {
 .popup { 
     position:fixed; left:50%; 
 }
+button.mat-paginator-navigation-next.mat-icon-button.cdk-focused {
+    border: 0;
+}

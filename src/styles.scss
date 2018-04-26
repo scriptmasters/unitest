@@ -592,3 +592,10 @@ form .ng-invalid:not(.ng-untouched) {
         content: '';
     }
 }
+
+.mat-icon-button.cdk-focused.cdk-program-focused {
+    outline: 0 !important;
+    button:focus {
+        outline: 0!important;
+    }
+}
