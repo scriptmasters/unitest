@@ -139,7 +139,7 @@ export class TimetableComponent implements OnInit {
    */
   openDialog(tableItem: TableItemModified): void {
     const dialogRef = this.dialog.open(TimeTableModal, {
-      width: '800px',
+      width: '650px',
       data: {
         table: this.table,
         subjects: this.subjects,
@@ -149,7 +149,7 @@ export class TimetableComponent implements OnInit {
         tableItem
       }
     });
-
+    
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
          this.dialog.open(ResponseMessageComponent, {
@@ -160,6 +160,7 @@ export class TimetableComponent implements OnInit {
       });
       }
     });
+    dialogRef.disableClose = true;
   }
 
   ngOnInit() {}

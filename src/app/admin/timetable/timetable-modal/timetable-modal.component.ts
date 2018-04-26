@@ -71,7 +71,20 @@ export class TimeTableModal implements OnInit {
       }
     );
   }
-
+  onReset = evt => {
+    if (this.formData.timetable_id) {
+      this.formData = Object.assign({}, this.data.tableItem);
+    } else {this.formData = {
+       group_id: '',
+       subject_id: '',
+       start_date: '',
+       start_time: '',
+       end_date: '',
+       end_time: '',
+       timetable_id: undefined
+    }
+    };
+  }
   onSubmit = evt => {
     // if timetable_id exists then we need to edit item instead of adding new one
     if (this.formData.timetable_id) {

@@ -1,17 +1,18 @@
 import { Component, OnInit } from '@angular/core';
 import { StudentsService } from './students.service';
 import { group } from '@angular/animations';
-import { StudentRegistrationFormComponent } from './student-registration-form/student-registration-form.component';
-import { StudentEditFormComponent } from './student-edit-form/student-edit-form.component';
+import { StudentsModalWindowComponent } from './students-modal-window/students-modal-window.component';
 import { ResponseMessageComponent } from '../../shared/response-message/response-message.component';
 import { MatDialog } from '@angular/material';
 import { PaginationInstance } from 'ngx-pagination';
-import { ActivatedRoute, Params } from '@angular/router';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 import { DeleteConfirmComponent } from '../../shared/delete-confirm/delete-confirm.component';
 import IStudent from './interfaces/IStudent';
 import IResponse from './interfaces/IResponse';
 import IGroup from './interfaces/IGroup';
 import { StudentsResolver } from './students-resolver.service';
+import IFaculty from './interfaces/IFaculty';
+import { getGroupsByFaulty } from './reusable-functions/get-groups-by-faculty';
 @Component({
   selector: 'app-students',
   templateUrl: './students.component.html',
@@ -20,9 +21,12 @@ import { StudentsResolver } from './students-resolver.service';
 })
 export class StudentsComponent implements OnInit {
 
+  groups: IGroup[] = [];
+  faculties: IFaculty[] = [];
   searchString = '';
+  filterByGroupStr = 'Виберіть групу';
   students: IStudent[] = [];
-  // Для пагінації
+  // NgXPagination
   public config: PaginationInstance = {
     itemsPerPage: 5,
     currentPage: 1
@@ -31,16 +35,24 @@ export class StudentsComponent implements OnInit {
   constructor(
     private service: StudentsService,
     private dialog: MatDialog,
-    private route: ActivatedRoute) {}
+    private route: ActivatedRoute,
+    private router: Router) {}
 
   ngOnInit() {
     this.students = this.route.snapshot.data['students'];
+    this.service.getAvailableFaculties().subscribe(res => this.faculties = res);
   }
-  // Відкриває діалогове вікно
-  showRegForm(): void {
-    const dialogRef = this.dialog.open(StudentRegistrationFormComponent, {
+  // Opening creating student form
+  showRegForm(user: IStudent): void {
+    const dialogRef = this.dialog.open(StudentsModalWindowComponent, {
       width: '600px',
       height: 'calc(100vh - 50px)',
+      data: {
+        editing: true,
+        creating: true,
+        student: user,
+        submitButtonText: 'Додати студента'
+      }
     });
     dialogRef.afterClosed().subscribe((Response: any) => {
       if (Response) {
@@ -53,14 +65,16 @@ export class StudentsComponent implements OnInit {
       }
     });
   }
-  // Редагування студента
+  // Editing student
   showEditForm(user: IStudent): void {
-    const dialogRef = this.dialog.open(StudentEditFormComponent, {
+    const dialogRef = this.dialog.open(StudentsModalWindowComponent, {
       width: '600px',
       height: 'calc(100vh - 50px)',
       data: {
         editing: true,
-        student: user
+        updating: true,
+        student: user,
+        submitButtonText: 'Редагувати студента'
       }
     });
     dialogRef.afterClosed().subscribe((Response: any) => {
@@ -74,18 +88,20 @@ export class StudentsComponent implements OnInit {
       }
     });
   }
-  // Розширена інформація про студента
+  // Extended info about student
   showAdvancedInfo(user: IStudent): void {
-    this.dialog.open(StudentEditFormComponent, {
+    this.dialog.open(StudentsModalWindowComponent, {
       width: '600px',
       height: 'calc(100vh - 50px)',
       data: {
         editing: false,
+        updating: false,
+        reading: true,
         student: user
       }
     });
   }
-  // метод який записує в масив "students" дані про кожного студента
+  // to update data after changes(deleting, editing)
   updateData(): void {
     const id = this.route.snapshot.paramMap.get('id');
     if (id) {
@@ -103,7 +119,7 @@ export class StudentsComponent implements OnInit {
   }
   // Processing data
   processDataFromAPI(data: IStudent[]&IResponse) {
-    // Щоб не кидало реквест на сервак, якщо нема студентів в групі
+    // If there is no students in the current group don't process data
     if (data.response === 'no records') {
       this.openModalMessage('Немає зареєстрованих студентів в даній групі!');
       return;
@@ -114,11 +130,11 @@ export class StudentsComponent implements OnInit {
       groupsArr = response;
       // Reseting existing array
       this.students = [];
-      // Додавання студентів в масив "students"
+      // Adding students to array "students"
       this.students = this.fillOutStudentsArray(data, groupsArr);
     });
   }
-  // Видалення студента
+  // Deleting student
   handleDelete(index): void {
     const dialogRef = this.dialog.open(DeleteConfirmComponent, {
       width: '400px',
@@ -165,9 +181,30 @@ export class StudentsComponent implements OnInit {
       groups.forEach(val => {
         if (value.group_id === val.group_id) {
           student.group = val.group_name;
+          student.faculty_id = val.faculty_id;
         }
       });
       return student;
     });
+  }
+  getGroups(elem: HTMLSelectElement) {
+    const index = getGroupsByFaulty(elem, true, this.faculties);
+    if (index) {
+      // Request for the available groups
+      this.service.getAvailableGroups(index).subscribe(data => {
+        if (data[0]) {
+          this.groups = data;
+        // if there is no available group
+        } else {
+          this.filterByGroupStr = 'Виберіть групу';
+          this.groups = [];
+        }
+      });
+    }
+  }
+  // clear filters
+  resetFilters(): void {
+    this.searchString = '';
+    this.filterByGroupStr = 'Виберіть групу';
   }
 }

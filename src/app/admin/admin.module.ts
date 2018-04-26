@@ -1,3 +1,4 @@
+import { FacultyFilterComponent } from './groups/selectFilters/facultyFilter.component';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AdminComponent } from './admin.component';
@@ -5,7 +6,6 @@ import { AdminRoutingModule } from './admin-routing.module';
 import { SharedModule } from '../shared/shared.module';
 import { StudentsService } from './students/students.service';
 import { FacultiesService } from './faculties/faculties.service';
-import { SubjectService } from './subjects/services/subject.service';
 import { TestService } from './tests/test.service';
 import { GroupsService } from './groups/groups.service';
 import TableService from './timetable/timetable.service';
@@ -21,13 +21,9 @@ import { SubjectsComponent } from './subjects/subjects.component';
 import { ModalSubjectComponent } from './subjects/modal-subject/modal-subject.component';
 import { SpecialitiesComponent } from './specialities/specialities.component';
 import { AdministratorsComponent } from './administrators/administrators.component';
-import { StudentRegistrationFormComponent } from './students/student-registration-form/student-registration-form.component';
 import { GroupsComponent } from './groups/groups.component';
 import { TimetableComponent } from './timetable/timetable.component';
-import { StudentEditFormComponent } from './students/student-edit-form/student-edit-form.component';
-import { FacultiesAddComponent } from './faculties/faculties-add/faculties-add.component';
-import { FacultiesUpdateComponent } from './faculties/faculties-update/faculties-update.component';
-import { FacultiesDeleteComponent } from './faculties/faculties-delete/faculties-delete.component';
+import { FacultiesDialogComponent } from './faculties/faculties-dialog/faculties-dialog.component';
 import { TimeTableModal } from './timetable/timetable-modal/timetable-modal.component';
 import { TimetableDeleteConfirmComponent } from './timetable/timetable-delete-confirm/timetable-delete-confirm.component';
 import { TestsComponent } from './tests/tests.component';
@@ -36,15 +32,18 @@ import { AddComponent } from './tests/add/add.component';
 import { DialogComponent } from './groups/dialog/dialog.component';
 import { GroupsDeleteConfirmComponent } from './groups/groups-delete-confirm/groups-delete-confirm.component';
 import { QuestionsComponent } from './questions/questions.component';
-import { EditQuestionComponent } from './questions/edit-question/edit-question.component';
+
 import { AddQuestionComponent } from './questions/add-question/add-question.component';
 import { StatisticService } from './statistic/statistic.service';
 import { SpecialityService } from './specialities/speciality.service';
 import { PopupFormComponent } from './specialities/popup-form/popup-form.component';
+
 import { DeleteConfirmComponent } from '../shared/delete-confirm/delete-confirm.component';
 import { ResponseMessageComponent } from '../shared/response-message/response-message.component';
 import { StudentsResolver } from './students/students-resolver.service';
-import { SearchStudentPipe } from './students/searchStudent.pipe';
+import { SearchPipe } from './faculties/search.pipe';
+import { TestsValidatorDirective } from './tests/tests-validator.directive';
+import { SpecialityFilterComponent } from './groups/selectFilters/specialityFilter.component';
 
 @NgModule({
     imports: [
@@ -53,37 +52,24 @@ import { SearchStudentPipe } from './students/searchStudent.pipe';
         AdminRoutingModule
     ],
     entryComponents: [
-        TimeTableModal,
-        ModalSubjectComponent,
-        TimetableDeleteConfirmComponent,
-        FacultiesAddComponent,
-        FacultiesUpdateComponent,
-        FacultiesDeleteComponent,
+        FacultiesDialogComponent,
         EditComponent,
         AddComponent,
         PopupFormComponent,
         DialogComponent,
         GroupsDeleteConfirmComponent,
         TestDetailCreateComponent, // Maryan
-        AddQuestionComponent,
-        EditQuestionComponent
+        AddQuestionComponent
     ],
     declarations: [
         AdminComponent,
         StatisticComponent,
         FacultiesComponent,
-        SubjectsComponent,
-        ModalSubjectComponent,
         SpecialitiesComponent,
         AdministratorsComponent,
         GroupsComponent,
-        TimetableComponent,
-        TimetableDeleteConfirmComponent,
         DialogComponent,
-        TimeTableModal,
-        FacultiesAddComponent,
-        FacultiesUpdateComponent,
-        FacultiesDeleteComponent,
+        FacultiesDialogComponent,
         TestsComponent,
         EditComponent,
         AddComponent,
@@ -93,11 +79,13 @@ import { SearchStudentPipe } from './students/searchStudent.pipe';
         TestDetailCreateComponent,
         QuestionsComponent,
         AddQuestionComponent,
-        EditQuestionComponent
+        TestsValidatorDirective,
+        SearchPipe,
+        SpecialityFilterComponent,
+        FacultyFilterComponent
     ],
     providers: [
         AuthService,
-        SubjectService,
         FacultiesService,
         TableService,
         TestService,

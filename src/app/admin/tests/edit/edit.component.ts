@@ -1,8 +1,10 @@
 import { Component, Inject, OnInit} from '@angular/core';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
+import { MatDialogRef, MAT_DIALOG_DATA, MatDialog } from '@angular/material';
 import {TestService } from '../test.service';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import {NgClass} from '@angular/common';
+import { ResponseMessageComponent } from '../../../shared/response-message/response-message.component';
+import {forbiddenCharValidator} from '../tests-validator.directive';
 
 @Component({
   selector: 'app-edit',
@@ -13,27 +15,18 @@ export class EditComponent implements OnInit {
 
 rForm: FormGroup;
 constructor(public dialogRef: MatDialogRef<EditComponent>, @Inject(MAT_DIALOG_DATA) public data: any,
-            private httpService: TestService, private fb: FormBuilder) {
+            private httpService: TestService, private fb: FormBuilder, public dialog: MatDialog) {
 this.initForm();
 }
 ngOnInit() {}
 initForm() {
   this.rForm = this.fb.group({
-    test_name: [this.data.test.test_name, [Validators.required,
-    Validators.maxLength(70), Validators.minLength(2)]
-  ],
-    tasks: [this.data.test.tasks, [Validators.required, Validators.pattern(/^\d{1,3}$/)]
-  ],
-    time_for_test: [this.data.test.time_for_test, [Validators.required,
-    Validators.pattern(/\d\d:\d\d:\d\d/)]
-  ],
+    test_name: [this.data.test.test_name, [Validators.required, Validators.maxLength(70), Validators.minLength(2)]],
+    tasks: [this.data.test.tasks, [Validators.required, Validators.maxLength(3), forbiddenCharValidator(/\D/i)]],
+    time_for_test: [this.data.test.time_for_test, [Validators.required, Validators.maxLength(3), forbiddenCharValidator(/\D/i)]],
     enabled: [this.data.test.enabled['value'], [Validators.required]],
-
     subject_id: [this.data.test.subject_id , [Validators.required]],
-
-    attempts: [this.data.test.attempts, [Validators.required,
-    Validators.pattern(/\d{1,3}/)]
-  ]
+    attempts: [this.data.test.attempts, [Validators.required, Validators.maxLength(2), forbiddenCharValidator(/\D/i)]]
   });
 }
 
@@ -49,7 +42,38 @@ Object.keys(controls)
    this.httpService.editTest(this.data.id, this.rForm.value).subscribe(
     () => console.log(),
     (err) => console.log(err),
-    () => this.dialogRef.close()
+    () => {
+      this.dialogRef.close();
+      const matDialogRef = this.dialog.open(ResponseMessageComponent, {
+        width: '350px',
+        data: {message: 'Зміни збережено'}
+      });
+    }
   );
 }
+
+  onNoClick() {
+    this.dialogRef.close();
+  }
+
+  get test_name() {
+    return this.rForm.get('test_name');
+  }
+
+  get attempts() {
+    return this.rForm.get('attempts');
+  }
+
+  get tasks() {
+    return this.rForm.get('tasks');
+  }
+
+  get time_for_test() {
+    return this.rForm.get('time_for_test');
+  }
+
+  get status() {
+    return this.rForm.get('enabled');
+  }
+
 }
