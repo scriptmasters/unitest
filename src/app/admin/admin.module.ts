@@ -50,8 +50,6 @@ import { TestsValidatorDirective } from './tests/tests-validator.directive';
         AdminRoutingModule
     ],
     entryComponents: [
-        TimeTableModal,
-        TimetableDeleteConfirmComponent,
         FacultiesDialogComponent,
         EditComponent,
         AddComponent,
@@ -68,10 +66,7 @@ import { TestsValidatorDirective } from './tests/tests-validator.directive';
         SpecialitiesComponent,
         AdministratorsComponent,
         GroupsComponent,
-        TimetableComponent,
-        TimetableDeleteConfirmComponent,
         DialogComponent,
-        TimeTableModal,
         FacultiesDialogComponent,
         TestsComponent,
         EditComponent,

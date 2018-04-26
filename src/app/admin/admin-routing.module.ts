@@ -52,7 +52,7 @@ const routes: Routes = [
             },
             {
                 path: 'timetable',
-                component: TimetableComponent
+                loadChildren: './timetable/timetable.module#TimetableModule'
             },
             {
                 path: 'tests',
