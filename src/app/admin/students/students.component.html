@@ -13,7 +13,7 @@
         <div class="col-sm-12 col-md-3">
           <input
             type="text"
-            [(ngModel)]="searchString"
+            (keyup)="searchString.next($event.target.value)"
             placeholder="Пошук..."
             class="form-control search">
         </div>
@@ -80,7 +80,7 @@
                   </tr>
                 </thead>
                 <tbody>
-                  <tr *ngFor="let student of students | searchStudent: searchString | paginate: config; let i = index" class="d-flex">
+                  <tr *ngFor="let student of students | paginate: config; let i = index" class="d-flex">
                     <th class="col-1">{{(config.currentPage - 1) * config.itemsPerPage + i +1}}</th>
                     <td class="col-5">{{student.fullName}}</td>
                     <th class="col-2">{{student.gradebook_id}}</th>

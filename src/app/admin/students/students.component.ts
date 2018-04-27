@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { StudentsService } from './students.service';
-import { group } from '@angular/animations';
 import { StudentsModalWindowComponent } from './students-modal-window/students-modal-window.component';
 import { ResponseMessageComponent } from '../../shared/response-message/response-message.component';
 import { MatDialog } from '@angular/material';
@@ -10,12 +9,11 @@ import { DeleteConfirmComponent } from '../../shared/delete-confirm/delete-confi
 import IStudent from './interfaces/IStudent';
 import IResponse from './interfaces/IResponse';
 import IGroup from './interfaces/IGroup';
-import { StudentsResolver } from './students-resolver.service';
 import IFaculty from './interfaces/IFaculty';
 import { getGroupsByFaulty } from './reusable-functions/get-groups-by-faculty';
 import { getFiltredStudents } from './reusable-functions/get-filtred-students';
 import { setGroupAsID } from './reusable-functions/set-group-as-id';
-import { map, switchMap } from 'rxjs/operators';
+import { Subject } from 'rxjs/Subject';
 @Component({
   selector: 'app-students',
   templateUrl: './students.component.html',
@@ -26,7 +24,7 @@ export class StudentsComponent implements OnInit {
 
   groups: IGroup[] = [];
   faculties: IFaculty[] = [];
-  searchString = '';
+  searchString = new Subject<string>();
   students: IStudent[] = [];
   // NgXPagination
   public config: PaginationInstance = {
@@ -38,7 +36,10 @@ export class StudentsComponent implements OnInit {
     private service: StudentsService,
     private dialog: MatDialog,
     private route: ActivatedRoute,
-    private router: Router) {}
+    private router: Router) {
+      this.service.searchStudents(this.searchString)
+        .subscribe(data => this.processDataFromAPI(data));
+    }
 
   ngOnInit() {
     this.students = this.route.snapshot.data['students'];
@@ -76,6 +77,7 @@ export class StudentsComponent implements OnInit {
   showAdvancedInfo(user: IStudent): void {
     this.openStudentsModalWindow(user, false, false, true, false);
   }
+  // opening students modal window to make CRUD operations
   openStudentsModalWindow(userdata: IStudent, edit: boolean, update: boolean, read: boolean, create: boolean, text?: string) {
     return this.dialog.open(StudentsModalWindowComponent, {
       width: '600px',
@@ -119,7 +121,7 @@ export class StudentsComponent implements OnInit {
       groupsArr = response;
       // Reseting existing array
       this.students = [];
-      // Adding students to array "students"
+      // Updating array students
       this.students = getFiltredStudents(data, groupsArr);
     });
   }
@@ -168,6 +170,7 @@ export class StudentsComponent implements OnInit {
       });
     }
   }
+  // filters students by group
   getFiltredStudentsByGroup(elem: HTMLSelectElement) {
     const index = setGroupAsID(elem, this.groups);
     console.log(index);
