@@ -1,0 +1,33 @@
+ form .ng-invalid:not(.ng-untouched) {
+    border-color: red;
+}
+
+span {
+  color: red;
+}
+
+.btn-danger, .btn-primary {
+  margin: 2px;
+}
+
+.title {
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.facultyName, .form-group.row, .labels {
+  margin-bottom: 0;
+}
+
+i {
+    cursor: pointer;
+}
+
+.inputMessage {
+  height: 1.5rem;
+}
+
+
+
+

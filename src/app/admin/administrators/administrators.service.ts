@@ -7,6 +7,7 @@ import {Observable} from 'rxjs/Observable';
 export class AdministratorsService {
 	private urlGetAdministrators = 'AdminUser/getRecords';
 	private urlDelAdministrators = 'AdminUser/del';
+	private urlAddAdministrators = 'AdminUser/insertData';
 
   constructor(private http: HttpClient) { }
   
@@ -16,6 +17,11 @@ export class AdministratorsService {
 
   delAdministrator(id: number): Observable<IResponse>  {
     return this.http.get<IResponse>(this.urlDelAdministrators + '/' + id);
+  }
+
+  addAdministrator(login: string, email: string, password: any, confirm_password: any): Observable<Administrators[]> {
+    const body = {username: login, email: email, password: password, password_confirm: confirm_password};
+    return this.http.post<Administrators[]>(this.urlAddAdministrators, body);
   }
 }
 

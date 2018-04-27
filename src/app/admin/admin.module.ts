@@ -43,6 +43,7 @@ import { ResponseMessageComponent } from '../shared/response-message/response-me
 import { StudentsResolver } from './students/students-resolver.service';
 import { SearchPipe } from './faculties/search.pipe';
 import { TestsValidatorDirective } from './tests/tests-validator.directive';
+import { AdministratorsDialogComponent } from './administrators/administrators-dialog/administrators-dialog.component';
 
 @NgModule({
     imports: [
@@ -58,7 +59,8 @@ import { TestsValidatorDirective } from './tests/tests-validator.directive';
         DialogComponent,
         GroupsDeleteConfirmComponent,
         TestDetailCreateComponent, // Maryan
-        AddQuestionComponent
+        AddQuestionComponent,
+        AdministratorsDialogComponent
     ],
     declarations: [
         AdminComponent,
@@ -79,7 +81,8 @@ import { TestsValidatorDirective } from './tests/tests-validator.directive';
         QuestionsComponent,
         AddQuestionComponent,
         TestsValidatorDirective,
-        SearchPipe
+        SearchPipe,
+        AdministratorsDialogComponent
     ],
     providers: [
         AuthService,

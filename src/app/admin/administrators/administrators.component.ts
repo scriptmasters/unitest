@@ -4,6 +4,8 @@ import { Administrators, IResponse } from './administratorsInterface';
 import { MatDialog } from '@angular/material';
 import { DeleteConfirmComponent } from '../../shared/delete-confirm/delete-confirm.component';
 import { ResponseMessageComponent } from '../../shared/response-message/response-message.component';
+import { FormGroup, FormControl, Validators, AbstractControl } from '@angular/forms';
+import { AdministratorsDialogComponent } from './administrators-dialog/administrators-dialog.component'
 
 @Component({
   selector: 'app-administrators',
@@ -18,14 +20,27 @@ export class AdministratorsComponent implements OnInit {
 
   ngOnInit() {
   	this.getAllAdministrators();
+
   }
 
   getAllAdministrators(): void {
     this.administratorsService.getAdministrators()
       .subscribe((data: Administrators[]) => {
         this.administrators = data;
+        console.log(this.administrators);
        });
   }
+
+  openDialog() {
+    let dialogRef =this.dialog.open(AdministratorsDialogComponent, {
+        width: '400px'
+    });
+    dialogRef.afterClosed().subscribe((Response: string)=> {
+          this.getAllAdministrators();
+        });
+  }
+
+ 
 
    deleteAdministrator(id): void {
     const dialogRef = this.dialog.open(DeleteConfirmComponent, {
