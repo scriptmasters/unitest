@@ -20,6 +20,7 @@ import { SubjectsComponent } from './subjects/subjects.component';
 import { ModalSubjectComponent } from './subjects/modal-subject/modal-subject.component';
 import { SpecialitiesComponent } from './specialities/specialities.component';
 import { AdministratorsComponent } from './administrators/administrators.component';
+import { AdministratorsService } from './administrators/administrators.service';
 import { GroupsComponent } from './groups/groups.component';
 import { TimetableComponent } from './timetable/timetable.component';
 import { FacultiesDialogComponent } from './faculties/faculties-dialog/faculties-dialog.component';
@@ -90,6 +91,7 @@ import { TestsValidatorDirective } from './tests/tests-validator.directive';
         GroupsService,
         TestDetailsService,
         QuestionsService,
+        AdministratorsService
     ]
 })
 
