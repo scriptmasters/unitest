@@ -10,8 +10,6 @@ import {TestDetailsComponent} from './testdetails/component/test-details.compone
 import {TestsComponent} from './tests/tests.component';
 import {SpecialitiesComponent} from './specialities/specialities.component';
 
-
-
 const routes: Routes = [
     {
         path: '',
