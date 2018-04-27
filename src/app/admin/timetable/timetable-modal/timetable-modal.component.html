@@ -48,13 +48,15 @@
         <div class="form-group col-md-6">
             <label for="date">Виберіть дату кінця</label>
             <input type="date" id="date" class="form-control col-md-12" [(ngModel)]="formData.end_date" formControlName="endDate">
-            <div *ngIf="form.get('endDate').invalid && (form.get('endDate').dirty || form.get('startDate').touched)" class="form-msg">
-                <div *ngIf="form.get('endDate').errors.required">
-                    Дата початку є обов`язковим полем
-                </div>
-                <div *ngIf="form.get('endDate').errors.earlierThanStartDate">
-                    Дата кінця не може бути ранішою за дату початку
-                </div>
+            <div class="form-msg">
+                <small *ngIf="form.get('endDate').invalid && (form.get('endDate').dirty || form.get('startDate').touched)" class="form-msg">
+                    <span *ngIf="form.get('endDate').errors.required">
+                        Дата початку є обов`язковим полем
+                    </span>
+                    <span *ngIf="form.get('endDate').errors.earlierThanStartDate">
+                        Дата кінця не може бути ранішою за дату початку
+                    </span>
+                </small>
             </div>
         </div>
         <div class="form-group col-md-6">

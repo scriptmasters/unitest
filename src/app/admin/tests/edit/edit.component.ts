@@ -40,11 +40,10 @@ Object.keys(controls)
     return;
     }
    this.httpService.editTest(this.data.id, this.rForm.value).subscribe(
-    () => {},
+    () => console.log(),
     (err) => console.log(err),
     () => {
       this.dialogRef.close();
-      console.log('ONSUBM');
       const matDialogRef = this.dialog.open(ResponseMessageComponent, {
         width: '350px',
         data: {message: 'Зміни збережено'}
@@ -53,24 +52,28 @@ Object.keys(controls)
   );
 }
 
-onNoClick() {
-  this.dialogRef.close(true);
-}
+  onNoClick() {
+    this.dialogRef.close();
+  }
 
-get test_name() {
-  return this.rForm.get('test_name');
-}
+  get test_name() {
+    return this.rForm.get('test_name');
+  }
 
-get attempts() {
-  return this.rForm.get('attempts');
-}
-get tasks() {
-  return this.rForm.get('tasks');
-}
-get time_for_test() {
-  return this.rForm.get('time_for_test');
-}
-get status() {
-  return this.rForm.get('enabled');
-}
+  get attempts() {
+    return this.rForm.get('attempts');
+  }
+
+  get tasks() {
+    return this.rForm.get('tasks');
+  }
+
+  get time_for_test() {
+    return this.rForm.get('time_for_test');
+  }
+
+  get status() {
+    return this.rForm.get('enabled');
+  }
+
 }

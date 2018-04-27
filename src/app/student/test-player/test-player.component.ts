@@ -9,7 +9,7 @@ import {Subject} from '../../admin/subjects/subject';
   styleUrls: ['./test-player.component.scss']
 })
 export class TestPlayerComponent implements OnInit {
-
+  specialitys;
   constructor(
     private testPlayerService: TestPlayerService
   ) { }
@@ -23,6 +23,7 @@ export class TestPlayerComponent implements OnInit {
     this.testPlayerService.startTest()
     .subscribe((response: any) => {
       console.log(response);
+      this.specialitys = response;
     });
   }
 

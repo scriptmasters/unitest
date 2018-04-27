@@ -45,7 +45,7 @@
   </div>
   <div class="form-group row justify-content-center">
     <input class="btn btn-danger col-sm-3 col-11" type="button" (click)="closeDialog()" value="Відмінити">
-    <input class="btn btn-primary col-sm-3 col-11" type="submit" value="{{specialitys[0].speciality_id ? 'Редагувати' : 'Додати'}}"
+    <input class="btn btn-success col-sm-3 col-11" type="submit" value="{{specialitys[0].speciality_id ? 'Редагувати' : 'Додати'}}"
       [disabled]="!form.valid">
   </div>
 </form>

@@ -1,3 +1,4 @@
+import { FacultyFilterComponent } from './groups/selectFilters/facultyFilter.component';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AdminComponent } from './admin.component';
@@ -12,7 +13,7 @@ import { TestDetailsService } from './testdetails/sevices/test-details.service';
 import { TestDetailsComponent } from './testdetails/component/test-details.component';
 import { TestDetailCreateComponent } from './testdetails/modals/test-detail-create/test-detail-create.component';
 import { QuestionsService } from './questions/questions.service';
-import { AuthService} from '../auth/auth.service';
+import { AuthService } from '../auth/auth.service';
 import { StudentsComponent } from './students/students.component';
 import { StatisticComponent } from './statistic/statistic.component';
 import { FacultiesComponent } from './faculties/faculties.component';
@@ -40,7 +41,8 @@ import { ResponseMessageComponent } from '../shared/response-message/response-me
 import { StudentsResolver } from './students/students-resolver.service';
 import { SearchPipe } from './faculties/search.pipe';
 import { TestsValidatorDirective } from './tests/tests-validator.directive';
-import {SpecialityPipe} from './specialities/speciality.pipe';
+import { SpecialityPipe } from './specialities/speciality.pipe';
+import { SpecialityFilterComponent } from './groups/selectFilters/specialityFilter.component';
 
 @NgModule({
     imports: [
@@ -78,7 +80,9 @@ import {SpecialityPipe} from './specialities/speciality.pipe';
         AddQuestionComponent,
         TestsValidatorDirective,
         SearchPipe,
-        SpecialityPipe
+        SpecialityPipe,
+        SpecialityFilterComponent,
+        FacultyFilterComponent
     ],
     providers: [
         AuthService,

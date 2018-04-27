@@ -5,18 +5,18 @@ import {HttpClient} from '@angular/common/http';
 export class TestPlayerService {
 
   private urlStartTest = 'Log/startTest';
-  private urlRandomQuestion = 'Question/getQuestionIdsByLevelRand'
+  private urlRandomQuestion = 'Question/getQuestionIdsByLevelRand';
 
   constructor(
     private http: HttpClient
   ) { }
 
   startTest() {
-    return this.http.get(this.urlStartTest + '/10/1');
+    return this.http.get(this.urlStartTest + '/78/1');
   }
 
   getRandomQuestion() {
-    return this.http.get(this.urlRandomQuestion + '/1/3/1');
+    return this.http.get(this.urlRandomQuestion + '/1/1/1');
   }
 
 }
