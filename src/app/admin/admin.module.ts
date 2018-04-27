@@ -60,7 +60,6 @@ import {FacultyFilterComponent} from './groups/selectFilters/facultyFilter.compo
         AddQuestionComponent,
         TestsValidatorDirective,
         SearchPipe
-
     ],
     providers: [
         AuthService,
