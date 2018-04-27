@@ -42,6 +42,8 @@ import { ResponseMessageComponent } from '../shared/response-message/response-me
 import { StudentsResolver } from './students/students-resolver.service';
 import { SearchPipe } from './faculties/search.pipe';
 import { TestsValidatorDirective } from './tests/tests-validator.directive';
+import { SpecialityFilterComponent } from './groups/selectFilters/specialityFilter.component';
+import {FacultyFilterComponent} from './groups/selectFilters/facultyFilter.component';
 
 @NgModule({
     imports: [
@@ -78,7 +80,9 @@ import { TestsValidatorDirective } from './tests/tests-validator.directive';
         QuestionsComponent,
         AddQuestionComponent,
         TestsValidatorDirective,
-        SearchPipe
+        SearchPipe,
+        SpecialityFilterComponent,
+        FacultyFilterComponent
     ],
     providers: [
         AuthService,
