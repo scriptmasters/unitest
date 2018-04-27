@@ -6,7 +6,7 @@
   <div class="form-group">
       <label for="name">Назава тесту</label>
       <input type="text" class="form-control" id="name" formControlName="test_name">
-      <div *ngIf="test_name.invalid && (test_name.dirty || test_name.touched)" class="alert alert-danger">
+      <div *ngIf="test_name.invalid && (test_name.dirty || test_name.touched)" class="form-msg">
           <div *ngIf="test_name.errors.required">
           Поле обов'язкове для заповнення.
           </div>
@@ -22,7 +22,7 @@
     <div class="form-group">
       <label for="tasks">Кількість завдань</label>
       <input type="text" class="form-control" id="tasks" formControlName="tasks">
-      <div *ngIf="tasks.invalid && (tasks.dirty || tasks.touched)" class="alert alert-danger">
+      <div *ngIf="tasks.invalid && (tasks.dirty || tasks.touched)" class="form-msg">
         <div *ngIf="tasks.errors.required">
           Поле обов'язкове для заповнення.
         </div>
@@ -38,7 +38,7 @@
     <div class="form-group">
       <label for="duration">Тривалість тесту, (хвилин)</label>
       <input type="text" class="form-control" id="duration" formControlName="time_for_test">
-      <div *ngIf="time_for_test.invalid && (time_for_test.dirty || time_for_test.touched)" class="alert alert-danger">
+      <div *ngIf="time_for_test.invalid && (time_for_test.dirty || time_for_test.touched)" class="form-msg">
         <div *ngIf="time_for_test.errors.required">
           Поле обов'язкове для заповнення.
         </div>
@@ -54,7 +54,7 @@
     <div class="form-group">
       <label for="attempts">Кількість спроб</label>
       <input type="text" class="form-control" id="attempts" formControlName="attempts">
-      <div *ngIf="attempts.invalid && (attempts.dirty || attempts.touched)" class="alert alert-danger">
+      <div *ngIf="attempts.invalid && (attempts.dirty || attempts.touched)" class="form-msg">
         <div *ngIf="attempts.errors.required">
           Поле обов'язкове для заповнення.
         </div>
@@ -72,7 +72,7 @@
       <select class="form-control" formControlName="enabled" required>
         <option *ngFor="let s of enabled" [value]="s.value">{{s.text}}</option>
       </select>
-      <div *ngIf="status.invalid && status.touched" class="alert alert-danger">
+      <div *ngIf="status.invalid && status.touched" class="form-msg">
         <div *ngIf="status.errors.required">Поле обов'язкове для заповнення.</div>
       </div>
     </div>
