@@ -26,6 +26,8 @@ import { SpecialityService } from './specialities/speciality.service';
 import { PopupFormComponent } from './specialities/popup-form/popup-form.component';
 import { SearchPipe } from './faculties/search.pipe';
 import { TestsValidatorDirective } from './tests/tests-validator.directive';
+import { SpecialityFilterComponent } from './groups/selectFilters/specialityFilter.component';
+import {FacultyFilterComponent} from './groups/selectFilters/facultyFilter.component';
 
 @NgModule({
     imports: [
