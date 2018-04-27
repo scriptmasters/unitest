@@ -24,7 +24,7 @@ export class RequestInterceptor implements HttpInterceptor {
                     );
                 }
 
-                return this.router.url;
+                return Observable.throw(error);
             }) as any;
     }
 }

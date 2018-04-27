@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {QuestionsService} from './questions.service';
-import {MatDialog, PageEvent} from '@angular/material';
+import {MatDialog, MatPaginator, PageEvent} from '@angular/material';
 import {IQuestionsTotal} from './questions-interface';
 import {IQuestionsRange} from './questions-interface';
 import {Router, ActivatedRoute} from '@angular/router';
@@ -34,6 +34,7 @@ export class QuestionsComponent implements OnInit {
     }
 
     ngOnInit() {
+
         this.matPagIntl.nextPageLabel = 'Наступна сторінка';
         this.matPagIntl.previousPageLabel = 'Попередня сторінка';
         this.matPagIntl.itemsPerPageLabel = 'Кількість рядків';
@@ -80,9 +81,7 @@ export class QuestionsComponent implements OnInit {
                                     page: 0
                                 }
                             });
-                        } else {
-                            this.questionsRange = data;
-                        }
+                        } else {this.questionsRange = data; }
                     });
                     }
     }

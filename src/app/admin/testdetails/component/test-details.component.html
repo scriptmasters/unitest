@@ -1,13 +1,15 @@
 
 <div class="container-fluid">
   <header>
-    <h1 class="h3 display">Додаткові параметри тесту: Структурні перетворення. Часові характеристики.</h1>
+    <h1 class="h3 display">Додаткові параметри тесту: {{testName}}</h1>
   </header>
 
   <div class="row justify-content-end">
     <div class="pull-right">
       <div class="col-lg-2 pb-3">
-        <button type="submit" class="btn btn-primary" (click)="openDialog({test_id: testId})">додати деталі</button>
+        <button type="submit"
+                class="btn btn-primary"
+                (click)="openDialog({test_id: testId})">додати деталі</button>
       </div>
     </div>
   </div>
@@ -32,8 +34,10 @@
               <td>{{testDetailItem.level}}</td>
               <td>{{testDetailItem.tasks}}</td>
               <td>{{testDetailItem.rate}}</td>
-              <td><i class="fa fa-cog pointer" (click)="openDialog(testDetailItem)"></i></td>
-              <td><i class="fa fa-close pointer" (click)="delete(testDetailItem.id)"></i></td>
+              <td><i class="fa fa-cog pointer"
+                     (click)="openDialog(testDetailItem)"></i></td>
+              <td><i class="fa fa-close pointer"
+                     (click)="delete(testDetailItem.id)"></i></td>
             </tr>
             </tbody>
           </table>

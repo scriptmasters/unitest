@@ -554,33 +554,49 @@ button {
     }
 }
 
+
 /*validation*/
+
 .form-msg {
-  height: 1rem;
-  color: red;
+    height: 1rem;
+    color: red;
 }
+
 .form-group .btn {
-  margin-bottom: 10px;
+    margin-bottom: 10px;
 }
+
 .ng-valid {
-  border-color: #33b35a;
-  /* green  */
+    border-color: #33b35a;
+    /* green  */
 }
+
 form .ng-invalid:not(.ng-untouched) {
-  border-color: red;
-  /* red */
+    border-color: red;
+    /* red */
 }
+
 
 /*pagination*/
 
 .pagination .ngx-pagination {
-  .current {
-    background: #33B357;
-  }
-  .pagination-previous a:before, .pagination-previous.disabled:before {
-    content: '';
-  }
-  .pagination-next a:after, .pagination-next.disabled:after {
-    content: '';
-  }
+    .current {
+        background: #33B357;
+    }
+    .pagination-previous a:before,
+    .pagination-previous.disabled:before {
+        content: '';
+    }
+    .pagination-next a:after,
+    .pagination-next.disabled:after {
+        content: '';
+    }
+}
+
+
+/*Transparent background spinner*/
+.my-panel .mat-dialog-container {
+    box-shadow: none;
+    background-color: rgba(0,0,0,0);
+
 }
