@@ -58,6 +58,7 @@ import { TestsValidatorDirective } from './tests/tests-validator.directive';
         AddQuestionComponent,
         TestsValidatorDirective,
         SearchPipe
+
     ],
     providers: [
         AuthService,

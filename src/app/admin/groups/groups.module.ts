@@ -10,7 +10,6 @@ import {GroupsComponent} from './groups.component';
 @NgModule({
   declarations: [
     DialogComponent,
-
     GroupsDeleteConfirmComponent,
     GroupsComponent
   ],
@@ -27,5 +26,7 @@ import {GroupsComponent} from './groups.component';
     GroupsDeleteConfirmComponent
   ]
 })
+
+
 
 export class GroupsModule {}
