@@ -1,22 +1,33 @@
 import { Injectable } from '@angular/core';
-import {HttpClient} from '@angular/common/http';
-
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs/Observable';
 @Injectable()
 export class TestPlayerService {
 
   private urlStartTest = 'Log/startTest';
   private urlRandomQuestion = 'Question/getQuestionIdsByLevelRand';
+  private urlAnswersByQuestion = 'SAnswer/getAnswersByQuestion/';
+  private urlgetRecords = 'Question/getRecords/';
+  private urlcheckAnswers = 'SAnswer/checkAnswers/30'
 
   constructor(
     private http: HttpClient
   ) { }
 
-  startTest() {
+  startTest(): Observable<any> {
     return this.http.get(this.urlStartTest + '/78/1');
   }
-
-  getRandomQuestion() {
-    return this.http.get(this.urlRandomQuestion + '/1/1/1');
+  getRandomQuestion(): Observable<any> {
+    return this.http.get(this.urlRandomQuestion + '/1/1/2');
+  }
+  getAnswersByQuestion(id): Observable<any> {
+    return this.http.get(this.urlAnswersByQuestion + id);
+  }
+  getRecords(id): Observable<any> {
+    return this.http.get(this.urlgetRecords + id)
+  }
+  checkAnswers(body): Observable<any> {
+    return this.http.post(this.urlcheckAnswers, body)
   }
 
 }

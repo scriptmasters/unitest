@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import {AuthService} from '../auth/auth.service';
+import { AuthService } from '../auth/auth.service';
+import {TestPlayerService} from '../student/services/test-player.service';
 
 
 @Component({
@@ -10,9 +11,9 @@ import {AuthService} from '../auth/auth.service';
 })
 export class StudentComponent implements OnInit {
 
-    constructor(
-      public authService: AuthService
-    ) {}
+  constructor(
+    public authService: AuthService,
+  ) { }
 
   ngOnInit() {
 

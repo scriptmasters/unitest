@@ -1,6 +1,21 @@
-<table>
-  <tr *ngFor="let key of specialitys">
-    <td></td>
-  </tr>
-</table>
+<button (click)="getAnswersByQuestion()" value="clicl me">jhkjlk</button>
 
+<div *ngFor="let question of question_text">
+  <div *ngIf="question.ready">
+    <div>
+      <span>
+        {{question.questionId}}: {{question.text}}
+      </span>
+      <form action="">
+        <div *ngFor="let answer of question.answers">
+          <span>
+            <input type="radio" name="answer" id="" (change)="tests(question.questionId,answer.answerId)" value="[{{answer.answerId}}]">
+          </span>
+          <span>
+            {{answer.answerId}}: {{answer.text}}
+          </span>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
