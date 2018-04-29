@@ -18,12 +18,14 @@ import {
 import { DeleteConfirmComponent } from './delete-confirm/delete-confirm.component';
 import { ResponseMessageComponent } from './response-message/response-message.component';
 import {CommonModule} from '@angular/common';
+import {SpinnerComponent} from './spinner/spinner.component';
 
 
 @NgModule({
     imports: [MatProgressSpinnerModule, CommonModule],
     declarations: [
         ResponseMessageComponent,
+        SpinnerComponent,
         DeleteConfirmComponent
     ],
     exports: [
@@ -46,6 +48,7 @@ import {CommonModule} from '@angular/common';
     providers: [{ provide: HTTP_INTERCEPTORS, useClass: RequestInterceptor, multi: true }, MatPaginatorIntl],
     entryComponents: [
         ResponseMessageComponent,
+        SpinnerComponent,
         DeleteConfirmComponent
     ]
 })
