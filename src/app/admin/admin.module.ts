@@ -48,6 +48,7 @@ import {FacultyFilterComponent} from './groups/selectFilters/facultyFilter.compo
         TestDetailCreateComponent,
         QuestionsComponent,
         AddQuestionComponent,
+        SearchPipe
     ],
     providers: [
         AuthService,
