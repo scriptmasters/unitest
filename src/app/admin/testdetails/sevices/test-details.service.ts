@@ -12,11 +12,6 @@ export class TestDetailsService {
     return this.http.get(url);
   }
 
-  seachTestName(testDetail) {
-    const url = 'testDetail/update/' + testDetail.id;
-    return this.http.post(url, testDetail);
-  }
-
   addNewTestDetail(testDetail) {
     const url = 'testDetail/insertData';
     return this.http.post(url, testDetail);
