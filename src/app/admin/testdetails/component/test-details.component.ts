@@ -5,6 +5,8 @@ import { TestDetailsService } from '../sevices/test-details.service';
 import { TestDetailCreateComponent } from '../modals/test-detail-create/test-detail-create.component';
 import { Router, ActivatedRoute } from '@angular/router';
 import { DeleteConfirmComponent} from '../../../shared/delete-confirm/delete-confirm.component';
+import {ResponseMessageComponent} from "../../../shared/response-message/response-message.component";
+// import {error} from "selenium-webdriver";
 
 @Component({
   selector: 'app-testdetails',
@@ -59,6 +61,16 @@ export class TestDetailsComponent implements OnInit {
           alert(err.error.response);
         });
       }
+    }, () => {
+     // this.dialog.open(ResponseMessageComponent, {
+     //   width: '350px',
+     //   data: {message: `Виникла помилка видалення: ${err.error.response}` }
+     // })
+    },() => {
+      this.dialog.open(ResponseMessageComponent, {
+        width: '350px',
+        data: {message: 'Деталі тесту видалено'}
+      });
     });
   }
 
@@ -72,7 +84,6 @@ export class TestDetailsComponent implements OnInit {
     this.testDetailsService.getTestById(this.testId).subscribe((resp: any[]) => {
         this.testName = resp[0].test_name;
     });
-
   }
 
 }
