@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { StudentsService } from './students.service';
 import { StudentsModalWindowComponent } from './students-modal-window/students-modal-window.component';
 import { ResponseMessageComponent } from '../../shared/response-message/response-message.component';
@@ -14,6 +14,7 @@ import { getGroupsByFaulty } from './reusable-functions/get-groups-by-faculty';
 import { getFiltredStudents } from './reusable-functions/get-filtred-students';
 import { setGroupAsID } from './reusable-functions/set-group-as-id';
 import { Subject } from 'rxjs/Subject';
+import IResolvedData from './interfaces/IResolvedData';
 @Component({
   selector: 'app-students',
   templateUrl: './students.component.html',
@@ -24,13 +25,17 @@ export class StudentsComponent implements OnInit {
 
   groups: IGroup[] = [];
   faculties: IFaculty[] = [];
+  facultyString = 'Виберіть факультет';
+  groupString = 'Виберіть групу';
   searchString = new Subject<string>();
   students: IStudent[] = [];
+  byGroup: boolean;
   // NgXPagination
   public config: PaginationInstance = {
     itemsPerPage: 5,
     currentPage: 1
   };
+  @ViewChild('searchField') searchField: ElementRef;
 
   constructor(
     private service: StudentsService,
@@ -42,7 +47,10 @@ export class StudentsComponent implements OnInit {
     }
 
   ngOnInit() {
-    this.students = this.route.snapshot.data['students'];
+    this.route.data.subscribe((data: { resolvedStudents: IResolvedData }) => {
+      this.students = data.resolvedStudents.students;
+      this.byGroup = data.resolvedStudents.byGroup;
+    });
     this.service.getAvailableFaculties().subscribe(res => this.faculties = res);
   }
   // Opening creating student form
@@ -183,6 +191,15 @@ export class StudentsComponent implements OnInit {
   }
   // clear filters
   resetFilters(): void {
+    this.searchField.nativeElement.value = '';
+    this.facultyString = 'Виберіть факультет';
+    this.groupString = 'Виберіть групу';
     this.updateData();
+  }
+  backToGroups() {
+    this.router.navigate(['admin/groups/']);
+  }
+  reviseAllStudents() {
+    this.router.navigate(['admin/students/']);
   }
 }
