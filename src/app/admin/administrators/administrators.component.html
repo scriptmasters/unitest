@@ -42,7 +42,7 @@
                       <td>{{administrator.username}}</td>
                       <td>{{administrator.email}}</td>
                       <td></td>
-                      <td><i class="fa fa-cog"  title="Редагувати"></i></td>
+                      <td><i class="fa fa-cog" (click) = "openDialog(administrator.id)" title="Редагувати"></i></td>
                       <td><i class="fa fa-close" (click) = "deleteAdministrator(administrator.id)"  title="Видалити"></i></td>
                     </tr>
                   </tbody>

@@ -27,20 +27,36 @@ export class AdministratorsComponent implements OnInit {
     this.administratorsService.getAdministrators()
       .subscribe((data: Administrators[]) => {
         this.administrators = data;
-        console.log(this.administrators);
        });
   }
 
-  openDialog() {
-    let dialogRef =this.dialog.open(AdministratorsDialogComponent, {
-        width: '400px'
+  openDialog(id): void {
+    const matDialogRef = this.dialog.open(AdministratorsDialogComponent, {
+      width: '500px',
+      data: {id: id}
     });
-    dialogRef.afterClosed().subscribe((Response: string)=> {
-          this.getAllAdministrators();
-        });
-  }
 
- 
+      matDialogRef.afterClosed().subscribe((response: any) => {
+        if (response) {
+          if (response.status === 'SUCCESS') {
+            this.dialog.open(ResponseMessageComponent, {
+              width: '400px',
+              data: {
+                message: response.message
+              }
+            });
+            this.getAllAdministrators();
+          } else if (response.status === 'ERROR') {
+            this.dialog.open(ResponseMessageComponent, {
+              width: '400px',
+              data: {
+                message: response.message
+              }
+            });
+          }
+          }
+      });
+  } 
 
    deleteAdministrator(id): void {
     const dialogRef = this.dialog.open(DeleteConfirmComponent, {
