@@ -24,6 +24,7 @@ import { SearchPipe } from './faculties/search.pipe';
 import { SpecialityFilterComponent } from './groups/selectFilters/specialityFilter.component';
 import {FacultyFilterComponent} from './groups/selectFilters/facultyFilter.component';
 import { ResultsComponent } from './results/results.component';
+import {ResultsService} from "./results/results.service";
 
 @NgModule({
     imports: [
@@ -60,6 +61,7 @@ import { ResultsComponent } from './results/results.component';
         SpecialityService,
         TestDetailsService,
         QuestionsService,
+        ResultsService,
     ]
 })
 

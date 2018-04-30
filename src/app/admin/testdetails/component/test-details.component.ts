@@ -20,9 +20,11 @@ export class TestDetailsComponent implements OnInit {
   testId: number;
   testName: string[];
 
-  constructor(private route: ActivatedRoute,
-              private dialog: MatDialog,
-              private testDetailsService: TestDetailsService) { }
+  constructor(
+    private route: ActivatedRoute,
+    private dialog: MatDialog,
+    private testDetailsService: TestDetailsService
+  ) { }
 
   ngOnInit() {
 
