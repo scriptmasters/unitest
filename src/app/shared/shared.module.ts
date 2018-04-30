@@ -17,6 +17,7 @@ import {
 
 import { DeleteConfirmComponent } from './delete-confirm/delete-confirm.component';
 import { ResponseMessageComponent } from './response-message/response-message.component';
+import { PaginationComponent } from './pagination/pagination.component';
 import {CommonModule} from '@angular/common';
 import {SpinnerComponent} from './spinner/spinner.component';
 
@@ -25,8 +26,9 @@ import {SpinnerComponent} from './spinner/spinner.component';
     imports: [MatProgressSpinnerModule, CommonModule],
     declarations: [
         ResponseMessageComponent,
-        SpinnerComponent,
-        DeleteConfirmComponent
+        DeleteConfirmComponent,
+        PaginationComponent,
+        SpinnerComponent
     ],
     exports: [
         CommonModule,
@@ -43,7 +45,8 @@ import {SpinnerComponent} from './spinner/spinner.component';
         ResponseMessageComponent,
         NgxPaginationModule,
         MatPaginatorModule,
-        MatProgressSpinnerModule
+        MatProgressSpinnerModule,
+        PaginationComponent
     ],
     providers: [{ provide: HTTP_INTERCEPTORS, useClass: RequestInterceptor, multi: true }, MatPaginatorIntl],
     entryComponents: [

@@ -7,6 +7,7 @@ import IGroup from './interfaces/IGroup';
 import IFaculty from './interfaces/IFaculty';
 import IResponse from './interfaces/IResponse';
 import IResponseRec from './interfaces/IResponseRec';
+import { debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
 
 @Injectable()
 export class StudentsService {
@@ -69,5 +70,17 @@ export class StudentsService {
   // To find out is there same username or not
   checkEmailAddress(value: string): Observable<any> {
     return this.http.get<any>(`AdminUser/checkEmailAddress/${value}`).map(res => !res.response);
+  }
+  // server side filter by surname
+  getStudentsBySearch(value: string): Observable<IStudent[] & IResponse> {
+    return this.http.get<IStudent[] & IResponse>(`student/getRecordsBySearch/${value}`);
+  }
+  // if stopped typing for some time the request is sent to the server
+  searchStudents(terms: Observable<string>) {
+    return terms.pipe(
+      debounceTime(600),
+      distinctUntilChanged(),
+      switchMap(term => this.getStudentsBySearch(term))
+    );
   }
 }
