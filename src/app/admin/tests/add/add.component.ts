@@ -20,7 +20,7 @@ export class AddComponent implements OnInit {
 ngOnInit() {}
 initForm() {
   this.rForm = this.fb.group({
-  test_name: ['', [Validators.required, Validators.maxLength(70), Validators.minLength(2)]],
+  test_name: ['', [Validators.required, Validators.maxLength(70), Validators.minLength(2), forbiddenCharValidator(/^\s/i)]],
   tasks: ['', [Validators.required, Validators.maxLength(3), forbiddenCharValidator(/\D/i)]],
   time_for_test: ['', [Validators.required, Validators.maxLength(3), forbiddenCharValidator(/\D/i)]],
   enabled: ['', [Validators.required]],
