@@ -10,7 +10,10 @@ import { ResultsService } from "./results.service";
 export class ResultsComponent implements OnInit {
 
   testId: number;
+  subjectId: number;
   testName: string[];
+  subjectName: string[];
+
 
   constructor(
     private route: ActivatedRoute,
@@ -19,8 +22,20 @@ export class ResultsComponent implements OnInit {
 
   ngOnInit() {
     this.route.queryParams.subscribe(() =>{
-      this.testId = 1;
+      this.subjectId = 1; // HARD
+      this.getSubjectById();
+    });
+
+    this.route.queryParams.subscribe(() =>{
+      this.testId = 1; // HARD
       this.getTestById();
+    });
+
+  }
+
+  private getSubjectById(): void {
+    this.results.getSubjectById(this.subjectId).subscribe((resp: any[]) => {
+      this.subjectName = resp[0].subject_name;
     })
   }
 

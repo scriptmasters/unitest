@@ -9,6 +9,11 @@ export class ResultsService {
     private http: HttpClient
   ) { }
 
+  getSubjectById(subjectId) {
+    const url = 'subject/getRecords/' + subjectId;
+    return this.http.get(url);
+  }
+
   getTestById(testId) {
     const url = 'test/getRecords/' + testId;
     return this.http.get(url);
