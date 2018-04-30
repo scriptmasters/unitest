@@ -41,10 +41,19 @@ Object.keys(controls)
     }
    this.httpService.editTest(this.data.id, this.rForm.value).subscribe(
     () => {},
-    (err) => console.log(err),
+    (err) => {
+      this.dialogRef.close();
+      if(err.status == 400) {
+          this.dialog.open(ResponseMessageComponent, {
+            width: '400px',
+            data: {
+              message: 'Ви не внесли жодних змін!'
+        }
+      });
+    }
+  },
     () => {
       this.dialogRef.close();
-      console.log('ONSUBM');
       const matDialogRef = this.dialog.open(ResponseMessageComponent, {
         width: '350px',
         data: {message: 'Зміни збережено'}

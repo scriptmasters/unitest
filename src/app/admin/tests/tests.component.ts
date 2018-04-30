@@ -53,7 +53,17 @@ export class TestsComponent implements OnInit {
 
   getTestsById(id: number): void {
     this.httpService.getTestsById(this.subjectId).subscribe(
-      data => {this.test = data; }
+      data => {
+        if(data.hasOwnProperty('response')) {
+          this.dialog.open(ResponseMessageComponent, {
+            width: '400px',
+            data: {
+              message: 'За даним запитом тестів не знайдено'
+            }
+          });
+        } else
+        this.test = data;
+      }
     );
   }
 
