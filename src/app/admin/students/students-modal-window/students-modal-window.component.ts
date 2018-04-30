@@ -24,6 +24,7 @@ export class StudentsModalWindowComponent implements OnInit {
 
   isValidGroupFiefd = true;
   form;
+  chooseGroup = '';
   groups: IGroup[] = [];
   faculties: IFaculty[] = [];
   student: IStudent = {
@@ -196,6 +197,12 @@ export class StudentsModalWindowComponent implements OnInit {
   getGroups(elem: HTMLSelectElement) {
     const index = getGroupsByFaulty(elem, this.data.updating, this.faculties);
     if (index) {
+      // if we are editing the student and wanting to choose another group for him
+      // the form is gonna be invalid 'till we've choosen any group out of drop down list
+      if (this.facultyC.touched) {
+        this.chooseGroup = 'Виберіть групу';
+        this.groupC.updateValueAndValidity();
+      }
       // Request for the available groups
       this.service.getAvailableGroups(index).subscribe(data => {
         if (data[0]) {

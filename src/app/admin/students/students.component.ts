@@ -127,8 +127,6 @@ export class StudentsComponent implements OnInit {
     const body = JSON.stringify({entity: 'Group', ids: groupsArr});
     this.service.getEntityValue(body).subscribe(response => {
       groupsArr = response;
-      // Reseting existing array
-      this.students = [];
       // Updating array students
       this.students = getFiltredStudents(data, groupsArr);
     });
@@ -196,9 +194,11 @@ export class StudentsComponent implements OnInit {
     this.groupString = 'Виберіть групу';
     this.updateData();
   }
+  // back to groups
   backToGroups() {
     this.router.navigate(['admin/groups/']);
   }
+  // look at all students
   reviseAllStudents() {
     this.router.navigate(['admin/students/']);
   }
