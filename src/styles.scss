@@ -593,9 +593,10 @@ form .ng-invalid:not(.ng-untouched) {
     }
 }
 
-.mat-icon-button.cdk-focused.cdk-program-focused {
-    outline: 0 !important;
-    button:focus {
-        outline: 0!important;
-    }
+
+/*Transparent background spinner*/
+.my-panel .mat-dialog-container {
+    box-shadow: none;
+    background-color: rgba(0,0,0,0);
+
 }

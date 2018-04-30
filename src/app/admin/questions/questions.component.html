@@ -37,7 +37,8 @@
                              [pageSizeOptions]="[5, 10, 25, 100]"
                              [pageIndex]="pageIndex"
                              [showFirstLastButtons]="true"
-                             (page) = "pageEvent = displayQuestions($event)">
+                             (page) = "pageEvent = displayQuestions($event)"
+              [ngClass]="{'cdk-focused':false}">
               </mat-paginator>
             </div>
           </div>
