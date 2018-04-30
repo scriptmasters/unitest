@@ -19,6 +19,7 @@ export class SubjectsComponent implements OnInit {
 
   subjects: Subject[];
   form: FormGroup;
+  error: string;
 
   config: PaginationInstance = {
     itemsPerPage: 10,
@@ -39,8 +40,23 @@ export class SubjectsComponent implements OnInit {
     this.subjectService.getSubjects()
       .subscribe((subjects: Subject[]) => {
         this.subjects = subjects;
+
       });
   }
+
+  getSearchedSubjects(event) {
+    this.subjectService.getSearchedSubjects(event.target.value).subscribe(
+        (data: any) => {
+            if (data.response === 'no records') {
+                this.subjects = undefined;
+                this.error = 'За даним пошуковим запитом дані відсутні';
+            } else {
+                this.subjects = data;
+            }
+          }
+    );
+  }
+
 
   getTimetable(id: number): void {
     this.router.navigate(['admin/timetable'], { queryParams: { subjectId: id} });

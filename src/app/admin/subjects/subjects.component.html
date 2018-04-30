@@ -4,6 +4,9 @@
       <h1 class="h3 display">Предмети</h1>
     </header>
     <div class="row justify-content-end">
+      <div class="col-sm-12 col-md-3">
+        <input type="text" placeholder="Пошук..." class="form-control search" (input)="getSearchedSubjects($event)">
+      </div>
       <div class="col-lg-2 pb-3">
         <button mat-raised-button (click)="openModal()"  class="btn btn-primary">Додати предмет</button>
       </div>
@@ -13,7 +16,7 @@
         <div class="card">
           <div class="card-body">
             <div class="table-responsive">
-              <table class="table table-striped table-hover">
+              <table *ngIf="subjects; else noRecords" class="table table-striped table-hover">
                 <thead>
                 <tr>
                   <th>#</th>
@@ -23,17 +26,20 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr *ngFor="let subject of subjects | paginate: config; let i = index">
-                  <td>{{ (config.currentPage - 1) * config.itemsPerPage + (i + 1) }}</td>
-                  <td>{{subject.subject_name}}</td>
-                  <td>{{subject.subject_description}}</td>
-                  <td><a (click)="getTests(subject.subject_id)"><i class="fa fa-calendar-check-o table-icon" title="Тести: {{subject.subject_name}}"></i></a></td>
-                  <td><a (click)="getTimetable(subject.subject_id)"><i class="fa fa-calendar table-icon" title="Розклад: {{subject.subject_name}}"></i></a></td>
-                  <td><a (click)="openModal(subject.subject_id)"><i class="fa fa-cog table-icon" title="Редагувати"></i></a></td>
-                  <td><a (click)="deleteSubject(subject.subject_id)"><i class="fa fa-close table-icon" title="Видалити"></i></a></td>
-                </tr>
-              </tbody>
+                  <tr *ngFor="let subject of subjects | paginate: config; let i = index">
+                    <td>{{ (config.currentPage - 1) * config.itemsPerPage + (i + 1) }}</td>
+                    <td>{{subject.subject_name}}</td>
+                    <td>{{subject.subject_description}}</td>
+                    <td><a (click)="getTests(subject.subject_id)"><i class="fa fa-calendar-check-o table-icon" title="Тести: {{subject.subject_name}}"></i></a></td>
+                    <td><a (click)="getTimetable(subject.subject_id)"><i class="fa fa-calendar table-icon" title="Розклад: {{subject.subject_name}}"></i></a></td>
+                    <td><a (click)="openModal(subject.subject_id)"><i class="fa fa-cog table-icon" title="Редагувати"></i></a></td>
+                    <td><a (click)="deleteSubject(subject.subject_id)"><i class="fa fa-close table-icon" title="Видалити"></i></a></td>
+                  </tr>
+                </tbody>
               </table>
+              <ng-template #noRecords>
+                <tr><td>{{error}}</td></tr>
+              </ng-template>
             </div>
           </div>
         </div>
