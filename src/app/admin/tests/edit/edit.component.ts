@@ -21,7 +21,7 @@ this.initForm();
 ngOnInit() {}
 initForm() {
   this.rForm = this.fb.group({
-    test_name: [this.data.test.test_name, [Validators.required, Validators.maxLength(70), Validators.minLength(2)]],
+    test_name: [this.data.test.test_name, [Validators.required, Validators.maxLength(70), Validators.minLength(2), forbiddenCharValidator(/^\s/i)]],
     tasks: [this.data.test.tasks, [Validators.required, Validators.maxLength(3), forbiddenCharValidator(/\D/i)]],
     time_for_test: [this.data.test.time_for_test, [Validators.required, Validators.maxLength(3), forbiddenCharValidator(/\D/i)]],
     enabled: [this.data.test.enabled['value'], [Validators.required]],
