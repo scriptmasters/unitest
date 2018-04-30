@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from "@angular/router";
-import { ResultsService } from "./results.service";
+import { ResultsService } from "./services/results.service";
 
 @Component({
   selector: 'app-results',
@@ -8,41 +8,32 @@ import { ResultsService } from "./results.service";
   styleUrls: ['./results.component.scss']
 })
 export class ResultsComponent implements OnInit {
-
   testId: number;
-  subjectId: number;
-  testName: string[];
-  subjectName: string[];
+  groupId: number;
 
+  tests = [];
+  groups = [];
 
   constructor(
     private route: ActivatedRoute,
-    private results: ResultsService
+    private resultService: ResultsService
   ) { }
 
   ngOnInit() {
-    this.route.queryParams.subscribe(() =>{
-      this.subjectId = 1; // HARD
-      this.getSubjectById();
+    this.resultService.getTests().subscribe((testData : any[]) => {
+      this.tests = (testData.toString() === "no records") ? [] : testData;
+      if(this.tests.length > 0) {
+        this.testId = this.tests[0].test_id;
+      }
     });
-
-    this.route.queryParams.subscribe(() =>{
-      this.testId = 1; // HARD
-      this.getTestById();
+    this.resultService.getGroups().subscribe((groupData: any[])=> {
+      this.groups = (groupData.toString() === "no records") ? [] : groupData;
     });
-
   }
 
-  private getSubjectById(): void {
-    this.results.getSubjectById(this.subjectId).subscribe((resp: any[]) => {
-      this.subjectName = resp[0].subject_name;
-    })
+  search() {
+    this.resultService.getTestRecordsByParams(this.testId, this.groupId).subscribe((records: any[]) => {
+      console.log(records);
+    });
   }
-
-  private getTestById(): void {
-    this.results.getTestById(this.testId).subscribe((resp: any[]) => {
-      this.testName = resp[0].test_name;
-    })
-  }
-
 }

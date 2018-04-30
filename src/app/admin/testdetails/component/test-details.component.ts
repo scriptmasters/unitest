@@ -16,7 +16,7 @@ import { ResponseMessageComponent } from "../../../shared/response-message/respo
 
 export class TestDetailsComponent implements OnInit {
 
-  testDetails: any[];
+  testDetails = [];
   testId: number;
   testName: string[];
 
@@ -78,7 +78,7 @@ export class TestDetailsComponent implements OnInit {
 
   private getTestDetails() {
     this.testDetailsService.getTestDetails(this.testId).subscribe((resp: any[]) => {
-      this.testDetails = resp;
+      this.testDetails = (resp.toString() === "no records") ? [] : resp;
     });
   }
 

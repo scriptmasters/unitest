@@ -8,7 +8,31 @@
 </div>
 
 <div class="container-fluid">
-  <header class="header row">
+  <div class="card col-md-12">
+    <div class="card-body">
+      <div class="row">
+        <div class="col-md-6">
+          <div class="form-group col-md-12">
+            <label>Тест</label>
+            <select class="form-control col-md-12" [(ngModel)]="testId" (change)="search()"  >
+              <option *ngFor="let item of tests" [value]="item.test_id">{{item.test_name}}</option>
+            </select>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="form-group col-md-12">
+            <label>Група</label>
+            <select class="form-control col-md-12" [(ngModel)]="groupId" (change)="search()" >
+              <option [value]=""></option>
+              <option *ngFor="let item of groups" [value]="item.group_id">{{item.group_name}}</option>
+            </select>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="header row">
     <div class="col-lg-12 card">
       <div class="card-body">
         <div class="text-center">
@@ -16,7 +40,7 @@
         </div>
       </div>
     </div>
-  </header>
+  </div>
 
   <div class="row">
     <div class="card col-lg-12">
@@ -56,7 +80,5 @@
       </div>
     </div>
   </div>
-
-
 
 </div>
