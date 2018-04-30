@@ -7,7 +7,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { DeleteConfirmComponent } from '../../shared/delete-confirm/delete-confirm.component';
 import { IResponse } from '../faculties/facultiesInterface';
 import { ResponseMessageComponent } from '../../shared/response-message/response-message.component';
-
+import {PageEvent} from '@angular/material';
 
 @Component({
   selector: 'app-tests',
@@ -16,8 +16,14 @@ import { ResponseMessageComponent } from '../../shared/response-message/response
 })
 export class TestsComponent implements OnInit {
 
-  public test;
-  public subjectId: number;
+  test;
+  subjectId: number;
+  length = 100;
+  pageSize = 10;
+  pageSizeOptions = [5, 10, 25, 100];
+  pageEvent: PageEvent;
+
+
   constructor(private httpService: TestService, public dialog: MatDialog, private router: Router, private activatedRoute: ActivatedRoute) {
     this.activatedRoute.queryParams.subscribe(params => {
       this.subjectId = params['subjectId'];
@@ -50,6 +56,7 @@ export class TestsComponent implements OnInit {
       data => {this.test = data; }
     );
   }
+
   openDialog(t: object, id: number): void {
     const matDialogRef = this.dialog.open(EditComponent, {
       width: '350px',
@@ -83,4 +90,6 @@ export class TestsComponent implements OnInit {
       }
     });
   }
+
+  
 }

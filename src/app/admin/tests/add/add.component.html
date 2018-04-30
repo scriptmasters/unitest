@@ -17,6 +17,9 @@
         <div *ngIf="test_name.errors.maxlength">
             Це поле може містити не більше 70 символів.
         </div>
+        <div *ngIf="test_name.errors.forbiddenChar">
+          Дане поле не може починатися з пробілу.
+        </div>
       </div>
       </div>
     </div>
