@@ -79,12 +79,12 @@ export class TestDetailCreateComponent implements OnInit {
         [Validators.required]],
       tasks: [(this.data && this.data.tasks ? this.data.tasks : null),
         [Validators.required,
-         Validators.min(1),
-         Validators.max(250)]],
+          Validators.min(1),
+          Validators.max(250)]],
       rate: [(this.data && this.data.rate ? this.data.rate : null),
         [Validators.required,
-         Validators.min(1),
-         Validators.max(250)]]
+          Validators.min(1),
+          Validators.max(250)]]
     }, {updateOn : 'blur'});
   }
 }
