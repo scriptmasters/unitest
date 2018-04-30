@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter, Inject, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, Inject } from '@angular/core';
 import { FormGroup, FormControl, Validators, AbstractControl } from '@angular/forms';
 
 import { StudentsService } from '../students.service';
@@ -19,7 +19,6 @@ import { setGroupAsID } from '../reusable-functions/set-group-as-id';
   selector: 'app-students-modal-window',
   templateUrl: './students-modal-window.component.html',
   styleUrls: ['./students-modal-window.component.scss'],
-  encapsulation: ViewEncapsulation.None
 })
 export class StudentsModalWindowComponent implements OnInit {
 
