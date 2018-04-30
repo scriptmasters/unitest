@@ -23,6 +23,7 @@ import { PopupFormComponent } from './specialities/popup-form/popup-form.compone
 import { SearchPipe } from './faculties/search.pipe';
 import { SpecialityFilterComponent } from './groups/selectFilters/specialityFilter.component';
 import {FacultyFilterComponent} from './groups/selectFilters/facultyFilter.component';
+import { ResultsComponent } from './results/results.component';
 
 @NgModule({
     imports: [
@@ -33,7 +34,7 @@ import {FacultyFilterComponent} from './groups/selectFilters/facultyFilter.compo
     entryComponents: [
         FacultiesDialogComponent,
         PopupFormComponent,
-        TestDetailCreateComponent, // Maryan
+        TestDetailCreateComponent,
         AddQuestionComponent
     ],
     declarations: [
@@ -44,11 +45,12 @@ import {FacultyFilterComponent} from './groups/selectFilters/facultyFilter.compo
         AdministratorsComponent,
         FacultiesDialogComponent,
         PopupFormComponent,
-        TestDetailsComponent, // Maryan
+        TestDetailsComponent,
         TestDetailCreateComponent,
         QuestionsComponent,
         AddQuestionComponent,
-        SearchPipe
+        SearchPipe,
+        ResultsComponent
     ],
     providers: [
         AuthService,
