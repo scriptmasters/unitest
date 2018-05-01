@@ -99,7 +99,7 @@ export class QuestionsComponent implements OnInit {
     questionDelete(id) {
         this.questionService.getAnswersByQuestion(id)
             .subscribe((data: any) => {
-                if (!data[0].response) {
+                if (!data.response) {
                     const requests = [];
                     for (let i = 0; i < data.length; i++) {
                         requests.push(this.questionService.answerDelete(data[i].answer_id));
@@ -111,6 +111,12 @@ export class QuestionsComponent implements OnInit {
                                     this.displayQuestions();
                                 }
                             ));
+                } else { this.questionService.questionDelete(id)
+                    .subscribe(() => {
+                            this.openModalMessage('Запитання з відповідями видалене');
+                            this.displayQuestions();
+                        }
+                    );
                 }
             }
             );
