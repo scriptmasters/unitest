@@ -52,7 +52,7 @@ const routes: Routes = [
             },
             {
                 path: 'tests',
-                component: TestsComponent
+                loadChildren: './tests/tests.module#TestsModule'
             },
             {
                 path: 'questions',
