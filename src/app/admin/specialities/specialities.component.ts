@@ -42,7 +42,7 @@ export class SpecialitiesComponent implements OnInit {
   }
 
   getGroups(id): void {
-    this.router.navigate(['admin/groups'], { queryParams: { facultyId: id} });
+    this.router.navigate(['admin/groups'], { queryParams: { specialityId: id} });
   }
   update(key) {
     this.speciality.oldspeciality = {};
