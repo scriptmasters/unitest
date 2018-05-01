@@ -23,10 +23,10 @@ export class ResultsComponent implements OnInit {
   ngOnInit() {
     this.resultService.getTests().subscribe((testData : any[]) => {
       this.tests = (testData.toString() === 'no records') ? [] : testData;
-      // if(this.tests.length > 0) {
-        // this.testId = this.tests[0].test_id;
+      if(this.tests.length > 0) {
+        this.testId = this.tests[0].test_id;
         this.search();
-      // }
+      }
     });
     this.resultService.getGroups().subscribe((groupData: any[])=> {
       this.groups = (groupData.toString() === 'no records') ? [] : groupData;
