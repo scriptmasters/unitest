@@ -63,11 +63,11 @@ export class TestDetailsComponent implements OnInit {
           alert(err.error.response);
         });
       }
-    }, () => {
-      // this.dialog.open(ResponseMessageComponent, {
-      //   width: '350px',
-      //   data: {message: `Виникла помилка видалення: ${err.error.response}` }
-      // })
+    }, (err) => {
+      this.dialog.open(ResponseMessageComponent, {
+        width: '350px',
+        data: {message: `Виникла помилка видалення: ${err.error.response}` }
+      })
     },() => {
       this.dialog.open(ResponseMessageComponent, {
         width: '350px',

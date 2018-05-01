@@ -19,6 +19,12 @@ export class ResultsService {
     return this.http.get(url);
   }
 
+  getStudents(ids: number[]) {
+    const url = 'EntityManager/getEntityValues';
+    const body = {entity: 'Student', ids};
+    return this.http.post(url, body);
+  }
+
   getTestRecordsByParams(testId: number, groupId: number) {
     let url = `Result/getRecordsByTestGroupDate/${testId}`;
     if (groupId) {
