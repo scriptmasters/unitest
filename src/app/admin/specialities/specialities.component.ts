@@ -114,6 +114,4 @@ export class SpecialitiesComponent implements OnInit {
   }
 
 }
-{
-  id34: {field: [12,18]}
-}
+
