@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { RequestOptions, Request, RequestMethod } from '@angular/http';
+import { HttpClient} from '@angular/common/http';
 
 @Injectable()
 export class SpecialityService {
@@ -12,10 +11,6 @@ export class SpecialityService {
 
   login(jsonForm: String): Observable<any> {
     return this.http.post('login/index', jsonForm, { withCredentials: true });
-  }
-
-  getSubject(): Observable<any> {
-    return this.http.get('Subject/getRecords', { withCredentials: true });
   }
 
   getSpecialities(): Observable<any> {
@@ -29,4 +24,7 @@ export class SpecialityService {
     return this.http.post('Speciality/update/' + id, popupForm, { withCredentials: true });
   }
 
+    getSearchedSpecialities(searchString) {
+        return this.http.get('Speciality/getRecordsBySearch/' + searchString);
+    }
 }

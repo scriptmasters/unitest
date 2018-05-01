@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import {NavigationCancel, NavigationEnd, NavigationError, NavigationStart, Router} from '@angular/router';
-import {ResponseMessageComponent} from './shared/response-message/response-message.component';
 import {MatDialogRef} from '@angular/material/dialog';
 import {MatDialog} from '@angular/material';
+import {SpinnerComponent} from './shared/spinner/spinner.component';
 
 
 @Component({
@@ -16,25 +16,22 @@ export class AppComponent implements OnInit {
                  private dialog: MatDialog,
                  ) {}
 
-    dialogRef: MatDialogRef<any>;
+    dialogSpinner: MatDialogRef<any>;
+
     spinnerStart() {
-        this.dialog.open(ResponseMessageComponent, {
+        this.dialogSpinner = this.dialog.open(SpinnerComponent, {
             panelClass: 'my-panel',
-            width: '100',
-            data: {
-                message: 'spinner'
-            }
+            width: '100'
         });
     }
-        spinnerEnd() {
-            this.dialogRef = this.dialog.openDialogs[this.dialog.openDialogs.length - 1];
-            this.dialogRef.close();
-        }
+
+    spinnerEnd() {
+        this.dialogSpinner.close();
+    }
 
     ngOnInit() {
       this.router.events
       .subscribe((event) => {
-          // example: NavigationStart, RoutesRecognized, NavigationEnd
           if (event instanceof NavigationStart) {this.spinnerStart(); }
           if (event instanceof NavigationEnd || event instanceof NavigationCancel || event instanceof NavigationError ) {
               this.spinnerEnd();

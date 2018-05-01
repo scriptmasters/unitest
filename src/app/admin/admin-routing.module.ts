@@ -34,7 +34,7 @@ const routes: Routes = [
             },
             {
                 path: 'faculties',
-                component: FacultiesComponent
+                loadChildren: './faculties/faculties.module#FacultiesModule'
             },
             {
                 path: 'subjects',

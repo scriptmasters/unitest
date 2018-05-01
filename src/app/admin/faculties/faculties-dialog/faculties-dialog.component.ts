@@ -25,12 +25,12 @@ export class FacultiesDialogComponent implements OnInit {
     this.form = new FormGroup({
       'title': new FormControl(null, [
         Validators.required,
-        Validators.minLength(5),
+        Validators.pattern('([А-ЯІЇа-яії]{4,})([ А-ЯІЇа-яії ])+'),
         Validators.maxLength(50)
       ]),
       'description': new FormControl(null, [
         Validators.required,
-        Validators.minLength(5),
+        Validators.pattern('([А-ЯІЇа-яії]{4,})([ А-ЯІЇа-яії ])+'),
         Validators.maxLength(100)
       ])
     }, { updateOn: 'blur' });

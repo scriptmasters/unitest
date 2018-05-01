@@ -7,7 +7,8 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { DeleteConfirmComponent } from '../../shared/delete-confirm/delete-confirm.component';
 import { IResponse } from '../faculties/facultiesInterface';
 import { ResponseMessageComponent } from '../../shared/response-message/response-message.component';
-
+import {PageEvent} from '@angular/material';
+import { count } from 'rxjs/operators';
 
 @Component({
   selector: 'app-tests',
@@ -16,8 +17,15 @@ import { ResponseMessageComponent } from '../../shared/response-message/response
 })
 export class TestsComponent implements OnInit {
 
-  public test;
-  public subjectId: number;
+  test;
+  subjectId: number;
+  counter = 0;
+  length = 100;
+  pageSize = 10;
+  pageSizeOptions = [5, 10, 25, 100];
+  pageEvent: PageEvent;
+
+
   constructor(private httpService: TestService, public dialog: MatDialog, private router: Router, private activatedRoute: ActivatedRoute) {
     this.activatedRoute.queryParams.subscribe(params => {
       this.subjectId = params['subjectId'];
@@ -47,9 +55,22 @@ export class TestsComponent implements OnInit {
 
   getTestsById(id: number): void {
     this.httpService.getTestsById(this.subjectId).subscribe(
-      data => {this.test = data; }
+      
+      data => {
+        if(data.hasOwnProperty('response')&& this.counter === 0) {
+          this.dialog.open(ResponseMessageComponent, {
+            width: '400px',
+            data: {
+              message: 'За даним запитом тестів не знайдено'
+            }
+          });
+          this.counter++;
+        } else
+        this.test = data;
+      }
     );
   }
+
   openDialog(t: object, id: number): void {
     const matDialogRef = this.dialog.open(EditComponent, {
       width: '350px',
@@ -83,4 +104,6 @@ export class TestsComponent implements OnInit {
       }
     });
   }
+
+  
 }

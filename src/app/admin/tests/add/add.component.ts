@@ -20,7 +20,7 @@ export class AddComponent implements OnInit {
 ngOnInit() {}
 initForm() {
   this.rForm = this.fb.group({
-  test_name: ['', [Validators.required, Validators.maxLength(70), Validators.minLength(2)]],
+  test_name: ['', [Validators.required, Validators.maxLength(70), Validators.minLength(2), forbiddenCharValidator(/^\s/i)]],
   tasks: ['', [Validators.required, Validators.maxLength(3), forbiddenCharValidator(/\D/i)]],
   time_for_test: ['', [Validators.required, Validators.maxLength(3), forbiddenCharValidator(/\D/i)]],
   enabled: ['', [Validators.required]],
@@ -41,13 +41,24 @@ onSubmit() {
     }
     // Опрацювання даних форми
    this.httpService.addTest(this.rForm.value).subscribe(
-    () => console.log(),
-    () => console.log(),
-    () => { this.dialogRef.close();
-    const matDialogRef = this.dialog.open(ResponseMessageComponent, {
-      width: '350px',
-      data: {message: 'Тест успішно додано'}
-    });
+    () => {this.dialogRef.close();
+      const matDialogRef = this.dialog.open(ResponseMessageComponent, {
+        width: '350px',
+        data: {message: 'Тест успішно додано'}
+      });
+    },
+    (err) => {
+      if(err.status== 400) {
+        this.dialogRef.close();
+        this.dialog.open(ResponseMessageComponent, {
+          width: '400px',
+          data: {
+            message: 'Предмета з таким id не існує'
+          }
+        });
+      }
+  },
+    () => { 
   }
   );
   }

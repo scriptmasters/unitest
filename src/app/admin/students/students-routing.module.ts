@@ -8,14 +8,14 @@ const routes: Routes = [
         path: '',
         component: StudentsComponent,
         resolve: {
-            students: StudentsResolver
+            resolvedStudents: StudentsResolver
         }
     },
     {
         path: ':id',
         component: StudentsComponent,
         resolve: {
-            students: StudentsResolver
+            resolvedStudents: StudentsResolver
         }
     }
 ];

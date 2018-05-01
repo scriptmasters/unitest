@@ -8,7 +8,8 @@ export class FacultiesService {
 private urlGetFaculties = 'Faculty/getRecords';
 private urlDelFaculties = 'Faculty/del';
 private urlAddFaculties = 'Faculty/insertData';
- private urlEditFaculties = 'Faculty/update';
+private urlEditFaculties = 'Faculty/update';
+private urlGetFoundFaculties = 'Faculty/getRecordsBySearch';
 
   constructor(private http: HttpClient) { }
 
@@ -31,5 +32,8 @@ private urlAddFaculties = 'Faculty/insertData';
   updateFaculty(id: number, title: string, description: string): Observable<Faculties[]> {
     const body = {faculty_name: title, faculty_description: description};
     return this.http.post<Faculties[]>(this.urlEditFaculties + '/' + id, body);
+  }
+  getFoundFaculties(searchStr) {
+    return this.http.get<Faculties[]>(this.urlGetFoundFaculties + '/' + searchStr);
   }
 }
