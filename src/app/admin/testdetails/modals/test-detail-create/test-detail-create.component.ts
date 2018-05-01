@@ -75,6 +75,8 @@ export class TestDetailCreateComponent implements OnInit {
     this.detailForm = this.formBuilder.group({
       id: (this.data && this.data.id ? this.data.id : null),
       test_id: [(this.data && this.data.test_id ? this.data.test_id : null)],
+      level: [(this.data && this.data.level ? this.data.level : null),
+        [Validators.required]],
       tasks: [(this.data && this.data.tasks ? this.data.tasks : null),
         [Validators.required,
           Validators.min(1),
