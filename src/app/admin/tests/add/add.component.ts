@@ -41,13 +41,24 @@ onSubmit() {
     }
     // Опрацювання даних форми
    this.httpService.addTest(this.rForm.value).subscribe(
-    () => console.log(),
-    () => console.log(),
-    () => { this.dialogRef.close();
-    const matDialogRef = this.dialog.open(ResponseMessageComponent, {
-      width: '350px',
-      data: {message: 'Тест успішно додано'}
-    });
+    () => {this.dialogRef.close();
+      const matDialogRef = this.dialog.open(ResponseMessageComponent, {
+        width: '350px',
+        data: {message: 'Тест успішно додано'}
+      });
+    },
+    (err) => {
+      if(err.status== 400) {
+        this.dialogRef.close();
+        this.dialog.open(ResponseMessageComponent, {
+          width: '400px',
+          data: {
+            message: 'Предмета з таким id не існує'
+          }
+        });
+      }
+  },
+    () => { 
   }
   );
   }
