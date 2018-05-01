@@ -1,6 +1,6 @@
-import {Component, OnInit} from '@angular/core';
-import {ActivatedRoute} from "@angular/router";
-import {ResultsService} from "./services/results.service";
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from "@angular/router";
+import { ResultsService } from "./services/results.service";
 
 @Component({
   selector: 'app-results',
