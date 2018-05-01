@@ -1,11 +1,12 @@
-import { Component, OnInit } from '@angular/core';
-import { MatDialog } from '@angular/material';
-import { TestDetailsService } from '../sevices/test-details.service';
+import {Component, OnInit} from '@angular/core';
+import {MatDialog} from '@angular/material';
+import {TestDetailsService} from '../sevices/test-details.service';
 
-import { TestDetailCreateComponent } from '../modals/test-detail-create/test-detail-create.component';
-import { Router, ActivatedRoute } from '@angular/router';
-import { DeleteConfirmComponent } from '../../../shared/delete-confirm/delete-confirm.component';
-import { ResponseMessageComponent } from "../../../shared/response-message/response-message.component";
+import {TestDetailCreateComponent} from '../modals/test-detail-create/test-detail-create.component';
+import {Router, ActivatedRoute} from '@angular/router';
+import {DeleteConfirmComponent} from '../../../shared/delete-confirm/delete-confirm.component';
+import {ResponseMessageComponent} from "../../../shared/response-message/response-message.component";
+
 // import {error} from "selenium-webdriver";
 
 @Component({
@@ -24,7 +25,8 @@ export class TestDetailsComponent implements OnInit {
     private route: ActivatedRoute,
     private dialog: MatDialog,
     private testDetailsService: TestDetailsService
-  ) { }
+  ) {
+  }
 
   ngOnInit() {
 
@@ -66,9 +68,9 @@ export class TestDetailsComponent implements OnInit {
     }, (err) => {
       this.dialog.open(ResponseMessageComponent, {
         width: '350px',
-        data: {message: `Виникла помилка видалення: ${err.error.response}` }
+        data: {message: `Виникла помилка видалення: ${err.error.response}`}
       })
-    },() => {
+    }, () => {
       this.dialog.open(ResponseMessageComponent, {
         width: '350px',
         data: {message: 'Деталі тесту видалено'}

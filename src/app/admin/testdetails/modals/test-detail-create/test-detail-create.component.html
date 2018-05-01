@@ -1,5 +1,5 @@
 <form class="form-horizontal"
-      [formGroup]="detailForm"  >
+      [formGroup]="detailForm">
 
   <div class="form-row justify-content-end">
     <i class="fa fa-close"
@@ -13,10 +13,11 @@
               class="form-control col-md-12"
               [ngClass]="{'red-border': !detailForm.controls['level'].valid
                                      && !detailForm.controls['level'].untouched}"
-              formControlName="level" >
+              formControlName="level">
         <option [value]=""></option>
         <option *ngFor="let item of levels"
-                [value]="item">{{item}}</option>
+                [value]="item">{{item}}
+        </option>
       </select>
       <div class="form-msg">
         <small  *ngIf="!detailForm.controls['level'].valid

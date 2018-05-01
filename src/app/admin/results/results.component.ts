@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from "@angular/router";
-import { ResultsService } from "./services/results.service";
+import {Component, OnInit} from '@angular/core';
+import {ActivatedRoute} from "@angular/router";
+import {ResultsService} from "./services/results.service";
 
 @Component({
   selector: 'app-results',
@@ -18,24 +18,25 @@ export class ResultsComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private resultService: ResultsService
-  ) { }
+  ) {
+  }
 
   ngOnInit() {
-    this.resultService.getTests().subscribe((testData : any[]) => {
+    this.resultService.getTests().subscribe((testData: any[]) => {
       this.tests = (testData.toString() === 'no records') ? [] : testData;
-      if(this.tests.length > 0) {
+      if (this.tests.length > 0) {
         this.testId = this.tests[0].test_id;
         this.search();
       }
     });
-    this.resultService.getGroups().subscribe((groupData: any[])=> {
+    this.resultService.getGroups().subscribe((groupData: any[]) => {
       this.groups = (groupData.toString() === 'no records') ? [] : groupData;
     });
   }
 
   search() {
     this.resultService.getTestRecordsByParams(this.testId, this.groupId).subscribe((records: any[]) => {
-      if (records && records['response'] && records['response'] === 'no records'){
+      if (records && records['response'] && records['response'] === 'no records') {
         this.resultRecords = [];
       } else {
         let studentIds: number[] = [];
@@ -53,7 +54,7 @@ export class ResultsComponent implements OnInit {
             };
             students.push(studentObj);
           });
-           this.initResultRecords(records, students);
+          this.initResultRecords(records, students);
         });
       }
     });
