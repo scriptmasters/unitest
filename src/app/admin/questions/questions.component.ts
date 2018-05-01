@@ -1,11 +1,12 @@
 import {Component, OnInit} from '@angular/core';
 import {QuestionsService} from './questions.service';
-import {MatDialog, PageEvent} from '@angular/material';
+import {MatDialog, MatPaginator, PageEvent} from '@angular/material';
 import {IQuestionsTotal} from './questions-interface';
 import {IQuestionsRange} from './questions-interface';
 import {Router, ActivatedRoute} from '@angular/router';
 import {MatPaginatorIntl} from '@angular/material';
 import {ResponseMessageComponent} from '../../shared/response-message/response-message.component';
+import {forkJoin} from 'rxjs/observable/forkJoin';
 
 
 @Component({
@@ -34,6 +35,7 @@ export class QuestionsComponent implements OnInit {
     }
 
     ngOnInit() {
+
         this.matPagIntl.nextPageLabel = 'Наступна сторінка';
         this.matPagIntl.previousPageLabel = 'Попередня сторінка';
         this.matPagIntl.itemsPerPageLabel = 'Кількість рядків';
@@ -80,9 +82,7 @@ export class QuestionsComponent implements OnInit {
                                     page: 0
                                 }
                             });
-                        } else {
-                            this.questionsRange = data;
-                        }
+                        } else {this.questionsRange = data; }
                     });
                     }
     }
@@ -99,20 +99,27 @@ export class QuestionsComponent implements OnInit {
     questionDelete(id) {
         this.questionService.getAnswersByQuestion(id)
             .subscribe((data: any) => {
-                if (!data[0].response) {
+                if (!data.response) {
+                    const requests = [];
                     for (let i = 0; i < data.length; i++) {
-                        this.questionService.answerDelete(data[i].answer_id)
-                            .subscribe(response => console.log(response));
+                        requests.push(this.questionService.answerDelete(data[i].answer_id));
                     }
-                }
-            }, undefined, () => {
-                this.questionService.questionDelete(id)
+                    forkJoin(...requests).subscribe(
+                        () => this.questionService.questionDelete(id)
+                            .subscribe(() => {
+                                    this.openModalMessage('Запитання з відповідями видалене');
+                                    this.displayQuestions();
+                                }
+                            ));
+                } else { this.questionService.questionDelete(id)
                     .subscribe(() => {
                             this.openModalMessage('Запитання з відповідями видалене');
                             this.displayQuestions();
-                        }, () => this.questionDelete(id)
+                        }
                     );
-            });
+                }
+            }
+            );
     }
 
     openModalMessage(msg: string, w: string = '400px'): void {

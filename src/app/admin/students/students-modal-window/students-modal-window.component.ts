@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter, Inject, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, Inject } from '@angular/core';
 import { FormGroup, FormControl, Validators, AbstractControl } from '@angular/forms';
 
 import { StudentsService } from '../students.service';
@@ -18,13 +18,13 @@ import { setGroupAsID } from '../reusable-functions/set-group-as-id';
 @Component({
   selector: 'app-students-modal-window',
   templateUrl: './students-modal-window.component.html',
-  styleUrls: ['./students-modal-window.component.scss'],
-  /*encapsulation: ViewEncapsulation.None*/
+  styleUrls: ['./students-modal-window.component.scss']
 })
 export class StudentsModalWindowComponent implements OnInit {
 
   isValidGroupFiefd = true;
   form;
+  chooseGroup = '';
   groups: IGroup[] = [];
   faculties: IFaculty[] = [];
   student: IStudent = {
@@ -197,6 +197,12 @@ export class StudentsModalWindowComponent implements OnInit {
   getGroups(elem: HTMLSelectElement) {
     const index = getGroupsByFaulty(elem, this.data.updating, this.faculties);
     if (index) {
+      // if we are editing the student and wanting to choose another group for him
+      // the form is gonna be invalid 'till we've choosen any group out of drop down list
+      if (this.facultyC.touched) {
+        this.chooseGroup = 'Виберіть групу';
+        this.groupC.updateValueAndValidity();
+      }
       // Request for the available groups
       this.service.getAvailableGroups(index).subscribe(data => {
         if (data[0]) {

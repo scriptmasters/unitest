@@ -1,0 +1,78 @@
+  <form [formGroup]="form" (ngSubmit)="onSubmit()" *ngIf="isLoaded">
+    <div class="form-row title ">
+      <div class="col-11">
+        <h2 class='adminName'><b>{{administrator[0].id ? 'Редагувати' : 'Додати'}} адміністратора</b></h2>
+      </div>
+      <div class="col-1">
+        <div class="form-row justify-content-end">
+          <i class="fa fa-close" (click)="closeDialog()"></i>
+        </div>
+      </div>
+    </div>   
+    <div class="form-group row" [ngClass]="{'form-has-error': form.get('login').invalid && (form.get('login').dirty || form.get('login').touched)}">
+      <label class="col-sm-12 labels">Логін</label>
+      <div class="col-sm-12">
+      <input type="text" id="login" placeholder="Логін" class="form-control form-control-success" formControlName="login" [(ngModel)]="administrator[0].username">
+        <div class="inputMessage">
+          <small  *ngIf="form.get('login').invalid && (form.get('login').dirty || form.get('login').touched)">
+            <span *ngIf="form.get('login')['errors']['required']">Дане поле є обов'язковим</span>
+            <span *ngIf="form.get('login')['errors']['minlength']">
+            Поле повинно містити не менше ніж {{form.get('login')['errors']['minlength']['requiredLength']}} символів
+            </span>
+            <span *ngIf="form.get('login')['errors']['maxlength']">
+            Поле повинно містити не більше ніж {{form.get('login')['errors']['maxlength']['requiredLength']}} символів
+            </span>
+            <span *ngIf="form.get('login')['errors']['loginTaken']">
+            Такий логін вже існує
+            </span>
+          </small>
+        </div>
+      </div>
+    </div>        
+    <div class="form-group row" [ngClass]="{'form-has-error': form.get('email').invalid && form.get('email').touched}">
+      <label class="col-sm-12 labels">Поштова скринька</label>
+      <div class="col-sm-12">
+        <input type="email" id="email" placeholder="Поштова скринька" class="form-control form-control-warning " formControlName="email" [(ngModel)]="administrator[0].email">
+          <div class="inputMessage">
+            <small *ngIf="form.get('email').invalid && (form.get('email').dirty || form.get('email').touched)">
+              <span *ngIf="form.get('email')['errors']['required']">Дане поле є обов'язковим</span>
+              <span *ngIf="form.get('email')['errors']['email']">Поштова скринька повинна бути формату логін@домен</span>
+              <span *ngIf="form.get('email')['errors']['emailTaken']">Така поштова скринька вже використовується</span>
+            </small>
+          </div>
+      </div>
+    </div>
+    <div class="form-group row" [ngClass]="{'form-has-error': form.get('password').invalid && form.get('password').touched}">
+      <label class="col-sm-12 labels">Пароль</label>
+      <div class="col-sm-12">
+        <input type="password" id="password" placeholder="Пароль" class="form-control form-control-warning " formControlName="password" >
+          <div class="inputMessage">
+            <small *ngIf="form.get('password').invalid && (form.get('password').dirty || form.get('password').touched)">
+              <span *ngIf="form.get('password')['errors']['required']">Дане поле є обов'язковим</span>
+              <span *ngIf="form.get('password')['errors']['minlength']">
+              Мінімум {{form.get('password')['errors']['minlength']['requiredLength']}} символів
+              </span>
+              <span *ngIf="form.get('password')['errors']['maxlength']">
+              Максимум {{form.get('password')['errors']['maxlength']['requiredLength']}} символів
+              </span>
+              </small>
+          </div>
+      </div>
+    </div>
+    <div class="form-group row" [ngClass]="{'form-has-error': form.get('confirm_password').invalid && form.get('confirm_password').touched}">
+      <label class="col-sm-12 labels">Підтвердіть пароль</label>
+      <div class="col-sm-12">
+        <input type="password" id="confirm_password" placeholder="Підтвердіть пароль" class="form-control form-control-warning " formControlName="confirm_password">
+          <div class="inputMessage">
+            <small *ngIf="form.get('confirm_password').invalid && (form.get('confirm_password').dirty || form.get('confirm_password').touched)">
+              <span *ngIf="form.get('confirm_password')['errors']['matchOther']">Паролі не співпадають</span>
+              </small>
+          </div>
+      </div>
+    </div>
+        
+    <div class="form-group row justify-content-center">
+      <input  class="btn btn-danger col-sm-3 col-11" type="button" (click)="closeDialog()" value="Відмінити">
+      <input class="btn btn-success col-sm-3 col-11" type="submit" value="{{administrator[0].id ? 'Редагувати' : 'Додати'}}"  [disabled]="!form.valid">
+    </div>   
+  </form>

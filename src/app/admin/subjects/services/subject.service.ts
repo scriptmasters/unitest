@@ -10,6 +10,7 @@ export class SubjectService {
   private urlAddSubject = 'Subject/insertData';
   private urlEditSubject = 'Subject/update';
   private urlDeleteSubject = 'Subject/del';
+  private urlGetSearchedSubjects = 'Subject/getRecordsBySearch';
 
   constructor(private http: HttpClient) {}
 
@@ -36,5 +37,8 @@ export class SubjectService {
   }
   deleteSubject(id: number): Observable<Subject[]> {
     return this.http.get<Subject[]>(this.urlDeleteSubject + '/' + id);
+  }
+  getSearchedSubjects(searchString) {
+    return this.http.get<Subject[]>(this.urlGetSearchedSubjects + '/' + searchString);
   }
 }

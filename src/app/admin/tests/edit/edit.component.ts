@@ -21,7 +21,7 @@ this.initForm();
 ngOnInit() {}
 initForm() {
   this.rForm = this.fb.group({
-    test_name: [this.data.test.test_name, [Validators.required, Validators.maxLength(70), Validators.minLength(2)]],
+    test_name: [this.data.test.test_name, [Validators.required, Validators.maxLength(70), Validators.minLength(2), forbiddenCharValidator(/^\s/i)]],
     tasks: [this.data.test.tasks, [Validators.required, Validators.maxLength(3), forbiddenCharValidator(/\D/i)]],
     time_for_test: [this.data.test.time_for_test, [Validators.required, Validators.maxLength(3), forbiddenCharValidator(/\D/i)]],
     enabled: [this.data.test.enabled['value'], [Validators.required]],
@@ -40,8 +40,18 @@ Object.keys(controls)
     return;
     }
    this.httpService.editTest(this.data.id, this.rForm.value).subscribe(
-    () => console.log(),
-    (err) => console.log(err),
+    () => {},
+    (err) => {
+      this.dialogRef.close();
+      if(err.status == 400) {
+          this.dialog.open(ResponseMessageComponent, {
+            width: '400px',
+            data: {
+              message: 'Ви не внесли жодних змін!'
+        }
+      });
+    }
+  },
     () => {
       this.dialogRef.close();
       const matDialogRef = this.dialog.open(ResponseMessageComponent, {
@@ -52,28 +62,24 @@ Object.keys(controls)
   );
 }
 
-  onNoClick() {
-    this.dialogRef.close();
-  }
+onNoClick() {
+  this.dialogRef.close(true);
+}
 
-  get test_name() {
-    return this.rForm.get('test_name');
-  }
+get test_name() {
+  return this.rForm.get('test_name');
+}
 
-  get attempts() {
-    return this.rForm.get('attempts');
-  }
-
-  get tasks() {
-    return this.rForm.get('tasks');
-  }
-
-  get time_for_test() {
-    return this.rForm.get('time_for_test');
-  }
-
-  get status() {
-    return this.rForm.get('enabled');
-  }
-
+get attempts() {
+  return this.rForm.get('attempts');
+}
+get tasks() {
+  return this.rForm.get('tasks');
+}
+get time_for_test() {
+  return this.rForm.get('time_for_test');
+}
+get status() {
+  return this.rForm.get('enabled');
+}
 }

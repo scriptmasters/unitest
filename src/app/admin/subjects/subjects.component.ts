@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { FormGroup, FormControl } from '@angular/forms';
 import { MatDialog } from '@angular/material';
 import { Router } from '@angular/router';
 import { PaginationInstance } from 'ngx-pagination';
+import { Subscription } from 'rxjs/Subscription';
+import 'rxjs/add/operator/debounceTime';
 
 import { SubjectService } from './services/subject.service';
 import { Subject } from './subject';
@@ -18,6 +20,9 @@ import { DeleteConfirmComponent } from '../../shared/delete-confirm/delete-confi
 export class SubjectsComponent implements OnInit {
   subjects: Subject[];
   form: FormGroup;
+  error: string;
+  searchBox = new FormControl();
+  searchBoxSubscr: Subscription;
 
   config: PaginationInstance = {
     itemsPerPage: 10,
@@ -32,6 +37,21 @@ export class SubjectsComponent implements OnInit {
 
   ngOnInit() {
     this.getSubjects();
+      this.searchBoxSubscr = this.searchBox.valueChanges
+          .debounceTime(1000)
+          .subscribe(newValue => {
+              this.subjectService.getSearchedSubjects(newValue)
+                  .subscribe(
+                  (data: any) => {
+                      if (data.response === 'no records') {
+                          this.subjects = undefined;
+                          this.error = 'За даним пошуковим запитом дані відсутні';
+                      } else {
+                          this.subjects = data;
+                      }
+                  }
+              );
+          });
   }
 
   getSubjects(): void {
