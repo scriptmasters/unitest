@@ -1,17 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { SpecialityService } from './speciality.service';
-import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
-import { Observable } from 'rxjs/Observable';
-import { catchError, map, tap } from 'rxjs/operators';
-import { identifierModuleUrl } from '@angular/compiler';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { PopupFormComponent } from '../specialities/popup-form/popup-form.component';
+import { MatDialog } from '@angular/material';
+import { HttpClient } from '@angular/common/http';
+import { PopupFormComponent } from './popup-form/popup-form.component';
 import { ResponseMessageComponent } from '../../shared/response-message/response-message.component';
 import {Router} from '@angular/router';
-
-
-import { MatPaginatorModule } from '@angular/material/paginator';
-
+import {FormControl} from '@angular/forms';
+import {Subscription} from 'rxjs/Subscription';
+import 'rxjs/add/operator/debounceTime';
 
 @Component({
   selector: 'app-specialities',
@@ -19,10 +15,14 @@ import { MatPaginatorModule } from '@angular/material/paginator';
   styleUrls: ['./specialities.component.scss']
 })
 export class SpecialitiesComponent implements OnInit {
-  constructor(private speciality: SpecialityService,
+  constructor(public speciality: SpecialityService,
     private http: HttpClient,
     public dialog: MatDialog,
     private router: Router) { }
+
+    error: string;
+    searchBox = new FormControl();
+    searchBoxSubscr: Subscription;
 
   ngOnInit() {
     this.speciality.getSpecialities().subscribe(value => {
@@ -32,6 +32,21 @@ export class SpecialitiesComponent implements OnInit {
       console.log('error' + error);
     });
 
+    this.searchBoxSubscr = this.searchBox.valueChanges
+        .debounceTime(1000)
+        .subscribe(newValue => {
+            this.speciality.getSearchedSpecialities(newValue)
+                .subscribe(
+                    (data: any) => {
+                        if (data.response === 'no records') {
+                            this.speciality.specialitiesObject = undefined;
+                            this.error = 'За даним пошуковим запитом дані відсутні';
+                        } else {
+                            this.speciality.specialitiesObject = data;
+                        }
+                    }
+                );
+        });
   }
 
 
@@ -59,7 +74,7 @@ export class SpecialitiesComponent implements OnInit {
             message: 'Cпеціальність було успішно додано!'
           }
         });
-      } else if  ((response == 'error')) {
+      } else if  ((response === 'error')) {
         this.dialog.open(ResponseMessageComponent, {
           width: '400px',
           data: {
@@ -87,7 +102,7 @@ export class SpecialitiesComponent implements OnInit {
             message: 'Cпеціальність було успішно додано!'
           }
         });
-      } else if ((response == 'error')) {
+      } else if ((response === 'error')) {
         this.dialog.open(ResponseMessageComponent, {
           width: '400px',
           data: {
@@ -99,3 +114,4 @@ export class SpecialitiesComponent implements OnInit {
   }
 
 }
+

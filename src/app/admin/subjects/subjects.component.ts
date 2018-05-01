@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {FormGroup} from '@angular/forms';
+import {FormGroup, FormControl} from '@angular/forms';
 import {MatDialog} from '@angular/material';
 import {Router} from '@angular/router';
 import {PaginationInstance} from 'ngx-pagination';
@@ -9,6 +9,8 @@ import {Subject} from './subject';
 import {ResponseMessageComponent} from '../../shared/response-message/response-message.component';
 import {ModalSubjectComponent} from './modal-subject/modal-subject.component';
 import {DeleteConfirmComponent} from '../../shared/delete-confirm/delete-confirm.component';
+import {Subscription} from 'rxjs/Subscription';
+import 'rxjs/add/operator/debounceTime';
 
 @Component({
   selector: 'app-subjects',
@@ -19,6 +21,9 @@ export class SubjectsComponent implements OnInit {
 
   subjects: Subject[];
   form: FormGroup;
+  error: string;
+  searchBox = new FormControl();
+  searchBoxSubscr: Subscription;
 
   config: PaginationInstance = {
     itemsPerPage: 10,
@@ -33,12 +38,28 @@ export class SubjectsComponent implements OnInit {
 
   ngOnInit() {
     this.getSubjects();
+      this.searchBoxSubscr = this.searchBox.valueChanges
+          .debounceTime(1000)
+          .subscribe(newValue => {
+              this.subjectService.getSearchedSubjects(newValue)
+                  .subscribe(
+                  (data: any) => {
+                      if (data.response === 'no records') {
+                          this.subjects = undefined;
+                          this.error = 'За даним пошуковим запитом дані відсутні';
+                      } else {
+                          this.subjects = data;
+                      }
+                  }
+              );
+          });
   }
 
   getSubjects(): void {
     this.subjectService.getSubjects()
       .subscribe((subjects: Subject[]) => {
         this.subjects = subjects;
+
       });
   }
 
