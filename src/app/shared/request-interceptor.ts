@@ -16,7 +16,7 @@ export class RequestInterceptor implements HttpInterceptor {
         const httpReq = req.clone({url: this.hostName + req.url, reportProgress: true});
 
         return next.handle(httpReq)
-            .catch((error, caught) => {
+            .catch((error) => {
                 if (error.status === 403 && error.error.response.indexOf('logged') !== -1) {
                     this.router.navigate(['/login'], {
                             queryParams: {return: this.router.url.split('?')[0]}

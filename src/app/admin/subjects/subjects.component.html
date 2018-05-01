@@ -1,17 +1,27 @@
 <section>
   <div class="container-fluid">
-    <header>
-
-            <h1 class="h3 display">Предмети</h1>
-            <div class="col-sm-12 col-md-3">
-                <input type="text"
-                       placeholder="Пошук..."
-                       class="form-control search"
-                       [formControl]="searchBox">
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="card">
+          <div class="card-body">
+            <div class="row headTitle">
+              <div class="col-sm-3 col-12 items">
+                <h1 class="h3 display">Предмети</h1>
+              </div>
+              <div class="col-sm-3"></div>
+              <div class="col-sm-4 col-12 items">
+                <input type="text" id="title" placeholder="Пошук..." class="form-control form-control-success" [formControl]="searchBox">
+              </div>
+              <div class="col-sm-2 col-12 items">
+                <div class="justify-content-end">
+                  <input type="button" class="btn btn-primary col-12" value="Додати" (click) = "openModal()">
+                </div>
+              </div>
             </div>
-
-            <button mat-raised-button (click)="openModal()"  class="btn btn-primary">Додати предмет</button>
-    </header>
+          </div>
+        </div>
+      </div>
+    </div>
 
     <div class="row">
       <div class="col-lg-12">
@@ -40,7 +50,7 @@
                 </tbody>
               </table>
               <ng-template #noRecords>
-                <tr><td>{{error}}</td></tr>
+                {{error}}
               </ng-template>
             </div>
           </div>
