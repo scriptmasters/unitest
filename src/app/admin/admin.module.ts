@@ -14,6 +14,7 @@ import { StatisticComponent } from './statistic/statistic.component';
 import { FacultiesComponent } from './faculties/faculties.component';
 import { SpecialitiesComponent } from './specialities/specialities.component';
 import { AdministratorsComponent } from './administrators/administrators.component';
+import { AdministratorsService } from './administrators/administrators.service';
 import { FacultiesDialogComponent } from './faculties/faculties-dialog/faculties-dialog.component';
 import { QuestionsComponent } from './questions/questions.component';
 import { AddQuestionComponent } from './questions/add-question/add-question.component';
@@ -21,8 +22,8 @@ import { StatisticService } from './statistic/statistic.service';
 import { SpecialityService } from './specialities/speciality.service';
 import { PopupFormComponent } from './specialities/popup-form/popup-form.component';
 import { SearchPipe } from './faculties/search.pipe';
-import { SpecialityFilterComponent } from './groups/selectFilters/specialityFilter.component';
-import {FacultyFilterComponent} from './groups/selectFilters/facultyFilter.component';
+import { AdministratorsDialogComponent } from './administrators/administrators-dialog/administrators-dialog.component';
+
 
 @NgModule({
     imports: [
@@ -34,7 +35,8 @@ import {FacultyFilterComponent} from './groups/selectFilters/facultyFilter.compo
         FacultiesDialogComponent,
         PopupFormComponent,
         TestDetailCreateComponent, // Maryan
-        AddQuestionComponent
+        AddQuestionComponent,
+        AdministratorsDialogComponent
     ],
     declarations: [
         AdminComponent,
@@ -48,7 +50,8 @@ import {FacultyFilterComponent} from './groups/selectFilters/facultyFilter.compo
         TestDetailCreateComponent,
         QuestionsComponent,
         AddQuestionComponent,
-        SearchPipe
+        SearchPipe,
+        AdministratorsDialogComponent
     ],
     providers: [
         AuthService,
@@ -58,6 +61,7 @@ import {FacultyFilterComponent} from './groups/selectFilters/facultyFilter.compo
         SpecialityService,
         TestDetailsService,
         QuestionsService,
+        AdministratorsService
     ]
 })
 
