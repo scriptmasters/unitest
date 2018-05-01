@@ -45,7 +45,7 @@ Object.keys(controls)
       this.dialogRef.close();
       if(err.status == 400) {
           this.dialog.open(ResponseMessageComponent, {
-            width: '400px',
+            width: '350px',
             data: {
               message: 'Ви не внесли жодних змін!'
         }

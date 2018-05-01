@@ -7,3 +7,7 @@ export class Test {
     enabled: boolean;
     attempts: number;
 }
+
+export interface IResponse {
+    response: string;
+}

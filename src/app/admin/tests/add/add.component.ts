@@ -51,7 +51,7 @@ onSubmit() {
       if(err.status== 400) {
         this.dialogRef.close();
         this.dialog.open(ResponseMessageComponent, {
-          width: '400px',
+          width: '350px',
           data: {
             message: 'Предмета з таким id не існує'
           }
