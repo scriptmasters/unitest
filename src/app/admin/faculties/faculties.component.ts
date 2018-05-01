@@ -14,35 +14,45 @@ import {Router} from '@angular/router';
   templateUrl: './faculties.component.html',
   styleUrls: ['./faculties.component.scss']
 })
-export class FacultiesComponent implements OnInit {
 
+export class FacultiesComponent implements OnInit {
   faculties: Faculties[];
   form: FormGroup;
-  searchStr = '';
-
+  error: string;
 
   public config: PaginationInstance = {
      itemsPerPage: 5,
      currentPage: 1
   };
 
- constructor(private facultiesService: FacultiesService, public dialog: MatDialog, private router: Router) { }
-
-   ngOnInit() {
-      this.getAllFaculties();
+constructor(private facultiesService: FacultiesService, public dialog: MatDialog, private router: Router) { }
+  ngOnInit() {
+    this.getAllFaculties();
     }
-
+    
     getAllFaculties(): void {
       this.facultiesService.getFaculties()
-           .subscribe((data: Faculties[]) => {
-           this.faculties = data;
-    });
-   }
+        .subscribe((data: Faculties[]) => {
+          this.faculties = data;
+        });
+    }
 
     getGroups(id): void {
-    this.router.navigate(['admin/groups'], { queryParams: { facultyId: id} });
+      this.router.navigate(['admin/groups'], { queryParams: { facultyId: id} });
   }
 
+  getFoundFaculties(event) {
+    this.facultiesService.getFoundFaculties(event.target.value).subscribe(
+        (data: any) => {
+            if (data.response === 'no records') {
+                this.faculties = undefined;
+                this.error = 'За даним пошуковим запитом дані відсутні';
+            } else {
+                this.faculties = data;
+            }
+         }
+    );
+  }
 
 // Add and update operations
   openDialog(id): void {
@@ -50,7 +60,6 @@ export class FacultiesComponent implements OnInit {
       width: '500px',
       data: {faculty_id: id}
     });
-
       matDialogRef.afterClosed().subscribe((response: any) => {
         if (response) {
           if (response.status === 'SUCCESS') {
@@ -71,6 +80,7 @@ export class FacultiesComponent implements OnInit {
           }
           }
       });
+      matDialogRef.disableClose = true;
   }
 
 // Delete operation
@@ -101,5 +111,6 @@ export class FacultiesComponent implements OnInit {
         });
       }
     });
+          dialogRef.disableClose = true;
   }
 }

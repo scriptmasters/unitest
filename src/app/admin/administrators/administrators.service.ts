@@ -34,11 +34,10 @@ export class AdministratorsService {
     return this.http.post<Administrators[]>(this.urlEditAdministrators + '/' + id, body);
   }
 
-   // To find out is there same username or not
   checkUsername(value: string): Observable<any> {
     return this.http.get<any>(`AdminUser/checkUserName/${value}`).map(res => !res.response);
   }
-  // To find out is there same username or not
+ 
   checkEmailAddress(value: string): Observable<any> {
     return this.http.get<any>(`AdminUser/checkEmailAddress/${value}`).map(res => !res.response);
   }
