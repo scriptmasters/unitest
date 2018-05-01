@@ -10,7 +10,7 @@
                 </div>
                 <div class="col-sm-3"></div>
                 <div class="col-sm-4 col-12 items">
-                  <input type="text" id="title" placeholder="Пошук..." class="form-control form-control-success" [(ngModel)] = "searchStr">
+                  <input type="text" id="title" placeholder="Пошук..." class="form-control form-control-success" (input)="getFoundFaculties($event)" >
                 </div>
                 <div class="col-sm-2 col-12 items">
                   <div class="justify-content-end">
@@ -37,7 +37,7 @@
                     </tr>
                   </thead>
                   <tbody>
-                    <tr *ngFor= "let faculty of faculties | search: searchStr | paginate: config; let i = index">
+                    <tr *ngFor= "let faculty of faculties | paginate: config; let i = index">
                       <td>{{ (config.currentPage - 1) * config.itemsPerPage + i +1 }}</td>
                       <td>{{faculty.faculty_name}}</td>
                       <td>{{faculty.faculty_description}}</td>
