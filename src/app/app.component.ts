@@ -16,17 +16,17 @@ export class AppComponent implements OnInit {
                  private dialog: MatDialog,
                  ) {}
 
-    dialogRef: MatDialogRef<any>;
+    dialogSpinner: MatDialogRef<any>;
 
     spinnerStart() {
-        this.dialogRef = this.dialog.open(SpinnerComponent, {
+        this.dialogSpinner = this.dialog.open(SpinnerComponent, {
             panelClass: 'my-panel',
             width: '100'
         });
     }
 
     spinnerEnd() {
-        this.dialogRef.close();
+        this.dialogSpinner.close();
     }
 
     ngOnInit() {

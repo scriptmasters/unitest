@@ -17,7 +17,7 @@ export class RequestInterceptor implements HttpInterceptor {
 
         return next.handle(httpReq)
             .catch((error, caught) => {
-                if (error.status === 403) {
+                if (error.status === 403 && error.error.response.indexOf('logged') !== -1) {
                     this.router.navigate(['/login'], {
                             queryParams: {return: this.router.url.split('?')[0]}
                         }
