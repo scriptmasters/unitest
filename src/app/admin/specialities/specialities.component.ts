@@ -56,7 +56,7 @@ export class SpecialitiesComponent implements OnInit {
     });
   }
   getGroups(id): void {
-    this.router.navigate(['admin/groups'], { queryParams: { facultyId: id } });
+    this.router.navigate(['admin/groups'], { queryParams: { specialityId: id } });
   }
   openModal(id): void {
     const dialogRef = this.dialog.open(PopupFormComponent, {

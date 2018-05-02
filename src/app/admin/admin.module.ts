@@ -15,6 +15,7 @@ import { AdministratorsComponent } from './administrators/administrators.compone
 import { AdministratorsService } from './administrators/administrators.service';
 import { QuestionsComponent } from './questions/questions.component';
 import { AddQuestionComponent } from './questions/add-question/add-question.component';
+import { EditQuestionComponent } from './questions/edit-question/edit-question.component';
 import { StatisticService } from './statistic/statistic.service';
 import { DeleteConfirmComponent } from '../shared/delete-confirm/delete-confirm.component';
 import { ResponseMessageComponent } from '../shared/response-message/response-message.component';
@@ -34,7 +35,7 @@ import { ResultsService } from './results/services/results.service';
         AddQuestionComponent,
         AdministratorsDialogComponent,
         TestDetailCreateComponent,
-        AddQuestionComponent
+        EditQuestionComponent
     ],
     declarations: [
         AdminComponent,
@@ -44,6 +45,7 @@ import { ResultsService } from './results/services/results.service';
         TestDetailCreateComponent,
         QuestionsComponent,
         AddQuestionComponent,
+        EditQuestionComponent,
         AdministratorsDialogComponent,
         ResultsComponent
     ],
