@@ -1,21 +1,28 @@
 header {
     display: flex;
     justify-content: space-between;
+    // justify-content: flex-start;
     align-items: center;
-    margin-top: 10px;
+    margin: 10px 0;
     margin-bottom: 10px;
     background-color: #FFFFFF;
     border-radius: 0.25rem;
     border: 1px solid rgba(0,0,0,.125);
     padding: 0.8rem;
-    h1 {
-        margin: 0;
-    }
+    // h1 {
+    //     margin: 0;
+    // }
 }
 
-.table-colspan {
-  text-align: center;
-}
+// .table-colspan {
+//   text-align: center;
+// }
+
+.d-flex {
+    display: flex; /* flex || inline-flex */
+    justify-content: flex-start;
+  }
+
 .form-has-error {
   color: #dc3545;
 }
@@ -23,7 +30,3 @@ header {
 .popup { 
     position:fixed; left:50%; 
 }
-/*
-button.mat-paginator-navigation-next.mat-icon-button.cdk-focused {
-    outline: 0!important;
-}*/
