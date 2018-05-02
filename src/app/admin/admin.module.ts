@@ -22,7 +22,6 @@ import { PopupFormComponent } from './specialities/popup-form/popup-form.compone
 import { DeleteConfirmComponent } from '../shared/delete-confirm/delete-confirm.component';
 import { ResponseMessageComponent } from '../shared/response-message/response-message.component';
 import { StudentsResolver } from './students/students-resolver.service';
-import { TestsValidatorDirective } from './tests/tests-validator.directive';
 import { SpecialityPipe } from './specialities/speciality.pipe';
 import { SpecialityFilterComponent } from './groups/selectFilters/specialityFilter.component';
 import { AdministratorsDialogComponent } from './administrators/administrators-dialog/administrators-dialog.component';
@@ -52,7 +51,6 @@ import { ResultsService } from "./results/services/results.service";
         TestDetailCreateComponent,
         QuestionsComponent,
         AddQuestionComponent,
-        TestsValidatorDirective,
         SpecialityPipe,
         SpecialityFilterComponent,
         AdministratorsDialogComponent,
