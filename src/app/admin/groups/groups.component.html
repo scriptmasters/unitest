@@ -42,8 +42,8 @@
               </select>
             </div>
 
-            <div class="form-group col-sm-1 d-flex justify-content-between">
-              <button type="button" class="fa fa-refresh btn-header"></button>
+            <div class="form-group col-sm-1 d-flex justify-content-between" title="Скинути фільтри">
+              <button type="button" id="refresh" class="fa fa-refresh btn-header" (click)="refreshFilters()"></button>
             </div>
           </div>
         </div>
@@ -74,7 +74,7 @@
                   <td><i class="fa fa-user" title="Переглянути студентів групи {{tab.group}}"
                          routerLink="/admin/students/byGroup/{{tab.group_id}}"></i></td>
                   <td><i class="fa fa-calendar" title="Розклад тестування групи {{tab.group}}"
-                         (click)="goTimetabel(tab.group_id)"></i></td>
+                         (click)="goTimetable(tab.group_id)"></i></td>
                   <td><i class="fa fa-cog" title="Редагувати групу {{tab.group}}" (click)="openDialog(tab)"></i></td>
                   <td><i class="fa fa-close" title="Видалити групу {{tab.group}}" (click)="delGroup(tab.group_id)"></i>
                   </td>

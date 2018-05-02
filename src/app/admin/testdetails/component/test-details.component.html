@@ -1,18 +1,33 @@
+<div class="breadcrumb-holder">
+  <div class="container-fluid">
+    <ul class="breadcrumb">
+      <li class="breadcrumb-item"><a routerLink="">Головна</a></li>
+      <li class="breadcrumb-item"><a routerLink="/admin/subjects">Предмети</a></li>
+      <li class="breadcrumb-item"><a routerLink="/admin/tests">Тести</a></li>
+      <li class="breadcrumb-item active">Деталі тестів</li>
+    </ul>
+  </div>
+</div>
 
 <div class="container-fluid">
-  <header>
-    <h1 class="h3 display">Додаткові параметри тесту: {{testName}}</h1>
-  </header>
 
-  <div class="row justify-content-end">
-    <div class="pull-right">
-      <div class="col-lg-2 pb-3">
-        <button type="submit"
-                class="btn btn-primary"
-                (click)="openDialog({test_id: testId})">додати деталі</button>
+  <header class="row">
+    <div class="col-lg-12 card">
+      <div class="card-body  d-flex justify-content-between">
+        <div class="d-flex align-self-center">
+          <h2 class="header">Додаткові параметри тесту: {{testName}}</h2>
+        </div>
+        <div>
+          <button type="submit"
+                  class="btn btn-primary btn-header"
+                  (click)="openDialog({test_id: testId})">додати деталі
+          </button>
+
+        </div>
       </div>
     </div>
-  </div>
+  </header>
+
   <div class="row">
     <div class="card col-lg-12">
       <div class="card-body">
@@ -28,7 +43,8 @@
               <th></th>
             </tr>
             </thead>
-            <tbody>
+
+            <tbody *ngIf="testDetails.length > 0">
             <tr *ngFor="let testDetailItem of testDetails; let i = index">
               <th scope="row">{{i+1}}</th>
               <td>{{testDetailItem.level}}</td>

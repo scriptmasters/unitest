@@ -5,16 +5,12 @@ import 'rxjs/add/operator/map';
 @Injectable()
 export class TestDetailsService {
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {
+  }
 
   getTestDetails(testId) {
     const url = 'testDetail/getTestDetailsByTest/' + testId;
     return this.http.get(url);
-  }
-
-  seachTestName(testDetail) {
-    const url = 'testDetail/update/' + testDetail.id;
-    return this.http.post(url, testDetail);
   }
 
   addNewTestDetail(testDetail) {
