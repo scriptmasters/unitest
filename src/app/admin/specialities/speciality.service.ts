@@ -3,6 +3,7 @@ import { Observable } from 'rxjs/Observable';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { RequestOptions, Request, RequestMethod } from '@angular/http';
 import { Speciality, IResponse } from './specialityInterface';
+import {Subject} from '../subjects/subject';
 @Injectable()
 export class SpecialityService {
   constructor(private http: HttpClient) { }
@@ -28,5 +29,8 @@ export class SpecialityService {
   }
   getSpecialitiesId(id): Observable<Speciality[]> {
     return this.http.get<Speciality[]>('Speciality/getRecords/' + id, { withCredentials: true });
+  }
+  getSearchedSpecialities(searchString) {
+      return this.http.get<Speciality[]>('Speciality/GetRecordsBySearch/' + searchString);
   }
 }
