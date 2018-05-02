@@ -15,6 +15,7 @@ export class TestPlayerService {
   private urlGetQuestionInfo = 'EntityManager/getEntityValues';
   private urlGetAnswer = 'SAnswer/getAnswersByQuestion';
   private urlCheckResult = 'SAnswer/checkAnswers';
+  private urlGetTimeTablesForGroup = 'getTimeTablesForGroup/';
 
   constructor(private http: HttpClient) {}
 
