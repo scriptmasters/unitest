@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Faculties, IResponse } from './facultiesInterface';
+import { Faculties, IResponse } from '../facultiesInterface';
 import {Observable} from 'rxjs/Observable';
 
 @Injectable()

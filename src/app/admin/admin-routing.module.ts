@@ -3,11 +3,9 @@ import { Routes, RouterModule } from '@angular/router';
 import {AdminComponent} from './admin.component';
 import {AddQuestionComponent} from './questions/add-question/add-question.component';
 import {QuestionsComponent} from './questions/questions.component';
-import {FacultiesComponent} from './faculties/faculties.component';
 import {AdministratorsComponent} from './administrators/administrators.component';
 import {StatisticComponent} from './statistic/statistic.component';
 import {TestDetailsComponent} from './testdetails/component/test-details.component';
-import {TestsComponent} from './tests/tests.component';
 import {SpecialitiesComponent} from './specialities/specialities.component';
 
 const routes: Routes = [
