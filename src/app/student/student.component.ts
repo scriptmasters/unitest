@@ -44,7 +44,7 @@ export class StudentComponent implements OnInit {
     });
   }
   getRecordsGroup() {
-    this.studentService.getRecordsGroup(this.id).subscribe((response: any) => {
+    this.studentService.getRecordsGroup(this.user.group_id).subscribe((response: any) => {
       response.forEach(item => {
         this.user.group_name = item.group_name;
         this.user.speciality_id = item.speciality_id;
