@@ -47,7 +47,6 @@ import { ResultsService } from './results/services/results.service';
         QuestionsComponent,
         AddQuestionComponent,
         EditQuestionComponent,
-        SpecialityFilterComponent,
         AdministratorsDialogComponent,
         ResultsComponent
     ],
