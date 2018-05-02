@@ -111,7 +111,8 @@ export class QuestionsComponent implements OnInit {
                                     this.displayQuestions();
                                 }
                             ));
-                } else { this.questionService.questionDelete(id)
+                } else {
+                    this.questionService.questionDelete(id)
                     .subscribe(() => {
                             this.openModalMessage('Запитання з відповідями видалене');
                             this.displayQuestions();
