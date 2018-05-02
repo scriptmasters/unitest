@@ -6,6 +6,8 @@ import { DeleteConfirmComponent } from '../../shared/delete-confirm/delete-confi
 import { ResponseMessageComponent } from '../../shared/response-message/response-message.component';
 import { FormGroup, FormControl, Validators, AbstractControl } from '@angular/forms';
 import { AdministratorsDialogComponent } from './administrators-dialog/administrators-dialog.component'
+import {Subscription} from 'rxjs/Subscription';
+import 'rxjs/add/operator/debounceTime';
 
 @Component({
   selector: 'app-administrators',
@@ -14,12 +16,30 @@ import { AdministratorsDialogComponent } from './administrators-dialog/administr
 })
 export class AdministratorsComponent implements OnInit {
   
-  administrators: Administrators[];
+    administrators: Administrators[];
+    error: string;
+    searchBox = new FormControl();
+    searchBoxSubscr: Subscription;
 
   constructor(private administratorsService: AdministratorsService, public dialog: MatDialog) { }
 
   ngOnInit() {
-  	this.getAllAdministrators();
+    this.getAllAdministrators();
+    this.searchBoxSubscr = this.searchBox.valueChanges
+        .debounceTime(1000)
+        .subscribe(newValue => {
+            this.administratorsService.getSearchedAdministrators(newValue)
+                .subscribe(
+                    (data: any) => {
+                        if (data.response === 'no records') {
+                            this.administrators = undefined;
+                            this.error = 'За даним пошуковим запитом дані відсутні';
+                        } else {
+                            this.administrators = data;
+                        }
+                    }
+                );
+        });
 
   }
 

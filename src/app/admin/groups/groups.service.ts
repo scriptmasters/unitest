@@ -2,12 +2,13 @@ import { Groups, Faculties, Specialities, DelGroup, AddGroup } from './interface
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
-import {BehaviorSubject} from "rxjs/BehaviorSubject";
+import {BehaviorSubject} from 'rxjs/BehaviorSubject';
+import {Group} from '../timetable/timetable.service';
 
 @Injectable()
 
 export class GroupsService {
-  
+
   readonly ROOT_URL_POST_GROUPS: string = 'http://vps9615.hyperhost.name:443/api/';
   readonly header = {
     headers: new HttpHeaders({
@@ -60,6 +61,14 @@ export class GroupsService {
     return this.http.get<Specialities>('Speciality/getRecords/' + id, this.header);
   }
 
+  _getGroupsByFaculty(id): Observable<Groups[]> {
+    return this.http.get<Groups[]>('group/getGroupsByFaculty/' + id, this.header);
+  }
+
+  _getGroupsBySpeciality(id): Observable<Groups[]> {
+    return this.http.get<Groups[]>('group/getGroupsBySpeciality/' + id, this.header);
+  }
+
   _addGroup(body): Observable<AddGroup> {
     const data = {
       'group_name': body.group_name,
@@ -79,7 +88,7 @@ export class GroupsService {
     return this.http.post<AddGroup>('group/update/' + id, JSON.stringify(data) , this.header);
   }
 
-//  Two fucntions below are using for getting value for Dialog window
+//  Two functions below are using for getting value for Dialog window
   _getFaculties(): Observable<Faculties[]> {
     return this.http.get<Faculties[]>('Faculty/getRecords/', this.header);
   }
