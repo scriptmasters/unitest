@@ -1,21 +1,21 @@
 <button (click)="getAnswersByQuestion()" value="clicl me">jhkjlk</button>
-
-<div *ngFor="let question of question_text">
-  <div *ngIf="question.ready">
-    <div>
-      <span>
-        {{question.questionId}}: {{question.text}}
-      </span>
-      <form action="">
+<form>
+  <div *ngFor="let question of question_text">
+    <div *ngIf="question.ready">
+      <div>
+        <span>
+          {{question.questionId}}: {{question.text}}
+        </span>
         <div *ngFor="let answer of question.answers">
           <span>
-            <input type="radio" name="answer" id="" (change)="tests(question.questionId,answer.answerId)" value="[{{answer.answerId}}]">
+            <input type="radio" name="{{question.questionId}}" 
+             (change)="tests()" value="{{answer}}">
           </span>
           <span>
             {{answer.answerId}}: {{answer.text}}
           </span>
         </div>
-      </form>
+      </div>
     </div>
   </div>
-</div>
+</form>

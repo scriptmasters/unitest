@@ -4,14 +4,17 @@ import { StudentComponent } from './student.component';
 import { StudentRoutingModule } from './student-routing.module';
 import { AuthService } from '../auth/auth.service';
 import { TestPlayerComponent } from './test-player/test-player.component';
-import {TestPlayerService} from './services/test-player.service';
+import { TestPlayerService } from './services/test-player.service';
+import { FormsModule } from '@angular/forms';
+import { StudentService } from './student.service';
 
 @NgModule({
     imports: [
         CommonModule,
-        StudentRoutingModule
+        StudentRoutingModule,
+        FormsModule
     ],
     declarations: [StudentComponent, TestPlayerComponent],
-    providers: [AuthService, TestPlayerService]
+    providers: [AuthService, TestPlayerService, StudentService]
 })
 export class StudentModule { }

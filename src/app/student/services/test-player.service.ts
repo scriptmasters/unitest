@@ -8,26 +8,26 @@ export class TestPlayerService {
   private urlRandomQuestion = 'Question/getQuestionIdsByLevelRand';
   private urlAnswersByQuestion = 'SAnswer/getAnswersByQuestion/';
   private urlgetRecords = 'Question/getRecords/';
-  private urlcheckAnswers = 'SAnswer/checkAnswers/30'
+  private urlcheckAnswers = 'SAnswer/checkAnswers/30';
 
   constructor(
     private http: HttpClient
   ) { }
 
   startTest(): Observable<any> {
-    return this.http.get(this.urlStartTest + '/78/1');
+    return this.http.get(this.urlStartTest + '/93/1');
   }
   getRandomQuestion(): Observable<any> {
-    return this.http.get(this.urlRandomQuestion + '/1/1/2');
+    return this.http.get(this.urlRandomQuestion + '/1/1/4');
   }
   getAnswersByQuestion(id): Observable<any> {
     return this.http.get(this.urlAnswersByQuestion + id);
   }
   getRecords(id): Observable<any> {
-    return this.http.get(this.urlgetRecords + id)
+    return this.http.get(this.urlgetRecords + id);
   }
   checkAnswers(body): Observable<any> {
-    return this.http.post(this.urlcheckAnswers, body)
+    return this.http.post(this.urlcheckAnswers, body);
   }
 
 }

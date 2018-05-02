@@ -3,7 +3,7 @@ import { FormsModule, FormGroup } from '@angular/forms';
 import { TestPlayerService } from '../services/test-player.service';
 import { Subject } from '../../admin/subjects/subject';
 import { forEach } from '@angular/router/src/utils/collection';
-import { QuestionInterface, AnswerInterface, ResultInterface } from './question-interface'
+import { QuestionInterface, AnswerInterface, ResultInterface } from './question-interface';
 
 @Component({
   selector: 'app-test-player',
@@ -21,7 +21,7 @@ export class TestPlayerComponent implements OnInit {
   id;
   ids;
   testarr = [];
-
+  userAnswer: {};
 
   constructor(
     private testPlayerService: TestPlayerService
@@ -30,14 +30,11 @@ export class TestPlayerComponent implements OnInit {
   ngOnInit() {
     this.startTest();
     this.getRandomQuestion();
-    // this.getAnswersByQuestion();
   }
 
   startTest(): void {
     this.testPlayerService.startTest()
       .subscribe((response: any) => {
-        // console.log(response);
-        // this.specialitys = response;
       });
   }
 
@@ -54,7 +51,7 @@ export class TestPlayerComponent implements OnInit {
 
     this.question.forEach((item) => {
 
-      let questionObject = <QuestionInterface>{};
+      const questionObject = <QuestionInterface>{};
       questionObject.answers = <AnswerInterface[]>[];
 
       this.testPlayerService.getRecords(item.question_id)
@@ -63,9 +60,9 @@ export class TestPlayerComponent implements OnInit {
           questionObject.text = response.pop().question_text;
 
           this.testPlayerService.getAnswersByQuestion(item.question_id)
-            .subscribe((response: any) => {
-              response.forEach(answerResponse => {
-                let answer = <AnswerInterface>{};
+            .subscribe((responses: any) => {
+              responses.forEach(answerResponse => {
+                const answer = <AnswerInterface>{};
                 answer.text = answerResponse.answer_text;
                 answer.answerId = answerResponse.answer_id;
 
@@ -73,26 +70,14 @@ export class TestPlayerComponent implements OnInit {
               });
               questionObject.ready = true;
             });
-        })
+        });
       this.question_text.push(questionObject);
-    })
+    });
 
 
     console.log(this.question_text);
   }
-  tests(id:number, ids:Array<number>) {
-    let answer:Array<any>=[];
-    let arr:Array<Number>=[];
-    arr.push(+ids);
-    // console.log(arr);
-    let result = <ResultInterface>{};
-    result.answer_ids = arr;
-    result.question_id = (+id);
-    // console.log(result);
-    answer.push(result);
-    console.log(answer);
-    this.testPlayerService.checkAnswers(answer).subscribe((response :any)=> {
-      console.log(response);
-    })
+  tests() {
+    console.log(this.userAnswer);
   }
 }
