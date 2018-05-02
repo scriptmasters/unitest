@@ -1,7 +1,9 @@
 <div class="breadcrumb-bar mb-1">
     <ul class="breadcrumb">
-        <li *ngFor="let part of routeParts">
-            <a routerLink="/{{part.url}}">{{part.breadcrumb}}</a>
+        <li *ngFor="let breadcrumb of breadcrumbs | async" class="breadcrumb-item">
+            <a routerLink="[breadcrumb.url, breadcrumb.params]">
+      {{ breadcrumb.label }}
+    </a>
         </li>
     </ul>
 </div>
