@@ -10,7 +10,7 @@
               </div>
               <div class="col-sm-3"></div>
               <div class="col-sm-4 col-12 items">
-                <input type="text" id="title" placeholder="Пошук..." class="form-control form-control-success" [(ngModel)]="searchStr">
+                <input type="text" id="title" placeholder="Пошук..." class="form-control form-control-success" [formControl]="searchBox">
               </div>
               <div class="col-sm-2 col-12 items">
                 <div class="justify-content-end">
@@ -27,7 +27,7 @@
         <div class="card">
           <div class="card-body">
             <div class="table-responsive">
-              <table *ngIf="this.speciality.specialitiesObject; else noRecords" class="table table-striped table-hover">
+              <table *ngIf="specialitys; else noRecords" class="table table-striped table-hover">
                 <thead>
                   <tr>
                     <th>Код спеціальності
@@ -39,7 +39,7 @@
                   </tr>
                 </thead>
                 <tbody>
-                  <tr *ngFor="let key of specialitys |specialitySearch:searchStr | paginate: { itemsPerPage: 5, currentPage: p}">
+                  <tr *ngFor="let key of specialitys | paginate: { itemsPerPage: 5, currentPage: p}">
                     <th>{{key.speciality_code}}</th>
                     <td>{{key.speciality_name}}</td>
                     <td>
@@ -55,7 +55,7 @@
                 </tbody>
               </table>
               <ng-template #noRecords>
-                {{this.speciality.error}}
+                {{error}}
               </ng-template>
             </div>
           </div>
@@ -68,5 +68,5 @@
         class="pagination justify-content-center"
         previousLabel="<<" nextLabel=">>"
         autoHide="true"
-        *ngIf="this.speciality.specialitiesObject"
+        *ngIf="specialitys"
         (pageChange)="p = $event"></pagination-controls>

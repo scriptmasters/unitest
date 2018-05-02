@@ -6,9 +6,10 @@ import { PopupFormComponent } from './popup-form/popup-form.component';
 import { ResponseMessageComponent } from '../../shared/response-message/response-message.component';
 import { Router } from '@angular/router';
 import { Speciality, IResponse } from './specialityInterface';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { MatPaginatorModule } from '@angular/material/paginator';
+import { FormControl, FormGroup } from '@angular/forms';
 import { DeleteConfirmComponent } from '../../shared/delete-confirm/delete-confirm.component';
+import { Subscription } from 'rxjs/Subscription';
+import 'rxjs/add/operator/debounceTime';
 
 @Component({
   selector: 'app-specialities',
@@ -16,19 +17,35 @@ import { DeleteConfirmComponent } from '../../shared/delete-confirm/delete-confi
   styleUrls: ['./specialities.component.scss']
 })
 export class SpecialitiesComponent implements OnInit {
-  searchStr = '';
+
   specialitys: Speciality[];
   form: FormGroup;
+  error: string;
+  searchBox = new FormControl();
+  searchBoxSubscr: Subscription;
+
   constructor(private speciality: SpecialityService,
     private http: HttpClient,
     public dialog: MatDialog,
     private router: Router) { }
 
-    error: string;
-    searchBox = new FormControl();
-
   ngOnInit() {
     this.getAllSpeciality();
+    this.searchBoxSubscr = this.searchBox.valueChanges
+        .debounceTime(1000)
+        .subscribe(newValue => {
+            this.speciality.getSearchedSpecialities(newValue)
+                .subscribe(
+                    (data: any) => {
+                        if (data.response === 'no records') {
+                            this.specialitys = undefined;
+                            this.error = 'За даним пошуковим запитом дані відсутні';
+                        } else {
+                            this.specialitys = data;
+                        }
+                    }
+                );
+        });
   }
   getAllSpeciality(): void {
     this.speciality.getSpecialities().subscribe((data: Speciality[]) => {
