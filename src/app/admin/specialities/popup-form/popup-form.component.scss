@@ -1,0 +1,29 @@
+form .ng-invalid:not(.ng-untouched) {
+    border-color: red;
+}
+
+span {
+	color: red;
+}
+
+.btn-danger, .btn-success {
+	margin: 2px;
+}
+
+.title {
+	justify-content: space-between;
+	align-items: center;
+	margin-bottom: 10px;
+}
+
+.specialityName, .form-group.row, .labels {
+	margin-bottom: 0;
+}
+
+i {
+    cursor: pointer;
+}
+
+.inputMessage {
+	height: 1.5rem;
+}

@@ -17,7 +17,7 @@ import { StatisticService } from './statistic/statistic.service';
 import { SpecialityService } from './specialities/speciality.service';
 import { PopupFormComponent } from './specialities/popup-form/popup-form.component';
 import { ResultsComponent } from './results/results.component';
-import { ResultsService } from "./results/services/results.service";
+import { ResultsService } from './results/services/results.service';
 
 @NgModule({
     imports: [
