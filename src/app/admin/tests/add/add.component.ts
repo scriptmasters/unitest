@@ -13,6 +13,7 @@ import {forbiddenCharValidator} from '../tests-validator.directive';
 export class AddComponent implements OnInit {
 
   rForm: FormGroup;
+  enabled = [{value: 1, text: 'Доступний'}, {value: 0, text: 'Недоступний'}];
   constructor(public dialogRef: MatDialogRef<AddComponent>, @Inject(MAT_DIALOG_DATA) public data: any,
               private httpService: TestService, private fb: FormBuilder, public dialog: MatDialog) {
     this.initForm();
@@ -28,8 +29,6 @@ initForm() {
   attempts: ['', [Validators.required, Validators.maxLength(2), forbiddenCharValidator(/\D/i)]]
   });
 }
-
-enabled = [{value: 1, text: 'Доступний'}, {value: 0, text: 'Недоступний'}];
 
 onSubmit() {
   const controls = this.rForm.controls;

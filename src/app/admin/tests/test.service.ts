@@ -9,6 +9,8 @@ export class TestService {
   editTest_URL = 'Test/update/';
   addTest_URL = 'Test/insertData';
   getTestById_URL = 'test/getTestsBySubject/';
+  urlGetSubjects = 'Subject/getRecords';
+
   constructor(private http: HttpClient) { }
   getTests() {
     return this.http.get(this.getTest_URL);
@@ -25,4 +27,9 @@ export class TestService {
  getTestsById(id: number) {
    return this.http.get(this.getTestById_URL + id);
  }
+
+ getSubjects() {
+  return this.http.get(this.urlGetSubjects);
+}
+
 }
