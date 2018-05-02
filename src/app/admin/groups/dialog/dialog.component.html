@@ -4,42 +4,55 @@
   </h2>
 </div>
 <form class="form-group container-fluid" novalidate [formGroup]="myForm">
-  <div class="form-group row">
-    <label class="col-md-4">Факультет</label>
-    <select name="faculty" class="form-control col-md-12" [(ngModel)]="faculty" formControlName="facultyValid" required>
-      <option value="" disabled hidden>Факультет</option>
-      <option *ngFor="let fac of facultiesArr" [selected]="fac.faculty_name === data.faculty">{{fac.faculty_name}}
-      </option>
-    </select>
-    <div  *ngIf="facultyValid.errors && (facultyValid.dirty || facultyValid.touched)">
-      <p *ngIf="facultyValid.errors['required']">Це поле є обовязковим</p>
+  <div class="row">
+    <div class="form-group col">
+      <label class="col-md-4">Факультет</label>
+      <select name="faculty" class="form-control col-md-12" [(ngModel)]="faculty" formControlName="facultyValid"
+              required>
+        <option value="" disabled hidden>Факультет</option>
+        <option *ngFor="let fac of facultiesArr" [selected]="fac.faculty_name === data.faculty">{{fac.faculty_name}}
+        </option>
+      </select>
+      <div class="form-msg">
+        <div *ngIf="facultyValid.errors && (facultyValid.dirty || facultyValid.touched)"
+             class="error col-12">
+          <p *ngIf="facultyValid.errors['required']">Це поле є обовязковим</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="form-group col">
+      <label class="col-md-4">Спеціальність</label>
+      <select name="speciality" class="form-control col-md-12" [(ngModel)]="speciality"
+              formControlName="specialityValid">
+        <option value="" disabled hidden>Спеціальність</option>
+        <option *ngFor="let spec of specialitiesArr" [selected]="spec.speciality_name === data.speciality">
+          {{spec.speciality_name}}
+        </option>
+      </select>
+      <div class="form-msg">
+        <div *ngIf="specialityValid.errors && (specialityValid.dirty || specialityValid.touched)"
+             class="error col-12">
+          <p>Це поле є обовязковим</p>
+        </div>
+      </div>
     </div>
   </div>
 
-  <div class="form-group row">
-    <label class="col-md-4">Спеціальність</label>
-    <select name="speciality" class="form-control col-md-12" [(ngModel)]="speciality" formControlName="specialityValid">
-      <option value="" disabled hidden>Спеціальність</option>
-      <option *ngFor="let spec of specialitiesArr" [selected]="spec.speciality_name === data.speciality">
-        {{spec.speciality_name}}
-      </option>
-    </select>
-    <div *ngIf="specialityValid.errors && (specialityValid.dirty || specialityValid.touched)">
-      <p>Це поле є обовязковим</p>
+  <div class="row">
+    <div class="form-group col">
+      <label for="groupNameInp" class="col-md-4">Назва групи</label>
+      <input class="col-md-4" placeholder="Назва групи" class="form-control" [(ngModel)]="group" id="groupNameInp"
+             formControlName="groupValid">
+      <div class="form-msg">
+        <div *ngIf="groupValid.errors && (groupValid.dirty || groupValid.touched)"
+             class="error col-12">
+          <span *ngIf="groupValid.errors['required']">Це поле є обовязковим</span>
+          <span *ngIf="groupValid.errors['pattern']">Це поле повинне бути формату АА-00-0 або ААА-00-0</span>
+        </div>
+      </div>
     </div>
-  </div>
-
-  <div class="form-group row">
-    <label for="groupNameInp" class="col-md-4">Назва групи</label>
-    <input class="col-md-4" placeholder="Назва групи" class="form-control" [(ngModel)]="group" id="groupNameInp"
-           formControlName="groupValid">
-
-
-      <div *ngIf="groupValid.errors && (groupValid.dirty || groupValid.touched)">
-      <p *ngIf="groupValid.errors['required']">Це поле є обовязковим</p>
-      <p *ngIf="groupValid.errors['pattern']">Це поле повинне бути формату АА-00-0 або ААА-00-0</p>
-    </div>
-
   </div>
 
   <mat-dialog-actions class="row d-flex justify-content-center">

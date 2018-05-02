@@ -43,4 +43,8 @@ export class TestPlayerComponent implements OnInit {
         console.log(response);
       });
   }
+
+// ***** TIMER *****
+ a = 'TIMER';
+
 }
