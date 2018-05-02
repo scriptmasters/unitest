@@ -11,7 +11,6 @@ export class TestPlayerComponent implements OnInit {
   questions = [];
   userAnswers = {};
   checkedAnswers = {}; // for checkbox question
-
   constructor(private testPlayerService: TestPlayerService) {}
 
   ngOnInit() {

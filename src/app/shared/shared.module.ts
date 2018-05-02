@@ -57,4 +57,3 @@ import {SpinnerComponent} from './spinner/spinner.component';
 })
 
 export class SharedModule {}
-
