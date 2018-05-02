@@ -1,83 +1,46 @@
 import { Component, OnInit } from '@angular/core';
-import { FormsModule, FormGroup } from '@angular/forms';
+
 import { TestPlayerService } from '../services/test-player.service';
-import { Subject } from '../../admin/subjects/subject';
-import { forEach } from '@angular/router/src/utils/collection';
-import { QuestionInterface, AnswerInterface, ResultInterface } from './question-interface';
 
 @Component({
   selector: 'app-test-player',
   templateUrl: './test-player.component.html',
-  styleUrls: ['./test-player.component.scss']
+  styleUrls: ['./test-player.component.scss'],
 })
 export class TestPlayerComponent implements OnInit {
-  specialitys;
-  question;
-  answer;
-  id_question;
-  question_text = [];
-  private test = [];
-  form: FormGroup;
-  id;
-  ids;
-  testarr = [];
-  userAnswer: {};
-
-  constructor(
-    private testPlayerService: TestPlayerService
-  ) { }
+  questions = [];
+  userAnswers = {};
+  checkedAnswers = {}; // for checkbox question
+  constructor(private testPlayerService: TestPlayerService) {}
 
   ngOnInit() {
-    this.startTest();
-    this.getRandomQuestion();
+    this.getQuestionsForTest();
   }
 
-  startTest(): void {
-    this.testPlayerService.startTest()
-      .subscribe((response: any) => {
+  getQuestionsForTest(): void {
+    this.testPlayerService
+      .getQuestionsWithAnswers()
+      .subscribe((questions: any) => {
+        this.questions = questions;
       });
   }
 
-  getRandomQuestion(): void {
-    this.testPlayerService.getRandomQuestion()
+  chooseAnswer(question_id: number, answer) {
+    this.userAnswers[answer.answer_id] = answer;
+
+    if (this.checkedAnswers[answer.answer_id] === false) {
+      delete this.userAnswers[answer.answer_id];
+    } else {
+      this.userAnswers[answer.answer_id].answer_id = [answer.answer_id];
+    }
+  }
+
+  finishTest() {
+    console.log(this.userAnswers);
+    console.log('Finish Test');
+    this.testPlayerService.checkResult(this.userAnswers)
       .subscribe((response: any) => {
-        this.question = response;
-        console.log(this.question);
+        console.log(response);
       });
-  }
-  getAnswersByQuestion() {
-
-    this.question_text.length = 0;
-
-    this.question.forEach((item) => {
-
-      const questionObject = <QuestionInterface>{};
-      questionObject.answers = <AnswerInterface[]>[];
-
-      this.testPlayerService.getRecords(item.question_id)
-        .subscribe((response: any) => {
-          questionObject.questionId = item.question_id;
-          questionObject.text = response.pop().question_text;
-
-          this.testPlayerService.getAnswersByQuestion(item.question_id)
-            .subscribe((responses: any) => {
-              responses.forEach(answerResponse => {
-                const answer = <AnswerInterface>{};
-                answer.text = answerResponse.answer_text;
-                answer.answerId = answerResponse.answer_id;
-
-                questionObject.answers.push(answer);
-              });
-              questionObject.ready = true;
-            });
-        });
-      this.question_text.push(questionObject);
-    });
-
-
-    console.log(this.question_text);
-  }
-  tests() {
-    console.log(this.userAnswer);
   }
 }

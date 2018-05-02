@@ -1,26 +1,34 @@
 <section>
-  <!-- Таблиця з студентами -->
+  <!-- Main table with students -->
   <div class="container-fluid">
     <header> 
       <div class="raw d-flex justify-content-start align-items-center">
           <h1 class="h3 display">Студенти</h1>
       </div>
-      <button type="button" class="btn btn-success" (click)="showRegForm()">Додати студента</button>
+      <button *ngIf="!byGroup" type="button" class="btn btn-success" (click)="showRegForm()">Додати студента</button>
+      <div *ngIf="byGroup" class="studNav">
+        <button type="button" class="btn" (click)="backToGroups()">Групи</button>
+        <button type="button" class="btn" (click)="reviseAllStudents()">Всі студенти</button>
+      </div>
     </header>
     <div class="col-lg-12">
-      <div class="row d-flex justify-content-between align-items-center filters">
+      <div *ngIf="!byGroup" class="row d-flex justify-content-between align-items-center filters">
+        <!-- Search input -->
         <div class="col-sm-12 col-md-3">
           <input
             type="text"
-            [(ngModel)]="searchString"
+            #searchField
+            (keyup)="searchString.next($event.target.value)"
             placeholder="Пошук..."
             class="form-control search">
         </div>
+        <!-- List of faculties (dropdown) -->
         <div class="col-sm-12 col-md-4">
           <select
             name="facultyFilter"
             class="form-control faculty-filter"
             #facultySelector
+            [(ngModel)]="facultyString"
             (change)="getGroups(facultySelector)">
             <option
               [selected]="false"
@@ -33,11 +41,14 @@
             </option>
           </select>
         </div>
+        <!-- List of groups (dropdown) -->
         <div class="col-sm-12 col-md-4">
           <select
             name="groupFilter"
-            [(ngModel)]="filterByGroupStr"
-            class="form-control group-filter">
+            #groupsList
+            class="form-control group-filter"
+            [(ngModel)]="groupString"
+            (change)="getFiltredStudentsByGroup(groupsList)">
             <option
               [selected]="true">
               Виберіть групу
@@ -48,11 +59,13 @@
             </option>
           </select>
         </div>
+        <!-- refresh button -->
         <div class="col-sm-12 col-md-1 d-flex justify-content-center">
             <button
               type="button"
+              title="Очистити фільтри"
               class="fa fa-refresh"
-              [disabled]="searchString.length < 1 && filterByGroupStr === 'Виберіть групу'"
+              [disabled]="searchField.value.length < 1 && groupString === 'Виберіть групу'"
               (click)="resetFilters()">
             </button>
         </div>
@@ -74,7 +87,7 @@
                   </tr>
                 </thead>
                 <tbody>
-                  <tr *ngFor="let student of students | filterByGroup: filterByGroupStr | searchStudent: searchString | paginate: config; let i = index" class="d-flex">
+                  <tr *ngFor="let student of students | paginate: config; let i = index" class="d-flex">
                     <th class="col-1">{{(config.currentPage - 1) * config.itemsPerPage + i +1}}</th>
                     <td class="col-5">{{student.fullName}}</td>
                     <th class="col-2">{{student.gradebook_id}}</th>

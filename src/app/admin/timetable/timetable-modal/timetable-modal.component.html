@@ -6,7 +6,7 @@
     <div class="form-row">
         <div class="form-group col-lg-4">
             <label>Назва групи</label>
-            <select name="account" class="form-control col-md-12" [(ngModel)]="formData.group_id" formControlName="group"> 
+            <select name="account" class="form-control col-md-12" [(ngModel)]="formData.group_id" formControlName="group">
                                 <option value="">Виберіть групу</option>
                                 <option *ngFor="let group of data.groups" [value]="group.group_id">{{group.group_name}}</option>
                             </select>

@@ -1,21 +1,41 @@
-<button (click)="getAnswersByQuestion()" value="clicl me">jhkjlk</button>
-<form>
-  <div *ngFor="let question of question_text">
-    <div *ngIf="question.ready">
-      <div>
-        <span>
-          {{question.questionId}}: {{question.text}}
-        </span>
-        <div *ngFor="let answer of question.answers">
-          <span>
-            <input type="radio" name="{{question.questionId}}" 
-             (change)="tests()" value="{{answer}}">
-          </span>
-          <span>
-            {{answer.answerId}}: {{answer.text}}
-          </span>
+<section>
+  <form>
+    <div *ngFor="let question of questions; let i = index">
+      <div [ngSwitch]="question.type">
+        <div *ngSwitchCase="1">
+          <span>{{i+1}}. {{question.question_text}}</span>
+          <ul>
+            <li *ngFor="let answer of question.answers">
+              <input
+                type="radio"
+                [value]="answer"
+                name="question{{question.question_id}}"
+                [(ngModel)] = "userAnswers[answer.answer_id]"
+              >
+              <span>{{answer.answer_text}}</span>
+            </li>
+          </ul>
+        </div>
+        <div *ngSwitchCase="2">
+          <span>{{i+1}}. {{question.question_text}}</span>
+          <ul>
+            <li *ngFor="let answer of question.answers">
+              <input
+                type="checkbox"
+                [value]="answer.answer_id"
+                name="question{{question.question_id}}"
+                (change)="chooseAnswer(question.question_id, answer)"
+                [(ngModel)] = "checkedAnswers[answer.answer_id]"
+                >
+              <span>{{answer.answer_text}}</span>
+            </li>
+          </ul>
+        </div>
+        <div *ngSwitchDefault>
+          <span>another type of question</span>
         </div>
       </div>
     </div>
-  </div>
-</form>
+    <button (click)="finishTest()">Закінчити тест</button>
+  </form>
+</section>

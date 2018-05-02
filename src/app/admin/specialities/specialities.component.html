@@ -27,7 +27,7 @@
         <div class="card">
           <div class="card-body">
             <div class="table-responsive">
-              <table class="table table-striped table-hover">
+              <table *ngIf="this.speciality.specialitiesObject; else noRecords" class="table table-striped table-hover">
                 <thead>
                   <tr>
                     <th>Код спеціальності
@@ -54,6 +54,9 @@
                   </tr>
                 </tbody>
               </table>
+              <ng-template #noRecords>
+                {{this.speciality.error}}
+              </ng-template>
             </div>
           </div>
         </div>
@@ -61,4 +64,9 @@
     </div>
   </div>
 </section>
-<pagination-controls class="pagination justify-content-center" previousLabel="<<" nextLabel=">>" autoHide="true" (pageChange)="p = $event"></pagination-controls>
+<pagination-controls
+        class="pagination justify-content-center"
+        previousLabel="<<" nextLabel=">>"
+        autoHide="true"
+        *ngIf="this.speciality.specialitiesObject"
+        (pageChange)="p = $event"></pagination-controls>

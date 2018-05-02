@@ -1,11 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { SpecialityService } from './speciality.service';
-import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
-import { Observable } from 'rxjs/Observable';
-import { catchError, map, tap } from 'rxjs/operators';
-import { identifierModuleUrl } from '@angular/compiler';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { PopupFormComponent } from '../specialities/popup-form/popup-form.component';
+import { MatDialog } from '@angular/material';
+import { HttpClient } from '@angular/common/http';
+import { PopupFormComponent } from './popup-form/popup-form.component';
 import { ResponseMessageComponent } from '../../shared/response-message/response-message.component';
 import { Router } from '@angular/router';
 import { Speciality, IResponse } from './specialityInterface';
@@ -26,6 +23,9 @@ export class SpecialitiesComponent implements OnInit {
     private http: HttpClient,
     public dialog: MatDialog,
     private router: Router) { }
+
+    error: string;
+    searchBox = new FormControl();
 
   ngOnInit() {
     this.getAllSpeciality();
@@ -98,3 +98,4 @@ export class SpecialitiesComponent implements OnInit {
     });
   }
 }
+

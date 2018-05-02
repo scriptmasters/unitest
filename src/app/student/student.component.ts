@@ -4,12 +4,11 @@ import { TestPlayerService } from '../student/services/test-player.service';
 import { StudentService } from './student.service';
 import { UserInfo, TimeTable, Subject, TestInterface } from './test-player/question-interface';
 import { NgStyle } from '@angular/common';
-
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-student',
   templateUrl: './student.component.html',
   styleUrls: ['./student.component.scss'],
-
 })
 export class StudentComponent implements OnInit {
   id: number;
