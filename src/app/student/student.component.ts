@@ -5,6 +5,7 @@ import { StudentService } from './student.service';
 import { UserInfo, TimeTable, Subject, TestInterface } from './test-player/question-interface';
 import { NgStyle } from '@angular/common';
 import { Router } from '@angular/router';
+import { SubjectsComponent } from '../admin/subjects/subjects.component';
 @Component({
   selector: 'app-student',
   templateUrl: './student.component.html',
@@ -13,9 +14,10 @@ import { Router } from '@angular/router';
 export class StudentComponent implements OnInit {
   id: number;
   user = <UserInfo>{};
-  timeTable = <TimeTable>{};
+  // timeTable = <TimeTable>{};
   time;
   subjects = [];
+  times = [];
   constructor(
     public authService: AuthService,
     public studentService: StudentService
@@ -70,38 +72,46 @@ export class StudentComponent implements OnInit {
     });
   }
   getTimeTablesForGroup() {
-    this.studentService.getTimeTablesForGroup(this.user.group_id).subscribe((response: any) => {
+    this.studentService.getTimeTablesForGroup(this.user.group_id)
+      .subscribe((response: any) => {
+        response.forEach(element => {
+
+          const timeTables = <TimeTable>{};
+          timeTables.end_date = element.end_date;
+          timeTables.end_time = element.end_time;
+          timeTables.start_date = element.start_date;
+          timeTables.start_time = element.start_time;
+          timeTables.subject = <Subject[]>[];
+
+          this.studentService.getRecordsSubject(element.subject_id)
+            .subscribe((responses: any) => {
+              const subject = <Subject>{};
+              subject.tests = <TestInterface[]>[];
+              subject.subject_name = responses.pop().subject_name;
 
 
-      this.time = response;
-      this.time.forEach(item => {
-        this.studentService.getRecordsSubject(item.subject_id).
-          subscribe((responses: any) => {
 
-            const subject = <Subject>{};
-            subject.tests = <TestInterface[]>[];
-            subject.subject_name = responses.pop().subject_name;
-            this.studentService.getTestsBySubject(item.subject_id)
-              .subscribe((data: any) => {
-
-                data.forEach(element => {
-                  const test = <TestInterface>{};
-                  test.test_name = element.test_name;
-                  test.test_id = element.test_id;
-                  test.tasks = element.tasks;
-                  test.time_for_test = element.time_for_test;
-                  test.enabled = element.enabled;
-                  test.attempts = element.attempts;
-                  subject.tests.push(test);
+              this.studentService.getTestsBySubject(element.subject_id)
+                .subscribe((data: any) => {
+                  data.forEach(testResponse => {
+                    const test = <TestInterface>{};
+                    test.test_name = testResponse.test_name;
+                    test.test_id = testResponse.test_id;
+                    test.tasks = testResponse.tasks;
+                    test.time_for_test = testResponse.time_for_test;
+                    test.enabled = testResponse.enabled;
+                    test.attempts = testResponse.attempts;
+                    subject.tests.push(test);
+                  });
+                  subject.ready = true;
                 });
-                subject.ready = true;
-              });
 
-            this.subjects.push(subject);
-          });
+              timeTables.subject.push(subject);
+              this.subjects.push(timeTables);
+            });
+        });
+        console.log(this.subjects);
       });
-      console.log(this.subjects);
-    });
   }
 
   test(id) {
