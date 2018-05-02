@@ -19,7 +19,6 @@ import { EditQuestionComponent } from './questions/edit-question/edit-question.c
 import { StatisticService } from './statistic/statistic.service';
 import { SpecialityService } from './specialities/speciality.service';
 import { PopupFormComponent } from './specialities/popup-form/popup-form.component';
-import { SpecialityFilterComponent } from './groups/selectFilters/specialityFilter.component';
 import { AdministratorsDialogComponent } from './administrators/administrators-dialog/administrators-dialog.component';
 import { ResultsComponent } from './results/results.component';
 import { ResultsService } from './results/services/results.service';
