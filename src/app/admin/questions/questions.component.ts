@@ -2,10 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { QuestionsService } from './questions.service';
 import {AddQuestionComponent} from './add-question/add-question.component';
 import {EditQuestionComponent} from './edit-question/edit-question.component';
-
-import { IQuestionGet } from './questions-interface';
-import { IQuestionSet } from './questions-interface';
-import { IQuestions } from './questions-interface';
+import { IQuestions, IQuestionGet, IQuestionSet } from './questions-interface';
 import { group } from '@angular/animations';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog} from '@angular/material';
