@@ -43,7 +43,7 @@ const routes: Routes = [
                 component: SpecialitiesComponent
             }, {
                 path: 'administrators',
-                component: AdministratorsComponent
+                loadChildren: './administrators/administrators.module#AdministratorsModule'
             },
             {
                 path: 'timetable',

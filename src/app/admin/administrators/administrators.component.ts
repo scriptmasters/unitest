@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { AdministratorsService } from './administrators.service';
+import { AdministratorsService } from './services/administrators.service';
 import { Administrators, IResponse } from './administratorsInterface';
 import { MatDialog } from '@angular/material';
 import { DeleteConfirmComponent } from '../../shared/delete-confirm/delete-confirm.component';
@@ -7,7 +7,9 @@ import { ResponseMessageComponent } from '../../shared/response-message/response
 import { FormGroup, FormControl, Validators, AbstractControl } from '@angular/forms';
 import { AdministratorsDialogComponent } from './administrators-dialog/administrators-dialog.component'
 import {Subscription} from 'rxjs/Subscription';
+import {PaginationInstance} from 'ngx-pagination';
 import 'rxjs/add/operator/debounceTime';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 
 @Component({
   selector: 'app-administrators',
@@ -21,10 +23,15 @@ export class AdministratorsComponent implements OnInit {
     searchBox = new FormControl();
     searchBoxSubscr: Subscription;
 
-  constructor(private administratorsService: AdministratorsService, public dialog: MatDialog) { }
+    public config: PaginationInstance = {
+     itemsPerPage: 5,
+     currentPage: 1
+  };
+
+  constructor(private administratorsService: AdministratorsService, public dialog: MatDialog, private route: ActivatedRoute) { }
 
   ngOnInit() {
-    this.getAllAdministrators();
+    this.administrators = this.route.snapshot.data['administrators'];
     this.searchBoxSubscr = this.searchBox.valueChanges
         .debounceTime(1000)
         .subscribe(newValue => {
@@ -106,6 +113,4 @@ export class AdministratorsComponent implements OnInit {
       }
     });
   }
-
-
 }
