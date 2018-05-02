@@ -9,6 +9,7 @@ import {StatisticComponent} from './statistic/statistic.component';
 import {TestDetailsComponent} from './testdetails/component/test-details.component';
 import {TestsComponent} from './tests/tests.component';
 import {SpecialitiesComponent} from './specialities/specialities.component';
+import {ResultsComponent} from "./results/results.component";
 
 const routes: Routes = [
     {
@@ -65,6 +66,10 @@ const routes: Routes = [
             {
                 path: 'testdetails',
                 component: TestDetailsComponent
+            },
+            {
+                path: 'results',
+                component: ResultsComponent
             }
         ]
     }

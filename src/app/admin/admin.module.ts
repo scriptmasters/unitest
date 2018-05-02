@@ -19,7 +19,8 @@ import { StatisticService } from './statistic/statistic.service';
 import { SpecialityService } from './specialities/speciality.service';
 import { PopupFormComponent } from './specialities/popup-form/popup-form.component';
 import { AdministratorsDialogComponent } from './administrators/administrators-dialog/administrators-dialog.component';
-
+import { ResultsComponent } from './results/results.component';
+import { ResultsService } from './results/services/results.service';
 
 @NgModule({
     imports: [
@@ -29,9 +30,10 @@ import { AdministratorsDialogComponent } from './administrators/administrators-d
     ],
     entryComponents: [
         PopupFormComponent,
-        TestDetailCreateComponent, // Maryan
         AddQuestionComponent,
-        AdministratorsDialogComponent
+        AdministratorsDialogComponent,
+        TestDetailCreateComponent,
+        AddQuestionComponent
     ],
     declarations: [
         AdminComponent,
@@ -39,11 +41,12 @@ import { AdministratorsDialogComponent } from './administrators/administrators-d
         SpecialitiesComponent,
         AdministratorsComponent,
         PopupFormComponent,
-        TestDetailsComponent, // Maryan
+        TestDetailsComponent,
         TestDetailCreateComponent,
         QuestionsComponent,
         AddQuestionComponent,
-        AdministratorsDialogComponent
+        AdministratorsDialogComponent,
+        ResultsComponent
     ],
     providers: [
         AuthService,
@@ -52,7 +55,8 @@ import { AdministratorsDialogComponent } from './administrators/administrators-d
         SpecialityService,
         TestDetailsService,
         QuestionsService,
-        AdministratorsService
+        AdministratorsService,
+        ResultsService
     ]
 })
 

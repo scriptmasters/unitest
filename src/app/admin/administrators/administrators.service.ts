@@ -2,13 +2,15 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Administrators, IResponse } from './administratorsInterface';
 import {Observable} from 'rxjs/Observable';
+import {Subject} from '../subjects/subject';
 
 @Injectable()
 export class AdministratorsService {
 	private urlGetAdministrators = 'AdminUser/getRecords';
 	private urlDelAdministrators = 'AdminUser/del';
 	private urlAddAdministrators = 'AdminUser/insertData';
-  private urlEditAdministrators = 'AdminUser/update';
+    private urlEditAdministrators = 'AdminUser/update';
+    private urlGetSearchedAdministrators = 'AdminUser/getRecordsBySearch';
 
   constructor(private http: HttpClient) { }
   
@@ -41,5 +43,8 @@ export class AdministratorsService {
   checkEmailAddress(value: string): Observable<any> {
     return this.http.get<any>(`AdminUser/checkEmailAddress/${value}`).map(res => !res.response);
   }
+    getSearchedAdministrators(searchString) {
+        return this.http.get(this.urlGetSearchedAdministrators + '/' + searchString);
+    }
 }
 

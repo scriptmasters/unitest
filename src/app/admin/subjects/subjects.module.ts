@@ -8,21 +8,9 @@ import { SubjectService } from './services/subject.service';
 import { SubjectsRoutingModule } from './subjects-routing.module';
 
 @NgModule({
-  declarations: [
-    SubjectsComponent,
-    ModalSubjectComponent
-  ],
-  imports: [
-    CommonModule,
-    SharedModule,
-    SubjectsRoutingModule
-  ],
-  providers: [
-    SubjectService
-  ],
-  entryComponents: [
-    ModalSubjectComponent
-  ]
+  declarations: [SubjectsComponent, ModalSubjectComponent],
+  imports: [CommonModule, SharedModule, SubjectsRoutingModule],
+  providers: [SubjectService],
+  entryComponents: [ModalSubjectComponent],
 })
-
 export class SubjectsModule {}
