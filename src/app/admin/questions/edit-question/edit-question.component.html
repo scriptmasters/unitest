@@ -1,0 +1,289 @@
+<div class="card">
+  <div class="card-header d-flex align-items-center">
+  <h3>Редагування завдання з id: {{sel_question_id}},&nbsp;&nbsp;  для тесту: {{sel_question_test_name}}: </h3>
+  </div>
+  <div class="card-body">
+    <!-- <p></p> -->
+    
+
+  <form class="form-group" [formGroup]="form" (submit)="editedQuestionSubmit()">
+
+      <div class="form-row">
+          <div class="form-group col-2"> 
+              <label>Виберіть рівень</label>
+              <select 
+                size="5"
+                class="form-control col-10  " 
+                id="levelSelect" 
+                name="level" 
+                #levelField
+                (change)="setQuestionLevel(levelField)">
+                  <option 
+                    *ngFor="let i of [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20]" 
+                    [selected]="i == sel_question.level"
+                  >
+                      {{i}}
+                  </option>
+              </select>
+          </div>
+
+          <div class="form-group col-6"> 
+              <label>Текст завдання</label>
+              <textarea 
+                class="form-control col-12 form-control-success" 
+                placeholder="Введіть текст завдання..."
+                rows="4" 
+                id="description"
+                #descriptionField (change)="setQuestionText(descriptionField)"
+              >{{sel_question.question_text}}</textarea>
+          </div>
+
+          <div class="form-group col-4">
+              <label>
+                <span *ngIf="sel_question.attachment !== ''">Змінити вкладення</span>
+                <span *ngIf="sel_question.attachment === ''">Добавити вкладення</span>
+                <input type="file" accept="image/*" (change)="setQuestionAttachment($event)">
+              </label>
+              <img *ngIf="sel_question.attachment !== undefined" 
+                   [src]="sel_question.attachment" 
+                   width="100"
+              >
+              <label *ngIf="sel_question.attachment !== ''">
+                  <input type="button"  
+                  value="Видалити вкладення"
+                  (click)="resetQuestionAttachment()"   
+                  >
+              </label>
+
+              
+          </div>
+<!-- edited_question.attachment -->
+
+      </div>
+
+
+    <div class="form-row">
+
+        <div class="form-group col-4">
+
+            <label>Виберіть тип відповіді</label>
+            <select class="form-control col-12" 
+                    id="typeSelect" 
+                    name="type" 
+                    #typeField (change)="setQuestionType(typeField)" 
+                    (change)="onAnswerTypeSelect($event)"
+              >
+               <option value="1"
+                       [selected]="sel_question.type === '1' "
+               >Простий вибір [Simple Choice]</option> 
+               <option value="2"
+                       [selected]="sel_question.type === '2' "
+               >Мульти-вибір [Multi Choice]</option> 
+               <option value="3"
+                       [selected]="sel_question.type === '3' "
+               >Текстове поле вводу [Input Field]</option> 
+               <option value="4"
+                       [selected]="sel_question.type === '4' "
+               >Числове поле вводу [Numerical]</option> 
+               
+            </select>
+
+        </div>
+
+        <div class="form-group col-4">
+            <label>Виберіть ресурс варіантів відповідей</label>
+            <select class="form-control col-12" 
+                    id="resourceSelect"
+                    (change)="onAnswerResourseSelect($event)"
+            >
+                <option 
+                  value="1" 
+                  [selected]=" answersResourse === 'text' " >
+                  Тільки текст
+                </option> 
+                <option *ngIf="(correctAnswerInputType !== 'txt' && correctAnswerInputType !== 'num')"
+                  value="2"
+                  [selected]=" answersResourse === 'file' "  >
+                  Тільки зображення
+                </option> 
+                <option *ngIf="(correctAnswerInputType !== 'num')" 
+                  value="3"
+                  [selected]=" answersResourse === 'text_file' "  >
+                  Текст і зображення
+                </option> 
+            </select>
+          </div>
+
+          <label> 
+            <p class="redtext" *ngIf="( editedAnswersArray.length === 0 )" ><b>Дане завдання ще не має відповідей.</b></p> 
+            <p *ngIf="( editedAnswersArray.length !== 0 )" ><b>Ви можете додати ще відповіді.</b></p> 
+            <input 
+                  (click)="addAnswer()"  
+                  type="button"  
+                  value="Додати варіант відповіді" 
+                >
+          </label>
+         
+
+    </div>
+     
+       <br> 
+
+      <!-- <div class="form-row">
+             <div class="form-group col-7">
+              <label>Ресурс варіантів відповідей</label>
+              <select 
+                class="form-control col-8" 
+                id="resourceSelect" 
+                name="resource" 
+                #resourceField (change)="setResourse(resourceField)" >
+                  <option 
+                  *ngFor="let questAttachment of ['Текст',
+                                            'Зображення',
+                                            'Текст і зображення']"
+                  [selected]="questAttachment === sel_question.attachment">
+                  {{questAttachment}}
+                </option>
+              </select>
+            </div>
+        </div>  -->
+        
+       <br> 
+    
+       <div *ngIf="answersIdNumbersArray.length !== 0" class="form row">
+          <table>
+              <thead>
+                  <tr>
+                      <th>&nbsp;</th>
+                      <th *ngIf="(correctAnswerInputType === 'radio')">Варіанти відповіді</th>
+                      <th *ngIf="(correctAnswerInputType === 'checkbox')">Варіанти відповіді</th>
+                      <th *ngIf="(correctAnswerInputType === 'txt')">Введіть варіанти правильної відповіді</th>
+                      <th *ngIf="(correctAnswerInputType === 'num')">Введіть допустимі межі правильної відповіді</th>
+                      
+                      <th *ngIf="(correctAnswerInputType !== 'txt' && correctAnswerInputType !== 'num')"> 
+                        Позначте правильну відповідь
+                      </th>
+                  </tr>
+              </thead>
+              
+    <!--  formation of list FormControl element with type depending on answersResourse 
+          and corresponding id number from answersIdNumbersArray array  -->
+    
+              <tr width="5%" *ngFor="let idNumber of answersIdNumbersArray; let answerIndex = index" >
+                    <td> №{{answerIndex + 1}}:</td>
+                  
+                    
+                    <td *ngIf="answersResourse === 'text' && correctAnswerInputType !== 'num' ">
+                        <!-- <label class="center-block" >
+                          <input
+                              type = "text"  
+                              [name] = "answerIndex"  
+                              (change)="setAnsverText(answerIndex, $event)"
+                              value="{{editedAnswersArray[answerIndex].answer_text}}"
+                          >
+                        </label> -->
+
+                        <textarea 
+                              rows="2" 
+                              (change)="setAnsverText(answerIndex, $event)"
+                            >{{editedAnswersArray[answerIndex].answer_text}}
+                        </textarea>
+                    </td>
+                    
+                    <td *ngIf=" correctAnswerInputType === 'num' ">
+                        <label class="center-block" >
+                          <input
+                              type = "text"  
+                              [name] = "answerIndex"  
+                              (change)="setAnsverText(answerIndex, $event)"
+                              value="{{editedAnswersArray[answerIndex].answer_text}}"
+                          >
+                        </label>
+                        <span *ngIf="(answerIndex === 0)">&nbsp;&nbsp;Мінімальне значення</span>
+                        <span *ngIf="(answerIndex === 1)">&nbsp;&nbsp;Максимальне значення</span>
+                        
+                    </td>
+                    <!-- #answerTextField (change)="setAnswerText(answerIndex, answerTextField)" -->
+                    
+                    <!-- class="form-control"  correctAnswerInputType === '' -->
+                    
+                    <td *ngIf=" answersResourse === 'file' && correctAnswerInputType !== 'num' ">
+                        <label class="center-block" >
+                          <input type="file" accept="image/*" (change)="setAnsverAttachment(answerIndex, $event)" name="answerIndex"> 
+                                 <img *ngIf="editedAnswersArray[answerIndex].attachment !== undefined" 
+                                 [src]="editedAnswersArray[answerIndex].attachment" 
+                                 width="50">
+                        </label>
+                    </td>
+    
+                         <!--  && correctAnswerInputType !== 'num'-->
+                         
+                    <td width="80%" *ngIf="answersResourse === 'text_file' && correctAnswerInputType !== 'num' " >
+                        <!-- class="center-block align-items-center" -->
+                        <label  >
+                            <input size="40"
+                                type = "text"  
+                                [name] = "answerIndex"  
+                                (change)="setAnsverText(answerIndex, $event)"
+                                value="{{editedAnswersArray[answerIndex].answer_text}}"
+                            > 
+                            <input  type="file" accept="image/*" (change)="setAnsverAttachment(answerIndex, $event)" name="answerIndex"> 
+                                    <img *ngIf="editedAnswersArray[answerIndex].attachment !== undefined" 
+                                    [src]="editedAnswersArray[answerIndex].attachment" 
+                                    width="50"
+                            >
+                        </label>
+                        
+                    </td>
+    
+    
+                    <td width="10%" *ngIf="(correctAnswerInputType === 'radio' || correctAnswerInputType === 'checkbox')">
+                        
+                        <input [type]="correctAnswerInputType" 
+                               name="correctAnswer + answerIndex" 
+                               (click)="setAnswerCorrect(answerIndex)"
+                               checked *ngIf="( editedAnswersArray[answerIndex].true_answer === '1' )"
+                        >
+                        <input [type]="correctAnswerInputType" 
+                               name="correctAnswer + answerIndex" 
+                               (click)="setAnswerCorrect(answerIndex)"
+                               *ngIf="( editedAnswersArray[answerIndex].true_answer === '0' )"
+                        >
+                        <!-- {{editedAnswersArray[answerIndex].true_answer}} -->
+                    </td>
+    
+                    <td width="5%" *ngIf=" correctAnswerInputType !== 'num' ">
+                        &nbsp;&nbsp;
+                        <i class="fa fa-close" 
+                           (click)="deleteAnswer(answerIndex)" 
+                           title="Видалити відповідь"></i>
+                    </td>
+
+
+                    <td *ngIf=" correctAnswerInputType === 'txt' ">
+                      <!-- in this case all answers are correct -->
+                        &nbsp;&nbsp;
+                        <input type="checkbox" checked  disabled > 
+                    </td>
+                    
+              </tr>
+          </table>
+    
+    </div>
+    
+
+
+    <div class="row form-group d-flex justify-content-center">
+
+        <input (click)="closeDialog()" value="Відмінити" class="btn btn-danger">
+        <input type="submit" value=" Зберегти зміни" class="btn btn-primary">
+
+    </div>
+
+
+      
+  </form>
+    
+    
+  </div>
+</div>

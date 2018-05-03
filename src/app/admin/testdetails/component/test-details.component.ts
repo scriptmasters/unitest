@@ -80,7 +80,7 @@ export class TestDetailsComponent implements OnInit {
 
   private getTestDetails() {
     this.testDetailsService.getTestDetails(this.testId).subscribe((resp: any[]) => {
-      this.testDetails = (resp.toString() === "no records") ? [] : resp;
+      this.testDetails = (resp && resp['response'] && resp['response'] === 'no records') ? [] : resp;
     });
   }
 
