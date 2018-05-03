@@ -87,23 +87,19 @@ export class StudentsModalWindowComponent implements OnInit {
   createFormControls() {
     this.firstnameC = new FormControl('', [
       Validators.required,
-      Validators.minLength(2),
-      Validators.maxLength(20)
+      Validators.pattern('^([A-ZА-ЯІЇ]){1}([a-zа-яії]){1,15}')
     ]);
     this.surnameC = new FormControl('', [
       Validators.required,
-      Validators.minLength(2),
-      Validators.maxLength(20)
+      Validators.pattern('^([A-ZА-ЯІЇ]){1}([a-zа-яії]){1,15}')
     ]);
     this.fnameC = new FormControl('', [
       Validators.required,
-      Validators.minLength(2),
-      Validators.maxLength(20)
+      Validators.pattern('^([A-ZА-ЯІЇ]){1}([a-zа-яії]){2,15}')
     ]);
     this.gradebookC = new FormControl('', [
       Validators.required,
-      Validators.minLength(6),
-      Validators.maxLength(20)
+      Validators.pattern('^([A-ZА-ЯІЇa-zа-яії]){2,4}-([0-9]){1,10}')
     ]);
     this.groupC = new FormControl(this.data.updating ?
       '' : 'Виберіть групу', this.selectGroupValidator());
@@ -112,8 +108,7 @@ export class StudentsModalWindowComponent implements OnInit {
     this.loginC = new FormControl('', {
       validators: [
         Validators.required,
-        Validators.minLength(5),
-        Validators.maxLength(32)
+        Validators.pattern('^\\w{5,20}')
       ],
       asyncValidators: this.data.updating ?
         ValidateLoginNotTaken.createValidator(this.service, true) :
@@ -135,8 +130,7 @@ export class StudentsModalWindowComponent implements OnInit {
     this.passwordC = new FormControl(this.data.updating ?
       this.data.student.plain_password : '', [
       Validators.required,
-      Validators.minLength(8),
-      Validators.maxLength(32)
+      Validators.pattern('^\\S{8,32}')
     ]);
     this.password_confirmC = new FormControl(this.data.updating ?
       this.data.student.plain_password : '', matchOtherValidator('password'));

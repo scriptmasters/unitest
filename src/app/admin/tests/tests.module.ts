@@ -32,4 +32,4 @@ import { TestsRoutingModule } from './tests-routing.module';
     providers: [TestService]
 })
 
-export class TestsModule{}
+export class TestsModule { }

@@ -16,6 +16,8 @@ export class TestPlayerComponent implements OnInit {
   constructor(
     private testPlayerService: TestPlayerService // private route: ActivatedRoute
   ) {}
+  
+  checkedAnswers = {}; // for checkbox question
 
   ngOnInit() {
     this.getQuestionsForTest();
@@ -48,4 +50,8 @@ export class TestPlayerComponent implements OnInit {
     //     console.log(response);
     //   });
   }
+
+// ***** TIMER *****
+ a = 'TIMER';
+
 }

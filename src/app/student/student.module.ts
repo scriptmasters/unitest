@@ -6,6 +6,7 @@ import { AuthService } from '../auth/auth.service';
 import { TestPlayerComponent } from './test-player/test-player.component';
 import { TestPlayerService } from './services/test-player.service';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { StudentService } from './student.service';
 
 @NgModule({
   imports: [
@@ -15,6 +16,6 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     ReactiveFormsModule,
   ],
   declarations: [StudentComponent, TestPlayerComponent],
-  providers: [AuthService, TestPlayerService],
+  providers: [AuthService, TestPlayerService, StudentService],
 })
-export class StudentModule {}
+export class StudentModule { }
