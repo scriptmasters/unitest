@@ -7,8 +7,8 @@ const routes: Routes = [
   {
     path: '',
     component: FacultiesComponent,
-    resolve: {
-        faculties: FacultiesResolver
+    data: {
+          breadcrumb: "Факультети"
         }
   }
 ];

@@ -10,7 +10,7 @@
                 type="radio"
                 [value]="answer"
                 name="question{{question.question_id}}"
-                [(ngModel)] = "userAnswers[answer.answer_id]"
+                [(ngModel)] = "userAnswers[question.question_id]"
               >
               <span>{{answer.answer_text}}</span>
             </li>
@@ -24,8 +24,8 @@
                 type="checkbox"
                 [value]="answer.answer_id"
                 name="question{{question.question_id}}"
-                (change)="chooseAnswer(question.question_id, answer)"
-                [(ngModel)] = "checkedAnswers[answer.answer_id]"
+                (change)="selectedAnswer(question.question_id, answer)"
+                [(ngModel)] = "selectedAnswers[answer.answer_id]"
                 >
               <span>{{answer.answer_text}}</span>
             </li>

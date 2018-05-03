@@ -1,15 +1,12 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { TimetableComponent } from './timetable.component';
+import { SpecialitiesComponent } from './specialities.component';
+
 
 const routes: Routes = [
     {
         path: '',
-        component: TimetableComponent,
-        data: {
-          breadcrumb: "Розклад"
-        }
-       
+        component: SpecialitiesComponent,
     }
 ];
 
@@ -17,4 +14,4 @@ const routes: Routes = [
     imports: [RouterModule.forChild(routes)],
     exports: [RouterModule]
 })
-export class TimetableRoutingModule {}
+export class SpecialitiesRoutingModule { }
