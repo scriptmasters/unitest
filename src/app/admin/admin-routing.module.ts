@@ -39,7 +39,7 @@ const routes: Routes = [
             },
             {
                 path: 'specialities',
-                component: SpecialitiesComponent
+                loadChildren:  './specialities/specialities.module#SpecialitiesModule'
             }, {
                 path: 'administrators',
                 loadChildren: './administrators/administrators.module#AdministratorsModule'

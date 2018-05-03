@@ -1,33 +1,3 @@
-
-
-<!-- <table *ngFor="let key of time">
-
-        <tr>
-            <th>
-                предмет ід {{key.subject_id}};
-            </th>
-            <th>
-                група ід {{user.group_name}};
-            </th>
-            <th>
-                початок часу {{key.start_time}};
-            </th>
-            <th>
-                початок дня {{key.start_date}};
-            </th>
-            <th>
-                кінець часу {{key.end_time}};
-            </th>
-            <th>
-                кінець дня {{key.end_date}};
-            </th>
-            <th>
-                таблиця ід {{key.timetable_id}};
-            </th>
-        </tr>
-    </table> -->
-
-
 <div class="container">
     <div class="row">
         <div class="col-xs-12 col-md-8 info">
@@ -35,38 +5,61 @@
                 <div class="tab-pane active" role="tabpanel" aria-labelledby="ngb-tab-10">
                     <div class="row">
                         <div class="col-12">
-                            <h3>Cписок тестувань які плануються для групи "{{user.group_name}}"</h3>
-                            <!-- <div class="container-fluid"> -->
-                            <table class="table table-striped table-hover">
-                                <thead>
-                                    <tr>
-                                        <th>Предмет і назва тесту
-                                        </th>
-                                        <th>Пит. (шт)</th>
-                                        <th>Час (хв)</th>
-                                        <th></th>
-                                    </tr>
-                                </thead>
-                                <ng-container *ngFor="let key of subjects">
-                                    <tbody *ngIf="key.ready">
-                                        <tr *ngFor="let list of key.tests">
-                                            <th>{{key.subject_name}} : {{list.test_name}}</th>
-                                            <td>{{list.tasks}}</td>
-                                            <td>
-                                                {{list.time_for_test}}
-                                            </td>
-                                            <td>
-                                                <span (click)="test(list.test_id)">
-                                                    тест
-                                                </span>
-                                                <a routerLink="test">Почати тест</a>
-                                            </td>
-
+                            <h3 class="text-center">Cписок тестувань які плануються для групи "{{user.group_name}}"</h3>
+                            <div class="container-fluid">
+                                <table class="table table-striped table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th>Предмет і назва тесту</th>
+                                            <th>Тривалість</th>
+                                            <th>Пит. (шт)</th>
+                                            <th>Час (хв)</th>
+                                            <th>Почати</th>
                                         </tr>
+                                    </thead>
+                                    <tbody>
+                                        <ng-container *ngFor="let key of subjects">
+                                            <ng-container *ngFor="let list of key.subject">
+                                                <tr *ngFor="let tests of list.tests">
+                                                    <ng-container *ngIf="list.ready">
+                                                        <ng-container *ngIf="tests.enabled==1">
+                                                            <td>
+                                                                {{list.subject_name}} :
+                                                                <br>{{tests.test_name}}
+                                                            </td>
+
+                                                            <td>
+                                                                <span>
+                                                                    {{key.start_date}} /
+                                                                    <br>{{key.start_time}}
+
+                                                                </span>
+                                                                <span>
+                                                                    {{key.end_date}} /
+                                                                    <br>{{key.end_time}}
+                                                                </span>
+                                                            </td>
+                                                            <td>
+                                                                {{tests.tasks}}
+                                                            </td>
+                                                            <td>
+                                                                {{tests.time_for_test}}
+                                                            </td>
+                                                            <td>
+                                                                <a routerLink="test/{{tests.test_id}}">
+                                                                    <i class="fa fa-play-circle" aria-hidden="true" (click)="test(tests.test_id,user.user_id)"></i>
+                                                                </a>
+
+                                                            </td>
+                                                        </ng-container>
+                                                    </ng-container>
+                                                </tr>
+                                            </ng-container>
+                                        </ng-container>
+
                                     </tbody>
-                                </ng-container>
-                            </table>
-                            <!-- </div> -->
+                                </table>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -76,10 +69,7 @@
             <h3> Профіль студента</h3>
 
             <span>
-                <img alt="Ваше фото не завантажене" class="img-responsive img-circle center-block" src="http://vps9615.hyperhost.name/~pupkin/DTester/dist/assets/profile.2e72398604d85b12ede3348de8441eb7.png"> 
-            <!-- <span>
-                    {{user.photo}}
-            </span> -->
+                <img alt="Ваше фото не завантажене" class="img-responsive img-circle center-block" [src]="user.photo">
             </span>
             <h4> {{user.student_name}} {{user.student_surname}} </h4>
             <p class="text-left">

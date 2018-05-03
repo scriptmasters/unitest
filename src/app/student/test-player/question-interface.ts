@@ -1,17 +1,17 @@
-export interface QuestionInterface {
-    questionId: number;
-    text: string;
-    answers: Array<AnswerInterface>;
-    ready: boolean;
-}
-export interface AnswerInterface {
-    answerId: number;
-    text: string;
-}
-export interface ResultInterface {
-    question_id: number;
-    answer_ids: Array<any>;
-}
+// export interface QuestionInterface {
+//     questionId: number;
+//     text: string;
+//     answers: Array<AnswerInterface>;
+//     ready: boolean;
+// }
+// export interface AnswerInterface {
+//     answerId: number;
+//     text: string;
+// }
+// export interface ResultInterface {
+//     question_id: number;
+//     answer_ids: Array<any>;
+// }
 export interface UserInfo {
     user_id: number;
     student_fname: string;
@@ -36,12 +36,15 @@ export interface TimeTable {
     start_time: string;
     subject_id: number;
     timetable_id: number;
+    subject: Array<Subject>;
+    ready: boolean;
 }
 export interface Subject {
     subject_name: string;
     subject_id: number;
     tests: Array<TestInterface>;
     ready: boolean;
+    timetable: Array<TimeTable>;
 }
 
 export interface TestInterface {
