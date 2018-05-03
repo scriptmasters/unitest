@@ -5,7 +5,7 @@ export class ValidateLoginNotTaken {
   static createValidator(service: AdministratorsService, updating) {
     let counter = 0;
     return (control: AbstractControl) => {
-      if (updating && counter < 1) {
+      if (counter < 1) {
         counter++;
         return service.checkUsername(control.value).map(res => {
           return null;
