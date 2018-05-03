@@ -13,6 +13,7 @@ import { StatisticComponent } from './statistic/statistic.component';
 import { SpecialitiesComponent } from './specialities/specialities.component';
 import { QuestionsComponent } from './questions/questions.component';
 import { AddQuestionComponent } from './questions/add-question/add-question.component';
+import { EditQuestionComponent } from './questions/edit-question/edit-question.component';
 import { StatisticService } from './statistic/statistic.service';
 import { SpecialityService } from './specialities/speciality.service';
 import { PopupFormComponent } from './specialities/popup-form/popup-form.component';
@@ -29,7 +30,7 @@ import { ResultsService } from './results/services/results.service';
         PopupFormComponent,
         AddQuestionComponent,
         TestDetailCreateComponent,
-        AddQuestionComponent
+        EditQuestionComponent
     ],
     declarations: [
         AdminComponent,
@@ -40,6 +41,7 @@ import { ResultsService } from './results/services/results.service';
         TestDetailCreateComponent,
         QuestionsComponent,
         AddQuestionComponent,
+        EditQuestionComponent,
         ResultsComponent
     ],
     providers: [
