@@ -1,7 +1,7 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material';
-import {FacultiesService} from '../faculties.service';
+import {FacultiesService} from '../services/faculties.service';
 import {Faculties} from '../facultiesInterface';
 
 @Component({

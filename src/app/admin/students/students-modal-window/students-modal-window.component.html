@@ -24,8 +24,7 @@
                 <div 
                   *ngIf="surnameC.invalid && (surnameC.dirty || surnameC.touched)" 
                   class="error col-12">
-                  <span *ngIf="surnameC.errors.minlength">Мінімум 2 символи</span>
-                  <span *ngIf="surnameC.errors.maxlength">Максимум 20 символів</span>
+                  <span *ngIf="surnameC.errors.pattern">Невірний формат</span>
                   <span *ngIf="surnameC.errors.required">Це поле є обов'язковим</span>
                 </div>
               </div>
@@ -44,8 +43,7 @@
                 <div 
                   *ngIf="firstnameC.invalid && (firstnameC.dirty || firstnameC.touched)" 
                   class="error col-12">
-                  <span *ngIf="firstnameC.errors.minlength">Мінімум 2 символи</span>
-                  <span *ngIf="firstnameC.errors.maxlength">Максимум 20 символів</span>
+                  <span *ngIf="firstnameC.errors.pattern">Невірний формат</span>
                   <span *ngIf="firstnameC.errors.required">Це поле є обов'язковим</span>
                 </div>
               </div>
@@ -66,8 +64,7 @@
                 <div 
                   *ngIf="fnameC.invalid && (fnameC.dirty || fnameC.touched)" 
                   class="error col-12">
-                  <span *ngIf="fnameC.errors.minlength">Мінімум 2 символи</span>
-                  <span *ngIf="fnameC.errors.maxlength">Максимум 20 символів</span>
+                  <span *ngIf="fnameC.errors.pattern">Невірний формат</span>
                   <span *ngIf="fnameC.errors.required">Це поле є обов'язковим</span>
                 </div>
               </div>
@@ -202,8 +199,7 @@
                 <div 
                   *ngIf="gradebookC.invalid && (gradebookC.dirty || gradebookC.touched)" 
                   class="error col-12">
-                  <span *ngIf="gradebookC.errors.minlength">Мінімум 6 символів</span>
-                  <span *ngIf="gradebookC.errors.maxlength">Максимум 20 символів</span>
+                  <span *ngIf="gradebookC.errors.pattern">Невірний формат</span>
                   <span *ngIf="gradebookC.errors.required">Це поле є обов'язковим</span>
                 </div>
               </div>
@@ -224,8 +220,7 @@
                 <div 
                   *ngIf="loginC.invalid && (loginC.dirty || loginC.touched)" 
                   class="error col-12">
-                  <span *ngIf="loginC.errors.minlength">Мінімум 5 символів</span>
-                  <span *ngIf="loginC.errors.maxlength">Максимум 32 символи</span>
+                  <span *ngIf="loginC.errors.pattern">Невірний формат</span>
                   <span *ngIf="loginC.errors.required">Це поле є обов'язковим</span>
                   <span *ngIf="loginC.errors.loginTaken">Цей логін вже зайнятий</span>
                 </div>
@@ -248,8 +243,7 @@
                 <div 
                   *ngIf="passwordC.invalid && (passwordC.dirty || passwordC.touched)" 
                   class="error col-12">
-                  <span *ngIf="passwordC.errors.minlength">Мінімум 8 символів</span>
-                  <span *ngIf="passwordC.errors.maxlength">Максимум 32 символи</span>
+                  <span *ngIf="passwordC.errors.pattern">Невірний формат(від 8 до 32 символів дозволено)</span>
                   <span *ngIf="passwordC.errors.required">Це поле є обов'язковим</span>
                 </div>
               </div>
