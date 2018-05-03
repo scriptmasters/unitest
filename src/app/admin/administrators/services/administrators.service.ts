@@ -1,16 +1,16 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Administrators, IResponse } from './administratorsInterface';
+import { Administrators, IResponse } from '../administratorsInterface';
 import {Observable} from 'rxjs/Observable';
-import {Subject} from '../subjects/subject';
+// import {Subject} from '../subjects/subject';
 
 @Injectable()
 export class AdministratorsService {
 	private urlGetAdministrators = 'AdminUser/getRecords';
 	private urlDelAdministrators = 'AdminUser/del';
 	private urlAddAdministrators = 'AdminUser/insertData';
-    private urlEditAdministrators = 'AdminUser/update';
-    private urlGetSearchedAdministrators = 'AdminUser/getRecordsBySearch';
+  private urlEditAdministrators = 'AdminUser/update';
+  private urlGetSearchedAdministrators = 'AdminUser/getRecordsBySearch';
 
   constructor(private http: HttpClient) { }
   
