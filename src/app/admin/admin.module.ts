@@ -18,7 +18,6 @@ import { AddQuestionComponent } from './questions/add-question/add-question.comp
 import { StatisticService } from './statistic/statistic.service';
 import { SpecialityService } from './specialities/speciality.service';
 import { PopupFormComponent } from './specialities/popup-form/popup-form.component';
-import { SpecialityFilterComponent } from './groups/selectFilters/specialityFilter.component';
 import { AdministratorsDialogComponent } from './administrators/administrators-dialog/administrators-dialog.component';
 import { ResultsComponent } from './results/results.component';
 import { ResultsService } from './results/services/results.service';
@@ -46,7 +45,6 @@ import { ResultsService } from './results/services/results.service';
         TestDetailCreateComponent,
         QuestionsComponent,
         AddQuestionComponent,
-        SpecialityFilterComponent,
         AdministratorsDialogComponent,
         ResultsComponent
     ],
