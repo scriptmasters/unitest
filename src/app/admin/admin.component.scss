@@ -63,15 +63,14 @@
     }
     .main {
         padding: 0;
-        background-color: #F4F7FA;
         .content-wrapper {
             margin-bottom: 40px;
             .header {
                 z-index: 1;
                 position: fixed; ///
-                top: 0;///////////
-                right: 0;///////// Фіксований хідер медіаквері на width 100% знизу
-                width: 83.33333%;/////////
+                top: 0; ///////////
+                right: 0; ///////// Фіксований хідер медіаквері на width 100% знизу
+                width: 83.33333%; /////////
                 background-color: #393836;
                 height: 65px;
                 padding-left: 48px;
@@ -110,9 +109,9 @@
                     }
                 }
                 .dtester-title {
-                  margin-right: 10rem;
-                  color: #33B357;
-                  font-size: 1.5rem;
+                    margin-right: 10rem;
+                    color: #33B357;
+                    font-size: 1.5rem;
                 }
                 .log-out {
                     display: inline-block;
@@ -120,7 +119,6 @@
                     color: #fff;
                     border-radius: 2px;
                     transition: all 0.2s;
-
                     span {
                         margin-right: 5px;
                     }
@@ -151,10 +149,9 @@
     display: none;
     z-index: 1;
     position: fixed; ///
-    top: 65px;///////////
-    right: 0;///////// Фіксований хідер медіаквері на width 100% знизу
-    width: 83.33333%;/////////
-
+    top: 65px; ///////////
+    right: 0; ///////// Фіксований хідер медіаквері на width 100% знизу
+    width: 83.33333%; /////////
     background-color: #222222;
     a {
         font-size: 1rem;
@@ -191,7 +188,7 @@
     }
     .header,
     .vertical-navigation,
-    .footer   {
+    .footer {
         width: 100%!important;
     }
     .footer span,

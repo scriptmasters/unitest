@@ -4,7 +4,6 @@ import { Observable } from 'rxjs/Observable';
 
 @Injectable()
 export class StudentService {
-
   private urlgetRecords = 'Student/getRecords/';
   private urlgetRecordsGroup = 'Group/getRecords/';
   private urlgetRecordsSubject = 'subject/getRecords/';
@@ -13,9 +12,7 @@ export class StudentService {
   private urlgetTimeTablesForGroup = 'timeTable/getTimeTablesForGroup/';
   private urlgetTestsBySubject = 'test/getTestsBySubject/';
   private urlgetTestDetailsByTest = 'testDetail/getTestDetailsByTest/';
-  constructor(
-    private http: HttpClient
-  ) { }
+  constructor(private http: HttpClient) {}
 
   getRecords(id): Observable<any> {
     return this.http.get(this.urlgetRecords + id);

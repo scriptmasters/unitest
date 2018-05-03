@@ -50,6 +50,7 @@ body {
     font-family: 'Roboto', Arial, sans-serif;
     font-size: 14px;
     margin: 0;
+    background-color: #F4F7FA;
 }
 
 .text-gray {
@@ -108,6 +109,7 @@ table {
 h2 {
     color: #555;
     font-weight: 400;
+    margin-bottom: 0;
 }
 
 .breadcrumb-holder {
@@ -122,7 +124,7 @@ h2 {
     margin-bottom: 0;
 }
 
-.breadcrumb-item a {
+.breadcrumb li>a {
     color: #666;
 }
 
@@ -172,7 +174,7 @@ h2 {
 .h4,
 .h5,
 .h6 {
-    margin-bottom: 0.5rem;
+    margin-bottom: 0;
     font-family: inherit;
     font-weight: 700;
     line-height: 1.1;
@@ -520,6 +522,22 @@ button {
     border-color: #727b84;
 }
 
+button.fa {
+    background-color: #28A745;
+    width: auto;
+    border: none;
+    color: #fff;
+    transition: all 0.2s;
+    margin: 0 auto;
+    &:hover {
+        font-size: 1.1rem;
+    }
+    &:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+    }
+}
+
 
 /* *
 * 9. CARD
@@ -545,13 +563,6 @@ button {
     padding: 1rem 1.25rem;
     background-color: #f8f9fa;
     border-top: 1px solid #eee;
-}
-
-@media (min-width: 576px) {
-    .card {
-        margin-right: 15px;
-        margin-left: 15px;
-    }
 }
 
 
@@ -595,8 +606,8 @@ form .ng-invalid:not(.ng-untouched) {
 
 
 /*Transparent background spinner*/
+
 .my-panel .mat-dialog-container {
     box-shadow: none;
-    background-color: rgba(0,0,0,0);
-
+    background-color: rgba(0, 0, 0, 0);
 }

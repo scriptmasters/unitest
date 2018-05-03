@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 
 import { TestPlayerService } from '../services/test-player.service';
 import { ActivatedRoute } from '@angular/router';
+import { AuthService } from '../../auth/auth.service';
 
 @Component({
   selector: 'app-test-player',
@@ -14,10 +15,9 @@ export class TestPlayerComponent implements OnInit {
   selectedAnswers = {}; // for checkbox question
 
   constructor(
-    private testPlayerService: TestPlayerService // private route: ActivatedRoute
+    public authService: AuthService,
+    private testPlayerService: TestPlayerService
   ) {}
-  
-  checkedAnswers = {}; // for checkbox question
 
   ngOnInit() {
     this.getQuestionsForTest();
@@ -51,7 +51,6 @@ export class TestPlayerComponent implements OnInit {
     //   });
   }
 
-// ***** TIMER *****
- a = 'TIMER';
-
+  // ***** TIMER *****
+  a = 'TIMER';
 }
