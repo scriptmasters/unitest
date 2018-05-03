@@ -21,7 +21,8 @@ export class AppComponent implements OnInit {
     spinnerStart() {
         this.dialogSpinner = this.dialog.open(SpinnerComponent, {
             panelClass: 'my-panel',
-            width: '100'
+            width: '100'/*,
+            disableClose: true*/
         });
     }
 
