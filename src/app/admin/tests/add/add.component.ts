@@ -1,6 +1,6 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA, MatDialog} from '@angular/material';
-import {TestService } from '../test.service';
+import { TestService } from '../test.service';
 import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 import { ResponseMessageComponent } from '../../../shared/response-message/response-message.component';
 import {forbiddenCharValidator} from '../tests-validator.directive';
@@ -13,19 +13,23 @@ import {forbiddenCharValidator} from '../tests-validator.directive';
 export class AddComponent implements OnInit {
 
   rForm: FormGroup;
+  subjects;
+  s_id;
   enabled = [{value: 1, text: 'Доступний'}, {value: 0, text: 'Недоступний'}];
   constructor(public dialogRef: MatDialogRef<AddComponent>, @Inject(MAT_DIALOG_DATA) public data: any,
               private httpService: TestService, private fb: FormBuilder, public dialog: MatDialog) {
     this.initForm();
   }
-ngOnInit() {}
+ngOnInit() {
+    this.getSubjects();
+}
 initForm() {
   this.rForm = this.fb.group({
   test_name: ['', [Validators.required, Validators.maxLength(70), Validators.minLength(2), forbiddenCharValidator(/^\s/i)]],
   tasks: ['', [Validators.required, Validators.maxLength(3), forbiddenCharValidator(/\D/i)]],
   time_for_test: ['', [Validators.required, Validators.maxLength(3), forbiddenCharValidator(/\D/i)]],
   enabled: ['', [Validators.required]],
-  subject_id: [this.data.id, Validators.required],
+  subject_id: [this.s_id, Validators.required],
   attempts: ['', [Validators.required, Validators.maxLength(2), forbiddenCharValidator(/\D/i)]]
   });
 }
@@ -47,7 +51,7 @@ onSubmit() {
       });
     },
     (err) => {
-      if(err.status== 400) {
+      if (err.status === 400) {
         this.dialogRef.close();
         this.dialog.open(ResponseMessageComponent, {
           width: '350px',
@@ -56,10 +60,12 @@ onSubmit() {
           }
         });
       }
-  },
-    () => { 
   }
   );
+  }
+  getSubjects() {
+    this.httpService.getSubjects().subscribe(
+      (data) => this.subjects = data);
   }
   onNoClick() {
     this.dialogRef.close();
@@ -80,6 +86,10 @@ onSubmit() {
   }
   get status() {
     return this.rForm.get('enabled');
+  }
+
+  get subject_id() {
+    return this.rForm.get('subject_id');
   }
 }
 

@@ -23,8 +23,8 @@
   </div>
 <div class="card">
   <div class="card-body">
-    <select (change)="getTestsById()"> 
-      <option *ngFor="let s of subject">{{s.subject_name}}</option>
+    <select (change)="getTestFilter(subjectId)" [(ngModel)]="subjectId"> 
+      <option *ngFor="let s of subject" [value]="s.subject_id">{{s.subject_name}}</option>
     </select>
   </div>
 </div>
