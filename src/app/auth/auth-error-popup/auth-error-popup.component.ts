@@ -9,6 +9,7 @@ import {Idata} from '../../shared/Interfaces/server_response';
 })
 export class AuthErrorPopupComponent {
 
-    constructor( @Inject(MAT_DIALOG_DATA) public data: Idata ) { }
+    constructor(@Inject(MAT_DIALOG_DATA) public data: Idata) {
+    }
 
 }

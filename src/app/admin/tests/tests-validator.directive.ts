@@ -2,7 +2,7 @@ import { Directive, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { AbstractControl, NG_VALIDATORS, Validator, ValidatorFn, Validators } from '@angular/forms';
 
 export function forbiddenCharValidator(nameRe: RegExp): ValidatorFn {
-  return(control: AbstractControl): {[key:string]: any} => {
+  return(control: AbstractControl): {[key: string]: any} => {
     const forbidden = nameRe.test(control.value);
     return forbidden ? {'forbiddenChar': {value: control.value}} : null;
   };

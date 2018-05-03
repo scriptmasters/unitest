@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit } from '@angular/core';
 import {
   Router,
   RouterModule,
@@ -6,8 +6,8 @@ import {
   NavigationEnd,
   Params,
   PRIMARY_OUTLET
-} from "@angular/router";
-import "rxjs/add/operator/filter";
+} from '@angular/router';
+import 'rxjs/add/operator/filter';
 
 interface IBreadcrumb {
   label: string;
@@ -16,9 +16,9 @@ interface IBreadcrumb {
 }
 
 @Component({
-  selector: "app-breadcrumb",
-  templateUrl: "./breadcrumb.component.html",
-  styleUrls: ["./breadcrumb.component.scss"]
+  selector: 'app-breadcrumb',
+  templateUrl: './breadcrumb.component.html',
+  styleUrls: ['./breadcrumb.component.scss']
 })
 export class BreadcrumbComponent implements OnInit {
   public breadcrumbs: IBreadcrumb[];
@@ -28,14 +28,14 @@ export class BreadcrumbComponent implements OnInit {
   }
 
   ngOnInit() {
-    const ROUTE_DATA_BREADCRUMB: string = "breadcrumb";
+    const ROUTE_DATA_BREADCRUMB = 'breadcrumb';
     //subscribe to the NavigationEnd event
     this.router.events
       .filter(event => event instanceof NavigationEnd)
       .subscribe(event => {
         console.log(this.router.events);
         //set breadcrumbs
-        let root: ActivatedRoute = this.activatedRoute.root;
+        const root: ActivatedRoute = this.activatedRoute.root;
         this.breadcrumbs = this.getBreadcrumbs(root);
         console.log(this.breadcrumbs);
       });
@@ -43,14 +43,14 @@ export class BreadcrumbComponent implements OnInit {
 
   private getBreadcrumbs(
     route: ActivatedRoute,
-    url: string = "",
+    url: string = '',
     breadcrumbs: IBreadcrumb[] = []
   ): IBreadcrumb[] {
-    const ROUTE_DATA_BREADCRUMB: string = "breadcrumb";
+    const ROUTE_DATA_BREADCRUMB = 'breadcrumb';
 
     //get the child routes
-    let children: ActivatedRoute[] = route.children;
-    
+    const children: ActivatedRoute[] = route.children;
+
 
     //return if there are no more children
     if (children.length === 0) {
@@ -58,7 +58,7 @@ export class BreadcrumbComponent implements OnInit {
     }
 console.log(children.length);
     //iterate over each children
-    for (let child of children) {
+    for (const child of children) {
       //verify primary route
       if (child.outlet !== PRIMARY_OUTLET) {
         continue;
@@ -70,15 +70,15 @@ console.log(children.length);
       }
 
       //get the route's URL segment
-      let routeURL: string = child.snapshot.url
+      const routeURL: string = child.snapshot.url
         .map(segment => segment.path)
-        .join("/");
+        .join('/');
 
       //append route URL to URL
       url += `/${routeURL}`;
 
       //add breadcrumb
-      let breadcrumb: IBreadcrumb = {
+      const breadcrumb: IBreadcrumb = {
         label: child.snapshot.data[ROUTE_DATA_BREADCRUMB],
         params: child.snapshot.params,
         url: url

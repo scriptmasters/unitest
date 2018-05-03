@@ -48,7 +48,7 @@ onSubmit() {
       });
     },
     (err) => {
-      if(err.status== 400) {
+      if (err.status == 400) {
         this.dialogRef.close();
         this.dialog.open(ResponseMessageComponent, {
           width: '400px',
@@ -58,7 +58,7 @@ onSubmit() {
         });
       }
   },
-    () => { 
+    () => {
   }
   );
   }
