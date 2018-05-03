@@ -16,10 +16,10 @@ export class StudentComponent implements OnInit {
     private router: Router
   ) {}
 
-  startTest(): void {
-    this.testPlayerService.startTest().subscribe(
+  startTest(userId = 58, testId = 1): void {
+    this.testPlayerService.startTest(userId, testId).subscribe(
       () => {
-        this.router.navigate(['test']);
+        this.router.navigate(['test/' + testId]);
       },
       error => console.log(error)
     );
