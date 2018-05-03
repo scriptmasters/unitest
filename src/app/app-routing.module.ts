@@ -7,8 +7,8 @@ const routes: Routes = [
     { path: '', redirectTo: '/admin/statistic', pathMatch: 'full' },
     { path: 'student', canActivate: [StudentGuard], loadChildren: './student/student.module#StudentModule' },
     { path: 'login', loadChildren: './auth/auth.module#AuthModule' },
-    { path: 'admin', canActivate: [AdminGuard], loadChildren: './admin/admin.module#AdminModule'}
-    // { path: '**', redirectTo: '/admin', pathMatch: 'full' }
+    { path: 'admin', canActivate: [AdminGuard], loadChildren: './admin/admin.module#AdminModule'},
+    { path: '**', redirectTo: '/login', pathMatch: 'full' }
 ];
 
 @NgModule({
