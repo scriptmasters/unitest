@@ -20,6 +20,8 @@
             #searchField
             (keyup)="searchString.next($event.target.value)"
             placeholder="Пошук..."
+            (focus)="searchStudent()"
+            (blur)="unsubSearch()"
             class="form-control search">
         </div>
         <!-- List of faculties (dropdown) -->
