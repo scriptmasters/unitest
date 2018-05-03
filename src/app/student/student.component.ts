@@ -4,7 +4,7 @@ import { TestPlayerService } from '../student/services/test-player.service';
 import { StudentService } from './student.service';
 import { UserInfo, TimeTable, Subject, TestInterface } from './test-player/question-interface';
 import { NgStyle } from '@angular/common';
-import { Router } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { SubjectsComponent } from '../admin/subjects/subjects.component';
 @Component({
   selector: 'app-student',
@@ -20,7 +20,8 @@ export class StudentComponent implements OnInit {
   times = [];
   constructor(
     public authService: AuthService,
-    public studentService: StudentService
+    public studentService: StudentService,
+    private router: Router
   ) { }
 
   ngOnInit() {
@@ -114,12 +115,9 @@ export class StudentComponent implements OnInit {
       });
   }
 
-  test(id) {
-
-    const ids = id;
-    this.studentService.getTestDetailsByTest(ids).subscribe((item: any) => {
-      console.log(item);
-    });
-    // console.log(ids);
+  test(testId, studentId) {
+    const _testId = testId;
+    const _studentId = studentId;
+    console.log(_testId, _studentId);
   }
 }

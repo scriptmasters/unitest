@@ -11,8 +11,7 @@
                                     <thead>
                                         <tr>
                                             <th>Предмет і назва тесту</th>
-                                            <th>Початок доступу</th>
-                                            <th>Кінець доступу</th>
+                                            <th>Тривалість</th>
                                             <th>Пит. (шт)</th>
                                             <th>Час (хв)</th>
                                             <th>Почати</th>
@@ -25,14 +24,20 @@
                                                     <ng-container *ngIf="list.ready">
                                                         <ng-container *ngIf="tests.enabled==1">
                                                             <td>
-                                                                {{list.subject_name}} : <br>{{tests.test_name}}
+                                                                {{list.subject_name}} :
+                                                                <br>{{tests.test_name}}
                                                             </td>
 
                                                             <td>
-                                                                {{key.start_date}} /<br>{{key.start_time}}
-                                                            </td>
-                                                            <td>
-                                                                {{key.end_date}} /<br>{{key.end_time}}
+                                                                <span>
+                                                                    {{key.start_date}} /
+                                                                    <br>{{key.start_time}}
+
+                                                                </span>
+                                                                <span>
+                                                                    {{key.end_date}} /
+                                                                    <br>{{key.end_time}}
+                                                                </span>
                                                             </td>
                                                             <td>
                                                                 {{tests.tasks}}
@@ -41,10 +46,9 @@
                                                                 {{tests.time_for_test}}
                                                             </td>
                                                             <td>
-                                                                <span (click)="test(tests.test_id)">
-                                                                    тест
-                                                                </span>
-                                                                <a routerLink="test">Почати тест</a>
+                                                                <i class="fa fa-play-circle" aria-hidden="true">
+                                                                    <a routerLink="test/{{tests.test_id}}" (click)="test(tests.test_id,user.user_id)"></a>
+                                                                </i>
                                                             </td>
                                                         </ng-container>
                                                     </ng-container>

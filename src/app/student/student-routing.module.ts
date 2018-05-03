@@ -10,9 +10,10 @@ const routes: Routes = [
     component: StudentComponent,
   },
   {
-    path: 'test',
+    path: 'test/:id',
     component: TestPlayerComponent,
-  },
+  }
+
 ];
 
 @NgModule({
