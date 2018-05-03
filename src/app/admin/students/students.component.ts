@@ -4,7 +4,7 @@ import { StudentsModalWindowComponent } from './students-modal-window/students-m
 import { ResponseMessageComponent } from '../../shared/response-message/response-message.component';
 import { MatDialog } from '@angular/material';
 import { PaginationInstance } from 'ngx-pagination';
-import { ActivatedRoute, Params, Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { DeleteConfirmComponent } from '../../shared/delete-confirm/delete-confirm.component';
 import IStudent from './interfaces/IStudent';
 import IResponse from './interfaces/IResponse';
@@ -15,6 +15,7 @@ import { getFiltredStudents } from './reusable-functions/get-filtred-students';
 import { setGroupAsID } from './reusable-functions/set-group-as-id';
 import { Subject } from 'rxjs/Subject';
 import IResolvedData from './interfaces/IResolvedData';
+import { Subscription } from 'rxjs/Subscription';
 @Component({
   selector: 'app-students',
   templateUrl: './students.component.html',
@@ -23,6 +24,7 @@ import IResolvedData from './interfaces/IResolvedData';
 })
 export class StudentsComponent implements OnInit {
 
+  searchStdSubscr: Subscription;
   groups: IGroup[] = [];
   faculties: IFaculty[] = [];
   facultyString = 'Виберіть факультет';
@@ -41,10 +43,7 @@ export class StudentsComponent implements OnInit {
     private service: StudentsService,
     private dialog: MatDialog,
     private route: ActivatedRoute,
-    private router: Router) {
-      this.service.searchStudents(this.searchString)
-        .subscribe(data => this.processDataFromAPI(data));
-    }
+    private router: Router) {}
 
   ngOnInit() {
     this.route.data.subscribe((data: { resolvedStudents: IResolvedData }) => {
@@ -52,6 +51,22 @@ export class StudentsComponent implements OnInit {
       this.byGroup = data.resolvedStudents.byGroup;
     });
     this.service.getAvailableFaculties().subscribe(res => this.faculties = res);
+  }
+  searchStudent() {
+    this.searchStdSubscr = this.service.searchStudents(this.searchString)
+      .subscribe(
+        data => {
+          this.processDataFromAPI(data);
+        },
+        error => {
+          this.openModalMessage(error.status);
+          this.searchField.nativeElement.value = '';
+          this.searchField.nativeElement.blur();
+        }
+      );
+  }
+  unsubSearch() {
+    this.searchStdSubscr.unsubscribe();
   }
   // Opening creating student form
   showRegForm(user: IStudent): void {
@@ -88,6 +103,7 @@ export class StudentsComponent implements OnInit {
   // opening students modal window to make CRUD operations
   openStudentsModalWindow(userdata: IStudent, edit: boolean, update: boolean, read: boolean, create: boolean, text?: string) {
     return this.dialog.open(StudentsModalWindowComponent, {
+      disableClose: true,
       width: '600px',
       height: 'calc(100vh - 50px)',
       data: {

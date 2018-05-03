@@ -49,6 +49,8 @@ export class GroupsComponent implements OnInit {
     this.specialityFilter = 'Виберіть спецільність';
   }
 
+
+
   // @ViewChild('container') container;
 
   // @HostListener('window:resize')
@@ -88,7 +90,7 @@ export class GroupsComponent implements OnInit {
       this.groupsService._getGroupsBySpeciality(this.specialityId)
         .mergeMap(groupData => {
           this.groups = groupData;
-          if (groupData[0].response === 'no records') {
+          if (groupData && groupData['response'] && groupData['response'] === 'no records') {
             this.dialog.open(ResponseMessageComponent, {
               width: '400px',
               data: {
@@ -113,8 +115,7 @@ export class GroupsComponent implements OnInit {
       this.groupsService._getGroupsByFaculty(this.facultyId)
         .mergeMap(groupData => {
           this.groups = groupData;
-          console.log(groupData[0].response);
-          if (groupData[0].response === 'no records') {
+          if (groupData && groupData['response'] && groupData['response'] === 'no records') {
             this.dialog.open(ResponseMessageComponent, {
               width: '400px',
               data: {
@@ -130,9 +131,7 @@ export class GroupsComponent implements OnInit {
         .subscribe(specialityData => {
           this.specialities = specialityData;
           this.fillOutTableArray();
-          // this.faculties.forEach( ([key, value])=> console.log(key + ' : ' + value));
         });
-    } else {
     }
   }
 
@@ -192,6 +191,8 @@ export class GroupsComponent implements OnInit {
     const dialogConfig = new MatDialogConfig();
 
     dialogConfig.disableClose = true;
+    dialogConfig.autoFocus = false;
+
     if (groupLine) {
       dialogConfig.data = {
         group_id: groupLine.group_id,
@@ -223,7 +224,6 @@ export class GroupsComponent implements OnInit {
   delGroup(id) {
     const dialogConfig = new MatDialogConfig();
     dialogConfig.disableClose = true;
-    dialogConfig.autoFocus = false;
 
     const dialogRef = this.dialog.open(GroupsDeleteConfirmComponent, dialogConfig);
     dialogRef.afterClosed().subscribe(resultDialog => {

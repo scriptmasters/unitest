@@ -18,4 +18,4 @@ import { StudentService } from './student.service';
   declarations: [StudentComponent, TestPlayerComponent],
   providers: [AuthService, TestPlayerService, StudentService],
 })
-export class StudentModule { }
+export class StudentModule {}
