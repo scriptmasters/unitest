@@ -2,7 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../auth/auth.service';
 import { TestPlayerService } from '../student/services/test-player.service';
 import { StudentService } from './student.service';
-import { UserInfo, TimeTable, Subject, TestInterface } from './test-player/question-interface';
+import {
+  UserInfo,
+  TimeTable,
+  Subject,
+  TestInterface,
+} from './test-player/question-interface';
 import { NgStyle } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
 import { SubjectsComponent } from '../admin/subjects/subjects.component';
@@ -18,9 +23,11 @@ export class StudentComponent implements OnInit {
   time;
   subjects = [];
   times = [];
+
   constructor(
     public authService: AuthService,
     public studentService: StudentService,
+    private testPlayerService: TestPlayerService,
     private router: Router
   ) {}
 
@@ -30,6 +37,7 @@ export class StudentComponent implements OnInit {
       this.getRecords();
     });
   }
+
   getRecords() {
     this.studentService.getRecords(this.id).subscribe((responses: any) => {
       responses.forEach(item => {
@@ -46,37 +54,47 @@ export class StudentComponent implements OnInit {
       });
     });
   }
+
   getRecordsGroup() {
-    this.studentService.getRecordsGroup(this.user.group_id).subscribe((response: any) => {
-      response.forEach(item => {
-        this.user.group_name = item.group_name;
-        this.user.speciality_id = item.speciality_id;
-        this.user.faculty_id = item.faculty_id;
-        this.getRecordsSpeciality();
-        this.getRecordsFaculty();
+    this.studentService
+      .getRecordsGroup(this.user.group_id)
+      .subscribe((response: any) => {
+        response.forEach(item => {
+          this.user.group_name = item.group_name;
+          this.user.speciality_id = item.speciality_id;
+          this.user.faculty_id = item.faculty_id;
+          this.getRecordsSpeciality();
+          this.getRecordsFaculty();
+        });
       });
-    });
   }
+
   getRecordsSpeciality() {
-    this.studentService.getRecordsSpeciality(this.user.speciality_id).subscribe((response: any) => {
-      response.forEach(item => {
-        this.user.speciality_code = item.speciality_code;
-        this.user.speciality_name = item.speciality_name;
+    this.studentService
+      .getRecordsSpeciality(this.user.speciality_id)
+      .subscribe((response: any) => {
+        response.forEach(item => {
+          this.user.speciality_code = item.speciality_code;
+          this.user.speciality_name = item.speciality_name;
+        });
       });
-    });
   }
+
   getRecordsFaculty() {
-    this.studentService.getRecordsFaculty(this.user.faculty_id).subscribe((response: any) => {
-      response.forEach(item => {
-        this.user.faculty_name = item.faculty_name;
+    this.studentService
+      .getRecordsFaculty(this.user.faculty_id)
+      .subscribe((response: any) => {
+        response.forEach(item => {
+          this.user.faculty_name = item.faculty_name;
+        });
       });
-    });
   }
+
   getTimeTablesForGroup() {
-    this.studentService.getTimeTablesForGroup(this.user.group_id)
+    this.studentService
+      .getTimeTablesForGroup(this.user.group_id)
       .subscribe((response: any) => {
         response.forEach(element => {
-
           const timeTables = <TimeTable>{};
           timeTables.end_date = element.end_date;
           timeTables.end_time = element.end_time;
@@ -84,15 +102,15 @@ export class StudentComponent implements OnInit {
           timeTables.start_time = element.start_time;
           timeTables.subject = <Subject[]>[];
 
-          this.studentService.getRecordsSubject(element.subject_id)
+          this.studentService
+            .getRecordsSubject(element.subject_id)
             .subscribe((responses: any) => {
               const subject = <Subject>{};
               subject.tests = <TestInterface[]>[];
               subject.subject_name = responses.pop().subject_name;
 
-
-
-              this.studentService.getTestsBySubject(element.subject_id)
+              this.studentService
+                .getTestsBySubject(element.subject_id)
                 .subscribe((data: any) => {
                   data.forEach(testResponse => {
                     const test = <TestInterface>{};
@@ -116,10 +134,11 @@ export class StudentComponent implements OnInit {
   }
 
   startTest(studentId, testId): void {
-    this.testPlayerService.startTest(userId, testId).subscribe(
+    this.testPlayerService.startTest(studentId, testId).subscribe(
       () => {
         this.router.navigate(['test/' + testId]);
       },
       error => console.log(error)
     );
+  }
 }

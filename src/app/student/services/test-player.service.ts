@@ -75,7 +75,9 @@ export class TestPlayerService {
   getQuestions() {
     return this.getRandomQuestionsByTestDetails().pipe(
       map((data: any) =>
-        data.map((questions: any) => questions.map(question => question.question_id))
+        data.map((questions: any) =>
+          questions.map(question => question.question_id)
+        )
       ),
       switchMap(questionIds => this.getQuestionsInfo(questionIds))
     );
