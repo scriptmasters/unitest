@@ -1,9 +1,10 @@
-<div class="breadcrumb-bar mb-1">
-    <ul class="breadcrumb">
-        <li *ngFor="let breadcrumb of breadcrumbs | async" class="breadcrumb-item">
-            <a routerLink="[breadcrumb.url, breadcrumb.params]">
-      {{ breadcrumb.label }}
-    </a>
-        </li>
-    </ul>
+<div class="breadcrumb-holder">
+    <div class="container-fluid">
+        <ol class="breadcrumb">
+            <li><a routerLink="" class="breadcrumb-item" routerLinkActive="active-link">Головна</a></li>
+            <li *ngFor="let breadcrumb of breadcrumbs">
+                <a routerLink="[breadcrumb.url, breadcrumb.params]">{{ breadcrumb.label }}</a>
+            </li>
+        </ol>
+    </div>
 </div>

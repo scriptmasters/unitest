@@ -6,7 +6,10 @@ import { FacultiesComponent } from './faculties.component';
 const routes: Routes = [
   {
     path: '',
-    component: FacultiesComponent
+    component: FacultiesComponent,
+    data: {
+          breadcrumb: "Факультети"
+        }
   }
 ];
 
