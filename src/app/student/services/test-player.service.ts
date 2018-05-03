@@ -12,21 +12,44 @@ import { ITestResult } from '../test-player/interfaces/TestResult';
 export class TestPlayerService {
   private urlStartTest = 'Log/startTest';
   private urlGetRandomQuestions = 'Question/getQuestionIdsByLevelRand';
+  private urlGetTestDetails = 'testDetail/getTestDetailsByTest';
   private urlGetQuestionInfo = 'EntityManager/getEntityValues';
   private urlGetAnswer = 'SAnswer/getAnswersByQuestion';
   private urlCheckResult = 'SAnswer/checkAnswers';
+  private urlGetTimeTablesForGroup = 'getTimeTablesForGroup/';
 
   constructor(private http: HttpClient) {}
 
-  startTest(): Observable<any> {
-    return this.http.get(this.urlStartTest + '/60/1');
+  startTest(userId, testId): Observable<any> {
+    return this.http.get(this.urlStartTest + '/' + userId + '/' + testId);
   }
 
-  getRandomQuestions(): Observable<any> {
-    return this.http.get(this.urlGetRandomQuestions + '/1/1/4');
+  getRandomQuestionsByTestDetails() {
+    return this.getTestDetails(1).pipe(
+      map((testDetails: any) =>
+        testDetails.map((test: any) => this.getRandomQuestions(test))
+      ),
+      switchMap(data => forkJoin(data))
+    );
   }
 
-  getQuestionsWithAnswers(): Observable<any> {
+  getRandomQuestions(test) {
+    return this.http.get(
+      this.urlGetRandomQuestions +
+        '/' +
+        test.test_id +
+        '/' +
+        test.level +
+        '/' +
+        test.tasks
+    );
+  }
+
+  getTestDetails(id: number) {
+    return this.http.get(this.urlGetTestDetails + '/' + id);
+  }
+
+  getQuestionsWithAnswers() {
     return this.getQuestions().pipe(
       map((questions: any) =>
         questions.map((question: any) => this.mergeQuestionsAnswers(question))
@@ -50,14 +73,21 @@ export class TestPlayerService {
   }
 
   getQuestions() {
-    return this.getRandomQuestions().pipe(
-      map((questions: any) => questions.map(question => question.question_id)),
+    return this.getRandomQuestionsByTestDetails().pipe(
+      map((data: any) =>
+        data.map((questions: any) => questions.map(question => question.question_id))
+      ),
       switchMap(questionIds => this.getQuestionsInfo(questionIds))
     );
   }
 
   getQuestionsInfo(questionIds): Observable<IQuestion> {
-    const body = { entity: 'Question', ids: questionIds };
+    let ids = [];
+    for (let i = 0; i < questionIds.length; i++) {
+      ids = ids.concat(questionIds[i]);
+    }
+
+    const body = { entity: 'Question', ids: ids };
     return this.http.post<IQuestion>(this.urlGetQuestionInfo, body);
   }
 
@@ -72,19 +102,20 @@ export class TestPlayerService {
       answer_ids: [+result.answer_id],
     }));
 
-    for (let i = 0; i + 1 < formatData.length; i++) {
+    for (let i = 0; i < formatData.length - 1; i++) {
       if (formatData[i].question_id === formatData[i + 1].question_id) {
         formatData[i].answer_ids.push(formatData[i + 1].answer_ids[0]);
         formatData.splice(i + 1, 1);
         i--;
       }
     }
+
     return formatData;
   }
 
-  checkResult(data): Observable<ITestResult> {
+  checkResult(data) /*:Observable<ITestResult>*/ {
     const result = this.formatResults(data);
     console.log(this.formatResults(data));
-    return this.http.post<ITestResult>(this.urlCheckResult, result);
+    // return this.http.post<ITestResult>(this.urlCheckResult, result);
   }
 }

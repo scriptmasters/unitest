@@ -37,21 +37,21 @@ export class SubjectsComponent implements OnInit {
 
   ngOnInit() {
     this.getSubjects();
-      this.searchBoxSubscr = this.searchBox.valueChanges
-          .debounceTime(1000)
-          .subscribe(newValue => {
-              this.subjectService.getSearchedSubjects(newValue)
-                  .subscribe(
-                  (data: any) => {
-                      if (data.response === 'no records') {
-                          this.subjects = undefined;
-                          this.error = 'За даним пошуковим запитом дані відсутні';
-                      } else {
-                          this.subjects = data;
-                      }
-                  }
-              );
-          });
+    this.searchBoxSubscr = this.searchBox.valueChanges
+        .debounceTime(1000)
+        .subscribe(newValue => {
+            this.subjectService.getSearchedSubjects(newValue)
+                .subscribe(
+                (data: any) => {
+                    if (data.response === 'no records') {
+                        this.subjects = undefined;
+                        this.error = 'За даним пошуковим запитом дані відсутні';
+                    } else {
+                        this.subjects = data;
+                    }
+                }
+            );
+        });
   }
 
   getSubjects(): void {

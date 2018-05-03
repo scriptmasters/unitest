@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 import { TestPlayerService } from '../services/test-player.service';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-test-player',
@@ -10,9 +11,13 @@ import { TestPlayerService } from '../services/test-player.service';
 export class TestPlayerComponent implements OnInit {
   questions = [];
   userAnswers = {};
-  checkedAnswers = {}; // for checkbox question
+  selectedAnswers = {}; // for checkbox question
 
-  constructor(private testPlayerService: TestPlayerService) {}
+  constructor(
+    private testPlayerService: TestPlayerService // private route: ActivatedRoute
+  ) {}
+  
+  checkedAnswers = {}; // for checkbox question
 
   ngOnInit() {
     this.getQuestionsForTest();
@@ -26,10 +31,10 @@ export class TestPlayerComponent implements OnInit {
       });
   }
 
-  chooseAnswer(question_id: number, answer) {
+  selectedAnswer(question_id: number, answer) {
     this.userAnswers[answer.answer_id] = answer;
 
-    if (this.checkedAnswers[answer.answer_id] === false) {
+    if (this.selectedAnswers[answer.answer_id] === false) {
       delete this.userAnswers[answer.answer_id];
     } else {
       this.userAnswers[answer.answer_id].answer_id = [answer.answer_id];
@@ -37,11 +42,16 @@ export class TestPlayerComponent implements OnInit {
   }
 
   finishTest() {
-    console.log(this.userAnswers);
+    // console.log(this.userAnswers);
     console.log('Finish Test');
-    this.testPlayerService.checkResult(this.userAnswers)
-      .subscribe((response: any) => {
-        console.log(response);
-      });
+    this.testPlayerService.checkResult(this.userAnswers);
+    // this.testPlayerService.checkResult(this.userAnswers)
+    //   .subscribe((response: any) => {
+    //     console.log(response);
+    //   });
   }
+
+// ***** TIMER *****
+ a = 'TIMER';
+
 }

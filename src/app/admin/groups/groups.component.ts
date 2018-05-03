@@ -90,7 +90,7 @@ export class GroupsComponent implements OnInit {
       this.groupsService._getGroupsBySpeciality(this.specialityId)
         .mergeMap(groupData => {
           this.groups = groupData;
-          if (groupData[0].response === 'no records') {
+          if (groupData && groupData['response'] && groupData['response'] === 'no records') {
             this.dialog.open(ResponseMessageComponent, {
               width: '400px',
               data: {
@@ -106,7 +106,6 @@ export class GroupsComponent implements OnInit {
         .subscribe(facultyData => {
           this.faculties = facultyData;
           this.fillOutTableArray();
-          // this.faculties.forEach( ([key, value])=> console.log(key + ' : ' + value));
         });
 
     } else if (this.facultyId) {
@@ -116,8 +115,7 @@ export class GroupsComponent implements OnInit {
       this.groupsService._getGroupsByFaculty(this.facultyId)
         .mergeMap(groupData => {
           this.groups = groupData;
-          console.log(groupData[0].response);
-          if (groupData[0].response === 'no records') {
+          if (groupData && groupData['response'] && groupData['response'] === 'no records') {
             this.dialog.open(ResponseMessageComponent, {
               width: '400px',
               data: {
@@ -133,12 +131,8 @@ export class GroupsComponent implements OnInit {
         .subscribe(specialityData => {
           this.specialities = specialityData;
           this.fillOutTableArray();
-          // this.faculties.forEach( ([key, value])=> console.log(key + ' : ' + value));
         });
-    } else {
     }
-
-    // this.faculties.forEach( ([key, value])=> console.log(key + ' : ' + value) );
   }
 
   ngOnInit() {
@@ -146,19 +140,9 @@ export class GroupsComponent implements OnInit {
     this.groupsService.searchFilterService.subscribe(data => this.searchFilter = data);
     this.groupsService.facultyFilterService.subscribe(data => this.facultyFilter = data);
     this.groupsService.specialityFilterService.subscribe(data => this.specialityFilter = data);
-    // this.test();
+
   }
 
-  // test() {
-  //   Observable.concat(
-  //     this.groupsService._getGroup(),
-  //     this.groupsService._getFaculties(),
-  //     this.groupsService._getSpecialities())
-  //     .subscribe(data => {
-  //       console.log(data);
-  //       this.fillOutTableArray();
-  //     });
-  // }
 
 
   getGroupsData(param ?: any) {
@@ -202,57 +186,13 @@ export class GroupsComponent implements OnInit {
     }
   }
 
-
-  // printOut(param ?: any) {
-  //   this.groupsService._getGroup().subscribe(groupData => {
-  //     this.groups = groupData;
-  //     const arrFaculty = [];
-  //     const arrSpeciality = [];
-  //
-  //     for (let i = 0; i < this.groups.length; i++) {
-  //       arrFaculty.push(groupData[i].faculty_id);
-  //       arrSpeciality.push(groupData[i].speciality_id);
-  //     }
-  //     this.groupsService._getFaculties().subscribe(facultyData => {
-  //       this.faculties = facultyData;
-  //
-  //       this.groupsService._getSpecialities().subscribe(specialityData => {
-  //         this.specialities = specialityData;
-  //
-  //         for (let i = 0; i < this.groups.length; i++) {
-  //           this.table.push({
-  //             group_id: parseInt(this.groups[i].group_id, 10),
-  //             group: this.groups[i].group_name,
-  //             faculty: '',
-  //             speciality: ''
-  //           });
-  //
-  //           for (const faculty of this.faculties) {
-  //             if (this.groups[i].faculty_id === faculty.faculty_id) {
-  //               this.table[i].faculty = faculty.faculty_name;
-  //               break;
-  //             }
-  //           }
-  //
-  //           for (const speciality of this.specialities) {
-  //             if (this.groups[i].speciality_id === speciality.speciality_id) {
-  //               this.table[i].speciality = speciality.speciality_name;
-  //               break;
-  //             }
-  //           }
-  //         }
-  //         // this.makeUnique();
-  //       });
-  //     });
-  //   });
-  // }
-
-
   // ************* DIALOG *****************
   public openDialog(groupLine ?: Table): void {
     const dialogConfig = new MatDialogConfig();
 
     dialogConfig.disableClose = true;
+    dialogConfig.autoFocus = false;
+
     if (groupLine) {
       dialogConfig.data = {
         group_id: groupLine.group_id,
@@ -284,7 +224,6 @@ export class GroupsComponent implements OnInit {
   delGroup(id) {
     const dialogConfig = new MatDialogConfig();
     dialogConfig.disableClose = true;
-    dialogConfig.autoFocus = false;
 
     const dialogRef = this.dialog.open(GroupsDeleteConfirmComponent, dialogConfig);
     dialogRef.afterClosed().subscribe(resultDialog => {
@@ -437,10 +376,6 @@ export class GroupsComponent implements OnInit {
 
   goTimetable(id): void {
     this.router.navigate(['admin/timetable'], {queryParams: {groupId: id}});
-  }
-
-  goStudents(id): void {
-    this.router.navigate(['admin/students/' + id]);
   }
 
 }
