@@ -10,7 +10,6 @@ import { TestDetailCreateComponent } from './testdetails/modals/test-detail-crea
 import { QuestionsService } from './questions/questions.service';
 import { AuthService} from '../auth/auth.service';
 import { StatisticComponent } from './statistic/statistic.component';
-import { AdministratorsComponent } from './administrators/administrators.component';
 import { QuestionsComponent } from './questions/questions.component';
 import { AddQuestionComponent } from './questions/add-question/add-question.component';
 import { EditQuestionComponent } from './questions/edit-question/edit-question.component';
@@ -32,7 +31,6 @@ import { ResultsService } from './results/services/results.service';
     declarations: [
         AdminComponent,
         StatisticComponent,
-        AdministratorsComponent,
         TestDetailsComponent,
         TestDetailCreateComponent,
         QuestionsComponent,
@@ -50,5 +48,5 @@ import { ResultsService } from './results/services/results.service';
     ]
 })
 
-
-export class AdminModule { }
+export class AdminModule {
+}
