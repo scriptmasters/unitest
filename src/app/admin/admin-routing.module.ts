@@ -50,7 +50,7 @@ const routes: Routes = [
             },
             {
                 path: 'administrators',
-                component: AdministratorsComponent,
+                loadChildren: './administrators/administrators.module#AdministratorsModule',
                 data: {
                     breadcrumb: 'Адміністратори'
                 }
