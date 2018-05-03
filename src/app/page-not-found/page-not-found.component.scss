@@ -1,0 +1,28 @@
+.wrapper {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  .content {
+    text-align: center;
+  }
+  .content h1{
+    color: #33b35a;
+    font-size: 15rem;
+  }
+  .content h2 {
+    font-size: 3rem;
+  }
+}
+li {
+  display: inline-block;
+  margin: 5px;
+  a {
+    color: black;
+  }
+  a:hover {
+    color: slateblue;
+  }
+}

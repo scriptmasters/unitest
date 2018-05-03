@@ -51,6 +51,7 @@ body {
     font-size: 14px;
     margin: 0;
     background-color: #F4F7FA;
+    overflow-x: hidden;
 }
 
 .text-gray {
@@ -78,7 +79,7 @@ i:hover {
 
 ul {
     list-style-type: none;
-    -webkit-padding-start: 0px;
+    -webkit-padding-start: 0;
 }
 
 span {
@@ -139,10 +140,12 @@ h2 {
 }
 
 .card {
-    margin-top: 15px;
-    margin-bottom: 15px;
+    margin-top: 5px;
+    margin-bottom: 5px;
     -webkit-box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
     box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+    padding-right: 0;
+    padding-left: 0;
 }
 
 .card-header h1,

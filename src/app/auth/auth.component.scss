@@ -1,5 +1,5 @@
 .wrapper {
-    background: white url(/assets/adobestock_68948606.jpg) center;
+    background: white url(../../assets/adobestock_68948606.jpg) center;
     position: absolute;
     min-width: 100%;
     min-height: 100%;
@@ -29,18 +29,17 @@
 }
 .mat-input-container mat-card {
   background-color: #ffffffbf;
-  border: 1px solid black;
   border-radius: 5px;
     mat-card {
       background-color: #ffffff00;
-      box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+      /*box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);*/
     }
 }
 
 .mat-input-container mat-divider {
     position: relative;
     margin-top: 5px;
-    box-shadow: 0 0 8px 0 rgba(0,0,0,0.25);
+    /*box-shadow: 0 0 8px 0 rgba(0,0,0,0.25);*/
 }
 
 .mat-input-container h1 {

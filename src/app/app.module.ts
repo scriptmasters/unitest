@@ -7,6 +7,7 @@ import { AppComponent } from './app.component';
 import { StudentGuard } from './student-guard.service';
 import { AdminGuard } from './admin-guard.service';
 import {SharedModule} from './shared/shared.module';
+import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 @NgModule({
     imports: [
         BrowserModule,
@@ -15,7 +16,7 @@ import {SharedModule} from './shared/shared.module';
         SharedModule
     ],
     entryComponents: [ AppComponent ],
-    declarations: [ AppComponent ],
+    declarations: [ AppComponent, PageNotFoundComponent ],
     bootstrap: [ AppComponent ],
     providers: [
         StudentGuard,
