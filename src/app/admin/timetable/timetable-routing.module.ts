@@ -7,9 +7,9 @@ const routes: Routes = [
         path: '',
         component: TimetableComponent,
         data: {
-          breadcrumb: "Розклад"
+          breadcrumb: 'Розклад'
         }
-       
+
     }
 ];
 

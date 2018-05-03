@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from "@angular/router";
-import { ResultsService } from "./services/results.service";
+import { ActivatedRoute } from '@angular/router';
+import { ResultsService } from './services/results.service';
 
 @Component({
   selector: 'app-results',
@@ -45,9 +45,9 @@ export class ResultsComponent implements OnInit {
         });
         studentIds = Array.from(new Set(studentIds));
         this.resultService.getStudents(studentIds).subscribe((studentData: any[]) => {
-          let students = [];
+          const students = [];
           studentData.forEach(student => {
-            let studentObj = {
+            const studentObj = {
               student_name: `${student['student_surname']} ${student['student_name']} ${student['student_fname']}`,
               student_id: student['user_id'],
               group_id: student['group_id']

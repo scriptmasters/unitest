@@ -9,7 +9,11 @@
 </mat-card-content>
 <mat-card-actions>
     <button mat-raised-button color="primary" [mat-dialog-close]="'login'"> Панель авторизації</button>
-    <button *ngIf="data.user === 'admin'" mat-raised-button color="primary" [mat-dialog-close]="'student'">Панель студента</button>
-    <button *ngIf="data.user === 'student'" mat-raised-button color="primary" [mat-dialog-close]="'admin'">Панель адміністратора</button>
+    <button *ngIf="data.user === 'admin'" mat-raised-button color="primary" [mat-dialog-close]="'student'">
+        Панель студента
+    </button>
+    <button *ngIf="data.user === 'student'" mat-raised-button color="primary" [mat-dialog-close]="'admin'">
+        Панель адміністратора
+    </button>
 </mat-card-actions>
 
