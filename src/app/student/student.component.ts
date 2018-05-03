@@ -22,7 +22,7 @@ export class StudentComponent implements OnInit {
     public authService: AuthService,
     public studentService: StudentService,
     private router: Router
-  ) { }
+  ) {}
 
   ngOnInit() {
     this.authService.isLogged().subscribe((response: any) => {
@@ -115,9 +115,11 @@ export class StudentComponent implements OnInit {
       });
   }
 
-  test(testId, studentId) {
-    const _testId = testId;
-    const _studentId = studentId;
-    console.log(_testId, _studentId);
-  }
+  startTest(studentId, testId): void {
+    this.testPlayerService.startTest(userId, testId).subscribe(
+      () => {
+        this.router.navigate(['test/' + testId]);
+      },
+      error => console.log(error)
+    );
 }
