@@ -20,7 +20,7 @@ export class AdministratorsDialogComponent implements OnInit {
 
   constructor(private matDialogRef: MatDialogRef<AdministratorsDialogComponent>,
      @Inject(MAT_DIALOG_DATA) public data: any,
-     private administratorsService: AdministratorsService,) { }
+     private administratorsService: AdministratorsService) { }
 
      ngOnInit() {
         this.getAdministrator();
