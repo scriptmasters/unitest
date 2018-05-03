@@ -16,3 +16,9 @@ i {
 .items {
 	margin-bottom: 0.3rem;
 }
+#title {
+	border-color: #33b35a;
+}
+#title:focus {
+    border-color: #80bfff;
+}

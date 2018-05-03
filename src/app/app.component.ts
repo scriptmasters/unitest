@@ -32,7 +32,9 @@ export class AppComponent implements OnInit {
     ngOnInit() {
       this.router.events
       .subscribe((event) => {
-          if (event instanceof NavigationStart) {this.spinnerStart(); }
+          if (event instanceof NavigationStart) {
+              this.spinnerStart();
+          }
           if (event instanceof NavigationEnd || event instanceof NavigationCancel || event instanceof NavigationError ) {
               this.spinnerEnd();
           }

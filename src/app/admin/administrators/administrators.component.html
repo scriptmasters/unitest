@@ -5,10 +5,10 @@
           <div class="card">
             <div class="card-body">
               <div class="row headTitle">       
-                <div class="col-sm-3 col-12 items">
+                <div class="col-sm-4 col-12 items">
                   <h1 class="h3 display">Адміністратори</h1>
                 </div>
-                <div class="col-sm-3"></div>
+                <div class="col-sm-2"></div>
                 <div class="col-sm-4 col-12 items">
                   <input type="text" id="title" placeholder="Пошук..." class="form-control form-control-success" [formControl]="searchBox">
                 </div>
@@ -37,8 +37,8 @@
                     </tr>
                   </thead>
                   <tbody>
-                    <tr *ngFor= "let administrator of administrators; let i = index">
-                      <td>{{ i +1 }}</td>
+                    <tr *ngFor= "let administrator of administrators| paginate: config; let i = index">
+                      <td>{{ (config.currentPage - 1) * config.itemsPerPage + i +1 }}</td>
                       <td>{{administrator.username}}</td>
                       <td>{{administrator.email}}</td>
                       <td></td>
@@ -53,6 +53,17 @@
               </div>
             </div>
           </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-lg-12">
+          <pagination-controls *ngIf="administrators"
+                  class="pagination justify-content-center"
+                             (pageChange)="config.currentPage = $event"
+                             previousLabel="Попередня"
+                             nextLabel="Наступна"
+                             autoHide="true">
+          </pagination-controls>
         </div>
       </div>
   </div>
