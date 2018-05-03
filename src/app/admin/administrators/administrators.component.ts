@@ -10,6 +10,8 @@ import {Subscription} from 'rxjs/Subscription';
 import {PaginationInstance} from 'ngx-pagination';
 import 'rxjs/add/operator/debounceTime';
 import { ActivatedRoute, Params, Router } from '@angular/router';
+import { AuthService } from '../../auth/auth.service';
+import {Ilogin, IisLogged} from '../../shared/Interfaces/server_response';
 
 @Component({
   selector: 'app-administrators',
@@ -28,7 +30,10 @@ export class AdministratorsComponent implements OnInit {
      currentPage: 1
   };
 
-  constructor(private administratorsService: AdministratorsService, public dialog: MatDialog, private route: ActivatedRoute) { }
+  constructor(private administratorsService: AdministratorsService,
+   public dialog: MatDialog,
+   private route: ActivatedRoute,
+   public authService: AuthService) { }
 
   ngOnInit() {
     this.administrators = this.route.snapshot.data['administrators'];
@@ -47,7 +52,6 @@ export class AdministratorsComponent implements OnInit {
                     }
                 );
         });
-
   }
 
   getAllAdministrators(): void {
@@ -56,59 +60,85 @@ export class AdministratorsComponent implements OnInit {
         this.administrators = data;
        });
   }
-
+//Add and update modal
   openDialog(id): void {
-    const matDialogRef = this.dialog.open(AdministratorsDialogComponent, {
-      width: '500px',
-      data: {id: id}
-    });
+    const adminId = id;
+    this.authService.isLogged().subscribe((result: IisLogged) => {    
+      if(result.id===adminId || +result.id === 1 || adminId === undefined) {
+        const matDialogRef = this.dialog.open(AdministratorsDialogComponent, {
+          width: '500px',
+          data: {id: id}
+        });
+        matDialogRef.afterClosed().subscribe((response: any) => {
+          if (response) {
+            if (response.status === 'SUCCESS') {
+              this.dialog.open(ResponseMessageComponent, {
+                width: '400px',
+                data: {
+                  message: response.message
+                }
+               });
+              this.getAllAdministrators();
+            } else if (response.status === 'ERROR') {
+              this.dialog.open(ResponseMessageComponent, {
+                width: '400px',
+                data: {
+                  message: response.message
+                }
+              });
+            }
+          }
+        });
 
-      matDialogRef.afterClosed().subscribe((response: any) => {
-        if (response) {
-          if (response.status === 'SUCCESS') {
-            this.dialog.open(ResponseMessageComponent, {
-              width: '400px',
-              data: {
-                message: response.message
-              }
-            });
-            this.getAllAdministrators();
-          } else if (response.status === 'ERROR') {
-            this.dialog.open(ResponseMessageComponent, {
-              width: '400px',
-              data: {
-                message: response.message
-              }
-            });
-          }
-          }
-      });
+      } else {
+          this.dialog.open(ResponseMessageComponent, {
+            width: '400px',
+            data: {
+              message: 'Ви не можете редагувати цього адміністратора!'
+            }
+          });
+
+        }
+    })
   } 
-
-   deleteAdministrator(id): void {
-    const dialogRef = this.dialog.open(DeleteConfirmComponent, {
-        width: '500px',
-        data: { message: 'Ви справді бажаєте видалити цього адміністратора'}
-    });
+//Delete modal
+  deleteAdministrator(id): void {
+    this.authService.isLogged().subscribe((result: IisLogged) => {
+      if(+result.id === 1) {
+        const dialogRef = this.dialog.open(DeleteConfirmComponent, {
+          width: '500px',
+          data: { message: 'Ви справді бажаєте видалити цього адміністратора'}
+        });
         dialogRef.afterClosed().subscribe((Response: boolean) => {
-      if (Response) {
-        this.administratorsService.delAdministrator(id).subscribe((data: IResponse) => {
-        if (data.response === 'ok') {
-          this.dialog.open(ResponseMessageComponent, {
-            width: '400px',
-            data: {
-              message: 'Адміністратора було успішно видалено!'
-            }
-          });
+          if (Response) {
+            this.administratorsService.delAdministrator(id).subscribe((data: IResponse) => {
+              if (data.response === 'ok') {
+                this.dialog.open(ResponseMessageComponent, {
+                  width: '400px',
+                  data: {
+                    message: 'Адміністратора було успішно видалено!'
+                  }
+                });
           this.getAllAdministrators();
-        }},
-        () => {
-          this.dialog.open(ResponseMessageComponent, {
-            width: '400px',
-            data: {
-              message: 'Неможливо видалити цього адміністратора!'
-            }
-          });
+              }
+            },
+              () => {
+                this.dialog.open(ResponseMessageComponent, {
+                  width: '400px',
+                  data: {
+                    message: 'Неможливо видалити цього адміністратора!'
+                  }
+                });
+              });
+          }
+        });
+      }
+      else {
+        this.dialog.open(ResponseMessageComponent, {
+          width: '400px',
+          data: {
+            message: 'Ви не можете видалити цього адміністратора!'
+          }
         });
       }
     });
