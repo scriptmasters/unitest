@@ -5,7 +5,6 @@ import {AddQuestionComponent} from './questions/add-question/add-question.compon
 import {QuestionsComponent} from './questions/questions.component';
 import {StatisticComponent} from './statistic/statistic.component';
 import {TestDetailsComponent} from './testdetails/component/test-details.component';
-import {SpecialitiesComponent} from './specialities/specialities.component';
 import {ResultsComponent} from './results/results.component';
 
 const routes: Routes = [
