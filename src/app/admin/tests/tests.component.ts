@@ -8,6 +8,7 @@ import { DeleteConfirmComponent } from '../../shared/delete-confirm/delete-confi
 import { IResponse } from '../faculties/facultiesInterface';
 import { ResponseMessageComponent } from '../../shared/response-message/response-message.component';
 import {PageEvent} from '@angular/material';
+import { count } from 'rxjs/operators';
 
 @Component({
   selector: 'app-tests',
@@ -18,6 +19,7 @@ export class TestsComponent implements OnInit {
 
   test;
   subjectId: number;
+  counter = 0;
   length = 100;
   pageSize = 10;
   pageSizeOptions = [5, 10, 25, 100];
@@ -53,7 +55,19 @@ export class TestsComponent implements OnInit {
 
   getTestsById(id: number): void {
     this.httpService.getTestsById(this.subjectId).subscribe(
-      data => {this.test = data; }
+      
+      data => {
+        if(data.hasOwnProperty('response')&& this.counter === 0) {
+          this.dialog.open(ResponseMessageComponent, {
+            width: '400px',
+            data: {
+              message: 'За даним запитом тестів не знайдено'
+            }
+          });
+          this.counter++;
+        } else
+        this.test = data;
+      }
     );
   }
 

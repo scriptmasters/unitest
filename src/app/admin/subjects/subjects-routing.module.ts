@@ -6,13 +6,12 @@ import { SubjectsComponent } from './subjects.component';
 const routes: Routes = [
   {
     path: '',
-    component: SubjectsComponent
-  }
+    component: SubjectsComponent,
+  },
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-
 export class SubjectsRoutingModule {}
