@@ -102,10 +102,8 @@
     </div>
     </div>
 
-    <div class="form-row justify-content-center">
-      <div class="form-group">
-        <button class="btn btn-danger" (click)="onNoClick()">Відміна</button>
-        <button class="btn btn-primary mr-2" (click)="onSubmit()">Зберегти</button>
-      </div>
+    <div class="form-group row justify-content-center">
+        <input  class="btn btn-danger col-sm-3 col-11" type="button" (click)="onNoClick()" value="Відміна">
+        <input  class="btn btn-success col-sm-3 col-11" type="button" (click)="onSubmit()" value="Зберегти">
     </div>
 </form>

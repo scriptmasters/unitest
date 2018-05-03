@@ -43,8 +43,8 @@ export class TestsComponent implements OnInit {
               this.openModalMessage('Тест успішно видалено');
             }
           },
-          () => {
-            this.openModalMessage('Цей тест неможливо видалити, осік в ньому є питання! '); },
+          (err) => {
+            this.openModalMessage('Цей тест неможливо видалити, оскільки в ньому є питання! '); },
           () => {
             this.getTestsById(this.subjectId);
           }
