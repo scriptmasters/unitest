@@ -27,7 +27,6 @@
                                                                 {{list.subject_name}} :
                                                                 <br>{{tests.test_name}}
                                                             </td>
-
                                                             <td>
                                                                 <span>
                                                                     {{key.start_date}} 
@@ -47,7 +46,7 @@
                                                             </td>
                                                             <td>
                                                                 <a routerLink="test/{{tests.test_id}}">
-                                                                    <i class="fa fa-play-circle" aria-hidden="true" (click)="test(tests.test_id,user.user_id)"></i>
+                                                                    <i class="fa fa-play-circle" aria-hidden="true" (click)="startTest(tests.test_id,user.user_id)"></i>
                                                                 </a>
 
                                                             </td>
