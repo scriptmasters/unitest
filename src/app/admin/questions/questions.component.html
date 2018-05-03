@@ -7,40 +7,40 @@
 
             <div class="form-group col-4">
                 <label> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;з предмету:
-                      <select 
-                      class="form-control col-md-12" 
-                       id="subjectSelect" 
-                       #subjectFild
-                       (change)="createTestListBySelSubject(subjectFild.selectedIndex)"
-                       >
-                       <option value="selectSubject" disabled>Виберіть предмет</option>
-                       <option *ngFor="let subjectIdName of subjectIdNamesArr"  
-                       [selected]="selectSubject"
-                       >
-                         {{subjectIdName.subject_name}}
-                       </option>
-                     </select>
-                  </label>
+                    <select
+                            class="form-control col-md-12"
+                            id="subjectSelect"
+                            #subjectFild
+                            (change)="createTestListBySelSubject(subjectFild.selectedIndex)"
+                    >
+                        <option value="selectSubject" disabled>Виберіть предмет</option>
+                        <option *ngFor="let subjectIdName of subjectIdNamesArr"
+                                [selected]="selectSubject"
+                        >
+                            {{subjectIdName.subject_name}}
+                        </option>
+                    </select>
+                </label>
             </div>
             <!-- [selected]="subjectIdNamesArr.subjectName === this.subjectName" -->
 
 
             <div class="form-group col-3">
                 <label> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;для тесту:
-                      <select 
-                      class="form-control col-md-12" 
-                        id="testSelect" 
-                        #testFild
-                        (change)="createQuestionsTableBySelTestIndex(testFild.selectedIndex)"
+                    <select
+                            class="form-control col-md-12"
+                            id="testSelect"
+                            #testFild
+                            (change)="createQuestionsTableBySelTestIndex(testFild.selectedIndex)"
+                    >
+                        <option value="selectTest">Виберіть тест</option>
+                        <option *ngFor="let test of testListBySelSubject"
+                                [selected]="selectTest"
                         >
-                        <option value="selectTest" >Виберіть тест</option>
-                        <option *ngFor="let test of testListBySelSubject"  
-                        [selected]="selectTest" 
-                        >
-                          {{test.test_name}}
+                            {{test.test_name}}
                         </option>
-                      </select>
-                  </label>
+                    </select>
+                </label>
             </div>
             <!-- [selected]="test.test_name === this.testName"  "selectTest" -->
 
@@ -50,7 +50,8 @@
             </div>
 
             <div class="form-group">
-                <input type="button" class="btn btn-success" value="Додати завдання" id="addQuestion" (click)="openModalAdd(testFild.selectedIndex, testFild.options[testFild.selectedIndex].value)">
+                <input type="button" class="btn btn-success" value="Додати завдання" id="addQuestion"
+                       (click)="openModalAdd(testFild.selectedIndex, testFild.options[testFild.selectedIndex].value)">
             </div>
 
 
@@ -63,77 +64,85 @@
                         <div class="table-responsive">
                             <table class="table table-striped table-hover">
                                 <thead>
-                                    <tr class="d-flex">
-                                        <th class="col-sm-1">№</th>
-                                        <th class="col-sm-5">Завдання</th>
-                                        <!-- <th>Тест</th> -->
-                                        <!-- <th>question_id</th> -->
-                                        <th class="col-sm-1">Рівень</th>
-                                        <th class="col-sm-1 ">Тип</th>
-                                        <th class="col-sm-2">Вкладення</th>
-                                        <th class="col-sm-2" colspan="2">Керування</th>
-                                    </tr>
+                                <tr class="d-flex">
+                                    <th class="col-sm-1">№</th>
+                                    <th class="col-sm-5">Завдання</th>
+                                    <!-- <th>Тест</th> -->
+                                    <!-- <th>question_id</th> -->
+                                    <th class="col-sm-1">Рівень</th>
+                                    <th class="col-sm-1 ">Тип</th>
+                                    <th class="col-sm-2">Вкладення</th>
+                                    <th class="col-sm-2" colspan="2">Керування</th>
+                                </tr>
                                 </thead>
                                 <tbody>
 
-                                    <tr class="d-flex" *ngFor="let question of questions | paginate: config; let i = index">
-                                        <th class="col-sm-1" scope="row">{{(config.currentPage - 1) * config.itemsPerPage + i +1}}</th>
+                                <tr class="d-flex" *ngFor="let question of questions | paginate: config; let i = index">
+                                    <th class="col-sm-1" scope="row">{{(config.currentPage - 1) * config.itemsPerPage +
+                                        i +1}}
+                                    </th>
 
-                                        <td class="col-sm-5">{{question.question_text}} </td>
-                                        <!-- <td>{{this.testName}} </td> -->
-                                        <!-- <td>{{question.question_id}} </td> -->
+                                    <td class="col-sm-5">{{question.question_text}}</td>
+                                    <!-- <td>{{this.testName}} </td> -->
+                                    <!-- <td>{{question.question_id}} </td> -->
 
-                                        <td class="col-sm-1">{{question.level}}</td>
+                                    <td class="col-sm-1">{{question.level}}</td>
 
-                                        <td class="col-sm-1">
+                                    <td class="col-sm-1">
 
-                                            <div *ngIf="question.type === '1'" class="fa fa-dot-circle-o">&nbsp;Simple</div>
-                                            <div *ngIf="question.type === '1'" class="fa fa-circle-o">&nbsp;choise</div>
+                                        <div *ngIf="question.type === '1'" class="fa fa-dot-circle-o">&nbsp;Simple</div>
+                                        <div *ngIf="question.type === '1'" class="fa fa-circle-o">&nbsp;choise</div>
 
-                                            <div *ngIf="question.type === '2'" class="fa fa-check-square-o">&nbsp;Multi</div>
-                                            <div *ngIf="question.type === '2'" class="fa fa-check-square-o">&nbsp;choise</div>
-                                            <div *ngIf="question.type === '3'" class="fa">Text&nbsp;field</div>
-                                            <div *ngIf="question.type === '3'" class="fa">
-                                                <span class="fa fa-font"></span>
-                                                <span class="fa fa-pencil"></span>
-                                                <span class="fa fa-paragraph"></span>
-                                            </div>
-                                            <div *ngIf="question.type === '4'" class="fa">Numerical</div>
-                                            <div *ngIf="question.type === '4'" class="fa">[<i>&pi;</i>=3,14...]</div>
-                                        </td>
+                                        <div *ngIf="question.type === '2'" class="fa fa-check-square-o">&nbsp;Multi
+                                        </div>
+                                        <div *ngIf="question.type === '2'" class="fa fa-check-square-o">&nbsp;choise
+                                        </div>
+                                        <div *ngIf="question.type === '3'" class="fa">Text&nbsp;field</div>
+                                        <div *ngIf="question.type === '3'" class="fa">
+                                            <span class="fa fa-font"></span>
+                                            <span class="fa fa-pencil"></span>
+                                            <span class="fa fa-paragraph"></span>
+                                        </div>
+                                        <div *ngIf="question.type === '4'" class="fa">Numerical</div>
+                                        <div *ngIf="question.type === '4'" class="fa">[<i>&pi;</i>=3,14...]</div>
+                                    </td>
 
-                                        <td class="col-sm-2">
-                                            <div *ngIf="question.attachment !== undefined; then thenBlock else elseBlock"></div>
-                                            <ng-template #thenBlock>
-                                                <img [src]="question.attachment" width="50">
-                                            </ng-template>
-                                            <ng-template #elseBlock>{{question.attachment}}</ng-template>
-                                            <!-- <img *ngIf="question.attachment !== undefined" [src]="question.attachment" width="50"> -->
-                                        </td>
+                                    <td class="col-sm-2">
+                                        <div *ngIf="question.attachment !== undefined; then thenBlock else elseBlock"></div>
+                                        <ng-template #thenBlock>
+                                            <img [src]="question.attachment" width="50">
+                                        </ng-template>
+                                        <ng-template #elseBlock>{{question.attachment}}</ng-template>
+                                        <!-- <img *ngIf="question.attachment !== undefined" [src]="question.attachment" width="50"> -->
+                                    </td>
 
-                                        <td class="col-sm-2">
-                                            <div>
+                                    <td class="col-sm-2">
+                                        <div>
                                                 <span style="float: left; width: 33%;">
                           <i class="fa fa-list-ol" (click)="openModalEdit(question)" title="Відповіді"></i>
                         </span>
-                                                <span style="float: left; width: 33%;">
+                                            <span style="float: left; width: 33%;">
                           <i class="fa fa-cog" (click)="openModalEdit(question)" title="Редагувати"></i>
                         </span>
-                                                <span style="float: left; width: 33%;">
+                                            <span style="float: left; width: 33%;">
                           <i class="fa fa-close" (click)="handleDelete(question.question_id)" title="Видалити"></i>
                         </span>
-                                            </div>
+                                        </div>
 
-                                        </td>
-                                        <!-- <td class="col-sm-1"><i class="fa fa-list-ol" (click)="openModalEdit(question)" title="Відповіді"></i></td>
-                    <td class="col-sm-1"><i class="fa fa-cog" (click)="openModalEdit(question)" title="Редагувати"></i></td>
-                    <td class="col-sm-1"><i class="fa fa-close" (click)="handleDelete(question.question_id)" title="Видалити"></i></td>  -->
-                                    </tr>
+                                    </td>
+                                    <!-- <td class="col-sm-1"><i class="fa fa-list-ol" (click)="openModalEdit(question)" title="Відповіді"></i></td>
+                <td class="col-sm-1"><i class="fa fa-cog" (click)="openModalEdit(question)" title="Редагувати"></i></td>
+                <td class="col-sm-1"><i class="fa fa-close" (click)="handleDelete(question.question_id)" title="Видалити"></i></td>  -->
+                                </tr>
                                 </tbody>
                             </table>
                         </div>
                     </div>
-                    <pagination-controls class="pagination justify-content-center" (pageChange)="config.currentPage=$event" previousLabel="<<" nextLabel=">>" autoHide="false"></pagination-controls>
+                    <pagination-controls class="pagination justify-content-center"
+                                         (pageChange)="config.currentPage=$event" previousLabel="<<" nextLabel=">>"
+                                         autoHide="false"></pagination-controls>
                 </div>
             </div>
+        </div>
+    </div>
 </section>
