@@ -49,6 +49,8 @@ export class GroupsComponent implements OnInit {
     this.specialityFilter = 'Виберіть спецільність';
   }
 
+
+
   // @ViewChild('container') container;
 
   // @HostListener('window:resize')
@@ -155,7 +157,6 @@ export class GroupsComponent implements OnInit {
       .subscribe(specialityData => {
         this.specialities = specialityData;
         this.fillOutTableArray();
-        // this.faculties.forEach( ([key, value])=> console.log(key + ' : ' + value));
       });
   }
 

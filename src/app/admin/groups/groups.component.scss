@@ -23,48 +23,43 @@
 //    padding-left: 0;
 //  }
 //}
-
-
-.btn-header {
-  width: 100%;
-  padding: 0.55rem;
-}
-select.select-filter{
-  margin-bottom: 0;
-}
-div.form-group.col-sm-3{
-  margin: 5px 0;
-  padding: 0 5px;
-}
-div.form-group.col-sm-4{
-  margin: 5px 0;
-  padding: 0 5px;
-}
-div.form-group.col-sm-1{
-  margin: 5px 0;
-  padding: 0 5px;
+select.select-filter {
+    margin-bottom: 0;
 }
 
-button.fa {
-  background-color: #28A745;
-  width: auto;
-  border: none;
-  color: #fff;
-  transition: all 0.2s;
-  margin: 0 auto;
-  &:hover {
-    font-size: 1.1rem;
-  }
-  &:disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
-  }
+div.form-group.col-sm-3 {
+    margin: 5px 0;
+    padding: 0 5px;
 }
 
+div.form-group.col-sm-4 {
+    margin: 5px 0;
+    padding: 0 5px;
+}
+
+div.form-group.col-sm-1 {
+    margin: 5px 0;
+    padding: 0 5px;
+}
+
+// button.fa {
+//     background-color: #28A745;
+//     width: auto;
+//     border: none;
+//     color: #fff;
+//     transition: all 0.2s;
+//     margin: 0 auto;
+//     &:hover {
+//         font-size: 1.1rem;
+//     }
+//     &:disabled {
+//         opacity: 0.5;
+//         cursor: not-allowed;
+//     }
+// }
 //.header {
 //  text-align: center;
 //}
-
 //.form-control{
 //  margin-bottom: 0px;
 //  padding-bottom: 0px;
@@ -74,25 +69,26 @@ button.fa {
 //  margin-bottom: 0px;
 //  padding-bottom: 0px;
 //}
-
 .pagination /deep/ .ngx-pagination {
-  .current {
-    background: #33B357;
-  }
-  .pagination-previous a:before, .pagination-previous.disabled:before {
-    content: '';
-  }
-  .pagination-next a:after, .pagination-next.disabled:after {
-    content: '';
-  }
+    .current {
+        background: #33B357;
+    }
+    .pagination-previous a:before,
+    .pagination-previous.disabled:before {
+        content: '';
+    }
+    .pagination-next a:after,
+    .pagination-next.disabled:after {
+        content: '';
+    }
 }
 
-i {
-  cursor: pointer;
+thead {
+    th {
+        vertical-align: top;
+    }
 }
 
-thead{
-  th{
-    vertical-align: top;
-  }
+.btn {
+    padding: 0.42rem 0.75rem;
 }

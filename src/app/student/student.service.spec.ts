@@ -5,11 +5,14 @@ import { StudentService } from './student.service';
 describe('StudentService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [StudentService]
+      providers: [StudentService],
     });
   });
 
-  it('should be created', inject([StudentService], (service: StudentService) => {
-    expect(service).toBeTruthy();
-  }));
+  it(
+    'should be created',
+    inject([StudentService], (service: StudentService) => {
+      expect(service).toBeTruthy();
+    })
+  );
 });

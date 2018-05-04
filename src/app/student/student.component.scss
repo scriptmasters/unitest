@@ -1,9 +1,88 @@
 a {
-  color: red;
+  color: gray;
+  cursor: pointer;
 }
-// table, tr ,th {
-//   border: 1px solid tomato;
-//   margin: 10px;
-//   padding: 10px;
-//   font-family: 10px;
-// }
+tbody {
+  margin-bottom: 10px;
+}
+.table {
+  overflow-x:auto;
+}
+.footer {
+  display: flex;
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  z-index: 1;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+  height: 40px;
+  background-color: #222222;
+  span {
+      color: #fff;
+      font-size: 1.2rem;
+  }
+}
+.content-wrapper {
+  margin-bottom: 85px;
+  .header {
+      z-index: 1;
+      position: fixed; 
+      top: 0; 
+      right: 0; 
+      width: 100%; 
+      background-color: #393836;
+      height: 65px;
+      padding-left: 48px;
+      padding-right: 48px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      .Headers {
+          display: flex;
+          align-items: center;
+          justify-content: flex-start;
+          .burger {
+              color: #33B357;
+              border: 1px solid #33B357;
+              border-radius: 2px;
+              display: none;
+              justify-content: center;
+              align-items: center;
+              transition: all 0.2s;
+              width: 40px;
+              height: 40px;
+              margin-right: 5px;
+              font-size: 2rem;
+              cursor: pointer;
+              &:hover {
+                  background-color: #33B357;
+                  color: #fff;
+              }
+              i:hover {
+                  color: white;
+              }
+          }
+          .admin-title {
+              color: #fff;
+              font-size: 1.2rem;
+          }
+      }
+      .dtester-title {
+          margin-right: 5rem;
+          color: #33B357;
+          font-size: 1.5rem;
+      }
+      .log-out {
+          display: inline-block;
+          cursor: pointer;
+          color: #fff;
+          border-radius: 2px;
+          transition: all 0.2s;
+          span {
+              margin-right: 5px;
+          }
+      }
+  }
+}

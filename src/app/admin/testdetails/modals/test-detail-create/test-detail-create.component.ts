@@ -70,7 +70,7 @@ export class TestDetailCreateComponent implements OnInit {
         width: '350px',
         data: {message: 'Деталі тесту успішно змінені'}
       });
-    })
+    });
   }
 
   private initForm() {
