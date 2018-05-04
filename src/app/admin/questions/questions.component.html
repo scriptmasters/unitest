@@ -19,7 +19,7 @@
                         <!-- <label> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;З предмету:</label> -->
                         <select class="form-control" id="subjectSelect" #subjectFild (change)="createTestListBySelSubject(subjectFild.selectedIndex)">
                             <option value="selectSubject" disabled>Виберіть предмет</option>
-                            <option *ngFor="let subjectIdName of subjectIdNamesArr"selected]="selectSubject">{{subjectIdName.subject_name}}</option>
+                            <option *ngFor="let subjectIdName of subjectIdNamesArr" [selected]="selectSubject">{{subjectIdName.subject_name}}</option>
                         </select>
                     </div>
                     <!-- [selected]="subjectIdNamesArr.subjectName === this.subjectName" -->
