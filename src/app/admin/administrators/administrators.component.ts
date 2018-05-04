@@ -102,7 +102,7 @@ export class AdministratorsComponent implements OnInit {
         }
     });
   }
-//Delete modal
+// Delete modal
   deleteAdministrator(id): void {
     this.authService.isLogged().subscribe((result: IisLogged) => {
       if (+result.id === 1) {
