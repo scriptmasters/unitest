@@ -417,6 +417,12 @@ button {
     border-bottom: 1px dashed #eee;
     margin: 20px 0 30px;
 }
+.line {
+  width: 100%;
+  height: 1px;
+  border-bottom: 1px dashed #eee;
+  margin: 20px 0 30px;
+}
 
 .forms p {
     font-size: 0.8rem;
@@ -599,4 +605,22 @@ form .ng-invalid:not(.ng-untouched) {
     box-shadow: none;
     background-color: rgba(0,0,0,0);
 
+}
+
+/*Student Side*/
+.line {
+  width: 100%;
+  height: 1px;
+  border-bottom: 1px dashed #eee;
+  margin: 10px 0 20px;
+}
+.test-question {
+  margin: 10px 0;
+}
+.test-header h4 {
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+.test-form {
+  padding-bottom: 20px;
 }
