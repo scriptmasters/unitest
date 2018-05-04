@@ -23,7 +23,7 @@ export class QuestionsService {
   private getEntityValueURL = 'EntityManager/getEntityValues';
   private editQuestionURL = 'question/update';
   private editAnswerURL = 'answer/update';
-  private deleteQuestionURL = 'ps9615.hyperhost.name:443/api/question/del/';
+  private deleteQuestionURL = 'question/del/';
   private deleteAnswerURL = 'answer/del/';
 
 

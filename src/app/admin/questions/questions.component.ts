@@ -105,7 +105,7 @@ export class QuestionsComponent implements OnInit {
           this.dialog.open(ResponseMessageComponent, {
             width: '400px',
             data: {
-              message: `Вибраний тест ще не має завдань.
+              message: `Вибраний тест не має завдань.
                                 Додайте завдання.`
             }
           });
@@ -335,30 +335,67 @@ export class QuestionsComponent implements OnInit {
     const dialogRef = this.dialog.open(DeleteConfirmComponent, {
       width: '400px',
       data: {
-        message: 'Ви справді бажаєте видалити завдання?'
+        message: 'Ви справді бажаєте видалити завдання та відповіді?'
       }
     });
     dialogRef.afterClosed().subscribe((Response: boolean) => {
       if (Response) {
-        this.service.deleteQuestion(question_id).subscribe((data: IResponse) => {
-          if (data.response === 'ok') {
-            this.dialog.open(ResponseMessageComponent, {
-              width: '400px',
-              data: {
-                message: 'Завдання було успішно видалено!'
-              }
+
+        console.log('from handleDelete:  question_id = ', question_id);
+        this.service.getAnswersByQuestionId(question_id).subscribe(dataAnswers => {
+        console.log('from handleDelete:  dataAnswers = ', dataAnswers);
+
+          if ( dataAnswers.length ) {
+            dataAnswers.forEach(answer => {
+              this.service.deleteAnswer(answer.answer_id).subscribe((data: IResponse) => {
+                if (data.response === 'ok') {
+                  // this.dialog.open(ResponseMessageComponent, {
+                  //   width: '400px',
+                  //   data: { message: 'Відповідь з бази даних видалено!' }
+                  // });
+                }},
+                () => { // this function shows window when deleteAnswer(answer_id).subscribe returns error
+                  this.dialog.open(ResponseMessageComponent, {
+                    width: '400px',
+                    data: { message: 'Виникла помилка при видаленні цієї відповіді з бази даних!' }
+                  });
+              });
             });
-            this.createQuestionsTableByTestId(this.testId);
-          }},
-          () => { // ця функція показує вікно коли deleteQuestion(question_id).subscribe повертає помилку
-            this.dialog.open(ResponseMessageComponent, {
-              width: '400px',
-              data: {
-                message: 'Виникла помилка при видаленні цього завдання!'
-              }
-            });
+          } else {
+              this.dialog.open(ResponseMessageComponent, {
+                width: '400px',
+                data: { message: 'Видалене завдання не мало відповідей.' }
+              });
+          }
+
+
+        // after all answers were deleted we delete question
+
+              this.service.deleteQuestion(question_id).subscribe( (data: IResponse) => {
+                console.log('from handleDelete:  data = ', data);
+                console.log('from handleDelete:  data.response = ', data.response);
+                if (data.response === 'ok') {
+                  this.dialog.open(ResponseMessageComponent, {
+                    width: '400px',
+                    data: { message: 'Завдання було успішно видалено!' }
+                  });
+                  this.createQuestionsTableByTestId(this.testId);
+                }},
+                () => { // ця функція показує вікно коли deleteQuestion(question_id).subscribe повертає помилку
+                  this.dialog.open(ResponseMessageComponent, {
+                    width: '400px',
+                    data: { message: 'Виникла помилка при видаленні цього завдання!' }
+                  });
+                });
+
+
+
         });
-      }
+
+
+
+    }
+
     });
   }
 
