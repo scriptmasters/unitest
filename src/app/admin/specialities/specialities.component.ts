@@ -10,6 +10,7 @@ import { FormControl, FormGroup } from '@angular/forms';
 import { DeleteConfirmComponent } from '../../shared/delete-confirm/delete-confirm.component';
 import { Subscription } from 'rxjs/Subscription';
 import 'rxjs/add/operator/debounceTime';
+import { PaginationInstance } from 'ngx-pagination';
 
 @Component({
   selector: 'app-specialities',
@@ -23,6 +24,12 @@ export class SpecialitiesComponent implements OnInit {
   error: string;
   searchBox = new FormControl();
   searchBoxSubscr: Subscription;
+  
+  config: PaginationInstance = {
+    itemsPerPage: 10,
+    currentPage: 1,
+  };
+  
 
   constructor(private speciality: SpecialityService,
     private http: HttpClient,

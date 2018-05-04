@@ -9,6 +9,9 @@ const routes: Routes = [
     component: AdministratorsComponent,
     resolve: {
         administrators: AdministratorsResolver
+        },
+    data: {
+        breadcrumb: 'Адміністратори'
         }
   }
 ];

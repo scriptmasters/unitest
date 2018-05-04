@@ -1,12 +1,13 @@
-import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
+import {NgModule} from '@angular/core';
+import {Routes, RouterModule} from '@angular/router';
 import {AdminComponent} from './admin.component';
 import {AddQuestionComponent} from './questions/add-question/add-question.component';
 import {QuestionsComponent} from './questions/questions.component';
+import {AdministratorsComponent} from './administrators/administrators.component';
 import {StatisticComponent} from './statistic/statistic.component';
 import {TestDetailsComponent} from './testdetails/component/test-details.component';
-import {SpecialitiesComponent} from './specialities/specialities.component';
 import {ResultsComponent} from './results/results.component';
+
 
 const routes: Routes = [
     {
@@ -15,7 +16,10 @@ const routes: Routes = [
         children: [
             {
                 path: 'statistic',
-                component: StatisticComponent
+                component: StatisticComponent,
+                data: {
+                    breadcrumb: 'Статистика'
+                }
             },
             {
                 path: 'groups',
@@ -31,22 +35,23 @@ const routes: Routes = [
             },
             {
                 path: 'faculties',
-                loadChildren: './faculties/faculties.module#FacultiesModule'
+                loadChildren: './faculties/faculties.module#FacultiesModule',
             },
             {
                 path: 'subjects',
-                loadChildren: './subjects/subjects.module#SubjectsModule'
+                loadChildren: './subjects/subjects.module#SubjectsModule',
             },
             {
                 path: 'specialities',
-                loadChildren:  './specialities/specialities.module#SpecialitiesModule'
-            }, {
+                loadChildren: './specialities/specialities.module#SpecialitiesModule',
+            },
+            {
                 path: 'administrators',
-                loadChildren: './administrators/administrators.module#AdministratorsModule'
+                loadChildren: './administrators/administrators.module#AdministratorsModule',
             },
             {
                 path: 'timetable',
-                loadChildren: './timetable/timetable.module#TimetableModule'
+                loadChildren: './timetable/timetable.module#TimetableModule',
             },
             {
                 path: 'tests',
@@ -54,19 +59,32 @@ const routes: Routes = [
             },
             {
                 path: 'questions',
-                component: QuestionsComponent
+                component: QuestionsComponent,
+                data: {
+                    breadcrumb: 'Завдання'
+                }
             },
+                
             {
                 path: 'add-question',
-                component: AddQuestionComponent
+                component: AddQuestionComponent,
+                data: {
+                    breadcrumb: 'Додавання завдання'
+                }
             },
             {
                 path: 'testdetails',
-                component: TestDetailsComponent
+                component: TestDetailsComponent,
+                data: {
+                    breadcrumb: 'Деталі тесту'
+                }
             },
             {
                 path: 'results',
-                component: ResultsComponent
+                component: ResultsComponent,
+                data: {
+                    breadcrumb: 'Результати'
+                }
             }
         ]
     }
@@ -76,5 +94,5 @@ const routes: Routes = [
     imports: [RouterModule.forChild(routes)],
     exports: [RouterModule]
 })
-
-export class AdminRoutingModule { }
+export class AdminRoutingModule {
+}
