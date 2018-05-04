@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ResultsService } from './services/results.service';
-
+import { PaginationInstance } from 'ngx-pagination';
 
 @Component({
   selector: 'app-results',
@@ -15,6 +15,11 @@ export class ResultsComponent implements OnInit {
   tests = [];
   groups = [];
   resultRecords = [];
+
+  config: PaginationInstance = {
+    itemsPerPage: 10,
+    currentPage: 1,
+  };
 
   constructor(
     private route: ActivatedRoute,
