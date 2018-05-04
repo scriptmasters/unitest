@@ -20,7 +20,6 @@ import * as moment from 'moment';
 export class StudentComponent implements OnInit {
   id: number;
   user = <UserInfo>{};
-  // timeTable = <TimeTable>{};
   time;
   subjects = [];
   times = [];
@@ -130,7 +129,6 @@ export class StudentComponent implements OnInit {
               this.subjects.push(timeTables);
             });
         });
-        console.log(this.subjects);
       });
   }
 
