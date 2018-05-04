@@ -1,91 +1,108 @@
-<div class="container">
-    <div class="row">
-        <div class="col-xs-12 col-md-8 info">
-            <div class="tab-content">
-                <div class="tab-pane active" role="tabpanel" aria-labelledby="ngb-tab-10">
-                    <div class="row">
-                        <div class="col-12">
-                            <h3 class="text-center">Cписок тестувань які плануються для групи "{{user.group_name}}"</h3>
-                            <div class="container-fluid">
-                                <table class="table table-striped table-hover">
-                                    <thead>
-                                        <tr>
-                                            <th>Предмет і назва тесту</th>
-                                            <th>Тривалість</th>
-                                            <th>Пит. (шт)</th>
-                                            <th>Час (хв)</th>
-                                            <th>Почати</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <ng-container *ngFor="let key of subjects">
-                                            <ng-container *ngFor="let list of key.subject">
-                                                <tr *ngFor="let tests of list.tests">
-                                                    <ng-container *ngIf="list.ready">
-                                                        <ng-container *ngIf="tests.enabled==1">
-                                                            <td>
-                                                                {{list.subject_name}} :
-                                                                <br>{{tests.test_name}}
-                                                            </td>
-                                                            <td>
-                                                                <span>
-                                                                    {{key.start_date}} /
-                                                                    <br>{{key.start_time}}
+<section>
+    <div class="content-wrapper">
 
-                                                                </span>
-                                                                <span>
-                                                                    {{key.end_date}} /
-                                                                    <br>{{key.end_time}}
-                                                                </span>
-                                                            </td>
-                                                            <td>
-                                                                {{tests.tasks}}
-                                                            </td>
-                                                            <td>
-                                                                {{tests.time_for_test}}
-                                                            </td>
-                                                            <td>
-                                                                <a routerLink="test/{{tests.test_id}}">
-                                                                    <i class="fa fa-play-circle" aria-hidden="true" (click)="startTest(tests.test_id,user.user_id)"></i>
-                                                                </a>
 
-                                                            </td>
+        <header class="header">
+            <div class="Headers">
+                <span class="admin-title">СТОРІНКА СТУДЕНТА</span>
+
+            </div>
+            <div class="dtester-title">D-TESTER</div>
+            <a class="log-out" (click)="this.authService.logout()">
+                <span>Вийти</span>
+                <i class="fa fa-sign-out" aria-hidden="true"></i>
+            </a>
+        </header>
+    </div>
+</section>
+<section>
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-12 col-md-8 info">
+                <div class="tab-content">
+                    <div class="tab-pane active" role="tabpanel" aria-labelledby="ngb-tab-10">
+                        <div class="row">
+                            <div class="col-12">
+                                <h3 class="text-center">Cписок тестувань які плануються для групи "{{user.group_name}}"</h3>
+                                <div class="container-fluid">
+                                    <table class="table table-striped table-hover">
+                                        <thead>
+                                            <tr>
+                                                <th>Предмет і назва тесту</th>
+                                                <th>Тривалість</th>
+                                                <th>Пит. (шт)</th>
+                                                <th>Час (хв)</th>
+                                                <th>Почати</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <ng-container *ngFor="let key of subjects">
+                                                <ng-container *ngFor="let list of key.subject">
+                                                    <tr *ngFor="let tests of list.tests" class="text-center">
+                                                        <ng-container *ngIf="list.ready">
+                                                            <ng-container *ngIf="tests.enabled==1">
+                                                                <td>
+                                                                    {{list.subject_name}} :
+                                                                    <br>{{tests.test_name}}
+                                                                </td>
+                                                                <td>
+                                                                    <span>
+                                                                        {{key.start_date}}
+                                                                        <br>{{key.start_time}}
+
+                                                                    </span>
+                                                                    <span>
+                                                                        {{key.end_date}}
+                                                                        <br>{{key.end_time}}
+                                                                    </span>
+                                                                </td>
+                                                                <td>
+                                                                    {{tests.tasks}}
+                                                                </td>
+                                                                <td>
+                                                                    {{tests.time_for_test}}
+                                                                </td>
+                                                                <td>
+                                                                    <a routerLink="test/{{tests.test_id}}">
+                                                                        <i class="fa fa-play-circle" aria-hidden="true" (click)="startTest(tests.test_id,user.user_id)"></i>
+                                                                    </a>
+
+                                                                </td>
+                                                            </ng-container>
                                                         </ng-container>
-                                                    </ng-container>
-                                                </tr>
+                                                    </tr>
+                                                </ng-container>
                                             </ng-container>
-                                        </ng-container>
 
-                                    </tbody>
-                                </table>
+                                        </tbody>
+                                    </table>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="col-xs-12 col-md-4 info text-center" *ngIf="user.ready">
-            <h3> Профіль студента</h3>
+            <div class="col-xs-12 col-md-4 info text-center" *ngIf="user.ready">
+                <h3> Профіль студента</h3>
 
-            <span>
-                <img alt="Ваше фото не завантажене" class="img-responsive img-circle center-block" [src]="user.photo">
-            </span>
-            <h4> {{user.student_name}} {{user.student_surname}} </h4>
-            <p class="text-left">
-                <b>Факультет:</b> {{user.faculty_name}}</p>
-            <p class="text-left">
-                <b>Спеціальність:</b> {{user.speciality_code}} : {{user.speciality_name}} </p>
-            <p class="text-left">
-                <b>Група:</b>
-                {{user.group_name}}
-            </p>
-            <p class="text-left">
-                <b>№ залікової книжки:</b> {{user.gradebook_id}}</p>
-            <button class="btn btn-default btn-lg" role="button" (click)="this.authService.logout()">
-                <span aria-hidden="true" class="glyphicon glyphicon-log-out">
-                    Вихід
+                <span>
+                    <img alt="Ваше фото не завантажене" class="img-responsive img-circle center-block" [src]="user.photo">
                 </span>
-            </button>
+                <h4> {{user.student_name}} {{user.student_surname}} </h4>
+                <p class="text-left">
+                    <b>Факультет:</b> {{user.faculty_name}}</p>
+                <p class="text-left">
+                    <b>Спеціальність:</b> {{user.speciality_code}} : {{user.speciality_name}} </p>
+                <p class="text-left">
+                    <b>Група:</b>
+                    {{user.group_name}}
+                </p>
+                <p class="text-left">
+                    <b>№ залікової книжки:</b> {{user.gradebook_id}}</p>
+            </div>
         </div>
     </div>
-</div>
+    <footer class="footer">
+        <span>Created by IF-085.Web-UI&#169; "Superteam&#9787;"</span>
+    </footer>
+</section>

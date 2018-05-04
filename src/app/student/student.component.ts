@@ -11,6 +11,7 @@ import {
 import { NgStyle } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
 import { SubjectsComponent } from '../admin/subjects/subjects.component';
+import * as moment from 'moment';
 @Component({
   selector: 'app-student',
   templateUrl: './student.component.html',
@@ -19,7 +20,6 @@ import { SubjectsComponent } from '../admin/subjects/subjects.component';
 export class StudentComponent implements OnInit {
   id: number;
   user = <UserInfo>{};
-  // timeTable = <TimeTable>{};
   time;
   subjects = [];
   times = [];
@@ -96,10 +96,10 @@ export class StudentComponent implements OnInit {
       .subscribe((response: any) => {
         response.forEach(element => {
           const timeTables = <TimeTable>{};
-          timeTables.end_date = element.end_date;
-          timeTables.end_time = element.end_time;
-          timeTables.start_date = element.start_date;
-          timeTables.start_time = element.start_time;
+          timeTables.end_date = moment(element.end_date).format('l');
+          timeTables.end_time = moment(element.end_time, 'HH:mm:ss').format('LT');
+          timeTables.start_date = moment(element.start_date).format('l');
+          timeTables.start_time = moment(element.start_time, 'HH:mm:ss').format('LT');
           timeTables.subject = <Subject[]>[];
 
           this.studentService
@@ -129,7 +129,6 @@ export class StudentComponent implements OnInit {
               this.subjects.push(timeTables);
             });
         });
-        console.log(this.subjects);
       });
   }
 
