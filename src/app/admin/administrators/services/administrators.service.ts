@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Administrators, IResponse } from '../administratorsInterface';
 import { Observable } from 'rxjs/Observable';
-// import {Subject} from '../subjects/subject';
 
 @Injectable()
 export class AdministratorsService {

@@ -1,6 +1,6 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material';
-import { FormControl, FormGroup, Validators, AbstractControl } from '@angular/forms';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { AdministratorsService } from '../services/administrators.service';
 import { Administrators } from '../administratorsInterface';
 import { matchOtherValidator } from '../form_validation/confirm_password.validator';
@@ -25,36 +25,31 @@ export class AdministratorsDialogComponent implements OnInit {
   ngOnInit() {
     this.getAdministrator();
 
-    this.form = new FormGroup({
-      'login': new FormControl(null, {
-        validators: [
-          Validators.required,
-          Validators.pattern('(([A-Za-z0-9]){3,})'),
-          Validators.maxLength(15)],
-        asyncValidators: this.data.updating ?
-          ValidateLoginNotTaken.createValidator(this.administratorsService, true) :
-          ValidateLoginNotTaken.createValidator(this.administratorsService, false),
-        updateOn: 'blur'
-      }),
-      'email': new FormControl(null, {
-        validators: [
-          Validators.email,
-          Validators.minLength(5),
-          Validators.maxLength(20)],
-        asyncValidators: this.data.updating ?
-          ValidateEmailNotTaken.createValidator(this.administratorsService, true) :
-          ValidateEmailNotTaken.createValidator(this.administratorsService, false),
-        updateOn: 'blur'
-      }),
-      'password': new FormControl(null, [
-        Validators.required,
-        Validators.pattern('(([A-Za-z0-9]){8,})'),
-        Validators.maxLength(16)]),
-      'confirm_password': new FormControl(null, [
-        Validators.required,
-        matchOtherValidator('password')])
-    }, { updateOn: 'blur' });
-
+        this.form = new FormGroup({
+         'login': new FormControl(null, {
+          validators: [
+            Validators.required,
+            Validators.pattern('(([A-Za-z0-9]){3,})'),
+            Validators.maxLength(15)],
+          asyncValidators: this.data.id ?
+            ValidateLoginNotTaken.createValidator(this.administratorsService, true) :
+            ValidateLoginNotTaken.createValidator(this.administratorsService, false)}),
+         'email': new FormControl(null, {
+           validators: [
+             Validators.email,
+             Validators.minLength(5),
+             Validators.maxLength(20)],
+           asyncValidators: this.data.id ?
+             ValidateEmailNotTaken.createValidator(this.administratorsService, true) :
+             ValidateEmailNotTaken.createValidator(this.administratorsService, false)}),
+         'password': new FormControl(null, [
+             Validators.required,
+             Validators.pattern('(([A-Za-z0-9]){8,})'),
+             Validators.maxLength(16)]),
+          'confirm_password': new FormControl(null, [
+             Validators.required,
+             matchOtherValidator('password')])
+           }, { updateOn: 'blur' });
   }
 
   getAdministrator(): void {
@@ -87,16 +82,16 @@ export class AdministratorsDialogComponent implements OnInit {
     }
   }
 
-  passwordVisibility(event: Event) {
-    const elem = event.srcElement.previousElementSibling;
-    if (elem.getAttribute('type') === 'password') {
-      elem.setAttribute('type', 'text');
-    } else {
-      elem.setAttribute('type', 'password');
-    }
-  }
+      passwordVisibility(event: Event) {
+        const elem = event.srcElement.previousElementSibling;
+          if (elem.getAttribute('type') === 'password') {
+            elem.setAttribute('type', 'text');
+          } else {
+            elem.setAttribute('type', 'password');
+          }
+      }
 
-  closeDialog() {
-    this.matDialogRef.close();
-  }
+      closeDialog() {
+        this.matDialogRef.close();
+      }
 }
