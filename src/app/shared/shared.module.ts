@@ -20,8 +20,8 @@ import {ResponseMessageComponent} from './response-message/response-message.comp
 import {PaginationComponent} from './pagination/pagination.component';
 import {CommonModule} from '@angular/common';
 import {SpinnerComponent} from './spinner/spinner.component';
-import { BreadcrumbComponent } from './breadcrumb/breadcrumb.component';
-import { RouterModule } from '@angular/router';
+import {BreadcrumbComponent} from './breadcrumb/breadcrumb.component';
+import {RouterModule} from '@angular/router';
 
 
 @NgModule({

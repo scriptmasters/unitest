@@ -157,7 +157,6 @@ export class GroupsComponent implements OnInit {
       .subscribe(specialityData => {
         this.specialities = specialityData;
         this.fillOutTableArray();
-        // this.faculties.forEach( ([key, value])=> console.log(key + ' : ' + value));
       });
   }
 
