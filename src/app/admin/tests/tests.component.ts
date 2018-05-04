@@ -55,9 +55,9 @@ export class TestsComponent implements OnInit {
 
   getTestsById(id: number): void {
     this.httpService.getTestsById(this.subjectId).subscribe(
-      
+
       data => {
-        if(data.hasOwnProperty('response')&& this.counter === 0) {
+        if (data.hasOwnProperty('response') && this.counter === 0) {
           this.dialog.open(ResponseMessageComponent, {
             width: '400px',
             data: {
@@ -65,8 +65,9 @@ export class TestsComponent implements OnInit {
             }
           });
           this.counter++;
-        } else
-        this.test = data;
+        } else {
+          this.test = data;
+        }
       }
     );
   }
@@ -97,13 +98,15 @@ export class TestsComponent implements OnInit {
       }
     });
   }
-  openQuestions(id: any) {
+
+  openQuestions(test_id: string) {
     this.router.navigate(['/admin/questions'], {
       queryParams: {
-        testId: id
+        subjectId: this.subjectId,
+        testId: test_id,
       }
     });
   }
 
-  
+
 }

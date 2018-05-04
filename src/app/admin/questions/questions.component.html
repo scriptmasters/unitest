@@ -15,15 +15,15 @@
                        >
                        <option value="selectSubject" disabled>Виберіть предмет</option>
                        <option *ngFor="let subjectIdName of subjectIdNamesArr"  
-                       [selected]="selectSubject"
+                       [selected]="subjectIdName.subject_name === subjectName"
                        >
                          {{subjectIdName.subject_name}}
                        </option>
                      </select>
                   </label>
               </div>
-              <!-- [selected]="subjectIdNamesArr.subjectName === this.subjectName" -->
-              
+              <!-- [selected]="(subjectIdNamesArr[i].subject_id === subjectId) ? subjectIdNamesArr[i].subject_name : ''"-->
+
               
               <div class="form-group col-3">
                   <label> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;для тесту:
@@ -35,15 +35,15 @@
                         >
                         <option value="selectTest" >Виберіть тест</option>
                         <option *ngFor="let test of testListBySelSubject"  
-                        [selected]="selectTest" 
+                        [selected]="test.test_name === testName" 
                         >
                           {{test.test_name}}
                         </option>
                       </select>
                   </label>
               </div>
-              <!-- [selected]="test.test_name === this.testName"  "selectTest" -->
-              
+              <!-- <option *ngFor="let test of (subjectId) ? allTestIdNameArr : testListBySelSubject"-->
+              <!-- [selected]="test.test_name === testName"   -->
                 
           <div class="form-group col-2">
             <input class="form-control col-md-12" type="text" placeholder="пошук">

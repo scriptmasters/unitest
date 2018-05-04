@@ -40,30 +40,17 @@ export class QuestionsComponent implements OnInit {
       title_component = 'Завдання для тесту: ';
       form: FormGroup;
 
-    // these params passed from  subject.component
-      subjectId: string;
       subjectName: string;
-    // firstly in test.component then in question.component
-
-    // there is need to prescribe the method
-    // openQuestions(id: string, name: string) {
-    //     this.router.navigate(['/admin/questions'], {
-    //       queryParams: { testId: id, testName: name }
-    //     });
-    //    }
-    // }
-    // and on tests icon click event should be hanged method (click)="openQuestions(t.test_id, t.test_name)
-
+      testName: string;
 
     // these params passed from  test.component
+      subjectId: string;
       testId: string;
-      testName: string;
     // there is need to prescribe the method
-    // openQuestions(id: string, name: string) {
-    //     this.router.navigate(['/admin/questions'], {
-    //       queryParams: { testId: id, testName: name }
-    //     });
-    //    }
+    // openQuestions(test_id: string) {
+    //   this.router.navigate(['/admin/questions'], {
+    //     queryParams: {  subjectId: this.subjectId, testId: test_id, }
+    //   });
     // }
     // and on questions icon click event should be hanged method (click)="openQuestions(t.test_id, t.test_name)
 
@@ -74,8 +61,9 @@ export class QuestionsComponent implements OnInit {
     private activatedRoute: ActivatedRoute
   ) {
       this.activatedRoute.queryParams.subscribe(params => {
-      this.testId = params['testId'];
-      this.testName = params['testName'];
+        this.subjectId = params['subjectId'];
+        this.testId = params['testId'];
+        // this.testName = params['testName'];
       });
       console.log('Called Constructor');
    }
@@ -83,9 +71,16 @@ export class QuestionsComponent implements OnInit {
 
 
   ngOnInit() {
-    console.log(' this.testId = ',  this.testId, ', this.testName = ', this.testName);
+    console.log('from ngOnInit: this.subjectId = ', this.subjectId, ', this.testId = ',  this.testId, ', this.testName = ', this.testName);
     this.createSubjectsIdNamesArray();
-    this.createTestsIdNamesArray();
+    this.createAllTestsIdNamesArray();
+
+    this.createTestListBySubjectId();
+    // this.createTestListBySelSubjectOrSubjectId();
+    /* when tab "Завдання" is clicked this method returns an error
+    ERROR TypeError: Cannot read property 'subject_id' of undefined
+    although operations in it are almost the same as in the previous one
+     */
 
     if (this.testId) {
         this.createQuestionsTableByTestId(this.testId);
@@ -106,7 +101,14 @@ export class QuestionsComponent implements OnInit {
           this.questions = data;
         } else {
           this.questions = [];
-          alert(' Вибраний тест ще не має завдань. Додайте завдання');
+          // alert(' Вибраний тест ще не має завдань. Додайте завдання.');
+          this.dialog.open(ResponseMessageComponent, {
+            width: '400px',
+            data: {
+              message: `Вибраний тест ще не має завдань.
+                                Додайте завдання.`
+            }
+          });
         }
         // console.log('createQuestionsTableByTestId = ', this.questions);
       });
@@ -132,7 +134,14 @@ export class QuestionsComponent implements OnInit {
           this.questions = data;
         } else {
           this.questions = [];
-          alert(' Вибраний тест ще не має завдань. Додайте завдання');
+          // alert(' Вибраний тест ще не має завдань. Додайте завдання');
+          this.dialog.open(ResponseMessageComponent, {
+            width: '350px',
+            data: {
+              message: `  Вибраний тест ще не має завдань.
+                                      Додайте завдання. `
+            }
+          });
         }
         console.log('createQuestionsTableBySelTestIndex = ', this.questions);
       });
@@ -157,8 +166,7 @@ export class QuestionsComponent implements OnInit {
     matDialogRef.afterClosed().subscribe( () => this.createQuestionsTableByTestId(this.testId) );
   }
 
-    openModalEdit(selQuestion) {
-
+  openModalEdit(selQuestion) {
 
       const matDialogRef = this.dialog.open(EditQuestionComponent, {
         height: '600px',
@@ -166,7 +174,8 @@ export class QuestionsComponent implements OnInit {
         data: {sel_quest: selQuestion, sel_TestName: this.testName}
       });
       matDialogRef.afterClosed().subscribe( () => this.createQuestionsTableByTestId(selQuestion.test_id) );
-    }
+  }
+
 
   createSubjectsIdNamesArray() {
     this.service.getAllSubjects().subscribe(data => {
@@ -176,29 +185,17 @@ export class QuestionsComponent implements OnInit {
           subject_name: val.subject_name
         };
       });
-      // console.log('createTestsIdNamesArray.allTestIdNameArr = ', this.allTestIdNameArr);
+      this.subjectIdNamesArr.forEach(element => {
+        if (element.subject_id === this.subjectId) {
+          this.subjectName = element.subject_name;
+        }
+      });
+      console.log('from createSubjectsIdNamesArray: this.subjectName  = ', this.subjectName );
    });
   }
 
-  createTestListBySelSubject(selSubjectIndex) {
-    // console.log(`this.subjectIdNamesArr[${selSubjectIndex - 1}].subject_name = `,
-    //  this.subjectIdNamesArr[selSubjectIndex - 1].subject_name);
-    this.testListBySelSubject = [];
-    this.questions = [];
-    this.allTestIdNameArr.forEach(element => {
-      if (element.subject_id === this.subjectIdNamesArr[selSubjectIndex - 1].subject_id) {
-        this.testListBySelSubject.push(element);
-      }
-    } );
-    if (this.testListBySelSubject.length === 0) {
-      // this.testListBySelSubject[0].test_name = 'Даний предмет немає тестів';
-      this.testListBySelSubject.push({test_name: 'Предмет немає тестів'});
 
-    }
-    console.log('this.testListBySelSubject = ', this.testListBySelSubject);
-  }
-
-  createTestsIdNamesArray() {
+  createAllTestsIdNamesArray() {
      this.service.getAllTests().subscribe(data => {
         this.allTestIdNameArr = data.map(val => {
           return {
@@ -207,9 +204,131 @@ export class QuestionsComponent implements OnInit {
             subject_id: val.subject_id
           };
         });
-        // console.log('createTestsIdNamesArray.allTestIdNameArr = ', this.allTestIdNameArr);
+        this.allTestIdNameArr.forEach(element => {
+          if (element.test_id === this.testId) {
+            this.testName = element.test_name;
+          }
+        });
+        console.log('from createAllTestsIdNamesArray:  this.testName = ', this.testName);
      });
   }
+
+  createTestListBySubjectId() {
+    this.testListBySelSubject = [];
+    this.questions = [];
+
+    this.service.getAllTests().subscribe(data => {
+      // console.log('from createTestListBySubjectId: data = ', data);
+      data.forEach(element => {
+        if (element.subject_id === this.subjectId) {
+      // console.log('from createTestListBySubjectId: element.subject_id = ', element.subject_id);
+        this.testListBySelSubject.push(element);
+        }
+        if (element.test_id === this.testId) {
+          this.testName = element.test_name;
+        }
+      });
+
+      if (this.testListBySelSubject.length === 0) {
+        this.testListBySelSubject.push({test_name: 'Виберіть спочатку предмет'});
+      }
+      console.log('from createTestListBySubjectId:  this.testName = ', this.testName);
+   });
+
+  }
+
+  createTestListBySelSubjectOrSubjectId(selSubjectIndex?) {
+    // console.log(`this.subjectIdNamesArr[${selSubjectIndex - 1}].subject_name = `,
+    //  this.subjectIdNamesArr[selSubjectIndex - 1].subject_name);
+
+    this.testListBySelSubject = [];
+    this.questions = [];
+
+
+    this.service.getAllTests().subscribe(data => {
+      console.log('from createTestListBySelSubjectOrSubjectId: data = ', data);
+
+      data.forEach(element => {
+      console.log('from createTestListBySelSubjectOrSubjectId: element.subject_id = ', element.subject_id);
+
+        if ( element.subject_id === this.subjectIdNamesArr[selSubjectIndex - 1].subject_id
+        || element.subject_id === this.subjectId  ) {
+        this.testListBySelSubject.push(element);
+        }
+
+        // if (element.subject_id === this.subjectId) {
+        //   this.testListBySelSubject.push(element);
+        //   }
+
+        if (element.test_id === this.testId) {
+          this.testName = element.test_name;
+        }
+      });
+
+      if (this.testListBySelSubject.length === 0) {
+
+      console.log('from createTestListBySelSubjectOrSubjectId:  this.subjectId = ', this.subjectId);
+
+        if (!this.subjectId) {
+          this.testListBySelSubject.push({test_name: 'Виберіть спочатку предмет'});
+        }
+
+        if (this.subjectId) {
+          this.testListBySelSubject.push({test_name: 'Предмет немає тестів'});
+
+        this.dialog.open(ResponseMessageComponent, {
+        width: '400px',
+        data: {
+          message: `Вибраний предмет ще немає тестів.
+                        Додайте тест.`
+        }
+      });
+        }
+      }
+      console.log('from createTestListBySelSubjectOrSubjectId:  this.testName = ', this.testName);
+   });
+
+        console.log('from createTestListBySelSubject:  this.testName = ', this.testName);
+        console.log('from createTestListBySelSubject:  this.testListBySelSubject = ', this.testListBySelSubject);
+  }
+
+
+
+  createTestListBySelSubject(selSubjectIndex?) {
+    // console.log(`this.subjectIdNamesArr[${selSubjectIndex - 1}].subject_name = `,
+    //  this.subjectIdNamesArr[selSubjectIndex - 1].subject_name);
+    // console.log('from createTestListBySelSubject: this.allTestIdNameArr = ', this.allTestIdNameArr);
+
+    this.testListBySelSubject = [];
+    this.questions = [];
+    this.allTestIdNameArr.forEach(element => {
+      if ( (element.subject_id === this.subjectIdNamesArr[selSubjectIndex - 1].subject_id)
+        /* || (element.subject_id === this.subjectId)  */ ) {
+        this.testListBySelSubject.push(element);
+      }
+
+      if (element.test_id === this.testId) {
+        this.testName = element.test_name;
+      }
+    } );
+    if (this.testListBySelSubject.length === 0) {
+      this.testListBySelSubject.push({test_name: 'Предмет немає тестів'});
+
+      this.dialog.open(ResponseMessageComponent, {
+        width: '400px',
+        data: {
+          message: `Вибраний предмет ще немає тестів.
+                        Додайте тест.`
+        }
+      });
+
+    }
+        console.log('from createTestListBySelSubject:  this.testName = ', this.testName);
+        console.log('from createTestListBySelSubject:  this.testListBySelSubject = ', this.testListBySelSubject);
+  }
+
+
+
 
 // запрограмувати видалення спочатку всіх відповідей
   handleDelete(question_id): void {

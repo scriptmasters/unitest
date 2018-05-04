@@ -1,6 +1,6 @@
 <div class="card">
   <div class="card-header d-flex align-items-center">
-  <h3>Редагування завдання з id: {{sel_question_id}},&nbsp;&nbsp;  для тесту: {{sel_question_test_name}}: </h3>
+  <h2>Редагування завдання з id: {{sel_question_id}},&nbsp;&nbsp;  для тесту: {{sel_question_test_name}}: </h2>
   </div>
   <div class="card-body">
     <!-- <p></p> -->
@@ -115,7 +115,9 @@
           </div>
 
           <label> 
-            <p class="redtext" *ngIf="( editedAnswersArray.length === 0 )" ><b>Дане завдання ще не має відповідей.</b></p> 
+            <p #noAnswers class="redtext" *ngIf="( editedAnswersArray.length === 0 )" >
+                <font color="red">Дане завдання ще не має відповідей.</font></p> 
+                
             <p *ngIf="( editedAnswersArray.length !== 0 )" ><b>Ви можете додати ще відповіді.</b></p> 
             <input 
                   (click)="addAnswer()"  
@@ -128,26 +130,6 @@
     </div>
      
        <br> 
-
-      <!-- <div class="form-row">
-             <div class="form-group col-7">
-              <label>Ресурс варіантів відповідей</label>
-              <select 
-                class="form-control col-8" 
-                id="resourceSelect" 
-                name="resource" 
-                #resourceField (change)="setResourse(resourceField)" >
-                  <option 
-                  *ngFor="let questAttachment of ['Текст',
-                                            'Зображення',
-                                            'Текст і зображення']"
-                  [selected]="questAttachment === sel_question.attachment">
-                  {{questAttachment}}
-                </option>
-              </select>
-            </div>
-        </div>  -->
-        
        <br> 
     
        <div *ngIf="answersIdNumbersArray.length !== 0" class="form row">
@@ -271,7 +253,7 @@
     
     </div>
     
-
+    <br>
 
     <div class="row form-group d-flex justify-content-center">
 
