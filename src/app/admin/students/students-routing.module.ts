@@ -17,9 +17,6 @@ const routes: Routes = [
   {
     path: ":id",
     component: StudentsComponent,
-    data: {
-      breadcrumb: "Студенти групи"
-    },
     resolve: {
       resolvedStudents: StudentsResolver
     }

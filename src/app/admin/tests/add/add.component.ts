@@ -43,7 +43,7 @@ onSubmit() {
    this.httpService.addTest(this.rForm.value).subscribe(
     () => {this.dialogRef.close();
       const matDialogRef = this.dialog.open(ResponseMessageComponent, {
-        width: '350px',
+        width: '400px',
         data: {message: 'Тест успішно додано'}
       });
     },

@@ -33,12 +33,12 @@ export class BreadcrumbComponent implements OnInit {
     this.router.events
       .filter(event => event instanceof NavigationEnd)
       .subscribe(event => {
-        console.log(this.router.events);
         //set breadcrumbs
         let root: ActivatedRoute = this.activatedRoute.root;
         this.breadcrumbs = this.getBreadcrumbs(root);
-        console.log(this.breadcrumbs);
       });
+      console.log(this.router.events);
+      console.log(this.activatedRoute.root);
   }
 
   private getBreadcrumbs(
@@ -56,14 +56,13 @@ export class BreadcrumbComponent implements OnInit {
     if (children.length === 0) {
       return breadcrumbs;
     }
-console.log(children.length);
+  console.log(children.length);
     //iterate over each children
     for (let child of children) {
       //verify primary route
       if (child.outlet !== PRIMARY_OUTLET) {
         continue;
       }
-
       //verify the custom data property "breadcrumb" is specified on the route
       if (!child.snapshot.data.hasOwnProperty(ROUTE_DATA_BREADCRUMB)) {
         return this.getBreadcrumbs(child, url, breadcrumbs);
@@ -73,7 +72,7 @@ console.log(children.length);
       let routeURL: string = child.snapshot.url
         .map(segment => segment.path)
         .join("/");
-
+  
       //append route URL to URL
       url += `/${routeURL}`;
 

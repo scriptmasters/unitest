@@ -26,7 +26,7 @@ export class AdministratorsComponent implements OnInit {
     searchBoxSubscr: Subscription;
 
     public config: PaginationInstance = {
-     itemsPerPage: 5,
+     itemsPerPage: 10,
      currentPage: 1
   };
 

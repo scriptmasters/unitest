@@ -37,7 +37,7 @@ export class TestsComponent implements OnInit {
 
   deleteTest(id: number): void {
     const matDialogRef = this.dialog.open(DeleteConfirmComponent, {
-      width: '350px',
+      width: '400px',
       data: {message: 'Ви справді хочете видалити цей тест?'}
     });
     matDialogRef.afterClosed().subscribe((Response: boolean) => {
@@ -73,12 +73,12 @@ export class TestsComponent implements OnInit {
 
   openDialog(t: object, id: number): void {
     const matDialogRef = this.dialog.open(EditComponent, {
-      width: '350px',
+      width: '400px',
       data: {id: id, test: t}});
     matDialogRef.afterClosed().subscribe(() => this.getTestsById(this.subjectId));
   }
   addDialog() {
-    const matDialogRef = this.dialog.open(AddComponent, {width: '350px', data: {id: this.subjectId}});
+    const matDialogRef = this.dialog.open(AddComponent, {width: '400px', data: {id: this.subjectId}});
     matDialogRef.afterClosed().subscribe(() => this.getTestsById(this.subjectId));
   }
 

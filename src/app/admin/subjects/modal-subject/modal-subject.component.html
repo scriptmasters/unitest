@@ -1,55 +1,47 @@
-<section>
-    <div class="d-flex justify-content-between">
-        <h2>{{subject[0].subject_id ? 'Редагувати' : 'Додати'}} предмет</h2>
-        <i class="fa fa-close" (click)="closeDialog()"></i>
-    </div>
+<form [formGroup]="form" (ngSubmit)="onSubmit()">
+    <header class="form-row justify-content-between mb-2">
+        <h2 class="pl-1">{{subject[0].subject_id ? 'Редагувати' : 'Додати'}} предмет</h2>
+        <i class="fa fa-close pr-1" (click)="closeDialog()"></i>
+    </header>
     <div *ngIf="!isLoaded">
         Завантаження...
     </div>
     <div *ngIf="isLoaded">
-        <form class="form-horizontal" [formGroup]="form" (ngSubmit)="onSubmit()">
-            <div class="form-group row">
-                <label class="col-sm-12">Предмет</label>
-                <div class="col-sm-12">
-                    <input type="text" id="title" placeholder="Назва предмету" class="form-control" formControlName="title" [(ngModel)]="subject[0].subject_name">
-                    <div class="form-msg">
-                        <small *ngIf="form.get('title').invalid && (form.get('title').dirty || form.get('title').touched)">
-              <span *ngIf="form.get('title')['errors']['required']">Дане поле не може бути порожнім</span>
-              <span *ngIf="form.get('title')['errors']['minlength']">
-                Поле повинно містити мінімум {{form.get('title')['errors']['minlength']['requiredLength']}} символи
-              </span>
-              <span *ngIf="form.get('title')['errors']['maxlength']">
-                Перевищено максимальну к-сть допустимих символів. ({{form.get('title')['errors']['maxlength']['requiredLength']}})
-              </span>
-            </small>
-                    </div>
+        <div class="form-row">
+            <div class="form-group col-12">
+                <label>Предмет</label>
+                <input type="text" id="title" placeholder="Назва предмету" class="form-control" formControlName="title" [(ngModel)]="subject[0].subject_name">
+                <div class="form-msg">
+                    <small *ngIf="form.get('title').invalid && (form.get('title').dirty || form.get('title').touched)">
+                    <span *ngIf="form.get('title')['errors']['required']">Дане поле не може бути порожнім</span>
+                    <span *ngIf="form.get('title')['errors']['minlength']">Поле повинно містити мінімум {{form.get('title')['errors']['minlength']['requiredLength']}} символи</span>
+                    <span *ngIf="form.get('title')['errors']['maxlength']">Перевищено максимальну к-сть допустимих символів. ({{form.get('title')['errors']['maxlength']['requiredLength']}})</span>
+                </small>
                 </div>
             </div>
-            <div class="form-group row">
-                <label class="col-sm-12">Опис</label>
-                <div class="col-sm-12">
-                    <input type="text" id="description" placeholder="Опис" [(ngModel)]="subject[0].subject_description" class="form-control" formControlName="description">
-                    <div class="form-msg">
-                        <small *ngIf="form.get('description').invalid && (form.get('description').dirty || form.get('description').touched)">
-              <span *ngIf="form.get('description')['errors']['required']">Дане поле не може бути порожнім</span>
-              <span *ngIf="form.get('description')['errors']['minlength']">
-                Поле повинно містити мінімум {{form.get('description')['errors']['minlength']['requiredLength']}} символів
-              </span>
-              <span *ngIf="form.get('description')['errors']['maxlength']">
+        </div>
+        <div class="form-row">
+            <div class="form-group col-12">
+                <label>Опис</label>
+                <input type="text" id="description" placeholder="Опис" [(ngModel)]="subject[0].subject_description" class="form-control" formControlName="description">
+                <div class="form-msg">
+                    <small *ngIf="form.get('description').invalid && (form.get('description').dirty || form.get('description').touched)">
+                        <span *ngIf="form.get('description')['errors']['required']">Дане поле не може бути порожнім</span>
+                        <span *ngIf="form.get('description')['errors']['minlength']">Поле повинно містити мінімум {{form.get('description')['errors']['minlength']['requiredLength']}} символів</span>
+                        <span *ngIf="form.get('description')['errors']['maxlength']">
                 Перевищено максимальну к-сть допустимих символів. ({{form.get('description')['errors']['maxlength']['requiredLength']}})
-              </span>
-            </small>
-                    </div>
+                        </span>
+                    </small>
                 </div>
             </div>
-            <div class="form-row d-flex justify-content-center">
-                <div class="form-group col-sm-6 col-md-4">
-                    <button (click)="closeDialog()" type="button" class="btn btn-danger col-sm-12">Відмінити</button>
-                </div>
-                <div class="form-group col-sm-6 col-md-4">
-                    <button [disabled]="form.invalid" type="submit" class="btn btn-success col-sm-12">{{subject[0].subject_id ? 'Редагувати' : 'Додати'}}</button>
-                </div>
+        </div>
+        <div class="form-row d-flex justify-content-center">
+            <div class="form-group col-sm-6 col-md-4">
+                <button (click)="closeDialog()" type="button" class="btn btn-danger col-sm-12">Відмінити</button>
             </div>
-        </form>
+            <div class="form-group col-sm-6 col-md-4">
+                <button [disabled]="form.invalid" type="submit" class="btn btn-success col-sm-12">{{subject[0].subject_id ? 'Редагувати' : 'Зареєструвати'}}</button>
+            </div>
+        </div>
     </div>
-</section>
+</form>
