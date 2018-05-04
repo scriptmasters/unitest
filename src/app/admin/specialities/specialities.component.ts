@@ -1,17 +1,16 @@
 import { Component, OnInit } from '@angular/core';
 import { SpecialityService } from './speciality.service';
-import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
-import { Observable } from 'rxjs/Observable';
-import { catchError, map, tap } from 'rxjs/operators';
-import { identifierModuleUrl } from '@angular/compiler';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { PopupFormComponent } from '../specialities/popup-form/popup-form.component';
+import { MatDialog } from '@angular/material';
+import { HttpClient } from '@angular/common/http';
+import { PopupFormComponent } from './popup-form/popup-form.component';
 import { ResponseMessageComponent } from '../../shared/response-message/response-message.component';
-import {Router} from '@angular/router';
-
-
-import { MatPaginatorModule } from '@angular/material/paginator';
-
+import { Router } from '@angular/router';
+import { Speciality, IResponse } from './specialityInterface';
+import { FormControl, FormGroup } from '@angular/forms';
+import { DeleteConfirmComponent } from '../../shared/delete-confirm/delete-confirm.component';
+import { Subscription } from 'rxjs/Subscription';
+import 'rxjs/add/operator/debounceTime';
+import { PaginationInstance } from 'ngx-pagination';
 
 @Component({
   selector: 'app-specialities',
@@ -19,83 +18,108 @@ import { MatPaginatorModule } from '@angular/material/paginator';
   styleUrls: ['./specialities.component.scss']
 })
 export class SpecialitiesComponent implements OnInit {
+
+  specialitys: Speciality[];
+  form: FormGroup;
+  error: string;
+  searchBox = new FormControl();
+  searchBoxSubscr: Subscription;
+  
+  config: PaginationInstance = {
+    itemsPerPage: 10,
+    currentPage: 1,
+  };
+  
+
   constructor(private speciality: SpecialityService,
     private http: HttpClient,
     public dialog: MatDialog,
     private router: Router) { }
 
   ngOnInit() {
-    this.speciality.getSpecialities().subscribe(value => {
-      this.speciality.specialitiesObject = value;
+    this.getAllSpeciality();
+    this.searchBoxSubscr = this.searchBox.valueChanges
+        .debounceTime(1000)
+        .subscribe(newValue => {
+            this.speciality.getSearchedSpecialities(newValue)
+                .subscribe(
+                    (data: any) => {
+                        if (data.response === 'no records') {
+                            this.specialitys = undefined;
+                            this.error = 'За даним пошуковим запитом дані відсутні';
+                        } else {
+                            this.specialitys = data;
+                        }
+                    }
+                );
+        });
+  }
+  getAllSpeciality(): void {
+    this.speciality.getSpecialities().subscribe((data: Speciality[]) => {
+      this.specialitys = data;
 
     }, error => {
       console.log('error' + error);
     });
-
   }
-
-
-  delete(id) {
-    this.speciality.specialitiesObject = this.speciality.specialitiesObject.filter(item => item.speciality_id !== id);
-      return this.http.get('Speciality/del/' + id, { withCredentials: true }).subscribe(value => {
-    });
-  }
-
   getGroups(id): void {
-    this.router.navigate(['admin/groups'], { queryParams: { facultyId: id} });
+    this.router.navigate(['admin/groups'], { queryParams: { specialityId: id } });
   }
-  update(key) {
-    this.speciality.oldspeciality = {};
-    Object.assign(this.speciality.oldspeciality, key);
-    this.speciality.speciality = key;
+  openModal(id): void {
     const dialogRef = this.dialog.open(PopupFormComponent, {
-      width: '600px'
+      disableClose : true,
+      width: '600px',
+      data: { speciality_id: id }
     });
     dialogRef.afterClosed().subscribe((response: any) => {
-      if (response === 'ok') {
-        this.dialog.open(ResponseMessageComponent, {
-          width: '400px',
-          data: {
-            message: 'Cпеціальність було успішно додано!'
-          }
-        });
-      } else if  ((response == 'error')) {
-        this.dialog.open(ResponseMessageComponent, {
-          width: '400px',
-          data: {
-            message: 'Виникла помилка при додаванні спеціальності!'
-          }
-        });
+      if (response) {
+        if (response.status === 'SUCCESS') {
+          this.dialog.open(ResponseMessageComponent, {
+            width: '400px',
+            data: {
+              message: response.message
+            }
+          });
+          this.getAllSpeciality();
+        } else if ((response.status === 'ERROR')) {
+          this.dialog.open(ResponseMessageComponent, {
+            width: '400px',
+            data: {
+              message: response.message
+            }
+          });
+        }
       }
     });
   }
-
-  openModal() {
-    this.speciality.speciality = {
-      speciality_name: '',
-      speciality_code: '',
-      speciality_id: ''
-    };
-    const dialogRef = this.dialog.open(PopupFormComponent, {
-      width: '600px'
+  delete(id): void {
+    const dialogRef = this.dialog.open(DeleteConfirmComponent, {
+      width: '500px',
+      data: { message: 'Ви справді бажаєте видалити дану спеціальность?' }
     });
-    dialogRef.afterClosed().subscribe((response: any) => {
-      if (response === 'ok') {
-        this.dialog.open(ResponseMessageComponent, {
-          width: '400px',
-          data: {
-            message: 'Cпеціальність було успішно додано!'
+    dialogRef.afterClosed().subscribe((Response: boolean) => {
+      if (Response) {
+        this.speciality.delSpecialitiey(id).subscribe((data: IResponse) => {
+          if (data.response === 'ok') {
+            this.dialog.open(ResponseMessageComponent, {
+              width: '400px',
+              data: {
+                message: 'Спеціальность було успішно видалено!'
+              }
+            });
+            this.getAllSpeciality();
           }
-        });
-      } else if ((response == 'error')) {
-        this.dialog.open(ResponseMessageComponent, {
-          width: '400px',
-          data: {
-            message: 'Виникла помилка при додаванні спеціальності!'
-          }
-        });
+        },
+          () => {
+            this.dialog.open(ResponseMessageComponent, {
+              width: '400px',
+              data: {
+                message: 'Неможливо видалити даний спеціальность, тому що він не є порожнім!'
+              }
+            });
+          });
       }
     });
   }
-
 }
+

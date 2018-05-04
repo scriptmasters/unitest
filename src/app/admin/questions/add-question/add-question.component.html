@@ -1,47 +1,194 @@
 <div class="card">
-  <div class="card-header d-flex align-items-center">
-    <h3>Реєстрація нового завдання для тесту: </h3>
-  </div>
-    <form [formGroup]="questionForm">
+    <div class="card-header d-flex align-items-center">
+        <h3>Реєстрація нового завдання для тесту: {{this.selTestName}} </h3>
+    </div>
+    <div class="card-body">
+        <form class="form-group" [formGroup]="form" (submit)="addedQuestionSubmit()">
 
-            <div class="form-group">
-                <label class="center-block">Введіть запитання:
-                    <textarea  class="form-control" formControlName="question_text"></textarea>
-                </label>
-                <label> Виберіть вид відповідей
-                    <select name="questionType" (change)="onQuestionTypeSelect($event)" formControlName="type">
-                        <option value="1">Одна правильна відповідь</option>
-                        <option value="2" >Декілька правильних відповідей</option>
-                    </select>
-                </label>
-                <label> Введіть рівень запитання
-                    <input formControlName="level">
-                </label>
-                <label> Додати вкладення
-                    <input type="file" accept="image/*" (change)="addAttachment($event)">
-                </label>
-                <img *ngIf="attachment !== undefined" [src]="attachment" width="150">
-                    <table>
-                        <tr>
-                            <td>Відповідь</td>
-                            <td>Позначте правильну відповідь</td>
-                        </tr>
-                        <tr *ngFor="let number of answerNumber">
-                            <td>
-                                <label class="center-block" >
-                                    <textarea  class="form-control" [formControlName] = "number"></textarea>
-                                </label>
-                            </td>
-                            <td>
-                                <input name="correctAnswer" (click)="correctAnswer(number)" [type]="answerType">
-                            </td>
-                        </tr>
-                    </table>
+            <div class="form-row">
+                <div class="form-group col-2">
+                    <label>Виберіть рівень</label>
+                    <select size="5" class="form-control col-10  " id="levelSelect" name="level" #levelField (change)="setQuestionLevel(levelField)">
+                          <option 
+                            *ngFor="let i of [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20]" 
+                          >
+                              {{i}}
+                          </option>
+                      </select>
+                </div>
+                <!-- [selected]="i == sel_question.level" -->
+
+                <div class="form-group col-6">
+                    <label>Текст завдання</label>
+                    <textarea class="form-control col-12 form-control-success" placeholder="Введіть текст завдання..." rows="4" id="description" #descriptionField (change)="setQuestionText(descriptionField)"></textarea>
+                </div>
+
+                <div class="form-group col-4">
+                    <label>Вкладення
+                    <input type="file" accept="image/*" (change)="setQuestionAttachment($event)">
+                  </label>
+                    <img *ngIf="new_question.attachment !== '' " [src]="new_question.attachment" width="100">
+                    <label *ngIf="new_question.attachment !== '' ">
+                      <input type="button"  
+                      value="Видалити вкладення"
+                      (click)="new_question.attachment = '' "   
+                      >
+                  </label>
+                    <!-- <ng-template #elseBlok>  
+                          <p>elseBlok</p>  
+                        </ng-template>  -->
+                </div>
 
 
-                <button (click)="addAnswer()"> Додати відповідь </button>
-                <button (click)="questionSubmit()" [disabled]="questionForm.invalid"> Зберегти завдання </button>
+
             </div>
 
-    </form>
+            <br>
+
+            <div class="form-group row">
+
+                <div class="form-group col-4">
+
+                    <!-- <label>Виберіть тип відповіді</label> -->
+                    <select class="form-control col-12" id="typeSelect" name="type" #typeField (change)="setQuestionType(typeField)" (change)="onAnswerTypeSelect($event)">
+                 <option disabled>Виберіть тип відповіді</option>
+                 <option value="1">Простий вибір [Simple Choice]</option> 
+                 <option value="2">Мульти-вибір [Multi Choice]</option> 
+                 <option value="3">Текстове поле вводу [Input Field]</option> 
+                 <option value="4">Числове поле вводу [Numerical]</option> 
+              </select>
+
+                </div>
+
+                <div class="form-group col-5">
+                    <select class="form-control col-12" id="resourceSelect" (change)="onAnswerResourseSelect($event)">
+                  <option disabled>Виберіть ресурс варіантів відповіді</option>
+                  <option value="1">Тільки текст</option> 
+                  <option *ngIf="(correctAnswerInputType !== 'txt' && correctAnswerInputType !== 'num')" value="2">
+                    Тільки зображення
+                  </option> 
+                  <option *ngIf="(correctAnswerInputType !== 'num')" value="3">
+                    Текст і зображення
+                  </option> 
+              </select>
+                </div>
+
+                <label>
+              <input 
+                (click)="addAnswer()"  
+                type="button"  
+                value="Додати варіант відповіді" 
+               >
+           </label>
+
+            </div>
+
+            <br>
+            <br>
+
+            <div *ngIf="answersIdNumbersArray.length !== 0" class="form-group row">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>&nbsp;</th>
+                            <th *ngIf="(correctAnswerInputType === 'radio')">Варіанти відповіді</th>
+                            <th *ngIf="(correctAnswerInputType === 'checkbox')">Варіанти відповіді</th>
+                            <th *ngIf="(correctAnswerInputType === 'txt')">Введіть варіанти правильної відповіді</th>
+                            <th *ngIf="(correctAnswerInputType === 'num')">Введіть допустимі межі правильної відповіді</th>
+
+                            <th *ngIf="(correctAnswerInputType !== 'txt' && correctAnswerInputType !== 'num')">
+                                Позначте правильну відповідь
+                            </th>
+                        </tr>
+                    </thead>
+
+                    <!--  formation of list FormControl element with type depending on answerResourse 
+      and corresponding id number from answersIdNumbersArray array  -->
+
+                    <tr *ngFor="let idNumber of answersIdNumbersArray; let answerIndex = index">
+                        <td> №{{answerIndex + 1}}:</td>
+
+                        <td *ngIf="answerResourse === 'text' || correctAnswerInputType === 'num' ">
+                            <label class="center-block">
+                      <input
+                          type = "text"  
+                          [name] = "answerIndex"  
+                          (change)="setAnsverText(answerIndex, $event)"
+                          value="{{newAnswersArray[answerIndex].answer_text}}"
+                      >
+                    </label>
+                            <span *ngIf="(correctAnswerInputType === 'num' && answerIndex === 0)">&nbsp;&nbsp;Мінімальне значення</span>
+                            <span *ngIf="(correctAnswerInputType === 'num' && answerIndex === 1)">&nbsp;&nbsp;Максимальне значення</span>
+
+                        </td>
+                        <!-- #answerTextField (change)="setAnswerText(answerIndex, answerTextField)" -->
+
+                        <!-- class="form-control"  correctAnswerInputType === '' -->
+
+                        <td *ngIf=" answerResourse === 'file' && correctAnswerInputType !== 'num' ">
+                            <label class="center-block">
+                      <input type="file" accept="image/*" (change)="setAnsverAttachment(answerIndex, $event)" name="answerIndex"> 
+                             <img *ngIf="newAnswersArray[answerIndex].attachment !== undefined" 
+                             [src]="newAnswersArray[answerIndex].attachment" 
+                             width="50">
+                    </label>
+                        </td>
+
+                        <!--  && correctAnswerInputType !== 'num'-->
+
+                        <td *ngIf="answerResourse === 'text_file' && correctAnswerInputType !== 'num' ">
+                            <label class="center-block">
+                        <input
+                            type = "text"  
+                            [name] = "answerIndex"  
+                            (change)="setAnsverText(answerIndex, $event)"
+                            value="{{newAnswersArray[answerIndex].answer_text}}"
+                        >
+
+                        <input  type="file" accept="image/*" (change)="setAnsverAttachment(answerIndex, $event)" name="answerIndex"> 
+                                <img *ngIf="newAnswersArray[answerIndex].attachment !== undefined" 
+                                [src]="newAnswersArray[answerIndex].attachment" 
+                                width="50"
+                        >
+                    </label>
+                        </td>
+
+
+                        <td *ngIf="(correctAnswerInputType === 'radio' || correctAnswerInputType === 'checkbox')">
+                            &nbsp;&nbsp;
+                            <input [type]="correctAnswerInputType" name="correctAnswer + answerIndex" (click)="setAnswerCorrect(answerIndex)">
+                        </td>
+
+                        <td *ngIf=" correctAnswerInputType === 'txt' ">
+                            <!-- in this case all answers are correct -->
+                            &nbsp;&nbsp;
+                            <input type="checkbox" checked disabled>
+                        </td>
+
+
+                        <td *ngIf=" correctAnswerInputType !== 'num' ">
+                            &nbsp;&nbsp;&nbsp;&nbsp;
+                            <i class="fa fa-close" (click)="deleteAnswer(answerIndex)" title="Видалити відповідь"></i>
+                        </td>
+                    </tr>
+                </table>
+
+            </div>
+
+
+            <div class="form-group row d-flex justify-content-center">
+
+                <input (click)="closeDialog()" value="Відмінити" class="btn btn-danger">
+                <input type="submit" value=" Зберегти " class="btn btn-primary">
+
+                <!-- <div class="form-row d-flex justify-content-center"></div> -->
+
+                <!-- <div class="col-sm-11 offset-sm-2">    </div> -->
+
+            </div>
+
+        </form>
+
+
+    </div>
 </div>

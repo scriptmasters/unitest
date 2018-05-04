@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FacultiesService } from './faculties.service';
+import { FacultiesService } from './services/faculties.service';
 import { MatDialog } from '@angular/material';
 import { Faculties, IResponse } from './facultiesInterface';
 import { FacultiesDialogComponent } from './faculties-dialog/faculties-dialog.component';
@@ -7,42 +7,52 @@ import { DeleteConfirmComponent } from '../../shared/delete-confirm/delete-confi
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ResponseMessageComponent } from '../../shared/response-message/response-message.component';
 import {PaginationInstance} from 'ngx-pagination';
-import {Router} from '@angular/router';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 
 @Component({
   selector: 'app-faculties',
   templateUrl: './faculties.component.html',
   styleUrls: ['./faculties.component.scss']
 })
-export class FacultiesComponent implements OnInit {
 
+export class FacultiesComponent implements OnInit {
   faculties: Faculties[];
   form: FormGroup;
-  searchStr = '';
+  error: string;
 
 
   public config: PaginationInstance = {
-     itemsPerPage: 5,
+     itemsPerPage: 10,
      currentPage: 1
   };
 
- constructor(private facultiesService: FacultiesService, public dialog: MatDialog, private router: Router) { }
-
-   ngOnInit() {
-      this.getAllFaculties();
+constructor(private facultiesService: FacultiesService, public dialog: MatDialog, private router: Router, private route: ActivatedRoute) { }
+    ngOnInit() {
+      this.faculties = this.route.snapshot.data['faculties'];
     }
-
     getAllFaculties(): void {
       this.facultiesService.getFaculties()
-           .subscribe((data: Faculties[]) => {
-           this.faculties = data;
-    });
-   }
+        .subscribe((data: Faculties[]) => {
+          this.faculties = data;
+        });
+    }
 
     getGroups(id): void {
-    this.router.navigate(['admin/groups'], { queryParams: { facultyId: id} });
+      this.router.navigate(['admin/groups'], { queryParams: { facultyId: id} });
   }
 
+  getFoundFaculties(event) {
+    this.facultiesService.getFoundFaculties(event.target.value).subscribe(
+        (data: any) => {
+            if (data.response === 'no records') {
+                this.faculties = undefined;
+                this.error = 'За даним пошуковим запитом дані відсутні';
+            } else {
+                this.faculties = data;
+            }
+         }
+    );
+  }
 
 // Add and update operations
   openDialog(id): void {
@@ -50,7 +60,6 @@ export class FacultiesComponent implements OnInit {
       width: '500px',
       data: {faculty_id: id}
     });
-
       matDialogRef.afterClosed().subscribe((response: any) => {
         if (response) {
           if (response.status === 'SUCCESS') {
@@ -71,6 +80,7 @@ export class FacultiesComponent implements OnInit {
           }
           }
       });
+      matDialogRef.disableClose = true;
   }
 
 // Delete operation
@@ -101,5 +111,6 @@ export class FacultiesComponent implements OnInit {
         });
       }
     });
+          dialogRef.disableClose = true;
   }
 }

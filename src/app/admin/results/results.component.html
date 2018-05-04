@@ -1,0 +1,67 @@
+<section>
+    <div class="container-fluid">
+        <header class="row">
+            <div class="card col-12 col-lg-12">
+                <div class="card-body">
+                    <div class="text-center">
+                        <h2 class="display">Звіт про проходження тестувань</h2>
+                    </div>
+                </div>
+            </div>
+        </header>
+        <div class="row">
+            <div class="card col-12 col-lg-12">
+                <div class="card-body row">
+                    <div class="col-md-6">
+                        <div class="form-group col-md-12">
+                            <label>Тест</label>
+                            <select class="form-control col-md-12" [(ngModel)]="testId" (change)="search()">
+                            <option *ngFor="let item of tests" [value]="item.test_id">{{item.test_name}}</option>
+                        </select>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group col-md-12">
+                            <label>Група</label>
+                            <select class="form-control col-md-12" [(ngModel)]="groupId" (change)="search()">
+                            <option [value]=""></option>
+                            <option *ngFor="let item of groups" [value]="item.group_id">{{item.group_name}}</option>
+                        </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="card col-12 col-lg-12">
+                <div class="card-body table-responsive">
+                    <table class="table table-striped table-hover">
+                        <thead>
+                            <tr>
+                                <th>№</th>
+                                <th>Студент</th>
+                                <th>Назва тесту</th>
+                                <th>Дата</th>
+                                <th>Результат</th>
+                                <th>Час початок</th>
+                                <th>Час закінчення</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let item of resultRecords; index as i">
+                                <th scope="row">{{i+1}}</th>
+                                <td>{{item.student_name}}</td>
+                                <td>{{item.test_name}}</td>
+                                <td>{{item.session_date}}</td>
+                                <td>{{item.result}}</td>
+                                <td>{{item.start_time}}</td>
+                                <td>{{item.end_time}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

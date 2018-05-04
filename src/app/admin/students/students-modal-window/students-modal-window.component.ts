@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter, Inject, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, Inject } from '@angular/core';
 import { FormGroup, FormControl, Validators, AbstractControl } from '@angular/forms';
 
 import { StudentsService } from '../students.service';
@@ -18,13 +18,13 @@ import { setGroupAsID } from '../reusable-functions/set-group-as-id';
 @Component({
   selector: 'app-students-modal-window',
   templateUrl: './students-modal-window.component.html',
-  styleUrls: ['./students-modal-window.component.scss'],
-  encapsulation: ViewEncapsulation.None
+  styleUrls: ['./students-modal-window.component.scss']
 })
 export class StudentsModalWindowComponent implements OnInit {
 
   isValidGroupFiefd = true;
   form;
+  chooseGroup = '';
   groups: IGroup[] = [];
   faculties: IFaculty[] = [];
   student: IStudent = {
@@ -87,23 +87,19 @@ export class StudentsModalWindowComponent implements OnInit {
   createFormControls() {
     this.firstnameC = new FormControl('', [
       Validators.required,
-      Validators.minLength(2),
-      Validators.maxLength(20)
+      Validators.pattern('^([A-ZА-ЯІЇ]){1}([a-zа-яії]){1,15}')
     ]);
     this.surnameC = new FormControl('', [
       Validators.required,
-      Validators.minLength(2),
-      Validators.maxLength(20)
+      Validators.pattern('^([A-ZА-ЯІЇ]){1}([a-zа-яії]){1,15}')
     ]);
     this.fnameC = new FormControl('', [
       Validators.required,
-      Validators.minLength(2),
-      Validators.maxLength(20)
+      Validators.pattern('^([A-ZА-ЯІЇ]){1}([a-zа-яії]){2,15}')
     ]);
     this.gradebookC = new FormControl('', [
       Validators.required,
-      Validators.minLength(6),
-      Validators.maxLength(20)
+      Validators.pattern('^([A-ZА-ЯІЇa-zа-яії]){2,4}-([0-9]){1,10}')
     ]);
     this.groupC = new FormControl(this.data.updating ?
       '' : 'Виберіть групу', this.selectGroupValidator());
@@ -112,8 +108,7 @@ export class StudentsModalWindowComponent implements OnInit {
     this.loginC = new FormControl('', {
       validators: [
         Validators.required,
-        Validators.minLength(5),
-        Validators.maxLength(32)
+        Validators.pattern('^\\w{5,20}')
       ],
       asyncValidators: this.data.updating ?
         ValidateLoginNotTaken.createValidator(this.service, true) :
@@ -135,8 +130,7 @@ export class StudentsModalWindowComponent implements OnInit {
     this.passwordC = new FormControl(this.data.updating ?
       this.data.student.plain_password : '', [
       Validators.required,
-      Validators.minLength(8),
-      Validators.maxLength(32)
+      Validators.pattern('^\\S{8,32}')
     ]);
     this.password_confirmC = new FormControl(this.data.updating ?
       this.data.student.plain_password : '', matchOtherValidator('password'));
@@ -197,6 +191,12 @@ export class StudentsModalWindowComponent implements OnInit {
   getGroups(elem: HTMLSelectElement) {
     const index = getGroupsByFaulty(elem, this.data.updating, this.faculties);
     if (index) {
+      // if we are editing the student and wanting to choose another group for him
+      // the form is gonna be invalid 'till we've choosen any group out of drop down list
+      if (this.facultyC.touched) {
+        this.chooseGroup = 'Виберіть групу';
+        this.groupC.updateValueAndValidity();
+      }
       // Request for the available groups
       this.service.getAvailableGroups(index).subscribe(data => {
         if (data[0]) {

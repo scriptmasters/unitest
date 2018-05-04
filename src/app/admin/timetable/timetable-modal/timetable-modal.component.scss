@@ -1,14 +1,4 @@
-.ng-valid {
-    border-color: #33b35a;
-    /* green  */
-}
-
-form .ng-invalid:not(.ng-untouched) {
-    border-color: red;
-    /* red */
-}
-
 .form-msg {
-    color: red;
-    font-size: 10px;
+    font-size: 0.85rem;
+    height: 1rem;
 }

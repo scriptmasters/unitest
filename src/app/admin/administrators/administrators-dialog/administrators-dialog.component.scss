@@ -1,0 +1,25 @@
+// .btn-danger, .btn-success {
+//   margin: 2px;
+// }
+.title {
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.adminName,
+.form-group.row,
+.labels {
+    margin-bottom: 0;
+}
+
+.inputMessage {
+    font-size: smaller;
+}
+
+.fa-eye {
+    position: absolute;
+    cursor: pointer;
+    right: 25px;
+    top: 8px;
+}

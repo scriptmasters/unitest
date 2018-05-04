@@ -1,31 +1,46 @@
 mat-dialog-content{
-    width: 100%;
-    min-width: 500px;
+    //width: 50%;
+    //min-width: 500px;
     display: flex;
     flex-direction: column;
     align-items: stretch;
+  form{
+    width: 100%;
+  }
 }
-.mat-button{
-    color:white;
+.header{
+  padding-right: 0;
 }
-
+.btn {
+  margin: {
+    top: 5px;
+    left: 5px;
+    right: 5px;
+  }
+}
+//.mat-button{
+//    color:white;
+//}
+//.form-group[_ngcontent-c5]{
+//  margin: 5px;
+//}
 .close{
-    border: 1px solid black;
+    //border: 1px solid black;
     padding: 0px;
     margin: 0px;
 }
-header-container{
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    
-}
+//header-container{
+//    display: flex;
+//    justify-content: space-between;
+//    align-items: center;
+//
+//}
 .close[_ngcontent-c7]{
     border: 1px solid white;
 }
 .invalidMessage {
     color: #ff0000;
-    background-color: #ffd2c7;
+    //background-color: #ffd2c7;
   }
 .invalidInp{
     color: #ff0000;
@@ -34,3 +49,14 @@ header-container{
 .validInp{
     border-color: green;
   }
+.error-hidden{
+  height: 1rem;
+  visibility: hidden;
+}
+div.error.col-12 {
+  color: #DC3545;
+  font-size: 0.8rem;
+  padding: 0;
+  margin: 0;
+}
+

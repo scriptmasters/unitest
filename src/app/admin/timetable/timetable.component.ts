@@ -11,6 +11,7 @@ import {
 import { TimeTableModal } from './timetable-modal/timetable-modal.component';
 import { TimetableDeleteConfirmComponent } from './timetable-delete-confirm/timetable-delete-confirm.component';
 import { ResponseMessageComponent } from '../../shared/response-message/response-message.component';
+import { PaginationInstance } from 'ngx-pagination';
 
 interface TableItemModified extends TableItem {
   subject_name: string;
@@ -30,6 +31,11 @@ export class TimetableComponent implements OnInit {
 
   groupsMap: Map<string, string> = new Map();
   subjectsMap: Map<string, string> = new Map();
+
+  config: PaginationInstance = {
+    itemsPerPage: 10,
+    currentPage: 1,
+  };
 
   constructor(
     public tableService: TableService,
@@ -149,7 +155,7 @@ export class TimetableComponent implements OnInit {
         tableItem
       }
     });
-    
+
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
          this.dialog.open(ResponseMessageComponent, {

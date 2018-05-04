@@ -13,6 +13,7 @@ export interface Groups {
         group_name: string;
         speciality_id: string;
         faculty_id: string;
+        response?: string;
 }
 
 export interface Faculties {

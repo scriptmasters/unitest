@@ -1,57 +1,53 @@
-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-top: 10px;
-    margin-bottom: 10px;
-    background-color: #FFFFFF;
-    box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
-    padding: 0.8rem;
-    h1 {
-        margin: 0;
-    }
-}
-
-.filters {
-    margin-bottom: 10px;
-    background-color: #FFFFFF;
-    box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
-    padding: 0.8rem;
-    button.fa {
-        background-color: #28A745;
-        width: 24px;
-        height: 24px;
-        border: none;
-        color: #fff;
-        transition: all 0.2s;
-        &:hover {
-            font-size: 1.1rem;
-        }
-        &:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-        }
-    }
-}
-
-.card {
-    margin: 0;
-}
-
-table {
-    margin: 0;
-}
-
-.table-colspan {
-    text-align: center;
-}
-
-.fa.fa-cog, .fa.fa-close, .fa.fa-address-card {
-    cursor: pointer;
-}
-
-@media (max-width: 768px) {
-    .search, .faculty-filter, .group-filter {
-        margin-bottom: 10px;
-    }
-}
+// header {
+//     display: flex;
+//     justify-content: space-between;
+//     align-items: center;
+//     margin-top: 10px;
+//     margin-bottom: 10px;
+//     background-color: #FFFFFF;
+//     box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+//     padding: 0.8rem;
+//     h1 {
+//         margin: 0;
+//     }
+// }
+// button.fa {
+//     background-color: #28A745;
+//     width: 24px;
+//     height: 24px;
+//     border-radius: 50%;
+//     border: none;
+//     color: #fff;
+//     transition: all 0.2s;
+//     &:hover {
+//         background-color: #218838;
+//     }
+//     &:disabled {
+//         opacity: 0.5;
+//         cursor: not-allowed;
+//     }
+// }
+// .card {
+//     margin: 0;
+// }
+// table {
+//     margin: 0;
+// }
+// .table-colspan {
+//     text-align: center;
+// }
+// .fa.fa-cog,
+// .fa.fa-close,
+// .fa.fa-address-card {
+//     cursor: pointer;
+// }
+// @media (max-width: 768px) {
+//     .search,
+//     .faculty-filter,
+//     .group-filter {
+//         margin-bottom: 10px;
+//     }
+// }
+// input.form-control.search.ng-valid {
+//     border: 1px solid #DDDDDD;
+// }

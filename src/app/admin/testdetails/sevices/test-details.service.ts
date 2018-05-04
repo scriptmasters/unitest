@@ -5,7 +5,8 @@ import 'rxjs/add/operator/map';
 @Injectable()
 export class TestDetailsService {
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {
+  }
 
   getTestDetails(testId) {
     const url = 'testDetail/getTestDetailsByTest/' + testId;
@@ -26,4 +27,10 @@ export class TestDetailsService {
     const url = 'testDetail/del/' + id;
     return this.http.delete(url);
   }
+
+  getTestById(testId) {
+    const url = 'test/getRecords/' + testId;
+    return this.http.get(url);
+  }
+
 }
