@@ -22,7 +22,7 @@ export class FacultiesComponent implements OnInit {
 
 
   public config: PaginationInstance = {
-     itemsPerPage: 5,
+     itemsPerPage: 10,
      currentPage: 1
   };
 

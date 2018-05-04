@@ -51,6 +51,7 @@ body {
     font-size: 14px;
     margin: 0;
     background-color: #F4F7FA;
+    overflow-x: hidden;
 }
 
 .text-gray {
@@ -66,6 +67,7 @@ a {
 i {
     display: inline-block;
     font-size: 1.25rem !important;
+    cursor: pointer;
 }
 
 i:hover {
@@ -78,7 +80,7 @@ i:hover {
 
 ul {
     list-style-type: none;
-    -webkit-padding-start: 0px;
+    -webkit-padding-start: 0;
 }
 
 span {
@@ -117,7 +119,6 @@ h2 {
 }
 
 .breadcrumb-holder .breadcrumb {
-    padding: 15px 0;
     font-size: 1em;
     font-weight: 300;
     color: #999;
@@ -139,10 +140,12 @@ h2 {
 }
 
 .card {
-    margin-top: 15px;
-    margin-bottom: 15px;
+    margin-top: 5px;
+    margin-bottom: 5px;
     -webkit-box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
     box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+    padding-right: 0;
+    padding-left: 0;
 }
 
 .card-header h1,
@@ -550,7 +553,7 @@ button.fa {
 }
 
 .card-body {
-    padding: 1.25rem;
+    padding: 0.75rem;
 }
 
 .card-header {
@@ -577,6 +580,7 @@ button.fa {
     margin-bottom: 10px;
 }
 
+select.form-control.ng-valid,
 .ng-valid {
     border-color: #33b35a;
     /* green  */
