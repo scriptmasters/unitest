@@ -34,7 +34,7 @@ export class StudentsComponent implements OnInit {
   byGroup: boolean;
   // NgXPagination
   public config: PaginationInstance = {
-    itemsPerPage: 5,
+    itemsPerPage: 10,
     currentPage: 1
   };
   @ViewChild('searchField') searchField: ElementRef;

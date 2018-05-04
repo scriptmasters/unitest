@@ -1,7 +1,7 @@
 <div class="breadcrumb-holder">
     <div class="container-fluid">
         <ol class="breadcrumb">
-            <li><a routerLink="" class="breadcrumb-item" routerLinkActive="active-link">Головна</a></li>
+            <li><a routerLink="" class="breadcrumb-item" routerLinkActive="active-link">Головна /</a></li>
             <li *ngFor="let breadcrumb of breadcrumbs">
                 <a routerLink="[breadcrumb.url, breadcrumb.params]">{{ breadcrumb.label }}</a>
             </li>

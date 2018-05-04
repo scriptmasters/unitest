@@ -41,7 +41,7 @@ export class TestDetailsComponent implements OnInit {
   openDialog(testDetails: any) {
     const dialogRef = this.dialog.open(TestDetailCreateComponent, {
       disableClose: true,
-      width: '700px',
+      width: '450px',
       data: testDetails
     });
 
