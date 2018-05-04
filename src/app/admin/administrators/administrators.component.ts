@@ -11,7 +11,7 @@ import {PaginationInstance} from 'ngx-pagination';
 import 'rxjs/add/operator/debounceTime';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { AuthService } from '../../auth/auth.service';
-import {Ilogin, IisLogged} from '../../shared/Interfaces/server_response';
+import { IisLogged } from '../../shared/Interfaces/server_response';
 
 @Component({
   selector: 'app-administrators',
@@ -60,7 +60,8 @@ export class AdministratorsComponent implements OnInit {
         this.administrators = data;
        });
   }
-//Add and update modal
+
+// Add and update modal
   openDialog(id): void {
     const adminId = id;
     this.authService.isLogged().subscribe((result: IisLogged) => {    

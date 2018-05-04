@@ -30,21 +30,18 @@ export class AdministratorsDialogComponent implements OnInit {
           validators: [
             Validators.required,
             Validators.pattern('(([A-Za-z0-9]){3,})'),
-            Validators.maxLength(15)],
-          asyncValidators: this.data.updating ?
+            Validators.maxLength(15)], 
+          asyncValidators: this.data.id ?
             ValidateLoginNotTaken.createValidator(this.administratorsService, true) :
-            ValidateLoginNotTaken.createValidator(this.administratorsService, false),
-            updateOn: 'blur'}),
+            ValidateLoginNotTaken.createValidator(this.administratorsService, false)}),
          'email': new FormControl(null, {
            validators: [
              Validators.email,
              Validators.minLength(5),
-             Validators.maxLength(20)],
-           asyncValidators: this.data.updating ?
+             Validators.maxLength(20)],  
+           asyncValidators: this.data.id ?
              ValidateEmailNotTaken.createValidator(this.administratorsService, true) :
-             ValidateEmailNotTaken.createValidator(this.administratorsService, false),
-             updateOn: 'blur'
-          }),
+             ValidateEmailNotTaken.createValidator(this.administratorsService, false)}),
          'password': new FormControl(null, [
           Validators.required,
           Validators.pattern('(([A-Za-z0-9]){8,})'),
@@ -94,7 +91,7 @@ export class AdministratorsDialogComponent implements OnInit {
             elem.setAttribute('type', 'password');
           }
       }
-
+      
       closeDialog() {
         this.matDialogRef.close();
       }

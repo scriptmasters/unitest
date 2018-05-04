@@ -4,8 +4,9 @@ import { AdministratorsService } from '../services/administrators.service';
 export class ValidateEmailNotTaken {
   static createValidator(service: AdministratorsService, updating: boolean) {
     let counter = 0;
+
     return (control: AbstractControl) => {
-      if (counter < 1) {
+      if ( updating && counter < 1) {
         counter++;
         return service.checkEmailAddress(control.value).map(res => {
           return null;
@@ -13,6 +14,7 @@ export class ValidateEmailNotTaken {
       }
       return service.checkEmailAddress(control.value).map(res => {
         return res ? null : { emailTaken: true };
+
       });
     };
   }
