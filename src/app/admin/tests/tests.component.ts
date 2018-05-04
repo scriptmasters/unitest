@@ -54,7 +54,7 @@ export class TestsComponent implements OnInit {
   }
 
   getTestsById(id: number): void {
-    this.httpService.getTestsById(this.subjectId).subscribe(
+    this.httpService.getTestsById(id).subscribe(
 
       data => {
         if (data.hasOwnProperty('response') && this.counter === 0) {
