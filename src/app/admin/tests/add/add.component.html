@@ -7,7 +7,7 @@
       <label for="name">Назава тесту</label>
       <input type="text" class="form-control" id="name" placeholder="Назва тесту" formControlName="test_name">
       <div class="form-msg">
-        <div *ngIf="test_name.invalid && (test_name.dirty || test_name.touched)">
+        <small *ngIf="test_name.invalid && (test_name.dirty || test_name.touched)">
           <div *ngIf="test_name.errors.required">
           Поле обов'язкове для заповнення.
           </div>
@@ -20,7 +20,7 @@
         <div *ngIf="test_name.errors.forbiddenChar">
           Дане поле не може починатися з пробілу.
         </div>
-      </div>
+        </small>
       </div>
     </div>
 
@@ -28,7 +28,7 @@
         <label for="tasks">Кількість завдань</label>
         <input type="text" class="form-control" id="tasks" placeholder="Кількість завдань" formControlName="tasks" required>
         <div class="form-msg">
-          <div *ngIf="tasks.invalid && (tasks.dirty || tasks.touched)">
+          <small *ngIf="tasks.invalid && (tasks.dirty || tasks.touched)">
             <div *ngIf="tasks.errors.required">
               Поле обов'язкове для заповнення.
             </div>
@@ -38,16 +38,16 @@
             <div *ngIf="tasks.errors.forbiddenChar">
               Дане поле може містити лише цифри.
             </div>
-          </div>
+          </small>
         </div>
-      
+
       </div>
 
       <div class="form-group">
         <label for="duration">Тривалість тесту, (хвилин)</label>
         <input type="text" class="form-control" id="duration" placeholder="Тривалість тесту" formControlName="time_for_test">
         <div class="form-msg">
-          <div *ngIf="time_for_test.invalid && (time_for_test.dirty || time_for_test.touched)">
+          <small *ngIf="time_for_test.invalid && (time_for_test.dirty || time_for_test.touched)">
             <div *ngIf="time_for_test.errors.required">
               Поле обов'язкове для заповнення.
             </div>
@@ -57,7 +57,7 @@
             <div *ngIf="time_for_test.errors.forbiddenChar">
               Дане поле може містити лише цифри.
             </div>
-          </div>
+          </small>
         </div>
       </div>
 
@@ -65,7 +65,7 @@
         <label for="attempts">Кількість спроб</label>
         <input type="text" class="form-control" id="attempts" placeholder="Кількість спроб" formControlName="attempts">
         <div class="form-msg">
-        <div *ngIf="attempts.invalid && (attempts.dirty || attempts.touched)">
+        <small *ngIf="attempts.invalid && (attempts.dirty || attempts.touched)">
           <div *ngIf="attempts.errors.required">
             Поле обов'язкове для заповнення.
           </div>
@@ -75,9 +75,21 @@
           <div *ngIf="attempts.errors.forbiddenChar">
             Дане поле може містити лише цифри.
           </div>
-        </div>
+        </small>
         </div>
       </div>
+      <div class="form-group">
+        <label>Предмет</label>
+        <select class="form-control" formControlName="subject_id" [(ngModel)]="s_id">
+          <option *ngFor="let s of subjects" [value]="s.subject_id">{{s.subject_name}}</option>
+        </select>
+        <div class="form-msg">
+          <small *ngIf="subject_id.invalid && subject_id.touched">
+            <div *ngIf="subject_id.errors.required">Поле обов'язкове для заповнення.</div>
+          </small>
+        </div>
+      </div>
+
 
       <div class="form-group">
         <label>Статус</label>
@@ -85,16 +97,14 @@
           <option *ngFor="let s of enabled" [value]="s.value">{{s.text}}</option>
         </select>
         <div class="form-msg">
-        <div *ngIf="status.invalid && status.touched">
+        <small *ngIf="status.invalid && status.touched">
           <div *ngIf="status.errors.required">Поле обов'язкове для заповнення.</div>
-        </div>
+        </small>
         </div>
       </div>
 
-      <div class="form-row justify-content-center">
-        <div class="form-group">
-            <button class="btn btn-danger" (click)="onNoClick()">Відміна</button>
-            <button class="btn btn-primary mr-2" (click)="onSubmit()">Зберегти</button>
-        </div>
-    </div>
+      <div class="form-group row justify-content-center">
+          <input  class="btn btn-danger col-sm-3 col-11" type="button" (click)="onNoClick()" value="Відміна">
+          <input  class="btn btn-success col-sm-3 col-11" type="button" (click)="onSubmit()" value="Зберегти">
+      </div>
 </form>

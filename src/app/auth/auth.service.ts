@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { HttpHeaders } from '@angular/common/http';
+import {HttpClient} from '@angular/common/http';
+import {HttpHeaders} from '@angular/common/http';
 import {Router} from '@angular/router';
 import {Observable} from 'rxjs/Observable';
 
@@ -16,7 +16,8 @@ export class AuthService {
         })
     };
 
-    constructor(private http: HttpClient, private router: Router) {}
+    constructor(private http: HttpClient, private router: Router) {
+    }
 
     login(authData): Observable<Object> {
         return this.http.post(this.authLoginUrl, authData, this.httpOptions);
@@ -30,6 +31,6 @@ export class AuthService {
     }
 
     isLogged(): Observable<Object> {
-            return this.http.get(this.isLoggedUrl);
+        return this.http.get(this.isLoggedUrl);
     }
 }

@@ -1,9 +1,7 @@
 a {
   color: red;
+  cursor: pointer;
 }
-// table, tr ,th {
-//   border: 1px solid tomato;
-//   margin: 10px;
-//   padding: 10px;
-//   font-family: 10px;
-// }
+tbody {
+  margin-bottom: 10px;
+}

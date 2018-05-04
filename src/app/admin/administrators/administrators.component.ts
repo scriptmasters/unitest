@@ -5,7 +5,7 @@ import { MatDialog } from '@angular/material';
 import { DeleteConfirmComponent } from '../../shared/delete-confirm/delete-confirm.component';
 import { ResponseMessageComponent } from '../../shared/response-message/response-message.component';
 import { FormGroup, FormControl, Validators, AbstractControl } from '@angular/forms';
-import { AdministratorsDialogComponent } from './administrators-dialog/administrators-dialog.component'
+import { AdministratorsDialogComponent } from './administrators-dialog/administrators-dialog.component';
 import {Subscription} from 'rxjs/Subscription';
 import {PaginationInstance} from 'ngx-pagination';
 import 'rxjs/add/operator/debounceTime';
@@ -19,7 +19,7 @@ import { IisLogged } from '../../shared/Interfaces/server_response';
   styleUrls: ['./administrators.component.scss']
 })
 export class AdministratorsComponent implements OnInit {
-  
+
     administrators: Administrators[];
     error: string;
     searchBox = new FormControl();
@@ -64,8 +64,8 @@ export class AdministratorsComponent implements OnInit {
 // Add and update modal
   openDialog(id): void {
     const adminId = id;
-    this.authService.isLogged().subscribe((result: IisLogged) => {    
-      if(result.id===adminId || +result.id === 1 || adminId === undefined) {
+    this.authService.isLogged().subscribe((result: IisLogged) => {
+      if (result.id === adminId || +result.id === 1 || adminId === undefined) {
         const matDialogRef = this.dialog.open(AdministratorsDialogComponent, {
           width: '500px',
           data: {id: id}
@@ -100,12 +100,12 @@ export class AdministratorsComponent implements OnInit {
           });
 
         }
-    })
-  } 
+    });
+  }
 //Delete modal
   deleteAdministrator(id): void {
     this.authService.isLogged().subscribe((result: IisLogged) => {
-      if(+result.id === 1) {
+      if (+result.id === 1) {
         const dialogRef = this.dialog.open(DeleteConfirmComponent, {
           width: '500px',
           data: { message: 'Ви справді бажаєте видалити цього адміністратора'}
@@ -133,8 +133,7 @@ export class AdministratorsComponent implements OnInit {
               });
           }
         });
-      }
-      else {
+      } else {
         this.dialog.open(ResponseMessageComponent, {
           width: '400px',
           data: {

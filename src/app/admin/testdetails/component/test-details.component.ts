@@ -5,7 +5,7 @@ import { TestDetailsService } from '../sevices/test-details.service';
 import { TestDetailCreateComponent } from '../modals/test-detail-create/test-detail-create.component';
 import { ActivatedRoute } from '@angular/router';
 import { DeleteConfirmComponent } from '../../../shared/delete-confirm/delete-confirm.component';
-import { ResponseMessageComponent } from "../../../shared/response-message/response-message.component";
+import { ResponseMessageComponent } from '../../../shared/response-message/response-message.component';
 
 
 @Component({
@@ -69,7 +69,7 @@ export class TestDetailsComponent implements OnInit {
       this.dialog.open(ResponseMessageComponent, {
         width: '350px',
         data: {message: `Виникла помилка видалення: ${err.error.response}`}
-      })
+      });
     }, () => {
       this.dialog.open(ResponseMessageComponent, {
         width: '350px',
