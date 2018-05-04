@@ -33,7 +33,7 @@ export class TestsComponent implements OnInit {
 
   deleteTest(id: number): void {
     const matDialogRef = this.dialog.open(DeleteConfirmComponent, {
-      width: '350px',
+      width: '400px',
       data: {message: 'Ви справді хочете видалити цей тест?'}
     });
     matDialogRef.afterClosed().subscribe((Response: boolean) => {
@@ -89,8 +89,8 @@ export class TestsComponent implements OnInit {
 
   openDialog(t: object, id: number): void {
     const matDialogRef = this.dialog.open(EditComponent, {
+      width: '400px',
       disableClose: true,
-      width: '350px',
       data: {id: id, test: t}});
     matDialogRef.afterClosed().subscribe(() => this.getTestsById(this.subjectId));
   }
@@ -98,7 +98,7 @@ export class TestsComponent implements OnInit {
   addDialog() {
     const matDialogRef = this.dialog.open(AddComponent, {
       disableClose: true,
-      width: '350px', data: {id: this.subjectId}});
+      width: '400px', data: {id: this.subjectId}});
     matDialogRef.afterClosed().subscribe(() => this.getTestsById(this.subjectId));
   }
 

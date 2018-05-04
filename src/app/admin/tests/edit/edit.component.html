@@ -1,109 +1,111 @@
 <form [formGroup]="rForm">
-  <div class="form-row justify-content-end">
-    <i class="fa fa-close" (click)="onNoClick()"></i>
-  </div>
-
-  <div class="form-group">
-      <label for="name">Назава тесту</label>
-      <input type="text" class="form-control" id="name" formControlName="test_name">
-      <div class="form-msg">
-      <small *ngIf="test_name.invalid && (test_name.dirty || test_name.touched)">
-          <span *ngIf="test_name.errors.required">
-          Поле обов'язкове для заповнення.
-          </span>
-        <span *ngIf="test_name.errors.minlength">
-          Це поле має містити 2 або більше символів.
-        </span>
-        <span *ngIf="test_name.errors.maxlength">
-          Це поле може містити не більше 70 символів.
-        </span>
-        <span *ngIf="test_name.errors.forbiddenChar">
-          Дане поле не може починатися з пробілу.
-        </span>
-      </small>
-      </div>
+    <header class="form-row justify-content-between mb-2">
+        <h2 class="pl-1">Редагувати тест</h2>
+        <i class="fa fa-close pr-1" (click)="onNoClick()"></i>
+    </header>
+    <div class="form-row">
+        <div class="form-group col-12">
+            <label for="name">Назава тесту</label>
+            <input type="text" class="form-control" id="name" formControlName="test_name">
+            <div class="form-msg">
+                <small *ngIf="test_name.invalid && (test_name.dirty || test_name.touched)">
+                    <span *ngIf="test_name.errors.required">
+                        Поле обов'язкове для заповнення.
+                    </span>
+                    <span *ngIf="test_name.errors.minlength">
+                        Це поле має містити 2 або більше символів.
+                    </span>
+                    <span *ngIf="test_name.errors.maxlength">
+                        Це поле може містити не більше 70 символів.
+                    </span>
+                    <span *ngIf="test_name.errors.forbiddenChar">
+                        Дане поле не може починатися з пробілу.
+                    </span>
+                </small>
+            </div>
+        </div>
     </div>
 
-    <div class="form-group">
-      <label for="tasks">Кількість завдань</label>
-      <input type="text" class="form-control" id="tasks" formControlName="tasks">
-      <div class="form-msg">
-      <small *ngIf="tasks.invalid && (tasks.dirty || tasks.touched)">
-        <span *ngIf="tasks.errors.required">
-          Поле обов'язкове для заповнення.
-        </span>
-        <span *ngIf="tasks.errors.maxlength">
-          Максимум 3 символи.
-        </span>
-        <span *ngIf="tasks.errors.forbiddenChar">
-          Дане поле може містити лише цифри.
-        </span>
-      </small>
-      </div>
+    <div class="form-row">
+        <div class="form-group col-12">
+            <label for="tasks">Кількість завдань</label>
+            <input type="text" class="form-control" id="tasks" formControlName="tasks">
+            <div class="form-msg">
+                <small *ngIf="tasks.invalid && (tasks.dirty || tasks.touched)">
+                <span *ngIf="tasks.errors.required">
+                    Поле обов'язкове для заповнення.
+                </span>
+                <span *ngIf="tasks.errors.maxlength">
+                    Максимум 3 символи.
+                </span>
+                <span *ngIf="tasks.errors.forbiddenChar">
+                    Дане поле може містити лише цифри.
+                </span>
+            </small>
+            </div>
+        </div>
     </div>
 
-    <div class="form-group">
-      <label for="duration">Тривалість тесту, (хвилин)</label>
-      <input type="text" class="form-control" id="duration" formControlName="time_for_test">
-      <div class="form-msg">
-      <small *ngIf="time_for_test.invalid && (time_for_test.dirty || time_for_test.touched)">
-        <span *ngIf="time_for_test.errors.required">
-          Поле обов'язкове для заповнення.
-        </span>
-        <span *ngIf="time_for_test.errors.maxlength">
-          Максимум 3 цифри.
-        </span>
-        <span *ngIf="time_for_test.errors.forbiddenChar">
-          Дане поле може містити лише цифри.
-        </span>
-      </small>
-      </div>
+    <div class="form-row">
+        <div class="form-group col-12">
+            <label for="duration">Тривалість тесту, (хвилин)</label>
+            <input type="text" class="form-control" id="duration" formControlName="time_for_test">
+            <div class="form-msg">
+                <small *ngIf="time_for_test.invalid && (time_for_test.dirty || time_for_test.touched)">
+                    <span *ngIf="time_for_test.errors.required">
+                        Поле обов'язкове для заповнення.
+                    </span>
+                    <span *ngIf="time_for_test.errors.maxlength">
+                        Максимум 3 цифри.
+                    </span>
+                    <span *ngIf="time_for_test.errors.forbiddenChar">
+                        Дане поле може містити лише цифри.
+                    </span>
+                </small>
+            </div>
+        </div>
     </div>
 
-    <div class="form-group">
-      <label for="attempts">Кількість спроб</label>
-      <input type="text" class="form-control" id="attempts" formControlName="attempts">
-      <div class="form-msg">
-      <small *ngIf="attempts.invalid && (attempts.dirty || attempts.touched)">
-        <span *ngIf="attempts.errors.required">
-          Поле обов'язкове для заповнення.
-        </span>
-        <span *ngIf="attempts.errors.maxlength">
-          Максимум 2 символи.
-        </span>
-        <span *ngIf="attempts.errors.forbiddenChar">
-          Дане поле може містити лише цифри.
-        </span>
-      </small>
-      </div>
+    <div class="form-row">
+        <div class="form-group col-12">
+            <label for="attempts">Кількість спроб</label>
+            <input type="text" class="form-control" id="attempts" formControlName="attempts">
+            <div class="form-msg">
+                <small *ngIf="attempts.invalid && (attempts.dirty || attempts.touched)">
+                    <span *ngIf="attempts.errors.required">
+                        Поле обов'язкове для заповнення.
+                    </span>
+                    <span *ngIf="attempts.errors.maxlength">
+                        Максимум 2 символи.
+                    </span>
+                    <span *ngIf="attempts.errors.forbiddenChar">
+                        Дане поле може містити лише цифри.
+                    </span>
+                </small>
+            </div>
+        </div>
     </div>
 
-    <div class="form-group">
-      <label>Предмет</label>
-      <select class="form-control" formControlName="subject_id" [(ngModel)]="data.test.subject_id">
-        <option *ngFor="let s of subjects" [value]="s.subject_id">{{s.subject_name}}</option>
-      </select>
-      <div class="form-msg">
-        <small *ngIf="subject_id.invalid && subject_id.touched">
-          <div *ngIf="subject_id.errors.required">Поле обов'язкове для заповнення.</div>
-        </small>
-      </div>
+    <div class="form-row">
+        <div class="form-group col-12">
+            <label>Статус</label>
+            <select class="form-control" formControlName="enabled" required>
+              <option *ngFor="let s of enabled" [value]="s.value">{{s.text}}</option>
+            </select>
+            <div class="form-msg">
+                <small *ngIf="status.invalid && status.touched">
+                    <span *ngIf="status.errors.required">Поле обов'язкове для заповнення.</span>
+                </small>
+            </div>
+        </div>
     </div>
 
-    <div class="form-group">
-      <label>Статус</label>
-      <select class="form-control" formControlName="enabled" required>
-        <option *ngFor="let s of enabled" [value]="s.value">{{s.text}}</option>
-      </select>
-      <div class="form-msg">
-      <small *ngIf="status.invalid && status.touched">
-        <span *ngIf="status.errors.required">Поле обов'язкове для заповнення</span>
-      </small>
-    </div>
-    </div>
-
-    <div class="form-group row justify-content-center">
-        <input  class="btn btn-danger col-sm-3 col-11" type="button" (click)="onNoClick()" value="Відміна">
-        <input  class="btn btn-success col-sm-3 col-11" type="button" (click)="onSubmit()" value="Зберегти">
+    <div class="form-row d-flex justify-content-center">
+        <div class="form-group col-sm-6 col-md-4">
+            <button class="btn btn-danger col-sm-12" (click)="onNoClick()">Відмінити</button>
+        </div>
+        <div class="form-group col-sm-6 col-md-4">
+            <button class="btn btn-primary col-sm-12" (click)="onSubmit()">Редагувати</button>
+        </div>
     </div>
 </form>

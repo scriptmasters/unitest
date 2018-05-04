@@ -67,6 +67,7 @@ a {
 i {
     display: inline-block;
     font-size: 1.25rem !important;
+    cursor: pointer;
 }
 
 i:hover {
@@ -118,7 +119,6 @@ h2 {
 }
 
 .breadcrumb-holder .breadcrumb {
-    padding: 15px 0;
     font-size: 1em;
     font-weight: 300;
     color: #999;
@@ -553,7 +553,7 @@ button.fa {
 }
 
 .card-body {
-    padding: 1.25rem;
+    padding: 0.75rem;
 }
 
 .card-header {
@@ -580,6 +580,7 @@ button.fa {
     margin-bottom: 10px;
 }
 
+select.form-control.ng-valid,
 .ng-valid {
     border-color: #33b35a;
     /* green  */

@@ -44,16 +44,10 @@ const routes: Routes = [
             {
                 path: 'specialities',
                 loadChildren: './specialities/specialities.module#SpecialitiesModule',
-                data: {
-                    breadcrumb: 'Спеціальності'
-                }
             },
             {
                 path: 'administrators',
                 loadChildren: './administrators/administrators.module#AdministratorsModule',
-                data: {
-                    breadcrumb: 'Адміністратори'
-                }
             },
             {
                 path: 'timetable',
@@ -65,19 +59,32 @@ const routes: Routes = [
             },
             {
                 path: 'questions',
-                component: QuestionsComponent
+                component: QuestionsComponent,
+                data: {
+                    breadcrumb: 'Завдання'
+                }
             },
+                
             {
                 path: 'add-question',
-                component: AddQuestionComponent
+                component: AddQuestionComponent,
+                data: {
+                    breadcrumb: 'Додавання завдання'
+                }
             },
             {
                 path: 'testdetails',
-                component: TestDetailsComponent
+                component: TestDetailsComponent,
+                data: {
+                    breadcrumb: 'Деталі тесту'
+                }
             },
             {
                 path: 'results',
-                component: ResultsComponent
+                component: ResultsComponent,
+                data: {
+                    breadcrumb: 'Результати'
+                }
             }
         ]
     }

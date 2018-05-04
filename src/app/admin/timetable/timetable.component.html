@@ -53,5 +53,10 @@
                 </div>
             </div>
         </div>
+        <div class="row">
+            <div class="col-lg-12">
+                <pagination-controls *ngIf="" class="pagination justify-content-center" (pageChange)="config.currentPage = $event" maxSize="10" previousLabel="<<" nextLabel=">>" autoHide="true"></pagination-controls>
+            </div>
+        </div>
     </div>
 </section>
