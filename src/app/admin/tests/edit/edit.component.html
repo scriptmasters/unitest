@@ -88,7 +88,7 @@
 
     <div class="form-group">
         <label>Предмет</label>
-        <select class="form-control" formControlName="subject_id" [(ngModel)]="s_id">
+        <select class="form-control" formControlName="subject_id" [(ngModel)]="data.test.subject_id">
           <option *ngFor="let s of subjects" [value]="s.subject_id">{{s.subject_name}}</option>
         </select>
         <div class="form-msg">
