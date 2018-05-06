@@ -118,12 +118,13 @@ export class TestsComponent implements OnInit {
     });
   }
 
-  openQuestions(id: any) {
-    this.router.navigate(['/admin/questions'], {
-      queryParams: {
-        testId: id
-      }
-    });
+
+  openQuestions(test_id: string) {
+        this.router.navigate(['/admin/questions'], {
+          queryParams: {
+              subjectId: this.subjectId,
+              testId: test_id, }
+        });
   }
 
   getSubjects() {
