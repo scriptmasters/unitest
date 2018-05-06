@@ -102,7 +102,7 @@
         <div class="form-group col-12">
             <label>Статус</label>
             <select class="form-control" formControlName="enabled" required>
-              <option *ngFor="let s of enabled" [value]="s.value">{{s.text}}</option>
+                <option *ngFor="let s of enabled" [value]="s.value">{{s.text}}</option>
             </select>
             <div class="form-msg">
                 <small *ngIf="status.invalid && status.touched">
