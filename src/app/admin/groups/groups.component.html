@@ -55,7 +55,9 @@
                                 <td>{{tab.group}}</td>
                                 <td>{{tab.faculty}}</td>
                                 <td>{{tab.speciality}}</td>
-                                <td><i class="fa fa-list" title="Переглянути результати тестування групи {{tab.group}}"></i></td>
+                                <td><i class="fa fa-list"
+                                       title="Переглянути результати тестування групи {{tab.group}}"
+                                       (click)="goResults(tab.group_id)"></i></td>
                                 <td><i class="fa fa-user" title="Переглянути студентів групи {{tab.group}}" routerLink="/admin/students/byGroup/{{tab.group_id}}"></i></td>
                                 <td><i class="fa fa-calendar" title="Розклад тестування групи {{tab.group}}" (click)="goTimetable(tab.group_id)"></i></td>
                                 <td><i class="fa fa-cog" title="Редагувати групу {{tab.group}}" (click)="openDialog(tab)"></i></td>

@@ -11,6 +11,7 @@ import { ResultsService } from './services/results.service';
 export class ResultsComponent implements OnInit {
   testId: number;
   groupId: number;
+  groupIdParams: number;
 
   tests = [];
   groups = [];
@@ -23,6 +24,12 @@ export class ResultsComponent implements OnInit {
   }
 
   ngOnInit() {
+
+    this.route.queryParams.subscribe(params => {
+      this.groupIdParams = params['groupId'];
+      console.log(`GroupID_OnInit: ${this.groupIdParams}`);
+    });
+
     this.resultService.getTests().subscribe((testData: any[]) => {
       this.tests = (testData && testData['response'] && testData['response'] === 'no records') ? [] : testData;
       if (this.tests.length > 0) {
@@ -31,7 +38,12 @@ export class ResultsComponent implements OnInit {
       }
     });
     this.resultService.getGroups().subscribe((groupData: any[]) => {
-      this.groups = (groupData.toString() === 'no records') ? [] : groupData;
+      this.groups = (groupData && groupData['response'] && groupData['response'] === 'no records') ? [] : groupData;
+      if (this.groupIdParams) {
+        this.groupId = this.groupIdParams;
+        console.log(`GroupID: ${this.groupId}`);
+        this.search();
+      }
     });
   }
 
