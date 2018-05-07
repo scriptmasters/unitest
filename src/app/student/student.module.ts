@@ -8,7 +8,7 @@ import { TestPlayerService } from './services/test-player.service';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { StudentService } from './student.service';
 import { TestResultComponent } from './test-player/test-result/test-result.component';
-import {SharedModule} from '../shared/shared.module';
+import { SharedModule } from '../shared/shared.module';
 
 @NgModule({
   imports: [
@@ -16,10 +16,10 @@ import {SharedModule} from '../shared/shared.module';
     StudentRoutingModule,
     FormsModule,
     ReactiveFormsModule,
-    SharedModule
+    SharedModule,
   ],
   declarations: [StudentComponent, TestPlayerComponent, TestResultComponent],
   providers: [AuthService, TestPlayerService, StudentService],
-  entryComponents: [TestResultComponent]
+  entryComponents: [TestResultComponent],
 })
 export class StudentModule {}

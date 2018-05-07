@@ -12,7 +12,7 @@ const routes: Routes = [
   {
     path: 'test/:id',
     component: TestPlayerComponent,
-  }
+  },
 ];
 
 @NgModule({
