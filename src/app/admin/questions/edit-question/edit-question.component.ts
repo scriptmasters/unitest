@@ -53,8 +53,8 @@ export class EditQuestionComponent implements OnInit {
     level: this.data.sel_quest.level,
     type: this.data.sel_quest.type,
     type_name: '',
-    attachment: ''
-    // attachment: this.data.sel_quest.attachment
+    // attachment: ''
+    attachment: this.data.sel_quest.attachment
   };
 
   // за  sel_question_id з бази витягуємо всі asnswers!
