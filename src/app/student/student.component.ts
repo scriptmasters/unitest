@@ -97,9 +97,13 @@ export class StudentComponent implements OnInit {
         response.forEach(element => {
           const timeTables = <TimeTable>{};
           timeTables.end_date = moment(element.end_date).format('l');
-          timeTables.end_time = moment(element.end_time, 'HH:mm:ss').format('LT');
+          timeTables.end_time = moment(element.end_time, 'HH:mm:ss').format(
+            'LT'
+          );
           timeTables.start_date = moment(element.start_date).format('l');
-          timeTables.start_time = moment(element.start_time, 'HH:mm:ss').format('LT');
+          timeTables.start_time = moment(element.start_time, 'HH:mm:ss').format(
+            'LT'
+          );
           timeTables.subject = <Subject[]>[];
 
           this.studentService
@@ -135,7 +139,7 @@ export class StudentComponent implements OnInit {
   startTest(studentId, testId): void {
     this.testPlayerService.startTest(studentId, testId).subscribe(
       () => {
-        this.router.navigate(['test/' + testId]);
+        this.router.navigate(['student/test/' + testId]);
       },
       error => console.log(error)
     );

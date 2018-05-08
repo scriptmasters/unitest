@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 
 import { TestPlayerService } from '../services/test-player.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import {MatDialog} from '@angular/material';
-import {TestResultComponent} from './test-result/test-result.component';
+import { MatDialog } from '@angular/material';
+import { TestResultComponent } from './test-result/test-result.component';
 
 @Component({
   selector: 'app-test-player',
@@ -36,7 +36,8 @@ export class TestPlayerComponent implements OnInit {
   }
 
   selectedAnswer(question, answer) {
-    this.userCheckboxAnswers[question.question_id] = this.userCheckboxAnswers[question.question_id] || {};
+    this.userCheckboxAnswers[question.question_id] =
+      this.userCheckboxAnswers[question.question_id] || {};
     const topModel = this.userCheckboxAnswers[question.question_id];
     topModel[answer.answer_id] = !topModel[answer.answer_id];
     const answersArr = [];
@@ -50,17 +51,17 @@ export class TestPlayerComponent implements OnInit {
       }
     }
 
-    this.userAnswers[question.question_id] = this.userAnswers[question.question_id] || {};
+    this.userAnswers[question.question_id] =
+      this.userAnswers[question.question_id] || {};
     this.userAnswers[question.question_id].question_id = question.question_id;
     this.userAnswers[question.question_id].answer_id = answers_ids;
-
   }
 
   openModal(testResult): void {
     const matDialogRef = this.dialog.open(TestResultComponent, {
       disableClose: true,
       width: '400px',
-      data: { result: testResult }
+      data: { result: testResult },
     });
 
     matDialogRef.afterClosed().subscribe(() => {
@@ -70,7 +71,8 @@ export class TestPlayerComponent implements OnInit {
 
   finishTest() {
     console.log('Finish Test');
-    this.testPlayerService.checkResult(this.userAnswers)
+    this.testPlayerService
+      .checkResult(this.userAnswers)
       .subscribe((response: any) => {
         const testResult = response;
         this.openModal(testResult);
