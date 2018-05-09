@@ -28,8 +28,8 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr *ngFor="let subject of subjects | paginate: config; let i = index">
-                                <th>{{ (config.currentPage - 1) * config.itemsPerPage + (i + 1) }}</th>
+                            <tr *ngFor="let subject of subjects; let i = index">
+                                <th>{{i+pageSize*pageIndex+1}}</th>
                                 <td>{{subject.subject_name}}</td>
                                 <td>{{subject.subject_description}}</td>
                                 <td><a (click)="getTests(subject.subject_id)"><i
@@ -53,7 +53,16 @@
         </div>
         <div class="row">
             <div class="col-lg-12">
-                <pagination-controls *ngIf="subjects" class="pagination justify-content-center" (pageChange)="config.currentPage = $event" maxSize="10" previousLabel="<<" nextLabel=">>" autoHide="true"></pagination-controls>
+                <!--<pagination-controls *ngIf="subjects" class="pagination justify-content-center" (pageChange)="config.currentPage = $event" maxSize="10" previousLabel="<<" nextLabel=">>" autoHide="true"></pagination-controls>
+            -->
+                <mat-paginator *ngIf="pagination" [length]=length
+                               [pageSize]=pageSize
+                               [pageIndex]=pageIndex
+                               [pageSizeOptions]="[5, 10, 25, 100]"
+                               [showFirstLastButtons]="true"
+                               (page)="getSubjects($event, true)"
+
+                ></mat-paginator>
             </div>
         </div>
     </div>
