@@ -4,20 +4,23 @@
             <h2 class="">Редагування завдання з id: {{sel_question_id}},&nbsp;&nbsp; для тесту: {{sel_question_test_name}}: </h2>
         </div>
         <div class="col-1 d-flex justify-content-end">
-            <i class="fa fa-close pr-1" (click)="onNoClick()"></i>
+            <i class="fa fa-close pr-1" (click)="closeDialog()"></i>
         </div>
     </header>
     <div class="form-row">
+
         <div class="form-group col-md-4 col-12 col-lg-2">
             <label>Виберіть рівень</label>
             <select size="5" class="form-control" id="levelSelect" name="level" #levelField (change)="setQuestionLevel(levelField)">
                   <option *ngFor="let i of [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20]" [selected]="i == sel_question.level">{{i}}</option>
               </select>
         </div>
+
         <div class="form-group col-md-8 col-12 col-lg-6">
             <label>Текст завдання</label>
             <textarea class="form-control col-12 form-control-success" placeholder="Введіть текст завдання..." rows="4" id="description" #descriptionField (change)="setQuestionText(descriptionField)">{{sel_question.question_text}}</textarea>
         </div>
+
         <div class="form-group col-md-3 col-12 col-lg-4">
             <label>
                 <span *ngIf="sel_question.attachment !== ''">Змінити вкладення</span>
@@ -77,9 +80,10 @@
                 </option> 
             </select>
         </div>
+        
         <div class="form-group col-12 col-lg-4">
             <label> 
-            <span class="redtext" *ngIf="( editedAnswersArray.length === 0 )" >Дане завдання ще не має відповідей.</span> 
+            <span class="redtext" *ngIf="( editedAnswersArray.length === 0 )" ><font color="red">Дане завдання ще не має відповідей.</font></span> 
             <span *ngIf="( editedAnswersArray.length !== 0 )" >Ви можете додати ще відповіді.</span> 
              </label>
             <input class="col-12 btn btn-primary" (click)="addAnswer()" type="button" value="Додати варіант відповіді">
@@ -87,26 +91,6 @@
     </div>
 
     <br>
-
-    <!-- <div class="form-row">
-             <div class="form-group col-7">
-              <label>Ресурс варіантів відповідей</label>
-              <select 
-                class="form-control col-8" 
-                id="resourceSelect" 
-                name="resource" 
-                #resourceField (change)="setResourse(resourceField)" >
-                  <option 
-                  *ngFor="let questAttachment of ['Текст',
-                                            'Зображення',
-                                            'Текст і зображення']"
-                  [selected]="questAttachment === sel_question.attachment">
-                  {{questAttachment}}
-                </option>
-              </select>
-            </div>
-        </div>  -->
-
     <br>
 
     <div *ngIf="answersIdNumbersArray.length !== 0" class="form-row mb-2">
@@ -217,10 +201,10 @@
     </div>
     <div class="form-row d-flex justify-content-center">
         <div class="form-group col-sm-6 col-md-4">
-            <input (click)="closeDialog()" value="Відмінити" class="btn btn-danger col-sm-12">
+            <input  class="btn btn-danger col-sm-12" (click)="closeDialog()" value="Відмінити">
         </div>
         <div class="form-group col-sm-6 col-md-4">
-            <input type="submit" value=" Зберегти зміни" class="btn btn-success col-sm-12">
+            <input class="btn btn-success col-sm-12" type="submit" value=" Зберегти зміни">
         </div>
     </div>
 </form>
