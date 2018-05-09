@@ -11,6 +11,8 @@ import * as moment from 'moment';
 export class ResultsComponent implements OnInit {
   testId: number;
   groupId: number;
+  testRate: number;
+  testMaxRate: number;
 
   tests = [];
   groups = [];
@@ -29,6 +31,7 @@ export class ResultsComponent implements OnInit {
         this.groupId = groupIdParam;
       }
     });
+
     this.resultService.getTests().subscribe((testData: any[]) => {
       this.tests = (testData['response'] === 'no records') ? [] : testData;
 
@@ -38,12 +41,20 @@ export class ResultsComponent implements OnInit {
           this.testId = this.tests[0].test_id;
           this.search();
         } else {
+          // ?
         }
       });
     });
+
+
   }
 
   search() {
+
+    this.resultService.getMaxTestRate(this.testId).subscribe((resp: any) => {
+      this.testMaxRate = resp.testRate;
+    });
+
     if (this.testId) {
       this.resultService.getTestRecordsByParams(this.testId, this.groupId).subscribe((records: any[]) => {
         if (records && records['response'] && records['response'] === 'no records') {
@@ -81,7 +92,7 @@ export class ResultsComponent implements OnInit {
         session_date: rec['session_date'],
         time: rec['start_time'],
         duration: this.getDuration(rec['start_time'], rec['end_time']),
-        quality: '75%', // todo remove hardcoded value, use pipe
+        quality: this.getQuality(rec['result'], this.testMaxRate), // todo remove hardcoded value, use pipe
         start_time: rec['start_time'],
         end_time: rec['end_time'],
         test_id: rec['test_id'],
@@ -101,4 +112,10 @@ export class ResultsComponent implements OnInit {
 
     return moment.utc(endDate.getTime() - startDate.getTime()).format('HH:mm:ss');
   }
+
+  private getQuality(result: number, maxRate: number): string {
+    return Math.round(result / maxRate * 100) + '%';
+  }
+
+
 }
