@@ -1,103 +1,38 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
-import {FormGroup, FormControl} from '@angular/forms';
+import {Component, OnInit} from '@angular/core';
+import {FormGroup} from '@angular/forms';
 import {MatDialog} from '@angular/material';
 import {ActivatedRoute, Router} from '@angular/router';
-import {Subscription} from 'rxjs/Subscription';
-import 'rxjs/add/operator/debounceTime';
 import {SubjectService} from './services/subject.service';
-import {Subject} from './subject';
 import {ResponseMessageComponent} from '../../shared/response-message/response-message.component';
 import {ModalSubjectComponent} from './modal-subject/modal-subject.component';
 import {DeleteConfirmComponent} from '../../shared/delete-confirm/delete-confirm.component';
-import {MatPaginator, MatPaginatorIntl} from '@angular/material';
+import {MatPaginatorIntl} from '@angular/material';
+import {Pagination} from '../../shared/pagination/pagination.class';
+import {HttpClient} from '@angular/common/http';
+
 
 @Component({
     selector: 'app-subjects',
     templateUrl: './subjects.component.html',
     styleUrls: ['./subjects.component.scss'],
 })
-export class SubjectsComponent implements OnInit {
-    subjects: Subject[];
+export class SubjectsComponent extends Pagination implements OnInit {
     form: FormGroup;
-    error: string;
-    searchBox = new FormControl();
-    searchBoxSubscr: Subscription;
-    length: number;
-    pageSize = 5;
-    pageIndex: number;
-    pagination: boolean;
-
-    @ViewChild(MatPaginator) paginator: MatPaginator;
 
     constructor(private subjectService: SubjectService,
-                private dialog: MatDialog,
-                private router: Router,
-                private route: ActivatedRoute,
-                private pagIntl: MatPaginatorIntl) {
+                public dialog: MatDialog,
+                public router: Router,
+                public route: ActivatedRoute,
+                public pagIntl: MatPaginatorIntl,
+                public http: HttpClient) {
+        super(router, route, pagIntl, http, dialog);
+        this.entity = 'subject';
+
     }
 
     ngOnInit() {
-        this.pagIntl.firstPageLabel = 'Перша сторінка';
-        this.pagIntl.lastPageLabel = 'Остання сторінка';
-        this.pagIntl.nextPageLabel = 'Наступна сторінка';
-        this.pagIntl.previousPageLabel = 'Попередня сторінка';
-        this.pagIntl.itemsPerPageLabel = 'Кількість елементів';
-
-        this.route.queryParams.subscribe(params => {
-            params.page ? this.pageIndex = +params.page - 1 : this.pageIndex = 0;
-            this.getSubjects();
-        });
-
-        this.searchBoxSubscr = this.searchBox.valueChanges
-            .debounceTime(1000)
-            .subscribe(newValue => {
-                if (newValue !== '') {
-                    this.pagination = false;
-                    this.subjectService.getSearchedSubjects(newValue)
-                        .subscribe(
-                            (data: any) => {
-                                if (data.response === 'no records') {
-                                    this.subjects = undefined;
-                                    this.error = 'За даним пошуковим запитом дані відсутні';
-                                } else {
-                                    this.subjects = data;
-                                }
-                            }
-                        );
-                } else {
-                    this.getSubjects();
-                }
-            });
+        this.initLogic();
     }
-
-    getSubjects(event?): void {
-        this.pagination = true;
-        if (event) {
-            this.pageIndex = event.pageIndex;
-            this.pageSize = event.pageSize;
-            this.router.navigate(['admin/subjects'], {queryParams: {page: this.pageIndex + 1}});
-        } else {
-            this.subjectService.countSubjects().subscribe((data: any) =>
-                this.length = +data.numberOfRecords);
-
-            this.subjectService.getSubjectsRange(this.pageSize, this.pageSize * this.pageIndex).subscribe((subjects: any) => {
-                if (subjects.response) {
-                    this.paginator.firstPage();
-                    this.dialog.open(ResponseMessageComponent, {
-                        width: '400px',
-                        data: {
-                            message: 'Сторінка відсутня, скеровано на початкову'
-                        },
-                    });
-                } else {
-                    this.subjects = subjects;
-                }
-
-            });
-        }
-
-    }
-
 
     getTimetable(id: number): void {
         this.router.navigate(['admin/timetable'], {
@@ -125,7 +60,7 @@ export class SubjectsComponent implements OnInit {
                             message: response.message,
                         },
                     });
-                    this.getSubjects();
+                    this.getEntity();
                 } else if (response.status === 'ERROR') {
                     this.dialog.open(ResponseMessageComponent, {
                         width: '400px',
@@ -158,10 +93,10 @@ export class SubjectsComponent implements OnInit {
                                     message: 'Даний предмет успішно видалено!',
                                 },
                             });
-                            if (this.subjects.length > 1) {
-                                this.getSubjects();
+                            if (this.entitiesObj.length > 1) {
+                                this.getEntity();
                             } else {
-                                this.paginator.previousPage();
+                                this.pagination ? this.paginator.previousPage() : this.entitiesObj = undefined;
                             }
                         }
                     },

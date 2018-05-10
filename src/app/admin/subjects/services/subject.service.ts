@@ -9,19 +9,8 @@ export class SubjectService {
     private urlAddSubject = 'Subject/insertData';
     private urlEditSubject = 'Subject/update';
     private urlDeleteSubject = 'Subject/del';
-    private urlGetSearchedSubjects = 'Subject/getRecordsBySearch';
-    private urlGetSubjectsRange = 'Subject/getRecordsRange/';
-    private urlCountSubjects = 'Subject/countRecords';
 
     constructor(private http: HttpClient) {
-    }
-
-    getSubjectsRange(limit, offset): Observable<Subject[]> {
-        return this.http.get<Subject[]>(`${this.urlGetSubjectsRange}${limit}/${offset}`);
-    }
-
-    countSubjects() {
-        return this.http.get(this.urlCountSubjects);
     }
 
     getSubjectById(id: number): Observable<Subject[]> {
@@ -44,7 +33,4 @@ export class SubjectService {
         return this.http.get<Subject[]>(this.urlDeleteSubject + '/' + id);
     }
 
-    getSearchedSubjects(searchString) {
-        return this.http.get<Subject[]>(this.urlGetSearchedSubjects + '/' + searchString);
-    }
 }
