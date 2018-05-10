@@ -377,4 +377,8 @@ export class GroupsComponent implements OnInit {
     this.router.navigate(['admin/timetable'], {queryParams: {groupId: id}});
   }
 
+  goResults(id): void {
+    this.router.navigate(['admin/results'], {queryParams: {groupId: id}});
+  }
+
 }
