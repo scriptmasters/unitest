@@ -16,7 +16,6 @@
                     <div class="form-group col-md-5">
                       <select class="form-control col-md-12"
                               [(ngModel)]="testId">
-                              <!--[ngClass]="{'required-field': !testId}">-->
                         <option [value]="null"
                                 selected>Оберіть тест</option>
                         <option *ngFor="let item of tests"

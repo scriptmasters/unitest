@@ -40,8 +40,6 @@ export class ResultsComponent implements OnInit {
         if (this.groupId && this.tests.length > 0) {
           this.testId = this.tests[0].test_id;
           this.search();
-        } else {
-          // ?
         }
       });
     });
@@ -92,7 +90,7 @@ export class ResultsComponent implements OnInit {
         session_date: rec['session_date'],
         time: rec['start_time'],
         duration: this.getDuration(rec['start_time'], rec['end_time']),
-        quality: this.getQuality(rec['result'], this.testMaxRate), // todo remove hardcoded value, use pipe
+        quality: this.getQuality(rec['result'], this.testMaxRate),
         start_time: rec['start_time'],
         end_time: rec['end_time'],
         test_id: rec['test_id'],
