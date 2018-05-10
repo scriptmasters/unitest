@@ -142,7 +142,7 @@ export class StudentComponent implements OnInit {
   startTest(studentId, testId): void {
     this.testPlayerService.startTest(studentId, testId).subscribe(
       (data: any) => {
-        console.log(data);
+        // console.log(data);
         if (data.response === 'Error. User made test recently') {
           this.dialog.open(ResponseMessageComponent, {
             width: '400px',
@@ -168,7 +168,7 @@ export class StudentComponent implements OnInit {
         }
       },
       error => {
-        alert('erro' + error.error.response);
+        // alert('erro' + error.error.response);
         if (error.error.response === 'You cannot make the test due to your schedule') {
           this.dialog.open(ResponseMessageComponent, {
             width: '400px',
