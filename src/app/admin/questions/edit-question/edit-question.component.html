@@ -25,17 +25,20 @@
             <label>
                 <span *ngIf="sel_question.attachment !== ''">Змінити вкладення</span>
                 <span *ngIf="sel_question.attachment === ''">Добавити вкладення</span>
-                  </label>
+            </label>
             <input type="file" accept="image/*" (change)="setQuestionAttachment($event)">
 
             <img *ngIf="sel_question.attachment !== undefined" [src]="sel_question.attachment" width="100">
-            <label *ngIf="sel_question.attachment !== ''">
-                  <input type="button"  
-                  value="Видалити вкладення"
-                  (click)="resetQuestionAttachment()"   
-                  >
-              </label>
+            <div class="form-row">
+                <label *ngIf="sel_question.attachment !== ''">
+                    <input type="button"  
+                    value="Видалити вкладення"
+                    (click)="resetQuestionAttachment()"   
+                    >
+                </label>
+            </div>
         </div>
+            
         <!-- edited_question.attachment -->
     </div>
 
@@ -43,7 +46,7 @@
     <div class="form-row">
 
         <div class="form-group col-12 col-lg-4">
-            <label>Виберіть тип відповіді</label>
+            <label>Виберіть тип завдання</label>
             <select class="form-control col-12" id="typeSelect" name="type" #typeField (change)="setQuestionType(typeField)" (change)="onAnswerTypeSelect($event)">
                <option value="1"
                        [selected]="sel_question.type === '1' "
