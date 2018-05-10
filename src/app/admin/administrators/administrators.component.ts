@@ -30,6 +30,7 @@ export class AdministratorsComponent implements OnInit {
      currentPage: 1
   };
 
+
   constructor(private administratorsService: AdministratorsService,
    public dialog: MatDialog,
    private route: ActivatedRoute,

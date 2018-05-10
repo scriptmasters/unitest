@@ -247,8 +247,8 @@ addedQuestionSubmit() {
 }
 
 
-  closeDialog() {
-    this.matDialogRef.close();
-  }
+closeDialog() {
+  this.matDialogRef.close();
+}
 
 }
