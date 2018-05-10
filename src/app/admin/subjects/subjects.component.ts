@@ -10,12 +10,12 @@ import {MatPaginatorIntl} from '@angular/material';
 import {Pagination} from '../../shared/pagination/pagination.class';
 import {HttpClient} from '@angular/common/http';
 
-
 @Component({
     selector: 'app-subjects',
     templateUrl: './subjects.component.html',
     styleUrls: ['./subjects.component.scss'],
 })
+
 export class SubjectsComponent extends Pagination implements OnInit {
     form: FormGroup;
 
@@ -27,7 +27,7 @@ export class SubjectsComponent extends Pagination implements OnInit {
                 public http: HttpClient) {
         super(router, route, pagIntl, http, dialog);
         this.entity = 'subject';
-
+        this.entities = 'subjects';
     }
 
     ngOnInit() {

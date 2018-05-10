@@ -5,6 +5,8 @@ import {ViewChild} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {ResponseMessageComponent} from '../response-message/response-message.component';
 import {HttpClient} from '@angular/common/http';
+import 'rxjs/add/operator/debounceTime';
+
 
 export class Pagination {
     error = 'За даним пошуковим запитом дані відсутні';
@@ -16,6 +18,7 @@ export class Pagination {
     pagination: boolean;
     entitiesObj: any;
     entity: string;
+    entities: string;
 
     @ViewChild(MatPaginator) paginator: MatPaginator;
 
@@ -28,7 +31,7 @@ export class Pagination {
 
     pagService = {
         getSearchedEntities: (searchString) => {
-            return this.http.get( `${this.entity}/getRecordsBySearch/${searchString}`);
+            return this.http.get(`${this.entity}/getRecordsBySearch/${searchString}`);
         },
         countEntities: () => {
             return this.http.get(`${this.entity}/countRecords`);
@@ -78,7 +81,7 @@ export class Pagination {
         if (event) {
             this.pageIndex = event.pageIndex;
             this.pageSize = event.pageSize;
-            this.router.navigate([`admin/${this.entity}s`], {queryParams: {page: this.pageIndex + 1}});
+            this.router.navigate([`admin/${this.entities}`], {queryParams: {page: this.pageIndex + 1}});
         } else {
             this.pagService.countEntities().subscribe((data: any) =>
                 this.length = +data.numberOfRecords);

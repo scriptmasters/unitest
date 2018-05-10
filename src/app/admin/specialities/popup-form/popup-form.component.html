@@ -3,33 +3,36 @@
         <h2 class='pl-1'>{{specialitys[0].speciality_id ? 'Редагувати' : 'Додати'}} спеціальність</h2>
         <i class="fa fa-close pr-1" (click)="closeDialog()"></i>
     </header>
-    <div class="form-row" [ngClass]="{'form-has-error': form.get('code').invalid && (form.get('code').dirty || form.get('code').touched)}">
+    <div class="form-row"
+         [ngClass]="{'form-has-error': form.get('code').invalid && (form.get('code').dirty || form.get('code').touched)}">
         <div class="form-group col-12">
             <label>Код спеціальності</label>
-            <input type="text" id="code" placeholder="Код спеціальності" class="form-control form-control-success" formControlName="code" [(ngModel)]="specialitys[0].speciality_code">
+            <input type="text" id="code" placeholder="Код спеціальності" class="form-control form-control-success"
+                   formControlName="code" [(ngModel)]="specialitys[0].speciality_code">
             <div class="form-msg">
                 <small *ngIf="form.get('code').invalid && (form.get('code').dirty || form.get('code').touched)">
-                  <span *ngIf="form.get('code')['errors']['required']">Дане поле є обов'язковим</span>
-                  <span *ngIf="form.get('code')['errors']['maxlength']">
+                    <span *ngIf="form.get('code')['errors']['required']">Дане поле є обов'язковим</span>
+                    <span *ngIf="form.get('code')['errors']['maxlength']">
             Поле повинно містити не більше ніж {{form.get('code')['errors']['maxlength']['requiredLength']}} символів
           </span>
-          <span *ngIf="form.get('code')['errors']['pattern']">Це поле повинне складатися не менш ніж з 3 цифер</span>
-        </small>
+                    <span *ngIf="form.get('code')['errors']['pattern']">Це поле повинне складатися не менш ніж з 3 цифер</span>
+                </small>
             </div>
         </div>
     </div>
     <div class="form-row" [ngClass]="{'form-has-error': form.get('name').invalid && form.get('name').touched}">
         <div class="form-group col-12">
             <label>Опис спеціальності</label>
-            <input type="text" id="name" placeholder="Опис спеціальності" class="form-control form-control-warning " formControlName="name" [(ngModel)]="specialitys[0].speciality_name">
+            <input type="text" id="name" placeholder="Опис спеціальності" class="form-control form-control-warning "
+                   formControlName="name" [(ngModel)]="specialitys[0].speciality_name">
             <div class="form-msg">
                 <small *ngIf="form.get('name').invalid && (form.get('name').dirty || form.get('name').touched)">
-          <span *ngIf="form.get('name')['errors']['required']">Дане поле є обов'язковим</span>
-          <span *ngIf="form.get('name')['errors']['maxlength']">
+                    <span *ngIf="form.get('name')['errors']['required']">Дане поле є обов'язковим</span>
+                    <span *ngIf="form.get('name')['errors']['maxlength']">
             Поле повинно містити не більше ніж {{form.get('name')['errors']['maxlength']['requiredLength']}} символів
           </span>
-          <span *ngIf="form.get('name')['errors']['pattern']">Це поле повинне складатися не менш ніж з 5 літер українського алфавіту та пробілів</span>
-        </small>
+                    <span *ngIf="form.get('name')['errors']['pattern']">Це поле повинне складатися не менш ніж з 5 літер українського алфавіту та пробілів</span>
+                </small>
             </div>
 
         </div>
@@ -39,7 +42,8 @@
             <input class="btn btn-danger col-sm-12" type="button" (click)="closeDialog()" value="Відмінити">
         </div>
         <div class="form-group col-sm-6 col-md-4">
-            <input class="btn btn-success col-sm-12" type="submit" value="{{specialitys[0].speciality_id ? 'Редагувати' : 'Зареєструвати'}}" [disabled]="!form.valid">
+            <input class="btn btn-success col-sm-12" type="submit"
+                   value="{{specialitys[0].speciality_id ? 'Редагувати' : 'Зареєструвати'}}" [disabled]="!form.valid">
         </div>
     </div>
 </form>
