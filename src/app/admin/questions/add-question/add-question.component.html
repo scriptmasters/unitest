@@ -65,7 +65,7 @@
 
                 </div>
 
-                <div class="form-group col-12 col-lg-4">
+               <!--  <div class="form-group col-12 col-lg-4">
                     <select class="form-control col-12" id="resourceSelect" (change)="onAnswerResourseSelect($event)">
                         <option disabled>Виберіть ресурс варіантів відповіді</option>
                         <option value="1">Тільки текст</option> 
@@ -76,7 +76,7 @@
                             Текст і зображення
                         </option> 
                     </select>
-                </div>
+                </div> -->
 
                 <div class="form-group col-12 col-lg-4">
                     <!-- <label>
@@ -115,15 +115,15 @@
                     <tr *ngFor="let idNumber of answersIdNumbersArray; let answerIndex = index">
                         <td> №{{answerIndex + 1}}:</td>
 
-                        <td *ngIf="answerResourse === 'text' || correctAnswerInputType === 'num' ">
+                        <td *ngIf="correctAnswerInputType === 'num' ">
                             <label class="center-block">
-                      <input
-                          type = "text"  
-                          [name] = "answerIndex"  
-                          (change)="setAnsverText(answerIndex, $event)"
-                          value="{{newAnswersArray[answerIndex].answer_text}}"
-                      >
-                    </label>
+                                <input
+                                    type = "text"  
+                                    [name] = "answerIndex"  
+                                    (change)="setAnsverText(answerIndex, $event)"
+                                    value="{{newAnswersArray[answerIndex].answer_text}}"
+                                >
+                             </label>
                             <span *ngIf="(correctAnswerInputType === 'num' && answerIndex === 0)">&nbsp;&nbsp;Мінімальне значення</span>
                             <span *ngIf="(correctAnswerInputType === 'num' && answerIndex === 1)">&nbsp;&nbsp;Максимальне значення</span>
 
@@ -132,18 +132,18 @@
 
                         <!-- class="form-control"  correctAnswerInputType === '' -->
 
-                        <td *ngIf=" answerResourse === 'file' && correctAnswerInputType !== 'num' ">
+                        <!-- <td *ngIf=" answerResourse === 'file' && correctAnswerInputType !== 'num' ">
                             <label class="center-block">
-                      <input type="file" accept="image/*" (change)="setAnsverAttachment(answerIndex, $event)" name="answerIndex"> 
+                             <input type="file" accept="image/*" (change)="setAnsverAttachment(answerIndex, $event)" name="answerIndex"> 
                              <img *ngIf="newAnswersArray[answerIndex].attachment !== undefined" 
                              [src]="newAnswersArray[answerIndex].attachment" 
                              width="50">
-                    </label>
-                        </td>
+                             </label>
+                        </td> -->
 
                         <!--  && correctAnswerInputType !== 'num'-->
 
-                        <td *ngIf="answerResourse === 'text_file' && correctAnswerInputType !== 'num' ">
+                        <td *ngIf="correctAnswerInputType !== 'num' ">
                             <label class="center-block">
                         <input
                             type = "text"  
