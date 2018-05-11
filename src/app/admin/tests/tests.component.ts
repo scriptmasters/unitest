@@ -18,7 +18,7 @@ export class TestsComponent implements OnInit {
   test;
   subject;
   subjectId: number;
-  counter = 0;
+  answer = true;
 
   constructor(private httpService: TestService, public dialog: MatDialog, private router: Router, private activatedRoute: ActivatedRoute) {
     this.activatedRoute.queryParams.subscribe(params => {
@@ -29,6 +29,10 @@ export class TestsComponent implements OnInit {
   ngOnInit() {
     this.getTestsById(this.subjectId);
     this.getSubjects();
+  }
+
+  checkRecords(): boolean {
+    return this.answer;
   }
 
   deleteTest(id: number): void {
@@ -55,25 +59,8 @@ export class TestsComponent implements OnInit {
   getTestsById(id: number): void {
     this.httpService.getTestsById(id).subscribe(
       data => {
-        if (data.hasOwnProperty('response') && this.counter === 0) {
-          this.dialog.open(ResponseMessageComponent, {
-            width: '400px',
-            data: {
-              message: 'За даним запитом тестів не знайдено'
-            }
-          });
-          this.counter++;
-        } else {
-        this.test = data;
-        }
-      }
-    );
-  }
-
-  getTestFilter(id: number) {
-    this.httpService.getTestsById(id).subscribe(
-      data => {
         if (data.hasOwnProperty('response')) {
+          this.answer = false;
           this.dialog.open(ResponseMessageComponent, {
             width: '400px',
             data: {
@@ -81,7 +68,8 @@ export class TestsComponent implements OnInit {
             }
           });
         } else {
-        this.test = data;
+          this.answer = true;
+          this.test = data;
         }
       }
     );
@@ -118,12 +106,13 @@ export class TestsComponent implements OnInit {
     });
   }
 
-  openQuestions(id: any) {
-    this.router.navigate(['/admin/questions'], {
-      queryParams: {
-        testId: id
-      }
-    });
+
+  openQuestions(test_id: string) {
+        this.router.navigate(['/admin/questions'], {
+          queryParams: {
+              subjectId: this.subjectId,
+              testId: test_id, }
+        });
   }
 
   getSubjects() {

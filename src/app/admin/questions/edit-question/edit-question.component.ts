@@ -1,32 +1,18 @@
-import {
-  Component,
-  Inject,
-  OnInit,
-  Input,
-  Output,
-  EventEmitter,
-  ViewEncapsulation
-} from "@angular/core";
-import { FormControl, FormGroup, Validators } from "@angular/forms";
-import { QuestionsService } from "../questions.service";
-import { QuestionsComponent } from "../questions.component";
-import {
-  IQuestions,
-  IQuestionGet,
-  IQuestionSet,
-  IAnswersGet,
-  IAnswerSet
-} from "../questions-interface";
-import { IResponse } from "../questions-interface";
-import { ActivatedRoute } from "@angular/router";
-import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from "@angular/material";
-import { DeleteConfirmComponent } from "../../../shared/delete-confirm/delete-confirm.component";
-import { ResponseMessageComponent } from "../../../shared/response-message/response-message.component";
+import {Component, Inject, OnInit, Input, Output, EventEmitter, ViewEncapsulation} from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { QuestionsService } from '../questions.service';
+import { QuestionsComponent } from '../questions.component';
+import {IQuestions, IQuestionGet, IQuestionSet, IAnswersGet, IAnswerSet} from '../questions-interface';
+import { IResponse } from '../questions-interface';
+import { ActivatedRoute } from '@angular/router';
+import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material';
+import { DeleteConfirmComponent } from '../../../shared/delete-confirm/delete-confirm.component';
+import { ResponseMessageComponent } from '../../../shared/response-message/response-message.component';
 
 @Component({
-  selector: "app-edit-question",
-  templateUrl: "./edit-question.component.html",
-  styleUrls: ["./edit-question.component.scss"],
+  selector: 'app-edit-question',
+  templateUrl: './edit-question.component.html',
+  styleUrls: ['./edit-question.component.scss'],
   providers: [QuestionsService]
 })
 export class EditQuestionComponent implements OnInit {
@@ -37,11 +23,9 @@ export class EditQuestionComponent implements OnInit {
     private matDialogRefPopUp: MatDialogRef<EditQuestionComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {}
-  
-  onNoClick(): void {
-    this.matDialogRefPopUp.close();
-  }
-  
+
+
+
   public questionsComponent: QuestionsComponent;
 
   form: FormGroup;
@@ -68,17 +52,17 @@ export class EditQuestionComponent implements OnInit {
     question_text: this.data.sel_quest.question_text,
     level: this.data.sel_quest.level,
     type: this.data.sel_quest.type,
-    type_name: "",
-    attachment: ""
-    // attachment: this.data.sel_quest.attachment
+    type_name: '',
+    // attachment: ''
+    attachment: this.data.sel_quest.attachment
   };
 
   // за  sel_question_id з бази витягуємо всі asnswers!
   editedAnswersArray = [];
   answersIdNumbersArray = [];
   newAnswersArray = [];
-  correctAnswerInputType = "radio";
-  answersResourse = "text_file";
+  correctAnswerInputType = 'radio';
+  answersResourse = 'text_file';
 
   questionForm = new FormGroup({
     // question_text: new FormControl('', Validators.required),
@@ -88,8 +72,8 @@ export class EditQuestionComponent implements OnInit {
   });
 
   ngOnInit() {
-    console.log("this.sel_question OnInit = ", this.sel_question);
-    console.log("this.data.sel_TestName = ", this.data.sel_TestName);
+    console.log('this.sel_question OnInit = ', this.sel_question);
+    console.log('this.data.sel_TestName = ', this.data.sel_TestName);
 
     this.getAnswersOfSelectedQuestion(this.sel_question_id);
     this.setCorrectAnswerInputType();
@@ -106,29 +90,29 @@ export class EditQuestionComponent implements OnInit {
       .getQuestionById(this.data.sel_quest_id)
       .subscribe((data: IQuestionGet) => {
         this.sel_question = data[0];
-        console.log("getQuestion this.sel_question = ", this.sel_question);
+        console.log('getQuestion this.sel_question = ', this.sel_question);
       });
-    console.log("getQuestion outer this.sel_question = ", this.sel_question);
+    console.log('getQuestion outer this.sel_question = ', this.sel_question);
   }
 
   setQuestionType(elem: HTMLSelectElement) {
     const value = elem.options[elem.selectedIndex].value;
     const index = elem.options[elem.selectedIndex].index + 1; // починаємо нумерацію з одиниці
     this.edited_question.type_name = value;
-    this.edited_question.type = "" + index;
-    console.log("from setQuestionType: type = ", index, " type_name = ", value);
+    this.edited_question.type = '' + index;
+    console.log('from setQuestionType: type = ', index, ' type_name = ', value);
   }
 
   setQuestionLevel(elem: HTMLSelectElement) {
     const value = elem.options[elem.selectedIndex].value;
     this.edited_question.level = value;
-    console.log("level = ", value);
+    console.log('level = ', value);
   }
 
   setQuestionText(elem: HTMLSelectElement) {
     const value = elem.value;
     this.edited_question.question_text = value;
-    console.log("QuestionText = ", value);
+    console.log('QuestionText = ', value);
   }
 
   setQuestionAttachment(event) {
@@ -142,8 +126,8 @@ export class EditQuestionComponent implements OnInit {
   }
 
   resetQuestionAttachment() {
-    this.edited_question.attachment = "";
-    this.sel_question.attachment = "";
+    this.edited_question.attachment = '';
+    this.sel_question.attachment = '';
   }
 
   getAnswersOfSelectedQuestion(question_id) {
@@ -151,7 +135,7 @@ export class EditQuestionComponent implements OnInit {
       if (data.length) {
         this.editedAnswersArray = data;
         console.log(
-          "from getAnswersOfSelectedQuestion: this.editedAnswersArray = ",
+          'from getAnswersOfSelectedQuestion: this.editedAnswersArray = ',
           this.editedAnswersArray
         );
         this.setAnswersIdNumbersArray();
@@ -167,7 +151,7 @@ export class EditQuestionComponent implements OnInit {
   setAnswersIdNumbersArray() {
     if (this.editedAnswersArray.length === 0) {
       console.log(
-        "Завдання ще немає відповідей this.answersIdNumbersArray = ",
+        'Завдання ще немає відповідей this.answersIdNumbersArray = ',
         this.answersIdNumbersArray
       );
     } else {
@@ -183,23 +167,23 @@ export class EditQuestionComponent implements OnInit {
       }
     }
     console.log(
-      "from setAnswersIdNumbersArray: this.answersIdNumbersArray = ",
+      'from setAnswersIdNumbersArray: this.answersIdNumbersArray = ',
       this.answersIdNumbersArray
     );
   }
 
   addAnswer() {
-    if (this.correctAnswerInputType === "num") {
+    if (this.correctAnswerInputType === 'num') {
       if (this.editedAnswersArray.length === 0) {
         // creates two new answers
-        this.insertNewAnswerToDataBase(this.sel_question_id, "", "1", "");
-        this.insertNewAnswerToDataBase(this.sel_question_id, "", "1", "");
+        this.insertNewAnswerToDataBase(this.sel_question_id, '', '1', '');
+        this.insertNewAnswerToDataBase(this.sel_question_id, '', '1', '');
         this.getAnswersOfSelectedQuestion(this.sel_question_id);
       }
 
       if (this.editedAnswersArray.length === 1) {
         // one answer is edited and second is created
-        this.insertNewAnswerToDataBase(this.sel_question_id, "", "1", "");
+        this.insertNewAnswerToDataBase(this.sel_question_id, '', '1', '');
         this.getAnswersOfSelectedQuestion(this.sel_question_id);
       }
 
@@ -210,69 +194,69 @@ export class EditQuestionComponent implements OnInit {
         }
       }
     } else {
-      if (this.correctAnswerInputType === "txt") {
-        this.insertNewAnswerToDataBase(this.sel_question_id, "", "1", ""); // true_answer=1
+      if (this.correctAnswerInputType === 'txt') {
+        this.insertNewAnswerToDataBase(this.sel_question_id, '', '1', ''); // true_answer=1
       } else {
-        this.insertNewAnswerToDataBase(this.sel_question_id, "", "0", ""); // true_answer=0
+        this.insertNewAnswerToDataBase(this.sel_question_id, '', '0', ''); // true_answer=0
       }
       this.getAnswersOfSelectedQuestion(this.sel_question_id);
     }
     this.questionForm.addControl(
       (this.editedAnswersArray.length + 1).toString(),
-      new FormControl("", [Validators.required])
+      new FormControl('', [Validators.required])
     );
     console.log(
-      "from addAnswer: this.answersIdNumbersArray = ",
+      'from addAnswer: this.answersIdNumbersArray = ',
       this.answersIdNumbersArray
     );
     console.log(
-      "from addAnswer: this.editedAnswersArray = ",
+      'from addAnswer: this.editedAnswersArray = ',
       this.editedAnswersArray
     );
   }
 
   setCorrectAnswerInputType() {
-    if (this.sel_question_type === "1") {
-      this.correctAnswerInputType = "radio";
+    if (this.sel_question_type === '1') {
+      this.correctAnswerInputType = 'radio';
     }
-    if (this.sel_question_type === "2") {
-      this.correctAnswerInputType = "checkbox";
+    if (this.sel_question_type === '2') {
+      this.correctAnswerInputType = 'checkbox';
     }
-    if (this.sel_question_type === "3") {
-      this.correctAnswerInputType = "txt";
+    if (this.sel_question_type === '3') {
+      this.correctAnswerInputType = 'txt';
     }
-    if (this.sel_question_type === "4") {
-      this.correctAnswerInputType = "num";
+    if (this.sel_question_type === '4') {
+      this.correctAnswerInputType = 'num';
     }
     console.log(
-      "from setCorrectAnswerInputType: correctAnswerInputType = ",
+      'from setCorrectAnswerInputType: correctAnswerInputType = ',
       this.correctAnswerInputType
     );
   }
 
   onAnswerTypeSelect(event) {
-    if (event.target.value === "1") {
-      this.correctAnswerInputType = "radio";
+    if (event.target.value === '1') {
+      this.correctAnswerInputType = 'radio';
     }
-    if (event.target.value === "2") {
-      this.correctAnswerInputType = "checkbox";
+    if (event.target.value === '2') {
+      this.correctAnswerInputType = 'checkbox';
     }
-    if (event.target.value === "3") {
-      this.correctAnswerInputType = "txt";
+    if (event.target.value === '3') {
+      this.correctAnswerInputType = 'txt';
       this.editedAnswersArray.forEach(element => {
-        element.true_answer = "1";
+        element.true_answer = '1';
       }); // set all answers correct
     }
-    if (event.target.value === "4") {
-      this.correctAnswerInputType = "num";
+    if (event.target.value === '4') {
+      this.correctAnswerInputType = 'num';
       this.addAnswer(); // sets only two input fields for NUMERICAL answers type
     }
     console.log(
-      "from onAnswerTypeSelect: correctAnswerInputType = ",
+      'from onAnswerTypeSelect: correctAnswerInputType = ',
       this.correctAnswerInputType
     );
     console.log(
-      "from onAnswerTypeSelect: this.editedAnswersArray = ",
+      'from onAnswerTypeSelect: this.editedAnswersArray = ',
       this.editedAnswersArray
     );
   }
@@ -281,53 +265,53 @@ export class EditQuestionComponent implements OnInit {
     // [1, -1, 2, -2, 3].every(element => { return element > 0 }) // false
     // [1, -1, 2, -2, 3].some(element => { return element > 0 }) // true
     const haveEveryAnswerEmptyAttachment = this.editedAnswersArray.every(
-      element => element.attachment === ""
+      element => element.attachment === ''
     );
     console.log(
-      "from setAnswersResourse: haveEveryAnswerEmptyAttachment = ",
+      'from setAnswersResourse: haveEveryAnswerEmptyAttachment = ',
       haveEveryAnswerEmptyAttachment
     );
     const hasSomeAnswerAttachment = this.editedAnswersArray.some(
-      element => element.attachment === ""
+      element => element.attachment === ''
     );
     const haveEveryAnswerEmptyText = this.editedAnswersArray.every(
-      element => element.answer_text === ""
+      element => element.answer_text === ''
     );
 
     if (haveEveryAnswerEmptyAttachment) {
-      this.answersResourse = "text";
+      this.answersResourse = 'text';
     }
     if (hasSomeAnswerAttachment && haveEveryAnswerEmptyText) {
-      this.answersResourse = "file";
+      this.answersResourse = 'file';
     }
     if (hasSomeAnswerAttachment) {
-      this.answersResourse = "text_file";
+      this.answersResourse = 'text_file';
     }
-    console.log("hasSomeAnswerAttachment = ", hasSomeAnswerAttachment);
+    console.log('hasSomeAnswerAttachment = ', hasSomeAnswerAttachment);
     console.log(
-      "from setAnswersResourse: answersResourse = ",
+      'from setAnswersResourse: answersResourse = ',
       this.answersResourse
     );
   }
 
   onAnswerResourseSelect(event) {
-    if (event.target.value === "1") {
-      this.answersResourse = "text";
+    if (event.target.value === '1') {
+      this.answersResourse = 'text';
       this.editedAnswersArray.forEach(element => {
-        element.attachment = "";
+        element.attachment = '';
       }); // clears all answers attachments
     }
-    if (event.target.value === "2") {
-      this.answersResourse = "file";
+    if (event.target.value === '2') {
+      this.answersResourse = 'file';
       this.editedAnswersArray.forEach(element => {
-        element.answer_text = "";
+        element.answer_text = '';
       }); // clears all answers text
     }
-    if (event.target.value === "3") {
-      this.answersResourse = "text_file";
+    if (event.target.value === '3') {
+      this.answersResourse = 'text_file';
     }
-    console.log("this.answersResourse = ", this.answersResourse);
-    console.log(" this.editedAnswersArray = ", this.editedAnswersArray);
+    console.log('this.answersResourse = ', this.answersResourse);
+    console.log(' this.editedAnswersArray = ', this.editedAnswersArray);
   }
 
   setAnsverAttachment(checkedIndex, event) {
@@ -336,13 +320,13 @@ export class EditQuestionComponent implements OnInit {
     fileReader.onload = () =>
       (this.editedAnswersArray[checkedIndex].attachment = fileReader.result);
     fileReader.readAsDataURL(img);
-    console.log("this.editedAnswersArray = ", this.editedAnswersArray);
+    console.log('this.editedAnswersArray = ', this.editedAnswersArray);
   }
 
   setAnsverText(checkedIndex, event) {
     const value = event.target.value;
     this.editedAnswersArray[checkedIndex].answer_text = value;
-    console.log("this.editedAnswersArray = ", this.editedAnswersArray);
+    console.log('this.editedAnswersArray = ', this.editedAnswersArray);
     console.log(
       `editedAnswersArray[${checkedIndex}].answer_text = `,
       this.editedAnswersArray[checkedIndex].answer_text
@@ -350,22 +334,22 @@ export class EditQuestionComponent implements OnInit {
   }
 
   setAnswerCorrect(checkedIndex, event) {
-    if (this.correctAnswerInputType === "radio") {
+    if (this.correctAnswerInputType === 'radio') {
       for (let index = 0; index < this.editedAnswersArray.length; index++) {
         this.editedAnswersArray[index].true_answer =
-          index === checkedIndex ? "1" : "0";
+          index === checkedIndex ? '1' : '0';
       }
     }
-    if (this.correctAnswerInputType === "checkbox") {
+    if (this.correctAnswerInputType === 'checkbox') {
       this.editedAnswersArray[checkedIndex].true_answer =
-        this.editedAnswersArray[checkedIndex].true_answer === "0" ? "1" : "0";
+        this.editedAnswersArray[checkedIndex].true_answer === '0' ? '1' : '0';
     }
     if (
-      this.correctAnswerInputType === "txt" ||
-      this.correctAnswerInputType === "num"
+      this.correctAnswerInputType === 'txt' ||
+      this.correctAnswerInputType === 'num'
     ) {
       for (let index = 0; index < this.editedAnswersArray.length; index++) {
-        this.editedAnswersArray[index].true_answer = "1";
+        this.editedAnswersArray[index].true_answer = '1';
       }
     }
     console.log(`this.editedAnswersArray = `, this.editedAnswersArray);
@@ -373,9 +357,9 @@ export class EditQuestionComponent implements OnInit {
 
   insertNewAnswerToDataBase(
     questionId,
-    answerText = "",
-    trueAnswer = "",
-    answerAttachment = ""
+    answerText = '',
+    trueAnswer = '',
+    answerAttachment = ''
   ) {
     const newAnswerJSON = JSON.stringify({
       question_id: questionId,
@@ -383,12 +367,12 @@ export class EditQuestionComponent implements OnInit {
       true_answer: trueAnswer,
       attachment: answerAttachment
     });
-    console.log("newAnswerJSON = ", newAnswerJSON);
+    console.log('newAnswerJSON = ', newAnswerJSON);
 
     this.questionService
       .addAnswer(newAnswerJSON)
       .subscribe((dataNewAnswer: IAnswersGet) =>
-        console.log("Respond: added new answer = ", dataNewAnswer)
+        console.log('Respond: added new answer = ', dataNewAnswer)
       );
   }
 
@@ -410,9 +394,9 @@ export class EditQuestionComponent implements OnInit {
 
   deleteAnswerFromDataBase(checkedAnswerId): void {
     const dialogRef = this.dialog.open(DeleteConfirmComponent, {
-      width: "400px",
+      width: '400px',
       data: {
-        message: "Ви бажаєте видалити відповідь з бази даних?"
+        message: 'Ви бажаєте видалити відповідь з бази даних?'
       }
     });
 
@@ -420,20 +404,20 @@ export class EditQuestionComponent implements OnInit {
       if (Response) {
         this.questionService.deleteAnswer(checkedAnswerId).subscribe(
           (data: IResponse) => {
-            if (data.response === "ok") {
+            if (data.response === 'ok') {
               this.dialog.open(ResponseMessageComponent, {
-                width: "400px",
-                data: { message: "Відповідь з бази даних видалено!" }
+                width: '400px',
+                data: { message: 'Відповідь з бази даних видалено!' }
               });
             }
           },
           () => {
             // this function shows window when deleteAnswer(answer_id).subscribe returns error
             this.dialog.open(ResponseMessageComponent, {
-              width: "400px",
+              width: '400px',
               data: {
                 message:
-                  "Виникла помилка при видаленні цієї відповіді з бази даних!"
+                  'Виникла помилка при видаленні цієї відповіді з бази даних!'
               }
             });
           }
@@ -459,11 +443,11 @@ export class EditQuestionComponent implements OnInit {
         if (response) {
           this.editedAnswersArray.forEach(answer => {
             answer.question_id = this.sel_question_id;
-            console.log("edited answer = ", answer);
+            console.log('edited answer = ', answer);
             this.questionService
               .editAnswer(answer.answer_id, answer)
               .subscribe((dataEditedAnswers: IAnswersGet) => {
-                console.log("Respond: dataEditedAnswers = ", dataEditedAnswers);
+                console.log('Respond: dataEditedAnswers = ', dataEditedAnswers);
               });
           });
           this.matDialogRefPopUp.close();

@@ -4,12 +4,12 @@ import { Administrators, IResponse } from './administratorsInterface';
 import { MatDialog } from '@angular/material';
 import { DeleteConfirmComponent } from '../../shared/delete-confirm/delete-confirm.component';
 import { ResponseMessageComponent } from '../../shared/response-message/response-message.component';
-import { FormGroup, FormControl, Validators, AbstractControl } from '@angular/forms';
+import { FormControl } from '@angular/forms';
 import { AdministratorsDialogComponent } from './administrators-dialog/administrators-dialog.component';
 import {Subscription} from 'rxjs/Subscription';
 import {PaginationInstance} from 'ngx-pagination';
 import 'rxjs/add/operator/debounceTime';
-import { ActivatedRoute, Params, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { AuthService } from '../../auth/auth.service';
 import { IisLogged } from '../../shared/Interfaces/server_response';
 
@@ -29,6 +29,7 @@ export class AdministratorsComponent implements OnInit {
      itemsPerPage: 10,
      currentPage: 1
   };
+
 
   constructor(private administratorsService: AdministratorsService,
    public dialog: MatDialog,

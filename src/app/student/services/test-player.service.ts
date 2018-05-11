@@ -16,7 +16,8 @@ export class TestPlayerService {
   private urlGetQuestionInfo = 'EntityManager/getEntityValues';
   private urlGetAnswer = 'SAnswer/getAnswersByQuestion';
   private urlCheckResult = 'SAnswer/checkAnswers';
-  private urlGetTimeTablesForGroup = 'getTimeTablesForGroup/';
+  // private urlGetTimeTablesForGroup = 'getTimeTablesForGroup/';
+  private testId;
 
   constructor(private http: HttpClient) {}
 
@@ -25,7 +26,7 @@ export class TestPlayerService {
   }
 
   getRandomQuestionsByTestDetails() {
-    return this.getTestDetails(1).pipe(
+    return this.getTestDetails(this.testId).pipe(
       map((testDetails: any) =>
         testDetails.map((test: any) => this.getRandomQuestions(test))
       ),
@@ -49,7 +50,8 @@ export class TestPlayerService {
     return this.http.get(this.urlGetTestDetails + '/' + id);
   }
 
-  getQuestionsWithAnswers() {
+  getQuestionsWithAnswers(testId) {
+    this.testId = testId;
     return this.getQuestions().pipe(
       map((questions: any) =>
         questions.map((question: any) => this.mergeQuestionsAnswers(question))
@@ -79,17 +81,21 @@ export class TestPlayerService {
           questions.map(question => question.question_id)
         )
       ),
+      map((questionIds: any) => this.concatArrays(questionIds)),
       switchMap(questionIds => this.getQuestionsInfo(questionIds))
     );
   }
 
-  getQuestionsInfo(questionIds): Observable<IQuestion> {
+  concatArrays(questionIds) {
     let ids = [];
     for (let i = 0; i < questionIds.length; i++) {
       ids = ids.concat(questionIds[i]);
     }
+    return ids;
+  }
 
-    const body = { entity: 'Question', ids: ids };
+  getQuestionsInfo(ids): Observable<IQuestion> {
+    const body = { entity: 'Question', ids };
     return this.http.post<IQuestion>(this.urlGetQuestionInfo, body);
   }
 
@@ -99,25 +105,17 @@ export class TestPlayerService {
 
   formatResults(data) {
     data = Object.values(data);
-    const formatData = data.map(result => ({
-      question_id: +result.question_id,
-      answer_ids: [+result.answer_id],
-    }));
 
-    for (let i = 0; i < formatData.length - 1; i++) {
-      if (formatData[i].question_id === formatData[i + 1].question_id) {
-        formatData[i].answer_ids.push(formatData[i + 1].answer_ids[0]);
-        formatData.splice(i + 1, 1);
-        i--;
-      }
-    }
+    const formatData = data.map(result => ({
+      question_id: result.question_id,
+      answer_ids: [result.answer_id],
+    }));
 
     return formatData;
   }
 
-  checkResult(data) /*:Observable<ITestResult>*/ {
+  checkResult(data): Observable<ITestResult> {
     const result = this.formatResults(data);
-    console.log(this.formatResults(data));
-    // return this.http.post<ITestResult>(this.urlCheckResult, result);
+    return this.http.post<ITestResult>(this.urlCheckResult, result);
   }
 }

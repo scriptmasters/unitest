@@ -17,7 +17,6 @@ import {
 
 import {DeleteConfirmComponent} from './delete-confirm/delete-confirm.component';
 import {ResponseMessageComponent} from './response-message/response-message.component';
-import {PaginationComponent} from './pagination/pagination.component';
 import {CommonModule} from '@angular/common';
 import {SpinnerComponent} from './spinner/spinner.component';
 import {BreadcrumbComponent} from './breadcrumb/breadcrumb.component';
@@ -29,7 +28,6 @@ import {RouterModule} from '@angular/router';
     declarations: [
         ResponseMessageComponent,
         DeleteConfirmComponent,
-        PaginationComponent,
         SpinnerComponent,
         BreadcrumbComponent
     ],
@@ -49,7 +47,6 @@ import {RouterModule} from '@angular/router';
         NgxPaginationModule,
         MatPaginatorModule,
         MatProgressSpinnerModule,
-        PaginationComponent,
         BreadcrumbComponent
     ],
     providers: [{provide: HTTP_INTERCEPTORS, useClass: RequestInterceptor, multi: true}, MatPaginatorIntl],
