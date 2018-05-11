@@ -35,6 +35,19 @@
             </div>
         </div>
     </div>
+    <div   class="form-group row" [ngClass]="{'form-has-error': form.get('oldPassword')?.invalid && form.get('oldPassword').touched}" *ngIf = "administrator[0].id">
+        <label class="col-sm-12 labels">Старий пароль</label>
+        <div class="col-sm-12">
+            <input type="password"  placeholder="Старий пароль" class="form-control form-control-warning " formControlName="oldPassword">
+            <i class="fa fa-eye" aria-hidden="true" (click)="passwordVisibility($event)"></i>
+            <div class="form-msg inputMessage">
+                <small *ngIf="form.get('oldPassword').invalid && (form.get('oldPassword').dirty || form.get('oldPassword').touched)">
+                    <span *ngIf="form.get('oldPassword')['errors']['required']">Дане поле є обов'язковим</span>
+                    <span *ngIf="form.get('oldPassword')['errors']['validPassword']">Невірний пароль</span>     
+                </small>
+            </div>
+        </div>
+    </div>
     <div class="form-group row" [ngClass]="{'form-has-error': form.get('password').invalid && form.get('password').touched}">
         <label class="col-sm-12 labels">Пароль</label>
         <div class="col-sm-12">

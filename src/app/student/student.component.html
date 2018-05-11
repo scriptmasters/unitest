@@ -61,17 +61,15 @@
                                                                     {{tests.time_for_test}}
                                                                 </td>
                                                                 <td>
-                                                                    <a routerLink="test/{{tests.test_id}}">
-                                                                        <i class="fa fa-play-circle" aria-hidden="true" (click)="startTest(tests.test_id,user.user_id)"></i>
-                                                                    </a>
-
+                                                                    <!-- <a routerLink="test/{{tests.test_id}}"> -->
+                                                                        <i class="fa fa-play-circle" aria-hidden="true" (click)="startTest(user.user_id, tests.test_id)"></i>
+                                                                    <!-- </a> -->
                                                                 </td>
                                                             </ng-container>
                                                         </ng-container>
                                                     </tr>
                                                 </ng-container>
                                             </ng-container>
-
                                         </tbody>
                                     </table>
                                 </div>
