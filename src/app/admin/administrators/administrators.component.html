@@ -29,7 +29,7 @@
                         </thead>
                         <tbody>
                             <tr *ngFor="let administrator of administrators | paginate: config; let i = index">
-                                <th>{{ i +1 }}</th>
+                                <th>{{ (config.currentPage - 1) * config.itemsPerPage + i +1 }}</th>
                                 <td>{{administrator.username}}</td>
                                 <td>{{administrator.email}}</td>
                                 <td><i class="fa fa-cog" (click)="openDialog(administrator.id)" title="Редагувати"></i></td>
