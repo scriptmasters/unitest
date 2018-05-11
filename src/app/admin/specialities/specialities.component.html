@@ -47,13 +47,10 @@
                 </div>
             </div>
         </div>
-        <mat-paginator *ngIf="pagination"
-                       [length]=length
-                       [pageSize]=pageSize
-                       [pageIndex]=pageIndex
-                       [pageSizeOptions]="[5, 10, 25, 100]"
-                       [showFirstLastButtons]="true"
-                       (page)="getEntity($event, true)"
-        ></mat-paginator>
+        <div class="row">
+            <div class="col-lg-12">
+                <pagination-controls *ngIf="specialitys" class="pagination justify-content-center" (pageChange)="config.currentPage = $event" maxSize="10" previousLabel="<<" nextLabel=">>" autoHide="true"></pagination-controls>
+            </div>
+        </div>
     </div>
 </section>
