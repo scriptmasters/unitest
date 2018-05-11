@@ -9,6 +9,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { StudentService } from './student.service';
 import { TestResultComponent } from './test-player/test-result/test-result.component';
 import { SharedModule } from '../shared/shared.module';
+import { TimerService } from './services/timer.service';
 
 @NgModule({
   imports: [
@@ -19,7 +20,7 @@ import { SharedModule } from '../shared/shared.module';
     SharedModule,
   ],
   declarations: [StudentComponent, TestPlayerComponent, TestResultComponent],
-  providers: [AuthService, TestPlayerService, StudentService],
+  providers: [AuthService, TestPlayerService, StudentService, TimerService],
   entryComponents: [TestResultComponent],
 })
 export class StudentModule {}
