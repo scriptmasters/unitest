@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { DataService } from '../../services/data.service';
 
 @Component({
   selector: 'app-quiz-result',
@@ -6,10 +7,12 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./quiz-result.component.scss']
 })
 export class QuizResultComponent implements OnInit {
-
-  constructor() { }
-
+  mark;
+  answers;
+  constructor(private data: DataService) { }
   ngOnInit() {
+    this.mark = this.data.getMark();
+    this.answers = this.data.getAnswers();
   }
 
 }

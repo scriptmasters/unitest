@@ -2,12 +2,23 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 @Injectable()
 export class DataService {
-  private messageSource = new BehaviorSubject<string>("default message");
-  currentMessage = this.messageSource.asObservable();
-
+  mark;
+  answers;
   constructor() { }
 
-  changeMessage(message: string) {
-    this.messageSource.next(message)
+  getMark(): number {
+    return this.mark;
+  }
+  
+  setMark(m: number) {
+    this.mark = m;
+  }
+
+  getAnswers(): number {
+    return this.answers;
+  }
+
+  setAnswers(a: number) {
+    this.answers = a;
   }
 }

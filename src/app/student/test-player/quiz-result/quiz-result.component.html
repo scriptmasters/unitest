@@ -1,3 +1,13 @@
-<p>
-  quiz-result works!
-</p>
+<section>
+  <div class="card text-center">
+    <div class="card-header">
+      <h1>Тест завершено!</h1>
+    </div>
+    <div class="card-body">
+      <h2 class="card-title">Ваші результати</h2>
+      <p class="card-text">Правильних відповідей: {{answers}} </p>
+      <p class="card-text">Оцінка: {{mark}} </p>
+      <a routerLink="/student" class="btn btn-primary">На головну</a>
+    </div>
+  </div>
+</section>

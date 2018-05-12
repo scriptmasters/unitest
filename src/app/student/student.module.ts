@@ -11,6 +11,7 @@ import { TestResultComponent } from './test-player/test-result/test-result.compo
 import { SharedModule } from '../shared/shared.module';
 import { TimerService } from './services/timer.service';
 import { QuizResultComponent } from './test-player/quiz-result/quiz-result.component';
+import { DataService } from './services/data.service';
 
 @NgModule({
   imports: [
@@ -21,7 +22,7 @@ import { QuizResultComponent } from './test-player/quiz-result/quiz-result.compo
     SharedModule,
   ],
   declarations: [StudentComponent, TestPlayerComponent, TestResultComponent, QuizResultComponent],
-  providers: [AuthService, TestPlayerService, StudentService, TimerService],
+  providers: [AuthService, TestPlayerService, StudentService, TimerService, DataService],
   entryComponents: [TestResultComponent],
 })
 export class StudentModule {}

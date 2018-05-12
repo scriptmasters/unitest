@@ -8,6 +8,7 @@ import {ITimeStamp} from './interfaces/TimeStamp';
 import {ITimer} from './interfaces/Timer';
 import {TimerService} from '../services/timer.service';
 import {AuthService} from '../../auth/auth.service';
+import { DataService } from '../services/data.service';
 
 
 @Component({
@@ -44,7 +45,8 @@ export class TestPlayerComponent implements OnInit {
               private route: ActivatedRoute,
               private router: Router,
               private dialog: MatDialog,
-              private authService: AuthService) {
+              private authService: AuthService,
+              private data: DataService) {
 
     this.start = setInterval(() => {
 
@@ -128,7 +130,10 @@ export class TestPlayerComponent implements OnInit {
       .checkResult(this.userAnswers)
       .subscribe((response: any) => {
         const testResult = response;
-        this.openModal(testResult);
+        this.data.setAnswers(response.number_of_true_answers);
+        this.data.setMark(response.full_mark);
+       // this.openModal(testResult);
+       this.router.navigate(['student/results']);
       });
   }
 
