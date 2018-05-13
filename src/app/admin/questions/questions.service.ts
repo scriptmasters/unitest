@@ -18,12 +18,12 @@ export class QuestionsService {
   private getAnswersByQuestionIdURL = 'answer/getAnswersByQuestion';
   private getQuestionURL = 'question/getRecords';
   private getAllQuestionsURL = 'question/getRecords/0';
-  private getAllTestsURL = 'test/getRecords/0';
-  private getAllSubjectsURL = 'subject/getRecords/0';
+  private getAllTestsURL = 'test/getRecords';
+  private getAllSubjectsURL = 'subject/getRecords';
   private getEntityValueURL = 'EntityManager/getEntityValues';
   private editQuestionURL = 'question/update';
   private editAnswerURL = 'answer/update';
-  private deleteQuestionURL = 'ps9615.hyperhost.name:443/api/question/del/';
+  private deleteQuestionURL = 'question/del/';
   private deleteAnswerURL = 'answer/del/';
 
 
@@ -31,29 +31,29 @@ export class QuestionsService {
 constructor(private http: HttpClient) { }
 
 
-getAllQuestions(): Observable<IQuestionGet[]> {
-  return this.http.get<IQuestionGet[]>(this.getAllQuestionsURL);
-}
-getAllSubjects(): Observable<ISubjectsGet[]> {
-  return this.http.get<ISubjectsGet[]>(this.getAllSubjectsURL);
-}
-getAllTests(): Observable<ITestsGet[]> {
-  return this.http.get<ITestsGet[]>(this.getAllTestsURL);
-}
+  getAllQuestions(): Observable<IQuestionGet[]> {
+    return this.http.get<IQuestionGet[]>(this.getAllQuestionsURL);
+  }
+  getAllSubjects(): Observable<ISubjectsGet[]> {
+    return this.http.get<ISubjectsGet[]>(this.getAllSubjectsURL);
+  }
+  getAllTests(): Observable<ITestsGet[]> {
+    return this.http.get<ITestsGet[]>(this.getAllTestsURL);
+  }
 
-getQuestionById(id: number) {
+  getQuestionById(id: number) {
     return this.http.get(this.getQuestionURL + '/' + id);
   }
 
 //   GET/ http://<host>/question/countRecordsByTest/<test_id>
 // -- returns JSON in following format {"numberOfRecords": "10"} using for pagination
 
-getQuestionsNumberByTest(test_id: string) {
-  return this.http.get(this.getQuestionsNumberByTestURL + '/' + test_id);
-}
+  getQuestionsNumberByTest(test_id: string) {
+    return this.http.get(this.getQuestionsNumberByTestURL + '/' + test_id);
+  }
 
-getQuestionsByTestId(test_id: string, limit: string, offset: number): Observable<IQuestionGet[]> {
-return this.http.get<IQuestionGet[]>(this.getQuestionsByTestIdBaseURL + '/' + test_id + '/' + limit + '/' + offset);
+  getQuestionsByTestId(test_id: string, limit: string, offset: number): Observable<IQuestionGet[]> {
+    return this.http.get<IQuestionGet[]>(this.getQuestionsByTestIdBaseURL + '/' + test_id + '/' + limit + '/' + offset);
   }
 
 
@@ -67,13 +67,13 @@ return this.http.get<IQuestionGet[]>(this.getQuestionsByTestIdBaseURL + '/' + te
   //     }
 
 
-addQuestion(body): Observable<IQuestionGet|IResponse> {
-  return this.http.post<IQuestionGet|IResponse>(this.addQuestionURL, body);
+  addQuestion(body): Observable<IQuestionGet|IResponse> {
+    return this.http.post<IQuestionGet|IResponse>(this.addQuestionURL, body);
   }
 
-addAnswer(body): Observable<IAnswerSet|IResponse> {
+  addAnswer(body): Observable<IAnswerSet|IResponse> {
     return this.http.post<IAnswerSet|IResponse>(this.addAnswerURL, body);
- }
+  }
 
 
 //  addQuestion(title: string, description: string) {
@@ -88,11 +88,11 @@ addAnswer(body): Observable<IAnswerSet|IResponse> {
 
   editQuestion(id, body): Observable<IQuestionGet|IResponse> {
     return this.http.post<IQuestionGet|IResponse>(this.editQuestionURL + '/' + id, body);
-    }
+  }
 
   editAnswer(id, body): Observable<IAnswersGet|IResponse> {
     return this.http.post<IAnswersGet|IResponse>(this.editAnswerURL + '/' + id, body);
-    }
+  }
 
   getEntityValue(body): Observable<ITestNameByID[]> {
     return this.http.post<ITestNameByID[]>(this.getEntityValueURL, body);

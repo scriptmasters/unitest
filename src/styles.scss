@@ -622,6 +622,11 @@ form .ng-invalid:not(.ng-untouched) {
     background-color: rgba(0,0,0,0);
 
 }
+/*Transparent pagination background*/
+
+.mat-paginator {
+    background-color: rgba(0, 0, 0, 0);
+}
 
 /*Student Side*/
 .line {

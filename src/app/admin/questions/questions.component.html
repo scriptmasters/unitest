@@ -6,39 +6,49 @@
                     <div class="align-self-center">
                         <h2 class="display">Завдання</h2>
                     </div>
-                    <div>
+
+
+
+                    <div class="form-group col-sm-3">
+                            <!-- <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;З предмету: </span> -->
+                            <label> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;з предмету:
+                            <select class="form-control" id="subjectSelect" #subjectFild (change)="createTestListBySelSubject(subjectFild.selectedIndex)">
+                                <option value="selectSubject" disabled>Виберіть предмет</option>
+                                <option *ngFor="let subjectIdName of subjectIdNamesArr" [selected]="subjectIdName.subject_name === subjectName">{{subjectIdName.subject_name}}</option>
+                            </select>
+                            </label>
+                        </div>
+                        <div class="form-group col-sm-3">
+                            <!-- <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Для тесту:</span> -->
+                            <label> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;для тесту:
+                            <select class="form-control" id="testSelect" #testFild (change)="createQuestionsTableBySelTestIndex(testFild.selectedIndex)">
+                                <option value="selectTest">Виберіть тест</option>
+                                <option *ngFor="let test of testListBySelSubject"[selected]="test.test_name === testName">{{test.test_name}}</option>
+                            </select>
+                           </label>
+                        </div>
+                        <!-- <div class="form-group col-sm-3">
+                            <span>&nbsp;&nbsp;&nbsp;Пошук завдання:</span>
+                            <input class="form-control col-md-12" type="text" placeholder="введіть назву завдання">
+                        </div> -->
+
+
+
+
+                    
+                    <div class="align-self-center">
                         <input type="button" class="btn btn-primary" value="Додати нове завдання" id="addQuestion" (click)="openModalAdd(testFild.selectedIndex, testFild.options[testFild.selectedIndex].value)">
                     </div>
                 </div>
             </div>
         </header>
-        <header class="row">
+        <!-- <header class="row">
             <div class="card col-12 col-lg-12">
                 <div class="card-body row">
-                    <div class="form-group col-sm-4">
-                        <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;З предмету: </span>
-                        <select class="form-control" id="subjectSelect" #subjectFild (change)="createTestListBySelSubject(subjectFild.selectedIndex)">
-                            <option value="selectSubject" disabled>Виберіть предмет</option>
-                            <option *ngFor="let subjectIdName of subjectIdNamesArr" [selected]="subjectIdName.subject_name === subjectName">{{subjectIdName.subject_name}}</option>
-                        </select>
-                    </div>
-                    <!-- [selected]="(subjectIdNamesArr[i].subject_id === subjectId) ? subjectIdNamesArr[i].subject_name : ''" -->
-                    <div class="form-group col-sm-4">
-                        <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Для тесту:</span>
-                        <select class="form-control" id="testSelect" #testFild (change)="createQuestionsTableBySelTestIndex(testFild.selectedIndex)">
-                            <option value="selectTest">Виберіть тест</option>
-                            <option *ngFor="let test of testListBySelSubject"[selected]="test.test_name === testName">{{test.test_name}}</option>
-                        </select>
-                    </div>
-                    <!-- <option *ngFor="let test of (subjectId) ? allTestIdNameArr : testListBySelSubject"-->
-                    <!-- [selected]="test.test_name === testName"   -->
-                    <div class="form-group col-sm-4">
-                        <span>&nbsp;&nbsp;&nbsp;Пошук завдання:</span>
-                        <input class="form-control col-md-12" type="text" placeholder="введіть назву завдання">
-                    </div>
+            
                 </div>
             </div>
-        </header>
+        </header> -->
 
         <div class="row">
             <div class="card col-12 col-lg-12">
@@ -51,7 +61,7 @@
                                 <!-- <th>Тест</th> -->
                                 <!-- <th>question_id</th> -->
                                 <th>Рівень</th>
-                                <th ><div class="col-12">Тип відповіді</div></th>
+                                <th ><div class="col-12">Тип</div></th>
                                 <th>Вкладення</th>
                                 <th colspan="3"></th>
                             </tr>

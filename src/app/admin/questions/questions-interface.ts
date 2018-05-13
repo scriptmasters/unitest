@@ -24,7 +24,6 @@ export interface IQuestionSet {
     question_text: string;
     level: string;
     type: string;
-    type_name: string;
     attachment: string;
 }
 

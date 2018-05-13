@@ -12,6 +12,8 @@ import { NgStyle } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
 import { SubjectsComponent } from '../admin/subjects/subjects.component';
 import * as moment from 'moment';
+import { ResponseMessageComponent } from '../shared/response-message/response-message.component';
+import { MatDialog } from '@angular/material';
 @Component({
   selector: 'app-student',
   templateUrl: './student.component.html',
@@ -23,13 +25,14 @@ export class StudentComponent implements OnInit {
   time;
   subjects = [];
   times = [];
-
+  error;
   constructor(
     public authService: AuthService,
     public studentService: StudentService,
     private testPlayerService: TestPlayerService,
-    private router: Router
-  ) {}
+    private router: Router,
+    public dialog: MatDialog
+  ) { }
 
   ngOnInit() {
     this.authService.isLogged().subscribe((response: any) => {
@@ -138,10 +141,71 @@ export class StudentComponent implements OnInit {
 
   startTest(studentId, testId): void {
     this.testPlayerService.startTest(studentId, testId).subscribe(
-      () => {
-        this.router.navigate(['student/test/' + testId]);
+      (data: any) => {
+        // console.log(data);
+        if (data.response === 'Error. User made test recently') {
+          this.dialog.open(ResponseMessageComponent, {
+            width: '400px',
+            data: {
+              message: 'Ви здавали тест нещодавно, почекайте 10 хв'
+            }
+          });
+        } else if (data.response === 'Not enough number of questions for quiz') {
+          this.dialog.open(ResponseMessageComponent, {
+            width: '400px',
+            data: {
+              message: 'Замало тестів'
+            }
+          });
+        } else if (data.response === 'ok') {
+          this.dialog.open(ResponseMessageComponent, {
+            width: '400px',
+            data: {
+              message: 'Тест почався'
+            }
+          });
+          this.router.navigate(['student/test/' + testId]);
+        }
       },
-      error => console.log(error)
+      error => {
+        // alert('erro' + error.error.response);
+        if (error.error.response === 'You cannot make the test due to your schedule') {
+          this.dialog.open(ResponseMessageComponent, {
+            width: '400px',
+            data: {
+              message: 'Тест недоступний по часу'
+            }
+          });
+        } else if (error.error.response === 'You cannot call this method without making an quiz') {
+          this.dialog.open(ResponseMessageComponent, {
+            width: '400px',
+            data: {
+              message: 'Неможите запустити цей тест тестів'
+            }
+          });
+        } else if (error.error.response === 'Not enough number of questions for quiz') {
+          this.dialog.open(ResponseMessageComponent, {
+            width: '400px',
+            data: {
+              message: 'Замало тестів'
+            }
+          });
+        } else if (error.error.response === 'User is making test at current moment') {
+          this.dialog.open(ResponseMessageComponent, {
+            width: '400px',
+            data: {
+              message: 'Ви здаєте тест в даний момент'
+            }
+          });
+        } else if (error.error.response === 'You cannot make the test due to used all attempts') {
+          this.dialog.open(ResponseMessageComponent, {
+            width: '400px',
+            data: {
+              message: 'Ви використали всі спроби'
+            }
+          });
+        }
+      }
     );
   }
 }

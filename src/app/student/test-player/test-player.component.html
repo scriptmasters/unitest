@@ -3,6 +3,24 @@
     <div class="card-header test-header d-flex align-items-center">
       <h4>Тест!</h4>
     </div>
+      <!-- ********* TIMER ***********-->
+    <hr>
+    <span class="timer"
+          [ngClass]="{
+          'yellow': timer.minutes < 10,
+          'red': timer.minutes < 2
+          }">
+      {{timer.hours}}:{{timer.minutes}}:{{timer.seconds}}
+    </span>
+    <div class="row">
+      <button style="width: 80px; margin: 5px;" class="btn btn-secondary " (click)="Back()"><-- Back</button>
+      <button style="width: 80px; margin: 5px;" class="btn btn-warning " (click)="stopTimer()">StopTimer</button>
+    </div>
+
+    <hr>
+
+    <!-- ********* TIMER ***********-->
+
     <form class="test-form">
       <div *ngFor="let question of questions; let i = index">
         <div [ngSwitch]="question.type">

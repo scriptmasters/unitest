@@ -66,7 +66,6 @@ export class QuestionsComponent implements OnInit {
       this.activatedRoute.queryParams.subscribe(params => {
         this.subjectId = params['subjectId'];
         this.testId = params['testId'];
-      // this.testName = params['testName'];
       });
       console.log('Called Constructor');
    }
@@ -74,11 +73,11 @@ export class QuestionsComponent implements OnInit {
 
 
   ngOnInit() {
-    console.log('from ngOnInit: this.subjectId = ', this.subjectId, ', this.testId = ',  this.testId);
+    // console.log('from ngOnInit: this.subjectId = ', this.subjectId, ', this.testId = ',  this.testId);
     this.createSubjectsIdNamesArray();
-    this.createAllTestsIdNamesArray();
+    // this.createAllTestsIdNamesArray();
 
-        this.createTestListBySubjectId();
+    this.createTestListBySubjectId();
      // this.createTestListBySelSubjectOrSubjectId();
      /* when tab "Завдання" is clicked this method returns an error
      ERROR TypeError: Cannot read property 'subject_id' of undefined
@@ -159,11 +158,12 @@ export class QuestionsComponent implements OnInit {
     // - 1  becouse dropped list has additional filds 'виберіть тест'
     this.testId = this.testListBySelSubject[selTestIndex - 1].test_id;
     this.testName = selTestName;
-  console.log('this.testId = ', this.testId, ', this.testName = ', this.testName);
+  // console.log('this.testId = ', this.testId, ', this.testName = ', this.testName);
 
     const matDialogRef = this.dialog.open(AddQuestionComponent, {
       height: '600px',
       width: '900px',
+      disableClose: true,
       data: {sel_TestId: this.testId, sel_TestName: this.testName}
     });
     matDialogRef.afterClosed().subscribe( () => this.createQuestionsTableByTestId(this.testId) );
@@ -173,6 +173,7 @@ export class QuestionsComponent implements OnInit {
       const matDialogRef = this.dialog.open(EditQuestionComponent, {
         height: '600px',
         width: '900px',
+        disableClose: true,
         data: {sel_quest: selQuestion, sel_TestName: this.testName}
       });
       matDialogRef.afterClosed().subscribe( () => this.createQuestionsTableByTestId(selQuestion.test_id) );
@@ -192,7 +193,7 @@ export class QuestionsComponent implements OnInit {
           this.subjectName = element.subject_name;
         }
       });
-      console.log('from createSubjectsIdNamesArray: this.subjectName  = ', this.subjectName );
+      // console.log('from createSubjectsIdNamesArray: this.subjectName  = ', this.subjectName );
    });
   }
 
@@ -211,7 +212,7 @@ export class QuestionsComponent implements OnInit {
            this.testName = element.test_name;
          }
        });
-       console.log('from createAllTestsIdNamesArray:  this.testName = ', this.testName);
+      //  console.log('from createAllTestsIdNamesArray:  this.testName = ', this.testName);
     });
  }
 
@@ -221,7 +222,27 @@ export class QuestionsComponent implements OnInit {
    this.questions = [];
 
    this.service.getAllTests().subscribe(data => {
-     // console.log('from createTestListBySubjectId: data = ', data);
+
+
+// ++++++++ added from createAllTestsIdNamesArray()  +++++++++
+    this.allTestIdNameArr = data.map(val => {
+      return {
+        test_id: val.test_id,
+        test_name: val.test_name,
+        subject_id: val.subject_id
+      };
+    });
+    this.allTestIdNameArr.forEach(element => {
+      if (element.test_id === this.testId) {
+        this.testName = element.test_name;
+      }
+    });
+    // console.log('from createAllTestsIdNamesArray:  this.testName = ', this.testName);
+// ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+
+
+    // console.log('from createTestListBySubjectId: data = ', data);
      data.forEach(element => {
        if (element.subject_id === this.subjectId) {
      // console.log('from createTestListBySubjectId: element.subject_id = ', element.subject_id);
@@ -235,7 +256,7 @@ export class QuestionsComponent implements OnInit {
      if (this.testListBySelSubject.length === 0) {
        this.testListBySelSubject.push({test_name: 'Виберіть спочатку предмет'});
      }
-     console.log('from createTestListBySubjectId:  this.testName = ', this.testName);
+    //  console.log('from createTestListBySubjectId:  this.testName = ', this.testName);
   });
  }
 
@@ -248,10 +269,10 @@ export class QuestionsComponent implements OnInit {
    this.questions = [];
 
    this.service.getAllTests().subscribe(data => {
-     console.log('from createTestListBySelSubjectOrSubjectId: data = ', data);
+    //  console.log('from createTestListBySelSubjectOrSubjectId: data = ', data);
 
      data.forEach(element => {
-     console.log('from createTestListBySelSubjectOrSubjectId: element.subject_id = ', element.subject_id);
+    //  console.log('from createTestListBySelSubjectOrSubjectId: element.subject_id = ', element.subject_id);
 
        if ( element.subject_id === this.subjectIdNamesArr[selSubjectIndex - 1].subject_id
        || element.subject_id === this.subjectId  ) {
@@ -269,7 +290,7 @@ export class QuestionsComponent implements OnInit {
 
      if (this.testListBySelSubject.length === 0) {
 
-     console.log('from createTestListBySelSubjectOrSubjectId:  this.subjectId = ', this.subjectId);
+    //  console.log('from createTestListBySelSubjectOrSubjectId:  this.subjectId = ', this.subjectId);
 
        if (!this.subjectId) {
          this.testListBySelSubject.push({test_name: 'Виберіть спочатку предмет'});
@@ -287,11 +308,11 @@ export class QuestionsComponent implements OnInit {
      });
        }
      }
-     console.log('from createTestListBySelSubjectOrSubjectId:  this.testName = ', this.testName);
+    //  console.log('from createTestListBySelSubjectOrSubjectId:  this.testName = ', this.testName);
   });
 
-       console.log('from createTestListBySelSubject:  this.testName = ', this.testName);
-       console.log('from createTestListBySelSubject:  this.testListBySelSubject = ', this.testListBySelSubject);
+      //  console.log('from createTestListBySelSubject:  this.testName = ', this.testName);
+      //  console.log('from createTestListBySelSubject:  this.testListBySelSubject = ', this.testListBySelSubject);
  }
 
 
@@ -324,7 +345,7 @@ export class QuestionsComponent implements OnInit {
     });
 
   }
-      console.log('from createTestListBySelSubject:  this.testName = ', this.testName);
+      // console.log('from createTestListBySelSubject:  this.testName = ', this.testName);
       console.log('from createTestListBySelSubject:  this.testListBySelSubject = ', this.testListBySelSubject);
 }
 
@@ -361,10 +382,10 @@ handleDelete(question_id): void {
             });
           });
         } else {
-            this.dialog.open(ResponseMessageComponent, {
-              width: '400px',
-              data: { message: 'Видалене завдання не мало відповідей.' }
-            });
+            // this.dialog.open(ResponseMessageComponent, {
+            //   width: '400px',
+            //   data: { message: 'Видалене завдання не мало відповідей.' }
+            // });
         }
 
 
