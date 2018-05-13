@@ -90,26 +90,47 @@ export class TestPlayerComponent implements OnInit {
       });
   }
 
-  selectedAnswer(question, answer) {
-    this.userCheckboxAnswers[question.question_id] =
-      this.userCheckboxAnswers[question.question_id] || {};
-    const topModel = this.userCheckboxAnswers[question.question_id];
-    topModel[answer.answer_id] = !topModel[answer.answer_id];
-    const answersArr = [];
-    let answers_ids = '';
-    for (const key in topModel) {
-      if (topModel[key] === false) {
-        delete topModel[key];
-      } else {
-        answersArr.push(key);
-        answers_ids = answersArr.join(',');
-      }
-    }
+  // sendAnswer(question, answer) {
+  //   this.userAnswers[question.question_id] =
+  //     this.userAnswers[question.question_id] || {};
+  //   this.userAnswers[question.question_id] = question;
+  //   this.userAnswers[question.question_id].answer_id = answer;
+  //   console.log(this.userAnswers);
+  // }
 
-    this.userAnswers[question.question_id] =
-      this.userAnswers[question.question_id] || {};
-    this.userAnswers[question.question_id].question_id = question.question_id;
-    this.userAnswers[question.question_id].answer_id = answers_ids;
+  sendAnswers(question, answer) {
+
+    // for checkbox questions
+    if (+question.type === 2) {
+      this.userCheckboxAnswers[question.question_id] =
+        this.userCheckboxAnswers[question.question_id] || {};
+      const topModel = this.userCheckboxAnswers[question.question_id];
+      topModel[answer.answer_id] = !topModel[answer.answer_id];
+      const answersArr = [];
+      let answers_ids = '';
+
+      for (const key in topModel) {
+        if (topModel[key] === false) {
+          delete topModel[key];
+        } else {
+          answersArr.push(key);
+          answers_ids = answersArr.join(',');
+        }
+      }
+
+      this.userAnswers[question.question_id] =
+        this.userAnswers[question.question_id] || {};
+      this.userAnswers[question.question_id].question_id = question.question_id;
+      this.userAnswers[question.question_id].answer_id = answers_ids;
+
+      // for input questions
+    } else if ((+question.type === 3) || (+question.type === 4) {
+      this.userAnswers[question.question_id] =
+        this.userAnswers[question.question_id] || {};
+      this.userAnswers[question.question_id] = question;
+      this.userAnswers[question.question_id].answer_id = answer;
+      console.log(this.userAnswers);
+    }
   }
 
   openModal(testResult): void {

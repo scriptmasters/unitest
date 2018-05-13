@@ -1,1 +1,86 @@
-<div class="container-fluid">  <section class="card">    <div class="card-header test-header d-flex align-items-center">      <h4>Тест!</h4>    </div>    <!-- ********* TIMER ***********-->    <hr>    <span class="timer"          [ngClass]="{          'yellow': timer.minutes < 10,          'red': timer.minutes < 2          }">      {{timer.hours}}:{{timer.minutes}}:{{timer.seconds}}    </span>    <div class="row">      <button style="width: 80px; margin: 5px;" class="btn btn-secondary " (click)="Back()"><-- Back</button>      <button style="width: 80px; margin: 5px;" class="btn btn-warning " (click)="stopTimer()">StopTimer</button>    </div>    <hr>    <!-- ********* TIMER ***********-->    <form class="test-form">      <div *ngFor="let question of questions; let i = index">        <div [ngSwitch]="question.type">          <div *ngSwitchCase="1">            <div class="test-question">{{i+1}}. {{question.question_text}}</div>            <ul>              <li *ngFor="let answer of question.answers">                <label class="form-control-custom">                  <input                    type="radio"                    [value]="answer"                    name="question{{question.question_id}}"                    [(ngModel)]="userAnswers[question.question_id]"                  >                  {{answer.answer_text}}                </label>              </li>            </ul>            <div class="line"></div>          </div>          <div *ngSwitchCase="2">            <div class="test-question">{{i+1}}. {{question.question_text}}</div>            <ul>              <li *ngFor="let answer of question.answers;">                <label>                  <input                    type="checkbox"                    [value]="answer.answer_id"                    name="question{{question.question_id}}"                    (change)="selectedAnswer(question, answer)"                  >                  {{answer.answer_text}}                </label>              </li>            </ul>            <div class="line"></div>          </div>          <div *ngSwitchDefault>            <span>another type of question</span>          </div>        </div>      </div>      <button class="btn btn-primary" (click)="finishTest()">Закінчити тест</button>    </form>  </section></div>
+<div class="container-fluid">
+  <section class="card">
+    <div class="card-header test-header d-flex align-items-center">
+      <h4>Тест!</h4>
+    </div>
+      <!-- ********* TIMER ***********-->
+    <hr>
+    <span class="timer"
+          [ngClass]="{
+          'yellow': timer.minutes < 10,
+          'red': timer.minutes < 2
+          }">
+      {{timer.hours}}:{{timer.minutes}}:{{timer.seconds}}
+    </span>
+    <div class="row">
+      <button style="width: 80px; margin: 5px;" class="btn btn-secondary " (click)="Back()"><-- Back</button>
+      <button style="width: 80px; margin: 5px;" class="btn btn-warning " (click)="stopTimer()">StopTimer</button>
+    </div>
+
+    <hr>
+
+    <!-- ********* TIMER ***********-->
+
+    <form class="test-form">
+      <div *ngFor="let question of questions; let i = index">
+        <div [ngSwitch]="question.type">
+          <div *ngSwitchCase="1">
+            <div class="test-question">{{i+1}}. {{question.question_text}}</div>
+            <ul>
+              <li *ngFor="let answer of question.answers">
+                <label class="form-control-custom">
+                  <input
+                    type="radio"
+                    [value]="answer"
+                    name="question{{question.question_id}}"
+                    [(ngModel)] = "userAnswers[question.question_id]"
+                  >
+                  {{answer.answer_text}}
+                </label>
+              </li>
+            </ul>
+            <div class="line"></div>
+          </div>
+          <div *ngSwitchCase="2">
+            <div class="test-question">{{i+1}}. {{question.question_text}}</div>
+            <ul>
+              <li *ngFor="let answer of question.answers;">
+                  <label>
+                    <input
+                      type="checkbox"
+                      [value]="answer.answer_id"
+                      name="question{{question.question_id}}"
+                      (change)="sendAnswers(question, answer)"
+                    >
+                    {{answer.answer_text}}
+                  </label>
+              </li>
+            </ul>
+            <div class="line"></div>
+          </div>
+          <div *ngSwitchCase="3">
+            <div class="test-question">{{i+1}}. {{question.question_text}}</div>
+               <input
+                 #answer
+                 type="text"
+                 name="question{{question.question_id}}"
+                 (blur)="sendAnswers(question, answer.value)"
+               >
+            <div class="line"></div>
+          </div>
+          <div *ngSwitchCase="4">
+            <div class="test-question">{{i+1}}. {{question.question_text}}</div>
+            <input
+              #answer
+              type="text"
+              name="question{{question.question_id}}"
+              (blur)="sendAnswers(question, answer.value)"
+            >
+            <div class="line"></div>
+          </div>
+        </div>
+      </div>
+      <button class="btn btn-primary" (click)="finishTest()">Закінчити тест</button>
+    </form>
+  </section>
+</div>
