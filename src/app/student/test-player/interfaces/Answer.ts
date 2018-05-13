@@ -1,4 +1,4 @@
 export interface IAnswer {
-  answer_id: number;
+  answer_id: any;
   answer_text: string;
 }

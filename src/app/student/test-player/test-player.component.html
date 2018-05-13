@@ -32,7 +32,7 @@
                       type="checkbox"
                       [value]="answer.answer_id"
                       name="question{{question.question_id}}"
-                      (change)="selectedAnswer(question, answer)"
+                      (change)="sendAnswers(question, answer)"
                     >
                     {{answer.answer_text}}
                   </label>
@@ -40,8 +40,25 @@
             </ul>
             <div class="line"></div>
           </div>
-          <div *ngSwitchDefault>
-            <span>another type of question</span>
+          <div *ngSwitchCase="3">
+            <div class="test-question">{{i+1}}. {{question.question_text}}</div>
+               <input
+                 #answer
+                 type="text"
+                 name="question{{question.question_id}}"
+                 (blur)="sendAnswers(question, answer.value)"
+               >
+            <div class="line"></div>
+          </div>
+          <div *ngSwitchCase="4">
+            <div class="test-question">{{i+1}}. {{question.question_text}}</div>
+            <input
+              #answer
+              type="text"
+              name="question{{question.question_id}}"
+              (blur)="sendAnswers(question, answer.value)"
+            >
+            <div class="line"></div>
           </div>
         </div>
       </div>
