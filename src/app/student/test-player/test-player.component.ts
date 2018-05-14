@@ -187,12 +187,14 @@ export class TestPlayerComponent implements OnInit {
     if (this.Index > this.questions.length) {
       this.Index = 1;
     }
+    this.question = this.questions[this.Index - 1];
   }
   prevQuestion() {
     this.Index --;
     if (this.Index < 1) {
       this.Index = this.questions.length;
     }
+    this.question = this.questions[this.Index - 1];
   }
 
 //  ************ TIMER ******************
