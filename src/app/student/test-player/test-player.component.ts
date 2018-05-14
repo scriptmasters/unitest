@@ -92,11 +92,12 @@ export class TestPlayerComponent implements OnInit {
 
   ngOnInit() {
     this.getQuestionsForTest();
+
     this.getTime();
   }
 
   getQuestionsForTest(): void {
-    const testId = +this.route.snapshot.paramMap.get('id');
+    const testId = this.route.snapshot.paramMap.get('id');
     this.testPlayerService
       .getQuestionsWithAnswers(testId)
       .subscribe((questions: any) => {
@@ -225,9 +226,10 @@ export class TestPlayerComponent implements OnInit {
   countTimeLeft() {
     // Get current time
     this.timerService.getTimeStamp().subscribe(timeBegin => {
-      this.time.curtime = timeBegin.curtime * 1000;
+      this.time.curtime = timeBegin.unix_timestamp * 1000;
       // Translate Dates to milliseconds
       this.startDate = new Date(this.time.curtime).getTime();
+      console.log(this.startDate);
       this.endDate = this.startDate + this.timeOfTest;
       this.distance = this.endDate - this.startDate;
 
@@ -272,6 +274,6 @@ export class TestPlayerComponent implements OnInit {
     });
   }
 
-
 // End of component
 }
+
