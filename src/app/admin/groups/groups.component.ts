@@ -10,6 +10,7 @@ import {ResponseMessageComponent} from '../../shared/response-message/response-m
 import {PaginationInstance} from 'ngx-pagination';
 import 'rxjs/add/operator/mergeMap';
 import {DeleteConfirmComponent} from '../../shared/delete-confirm/delete-confirm.component';
+import {forkJoin} from 'rxjs/observable/forkJoin';
 
 
 
@@ -68,8 +69,10 @@ export class GroupsComponent implements OnInit {
     this.groupsService.searchFilterService.subscribe(data => this.searchFilter = data);
     this.groupsService.facultyFilterService.subscribe(data => this.facultyFilter = data);
     this.groupsService.specialityFilterService.subscribe(data => this.specialityFilter = data);
-
   }
+
+
+
 
 
   getGroupsData() {

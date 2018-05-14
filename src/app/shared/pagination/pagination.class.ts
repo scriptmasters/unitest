@@ -6,14 +6,14 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {ResponseMessageComponent} from '../response-message/response-message.component';
 import {HttpClient} from '@angular/common/http';
 import 'rxjs/add/operator/debounceTime';
-
+import {forkJoin} from 'rxjs/observable/forkJoin';
 
 export class Pagination {
     error = 'За даним пошуковим запитом дані відсутні';
     searchBox = new FormControl();
     searchBoxSubscr: Subscription;
     length: number;
-    pageSize = 5;
+    pageSize = 10;
     pageIndex: number;
     pagination: boolean;
     entitiesObj: any;
@@ -50,8 +50,6 @@ export class Pagination {
 
         this.route.queryParams.subscribe(params => {
             params.page ? this.pageIndex = +params.page - 1 : this.pageIndex = 0;
-
-
             this.getEntity();
         });
 
@@ -98,10 +96,44 @@ export class Pagination {
                 } else {
                     this.entitiesObj = entities;
                 }
-
             });
         }
-
     }
-
 }
+/*getGroupsNew() {
+    let groupsObj;
+    const specIds = [];
+    const facIds = [];
+
+    this.groupsService._getGroup()
+        .mergeMap(
+            data => {
+                groupsObj = data;
+                groupsObj.forEach((index) => {
+                    specIds.push(index.speciality_id);
+                    facIds.push(index.faculty_id);
+                });
+
+                const fac = this.groupsService._getFacultysByEntityManager({'entity': 'Faculty', 'ids': facIds});
+                const spec = this.groupsService._getSpecialitiesByEntityManager({'entity': 'Speciality', 'ids': specIds});
+
+                return forkJoin(fac, spec);
+            }
+        )
+        .subscribe(data => {
+
+            for (let i = 0; i < groupsObj.length; i++) {
+                data[0].forEach((index) => {
+                    if (index.faculty_id === groupsObj[i].faculty_id) {
+                        groupsObj[i].faculty_name = index.faculty_name;
+                    }
+                });
+                data[1].forEach((index) => {
+                    if (index.speciality_id === groupsObj[i].speciality_id) {
+                        groupsObj[i].speciality_name = index.speciality_name;
+                    }
+                });
+            }
+            console.log(groupsObj);
+        });
+}*/
