@@ -3,6 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 
 import { StudentComponent } from './student.component';
 import { TestPlayerComponent } from './test-player/test-player.component';
+import { QuizResultComponent } from './test-player/quiz-result/quiz-result.component';
 
 const routes: Routes = [
   {
@@ -13,6 +14,10 @@ const routes: Routes = [
     path: 'test/:id',
     component: TestPlayerComponent,
   },
+  {
+    path: 'results',
+    component: QuizResultComponent
+  }
 ];
 
 @NgModule({

@@ -10,6 +10,8 @@ import { StudentService } from './student.service';
 import { TestResultComponent } from './test-player/test-result/test-result.component';
 import { SharedModule } from '../shared/shared.module';
 import { TimerService } from './services/timer.service';
+import { QuizResultComponent } from './test-player/quiz-result/quiz-result.component';
+import { DataService } from './services/data.service';
 
 @NgModule({
   imports: [
@@ -19,8 +21,8 @@ import { TimerService } from './services/timer.service';
     ReactiveFormsModule,
     SharedModule,
   ],
-  declarations: [StudentComponent, TestPlayerComponent, TestResultComponent],
-  providers: [AuthService, TestPlayerService, StudentService, TimerService],
+  declarations: [StudentComponent, TestPlayerComponent, TestResultComponent, QuizResultComponent],
+  providers: [AuthService, TestPlayerService, StudentService, TimerService, DataService],
   entryComponents: [TestResultComponent],
 })
 export class StudentModule {}
