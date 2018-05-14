@@ -1,3 +1,12 @@
+div, span{
+  color: #666;
+}
+.test-question{
+  text-align: center;
+}
+li{
+  margin-left: 1em;
+}
 .timer{
   font-weight: 700;
   font-size: 1.2em;
@@ -8,3 +17,43 @@
 .timer.red{
   color: rgba(255,0,0,0.64);
 }
+.test-form{
+  margin: auto;
+}
+.question{
+  border: 1px solid grey;
+  width: 20px;
+  height: 20px;
+  margin: 5px;
+  font-weight: 800;
+}
+.question:hover{
+  color: #fff;
+  cursor: pointer;
+  background-color: #868e96;
+}
+.questionSelected{
+  color: #fff;
+  background-color: #868e96;
+}
+span{
+  text-align: center;
+}
+.studentInfo{
+  display: flex;
+  .photo{
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+  }
+}
+
+.timeLeft{
+  font-weight: 400;
+  font-size: 14px;
+  color: #666;
+}
+
+.finishTest{
+  margin-top: 1em;
+}
+
