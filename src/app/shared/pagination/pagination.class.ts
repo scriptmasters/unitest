@@ -6,7 +6,6 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {ResponseMessageComponent} from '../response-message/response-message.component';
 import {HttpClient} from '@angular/common/http';
 import 'rxjs/add/operator/debounceTime';
-import {forkJoin} from 'rxjs/observable/forkJoin';
 
 export class Pagination {
     error = 'За даним пошуковим запитом дані відсутні';
@@ -41,7 +40,7 @@ export class Pagination {
         }
     };
 
-    initLogic() {
+    initLogic(dontGetEntity) {
         this.pagIntl.firstPageLabel = 'Перша сторінка';
         this.pagIntl.lastPageLabel = 'Остання сторінка';
         this.pagIntl.nextPageLabel = 'Наступна сторінка';
@@ -50,7 +49,7 @@ export class Pagination {
 
         this.route.queryParams.subscribe(params => {
             params.page ? this.pageIndex = +params.page - 1 : this.pageIndex = 0;
-            this.getEntity();
+            dontGetEntity ? this.pagination = true : this.getEntity();
         });
 
         this.searchBoxSubscr = this.searchBox.valueChanges
@@ -69,12 +68,12 @@ export class Pagination {
                             }
                         );
                 } else {
-                    this.getEntity();
+                    dontGetEntity ? this.pagination = true : this.getEntity();
                 }
             });
     }
 
-    getEntity(event?): void {
+    getEntity?(event?): void {
         this.pagination = true;
         if (event) {
             this.pageIndex = event.pageIndex;
@@ -99,41 +98,11 @@ export class Pagination {
             });
         }
     }
+
+    paginationChange? (event) {
+        this.pageSize = event.pageSize;
+        this.pageIndex = event.pageIndex;
+        console.log(event);
+    }
 }
-/*getGroupsNew() {
-    let groupsObj;
-    const specIds = [];
-    const facIds = [];
 
-    this.groupsService._getGroup()
-        .mergeMap(
-            data => {
-                groupsObj = data;
-                groupsObj.forEach((index) => {
-                    specIds.push(index.speciality_id);
-                    facIds.push(index.faculty_id);
-                });
-
-                const fac = this.groupsService._getFacultysByEntityManager({'entity': 'Faculty', 'ids': facIds});
-                const spec = this.groupsService._getSpecialitiesByEntityManager({'entity': 'Speciality', 'ids': specIds});
-
-                return forkJoin(fac, spec);
-            }
-        )
-        .subscribe(data => {
-
-            for (let i = 0; i < groupsObj.length; i++) {
-                data[0].forEach((index) => {
-                    if (index.faculty_id === groupsObj[i].faculty_id) {
-                        groupsObj[i].faculty_name = index.faculty_name;
-                    }
-                });
-                data[1].forEach((index) => {
-                    if (index.speciality_id === groupsObj[i].speciality_id) {
-                        groupsObj[i].speciality_name = index.speciality_name;
-                    }
-                });
-            }
-            console.log(groupsObj);
-        });
-}*/

@@ -31,7 +31,7 @@ export class SubjectsComponent extends Pagination implements OnInit {
     }
 
     ngOnInit() {
-        this.initLogic();
+        this.initLogic(false);
     }
 
     getTimetable(id: number): void {

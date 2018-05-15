@@ -4,7 +4,6 @@ import IStudent from './interfaces/IStudent';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/of';
 import { StudentsService } from './students.service';
-import IGroup from './interfaces/IGroup';
 import { switchMap, map } from 'rxjs/operators';
 import { ErrorObservable } from 'rxjs/observable/ErrorObservable';
 import { ResponseMessageComponent } from '../../shared/response-message/response-message.component';
@@ -39,7 +38,7 @@ export class StudentsResolver implements Resolve<IResolvedData> {
         }
         if (!id) {
             return this.service.countStudent().pipe(
-                switchMap(data => this.service.getStudents(data.numberOfRecords)),
+                switchMap(() => this.service.getStudents(10, 0)),
                 switchMap(response => this.onDataRetrieve(response, false))
             );
         }

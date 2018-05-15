@@ -20,8 +20,8 @@ export class StudentsService {
   constructor(private http: HttpClient) { }
 
   // Retrieve array of students from back-end
-  getStudents(num: string = '20'): Observable<IStudent[]> {
-    return this.http.get<IStudent[]>(`Student/getRecordsRange/${num}/0`);
+  getStudents(pageSize, index): Observable<IStudent[]> {
+    return this.http.get<IStudent[]>(`Student/getRecordsRange/${pageSize}/${pageSize * index}`);
   }
   // Count students
   countStudent(): Observable<IResponseRec> {
@@ -74,13 +74,5 @@ export class StudentsService {
   // server side filter by surname
   getStudentsBySearch(value: string): Observable<IStudent[] & IResponse> {
     return this.http.get<IStudent[] & IResponse>(`student/getRecordsBySearch/${value}`);
-  }
-  // if stopped typing for some time the request is sent to the server
-  searchStudents(terms: Observable<string>) {
-    return terms.pipe(
-      debounceTime(600),
-      distinctUntilChanged(),
-      switchMap(term => this.getStudentsBySearch(term))
-    );
   }
 }
