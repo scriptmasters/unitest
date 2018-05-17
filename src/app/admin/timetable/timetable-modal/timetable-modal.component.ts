@@ -12,12 +12,12 @@ import {
 } from '@angular/forms';
 
 @Component({
-  selector: 'timetable-modal',
+  selector: 'app-timetable-modal',
   templateUrl: './timetable-modal.component.html',
   styleUrls: ['./timetable-modal.component.scss'],
   providers: [TableService]
 })
-export class TimeTableModal implements OnInit {
+export class TimeTableModalComponent implements OnInit {
   private form: FormGroup;
   formData = {
     group_id: '',
@@ -30,7 +30,7 @@ export class TimeTableModal implements OnInit {
   };
 
   constructor(
-    public dialogRef: MatDialogRef<TimeTableModal>,
+    public dialogRef: MatDialogRef<TimeTableModalComponent>,
     public tableService: TableService,
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {

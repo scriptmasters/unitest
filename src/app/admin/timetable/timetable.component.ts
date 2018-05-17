@@ -8,7 +8,7 @@ import {
   Validators,
   ReactiveFormsModule
 } from '@angular/forms';
-import { TimeTableModal } from './timetable-modal/timetable-modal.component';
+import { TimeTableModalComponent } from './timetable-modal/timetable-modal.component';
 import { TimetableDeleteConfirmComponent } from './timetable-delete-confirm/timetable-delete-confirm.component';
 import { ResponseMessageComponent } from '../../shared/response-message/response-message.component';
 import { PaginationInstance } from 'ngx-pagination';
@@ -144,7 +144,7 @@ export class TimetableComponent implements OnInit {
    * if not presented we open modal to add new entity
    */
   openDialog(tableItem: TableItemModified): void {
-    const dialogRef = this.dialog.open(TimeTableModal, {
+    const dialogRef = this.dialog.open(TimeTableModalComponent, {
       width: '650px',
       data: {
         table: this.table,
