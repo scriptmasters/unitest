@@ -115,7 +115,7 @@ export class TimetableComponent implements OnInit {
       if (response) {
         if (response === 'ok') {
           this.tableService.deleteTableItem(timeEntity.timetable_id).subscribe(
-            response => {
+            () => {
               this.table.splice(this.table.indexOf(timeEntity), 1);
               this.dialog.open(ResponseMessageComponent, {
                 width: '400px',
