@@ -28,8 +28,7 @@ export class AdministratorsDialogComponent implements OnInit {
     private administratorsService: AdministratorsService) { }
 
   ngOnInit() {
-    // this.getAdministrator();
-if (this.data.id) {
+    if (this.data.id) {
       this.isLoaded = false;
       const id = this.data.id;
       this.administratorsService.getAdministratorById(id)
@@ -107,7 +106,7 @@ if (this.data.id) {
           this.matDialogRef.close({ status: 'SUCCESS', message: 'Адміністратора було успішно відредаговано!' })
          );
       } else {
-          this.matDialogRef.close({ status: 'ERROR', message: 'Ви не внесли ніяких змін при редагуванні!' });
+          this.matDialogRef.close({ status: 'ERROR', message: 'Ви не внесли жодних змін при редагуванні!' });
         }
 
     } else {
