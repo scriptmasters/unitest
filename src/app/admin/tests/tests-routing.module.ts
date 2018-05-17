@@ -8,7 +8,7 @@ const routes: Routes = [
         component: TestsComponent,
         data: {
             breadcrumb: 'Тести'
-              }   
+              }
     }
 ];
 

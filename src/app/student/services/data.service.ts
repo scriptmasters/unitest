@@ -9,7 +9,7 @@ export class DataService {
   getMark(): number {
     return this.mark;
   }
-  
+
   setMark(m: number) {
     this.mark = m;
   }
