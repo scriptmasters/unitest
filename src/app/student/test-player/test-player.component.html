@@ -10,7 +10,10 @@
     <section class="card col-md-8">
       <div class="card-body d-flex justify-content-center">
         <form class="test-form">
-          <div [ngSwitch]="question.type">
+          <div *ngIf="!isLoaded">
+            Завантаження...
+          </div>
+          <div *ngIf="isLoaded" [ngSwitch]="question.type">
             <div *ngSwitchCase="1">
               <div class="test-question">{{Index}}. {{question.question_text}}</div>
               <ul>
@@ -35,10 +38,10 @@
                   <label>
                     <input
                       type="checkbox"
-                      [value]="answer.answer_id"
                       name="question{{question.question_id}}"
                       (change)="sendAnswers(question, answer)"
-                    >
+                      [checked]="checkboxAnswersStatus[answer.answer_id]"
+                      >
                     {{answer.answer_text}}
                   </label>
                 </li>
@@ -52,6 +55,7 @@
                 type="text"
                 name="question{{question.question_id}}"
                 (blur)="sendAnswers(question, answer.value)"
+                [(ngModel)]="question.answer_id"
               >
               <div class="line"></div>
             </div>
@@ -59,9 +63,10 @@
               <div class="test-question">{{Index}}. {{question.question_text}}</div>
               <input
                 #answer
-                type="text"
+                type="number"
                 name="question{{question.question_id}}"
                 (blur)="sendAnswers(question, answer.value)"
+                [(ngModel)]="question.answer_id"
               >
               <div class="line"></div>
             </div>
@@ -82,13 +87,13 @@
     <aside class="col-md-4">
       <div class="row studentInfo">
         <div class="col-sm-12 photo d-flex justify-content-center">
-          <img [src]="student[0].photo" alt="" width="200px" height="200px">
+          <img [src]="student[0]?.photo" alt="" width="200px" height="200px">
         </div>
         <div class="col-sm-12 d-flex justify-content-center">
-          <span>{{student[0].student_fname}} {{student[0].student_name}} {{student[0].student_surname}}</span>
+          <span>{{student[0]?.student_fname}} {{student[0]?.student_name}} {{student[0]?.student_surname}}</span>
         </div>
         <div class="col-sm-12 d-flex justify-content-center">
-          <span>Залікова книжка: {{student[0].gradebook_id.toLocaleUpperCase()}}</span>
+          <span>Залікова книжка: {{student[0]?.gradebook_id.toLocaleUpperCase()}}</span>
         </div>
       </div>
       <hr>
