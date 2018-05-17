@@ -1,4 +1,4 @@
-import {IAnswer} from './Answer';
+import { IAnswer } from './Answer';
 
 export interface IQuestion {
   question_id: number;
@@ -6,5 +6,6 @@ export interface IQuestion {
   test_id?: number;
   level?: number;
   type?: number;
+  answer_id: any;
   answers: IAnswer;
 }
