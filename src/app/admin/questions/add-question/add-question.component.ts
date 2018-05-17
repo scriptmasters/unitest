@@ -18,7 +18,7 @@ export class AddQuestionComponent implements OnInit {
 
  form;
  correctAnswerInputType = 'radio';
- answerResourse = 'text';
+//  answerResourse = 'text_file';
  answersIdNumbersArray = [];
 //  correctAnswers = [];
  newAnswersArray = [];
@@ -40,7 +40,6 @@ export class AddQuestionComponent implements OnInit {
     question_text: 'no text',
     level: '1',
     type: '1',
-    type_name: '',
     attachment: ''
 };
 
@@ -137,7 +136,7 @@ constructor(
   }
 
 
-  onAnswerResourseSelect(event) {
+  /* onAnswerResourseSelect(event) {
     console.log('onAnswerResourseSelect = ', event.target.value);
     if (event.target.value === '1') {
        this.answerResourse = 'text';
@@ -151,15 +150,13 @@ constructor(
     if (event.target.value === '3') { this.answerResourse = 'text_file'; }
     console.log('this.answerResourse = ', this.answerResourse);
     console.log(' this.newAnswersArray = ',  this.newAnswersArray);
-  }
+  } */
 
 
   setQuestionType(elem: HTMLSelectElement) {
-    const value = elem.options[elem.selectedIndex].value;
     const index = elem.options[elem.selectedIndex].index; // + 1; // починаємо нумерацію з одиниці
-    this.new_question.type_name = value;
     this.new_question.type = '' + index;
-    console.log('type_index = ', index, ' type_name = ', value);
+    console.log('type_index = ', index);
   }
 
   setQuestionLevel(elem: HTMLSelectElement) {

@@ -5,7 +5,6 @@ import {GroupsRoutingModule} from './groups-routing.module';
 import {GroupsService} from './groups.service';
 import {DialogComponent} from './dialog/dialog.component';
 import {SharedModule} from '../../shared/shared.module';
-import {GroupsDeleteConfirmComponent} from './groups-delete-confirm/groups-delete-confirm.component';
 import {GroupsComponent} from './groups.component';
 import { SearchFilter } from './search.component';
 import { SpecialityFilterComponent } from './selectFilters/specialityFilter.component';
@@ -13,7 +12,6 @@ import { SpecialityFilterComponent } from './selectFilters/specialityFilter.comp
 @NgModule({
   declarations: [
     DialogComponent,
-    GroupsDeleteConfirmComponent,
     GroupsComponent,
     SearchFilter,
     FacultyFilterComponent,
@@ -28,8 +26,7 @@ import { SpecialityFilterComponent } from './selectFilters/specialityFilter.comp
     GroupsService
   ],
   entryComponents: [
-    DialogComponent,
-    GroupsDeleteConfirmComponent
+    DialogComponent
   ]
 })
 
