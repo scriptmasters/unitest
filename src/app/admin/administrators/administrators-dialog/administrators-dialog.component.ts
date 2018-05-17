@@ -18,6 +18,7 @@ export class AdministratorsDialogComponent implements OnInit {
   administrator = [{ username: '', email: '', password: '', confirm_password: '' }];
   form: FormGroup;
   isLoaded = true;
+  CryptoJS = require('crypto-js');
   currentEmail;
   currentLogin;
   currentPassword;
@@ -36,9 +37,8 @@ if (this.data.id) {
           this.administrator = administrator;
           this.currentEmail = this.administrator[0].email;
           this.currentLogin = this.administrator[0].username;
-          this.currentPassword = this.administrator[0].password; 
+          this.currentPassword = this.administrator[0].password;
           this.isLoaded = true;
-      
         this.form = new FormGroup({
          'login': new FormControl(null, {
           validators: [
@@ -67,23 +67,22 @@ if (this.data.id) {
              Validators.required,
              matchOtherValidator('password')])
            }, { updateOn: 'blur' });
-      })
-      }
-      else {
+        });
+      } else {
         this.form = new FormGroup({
          'login': new FormControl(null, {
           validators: [
             Validators.required,
             Validators.pattern('(([A-Za-z0-9]){3,})'),
             Validators.maxLength(15)],
-          asyncValidators: 
+          asyncValidators:
             ValidateLoginNotTaken.createValidator(this.administratorsService, false, false)}),
          'email': new FormControl(null, {
            validators: [
              Validators.email,
              Validators.minLength(5),
              Validators.maxLength(20)],
-           asyncValidators: 
+           asyncValidators:
              ValidateEmailNotTaken.createValidator(this.administratorsService, false, false)}),
          'password': new FormControl(null, [
              Validators.required,
@@ -99,12 +98,18 @@ if (this.data.id) {
   onSubmit() {
     const formData = this.form.value;
     if (this.data.id) {
+      const hashCurrrentPas = this.CryptoJS.HmacSHA256(formData.password, 'tuhes');
+      const hexCurrentPassword = hashCurrrentPas.toString(this.CryptoJS.enc.Hex);
       const id = this.data.id;
+      if (formData.login !== this.currentLogin || formData.email !== this.currentEmail || hexCurrentPassword !== this.currentPassword ) {
       this.administratorsService.updateAdministrator(id, formData.login, formData.email, formData.password, formData.confirm_password)
         .subscribe(() =>
-          this.matDialogRef.close({ status: 'SUCCESS', message: 'Адміністратора було успішно відредаговано!' }),
-          () => this.matDialogRef.close({ status: 'ERROR', message: 'Ви не внесли ніяких змін при редагуванні!' })
-        );
+          this.matDialogRef.close({ status: 'SUCCESS', message: 'Адміністратора було успішно відредаговано!' })
+         );
+      } else {
+          this.matDialogRef.close({ status: 'ERROR', message: 'Ви не внесли ніяких змін при редагуванні!' });
+        }
+
     } else {
       this.administratorsService.addAdministrator(formData.login, formData.email, formData.password, formData.confirm_password)
         .subscribe(() =>
