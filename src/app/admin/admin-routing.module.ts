@@ -3,7 +3,6 @@ import {Routes, RouterModule} from '@angular/router';
 import {AdminComponent} from './admin.component';
 import {AddQuestionComponent} from './questions/add-question/add-question.component';
 import {QuestionsComponent} from './questions/questions.component';
-import {AdministratorsComponent} from './administrators/administrators.component';
 import {StatisticComponent} from './statistic/statistic.component';
 import {TestDetailsComponent} from './testdetails/component/test-details.component';
 import {ResultsComponent} from './results/results.component';
@@ -64,7 +63,7 @@ const routes: Routes = [
                     breadcrumb: 'Завдання'
                 }
             },
-                
+
             {
                 path: 'add-question',
                 component: AddQuestionComponent,

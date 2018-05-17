@@ -91,7 +91,7 @@ export class AdministratorsComponent implements OnInit {
             }
           }
         });
-
+        matDialogRef.disableClose = true;
       } else {
           this.dialog.open(ResponseMessageComponent, {
             width: '400px',
@@ -134,6 +134,7 @@ export class AdministratorsComponent implements OnInit {
               });
           }
         });
+        dialogRef.disableClose = true;
       } else {
         this.dialog.open(ResponseMessageComponent, {
           width: '400px',
