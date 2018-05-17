@@ -39,7 +39,7 @@ export class StudentsResolver implements Resolve<IResolvedData> {
         }
         if (!id) {
             return this.service.countStudent().pipe(
-                switchMap(data => this.service.getStudents(data.numberOfRecords)),
+                switchMap(data => this.service.getStudents(10, 0)),
                 switchMap(response => this.onDataRetrieve(response, false))
             );
         }

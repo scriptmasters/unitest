@@ -45,8 +45,8 @@ export class GroupsService {
   _getFacultysByEntityManager(body): Observable<Faculties[]> {
     return this.http.post<Faculties[]>('EntityManager/getEntityValues/', JSON.stringify(body) , this.header);
   }
-  _getSpecialitiesByEntityManager(body): Observable<Specialities> {
-    return this.http.post<Specialities>('EntityManager/getEntityValues/', JSON.stringify(body) , this.header);
+  _getSpecialitiesByEntityManager(body): Observable<Specialities[]> {
+    return this.http.post<Specialities[]>('EntityManager/getEntityValues/', JSON.stringify(body) , this.header);
   }
 
   _delGroup(id): Observable<DelGroup> {

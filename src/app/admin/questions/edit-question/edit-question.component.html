@@ -1,100 +1,98 @@
 <form [formGroup]="form" (submit)="editedQuestionSubmit()">
     <header class="form-row justify-content-between mb-2">
         <div class="col-11">
-            <h2 class="">Редагування завдання з id: {{sel_question_id}},&nbsp;&nbsp; для тесту: {{sel_question_test_name}}: </h2>
+            <h2 class="">Редагування завдання <!-- з id: {{sel_question_id}},&nbsp;&nbsp; --> для тесту: {{sel_question_test_name}}: </h2>
         </div>
         <div class="col-1 d-flex justify-content-end">
             <i class="fa fa-close pr-1" (click)="closeDialog()"></i>
         </div>
     </header>
-    <div class="form-row">
 
-        <div class="form-group col-md-4 col-12 col-lg-2">
-            <label>Виберіть рівень</label>
+    <br>
+
+    <div class="form-row">
+        
+        <div class="form-group col-lg-5 col-md-5 col-12">
+            <label>Текст завдання</label>
+            <textarea class="form-control col-12 form-control-success" placeholder="Введіть текст завдання..." rows="4" id="description" #descriptionField (change)="setQuestionText(descriptionField)">{{sel_question.question_text}}</textarea>
+        </div>
+
+        <div class="form-group col-lg-1 col-md-1 col-12">
+            <label>Рівень</label>
             <select size="5" class="form-control" id="levelSelect" name="level" #levelField (change)="setQuestionLevel(levelField)">
                   <option *ngFor="let i of [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20]" [selected]="i == sel_question.level">{{i}}</option>
               </select>
         </div>
 
-        <div class="form-group col-md-8 col-12 col-lg-6">
-            <label>Текст завдання</label>
-            <textarea class="form-control col-12 form-control-success" placeholder="Введіть текст завдання..." rows="4" id="description" #descriptionField (change)="setQuestionText(descriptionField)">{{sel_question.question_text}}</textarea>
-        </div>
 
-        <div class="form-group col-md-3 col-12 col-lg-4">
-            <label>
-                <span *ngIf="sel_question.attachment !== ''">Змінити вкладення</span>
-                <span *ngIf="sel_question.attachment === ''">Добавити вкладення</span>
-            </label>
-            <input type="file" accept="image/*" (change)="setQuestionAttachment($event)">
-
-            <img *ngIf="sel_question.attachment !== undefined" [src]="sel_question.attachment" width="100">
-            <div class="form-row">
-                <label *ngIf="sel_question.attachment !== ''">
-                    <input type="button"  
-                    value="Видалити вкладення"
-                    (click)="resetQuestionAttachment()"   
-                    >
-                </label>
+        <div class="form-group col-lg-3 col-md-3 col-12">
+                <label>Тип завдання</label>
+                <select [disabled]="sel_question.type === '3' || sel_question.type === '4' "
+                    class="form-control col-12" 
+                    id="typeSelect" 
+                    name="type" #typeField 
+                    (change)="setQuestionType(typeField)" (change)="onQuestionTypeSelect($event)">
+                   <option value="1"
+                           [selected]="sel_question.type === '1' "
+                   >Простий вибір</option> 
+                   <option value="2"
+                           [selected]="sel_question.type === '2' "
+                   >Мульти-вибір</option> 
+                   <option *ngIf="sel_question.type === '3'"
+                            value="3"
+                           [selected]="sel_question.type === '3' "
+                   >Текстове поле вводу</option> 
+                   <option *ngIf="sel_question.type === '4'"
+                            value="4"
+                           [selected]="sel_question.type === '4' "
+                   >Числове поле вводу</option> 
+                </select>
             </div>
-        </div>
-            
-        <!-- edited_question.attachment -->
+
+            <div class="form-group col-lg-3 col-md-3 col-12">
+                    <label>
+                        <span *ngIf="sel_question.attachment !== ''">Змінити вкладення</span>
+                        <span *ngIf="sel_question.attachment === ''">Добавити вкладення</span>
+                    </label>
+                    <label class="form-row d-flex justify-content-center"
+                    id="label_uploads" for="image_uploads">
+                            Вибрати файл
+                    </label>
+                    <input type="file" hidden
+                            id="image_uploads"
+                            accept="image/*" 
+                            (change)="setQuestionAttachment($event)">
+        
+                    <div class="row justify-content-center">
+                        <img *ngIf="sel_question.attachment !== undefined" 
+                        [src]="sel_question.attachment" 
+                        width="100"
+                        height="100"
+                        >
+                    </div>
+                    
+                    <label class="form-row d-flex justify-content-center"
+                    id="label_unloads" *ngIf="sel_question.attachment !== ''"
+                            (click)="resetQuestionAttachment()">
+                            Видалити вкладення
+                    </label>  
+                </div>
+
     </div>
 
 
-    <div class="form-row">
-
-        <div class="form-group col-12 col-lg-4">
-            <label>Виберіть тип завдання</label>
-            <select class="form-control col-12" id="typeSelect" name="type" #typeField (change)="setQuestionType(typeField)" (change)="onAnswerTypeSelect($event)">
-               <option value="1"
-                       [selected]="sel_question.type === '1' "
-               >Простий вибір [Simple Choice]</option> 
-               <option value="2"
-                       [selected]="sel_question.type === '2' "
-               >Мульти-вибір [Multi Choice]</option> 
-               <option value="3"
-                       [selected]="sel_question.type === '3' "
-               >Текстове поле вводу [Input Field]</option> 
-               <option value="4"
-                       [selected]="sel_question.type === '4' "
-               >Числове поле вводу [Numerical]</option> 
-             
-            </select>
-        </div>
-        <div class="form-group col-12 col-lg-4">
-            <label>Виберіть ресурс варіантів</label>
-            <select class="form-control col-12" id="resourceSelect" (change)="onAnswerResourseSelect($event)">
-                <option 
-                  value="1" 
-                  [selected]=" answersResourse === 'text' " >
-                  Тільки текст
-                </option> 
-                <option *ngIf="(correctAnswerInputType !== 'txt' && correctAnswerInputType !== 'num')"
-                  value="2"
-                  [selected]=" answersResourse === 'file' "  >
-                  Тільки зображення
-                </option> 
-                <option *ngIf="(correctAnswerInputType !== 'num')" 
-                  value="3"
-                  [selected]=" answersResourse === 'text_file' "  >
-                  Текст і зображення
-                </option> 
-            </select>
-        </div>
+    <div class="form-row d-flex justify-content-center">
         
-        <div class="form-group col-12 col-lg-4">
+        <div class="form-group col-lg-4 col-md-6 col-sm-8 col-10 col-xm-12"  *ngIf="sel_question.type !== '4'">
             <label> 
-            <span class="redtext" *ngIf="( editedAnswersArray.length === 0 )" ><font color="red">Дане завдання ще не має відповідей.</font></span> 
+            <span id="redtext" *ngIf="( editedAnswersArray.length === 0 )" >Дане завдання ще не має відповідей.</span> 
             <span *ngIf="( editedAnswersArray.length !== 0 )" >Ви можете додати ще відповіді.</span> 
-             </label>
+            </label>
             <input class="col-12 btn btn-primary" (click)="addAnswer()" type="button" value="Додати варіант відповіді">
         </div>
     </div>
 
-    <br>
-    <br>
+    <!-- <br> -->
 
     <div *ngIf="answersIdNumbersArray.length !== 0" class="form-row mb-2">
         <table>
@@ -202,6 +200,9 @@
             </tr>
         </table>
     </div>
+
+    <br>
+    
     <div class="form-row d-flex justify-content-center">
         <div class="form-group col-sm-6 col-md-4">
             <input  class="btn btn-danger col-sm-12" (click)="closeDialog()" value="Відмінити">

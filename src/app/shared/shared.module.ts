@@ -21,6 +21,8 @@ import {CommonModule} from '@angular/common';
 import {SpinnerComponent} from './spinner/spinner.component';
 import {BreadcrumbComponent} from './breadcrumb/breadcrumb.component';
 import {RouterModule} from '@angular/router';
+import {PaginationService} from './pagination/pagination.service';
+import {PaginationPipe} from './pagination/pagination.pipe';
 
 
 @NgModule({
@@ -29,7 +31,8 @@ import {RouterModule} from '@angular/router';
         ResponseMessageComponent,
         DeleteConfirmComponent,
         SpinnerComponent,
-        BreadcrumbComponent
+        BreadcrumbComponent,
+        PaginationPipe
     ],
     exports: [
         CommonModule,
@@ -47,9 +50,14 @@ import {RouterModule} from '@angular/router';
         NgxPaginationModule,
         MatPaginatorModule,
         MatProgressSpinnerModule,
-        BreadcrumbComponent
+        BreadcrumbComponent,
+        PaginationPipe
     ],
-    providers: [{provide: HTTP_INTERCEPTORS, useClass: RequestInterceptor, multi: true}, MatPaginatorIntl],
+    providers: [
+        {provide: HTTP_INTERCEPTORS, useClass: RequestInterceptor, multi: true},
+        MatPaginatorIntl,
+        PaginationService
+    ],
     entryComponents: [
         ResponseMessageComponent,
         SpinnerComponent,

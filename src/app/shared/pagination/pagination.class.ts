@@ -1,24 +1,23 @@
 import {Subscription} from 'rxjs/Subscription';
 import {FormControl} from '@angular/forms';
 import {MatDialog, MatPaginator, MatPaginatorIntl} from '@angular/material';
-import {ViewChild} from '@angular/core';
+import {ChangeDetectorRef, ViewChild} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {ResponseMessageComponent} from '../response-message/response-message.component';
 import {HttpClient} from '@angular/common/http';
 import 'rxjs/add/operator/debounceTime';
+import {PaginationService} from './pagination.service';
 
 
 export class Pagination {
     error = 'За даним пошуковим запитом дані відсутні';
     searchBox = new FormControl();
     searchBoxSubscr: Subscription;
-    length: number;
-    pageSize = 5;
-    pageIndex: number;
-    pagination: boolean;
+    pageSize = 10;
+    pageIndex = 0;
     entitiesObj: any;
-    entity: string;
     entities: string;
+    pagination: boolean;
 
     @ViewChild(MatPaginator) paginator: MatPaginator;
 
@@ -26,40 +25,31 @@ export class Pagination {
                 public route: ActivatedRoute,
                 public pagIntl: MatPaginatorIntl,
                 public http: HttpClient,
-                public dialog: MatDialog) {
+                public dialog: MatDialog,
+                public pagService: PaginationService) {
     }
 
-    pagService = {
-        getSearchedEntities: (searchString) => {
-            return this.http.get(`${this.entity}/getRecordsBySearch/${searchString}`);
-        },
-        countEntities: () => {
-            return this.http.get(`${this.entity}/countRecords`);
-        },
-        getEntitiesRange: (limit, offset) => {
-            return this.http.get(`${this.entity}/getRecordsRange/${limit}/${offset}`);
-        }
-    };
-
-    initLogic() {
+    initLogic(dontGetEntity) {
         this.pagIntl.firstPageLabel = 'Перша сторінка';
         this.pagIntl.lastPageLabel = 'Остання сторінка';
         this.pagIntl.nextPageLabel = 'Наступна сторінка';
         this.pagIntl.previousPageLabel = 'Попередня сторінка';
         this.pagIntl.itemsPerPageLabel = 'Кількість елементів';
 
+        this.pagService.pagSubscr.debounceTime(100).subscribe(
+            data => this.pagination = data
+        );
+
         this.route.queryParams.subscribe(params => {
             params.page ? this.pageIndex = +params.page - 1 : this.pageIndex = 0;
-
-
-            this.getEntity();
+            dontGetEntity ? this.pagService.pagSubscr.next(true) : this.getEntity();
         });
 
         this.searchBoxSubscr = this.searchBox.valueChanges
             .debounceTime(1000)
             .subscribe(newValue => {
                 if (newValue !== '') {
-                    this.pagination = false;
+                    this.pagService.pagSubscr.next(false);
                     this.pagService.getSearchedEntities(newValue)
                         .subscribe(
                             (data: any) => {
@@ -71,20 +61,20 @@ export class Pagination {
                             }
                         );
                 } else {
-                    this.getEntity();
+                    dontGetEntity ? this.pagService.pagSubscr.next(true) : this.getEntity();
                 }
             });
     }
 
-    getEntity(event?): void {
-        this.pagination = true;
+    getEntity?(event?): void {
+        this.pagService.pagSubscr.next(true);
         if (event) {
-            this.pageIndex = event.pageIndex;
             this.pageSize = event.pageSize;
+            event.pageIndex === this.pageIndex ? this.getEntity() : this.pageIndex = event.pageIndex;
             this.router.navigate([`admin/${this.entities}`], {queryParams: {page: this.pageIndex + 1}});
         } else {
             this.pagService.countEntities().subscribe((data: any) =>
-                this.length = +data.numberOfRecords);
+                this.pagService.fullLength = +data.numberOfRecords);
 
             this.pagService.getEntitiesRange(this.pageSize, this.pageSize * this.pageIndex).subscribe((entities: any) => {
                 if (entities.response) {
@@ -98,10 +88,15 @@ export class Pagination {
                 } else {
                     this.entitiesObj = entities;
                 }
-
             });
         }
-
     }
 
+    paginationChange? (event) {
+        this.pageSize = event.pageSize;
+        this.pageIndex = event.pageIndex;
+
+
+    }
 }
+

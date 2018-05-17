@@ -2,8 +2,7 @@ import {Component, OnInit, ViewChild, ElementRef} from '@angular/core';
 import {StudentsService} from './students.service';
 import {StudentsModalWindowComponent} from './students-modal-window/students-modal-window.component';
 import {ResponseMessageComponent} from '../../shared/response-message/response-message.component';
-import {MatDialog} from '@angular/material';
-import {PaginationInstance} from 'ngx-pagination';
+import {MatDialog, MatPaginatorIntl} from '@angular/material';
 import {ActivatedRoute, Router} from '@angular/router';
 import {DeleteConfirmComponent} from '../../shared/delete-confirm/delete-confirm.component';
 import IStudent from './interfaces/IStudent';
@@ -16,6 +15,9 @@ import {setGroupAsID} from './reusable-functions/set-group-as-id';
 import {Subject} from 'rxjs/Subject';
 import IResolvedData from './interfaces/IResolvedData';
 import {Subscription} from 'rxjs/Subscription';
+import {HttpClient} from '@angular/common/http';
+import {Pagination} from '../../shared/pagination/pagination.class';
+import {PaginationService} from '../../shared/pagination/pagination.service';
 
 @Component({
     selector: 'app-students',
@@ -23,27 +25,27 @@ import {Subscription} from 'rxjs/Subscription';
     styleUrls: ['./students.component.scss'],
     providers: [StudentsService]
 })
-export class StudentsComponent implements OnInit {
+export class StudentsComponent extends Pagination implements OnInit {
 
-    searchStdSubscr: Subscription;
     groups: IGroup[] = [];
     faculties: IFaculty[] = [];
     facultyString = 'Виберіть факультет';
     groupString = 'Виберіть групу';
-    searchString = new Subject<string>();
     students: IStudent[] = [];
     byGroup: boolean;
-    // NgXPagination
-    public config: PaginationInstance = {
-        itemsPerPage: 10,
-        currentPage: 1
-    };
+
     @ViewChild('searchField') searchField: ElementRef;
 
     constructor(private service: StudentsService,
-                private dialog: MatDialog,
-                private route: ActivatedRoute,
-                private router: Router) {
+                public router: Router,
+                public route: ActivatedRoute,
+                public pagIntl: MatPaginatorIntl,
+                public http: HttpClient,
+                public dialog: MatDialog,
+                public pagService: PaginationService) {
+        super(router, route, pagIntl, http, dialog, pagService);
+        this.pagService.entity = 'Student';
+        this.entities = 'students';
     }
 
     ngOnInit() {
@@ -51,37 +53,47 @@ export class StudentsComponent implements OnInit {
             this.students = data.resolvedStudents.students;
             this.byGroup = data.resolvedStudents.byGroup;
             this.service.getAvailableFaculties().subscribe(res => this.faculties = res);
+            this.countingStudents();
             this.searchStd();
+            this.initLogic(true);
         });
 
     }
+    countingStudents () {
+        this.service.countStudent().subscribe(response => this.pagService.fullLength = +response.numberOfRecords);
+    }
 
     searchStd() {
-        this.searchStdSubscr = this.service.searchStudents(this.searchString)
-            .subscribe(
-                data => {
-                    this.processDataFromAPI(data);
-                },
-                error => {
-                    this.openModalMessage(error.status);
-                    this.unsubSearch();
-                    this.searchStd();
+        this.searchBoxSubscr = this.searchBox.valueChanges
+            .debounceTime(1000)
+            .subscribe(newValue => {
+                if (newValue !== '') {
+                    this.pagService.pagSubscr.next(false);
+                    this.pagService.getSearchedEntities(newValue)
+                        .subscribe(
+                            (data: any) => {
+                                if (data.response === 'no records') {
+                                    this.students = undefined;
+                                } else {
+                                    this.processDataFromAPI(data);
+                                }
+                            }
+                        );
+                } else {
+                    this.updateData(this.pageSize, this.pageIndex);
                 }
-            );
+            });
     }
 
-    unsubSearch() {
-        this.searchStdSubscr.unsubscribe();
-    }
-
-    // Opening creating student form
+     // Opening creating student form
     showRegForm(user: IStudent): void {
         this.openStudentsModalWindow(user, true, false, false, true, 'Додати студента')
             .afterClosed().subscribe((Response: any) => {
             if (Response) {
                 if (Response.response === 'ok') {
                     this.openModalMessage('Профіль цього студента було успішно додано!');
-                    this.updateData();
+                    this.updateData(this.pageSize, this.pageIndex);
+                    this.countingStudents();
                 } else if (Response.error || Response.response === 'Failed to validate array') {
                     this.openModalMessage('Виникла помилка при додаванні цього студента!');
                 }
@@ -96,7 +108,7 @@ export class StudentsComponent implements OnInit {
             if (Response) {
                 if (Response.response === 'ok') {
                     this.openModalMessage('Профіль цього студента було успішно оновлено!');
-                    this.updateData();
+                    this.updateData(this.pageSize, this.pageIndex);
                 } else if (Response.error || Response.response === 'Error when update') {
                     this.openModalMessage('Виникла помилка при редагуванні профілю цього студента!');
                 }
@@ -127,7 +139,9 @@ export class StudentsComponent implements OnInit {
     }
 
     // to update data after changes(deleting, editing)
-    updateData(): void {
+    updateData(page, index): void {
+        this.pageSize = page;
+        this.pageIndex = index;
         const id = this.route.snapshot.paramMap.get('id');
         if (id) {
             this.service.getStudentsByGroup(id).subscribe(
@@ -136,7 +150,7 @@ export class StudentsComponent implements OnInit {
             );
         }
         if (!id) {
-            this.service.getStudents().subscribe(
+            this.service.getStudents(page, index).subscribe(
                 (data: IStudent[] & IResponse) => this.processDataFromAPI(data),
                 () => this.openModalMessage('Сталась помилка при завантаженні даних')
             );
@@ -156,6 +170,7 @@ export class StudentsComponent implements OnInit {
             groupsArr = response;
             // Updating array students
             this.students = getFiltredStudents(data, groupsArr);
+
         });
     }
 
@@ -171,8 +186,13 @@ export class StudentsComponent implements OnInit {
             if (Response) {
                 this.service.deleteStudent(index).subscribe((data: IResponse) => {
                         if (data.response === 'ok') {
+                            this.countingStudents();
                             this.openModalMessage('Профіль цього студента було успішно видалено!');
-                            this.updateData();
+                            if (this.students.length > 1) {
+                                this.updateData(this.pageSize, this.pageIndex);
+                            } else {
+                                this.pagination ? this.paginator.previousPage() : this.students = undefined;
+                            }
                         }
                     },
                     () => {
@@ -210,6 +230,8 @@ export class StudentsComponent implements OnInit {
 
     // filters students by group
     getFiltredStudentsByGroup(elem: HTMLSelectElement) {
+        this.pagService.pagSubscr.next(false);
+        this.pageIndex = 0;
         const index = setGroupAsID(elem, this.groups);
         console.log(index);
         if (index) {
@@ -222,10 +244,10 @@ export class StudentsComponent implements OnInit {
 
     // clear filters
     resetFilters(): void {
-        this.searchField.nativeElement.value = '';
         this.facultyString = 'Виберіть факультет';
         this.groupString = 'Виберіть групу';
-        this.updateData();
+        this.updateData(this.pageSize, this.pageIndex);
+        this.pagService.pagSubscr.next(true);
     }
 
     // back to groups
@@ -237,4 +259,5 @@ export class StudentsComponent implements OnInit {
     reviseAllStudents() {
         this.router.navigate(['admin/students/']);
     }
+
 }

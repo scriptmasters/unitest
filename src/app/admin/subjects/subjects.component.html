@@ -32,7 +32,7 @@
                         </thead>
                         <tbody>
                         <tr *ngFor="let subject of entitiesObj; let i = index">
-                            <th>{{i+pageSize*pageIndex+1}}</th>
+                            <th (click)="func()">{{i+pageSize*pageIndex+1}}</th>
                             <td>{{subject.subject_name}}</td>
                             <td>{{subject.subject_description}}</td>
                             <td><a (click)="getTests(subject.subject_id)"><i
@@ -54,8 +54,9 @@
                 </div>
             </div>
         </div>
-        <mat-paginator *ngIf="pagination"
-                       [length]=length
+        <mat-paginator
+                       *ngIf="pagination"
+                       [length]=pagService.fullLength
                        [pageSize]=pageSize
                        [pageIndex]=pageIndex
                        [pageSizeOptions]="[5, 10, 25, 100]"
