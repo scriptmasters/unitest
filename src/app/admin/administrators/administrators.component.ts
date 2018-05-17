@@ -30,7 +30,6 @@ export class AdministratorsComponent implements OnInit {
      currentPage: 1
   };
 
-
   constructor(private administratorsService: AdministratorsService,
    public dialog: MatDialog,
    private route: ActivatedRoute,
@@ -99,7 +98,6 @@ export class AdministratorsComponent implements OnInit {
               message: 'Ви не можете редагувати цього адміністратора!'
             }
           });
-
         }
     });
   }

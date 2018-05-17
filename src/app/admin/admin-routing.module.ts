@@ -7,7 +7,6 @@ import {StatisticComponent} from './statistic/statistic.component';
 import {TestDetailsComponent} from './testdetails/component/test-details.component';
 import {ResultsComponent} from './results/results.component';
 
-
 const routes: Routes = [
     {
         path: '',
