@@ -1,6 +1,6 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { AdministratorsDialogComponent } from './administrators-dialog.component';
+import {AdministratorsDialogComponent} from './administrators-dialog.component';
 
 describe('AdministratorsDialogComponent', () => {
   let component: AdministratorsDialogComponent;

@@ -1,6 +1,6 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { TimetableDeleteConfirmComponent } from './timetable-delete-confirm.component';
+import {TimetableDeleteConfirmComponent} from './timetable-delete-confirm.component';
 
 describe('TimetableDeleteConfirmComponent', () => {
   let component: TimetableDeleteConfirmComponent;

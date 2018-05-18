@@ -1,6 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {AuthService} from '../auth/auth.service';
-import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-admin',
@@ -9,16 +8,16 @@ import {Router} from '@angular/router';
 })
 export class AdminComponent implements OnInit {
 
-  constructor(public authService: AuthService, private router: Router ) { }
+  constructor(public authService: AuthService ) { }
 
   ngOnInit() {
 
   }
 
 
-
   handleClick(elem: HTMLElement) {
     elem.classList.toggle('shown');
+    console.dir(elem);
   }
 
 

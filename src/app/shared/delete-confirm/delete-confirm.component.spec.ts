@@ -1,6 +1,6 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { DeleteConfirmComponent } from './delete-confirm.component';
+import {DeleteConfirmComponent} from './delete-confirm.component';
 
 describe('DeleteConfirmComponent', () => {
   let component: DeleteConfirmComponent;

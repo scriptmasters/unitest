@@ -1,5 +1,5 @@
-import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import {Injectable} from '@angular/core';
+
 @Injectable()
 export class DataService {
   mark;
@@ -9,7 +9,7 @@ export class DataService {
   getMark(): number {
     return this.mark;
   }
-  
+
   setMark(m: number) {
     this.mark = m;
   }

@@ -1,5 +1,4 @@
 import { Component, HostListener, OnInit } from '@angular/core';
-
 import { TestPlayerService } from '../services/test-player.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatDialog } from '@angular/material';

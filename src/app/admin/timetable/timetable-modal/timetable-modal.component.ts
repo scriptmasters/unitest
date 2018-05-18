@@ -1,23 +1,17 @@
-import { Component, OnInit, Inject } from '@angular/core';
-import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
+import {Component, Inject, OnInit} from '@angular/core';
+import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material';
 import TableService from '../timetable.service';
-import { startDateValidator, matchDates } from './date-validation';
-import { ResponseMessageComponent } from '../../../shared/response-message/response-message.component';
+import {matchDates, startDateValidator} from './date-validation';
 
-import {
-  FormControl,
-  FormGroup,
-  Validators,
-  ReactiveFormsModule
-} from '@angular/forms';
+import {FormControl, FormGroup, Validators} from '@angular/forms';
 
 @Component({
-  selector: 'timetable-modal',
+  selector: 'app-timetable-modal',
   templateUrl: './timetable-modal.component.html',
   styleUrls: ['./timetable-modal.component.scss'],
   providers: [TableService]
 })
-export class TimeTableModal implements OnInit {
+export class TimeTableModalComponent implements OnInit {
   private form: FormGroup;
   formData = {
     group_id: '',
@@ -30,7 +24,7 @@ export class TimeTableModal implements OnInit {
   };
 
   constructor(
-    public dialogRef: MatDialogRef<TimeTableModal>,
+    public dialogRef: MatDialogRef<TimeTableModalComponent>,
     public tableService: TableService,
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {
@@ -84,7 +78,7 @@ export class TimeTableModal implements OnInit {
        timetable_id: undefined
     };
     }
-  }
+  };
   onSubmit = evt => {
     // if timetable_id exists then we need to edit item instead of adding new one
     if (this.formData.timetable_id) {
