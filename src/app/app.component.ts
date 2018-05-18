@@ -13,7 +13,7 @@ import {SpinnerComponent} from './shared/spinner/spinner.component';
 
 export class AppComponent implements OnInit {
     constructor(private router: Router,
-                private dialog: MatDialog,) {
+                private dialog: MatDialog, ) {
     }
 
     dialogSpinner: MatDialogRef<any>;

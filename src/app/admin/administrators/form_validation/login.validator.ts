@@ -6,7 +6,7 @@ export class ValidateLoginNotTaken {
     return (control: AbstractControl) => {
       if ( updating ) {
         return service.checkUsername(control.value).map(res => {
-          if(currentLogin === control.value) return;
+          if (currentLogin === control.value) {return; }
             return res ? null : { loginTaken: true };
         });
       }

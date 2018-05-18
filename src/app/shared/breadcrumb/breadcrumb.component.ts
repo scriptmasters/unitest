@@ -43,11 +43,10 @@ export class BreadcrumbComponent implements OnInit {
                            url: string = '',
                            breadcrumbs: IBreadcrumb[] = []): IBreadcrumb[] {
         const ROUTE_DATA_BREADCRUMB = 'breadcrumb';
-
         // get the child routes
         const children: ActivatedRoute[] = route.children;
 
-
+        // console.log(route.children);
         // return if there are no more children
         if (children.length === 0) {
             return breadcrumbs;
@@ -68,10 +67,10 @@ export class BreadcrumbComponent implements OnInit {
             const routeURL: string = child.snapshot.url
                 .map(segment => segment.path)
                 .join('/');
-
+// console.log(routeURL);
             // append route URL to URL
             url += `/${routeURL}`;
-
+            // console.log(`url: ${url}`);
             // add breadcrumb
             const breadcrumb: IBreadcrumb = {
                 label: child.snapshot.data[ROUTE_DATA_BREADCRUMB],

@@ -30,7 +30,6 @@ export class AdministratorsComponent implements OnInit {
      currentPage: 1
   };
 
-
   constructor(private administratorsService: AdministratorsService,
    public dialog: MatDialog,
    private route: ActivatedRoute,
@@ -91,7 +90,7 @@ export class AdministratorsComponent implements OnInit {
             }
           }
         });
-
+        matDialogRef.disableClose = true;
       } else {
           this.dialog.open(ResponseMessageComponent, {
             width: '400px',
@@ -99,7 +98,6 @@ export class AdministratorsComponent implements OnInit {
               message: 'Ви не можете редагувати цього адміністратора!'
             }
           });
-
         }
     });
   }
@@ -134,6 +132,7 @@ export class AdministratorsComponent implements OnInit {
               });
           }
         });
+        dialogRef.disableClose = true;
       } else {
         this.dialog.open(ResponseMessageComponent, {
           width: '400px',
