@@ -191,12 +191,13 @@ export class StudentComponent implements OnInit {
             }
           });
         } else if (error.error.response === 'User is making test at current moment') {
-          this.dialog.open(ResponseMessageComponent, {
-            width: '400px',
-            data: {
-              message: 'Ви здаєте тест в даний момент'
-            }
-          });
+          // this.dialog.open(ResponseMessageComponent, {
+          //   width: '400px',
+          //   data: {
+          //     message: 'Ви здаєте тест в даний момент'
+          //   }
+          // });
+          this.router.navigate(['student/test/' + testId]);
         } else if (error.error.response === 'You cannot make the test due to used all attempts') {
           this.dialog.open(ResponseMessageComponent, {
             width: '400px',
