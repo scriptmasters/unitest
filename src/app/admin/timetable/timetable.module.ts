@@ -1,16 +1,16 @@
-import { NgModule } from '@angular/core';
-import { TimetableComponent } from './timetable.component';
-import { TimeTableModal } from './timetable-modal/timetable-modal.component';
-import { TimetableDeleteConfirmComponent } from './timetable-delete-confirm/timetable-delete-confirm.component';
-import { TimetableRoutingModule } from './timetable-routing.module';
-import { TableService } from './timetable.service';
-import { SharedModule } from '../../shared/shared.module';
-import { CommonModule } from '@angular/common';
+import {NgModule} from '@angular/core';
+import {TimetableComponent} from './timetable.component';
+import {TimeTableModalComponent} from './timetable-modal/timetable-modal.component';
+import {TimetableDeleteConfirmComponent} from './timetable-delete-confirm/timetable-delete-confirm.component';
+import {TimetableRoutingModule} from './timetable-routing.module';
+import {TableService} from './timetable.service';
+import {SharedModule} from '../../shared/shared.module';
+import {CommonModule} from '@angular/common';
 
 @NgModule({
     declarations: [
         TimetableComponent,
-        TimeTableModal,
+        TimeTableModalComponent,
         TimetableDeleteConfirmComponent,
     ],
     imports: [
@@ -23,7 +23,7 @@ import { CommonModule } from '@angular/common';
     ],
     entryComponents: [
         TimetableDeleteConfirmComponent,
-        TimeTableModal
+        TimeTableModalComponent
     ]
 })
 

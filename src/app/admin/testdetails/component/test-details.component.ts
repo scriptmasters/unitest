@@ -1,11 +1,11 @@
-import { Component, OnInit } from '@angular/core';
-import { MatDialog } from '@angular/material';
-import { TestDetailsService } from '../sevices/test-details.service';
+import {Component, OnInit} from '@angular/core';
+import {MatDialog} from '@angular/material';
+import {TestDetailsService} from '../sevices/test-details.service';
 
-import { TestDetailCreateComponent } from '../modals/test-detail-create/test-detail-create.component';
-import { ActivatedRoute } from '@angular/router';
-import { DeleteConfirmComponent } from '../../../shared/delete-confirm/delete-confirm.component';
-import { ResponseMessageComponent } from '../../../shared/response-message/response-message.component';
+import {TestDetailCreateComponent} from '../modals/test-detail-create/test-detail-create.component';
+import {ActivatedRoute} from '@angular/router';
+import {DeleteConfirmComponent} from '../../../shared/delete-confirm/delete-confirm.component';
+import {ResponseMessageComponent} from '../../../shared/response-message/response-message.component';
 
 
 @Component({

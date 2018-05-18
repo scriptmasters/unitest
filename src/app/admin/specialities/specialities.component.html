@@ -32,7 +32,7 @@
                         </thead>
                         <tbody>
                         <tr *ngFor="let key of  entitiesObj; index as i">
-                            <th scope="row">{{i+1}}</th>
+                            <th scope="row">{{i+pageSize*pageIndex+1}}</th>
                             <th>{{key.speciality_code}}</th>
                             <td>{{key.speciality_name}}</td>
                             <td><i class="fa fa-bars" (click)="getGroups(key.speciality_id)"></i></td>
@@ -48,12 +48,12 @@
             </div>
         </div>
         <mat-paginator *ngIf="pagination"
-                       [length]=length
+                       [length]=pagService.fullLength
                        [pageSize]=pageSize
                        [pageIndex]=pageIndex
                        [pageSizeOptions]="[5, 10, 25, 100]"
                        [showFirstLastButtons]="true"
-                       (page)="getEntity($event, true)">
+                       (page)="getEntity($event)">
         </mat-paginator>
     </div>
 </section>

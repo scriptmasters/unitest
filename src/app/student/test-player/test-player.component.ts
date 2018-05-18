@@ -1,17 +1,14 @@
-import {Component, OnInit} from '@angular/core';
-
-import {TestPlayerService} from '../services/test-player.service';
-import {ActivatedRoute, Router} from '@angular/router';
-import {MatDialog} from '@angular/material';
-import {TestResultComponent} from './test-result/test-result.component';
-import {ITimeStamp} from './interfaces/TimeStamp';
-import {ITimer} from './interfaces/Timer';
-import {TimerService} from '../services/timer.service';
-import {AuthService} from '../../auth/auth.service';
+import { Component, HostListener, OnInit } from '@angular/core';
+import { TestPlayerService } from '../services/test-player.service';
+import { ActivatedRoute, Router } from '@angular/router';
+import { MatDialog } from '@angular/material';
+import { ITimeStamp } from './interfaces/TimeStamp';
+import { ITimer } from './interfaces/Timer';
+import { TimerService } from '../services/timer.service';
+import { AuthService } from '../../auth/auth.service';
 import { DataService } from '../services/data.service';
-import {IQuestion} from './interfaces/Question';
-import {IStudent} from './interfaces/Student';
-
+import { IQuestion } from './interfaces/Question';
+import { IStudent } from './interfaces/Student';
 
 @Component({
   selector: 'app-test-player',
@@ -22,7 +19,9 @@ export class TestPlayerComponent implements OnInit {
   questions = [];
   userAnswers = {};
   userCheckboxAnswers = {}; // for checkbox question
+  checkboxAnswersStatus = {};
   question: IQuestion;
+  isLoaded = false;
   Index = 1;
 
   // ******** TIMER ************
@@ -30,7 +29,7 @@ export class TestPlayerComponent implements OnInit {
   time: ITimeStamp = {
     unix_timestamp: 0,
     offset: 0,
-    curtime: 0
+    curtime: 0,
   };
   startDate: any;
   endDate: any;
@@ -38,7 +37,7 @@ export class TestPlayerComponent implements OnInit {
   timer: ITimer = {
     hours: 0,
     minutes: 0,
-    seconds: 0
+    seconds: 0,
   };
   studentId: number;
   timeOfTest: number;
@@ -51,21 +50,24 @@ export class TestPlayerComponent implements OnInit {
     student_name: '',
     student_fname: '',
     group_id: 0,
-    photo: ''
+    photo: '',
   };
 
-  constructor(private testPlayerService: TestPlayerService,
-              private timerService: TimerService,
-              private route: ActivatedRoute,
-              private router: Router,
-              private dialog: MatDialog,
-              private authService: AuthService,
-              private data: DataService) {
-
+  constructor(
+    private testPlayerService: TestPlayerService,
+    private timerService: TimerService,
+    private route: ActivatedRoute,
+    private router: Router,
+    private dialog: MatDialog,
+    private authService: AuthService,
+    private data: DataService
+  ) {
     this.start = setInterval(() => {
       // TimerMakeCool(){}
       this.timer.hours = Math.floor(this.distance / (1000 * 60 * 60));
-      this.timer.minutes = Math.floor((this.distance % (1000 * 60 * 60)) / (1000 * 60));
+      this.timer.minutes = Math.floor(
+        (this.distance % (1000 * 60 * 60)) / (1000 * 60)
+      );
 
       if (parseInt(this.timer.minutes, 10) < 10) {
         this.timer.minutes = '0' + this.timer.minutes;
@@ -82,7 +84,9 @@ export class TestPlayerComponent implements OnInit {
         this.timer.hours = '00';
         this.timer.minutes = '00';
         this.timer.seconds = '00';
-        this.timerService.clearTime().subscribe(response => console.log(response));
+        this.timerService
+          .clearTime()
+          .subscribe(response => console.log(response));
         clearInterval(this.start);
         this.finishTest();
         // alert('time\'s up');
@@ -96,28 +100,23 @@ export class TestPlayerComponent implements OnInit {
     this.getTime();
   }
 
+  @HostListener('window:beforeunload', ['$event'])
+  beforeunloadHandler($event) {
+    $event.returnValue = true;
+  }
+
   getQuestionsForTest(): void {
     const testId = this.route.snapshot.paramMap.get('id');
     this.testPlayerService
       .getQuestionsWithAnswers(testId)
       .subscribe((questions: any) => {
         this.questions = questions;
-        console.log('questions');
         this.question = this.questions[0];
-        console.log(this.question);
+        this.isLoaded = true;
       });
   }
 
-  // sendAnswer(question, answer) {
-  //   this.userAnswers[question.question_id] =
-  //     this.userAnswers[question.question_id] || {};
-  //   this.userAnswers[question.question_id] = question;
-  //   this.userAnswers[question.question_id].answer_id = answer;
-  //   console.log(this.userAnswers);
-  // }
-
   sendAnswers(question, answer) {
-
     // for checkbox questions
     if (+question.type === 2) {
       this.userCheckboxAnswers[question.question_id] =
@@ -127,12 +126,14 @@ export class TestPlayerComponent implements OnInit {
       const answersArr = [];
       let answers_ids = '';
 
+      this.checkboxAnswersStatus[answer.answer_id] = !this.checkboxAnswersStatus[answer.answer_id];
+
       for (const key in topModel) {
         if (topModel[key] === false) {
           delete topModel[key];
         } else {
           answersArr.push(key);
-          answers_ids = answersArr.join(',');
+          answers_ids = answersArr.join(' ');
         }
       }
 
@@ -141,41 +142,26 @@ export class TestPlayerComponent implements OnInit {
       this.userAnswers[question.question_id].question_id = question.question_id;
       this.userAnswers[question.question_id].answer_id = answers_ids;
 
+      console.log(this.userAnswers);
+
       // for input questions
-    } else if ((+question.type === 3) || (+question.type === 4)) {
+    } else if (+question.type === 3 || +question.type === 4) {
       this.userAnswers[question.question_id] =
         this.userAnswers[question.question_id] || {};
       this.userAnswers[question.question_id] = question;
       this.userAnswers[question.question_id].answer_id = answer;
-      console.log(this.userAnswers);
     }
   }
 
-  openModal(testResult): void {
-    const matDialogRef = this.dialog.open(TestResultComponent, {
-      disableClose: true,
-      width: '400px',
-      data: {result: testResult},
-    });
-
-    matDialogRef.afterClosed().subscribe(() => {
-      this.router.navigate(['student']);
-    });
-  }
-
   finishTest() {
-    console.log('Finish Test');
     this.testPlayerService
       .checkResult(this.userAnswers)
       .subscribe((response: any) => {
-        const testResult = response;
         this.data.setAnswers(response.number_of_true_answers);
         this.data.setMark(response.full_mark);
-       // this.openModal(testResult);
-       this.router.navigate(['student/results']);
+        this.router.navigate(['student/results']);
       });
   }
-
 
   // Questions routing
   questionRoute(index) {
@@ -185,21 +171,21 @@ export class TestPlayerComponent implements OnInit {
     console.log(this.userAnswers);
   }
   nextQuestion() {
-    this.Index ++;
+    this.Index++;
     if (this.Index > this.questions.length) {
       this.Index = 1;
     }
     this.question = this.questions[this.Index - 1];
   }
   prevQuestion() {
-    this.Index --;
+    this.Index--;
     if (this.Index < 1) {
       this.Index = this.questions.length;
     }
     this.question = this.questions[this.Index - 1];
   }
 
-//  ************ TIMER ******************
+  //  ************ TIMER ******************
   getTime() {
     // Беремо Час для тесту і Subject_id
     this.route.params.subscribe(params => {
@@ -211,7 +197,7 @@ export class TestPlayerComponent implements OnInit {
     });
   }
 
-// З TimeTable Беремо час закінчення тесту по GroupId and SubjectId
+  // З TimeTable Беремо час закінчення тесту по GroupId and SubjectId
   getEndTimeOfTest(idSubj) {
     this.authService.isLogged().subscribe((response: any) => {
       this.studentId = response.id;
@@ -224,7 +210,7 @@ export class TestPlayerComponent implements OnInit {
     });
   }
 
-// Рахуємо скільки часу залишилось
+  // Рахуємо скільки часу залишилось
   countTimeLeft() {
     // Get current time
     this.timerService.getTimeStamp().subscribe(timeBegin => {
@@ -243,20 +229,26 @@ export class TestPlayerComponent implements OnInit {
   timeSlot() {
     this.timerService.getEndTime().subscribe(endOfTest => {
       if (endOfTest.response === 'Empty slot') {
-        this.timerService.saveEndTime({
-          'end': (this.startDate + this.distance)
-        }).subscribe((response) => {
-        }, error => {
-          console.error(error.error.response);
-        });
+        this.timerService
+          .saveEndTime({
+            end: this.startDate + this.distance,
+          })
+          .subscribe(
+            response => {},
+            error => {
+              console.error(error.error.response);
+            }
+          );
         this.timeSlot();
       } else {
         this.distance = endOfTest.end - this.startDate;
-        if (this.distance > (this.endDate - this.startDate)) {
+        if (this.distance > this.endDate - this.startDate) {
           this.distance = this.endDate - this.startDate;
         }
         if (this.distance === undefined) {
-          this.timerService.clearTime().subscribe(response => console.log(response));
+          this.timerService
+            .clearTime()
+            .subscribe(response => console.log(response));
         }
       }
     });
@@ -265,4 +257,3 @@ export class TestPlayerComponent implements OnInit {
 
 // End of component
 }
-

@@ -1,4 +1,4 @@
-import { TestsValidatorDirective } from './tests-validator.directive';
+import {TestsValidatorDirective} from './tests-validator.directive';
 
 describe('TestsValidatorDirective', () => {
   it('should create an instance', () => {

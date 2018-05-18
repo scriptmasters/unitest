@@ -26,7 +26,10 @@
       <div class="card-body d-flex">
 
         <form class="test-form">
-          <div [ngSwitch]="question?.type">
+          <div *ngIf="!isLoaded">
+            Завантаження...
+          </div>
+          <div *ngIf="isLoaded" [ngSwitch]="question.type">
             <div *ngSwitchCase="1">
               <div class="test-question">{{Index}}. {{question.question_text}}</div>
               <ul>
@@ -51,10 +54,10 @@
                   <label>
                     <input
                       type="checkbox"
-                      [value]="answer.answer_id"
                       name="question{{question.question_id}}"
                       (change)="sendAnswers(question, answer)"
-                    >
+                      [checked]="checkboxAnswersStatus[answer.answer_id]"
+                      >
                     {{answer.answer_text}}
                   </label>
                 </li>
@@ -68,6 +71,7 @@
                 type="text"
                 name="question{{question.question_id}}"
                 (blur)="sendAnswers(question, answer.value)"
+                [(ngModel)]="question.answer_id"
               >
               <div class="line"></div>
             </div>
@@ -75,9 +79,10 @@
               <div class="test-question">{{Index}}. {{question.question_text}}</div>
               <input
                 #answer
-                type="text"
+                type="number"
                 name="question{{question.question_id}}"
                 (blur)="sendAnswers(question, answer.value)"
+                [(ngModel)]="question.answer_id"
               >
               <div class="line"></div>
             </div>
