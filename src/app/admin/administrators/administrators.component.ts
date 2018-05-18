@@ -1,17 +1,17 @@
-import { Component, OnInit } from '@angular/core';
-import { AdministratorsService } from './services/administrators.service';
-import { Administrators, IResponse } from './administratorsInterface';
-import { MatDialog } from '@angular/material';
-import { DeleteConfirmComponent } from '../../shared/delete-confirm/delete-confirm.component';
-import { ResponseMessageComponent } from '../../shared/response-message/response-message.component';
-import { FormControl } from '@angular/forms';
-import { AdministratorsDialogComponent } from './administrators-dialog/administrators-dialog.component';
+import {Component, OnInit} from '@angular/core';
+import {AdministratorsService} from './services/administrators.service';
+import {Administrators, IResponse} from './administratorsInterface';
+import {MatDialog} from '@angular/material';
+import {DeleteConfirmComponent} from '../../shared/delete-confirm/delete-confirm.component';
+import {ResponseMessageComponent} from '../../shared/response-message/response-message.component';
+import {FormControl} from '@angular/forms';
+import {AdministratorsDialogComponent} from './administrators-dialog/administrators-dialog.component';
 import {Subscription} from 'rxjs/Subscription';
 import {PaginationInstance} from 'ngx-pagination';
 import 'rxjs/add/operator/debounceTime';
-import { ActivatedRoute } from '@angular/router';
-import { AuthService } from '../../auth/auth.service';
-import { IisLogged } from '../../shared/Interfaces/server_response';
+import {ActivatedRoute} from '@angular/router';
+import {AuthService} from '../../auth/auth.service';
+import {IisLogged} from '../../shared/Interfaces/server_response';
 
 @Component({
   selector: 'app-administrators',

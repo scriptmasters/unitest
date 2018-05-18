@@ -1,12 +1,12 @@
-import { Component, Inject, OnInit } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { AdministratorsService } from '../services/administrators.service';
-import { Administrators } from '../administratorsInterface';
-import { matchOtherValidator } from '../form_validation/confirm_password.validator';
-import { ValidateLoginNotTaken } from '../form_validation/login.validator';
-import { ValidateEmailNotTaken } from '../form_validation/email.validator';
-import { ValidatePassword } from '../form_validation/oldPassword.validator';
+import {Component, Inject, OnInit} from '@angular/core';
+import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material';
+import {FormControl, FormGroup, Validators} from '@angular/forms';
+import {AdministratorsService} from '../services/administrators.service';
+import {Administrators} from '../administratorsInterface';
+import {matchOtherValidator} from '../form_validation/confirm_password.validator';
+import {ValidateLoginNotTaken} from '../form_validation/login.validator';
+import {ValidateEmailNotTaken} from '../form_validation/email.validator';
+import {ValidatePassword} from '../form_validation/oldPassword.validator';
 
 @Component({
   selector: 'app-administrators-dialog',

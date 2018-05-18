@@ -1,4 +1,4 @@
-import { AbstractControl, ValidatorFn, FormGroup } from '@angular/forms';
+import {AbstractControl} from '@angular/forms';
 import * as moment from 'moment';
 
 export function startDateValidator(

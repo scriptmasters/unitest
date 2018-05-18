@@ -1,13 +1,13 @@
-import { Component, OnInit } from '@angular/core';
-import { FacultiesService } from './services/faculties.service';
-import { MatDialog } from '@angular/material';
-import { Faculties, IResponse } from './facultiesInterface';
-import { FacultiesDialogComponent } from './faculties-dialog/faculties-dialog.component';
-import { DeleteConfirmComponent } from '../../shared/delete-confirm/delete-confirm.component';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { ResponseMessageComponent } from '../../shared/response-message/response-message.component';
+import {Component, OnInit} from '@angular/core';
+import {FacultiesService} from './services/faculties.service';
+import {MatDialog} from '@angular/material';
+import {Faculties, IResponse} from './facultiesInterface';
+import {FacultiesDialogComponent} from './faculties-dialog/faculties-dialog.component';
+import {DeleteConfirmComponent} from '../../shared/delete-confirm/delete-confirm.component';
+import {FormGroup} from '@angular/forms';
+import {ResponseMessageComponent} from '../../shared/response-message/response-message.component';
 import {PaginationInstance} from 'ngx-pagination';
-import { ActivatedRoute, Params, Router } from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 
 @Component({
   selector: 'app-faculties',

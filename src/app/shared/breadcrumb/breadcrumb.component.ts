@@ -1,12 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {
-    Router,
-    RouterModule,
-    ActivatedRoute,
-    NavigationEnd,
-    Params,
-    PRIMARY_OUTLET
-} from '@angular/router';
+import {ActivatedRoute, NavigationEnd, Params, PRIMARY_OUTLET, Router} from '@angular/router';
 import 'rxjs/add/operator/filter';
 
 interface IBreadcrumb {

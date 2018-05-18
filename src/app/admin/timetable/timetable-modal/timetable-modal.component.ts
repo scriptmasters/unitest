@@ -1,15 +1,9 @@
-import { Component, OnInit, Inject } from '@angular/core';
-import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
+import {Component, Inject, OnInit} from '@angular/core';
+import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material';
 import TableService from '../timetable.service';
-import { startDateValidator, matchDates } from './date-validation';
-import { ResponseMessageComponent } from '../../../shared/response-message/response-message.component';
+import {matchDates, startDateValidator} from './date-validation';
 
-import {
-  FormControl,
-  FormGroup,
-  Validators,
-  ReactiveFormsModule
-} from '@angular/forms';
+import {FormControl, FormGroup, Validators} from '@angular/forms';
 
 @Component({
   selector: 'app-timetable-modal',
@@ -84,7 +78,7 @@ export class TimeTableModalComponent implements OnInit {
        timetable_id: undefined
     };
     }
-  }
+  };
   onSubmit = evt => {
     // if timetable_id exists then we need to edit item instead of adding new one
     if (this.formData.timetable_id) {

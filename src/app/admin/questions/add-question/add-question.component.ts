@@ -1,11 +1,10 @@
-import {Component, Inject, OnInit, Input, Output, EventEmitter, ViewEncapsulation } from '@angular/core';
+import {Component, Inject, OnInit} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {QuestionsService} from '../questions.service';
 // import {QuestionsComponent} from '../questions.component';
-import {IQuestion, IAnswerSet, IAnswer, IResponse} from '../questions-interface';
-import {ActivatedRoute} from '@angular/router';
+import {IAnswer, IAnswerSet, IQuestion} from '../questions-interface';
 import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from '@angular/material';
-import { ResponseMessageComponent } from '../../../shared/response-message/response-message.component';
+import {ResponseMessageComponent} from '../../../shared/response-message/response-message.component';
 
 
 @Component({

@@ -1,5 +1,5 @@
-import { FormControl } from '@angular/forms';
-import { AdministratorsService } from '../services/administrators.service';
+import {FormControl} from '@angular/forms';
+import {AdministratorsService} from '../services/administrators.service';
 
 export class ValidateEmailNotTaken {
   static createValidator(service: AdministratorsService, updating: boolean, currentEmail: any) {

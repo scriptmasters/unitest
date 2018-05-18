@@ -1,18 +1,15 @@
-import { Component, OnInit, Input } from '@angular/core';
-import { QuestionsService } from './questions.service';
+import {Component, OnInit} from '@angular/core';
+import {QuestionsService} from './questions.service';
 import {AddQuestionComponent} from './add-question/add-question.component';
 import {EditQuestionComponent} from './edit-question/edit-question.component';
 
-import { IQuestion } from './questions-interface';
-import { group } from '@angular/animations';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { MatDialog} from '@angular/material';
-import { IResponse } from './questions-interface';
-import { Router, ActivatedRoute, Params } from '@angular/router';
-import { DeleteConfirmComponent } from '../../shared/delete-confirm/delete-confirm.component';
-import { ResponseMessageComponent } from '../../shared/response-message/response-message.component';
-import { PaginationInstance } from 'ngx-pagination';
-import { forEach } from '@angular/router/src/utils/collection';
+import {IQuestion, IResponse} from './questions-interface';
+import {FormGroup} from '@angular/forms';
+import {MatDialog} from '@angular/material';
+import {ActivatedRoute, Router} from '@angular/router';
+import {DeleteConfirmComponent} from '../../shared/delete-confirm/delete-confirm.component';
+import {ResponseMessageComponent} from '../../shared/response-message/response-message.component';
+import {PaginationInstance} from 'ngx-pagination';
 
 
 @Component({
@@ -30,15 +27,11 @@ export class QuestionsComponent implements OnInit {
       };
 
       offset = 0;
-
-      selectedTestId: string;
-      selectedTestName: string;
       questions: IQuestion[] = [];
       // question: IQuestions;
       subjectIdNamesArr = [];
       allTestIdNameArr = [];
       testListBySelSubject = [];
-      title_component = 'Завдання для тесту: ';
       form: FormGroup;
 
       subjectName: string;

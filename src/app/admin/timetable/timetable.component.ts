@@ -1,17 +1,12 @@
-import { Component, OnInit, Inject } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
-import TableService, { Subject, Group, TableItem } from './timetable.service';
-import {
-  FormControl,
-  FormGroup,
-  Validators,
-  ReactiveFormsModule
-} from '@angular/forms';
-import { TimeTableModalComponent } from './timetable-modal/timetable-modal.component';
-import { TimetableDeleteConfirmComponent } from './timetable-delete-confirm/timetable-delete-confirm.component';
-import { ResponseMessageComponent } from '../../shared/response-message/response-message.component';
-import { PaginationInstance } from 'ngx-pagination';
+import {Component, OnInit} from '@angular/core';
+import {ActivatedRoute} from '@angular/router';
+import {MatDialog} from '@angular/material';
+import {TableService, Group, Subject, TableItem} from './timetable.service';
+
+import {TimeTableModalComponent} from './timetable-modal/timetable-modal.component';
+import {TimetableDeleteConfirmComponent} from './timetable-delete-confirm/timetable-delete-confirm.component';
+import {ResponseMessageComponent} from '../../shared/response-message/response-message.component';
+import {PaginationInstance} from 'ngx-pagination';
 
 interface TableItemModified extends TableItem {
   subject_name: string;
