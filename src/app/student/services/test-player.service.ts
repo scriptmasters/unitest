@@ -12,7 +12,6 @@ import { IQuestion } from '../test-player/interfaces/Question';
 import { IAnswer } from '../test-player/interfaces/Answer';
 import { ITestResult } from '../test-player/interfaces/TestResult';
 
-
 @Injectable()
 export class TestPlayerService {
   private urlStartTest = 'Log/startTest';
@@ -22,8 +21,6 @@ export class TestPlayerService {
   private urlGetAnswer = 'SAnswer/getAnswersByQuestion';
   private urlCheckResult = 'SAnswer/checkAnswers';
   // private urlGetTimeTablesForGroup = 'getTimeTablesForGroup/';
-
-
   private testId;
 
   constructor(private http: HttpClient) {}
@@ -129,5 +126,4 @@ export class TestPlayerService {
     const result = this.formatResults(data);
     return this.http.post<ITestResult>(this.urlCheckResult, result);
   }
-
 }

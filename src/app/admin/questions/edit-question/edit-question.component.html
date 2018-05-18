@@ -31,7 +31,7 @@
                     class="form-control col-12" 
                     id="typeSelect" 
                     name="type" #typeField 
-                    (change)="setQuestionType(typeField)" (change)="onQuestionTypeSelect($event)">
+                    (change)="onQuestionTypeSelect($event)">
                    <option value="1"
                            [selected]="sel_question.type === '1' "
                    >Простий вибір</option> 
@@ -55,26 +55,23 @@
                         <span *ngIf="sel_question.attachment === ''">Добавити вкладення</span>
                     </label>
                     <label class="form-row d-flex justify-content-center"
-                    id="label_uploads" for="image_uploads">
+                    id="label_uploads" for="question_image_uploads">
                             Вибрати файл
                     </label>
-                    <input type="file" hidden
-                            id="image_uploads"
-                            accept="image/*" 
+                    <input type="file" hidden id="question_image_uploads" accept="image/*" 
                             (change)="setQuestionAttachment($event)">
         
-                    <div class="row justify-content-center">
-                        <img *ngIf="sel_question.attachment !== undefined" 
+                    <div class="col-12" *ngIf="sel_question.attachment !== undefined">
+                        <img  class="form-control" 
                         [src]="sel_question.attachment" 
-                        width="100"
-                        height="100"
+                        width="80"
                         >
                     </div>
                     
                     <label class="form-row d-flex justify-content-center"
                     id="label_unloads" *ngIf="sel_question.attachment !== ''"
                             (click)="resetQuestionAttachment()">
-                            Видалити вкладення
+                            Видалити&nbsp;вкладення
                     </label>  
                 </div>
 
@@ -109,93 +106,89 @@
                     </th>
                 </tr>
             </thead>
+            
+
 
             <!--  formation of list FormControl element with type depending on answersResourse 
           and corresponding id number from answersIdNumbersArray array  -->
 
-            <tr width="5%" *ngFor="let idNumber of answersIdNumbersArray; let answerIndex = index">
-                <td> №{{answerIndex + 1}}:</td>
-
-
-                <td *ngIf="answersResourse === 'text' && correctAnswerInputType !== 'num' ">
-                    <!-- <label class="center-block" >
-                          <input
-                              type = "text"  
-                              [name] = "answerIndex"  
-                              (change)="setAnsverText(answerIndex, $event)"
-                              value="{{editedAnswersArray[answerIndex].answer_text}}"
-                          >
-                        </label> -->
-
-                    <textarea rows="2" (change)="setAnsverText(answerIndex, $event)">{{editedAnswersArray[answerIndex].answer_text}}
-                        </textarea>
-                </td>
-
+            <tr *ngFor="let idNumber of answersIdNumbersArray; let answerIndex = index">
+                <td  valign="middle"> №{{answerIndex + 1}}:</td>
+                
                 <td *ngIf=" correctAnswerInputType === 'num' ">
-                    <label class="center-block">
-                          <input
-                              type = "text"  
-                              [name] = "answerIndex"  
-                              (change)="setAnsverText(answerIndex, $event)"
+                        <label class="center-block" >
+                          <input *ngIf="(answerIndex === 0)" class="form-control form-control-success" type = "text"  
+                              formControlName = "0" (change)="setAnsverText(answerIndex, $event)"
                               value="{{editedAnswersArray[answerIndex].answer_text}}"
                           >
-                        </label>
-                    <span *ngIf="(answerIndex === 0)">&nbsp;&nbsp;Мінімальне значення</span>
-                    <span *ngIf="(answerIndex === 1)">&nbsp;&nbsp;Максимальне значення</span>
+                          <div class="form-msg" *ngIf="(answerIndex === 0)">
+                                <small *ngIf="form.get('0').invalid && (form.get('0').touched || !editedAnswersArray[answerIndex].answer_text )">
+                                    <span *ngIf="form.get('0')['errors']['required']">Дане поле не може бути порожнім</span>
+                                    <span *ngIf="form.get('0')['errors']['pattern']">Це поле повинно містити число в форматі ###.###</span>
+                                </small>
+                          </div>
 
+                          <input *ngIf="(answerIndex === 1)" class="form-control form-control-success" type = "text"  
+                              formControlName = "1" (change)="setAnsverText(answerIndex, $event)"
+                              value="{{editedAnswersArray[answerIndex].answer_text}}"
+                          >
+                            <div class="form-msg" *ngIf="(answerIndex === 1)">
+                                <small *ngIf="form.get('1').invalid && (form.get('1').dirty || form.get('1').touched)">
+                                    <span *ngIf="form.get('1')['errors']['required']">Дане поле не може бути порожнім</span>
+                                    <span *ngIf="form.get('1')['errors']['pattern']">Це поле повинно містити число в форматі ###.###</span>
+                                </small>
+                            </div>
+                    </label>
+                    <span class="center-block" *ngIf="(answerIndex === 0)">&nbsp;&nbsp;Мінімальне значення</span>
+                    <span class="center-block" *ngIf="(answerIndex === 1)">&nbsp;&nbsp;Максимальне значення</span>
                 </td>
-                <!-- #answerTextField (change)="setAnswerText(answerIndex, answerTextField)" -->
 
-                <!-- class="form-control"  correctAnswerInputType === '' -->
+                
 
-                <td *ngIf=" answersResourse === 'file' && correctAnswerInputType !== 'num' ">
-                    <label class="center-block">
-                          <input type="file" accept="image/*" (change)="setAnsverAttachment(answerIndex, $event)" name="answerIndex"> 
-                                 <img *ngIf="editedAnswersArray[answerIndex].attachment !== undefined" 
-                                 [src]="editedAnswersArray[answerIndex].attachment" 
-                                 width="50">
-                        </label>
-                </td>
-
-                <!--  && correctAnswerInputType !== 'num'-->
-
-                <td width="80%" *ngIf="answersResourse === 'text_file' && correctAnswerInputType !== 'num' ">
+                <td  *ngIf=" correctAnswerInputType !== 'num' ">
                     <!-- class="center-block align-items-center" -->
-                    <label>
-                            <input size="40"
+                    <!-- <label> size="50%" -->
+                            <input 
                                 type = "text"  
                                 [name] = "answerIndex"  
                                 (change)="setAnsverText(answerIndex, $event)"
                                 value="{{editedAnswersArray[answerIndex].answer_text}}"
                             > 
-                            <input  type="file" accept="image/*" (change)="setAnsverAttachment(answerIndex, $event)" name="answerIndex"> 
-                                    <img *ngIf="editedAnswersArray[answerIndex].attachment !== undefined" 
-                                    [src]="editedAnswersArray[answerIndex].attachment" 
-                                    width="50"
-                            >
-                        </label>
+                    <!-- </label> -->
+                    <label id="label_uploads" for="{{answerIndex}}">Вибрати файл</label>
+                    <input type="file" hidden id="{{answerIndex}}" accept="image/*" 
+                    (change)="setAnsverAttachment(answerIndex, $event)" name="answerIndex">
+        
+                    <img *ngIf="editedAnswersArray[answerIndex].attachment !== undefined"
+                        [src]="editedAnswersArray[answerIndex].attachment" 
+                        width="50"
+                    >  
 
                 </td>
 
 
                 <td width="10%" *ngIf="(correctAnswerInputType === 'radio' || correctAnswerInputType === 'checkbox')">
 
-                    <input [type]="correctAnswerInputType" name="correctAnswer + answerIndex" (click)="setAnswerCorrect(answerIndex)" checked *ngIf="( editedAnswersArray[answerIndex].true_answer === '1' )">
-                    <input [type]="correctAnswerInputType" name="correctAnswer + answerIndex" (click)="setAnswerCorrect(answerIndex)" *ngIf="( editedAnswersArray[answerIndex].true_answer === '0' )">
+                    <input [type]="correctAnswerInputType" name="answerIndex" (click)="setAnswerCorrect(answerIndex)" checked *ngIf="( editedAnswersArray[answerIndex].true_answer === '1' )">
+                    <input [type]="correctAnswerInputType" name="answerIndex" (click)="setAnswerCorrect(answerIndex)" *ngIf="( editedAnswersArray[answerIndex].true_answer === '0' )">
                     <!-- {{editedAnswersArray[answerIndex].true_answer}} -->
                 </td>
 
-                <td width="5%" *ngIf=" correctAnswerInputType !== 'num' ">
-                    &nbsp;&nbsp;
-                    <i class="fa fa-close" (click)="deleteAnswer(answerIndex)" title="Видалити відповідь"></i>
-                </td>
-
-
-                <td *ngIf=" correctAnswerInputType === 'txt' ">
+                <td  *ngIf=" correctAnswerInputType === 'txt' ">
                     <!-- in this case all answers are correct -->
                     &nbsp;&nbsp;
                     <input type="checkbox" checked disabled>
                 </td>
+
+                <td *ngIf=" correctAnswerInputType !== 'num' ">
+                    &nbsp;&nbsp;
+                    <i class="fa fa-close" 
+                    (click)="deleteAnswerFromDataBase(answerIndex)" 
+                    name="Видалити відповідь"></i>
+                </td>
+
+
+                
 
             </tr>
         </table>
