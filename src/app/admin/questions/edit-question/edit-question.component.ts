@@ -3,7 +3,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { QuestionsService } from '../questions.service';
 import { QuestionsComponent } from '../questions.component';
-import { IQuestions, IQuestionGet, IQuestionSet, IAnswersGet, IAnswerSet, IResponse } from '../questions-interface';
+import { IQuestion, IAnswer, IAnswerSet, IResponse } from '../questions-interface';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material';
 import { DeleteConfirmComponent } from '../../../shared/delete-confirm/delete-confirm.component';
 import { ResponseMessageComponent } from '../../../shared/response-message/response-message.component';
@@ -36,7 +36,17 @@ export class EditQuestionComponent implements OnInit {
 
   // sel_question.type
 
-  sel_question: IQuestionGet = {
+  // sel_question: IQuestion = this.data.sel_quest;
+  sel_question: IQuestion = {
+    question_id: this.data.sel_quest.question_id,
+    test_id: this.data.sel_quest.test_id,
+    question_text: this.data.sel_quest.question_text,
+    level: this.data.sel_quest.level,
+    type: this.data.sel_quest.type,
+    attachment: this.data.sel_quest.attachment
+  };
+  // edited_question: IQuestion = this.data.sel_quest;
+  edited_question: IQuestion = {
     question_id: this.data.sel_quest.question_id,
     test_id: this.data.sel_quest.test_id,
     question_text: this.data.sel_quest.question_text,
@@ -45,26 +55,20 @@ export class EditQuestionComponent implements OnInit {
     attachment: this.data.sel_quest.attachment
   };
 
-  edited_question: IQuestionSet = {
-    test_id: this.data.sel_quest.test_id,
-    question_text: this.data.sel_quest.question_text,
-    level: this.data.sel_quest.level,
-    type: this.data.sel_quest.type,
-    attachment: this.data.sel_quest.attachment
-  };
-
   // за  sel_question_id з бази витягуємо всі asnswers!
+  receivedAnswersArray = [];
   editedAnswersArray = [];
   answersIdNumbersArray = [];
   // newAnswersArray = [];
   correctAnswerInputType = 'radio';
-  answersResourse = 'text_file';
 
   questionForm = new FormGroup({
     // question_text: new FormControl('', Validators.required),
     // level: new FormControl('', Validators.compose([Validators.required, Validators.pattern(/^([1-9]|1[0-9]|20)$/)])),
     // type: new FormControl('1', Validators.required),
     // '0': new FormControl('', Validators.required)
+    form_name: new FormControl('', [Validators.required, Validators.pattern(/[0-9]/)]),
+    // 'title': new FormControl(null, [Validators.required, Validators.pattern(/[0-9]/), Validators.maxLength(5)])
   });
 
   ngOnInit() {
@@ -75,26 +79,13 @@ export class EditQuestionComponent implements OnInit {
     this.setCorrectAnswerInputType();
 
     this.form = new FormGroup({
-      title: new FormControl(null, [Validators.required]),
-      description: new FormControl(null, [Validators.required])
+    '0': new FormControl('', [Validators.required,
+      Validators.pattern(/[-+]?[0-9]*\.[0-9]+$|^[-+]?[0-9]+\.$|^[-+]?[0-9]*$/)]),
+    '1': new FormControl('', [Validators.required,
+      Validators.pattern(/[-+]?[0-9]*\.[0-9]+$|^[-+]?[0-9]+\.$|^[-+]?[0-9]*$/)])
     }, { updateOn: 'blur' });
   }
 
-  // getQuestion() {
-  //   this.questionService.getQuestionById(this.data.sel_quest_id).subscribe((data: IQuestionGet) => {
-  //       this.sel_question = data[0];
-  //       console.log('getQuestion this.sel_question = ', this.sel_question);
-  //     });
-  //   console.log('getQuestion outer this.sel_question = ', this.sel_question);
-  // }
-
-  setQuestionType(elem: HTMLSelectElement) {
-  //   const value = elem.options[elem.selectedIndex].value;
-  //   const index = elem.options[elem.selectedIndex].index + 1; // починаємо нумерацію з одиниці
-  //   this.edited_question.type_name = value;
-  //   this.edited_question.type = '' + index;
-  //   console.log('from setQuestionType: type = ', index, ' type_name = ', value);
-  }
 
   setQuestionLevel(elem: HTMLSelectElement) {
     const value = elem.options[elem.selectedIndex].value;
@@ -126,18 +117,21 @@ export class EditQuestionComponent implements OnInit {
   getAnswersOfSelectedQuestion(question_id) {
     this.questionService.getAnswersByQuestionId(question_id).subscribe(data => {
       if (data.length) {
+        // this.receivedAnswersArray = data;
+        this.receivedAnswersArray = [];
+        data.forEach(element => this.receivedAnswersArray.push(JSON.stringify(element)) );
         this.editedAnswersArray = data;
-        console.log(
-          'from getAnswersOfSelectedQuestion: this.editedAnswersArray = ',
-          this.editedAnswersArray
-        );
+        console.log('from getAnswersOfSelectedQuestion: receivedAnswersArray = ', this.receivedAnswersArray);
+        console.log('from getAnswersOfSelectedQuestion: editedAnswersArray = ', this.editedAnswersArray);
         this.setAnswersIdNumbersArray();
       } else {
+        this.receivedAnswersArray = [];
         this.editedAnswersArray = [];
         // alert(' Вибране завдання ще не має відповідей. Додайте відповіді');
       }
     });
   }
+
 
   // set the array of id of received answers (if they exist) of the selected question
   setAnswersIdNumbersArray() {
@@ -156,8 +150,24 @@ export class EditQuestionComponent implements OnInit {
     console.log('from setAnswersIdNumbersArray: answersIdNumbersArray = ', this.answersIdNumbersArray);
   }
 
+
   addAnswer() {
     if (this.correctAnswerInputType === 'num') {
+
+      // this.form.addControl(
+      //   '0',  new FormControl(null, [Validators.required,
+      //     Validators.pattern(/[-+]?[0-9]*\.[0-9]+$|^[-+]?[0-9]+\.$|^[-+]?[0-9]*$/)])
+      // );
+      // this.form.addControl(
+      //   '1',  new FormControl(null, [Validators.required,
+      //     Validators.pattern(/[-+]?[0-9]*\.[0-9]+$|^[-+]?[0-9]+\.$|^[-+]?[0-9]*$/)])
+      // );
+
+      // this.questionForm.addControl(
+      //   (this.editedAnswersArray.length + 1).toString(),
+      //   new FormControl('', [Validators.required, Validators.pattern([-+]?[0-9]*\.[0-9]+$|^[-+]?[0-9]+\.$|^[-+]?[0-9]*$)])
+      // );
+
       if (this.editedAnswersArray.length === 0) {
         // creates two new answers
         this.insertNewAnswerToDataBase(this.sel_question_id, '', '1', '');
@@ -174,7 +184,8 @@ export class EditQuestionComponent implements OnInit {
       if (this.editedAnswersArray.length >= 2) {
         // 1-st and 2-nd answers ere edited and rest is deleted
         for (let i = this.editedAnswersArray.length - 1; i >= 2; i--) {
-          this.deleteAnswer(i);
+          this.deleteAnswerfromModal(i);
+          this.deleteAnswerFromDataBase(i);
         }
       }
     } else {
@@ -183,12 +194,14 @@ export class EditQuestionComponent implements OnInit {
       } else {
         this.insertNewAnswerToDataBase(this.sel_question_id, '', '0', ''); // true_answer=0
       }
+
+      this.questionForm.addControl(
+        (this.editedAnswersArray.length + 1).toString(),
+        new FormControl('', [Validators.required])
+      );
+
       this.getAnswersOfSelectedQuestion(this.sel_question_id);
     }
-    this.questionForm.addControl(
-      (this.editedAnswersArray.length + 1).toString(),
-      new FormControl('', [Validators.required])
-    );
     console.log('from addAnswer: this.answersIdNumbersArray = ', this.answersIdNumbersArray);
     console.log('from addAnswer: this.editedAnswersArray = ', this.editedAnswersArray);
   }
@@ -217,15 +230,15 @@ export class EditQuestionComponent implements OnInit {
 
     if (event.target.value === '1') {
       this.correctAnswerInputType = 'radio';
+      this.editedAnswersArray.forEach(element => { element.true_answer = '0'; }); // set all answers incorrect
     }
     if (event.target.value === '2') {
       this.correctAnswerInputType = 'checkbox';
+      this.editedAnswersArray.forEach(element => { element.true_answer = '0'; }); // set all answers incorrect
     }
     if (event.target.value === '3') {
       this.correctAnswerInputType = 'txt';
-      this.editedAnswersArray.forEach(element => {
-        element.true_answer = '1';
-      }); // set all answers correct
+      this.editedAnswersArray.forEach(element => { element.true_answer = '1'; }); // set all answers correct
     }
     if (event.target.value === '4') {
       this.correctAnswerInputType = 'num';
@@ -249,12 +262,25 @@ export class EditQuestionComponent implements OnInit {
   setAnsverText(checkedIndex, event) {
     const value = event.target.value;
     this.editedAnswersArray[checkedIndex].answer_text = value;
+// verifies condition min_val<max_val
+    if (this.correctAnswerInputType === 'num' && checkedIndex === 0 && this.editedAnswersArray[1].answer_text !== '') {
+      if (this.editedAnswersArray[0].answer_text >= this.editedAnswersArray[1].answer_text ) {
+        this.openModalMessage('Максимальне значення має більшим за мінімальне!');
+      }
+    }
+    if (this.correctAnswerInputType === 'num' && checkedIndex === 1) {
+      if (this.editedAnswersArray[0].answer_text >= this.editedAnswersArray[1].answer_text ) {
+        this.openModalMessage('Максимальне значення має більшим за мінімальне!');
+      }
+    }
+
     console.log('this.editedAnswersArray = ', this.editedAnswersArray);
     console.log(
       `editedAnswersArray[${checkedIndex}].answer_text = `,
       this.editedAnswersArray[checkedIndex].answer_text
     );
   }
+
 
   setAnswerCorrect(checkedIndex, event) {
     if (this.correctAnswerInputType === 'radio') {
@@ -278,6 +304,7 @@ export class EditQuestionComponent implements OnInit {
     console.log(`this.editedAnswersArray = `, this.editedAnswersArray);
   }
 
+
   insertNewAnswerToDataBase(
     questionId,
     answerText = '',
@@ -292,28 +319,21 @@ export class EditQuestionComponent implements OnInit {
     });
     console.log('newAnswerJSON = ', newAnswerJSON);
 
-    this.questionService.addAnswer(newAnswerJSON).subscribe((dataNewAnswer: IAnswersGet) =>
+    this.questionService.addAnswer(newAnswerJSON).subscribe((dataNewAnswer: IAnswer) =>
         console.log('Respond: added new answer = ', dataNewAnswer)
       );
   }
 
-  deleteAnswer(checkedIndex) {
-    this.deleteAnswerFromDataBase(
-      this.editedAnswersArray[checkedIndex].answer_id
-    );
+  deleteAnswerfromModal(checkedIndex) {
     this.editedAnswersArray.splice(checkedIndex, 1);
-    this.answersIdNumbersArray.splice(checkedIndex, 1);
-    console.log(
-      `from deleteAnswer: this.answersIdNumbersArray = `,
-      this.answersIdNumbersArray
-    );
-    console.log(
-      `from deleteAnswer: this.editedAnswersArray = `,
-      this.editedAnswersArray
-    );
+      this.answersIdNumbersArray.splice(checkedIndex, 1);
+      console.log(`from deleteAnswerfromModal: this.answersIdNumbersArray = `, this.answersIdNumbersArray);
+      console.log( `from deleteAnswerfromModal: this.editedAnswersArray = `,  this.editedAnswersArray );
   }
 
-  deleteAnswerFromDataBase(checkedAnswerId): void {
+
+  deleteAnswerFromDataBase(checkedIndex): void {
+    const checkedAnswerId = this.editedAnswersArray[checkedIndex].answer_id;
     const dialogRef = this.dialog.open(DeleteConfirmComponent, {
       width: '400px',
       data: {
@@ -321,8 +341,10 @@ export class EditQuestionComponent implements OnInit {
       }
     });
 
-    dialogRef.afterClosed().subscribe((Response: boolean) => {
-      if (Response) {
+    dialogRef.afterClosed().subscribe( (dialogResponse: boolean) => {
+      if (dialogResponse) {
+        console.log( `from true dialogResponse = `, dialogResponse );
+
         this.questionService.deleteAnswer(checkedAnswerId).subscribe(
           (data: IResponse) => {
             if (data.response === 'ok') {
@@ -330,24 +352,34 @@ export class EditQuestionComponent implements OnInit {
                 width: '400px',
                 data: { message: 'Відповідь з бази даних видалено!' }
               });
+
+              this.deleteAnswerfromModal(checkedIndex);
             }
           },
           () => {
-            // this function shows window when deleteAnswer(answer_id).subscribe returns error
+            // this function shows window when servise.deleteAnswer(answer_id).subscribe returns error
             this.dialog.open(ResponseMessageComponent, {
               width: '400px',
-              data: {
-                message:
-                  'Виникла помилка при видаленні цієї відповіді з бази даних!'
-              }
+              data: { message: 'Виникла помилка при видаленні цієї відповіді з бази даних!'}
             });
           }
         );
+      } else {
+      console.log( `from else dialogResponse = `, dialogResponse );
       }
+
     });
   }
 
+
+
   editedQuestionSubmit() {
+    let isQuestionEdited = false;
+    let isAnyAnswerEdited = false;
+    // const dialogExit = this.dialog.open(DeleteConfirmComponent, {
+    //   width: '400px',
+    //   data: {message: 'Завдання не відредаговано! Ви бажаєте вийти без змін?'}
+    // });
     const questionJSON = JSON.stringify({
       question_id: this.sel_question_id,
       test_id: this.data.sel_quest.test_id,
@@ -357,24 +389,54 @@ export class EditQuestionComponent implements OnInit {
       attachment: this.edited_question.attachment
     });
 
-    this.questionService
-      .editQuestion(this.sel_question_id, questionJSON).subscribe((response: IQuestionGet) => {
-        console.log('response = ', response);
-
-          if (response) {
-          this.editedAnswersArray.forEach(answer => {
-            answer.question_id = this.sel_question_id;
-            console.log('edited answer = ', answer);
-            this.questionService.editAnswer(answer.answer_id, answer).subscribe((editedAnswersData: IAnswersGet) => {
-                console.log('Respond: editedAnswersData = ', editedAnswersData);
+      // updates question to database if it was changed
+      if ( JSON.stringify(this.edited_question) !== JSON.stringify(this.sel_question) ) {
+              this.questionService.editQuestion(this.sel_question_id, questionJSON)
+              .subscribe((editedQuestion: IQuestion) => {
+                console.log('Відредаговано завдання:  = ', editedQuestion);
+                this.openModalMessage('Завдання відредаговано успішно!');
+                isQuestionEdited = true;
+                this.matDialogRefPopUp.close();
               });
-          });
-          this.matDialogRefPopUp.close();
-        } else {
+      }
 
-        }
-      });
+    this.editedAnswersArray.forEach(answer => {
+      answer.question_id = this.sel_question_id;
+      // updates only those answers that don't coincide with any of the received
+      if (  this.receivedAnswersArray.every(element =>  element !== JSON.stringify(answer) ) ) {
+        this.questionService.editAnswer(answer.answer_id, answer).subscribe((editedAnswer: IAnswer) => {
+          console.log('Відредаговано відповідь: ', editedAnswer);
+          isAnyAnswerEdited = true;
+        });
+      }
+
+    });
+
+    if (isAnyAnswerEdited) {
+      this.openModalMessage('Відповіді відредаговано успішно!');
+      this.matDialogRefPopUp.close();
+    }
+
+    // if (!isQuestionEdited && !isAnyAnswerEdited) {
+    //     dialogExit.afterClosed().subscribe( (dialogResponse: boolean) => {
+    //       if (dialogResponse) { this.matDialogRefPopUp.close(); }
+    //   });
+    // }
+
+
+    // this.matDialogRefPopUp.close();
+
   }
+
+
+  // Dialog modal message
+  openModalMessage(msg: string, w: string = '400px'): void {
+    this.dialog.open(ResponseMessageComponent, {
+        width: w,
+        data: { message: msg }
+    });
+  }
+
 
   closeDialog(): void {
     this.matDialogRefPopUp.close();
