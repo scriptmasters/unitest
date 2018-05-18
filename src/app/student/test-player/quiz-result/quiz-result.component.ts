@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
-import { DataService } from '../../services/data.service';
-import { AuthService } from '../../../auth/auth.service';
+import {Component, OnInit} from '@angular/core';
+import {DataService} from '../../services/data.service';
+import {AuthService} from '../../../auth/auth.service';
 
 @Component({
   selector: 'app-quiz-result',

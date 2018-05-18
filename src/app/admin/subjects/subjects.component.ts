@@ -1,12 +1,11 @@
 import {Component, OnInit} from '@angular/core';
 import {FormGroup} from '@angular/forms';
-import {MatDialog} from '@angular/material';
+import {MatDialog, MatPaginatorIntl} from '@angular/material';
 import {ActivatedRoute, Router} from '@angular/router';
 import {SubjectService} from './services/subject.service';
 import {ResponseMessageComponent} from '../../shared/response-message/response-message.component';
 import {ModalSubjectComponent} from './modal-subject/modal-subject.component';
 import {DeleteConfirmComponent} from '../../shared/delete-confirm/delete-confirm.component';
-import {MatPaginatorIntl} from '@angular/material';
 import {Pagination} from '../../shared/pagination/pagination.class';
 import {HttpClient} from '@angular/common/http';
 import {PaginationService} from '../../shared/pagination/pagination.service';
@@ -36,9 +35,7 @@ export class SubjectsComponent extends Pagination implements OnInit {
         this.initLogic(false);
 
     }
-func() {
-    console.log(this.pagService.pagination());
-}
+
     getTimetable(id: number): void {
         this.router.navigate(['admin/timetable'], {
             queryParams: {subjectId: id},
@@ -101,7 +98,7 @@ func() {
                             if (this.entitiesObj.length > 1) {
                                 this.getEntity();
                             } else {
-                                this.pagService.pagination() ? this.paginator.previousPage() : this.entitiesObj = undefined;
+                                this.pagination ? this.paginator.previousPage() : this.entitiesObj = undefined;
                             }
                         }
                     },

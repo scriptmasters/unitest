@@ -1,8 +1,8 @@
-import {Component, OnInit, Input, Output, EventEmitter, Inject} from '@angular/core';
-import {FormGroup, FormControl, Validators, AbstractControl} from '@angular/forms';
+import {Component, Inject, OnInit} from '@angular/core';
+import {FormControl, FormGroup, Validators} from '@angular/forms';
 
 import {StudentsService} from '../students.service';
-import {MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
+import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material';
 import IGroup from '../interfaces/IGroup';
 import IFaculty from '../interfaces/IFaculty';
 import IStudent from '../interfaces/IStudent';
@@ -235,7 +235,7 @@ export class StudentsModalWindowComponent implements OnInit {
             }
             return null;
         };
-    };
+    }
 
     // custom faculty validator
     selectFacultyValidator(control: FormControl) {

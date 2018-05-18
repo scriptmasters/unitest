@@ -1,18 +1,11 @@
 import {NgModule} from '@angular/core';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
-import {HttpClientModule, HTTP_INTERCEPTORS} from '@angular/common/http';
+import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import {NgxPaginationModule} from 'ngx-pagination';
 import {RequestInterceptor} from './request-interceptor';
 import {
-    MatPaginatorIntl,
-    MatPaginatorModule,
-    MatButtonModule,
-    MatCardModule,
-    MatDialogModule,
-    MatInputModule,
-    MatSelectModule,
-    MatSnackBarModule,
-    MatProgressSpinnerModule
+    MatButtonModule, MatCardModule, MatDialogModule, MatInputModule, MatPaginatorIntl, MatPaginatorModule, MatProgressSpinnerModule,
+    MatSelectModule, MatSnackBarModule
 } from '@angular/material';
 
 import {DeleteConfirmComponent} from './delete-confirm/delete-confirm.component';

@@ -1,12 +1,12 @@
-import {Component, Inject, OnInit, Input, Output, EventEmitter, ViewEncapsulation} from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
-import { QuestionsService } from '../questions.service';
-import { QuestionsComponent } from '../questions.component';
-import { IQuestion, IAnswer, IAnswerSet, IResponse } from '../questions-interface';
-import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material';
-import { DeleteConfirmComponent } from '../../../shared/delete-confirm/delete-confirm.component';
-import { ResponseMessageComponent } from '../../../shared/response-message/response-message.component';
+import {Component, Inject, OnInit} from '@angular/core';
+import {FormControl, FormGroup, Validators} from '@angular/forms';
+import {ActivatedRoute} from '@angular/router';
+import {QuestionsService} from '../questions.service';
+import {QuestionsComponent} from '../questions.component';
+import {IAnswer, IQuestion, IResponse} from '../questions-interface';
+import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from '@angular/material';
+import {DeleteConfirmComponent} from '../../../shared/delete-confirm/delete-confirm.component';
+import {ResponseMessageComponent} from '../../../shared/response-message/response-message.component';
 
 @Component({
   selector: 'app-edit-question',

@@ -1,7 +1,6 @@
 import {Injectable} from '@angular/core';
 import {BehaviorSubject} from 'rxjs/BehaviorSubject';
 import {HttpClient} from '@angular/common/http';
-import {toPromise} from 'rxjs/operator/toPromise';
 import 'rxjs/add/operator/take';
 
 
@@ -11,6 +10,7 @@ export class PaginationService {
     paginatedLength: number;
     entity: string;
     pagSubscr = new BehaviorSubject(true);
+
 
     constructor(public http: HttpClient) {
     }

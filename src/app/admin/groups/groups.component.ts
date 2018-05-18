@@ -1,18 +1,16 @@
 ///<reference path="../../../../node_modules/rxjs/add/operator/mergeMap.d.ts"/>
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {DialogComponent} from './dialog/dialog.component';
 import {GroupsService} from './groups.service';
 import {ChangeDetectorRef, Component, OnInit} from '@angular/core';
 import {MatDialog, MatDialogConfig, MatPaginatorIntl} from '@angular/material';
-import {Table, Groups, Faculties, Specialities, AddGroup} from './interface';
-import {Router} from '@angular/router';
+import {AddGroup, Faculties, Groups, Specialities, Table} from './interface';
 import {ResponseMessageComponent} from '../../shared/response-message/response-message.component';
 import 'rxjs/add/operator/mergeMap';
 import {DeleteConfirmComponent} from '../../shared/delete-confirm/delete-confirm.component';
 import {Pagination} from '../../shared/pagination/pagination.class';
 import {HttpClient} from '@angular/common/http';
 import {PaginationService} from '../../shared/pagination/pagination.service';
-
 
 
 @Component({

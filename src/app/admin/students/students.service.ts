@@ -1,13 +1,12 @@
-import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs/Observable';
+import {Injectable} from '@angular/core';
+import {HttpClient} from '@angular/common/http';
+import {Observable} from 'rxjs/Observable';
 import IStudent from './interfaces/IStudent';
 import IUser from './interfaces/IUser';
 import IGroup from './interfaces/IGroup';
 import IFaculty from './interfaces/IFaculty';
 import IResponse from './interfaces/IResponse';
 import IResponseRec from './interfaces/IResponseRec';
-import { debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
 
 @Injectable()
 export class StudentsService {

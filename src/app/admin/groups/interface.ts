@@ -1,4 +1,4 @@
-import { Faculties, Specialities } from './interface';
+import {Faculties, Specialities} from './interface';
 
 export interface Table {
     group_id: number;

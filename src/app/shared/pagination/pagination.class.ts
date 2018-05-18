@@ -1,7 +1,7 @@
 import {Subscription} from 'rxjs/Subscription';
 import {FormControl} from '@angular/forms';
 import {MatDialog, MatPaginator, MatPaginatorIntl} from '@angular/material';
-import {ChangeDetectorRef, ViewChild} from '@angular/core';
+import {ViewChild} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {ResponseMessageComponent} from '../response-message/response-message.component';
 import {HttpClient} from '@angular/common/http';
@@ -36,7 +36,7 @@ export class Pagination {
         this.pagIntl.previousPageLabel = 'Попередня сторінка';
         this.pagIntl.itemsPerPageLabel = 'Кількість елементів';
 
-        this.pagService.pagSubscr.debounceTime(100).subscribe(
+        this.pagService.pagSubscr.debounceTime(1).subscribe(
             data => this.pagination = data
         );
 
@@ -46,7 +46,7 @@ export class Pagination {
         });
 
         this.searchBoxSubscr = this.searchBox.valueChanges
-            .debounceTime(1000)
+            .debounceTime(600)
             .subscribe(newValue => {
                 if (newValue !== '') {
                     this.pagService.pagSubscr.next(false);
@@ -57,6 +57,7 @@ export class Pagination {
                                     this.entitiesObj = undefined;
                                 } else {
                                     this.entitiesObj = data;
+                                    this.pageIndex = 0;
                                 }
                             }
                         );

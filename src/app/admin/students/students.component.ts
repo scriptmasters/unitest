@@ -1,4 +1,4 @@
-import {Component, OnInit, ViewChild, ElementRef} from '@angular/core';
+import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {StudentsService} from './students.service';
 import {StudentsModalWindowComponent} from './students-modal-window/students-modal-window.component';
 import {ResponseMessageComponent} from '../../shared/response-message/response-message.component';
@@ -12,9 +12,7 @@ import IFaculty from './interfaces/IFaculty';
 import {getGroupsByFaulty} from './reusable-functions/get-groups-by-faculty';
 import {getFiltredStudents} from './reusable-functions/get-filtred-students';
 import {setGroupAsID} from './reusable-functions/set-group-as-id';
-import {Subject} from 'rxjs/Subject';
 import IResolvedData from './interfaces/IResolvedData';
-import {Subscription} from 'rxjs/Subscription';
 import {HttpClient} from '@angular/common/http';
 import {Pagination} from '../../shared/pagination/pagination.class';
 import {PaginationService} from '../../shared/pagination/pagination.service';

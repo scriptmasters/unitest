@@ -31,6 +31,7 @@ export class SpecialitiesComponent extends Pagination implements OnInit {
         super(router, route, pagIntl, http, dialog, pagService);
         this.pagService.entity = 'speciality';
         this.entities = 'specialities';
+        this.pageSize = 5;
     }
 
     ngOnInit() {
@@ -87,7 +88,7 @@ export class SpecialitiesComponent extends Pagination implements OnInit {
                             if (this.entitiesObj.length > 1) {
                                 this.getEntity();
                             } else {
-                                this.pagService.pagination() ? this.paginator.previousPage() : this.entitiesObj = undefined;
+                                this.pagination ? this.paginator.previousPage() : this.entitiesObj = undefined;
                             }
                         }
                     },

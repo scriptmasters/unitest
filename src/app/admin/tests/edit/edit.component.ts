@@ -1,8 +1,8 @@
-import { Component, Inject, OnInit} from '@angular/core';
-import { MatDialogRef, MAT_DIALOG_DATA, MatDialog } from '@angular/material';
-import {TestService } from '../test.service';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { ResponseMessageComponent } from '../../../shared/response-message/response-message.component';
+import {Component, Inject, OnInit} from '@angular/core';
+import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from '@angular/material';
+import {TestService} from '../test.service';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {ResponseMessageComponent} from '../../../shared/response-message/response-message.component';
 import {forbiddenCharValidator} from '../tests-validator.directive';
 
 @Component({
@@ -15,7 +15,6 @@ export class EditComponent implements OnInit {
 
 rForm: FormGroup;
 subjects;
-s_id;
 enabled = [{value: 1, text: 'Доступний'}, {value: 0, text: 'Недоступний'}];
 constructor(public dialogRef: MatDialogRef<EditComponent>, @Inject(MAT_DIALOG_DATA) public data: any,
             private httpService: TestService, private fb: FormBuilder, public dialog: MatDialog) {
@@ -58,7 +57,7 @@ Object.keys(controls)
   },
     () => {
       this.dialogRef.close();
-      const matDialogRef = this.dialog.open(ResponseMessageComponent, {
+      this.dialog.open(ResponseMessageComponent, {
         width: '350px',
         data: {message: 'Зміни збережено'}
       });

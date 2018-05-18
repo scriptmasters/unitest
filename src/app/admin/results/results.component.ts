@@ -1,8 +1,8 @@
-import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { ResultsService } from './services/results.service';
+import {Component, OnInit} from '@angular/core';
+import {ActivatedRoute} from '@angular/router';
+import {ResultsService} from './services/results.service';
 import * as moment from 'moment';
-import { PaginationInstance } from 'ngx-pagination';
+import {PaginationInstance} from 'ngx-pagination';
 
 @Component({
   selector: 'app-results',

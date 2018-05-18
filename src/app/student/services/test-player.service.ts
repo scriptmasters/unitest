@@ -1,16 +1,13 @@
-import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { switchMap, map } from 'rxjs/operators';
-import { forkJoin } from 'rxjs/observable/forkJoin';
-import { Observable } from 'rxjs/Observable';
+import {Injectable} from '@angular/core';
+import {HttpClient} from '@angular/common/http';
+import {map, switchMap} from 'rxjs/operators';
+import {forkJoin} from 'rxjs/observable/forkJoin';
+import {Observable} from 'rxjs/Observable';
 import 'rxjs/add/observable/empty';
-import { from } from 'rxjs/observable/from';
-import { filter } from 'rxjs/operators';
 import 'rxjs/add/observable/of';
 
-import { IQuestion } from '../test-player/interfaces/Question';
-import { IAnswer } from '../test-player/interfaces/Answer';
-import { ITestResult } from '../test-player/interfaces/TestResult';
+import {IQuestion} from '../test-player/interfaces/Question';
+import {ITestResult} from '../test-player/interfaces/TestResult';
 
 @Injectable()
 export class TestPlayerService {

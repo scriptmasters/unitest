@@ -1,5 +1,5 @@
-import { Directive, Input, OnChanges, SimpleChanges } from '@angular/core';
-import { AbstractControl, NG_VALIDATORS, Validator, ValidatorFn, Validators } from '@angular/forms';
+import {Directive, Input} from '@angular/core';
+import {AbstractControl, NG_VALIDATORS, ValidatorFn} from '@angular/forms';
 
 export function forbiddenCharValidator(nameRe: RegExp): ValidatorFn {
   return(control: AbstractControl): {[key: string]: any} => {

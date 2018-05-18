@@ -1,11 +1,7 @@
-import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs/Observable';
-import { IQuestion, IAnswerSet, IAnswer} from './questions-interface';
-import { ISubjectsGet, ITestsGet } from './questions-interface';
-
-
-import { IResponse } from './questions-interface';
+import {Injectable} from '@angular/core';
+import {HttpClient} from '@angular/common/http';
+import {Observable} from 'rxjs/Observable';
+import {IAnswer, IAnswerSet, IQuestion, IResponse, ISubjectsGet, ITestsGet} from './questions-interface';
 
 @Injectable()
 export class QuestionsService {

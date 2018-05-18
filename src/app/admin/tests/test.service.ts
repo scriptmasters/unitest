@@ -1,5 +1,5 @@
-import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import {Injectable} from '@angular/core';
+import {HttpClient} from '@angular/common/http';
 
 @Injectable()
 export class TestService {
@@ -12,9 +12,7 @@ export class TestService {
   urlGetSubjects = 'Subject/getRecords';
 
   constructor(private http: HttpClient) { }
-  getTests() {
-    return this.http.get(this.getTest_URL);
-  }
+
   deleteTest(id: number) {
     return this.http.delete(this.delTest_URL + id);
   }
