@@ -63,7 +63,7 @@ export class TestPlayerComponent implements OnInit {
               private data: DataService) {
 
     this.start = setInterval(() => {
-
+      // TimerMakeCool(){}
       this.timer.hours = Math.floor(this.distance / (1000 * 60 * 60));
       this.timer.minutes = Math.floor((this.distance % (1000 * 60 * 60)) / (1000 * 60));
 
@@ -79,12 +79,12 @@ export class TestPlayerComponent implements OnInit {
       this.distance -= 1000;
 
       if (this.distance <= -1) {
-        // this.router.navigate(['/student'], {relativeTo: this.route});
-        this.timer.hours = 0;
+        this.timer.hours = '00';
         this.timer.minutes = '00';
         this.timer.seconds = '00';
         this.timerService.clearTime().subscribe(response => console.log(response));
         clearInterval(this.start);
+        this.finishTest();
         // alert('time\'s up');
       }
     }, 1000);
@@ -181,6 +181,8 @@ export class TestPlayerComponent implements OnInit {
   questionRoute(index) {
     this.Index = index + 1;
     this.question = this.questions[index];
+    console.log(this.questions);
+    console.log(this.userAnswers);
   }
   nextQuestion() {
     this.Index ++;
@@ -217,8 +219,6 @@ export class TestPlayerComponent implements OnInit {
         this.timerService.getStudentTimetable(data[0].group_id, idSubj).subscribe(time => {
           this.countTimeLeft();
           this.student = data;
-          console.log('student');
-          console.log(this.student);
         });
       });
     });
@@ -262,19 +262,6 @@ export class TestPlayerComponent implements OnInit {
     });
   }
 
-  Back() {
-    this.router.navigate(['/student'], {relativeTo: this.route});
-  }
-
-  stopTimer() {
-    this.timerService.clearTime().subscribe(response => {
-      console.log(response);
-      this.timerService.saveEndTime({
-        'end': (this.startDate + 1000)
-      });
-      clearInterval(this.start);
-    });
-  }
 
 // End of component
 }
