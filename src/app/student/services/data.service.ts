@@ -4,6 +4,7 @@ import {Injectable} from '@angular/core';
 export class DataService {
   mark;
   answers;
+  count;
   constructor() { }
 
   getMark(): number {
@@ -21,4 +22,13 @@ export class DataService {
   setAnswers(a: number) {
     this.answers = a;
   }
+
+  setCountOfQuestions(c: number) {
+    this.count = c;
+  }
+
+  getCountOfQuestions(): number {
+    return this.count;
+  }
 }
+

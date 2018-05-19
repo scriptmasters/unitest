@@ -19,8 +19,10 @@
     </div>
     <div class="card-body">
       <h2 class="card-title">Ваші результати</h2>
-      <p class="card-text">Правильних відповідей: {{answers}} </p>
       <p class="card-text">Оцінка: {{mark}} </p>
+      <div class="d-flex justify-content-center">
+        <google-chart [data]="pieChartData"></google-chart>
+      </div>
       <a routerLink="/student" class="btn btn-primary">На головну</a>
     </div>
   </div>
