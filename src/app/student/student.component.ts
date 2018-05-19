@@ -26,6 +26,8 @@ export class StudentComponent implements OnInit {
   subjects = [];
   times = [];
   error;
+  allSubjectsReady = false;
+  filteredSubjects = [];
   constructor(
     public authService: AuthService,
     public studentService: StudentService,
@@ -94,6 +96,7 @@ export class StudentComponent implements OnInit {
   }
 
   getTimeTablesForGroup() {
+    this.subjects.length = 0;
     this.studentService
       .getTimeTablesForGroup(this.user.group_id)
       .subscribe((response: any) => {
@@ -134,6 +137,7 @@ export class StudentComponent implements OnInit {
 
               timeTables.subject.push(subject);
               this.subjects.push(timeTables);
+              this.filteredSubjects.push(timeTables);
             });
         });
       });
@@ -142,7 +146,7 @@ export class StudentComponent implements OnInit {
   startTest(studentId, testId): void {
     this.testPlayerService.startTest(studentId, testId).subscribe(
       (data: any) => {
-        // console.log(data);
+        alert(data.response);
         if (data.response === 'Error. User made test recently') {
           this.dialog.open(ResponseMessageComponent, {
             width: '400px',
@@ -168,7 +172,7 @@ export class StudentComponent implements OnInit {
         }
       },
       error => {
-        // alert('erro' + error.error.response);
+        alert('erro' + error.error.response);
         if (error.error.response === 'You cannot make the test due to your schedule') {
           this.dialog.open(ResponseMessageComponent, {
             width: '400px',
@@ -204,8 +208,47 @@ export class StudentComponent implements OnInit {
               message: 'Ви використали всі спроби'
             }
           });
+        } else if (error.error.response === 'You can start tests which are only for you!!!') {
+          this.dialog.open(ResponseMessageComponent, {
+            width: '400px',
+            data: {
+              message: 'Ви можете почати тести, які тільки для вас !!!'
+            }
+          });
         }
       }
     );
   }
+  getAllSubjects() {
+    this.filteredSubjects.length = 0;
+    this.subjects.forEach(item => {
+      this.filteredSubjects.push(item);
+    });
+  }
+  getTime(id, includeDay) {
+    const day = id;
+    this.studentService.getTime().subscribe(
+      (time: any) => {
+        const _time = moment.utc(time.unix_timestamp * 1000);
+        const b = _time;
+        this.filteredSubjects.length = 0;
+        this.subjects.forEach(item => {
+          const timesTable = moment.utc(item.end_date);
+          const a = timesTable.diff(_time);
+          const c = moment(a).format('D');
+          console.log(c);
+          if (includeDay) {
+            if ((+c) === day) {
+              this.filteredSubjects.push(item);
+            }
+          } else {
+            if (c <= day) {
+              this.filteredSubjects.push(item);
+            }
+          }
+          console.log(this.subjects);
+        });
+      });
+  }
+
 }

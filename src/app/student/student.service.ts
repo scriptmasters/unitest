@@ -12,7 +12,8 @@ export class StudentService {
   private urlgetTimeTablesForGroup = 'timeTable/getTimeTablesForGroup/';
   private urlgetTestsBySubject = 'test/getTestsBySubject/';
   private urlgetTestDetailsByTest = 'testDetail/getTestDetailsByTest/';
-  constructor(private http: HttpClient) {}
+  private urlgetTimeStamp = 'TestPlayer/getTimeStamp';
+  constructor(private http: HttpClient) { }
 
   getRecords(id): Observable<any> {
     return this.http.get(this.urlgetRecords + id);
@@ -37,5 +38,8 @@ export class StudentService {
   }
   getTestDetailsByTest(id): Observable<any> {
     return this.http.get(this.urlgetTestDetailsByTest + id);
+  }
+  getTime(): Observable<any> {
+    return this.http.get(this.urlgetTimeStamp);
   }
 }
