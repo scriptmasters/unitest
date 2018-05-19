@@ -1,12 +1,28 @@
 <section>
+  <div class="content-wrapper">
+      <header class="header">
+          <div class="Headers">
+              <span class="admin-title">СТОРІНКА СТУДЕНТА</span>
+          </div>
+          <div class="dtester-title">D-TESTER</div>
+          <a class="log-out" (click)="this.authService.logout()">
+              <span>Вийти</span>
+              <i class="fa fa-sign-out" aria-hidden="true"></i>
+          </a>
+      </header>
+  </div>
+</section>
+<section>
   <div class="card text-center">
     <div class="card-header">
       <h1>Тест завершено!</h1>
     </div>
     <div class="card-body">
       <h2 class="card-title">Ваші результати</h2>
-      <p class="card-text">Правильних відповідей: {{answers}} </p>
       <p class="card-text">Оцінка: {{mark}} </p>
+      <div class="d-flex justify-content-center">
+        <google-chart [data]="pieChartData"></google-chart>
+      </div>
       <a routerLink="/student" class="btn btn-primary">На головну</a>
     </div>
   </div>

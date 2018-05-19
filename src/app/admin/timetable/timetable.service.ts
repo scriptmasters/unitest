@@ -1,9 +1,7 @@
-import { Injectable, NgModule } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { HttpHeaders } from '@angular/common/http';
+import {Injectable} from '@angular/core';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
 
-import { Observable } from 'rxjs/Observable';
-import { catchError, map, tap } from 'rxjs/operators';
+import {Observable} from 'rxjs/Observable';
 
 export interface Subject {
   subject_id: string;
@@ -30,11 +28,6 @@ export interface TableItem {
 
 @Injectable()
 export class TableService {
-  httpOptions = {
-    headers: new HttpHeaders({
-      'Content-Type': 'application/json;charset=utf8'
-    })
-  };
 
   constructor(public http: HttpClient) {}
 

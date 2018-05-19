@@ -1,15 +1,16 @@
-import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import {Injectable} from '@angular/core';
+
 @Injectable()
 export class DataService {
   mark;
   answers;
+  count;
   constructor() { }
 
   getMark(): number {
     return this.mark;
   }
-  
+
   setMark(m: number) {
     this.mark = m;
   }
@@ -21,4 +22,13 @@ export class DataService {
   setAnswers(a: number) {
     this.answers = a;
   }
+
+  setCountOfQuestions(c: number) {
+    this.count = c;
+  }
+
+  getCountOfQuestions(): number {
+    return this.count;
+  }
 }
+

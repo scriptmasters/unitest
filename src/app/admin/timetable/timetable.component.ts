@@ -1,17 +1,12 @@
-import { Component, OnInit, Inject } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
-import TableService, { Subject, Group, TableItem } from './timetable.service';
-import {
-  FormControl,
-  FormGroup,
-  Validators,
-  ReactiveFormsModule
-} from '@angular/forms';
-import { TimeTableModal } from './timetable-modal/timetable-modal.component';
-import { TimetableDeleteConfirmComponent } from './timetable-delete-confirm/timetable-delete-confirm.component';
-import { ResponseMessageComponent } from '../../shared/response-message/response-message.component';
-import { PaginationInstance } from 'ngx-pagination';
+import {Component, OnInit} from '@angular/core';
+import {ActivatedRoute} from '@angular/router';
+import {MatDialog} from '@angular/material';
+import {TableService, Group, Subject, TableItem} from './timetable.service';
+
+import {TimeTableModalComponent} from './timetable-modal/timetable-modal.component';
+import {TimetableDeleteConfirmComponent} from './timetable-delete-confirm/timetable-delete-confirm.component';
+import {ResponseMessageComponent} from '../../shared/response-message/response-message.component';
+import {PaginationInstance} from 'ngx-pagination';
 
 interface TableItemModified extends TableItem {
   subject_name: string;
@@ -115,7 +110,7 @@ export class TimetableComponent implements OnInit {
       if (response) {
         if (response === 'ok') {
           this.tableService.deleteTableItem(timeEntity.timetable_id).subscribe(
-            response => {
+            () => {
               this.table.splice(this.table.indexOf(timeEntity), 1);
               this.dialog.open(ResponseMessageComponent, {
                 width: '400px',
@@ -144,7 +139,7 @@ export class TimetableComponent implements OnInit {
    * if not presented we open modal to add new entity
    */
   openDialog(tableItem: TableItemModified): void {
-    const dialogRef = this.dialog.open(TimeTableModal, {
+    const dialogRef = this.dialog.open(TimeTableModalComponent, {
       width: '650px',
       data: {
         table: this.table,

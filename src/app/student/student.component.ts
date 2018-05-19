@@ -1,19 +1,13 @@
-import { Component, OnInit } from '@angular/core';
-import { AuthService } from '../auth/auth.service';
-import { TestPlayerService } from '../student/services/test-player.service';
-import { StudentService } from './student.service';
-import {
-  UserInfo,
-  TimeTable,
-  Subject,
-  TestInterface,
-} from './test-player/question-interface';
-import { NgStyle } from '@angular/common';
-import { Router, RouterModule } from '@angular/router';
-import { SubjectsComponent } from '../admin/subjects/subjects.component';
+import {Component, OnInit} from '@angular/core';
+import {AuthService} from '../auth/auth.service';
+import {TestPlayerService} from './services/test-player.service';
+import {StudentService} from './student.service';
+import {Subject, TestInterface, TimeTable, UserInfo} from './test-player/question-interface';
+import {Router} from '@angular/router';
 import * as moment from 'moment';
-import { ResponseMessageComponent } from '../shared/response-message/response-message.component';
-import { MatDialog } from '@angular/material';
+import {ResponseMessageComponent} from '../shared/response-message/response-message.component';
+import {MatDialog} from '@angular/material';
+
 @Component({
   selector: 'app-student',
   templateUrl: './student.component.html',
@@ -22,9 +16,7 @@ import { MatDialog } from '@angular/material';
 export class StudentComponent implements OnInit {
   id: number;
   user = <UserInfo>{};
-  time;
   subjects = [];
-  times = [];
   error;
   allSubjectsReady = false;
   filteredSubjects = [];
@@ -195,12 +187,13 @@ export class StudentComponent implements OnInit {
             }
           });
         } else if (error.error.response === 'User is making test at current moment') {
-          this.dialog.open(ResponseMessageComponent, {
-            width: '400px',
-            data: {
-              message: 'Ви здаєте тест в даний момент'
-            }
-          });
+          // this.dialog.open(ResponseMessageComponent, {
+          //   width: '400px',
+          //   data: {
+          //     message: 'Ви здаєте тест в даний момент'
+          //   }
+          // });
+          this.router.navigate(['student/test/' + testId]);
         } else if (error.error.response === 'You cannot make the test due to used all attempts') {
           this.dialog.open(ResponseMessageComponent, {
             width: '400px',

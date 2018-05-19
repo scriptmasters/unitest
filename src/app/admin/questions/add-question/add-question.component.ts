@@ -1,10 +1,10 @@
-import {Component, Inject, OnInit, Input, Output, EventEmitter, ViewEncapsulation } from '@angular/core';
+import {Component, Inject, OnInit} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {QuestionsService} from '../questions.service';
 // import {QuestionsComponent} from '../questions.component';
-import {IQuestions, IQuestionSet, IAnswerSet, IAnswersGet, IResponse, IQuestionGet} from '../questions-interface';
-import {ActivatedRoute} from '@angular/router';
+import {IAnswer, IAnswerSet, IQuestion} from '../questions-interface';
 import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from '@angular/material';
+import {ResponseMessageComponent} from '../../../shared/response-message/response-message.component';
 
 
 @Component({
@@ -35,8 +35,9 @@ export class AddQuestionComponent implements OnInit {
  selTestId: string;
  selTestName: string;
 
- new_question: IQuestionSet = {
+ new_question: IQuestion = {
     test_id: this.selTestId,
+    question_id: '',
     question_text: 'no text',
     level: '1',
     type: '1',
@@ -52,6 +53,7 @@ new_answer: IAnswerSet = {
 
 constructor(
   private questionService: QuestionsService,
+  private dialog: MatDialog,
   private matDialogRef: MatDialogRef<AddQuestionComponent>,
   @Inject(MAT_DIALOG_DATA) public data: any) { }
 
@@ -67,9 +69,11 @@ constructor(
     console.log('newAnswersArray = ', this.newAnswersArray);
 
     this.form = new FormGroup({
-      'title': new FormControl(null, [Validators.required]),
-      'description': new FormControl(null, [Validators.required])
-    });
+      '0': new FormControl('', [Validators.required,
+        Validators.pattern(/[-+]?[0-9]*\.[0-9]+$|^[-+]?[0-9]+\.$|^[-+]?[0-9]*$/)]),
+      '1': new FormControl('', [Validators.required,
+        Validators.pattern(/[-+]?[0-9]*\.[0-9]+$|^[-+]?[0-9]+\.$|^[-+]?[0-9]*$/)])
+      }, { updateOn: 'blur' });
 
   }
 
@@ -80,9 +84,9 @@ constructor(
          this.newAnswersArray = [{}, {}];
          this.newAnswersArray.forEach(element => {  element.true_answer = '1'; element.attachment = ''; });
 
-         this.questionForm.addControl(  (this.newAnswersArray.length).toString() ,
-                                          new FormControl('', [Validators.required] )
-                                     );
+        //  this.questionForm.addControl(  (this.newAnswersArray.length).toString() ,
+        //                                   new FormControl('', [Validators.required] )
+        //                              );
     } else {
 
       this.questionForm.addControl(  (this.newAnswersArray.length + 1).toString() ,
@@ -110,7 +114,7 @@ constructor(
     if (event.target.value === '1') {
        this.correctAnswerInputType = 'radio';
        this.newAnswersArray.forEach(element => {
-            this.deleteAnswerFromArray(element);
+            this.deleteAnswerFromModal(element);
             this.addAnswer(); // set all answers false
             // element.true_answer = '0'; - doesn't uncheck FormControl with max number checked previously
        });
@@ -118,7 +122,7 @@ constructor(
     if (event.target.value === '2') {
         this.correctAnswerInputType = 'checkbox';
         this.newAnswersArray.forEach(element => {
-          this.deleteAnswerFromArray(element);
+          this.deleteAnswerFromModal(element);
           this.addAnswer(); // set all answers false
           // element.true_answer = '0'; - doesn't uncheck FormControl with max number checked previously
         });
@@ -136,24 +140,7 @@ constructor(
   }
 
 
-  /* onAnswerResourseSelect(event) {
-    console.log('onAnswerResourseSelect = ', event.target.value);
-    if (event.target.value === '1') {
-       this.answerResourse = 'text';
-       this.newAnswersArray.forEach(element => { element.attachment = ''; }); // clears all attachments
-       }
-
-    if (event.target.value === '2') {
-       this.answerResourse = 'file';
-       this.newAnswersArray.forEach(element => { element.answer_text = ''; }); // clears all answers text
-       }
-    if (event.target.value === '3') { this.answerResourse = 'text_file'; }
-    console.log('this.answerResourse = ', this.answerResourse);
-    console.log(' this.newAnswersArray = ',  this.newAnswersArray);
-  } */
-
-
-  setQuestionType(elem: HTMLSelectElement) {
+   setQuestionType(elem: HTMLSelectElement) {
     const index = elem.options[elem.selectedIndex].index; // + 1; // починаємо нумерацію з одиниці
     this.new_question.type = '' + index;
     console.log('type_index = ', index);
@@ -189,6 +176,17 @@ constructor(
   setAnsverText(checkedIndex, event) {
     const value = event.target.value;
     this.newAnswersArray[checkedIndex].answer_text = value;
+    // verifies condition min_val<max_val
+    if (this.correctAnswerInputType === 'num' && checkedIndex === 0 && this.newAnswersArray[1].answer_text !== '') {
+      if (this.newAnswersArray[0].answer_text >= this.newAnswersArray[1].answer_text ) {
+        this.openModalMessage('Максимальне значення має більшим за мінімальне!');
+      }
+    }
+    if (this.correctAnswerInputType === 'num' && checkedIndex === 1) {
+      if (this.newAnswersArray[0].answer_text >= this.newAnswersArray[1].answer_text ) {
+        this.openModalMessage('Максимальне значення має більшим за мінімальне!');
+      }
+    }
     console.log('this.newAnswersArray = ', this.newAnswersArray);
   }
 
@@ -206,7 +204,7 @@ constructor(
       console.log(`this.newAnswersArray = `, this.newAnswersArray);
   }
 
-  deleteAnswerFromArray(checkedIndex) {
+  deleteAnswerFromModal(checkedIndex) {
     this.newAnswersArray.splice(checkedIndex, 1);
     this.answersIdNumbersArray.splice(checkedIndex, 1);
     console.log(`this.newAnswersArray = `, this.newAnswersArray);
@@ -223,7 +221,7 @@ addedQuestionSubmit() {
     attachment: this.new_question.attachment
   });
 
-    this.questionService.addQuestion(questionJSON).subscribe((dataNewQuestions: IQuestionGet) => {
+    this.questionService.addQuestion(questionJSON).subscribe((dataNewQuestions: IQuestion) => {
       if (dataNewQuestions) {
 
         console.log('dataNewQuestions = ', dataNewQuestions);
@@ -232,7 +230,7 @@ addedQuestionSubmit() {
               answer.question_id = dataNewQuestions[0].question_id;
               console.log('new answer = ', answer);
               this.questionService.addAnswer(answer).subscribe(
-                   (dataNewAnswers: IAnswersGet) =>
+                   (dataNewAnswers: IAnswer) =>
                     console.log('Respond: newAnswers_id = ', dataNewAnswers)
               );
               });
@@ -243,6 +241,13 @@ addedQuestionSubmit() {
 
 }
 
+ // Dialog modal message
+ openModalMessage(msg: string, w: string = '400px'): void {
+  this.dialog.open(ResponseMessageComponent, {
+      width: w,
+      data: { message: msg }
+  });
+}
 
 closeDialog() {
   this.matDialogRef.close();

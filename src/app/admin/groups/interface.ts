@@ -1,5 +1,4 @@
-import { Faculties, Specialities } from './interface';
-import { group } from '@angular/core';
+import {Faculties, Specialities} from './interface';
 
 export interface Table {
     group_id: number;

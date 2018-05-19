@@ -1,5 +1,4 @@
 import {Pipe, PipeTransform} from '@angular/core';
-import {GroupsService} from '../groups.service';
 
 @Pipe({
   name: 'specialityFilterPipe'

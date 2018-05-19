@@ -6,5 +6,6 @@ export interface IQuestion {
   test_id?: number;
   level?: number;
   type?: number;
+  answer_id: any;
   answers: IAnswer;
 }
