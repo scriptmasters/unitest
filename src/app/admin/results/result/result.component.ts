@@ -1,58 +1,36 @@
-import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { ResultsService } from './services/results.service';
+import {Component, EventEmitter, Input, Output} from '@angular/core';
+import {ResultsService} from '../services/results.service';
 import * as moment from 'moment';
-import { PaginationInstance } from 'ngx-pagination';
+import {PaginationInstance} from 'ngx-pagination';
 
 @Component({
-  selector: 'app-results',
-  templateUrl: './results.component.html',
-  styleUrls: ['./results.component.scss']
+  selector: 'app-filtered-result',
+  templateUrl: './result.component.html',
+  styleUrls: ['./result.component.scss']
 })
-export class ResultsComponent implements OnInit {
-  testId: number;
-  groupId: number;
-  testRate: number;
-  testMaxRate: number;
-
-  tests = [];
-  groups = [];
-  resultRecords = [];
+export class ResultComponent {
+  @Input() groups = [];
+  @Input() groupId: number;
+  @Input() order: string;
+  @Input() testId: number;
+  @Input() tests = [];
+  @Input() showResult: boolean;
+  @Output() filterEmit = new EventEmitter<boolean>();
 
   config: PaginationInstance = {
     itemsPerPage: 10,
     currentPage: 1,
   };
+  resultRecords = [];
+  testMaxRate: number;
 
-  constructor(
-    private route: ActivatedRoute,
-    private resultService: ResultsService
-  ) {
-  }
+  constructor(private resultService: ResultsService) { }
 
-  ngOnInit() {
-    this.route.queryParams.subscribe(params => {
-      const groupIdParam = params['groupId'];
-      if (groupIdParam) {
-        this.groupId = groupIdParam;
-      }
-    });
-
-    this.resultService.getTests().subscribe((testData: any[]) => {
-      this.tests = (testData['response'] === 'no records') ? [] : testData;
-
-      this.resultService.getGroups().subscribe((groupData: any[]) => {
-        this.groups = (groupData['response'] === 'no records') ? [] : groupData;
-        if (this.groupId && this.tests.length > 0) {
-          this.testId = this.tests[0].test_id;
-          this.search();
-        }
-      });
-    });
+  showFilter() {
+    this.filterEmit.emit(true);
   }
 
   search() {
-
     this.resultService.getMaxTestRate(this.testId).subscribe((resp: any) => {
       this.testMaxRate = resp.testRate;
     });
@@ -78,6 +56,40 @@ export class ResultsComponent implements OnInit {
               students.push(studentObj);
             });
             this.initResultRecords(records, students);
+            if (this.order) {
+              switch (this.order) {
+                case 'date': {
+                  this.resultRecords.sort((a, b) => {
+                    const dateA = new Date(a.session_date);
+                    const dateB = new Date(b.session_date);
+                    return dateA.getTime() - dateB.getTime();
+                  });
+                  break;
+                }
+                case 'rate': {
+                  this.resultRecords.sort((a, b) => {
+                    const res1 = +a.result;
+                    const res2 = +b.result;
+                    return res1 - res2;
+                  });
+                  break;
+                }
+                case 'userName': {
+                  this.resultRecords.sort((a, b) => {
+                    const name1 = +a.student_name;
+                    const name2 = +b.student_name;
+                    if (name1 < name2) {
+                      return -1;
+                    }
+                    if (name1 > name1) {
+                      return 1;
+                    }
+                    return 0;
+                  });
+                  break;
+                }
+              }
+            }
           });
         }
       });
@@ -118,6 +130,4 @@ export class ResultsComponent implements OnInit {
   private getQuality(result: number, maxRate: number): string {
     return Math.round(result / maxRate * 100) + '%';
   }
-
-
 }

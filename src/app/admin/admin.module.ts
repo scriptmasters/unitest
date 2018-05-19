@@ -14,8 +14,9 @@ import { QuestionsComponent } from './questions/questions.component';
 import { AddQuestionComponent } from './questions/add-question/add-question.component';
 import { EditQuestionComponent } from './questions/edit-question/edit-question.component';
 import { StatisticService } from './statistic/statistic.service';
-import { ResultsComponent } from './results/results.component';
+import { FilterComponent } from './results/filter.component';
 import { ResultsService } from './results/services/results.service';
+import { ResultComponent } from './results/result/result.component';
 
 @NgModule({
     imports: [
@@ -36,7 +37,8 @@ import { ResultsService } from './results/services/results.service';
         QuestionsComponent,
         AddQuestionComponent,
         EditQuestionComponent,
-        ResultsComponent
+        FilterComponent,
+        ResultComponent
     ],
     providers: [
         AuthService,

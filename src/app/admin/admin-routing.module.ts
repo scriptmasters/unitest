@@ -6,7 +6,7 @@ import {QuestionsComponent} from './questions/questions.component';
 import {AdministratorsComponent} from './administrators/administrators.component';
 import {StatisticComponent} from './statistic/statistic.component';
 import {TestDetailsComponent} from './testdetails/component/test-details.component';
-import {ResultsComponent} from './results/results.component';
+import {FilterComponent} from './results/filter.component';
 
 
 const routes: Routes = [
@@ -81,7 +81,7 @@ const routes: Routes = [
             },
             {
                 path: 'results',
-                component: ResultsComponent,
+                component: FilterComponent,
                 data: {
                     breadcrumb: 'Результати'
                 }
