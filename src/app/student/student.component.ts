@@ -1,13 +1,19 @@
-import {Component, OnInit} from '@angular/core';
-import {AuthService} from '../auth/auth.service';
-import {TestPlayerService} from './services/test-player.service';
-import {StudentService} from './student.service';
-import {Subject, TestInterface, TimeTable, UserInfo} from './test-player/question-interface';
-import {Router} from '@angular/router';
+import { Component, OnInit } from '@angular/core';
+import { AuthService } from '../auth/auth.service';
+import { TestPlayerService } from '../student/services/test-player.service';
+import { StudentService } from './student.service';
+import {
+  UserInfo,
+  TimeTable,
+  Subject,
+  TestInterface,
+} from './test-player/question-interface';
+import { NgStyle } from '@angular/common';
+import { Router, RouterModule } from '@angular/router';
+import { SubjectsComponent } from '../admin/subjects/subjects.component';
 import * as moment from 'moment';
-import {ResponseMessageComponent} from '../shared/response-message/response-message.component';
-import {MatDialog} from '@angular/material';
-
+import { ResponseMessageComponent } from '../shared/response-message/response-message.component';
+import { MatDialog } from '@angular/material';
 @Component({
   selector: 'app-student',
   templateUrl: './student.component.html',
@@ -16,7 +22,9 @@ import {MatDialog} from '@angular/material';
 export class StudentComponent implements OnInit {
   id: number;
   user = <UserInfo>{};
+  time;
   subjects = [];
+  times = [];
   error;
   allSubjectsReady = false;
   filteredSubjects = [];
@@ -136,6 +144,16 @@ export class StudentComponent implements OnInit {
   }
 
   startTest(studentId, testId): void {
+    this.studentService.getInfoTest().subscribe((info: number) => {
+      if (info === (+testId)) {
+        this.router.navigate(['student/test/' + testId]);
+      } else {
+        this.handleStartTest(studentId, testId);
+      }
+    });
+  }
+
+  handleStartTest(studentId, testId) {
     this.testPlayerService.startTest(studentId, testId).subscribe(
       (data: any) => {
         alert(data.response);
@@ -160,7 +178,9 @@ export class StudentComponent implements OnInit {
               message: 'Тест почався'
             }
           });
-          this.router.navigate(['student/test/' + testId]);
+          this.studentService.saveInfoTest(testId).subscribe((infos: any) => {
+            this.router.navigate(['student/test/' + testId]);
+          });
         }
       },
       error => {
@@ -187,13 +207,12 @@ export class StudentComponent implements OnInit {
             }
           });
         } else if (error.error.response === 'User is making test at current moment') {
-          // this.dialog.open(ResponseMessageComponent, {
-          //   width: '400px',
-          //   data: {
-          //     message: 'Ви здаєте тест в даний момент'
-          //   }
-          // });
-          this.router.navigate(['student/test/' + testId]);
+          this.dialog.open(ResponseMessageComponent, {
+            width: '400px',
+            data: {
+              message: 'Ви здаєте тест в даний момент'
+            }
+          });
         } else if (error.error.response === 'You cannot make the test due to used all attempts') {
           this.dialog.open(ResponseMessageComponent, {
             width: '400px',
@@ -208,10 +227,18 @@ export class StudentComponent implements OnInit {
               message: 'Ви можете почати тести, які тільки для вас !!!'
             }
           });
+        } else if (error.error.response === 'Error: The number of needed questions for the quiz is not suitable due to test details') {
+          this.dialog.open(ResponseMessageComponent, {
+            width: '400px',
+            data: {
+              message: 'Кількість необхідних питань для вікторини не підходить завдяки деталям тесту'
+            }
+          });
         }
       }
     );
   }
+
   getAllSubjects() {
     this.filteredSubjects.length = 0;
     this.subjects.forEach(item => {
@@ -229,7 +256,6 @@ export class StudentComponent implements OnInit {
           const timesTable = moment.utc(item.end_date);
           const a = timesTable.diff(_time);
           const c = moment(a).format('D');
-          console.log(c);
           if (includeDay) {
             if ((+c) === day) {
               this.filteredSubjects.push(item);
@@ -239,7 +265,6 @@ export class StudentComponent implements OnInit {
               this.filteredSubjects.push(item);
             }
           }
-          console.log(this.subjects);
         });
       });
   }

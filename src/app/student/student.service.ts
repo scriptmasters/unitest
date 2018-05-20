@@ -1,6 +1,6 @@
-import {Injectable} from '@angular/core';
-import {HttpClient} from '@angular/common/http';
-import {Observable} from 'rxjs/Observable';
+import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs/Observable';
 
 @Injectable()
 export class StudentService {
@@ -13,6 +13,8 @@ export class StudentService {
   private urlgetTestsBySubject = 'test/getTestsBySubject/';
   private urlgetTestDetailsByTest = 'testDetail/getTestDetailsByTest/';
   private urlgetTimeStamp = 'TestPlayer/getTimeStamp';
+  private urlSaveData = 'TestPlayer/saveData';
+  private urlgetData = 'TestPlayer/getData';
   constructor(private http: HttpClient) { }
 
   getRecords(id): Observable<any> {
@@ -41,5 +43,11 @@ export class StudentService {
   }
   getTime(): Observable<any> {
     return this.http.get(this.urlgetTimeStamp);
+  }
+  saveInfoTest(data) {
+    return this.http.post(this.urlSaveData, data);
+  }
+  getInfoTest() {
+    return this.http.get(this.urlgetData);
   }
 }
