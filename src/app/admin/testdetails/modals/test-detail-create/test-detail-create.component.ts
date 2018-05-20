@@ -1,8 +1,8 @@
-import { Component, OnInit, Inject } from '@angular/core';
-import { MatDialogRef, MAT_DIALOG_DATA, MatDialog } from '@angular/material';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { TestDetailsService } from '../../sevices/test-details.service';
-import { ResponseMessageComponent } from '../../../../shared/response-message/response-message.component';
+import {Component, Inject, OnInit} from '@angular/core';
+import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from '@angular/material';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {TestDetailsService} from '../../sevices/test-details.service';
+import {ResponseMessageComponent} from '../../../../shared/response-message/response-message.component';
 
 @Component({
   selector: 'app-test-detail-create',

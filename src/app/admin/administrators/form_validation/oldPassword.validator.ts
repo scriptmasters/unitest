@@ -1,16 +1,15 @@
-import { AbstractControl } from '@angular/forms';
+import {AbstractControl} from '@angular/forms';
 
 export function ValidatePassword(adminPassword: any) {
     return (control: AbstractControl) => {
-        const CryptoJS = require("crypto-js");
+        const CryptoJS = require('crypto-js');
         const currentPassword = control.value;
-        let hashCurrrentPas = CryptoJS.HmacSHA256(currentPassword, "tuhes");
-        let hexCurPassword = hashCurrrentPas.toString(CryptoJS.enc.Hex);
+        const hashCurrrentPas = CryptoJS.HmacSHA256(currentPassword, 'tuhes');
+        const hexCurPassword = hashCurrrentPas.toString(CryptoJS.enc.Hex);
             if (hexCurPassword === adminPassword || !currentPassword) {
-        	    return null;
+              return null;
+            } else {
+                return { validPassword: true };
             }
-            else {
-                return { validPassword: true }; 
-            }
-    }
+    };
 }

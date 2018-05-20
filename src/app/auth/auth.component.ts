@@ -1,11 +1,10 @@
 import {Component, OnInit} from '@angular/core';
-import {Router, ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {AuthService} from './auth.service';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {MatDialog} from '@angular/material';
+import {MatDialog, MatSnackBar} from '@angular/material';
 import {AuthErrorPopupComponent} from './auth-error-popup/auth-error-popup.component';
-import {MatSnackBar} from '@angular/material';
-import {Ilogin, IisLogged} from '../shared/Interfaces/server_response';
+import {IisLogged, Ilogin} from '../shared/Interfaces/server_response';
 import {SymbolValidator} from './custom-validator';
 
 

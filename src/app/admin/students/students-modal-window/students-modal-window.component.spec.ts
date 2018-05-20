@@ -1,6 +1,6 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { StudentsModalWindowComponent } from './students-modal-window.component';
+import {StudentsModalWindowComponent} from './students-modal-window.component';
 
 describe('StudentsModalWindowComponent', () => {
   let component: StudentsModalWindowComponent;

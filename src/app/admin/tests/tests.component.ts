@@ -1,12 +1,12 @@
-import { Component, OnInit} from '@angular/core';
-import {TestService } from './test.service';
-import { MatDialog} from '@angular/material';
-import { EditComponent } from './edit/edit.component';
-import { AddComponent } from './add/add.component';
-import { Router, ActivatedRoute } from '@angular/router';
-import { DeleteConfirmComponent } from '../../shared/delete-confirm/delete-confirm.component';
-import { IResponse } from './test';
-import { ResponseMessageComponent } from '../../shared/response-message/response-message.component';
+import {Component, OnInit} from '@angular/core';
+import {TestService} from './test.service';
+import {MatDialog} from '@angular/material';
+import {EditComponent} from './edit/edit.component';
+import {AddComponent} from './add/add.component';
+import {ActivatedRoute, Router} from '@angular/router';
+import {DeleteConfirmComponent} from '../../shared/delete-confirm/delete-confirm.component';
+import {IResponse} from './test';
+import {ResponseMessageComponent} from '../../shared/response-message/response-message.component';
 
 
 @Component({

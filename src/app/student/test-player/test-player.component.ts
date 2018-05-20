@@ -1,9 +1,7 @@
-import { Component, OnInit } from '@angular/core';
-
+import { Component, HostListener, OnInit } from '@angular/core';
 import { TestPlayerService } from '../services/test-player.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatDialog } from '@angular/material';
-import { TestResultComponent } from './test-result/test-result.component';
 import { ITimeStamp } from './interfaces/TimeStamp';
 import { ITimer } from './interfaces/Timer';
 import { TimerService } from '../services/timer.service';
@@ -65,6 +63,7 @@ export class TestPlayerComponent implements OnInit {
     private data: DataService
   ) {
     this.start = setInterval(() => {
+      // TimerMakeCool(){}
       this.timer.hours = Math.floor(this.distance / (1000 * 60 * 60));
       this.timer.minutes = Math.floor(
         (this.distance % (1000 * 60 * 60)) / (1000 * 60)
@@ -82,14 +81,14 @@ export class TestPlayerComponent implements OnInit {
       this.distance -= 1000;
 
       if (this.distance <= -1) {
-        // this.router.navigate(['/student'], {relativeTo: this.route});
-        this.timer.hours = 0;
+        this.timer.hours = '00';
         this.timer.minutes = '00';
         this.timer.seconds = '00';
         this.timerService
           .clearTime()
           .subscribe(response => console.log(response));
         clearInterval(this.start);
+        this.finishTest();
         // alert('time\'s up');
       }
     }, 1000);
@@ -99,6 +98,11 @@ export class TestPlayerComponent implements OnInit {
     this.getQuestionsForTest();
 
     this.getTime();
+  }
+
+  @HostListener('window:beforeunload', ['$event'])
+  beforeunloadHandler($event) {
+    $event.returnValue = true;
   }
 
   getQuestionsForTest(): void {
@@ -129,7 +133,7 @@ export class TestPlayerComponent implements OnInit {
           delete topModel[key];
         } else {
           answersArr.push(key);
-          answers_ids = answersArr.join(',');
+          answers_ids = answersArr.join(' ');
         }
       }
 
@@ -137,6 +141,8 @@ export class TestPlayerComponent implements OnInit {
         this.userAnswers[question.question_id] || {};
       this.userAnswers[question.question_id].question_id = question.question_id;
       this.userAnswers[question.question_id].answer_id = answers_ids;
+
+      console.log(this.userAnswers);
 
       // for input questions
     } else if (+question.type === 3 || +question.type === 4) {
@@ -147,27 +153,13 @@ export class TestPlayerComponent implements OnInit {
     }
   }
 
-  openModal(testResult): void {
-    const matDialogRef = this.dialog.open(TestResultComponent, {
-      disableClose: true,
-      width: '400px',
-      data: { result: testResult },
-    });
-
-    matDialogRef.afterClosed().subscribe(() => {
-      this.router.navigate(['student']);
-    });
-  }
-
   finishTest() {
-    console.log('Finish Test');
     this.testPlayerService
       .checkResult(this.userAnswers)
       .subscribe((response: any) => {
-        const testResult = response;
         this.data.setAnswers(response.number_of_true_answers);
         this.data.setMark(response.full_mark);
-        // this.openModal(testResult);
+        this.data.setCountOfQuestions(this.questions.length);
         this.router.navigate(['student/results']);
       });
   }
@@ -176,6 +168,8 @@ export class TestPlayerComponent implements OnInit {
   questionRoute(index) {
     this.Index = index + 1;
     this.question = this.questions[index];
+    console.log(this.questions);
+    console.log(this.userAnswers);
   }
   nextQuestion() {
     this.Index++;
@@ -209,14 +203,10 @@ export class TestPlayerComponent implements OnInit {
     this.authService.isLogged().subscribe((response: any) => {
       this.studentId = response.id;
       this.timerService.getStudentRecords(this.studentId).subscribe(data => {
-        this.timerService
-          .getStudentTimetable(data[0].group_id, idSubj)
-          .subscribe(time => {
-            this.countTimeLeft();
-            this.student = data;
-            console.log('student');
-            console.log(this.student);
-          });
+        this.timerService.getStudentTimetable(data[0].group_id, idSubj).subscribe(time => {
+          this.countTimeLeft();
+          this.student = data;
+        });
       });
     });
   }
@@ -265,17 +255,6 @@ export class TestPlayerComponent implements OnInit {
     });
   }
 
-  Back() {
-    this.router.navigate(['/student'], { relativeTo: this.route });
-  }
 
-  stopTimer() {
-    this.timerService.clearTime().subscribe(response => {
-      console.log(response);
-      this.timerService.saveEndTime({
-        end: this.startDate + 1000,
-      });
-      clearInterval(this.start);
-    });
-  }
+// End of component
 }

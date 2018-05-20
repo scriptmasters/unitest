@@ -1,6 +1,6 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { GroupsDeleteConfirmComponent } from './groups-delete-confirm.component';
+import {GroupsDeleteConfirmComponent} from './groups-delete-confirm.component';
 
 describe('GroupsDeleteConfirmComponent', () => {
   let component: GroupsDeleteConfirmComponent;

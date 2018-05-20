@@ -9,6 +9,7 @@ import {IResponse} from './specialityInterface';
 import {FormGroup} from '@angular/forms';
 import {DeleteConfirmComponent} from '../../shared/delete-confirm/delete-confirm.component';
 import {Pagination} from '../../shared/pagination/pagination.class';
+import {PaginationService} from '../../shared/pagination/pagination.service';
 
 
 @Component({
@@ -25,14 +26,16 @@ export class SpecialitiesComponent extends Pagination implements OnInit {
                 public route: ActivatedRoute,
                 public pagIntl: MatPaginatorIntl,
                 public http: HttpClient,
-                public dialog: MatDialog) {
-        super(router, route, pagIntl, http, dialog);
-        this.entity = 'speciality';
+                public dialog: MatDialog,
+                public pagService: PaginationService) {
+        super(router, route, pagIntl, http, dialog, pagService);
+        this.pagService.entity = 'speciality';
         this.entities = 'specialities';
+        this.pageSize = 5;
     }
 
     ngOnInit() {
-        this.initLogic();
+        this.initLogic(false);
     }
 
     getGroups(id): void {
