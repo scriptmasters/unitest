@@ -1,18 +1,19 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, OnDestroy} from '@angular/core';
 import {DataService} from '../../services/data.service';
 import {AuthService} from '../../../auth/auth.service';
 import { ChartReadyEvent } from 'ng2-google-charts';
 import { ChartErrorEvent } from 'ng2-google-charts';
 import { ChartSelectEvent } from 'ng2-google-charts';
 import { ChartMouseOverEvent, ChartMouseOutEvent } from 'ng2-google-charts';
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-quiz-result',
   templateUrl: './quiz-result.component.html',
   styleUrls: ['./quiz-result.component.scss']
 })
-export class QuizResultComponent implements OnInit {
+export class QuizResultComponent implements OnInit, OnDestroy {
   mark;
-  public pieChartData;
+  pieChartData;
   drawChart() {
     this.pieChartData =  {
       chartType: 'PieChart',
@@ -41,4 +42,17 @@ export class QuizResultComponent implements OnInit {
     this.drawChart();
   }
 
+  ngOnDestroy() {
+    sessionStorage.removeItem('mark');
+    sessionStorage.removeItem('numberOfQuestions');
+    sessionStorage.removeItem('trueAnswers');
+  }
+
+  isAvilable(): boolean {
+    if (this.data.getCountOfQuestions() <= 0) {
+      return false;
+    } else {
+      return true;
+    }
+  }
 }
