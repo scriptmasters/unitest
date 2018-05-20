@@ -2,7 +2,8 @@
   <div class="row">
     <div class="col-12 col-lg-12">
       <div class="pull-right">
-        <button class="btn btn-success" (click)="showFilter()">Показати фільтр</button>
+        <button class="btn btn-success"
+                (click)="showFilter()">Показати фільтр</button>
       </div>
     </div>
   </div>
@@ -43,8 +44,10 @@
           *ngIf="resultRecords"
           class="pagination justify-content-center"
           (pageChange)="config.currentPage = $event"
-          maxSize="10" previousLabel="<<"
-          nextLabel=">>" autoHide="true"></pagination-controls>
+          maxSize="10"
+          previousLabel="<<"
+          nextLabel=">>"
+          autoHide="true"></pagination-controls>
       </div>
     </div>
   </div>

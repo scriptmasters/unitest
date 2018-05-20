@@ -21,7 +21,6 @@ export class TestDetailCreateComponent implements OnInit {
   }
 
   ngOnInit() {
-    // this.levels = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20];
     this.levels = Array.from(Array(20).keys()).map(i => i + 1);
     this.initForm();
   }

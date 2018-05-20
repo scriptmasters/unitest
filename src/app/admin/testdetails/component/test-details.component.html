@@ -1,13 +1,4 @@
-<!-- <div class="breadcrumb-holder">
-  <div class="container-fluid">
-    <ul class="breadcrumb">
-      <li class="breadcrumb-item"><a routerLink="">Головна</a></li>
-      <li class="breadcrumb-item"><a routerLink="/admin/subjects">Предмети</a></li>
-      <li class="breadcrumb-item"><a routerLink="/admin/tests">Тести</a></li>
-      <li class="breadcrumb-item active">Деталі тестів</li>
-    </ul>
-  </div>
-</div> -->
+
 <section>
     <div class="container-fluid">
         <header class="row">
@@ -17,7 +8,9 @@
                         <h2 class="display">Додаткові параметри тесту: "{{testName}}"</h2>
                     </div>
                     <div>
-                        <button type="submit" class="btn btn-primary" (click)="openDialog({test_id: testId})">Додати новий параметр</button>
+                        <button type="submit"
+                                class="btn btn-primary"
+                                (click)="openDialog({test_id: testId})">Додати новий параметр</button>
                     </div>
                 </div>
             </div>
@@ -41,8 +34,10 @@
                                 <td>{{testDetailItem.level}}</td>
                                 <td>{{testDetailItem.tasks}}</td>
                                 <td>{{testDetailItem.rate}}</td>
-                                <td><i class="fa fa-cog pointer" (click)="openDialog(testDetailItem)"></i></td>
-                                <td><i class="fa fa-close pointer" (click)="delete(testDetailItem.id)"></i></td>
+                                <td><i class="fa fa-cog pointer"
+                                       (click)="openDialog(testDetailItem)"></i></td>
+                                <td><i class="fa fa-close pointer"
+                                       (click)="delete(testDetailItem.id)"></i></td>
                             </tr>
                         </tbody>
                     </table>

@@ -32,7 +32,8 @@
                   <select class="form-control"
                           formControlName="order">
                     <option value="" selected>Оберіть сортування</option>
-                    <option *ngFor="let orderItem of orderTypes" [value]="orderItem.id" >{{orderItem.name}}</option>
+                    <option *ngFor="let orderItem of orderTypes"
+                            [value]="orderItem.id" >{{orderItem.name}}</option>
                   </select>
                 </div>
                 <div class="form-group col-md-12">
@@ -55,5 +56,6 @@
     [order]="filterForm.controls['order'].value"
     [groups]="groups"
     [tests]="tests"
-    (filterEmit)="toggleFilter($event)" ></app-filtered-result>
+    (filterEmit)="toggleFilter($event)"
+  ></app-filtered-result>
 </section>

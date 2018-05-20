@@ -18,7 +18,7 @@ export class FilterComponent implements OnInit {
   testRate: number;
   groups = [];
   tests = [];
-  orderTypes = [{id: 'date', name: 'по даті'}, {id: 'rate', name: 'по рейтингу'}, {id: 'userName', name: 'по імені студента'}];
+  orderTypes = [{id: 'date', name: 'по даті'}, {id: 'rate', name: 'по рейтингу'}, {id: 'userName', name: 'по імені'}];
   showFilter = true;
 
   config: PaginationInstance = {
@@ -68,8 +68,12 @@ export class FilterComponent implements OnInit {
 
   private initForm() {
       this.filterForm = this.formBuilder.group({
-        testId: ['', [Validators.required, Validators.minLength(1), Validators.pattern('([0-9\.])+')]],
-        groupId: ['', [Validators.required, Validators.minLength(1), Validators.pattern('([0-9\.])+')]],
+        testId: ['', [Validators.required,
+                      Validators.minLength(1),
+                      Validators.pattern('([0-9\.])+')]],
+        groupId: ['', [Validators.required,
+                       Validators.minLength(1),
+                       Validators.pattern('([0-9\.])+')]],
         order: ''
       }, {updateOn: 'blur'});
   }

@@ -67,23 +67,13 @@ export class ResultComponent {
                   break;
                 }
                 case 'rate': {
-                  this.resultRecords.sort((a, b) => {
-                    const res1 = +a.result;
-                    const res2 = +b.result;
-                    return res1 - res2;
-                  });
+                  this.resultRecords.sort((a, b) => a.result - b.result);
                   break;
                 }
                 case 'userName': {
                   this.resultRecords.sort((a, b) => {
-                    const name1 = +a.student_name;
-                    const name2 = +b.student_name;
-                    if (name1 < name2) {
-                      return -1;
-                    }
-                    if (name1 > name1) {
-                      return 1;
-                    }
+                    if (a.student_name < b.student_name) { return -1; }
+                    if (a.student_name > b.student_name) { return 1; }
                     return 0;
                   });
                   break;
