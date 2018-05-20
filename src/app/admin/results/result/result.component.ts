@@ -37,7 +37,7 @@ export class ResultComponent {
 
     if (this.testId) {
       this.resultService.getTestRecordsByParams(this.testId, this.groupId).subscribe((records: any[]) => {
-        if (records && records['response'] && records['response'] === 'no records') {
+        if (records['response'] === 'no records') {
           this.resultRecords = [];
         } else {
           let studentIds: number[] = [];
