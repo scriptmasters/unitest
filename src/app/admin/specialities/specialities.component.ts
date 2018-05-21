@@ -11,7 +11,6 @@ import {DeleteConfirmComponent} from '../../shared/delete-confirm/delete-confirm
 import {Pagination} from '../../shared/pagination/pagination.class';
 import {PaginationService} from '../../shared/pagination/pagination.service';
 
-
 @Component({
     selector: 'app-specialities',
     templateUrl: './specialities.component.html',
@@ -42,7 +41,7 @@ export class SpecialitiesComponent extends Pagination implements OnInit {
         this.router.navigate(['admin/groups'], {queryParams: {specialityId: id}});
     }
 
-    openModal(id): void {
+    openModal(id?): void {
         const dialogRef = this.dialog.open(PopupFormComponent, {
             disableClose: true,
             width: '600px',

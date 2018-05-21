@@ -5,11 +5,14 @@ import {EditQuestionComponent} from './edit-question/edit-question.component';
 
 import {IQuestion, IResponse} from './questions-interface';
 import {FormGroup} from '@angular/forms';
-import {MatDialog} from '@angular/material';
+import {MatDialog, MatPaginatorIntl} from '@angular/material';
 import {ActivatedRoute, Router} from '@angular/router';
 import {DeleteConfirmComponent} from '../../shared/delete-confirm/delete-confirm.component';
 import {ResponseMessageComponent} from '../../shared/response-message/response-message.component';
 import {PaginationInstance} from 'ngx-pagination';
+import {Pagination} from '../../shared/pagination/pagination.class';
+import {HttpClient} from '@angular/common/http';
+import {PaginationService} from '../../shared/pagination/pagination.service';
 
 
 @Component({
@@ -19,7 +22,7 @@ import {PaginationInstance} from 'ngx-pagination';
     providers: [ QuestionsService ]
 })
 
-export class QuestionsComponent implements OnInit {
+export class QuestionsComponent extends Pagination implements OnInit {
 
       public config: PaginationInstance = {
         itemsPerPage: 5,
@@ -50,10 +53,15 @@ export class QuestionsComponent implements OnInit {
 
   constructor(
     private service: QuestionsService,
-    private dialog: MatDialog,
-    private router: Router,
-    private activatedRoute: ActivatedRoute
+    private activatedRoute: ActivatedRoute,
+    public router: Router,
+    public route: ActivatedRoute,
+    public pagIntl: MatPaginatorIntl,
+    public http: HttpClient,
+    public dialog: MatDialog,
+    public pagService: PaginationService
   ) {
+      super(router, route, pagIntl, http, dialog, pagService);
       this.activatedRoute.queryParams.subscribe(params => {
         this.subjectId = params['subjectId'];
         this.testId = params['testId'];
@@ -71,6 +79,7 @@ export class QuestionsComponent implements OnInit {
     if (this.testId) {
         this.createQuestionsTableByTestId(this.testId);
     }
+    this.initLogic(true);
 
   }
 

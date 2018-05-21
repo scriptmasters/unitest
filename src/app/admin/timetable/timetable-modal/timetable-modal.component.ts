@@ -1,6 +1,6 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material';
-import TableService from '../timetable.service';
+import {TableService} from '../timetable.service';
 import {matchDates, startDateValidator} from './date-validation';
 
 import {FormControl, FormGroup, Validators} from '@angular/forms';
@@ -12,7 +12,7 @@ import {FormControl, FormGroup, Validators} from '@angular/forms';
   providers: [TableService]
 })
 export class TimeTableModalComponent implements OnInit {
-  private form: FormGroup;
+  public form: FormGroup;
   formData = {
     group_id: '',
     subject_id: '',
@@ -65,7 +65,7 @@ export class TimeTableModalComponent implements OnInit {
       }
     );
   }
-  onReset = evt => {
+  onReset = () => {
     if (this.formData.timetable_id) {
       this.formData = Object.assign({}, this.data.tableItem);
     } else {this.formData = {
@@ -78,8 +78,9 @@ export class TimeTableModalComponent implements OnInit {
        timetable_id: undefined
     };
     }
-  };
-  onSubmit = evt => {
+  }
+
+  onSubmit = () => {
     // if timetable_id exists then we need to edit item instead of adding new one
     if (this.formData.timetable_id) {
       // Prepare data for API call

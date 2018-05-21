@@ -9,6 +9,7 @@ import 'rxjs/add/operator/debounceTime';
 import {PaginationService} from './pagination.service';
 
 
+
 export class Pagination {
     error = 'За даним пошуковим запитом дані відсутні';
     searchBox = new FormControl();
@@ -18,6 +19,11 @@ export class Pagination {
     entitiesObj: any;
     entities: string;
     pagination: boolean;
+    progress: boolean;
+    mainSubscription: Subscription;
+    pagSubscription: Subscription;
+    progressbarSubscription: Subscription;
+    routeSuscription: Subscription;
 
     @ViewChild(MatPaginator) paginator: MatPaginator;
 
@@ -35,12 +41,21 @@ export class Pagination {
         this.pagIntl.nextPageLabel = 'Наступна сторінка';
         this.pagIntl.previousPageLabel = 'Попередня сторінка';
         this.pagIntl.itemsPerPageLabel = 'Кількість елементів';
+        this.pagService.pagSubscr.next(true);
 
-        this.pagService.pagSubscr.debounceTime(1).subscribe(
-            data => this.pagination = data
+        this.pagSubscription = this.pagService.pagSubscr.debounceTime(1).subscribe(
+            data => {
+                this.pagination = data;
+            }
         );
 
-        this.route.queryParams.subscribe(params => {
+        this.progressbarSubscription = this.pagService.progressbar.debounceTime(1).subscribe(
+            data => {
+                data === 0 ? this.progress = false : this.progress = true;
+            }
+        );
+
+        this.routeSuscription = this.route.queryParams.subscribe(params => {
             params.page ? this.pageIndex = +params.page - 1 : this.pageIndex = 0;
             dontGetEntity ? this.pagService.pagSubscr.next(true) : this.getEntity();
         });
@@ -59,12 +74,21 @@ export class Pagination {
                                     this.entitiesObj = data;
                                     this.pageIndex = 0;
                                 }
+                            }, () => {
+                                this.pagService.pagSubscr.next(false);
+                                this.entitiesObj = undefined;
                             }
                         );
                 } else {
                     dontGetEntity ? this.pagService.pagSubscr.next(true) : this.getEntity();
                 }
             });
+
+        this. mainSubscription = this.pagSubscription.add(this.progressbarSubscription).add(this.searchBoxSubscr);
+    }
+
+    destroyLogic() {
+        this.mainSubscription.unsubscribe();
     }
 
     getEntity?(event?): void {
@@ -96,8 +120,6 @@ export class Pagination {
     paginationChange? (event) {
         this.pageSize = event.pageSize;
         this.pageIndex = event.pageIndex;
-
-
     }
 }
 

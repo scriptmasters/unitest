@@ -138,7 +138,7 @@ export class TimetableComponent implements OnInit {
    * table item we want to edit
    * if not presented we open modal to add new entity
    */
-  openDialog(tableItem: TableItemModified): void {
+  openDialog(tableItem?: TableItemModified): void {
     const dialogRef = this.dialog.open(TimeTableModalComponent, {
       width: '650px',
       data: {

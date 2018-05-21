@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {BehaviorSubject} from 'rxjs/BehaviorSubject';
 import {HttpClient} from '@angular/common/http';
-import 'rxjs/add/operator/take';
+
 
 
 @Injectable()
@@ -9,8 +9,10 @@ export class PaginationService {
     fullLength: number;
     paginatedLength: number;
     entity: string;
+    collectionNotEmpty = true;
+    count = 0;
+    progressbar = new BehaviorSubject(this.count);
     pagSubscr = new BehaviorSubject(true);
-
 
     constructor(public http: HttpClient) {
     }

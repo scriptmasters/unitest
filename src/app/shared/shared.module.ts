@@ -5,9 +5,8 @@ import {NgxPaginationModule} from 'ngx-pagination';
 import {RequestInterceptor} from './request-interceptor';
 import {
     MatButtonModule, MatCardModule, MatDialogModule, MatInputModule, MatPaginatorIntl, MatPaginatorModule, MatProgressSpinnerModule,
-    MatSelectModule, MatSnackBarModule
+    MatSelectModule, MatSnackBarModule, MatProgressBarModule
 } from '@angular/material';
-
 import {DeleteConfirmComponent} from './delete-confirm/delete-confirm.component';
 import {ResponseMessageComponent} from './response-message/response-message.component';
 import {CommonModule} from '@angular/common';
@@ -16,7 +15,6 @@ import {BreadcrumbComponent} from './breadcrumb/breadcrumb.component';
 import {RouterModule} from '@angular/router';
 import {PaginationService} from './pagination/pagination.service';
 import {PaginationPipe} from './pagination/pagination.pipe';
-
 
 @NgModule({
     imports: [MatProgressSpinnerModule, CommonModule, RouterModule],
@@ -44,7 +42,8 @@ import {PaginationPipe} from './pagination/pagination.pipe';
         MatPaginatorModule,
         MatProgressSpinnerModule,
         BreadcrumbComponent,
-        PaginationPipe
+        PaginationPipe,
+        MatProgressBarModule
     ],
     providers: [
         {provide: HTTP_INTERCEPTORS, useClass: RequestInterceptor, multi: true},

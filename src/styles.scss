@@ -1,4 +1,4 @@
-@import '~@angular/material/prebuilt-themes/deeppurple-amber.css';
+@import '~@angular/material/prebuilt-themes/purple-green.css';
 
 /* You can add global styles to this file, and also import other style files */
 
@@ -16,7 +16,7 @@ html {
 // Define the palettes for your theme using the Material Design palettes available in palette.scss
 // (imported above). For each palette, you can optionally specify a default, lighter, and darker
 // hue. Available color palettes: https://www.google.com/design/spec/style/color.html
-$candy-app-primary: mat-palette($mat-green, 500, 400, 700);
+$candy-app-primary: mat-palette($mat-green, 300, 500, 700);
 $candy-app-accent: mat-palette($mat-pink, 200, 100, 400);
 // The warn palette is optional (defaults to red).
 $candy-app-warn: mat-palette($mat-red);
@@ -37,8 +37,6 @@ $candy-app-theme: mat-light-theme($candy-app-primary, $candy-app-accent, $candy-
     font-size: 8pt;
     float: right;
 }
-
-@import '~@angular/material/prebuilt-themes/deeppurple-amber.css';
 
 /*
 * ==========================================================
@@ -644,4 +642,8 @@ form .ng-invalid:not(.ng-untouched) {
 }
 .test-form {
   padding-bottom: 20px;
+}
+/*Progress bar container div*/
+.progressbar {
+    height: 0;
 }

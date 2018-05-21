@@ -1,7 +1,8 @@
 import {Pipe, PipeTransform} from '@angular/core';
 import {PaginationService} from './pagination.service';
 
-@Pipe({name: 'pagination', pure: false})
+@Pipe({name: 'pagination',
+       pure: false})
 export class PaginationPipe implements PipeTransform {
     constructor(private pagService: PaginationService) {
     }
@@ -10,7 +11,8 @@ export class PaginationPipe implements PipeTransform {
         this.pagService.fullLength = array.length;
         const outputArr = array.slice(size * index, size * (index + 1));
         this.pagService.paginatedLength = outputArr.length;
-        if (outputArr.length <= size && array.length <= size) {
+
+        if (array.length <= size) {
             this.pagService.pagSubscr.next(false);
             return array;
         } else {

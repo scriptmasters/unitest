@@ -16,6 +16,8 @@ import IResolvedData from './interfaces/IResolvedData';
 import {HttpClient} from '@angular/common/http';
 import {Pagination} from '../../shared/pagination/pagination.class';
 import {PaginationService} from '../../shared/pagination/pagination.service';
+import {Subscription} from 'rxjs/Subscription';
+import {FormControl} from '@angular/forms';
 
 @Component({
     selector: 'app-students',
@@ -31,8 +33,8 @@ export class StudentsComponent extends Pagination implements OnInit {
     groupString = 'Виберіть групу';
     students: IStudent[] = [];
     byGroup: boolean;
-
-    @ViewChild('searchField') searchField: ElementRef;
+    search = new FormControl();
+    searchSubscr: Subscription;
 
     constructor(private service: StudentsService,
                 public router: Router,
@@ -50,19 +52,33 @@ export class StudentsComponent extends Pagination implements OnInit {
         this.route.data.subscribe((data: { resolvedStudents: IResolvedData }) => {
             this.students = data.resolvedStudents.students;
             this.byGroup = data.resolvedStudents.byGroup;
-            this.service.getAvailableFaculties().subscribe(res => this.faculties = res);
+            this.service.getAvailableFaculties().subscribe(res => {
+                this.faculties = res;
+                if (this.byGroup) {
+                    this.faculties.forEach((value: any) => {
+
+                        if (value.faculty_id === this.students[0].faculty_id) {
+                            this.facultyString = value.faculty_name;
+                        }
+                    });
+                    this.groups = [{group_id: undefined, group_name: this.students[0].group}];
+                    this.groupString = this.students[0].group;
+                }
+            });
             this.countingStudents();
             this.searchStd();
             this.initLogic(true);
+            this.byGroup ? this.pagService.pagSubscr.next(false) : this.pagService.pagSubscr.next(true);
         });
 
     }
-    countingStudents () {
+
+    countingStudents() {
         this.service.countStudent().subscribe(response => this.pagService.fullLength = +response.numberOfRecords);
     }
 
     searchStd() {
-        this.searchBoxSubscr = this.searchBox.valueChanges
+        this.searchSubscr = this.search.valueChanges
             .debounceTime(1000)
             .subscribe(newValue => {
                 if (newValue !== '') {
@@ -75,6 +91,10 @@ export class StudentsComponent extends Pagination implements OnInit {
                                 } else {
                                     this.processDataFromAPI(data);
                                 }
+                            },
+                            () => {
+                                this.students = undefined;
+                                this.pagService.pagSubscr.next(false);
                             }
                         );
                 } else {
@@ -83,7 +103,7 @@ export class StudentsComponent extends Pagination implements OnInit {
             });
     }
 
-     // Opening creating student form
+    // Opening creating student form
     showRegForm(user: IStudent): void {
         this.openStudentsModalWindow(user, true, false, false, true, 'Додати студента')
             .afterClosed().subscribe((Response: any) => {
@@ -159,17 +179,22 @@ export class StudentsComponent extends Pagination implements OnInit {
     processDataFromAPI(data: IStudent[] & IResponse) {
         // If there is no students in the current group don't process data
         if (data.response === 'no records') {
-            this.openModalMessage('Немає зареєстрованих студентів в даній групі!');
-            return;
-        }
-        let groupsArr: any[] = data.map(value => value.group_id);
-        const body = JSON.stringify({entity: 'Group', ids: groupsArr});
-        this.service.getEntityValue(body).subscribe(response => {
-            groupsArr = response;
-            // Updating array students
-            this.students = getFiltredStudents(data, groupsArr);
+            this.students = undefined;
+        } else {
+            let groupsArr: any[] = data.map(value => value.group_id);
+            const body = JSON.stringify({entity: 'Group', ids: groupsArr});
+            this.service.getEntityValue(body).subscribe(response => {
+                groupsArr = response;
+                // Updating array students
+                this.students = getFiltredStudents(data, groupsArr);
 
-        });
+            });
+            this.pagService.fullLength = this.students.length;
+            /*this.students.length >= this.pageSize ?
+                this.pagService.pagSubscr.next(true) :
+                this.pagService.pagSubscr.next(false);*/
+
+        }
     }
 
     // Deleting student
@@ -228,24 +253,10 @@ export class StudentsComponent extends Pagination implements OnInit {
 
     // filters students by group
     getFiltredStudentsByGroup(elem: HTMLSelectElement) {
-        this.pagService.pagSubscr.next(false);
-        this.pageIndex = 0;
         const index = setGroupAsID(elem, this.groups);
-        console.log(index);
         if (index) {
-            this.service.getStudentsByGroup(index).subscribe(
-                (data: IStudent[] & IResponse) => this.processDataFromAPI(data),
-                () => this.openModalMessage('Сталась помилка при завантаженні даних')
-            );
+            this.router.navigate([`admin/students/${index}`]);
         }
-    }
-
-    // clear filters
-    resetFilters(): void {
-        this.facultyString = 'Виберіть факультет';
-        this.groupString = 'Виберіть групу';
-        this.updateData(this.pageSize, this.pageIndex);
-        this.pagService.pagSubscr.next(true);
     }
 
     // back to groups

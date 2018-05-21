@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {AdministratorsService} from './services/administrators.service';
 import {Administrators, IResponse} from './administratorsInterface';
-import {MatDialog} from '@angular/material';
+import {MatDialog, MatPaginatorIntl} from '@angular/material';
 import {DeleteConfirmComponent} from '../../shared/delete-confirm/delete-confirm.component';
 import {ResponseMessageComponent} from '../../shared/response-message/response-message.component';
 import {FormControl} from '@angular/forms';
@@ -9,37 +9,44 @@ import {AdministratorsDialogComponent} from './administrators-dialog/administrat
 import {Subscription} from 'rxjs/Subscription';
 import {PaginationInstance} from 'ngx-pagination';
 import 'rxjs/add/operator/debounceTime';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {AuthService} from '../../auth/auth.service';
 import {IisLogged} from '../../shared/Interfaces/server_response';
+import {Pagination} from '../../shared/pagination/pagination.class';
+import {HttpClient} from '@angular/common/http';
+import {PaginationService} from '../../shared/pagination/pagination.service';
 
 @Component({
   selector: 'app-administrators',
   templateUrl: './administrators.component.html',
   styleUrls: ['./administrators.component.scss']
 })
-export class AdministratorsComponent implements OnInit {
+export class AdministratorsComponent extends Pagination implements OnInit {
 
     administrators: Administrators[];
     error: string;
-    searchBox = new FormControl();
-    searchBoxSubscr: Subscription;
-
-    public config: PaginationInstance = {
-     itemsPerPage: 10,
-     currentPage: 1
-  };
+    search = new FormControl();
+    searchSubscr: Subscription;
 
   constructor(private administratorsService: AdministratorsService,
-   public dialog: MatDialog,
-   private route: ActivatedRoute,
-   public authService: AuthService) { }
+
+   public authService: AuthService,
+              public router: Router,
+              public route: ActivatedRoute,
+              public pagIntl: MatPaginatorIntl,
+              public http: HttpClient,
+              public dialog: MatDialog,
+              public pagService: PaginationService) {
+      super(router, route, pagIntl, http, dialog, pagService);
+  }
 
   ngOnInit() {
+    this.initLogic(true);
     this.administrators = this.route.snapshot.data['administrators'];
-    this.searchBoxSubscr = this.searchBox.valueChanges
+    this.searchSubscr = this.search.valueChanges
         .debounceTime(1000)
         .subscribe(newValue => {
+            this.pagService.pagSubscr.next(false);
             this.administratorsService.getSearchedAdministrators(newValue)
                 .subscribe(
                     (data: any) => {
@@ -49,6 +56,10 @@ export class AdministratorsComponent implements OnInit {
                         } else {
                             this.administrators = data;
                         }
+                    },
+                    () => {
+                        this.administrators = undefined;
+                        this.pagService.pagSubscr.next(false);
                     }
                 );
         });
@@ -62,7 +73,7 @@ export class AdministratorsComponent implements OnInit {
   }
 
 // Add and update modal
-  openDialog(id): void {
+  openDialog(id?): void {
     const adminId = id;
     this.authService.isLogged().subscribe((result: IisLogged) => {
       if (result.id === adminId || +result.id === 1 || adminId === undefined) {

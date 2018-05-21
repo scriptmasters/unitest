@@ -60,8 +60,8 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr *ngFor="let question of questions | paginate: config; let i = index">
-                                <th scope="row">{{(config.currentPage - 1) * config.itemsPerPage + i +1}}</th>
+                            <tr *ngFor="let question of questions | pagination: pageSize : pageIndex; let i = index">
+                                <th scope="row">{{i+pageSize*pageIndex+1}}</th>
                                 <td>{{question.question_text}}</td>
                                 <!-- <td>{{this.testName}} </td> -->
                                 <!-- <td>{{question.question_id}} </td> -->
@@ -100,10 +100,13 @@
                 </div>
             </div>
         </div>
-        <div class="row">
-            <div class="col-lg-12">
-                <pagination-controls *ngIf="questions" class="pagination justify-content-center" (pageChange)="config.currentPage = $event" maxSize="10" previousLabel="<<" nextLabel=">>" autoHide="true"></pagination-controls>
-            </div>
-        </div>
+        <mat-paginator *ngIf="pagination"
+                       [length]=pagService.fullLength
+                       [pageSize]=pageSize
+                       [pageIndex]=pageIndex
+                       [pageSizeOptions]="[5, 10, 25, 100]"
+                       [showFirstLastButtons]="true"
+                       (page)="paginationChange($event)">
+        </mat-paginator>
     </div>
 </section>

@@ -1,14 +1,16 @@
 import {Injectable} from '@angular/core';
-import {HttpEvent, HttpHandler, HttpInterceptor, HttpRequest} from '@angular/common/http';
+import {HttpEvent, HttpHandler, HttpInterceptor, HttpRequest, HttpResponse} from '@angular/common/http';
 import 'rxjs/add/observable/throw';
 import 'rxjs/add/operator/catch';
 import {Observable} from 'rxjs/Observable';
 import {Router} from '@angular/router';
 import 'rxjs/add/operator/do';
+import {PaginationService} from './pagination/pagination.service';
 
 @Injectable()
 export class RequestInterceptor implements HttpInterceptor {
-    constructor(private router: Router) {
+    constructor(private router: Router,
+                private pagService: PaginationService) {
     }
 
     hostName = 'http://vps9615.hyperhost.name:443/api/';
@@ -18,7 +20,21 @@ export class RequestInterceptor implements HttpInterceptor {
         const httpReq = req.clone({url: this.hostName + req.url, reportProgress: true});
 
         return next.handle(httpReq)
+            .do((response) => {
+                if (response.type === 0) {
+                    this.pagService.count++;
+                    this.pagService.progressbar.next(this.pagService.count);
+                }
+                if (response instanceof HttpResponse) {
+                    this.pagService.count--;
+                    this.pagService.progressbar.next(this.pagService.count);
+                }
+            })
             .catch((error) => {
+                if (error) {
+                    this.pagService.count--;
+                    this.pagService.progressbar.next(this.pagService.count);
+                }
                 if (error.status === 403 && error.error.response.indexOf('logged') !== -1) {
                     this.router.navigate(['/login'], {
                             queryParams: {return: this.router.url.split('?')[0]}

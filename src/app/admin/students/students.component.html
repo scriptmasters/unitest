@@ -8,13 +8,9 @@
                         <h2 class="display">Студенти</h2>
                     </div>
                     <div>
-                        <button *ngIf="!byGroup" type="button" class="btn btn-primary" (click)="showRegForm()">Додати
+                        <button type="button" class="btn btn-primary" (click)="showRegForm()">Додати
                             новий параметp
                         </button>
-                    </div>
-                    <div *ngIf="byGroup" class="studNav">
-                        <button type="button" class="btn" (click)="backToGroups()">Групи</button>
-                        <button type="button" class="btn" (click)="reviseAllStudents()">Всі студенти</button>
                     </div>
                 </div>
             </div>
@@ -24,7 +20,7 @@
                 <div class="card-body row justify-content-between">
                     <!-- Search input -->
                     <div class=" form-group col-sm-3">
-                        <input type="text" [formControl]="searchBox"
+                        <input type="text" [formControl]="search"
                                placeholder="Пошук..." class="form-control">
                     </div>
                     <!-- List of faculties (dropdown) -->
@@ -47,10 +43,13 @@
                     <div class="form-group col-sm-1 d-flex justify-content-between">
                         <button type="button" title="Очистити фільтри" class="fa fa-refresh"
                                 [disabled]="groupString === 'Виберіть групу'"
-                                (click)="resetFilters()"></button>
+                                (click)="reviseAllStudents()"></button>
                     </div>
                 </div>
             </div>
+        </div>
+        <div class="progressbar">
+            <mat-progress-bar *ngIf="progress" mode="indeterminate" color="primary"></mat-progress-bar>
         </div>
         <div class="row">
             <div class="card col-12 col-lg-12">

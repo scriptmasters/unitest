@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {FacultiesService} from './services/faculties.service';
-import {MatDialog} from '@angular/material';
+import {MatDialog, MatPaginatorIntl} from '@angular/material';
 import {Faculties, IResponse} from './facultiesInterface';
 import {FacultiesDialogComponent} from './faculties-dialog/faculties-dialog.component';
 import {DeleteConfirmComponent} from '../../shared/delete-confirm/delete-confirm.component';
@@ -8,6 +8,9 @@ import {FormGroup} from '@angular/forms';
 import {ResponseMessageComponent} from '../../shared/response-message/response-message.component';
 import {PaginationInstance} from 'ngx-pagination';
 import {ActivatedRoute, Router} from '@angular/router';
+import {Pagination} from '../../shared/pagination/pagination.class';
+import {HttpClient} from '@angular/common/http';
+import {PaginationService} from '../../shared/pagination/pagination.service';
 
 @Component({
   selector: 'app-faculties',
@@ -15,20 +18,24 @@ import {ActivatedRoute, Router} from '@angular/router';
   styleUrls: ['./faculties.component.scss']
 })
 
-export class FacultiesComponent implements OnInit {
+export class FacultiesComponent extends Pagination implements OnInit {
   faculties: Faculties[];
   form: FormGroup;
   error: string;
 
 
-  public config: PaginationInstance = {
-     itemsPerPage: 10,
-     currentPage: 1
-  };
-
-constructor(private facultiesService: FacultiesService, public dialog: MatDialog, private router: Router, private route: ActivatedRoute) { }
+constructor(private facultiesService: FacultiesService,
+            public router: Router,
+            public route: ActivatedRoute,
+            public pagIntl: MatPaginatorIntl,
+            public http: HttpClient,
+            public dialog: MatDialog,
+            public pagService: PaginationService) {
+    super(router, route, pagIntl, http, dialog, pagService);
+}
     ngOnInit() {
       this.faculties = this.route.snapshot.data['faculties'];
+     this.initLogic(true);
     }
     getAllFaculties(): void {
       this.facultiesService.getFaculties()
@@ -44,18 +51,22 @@ constructor(private facultiesService: FacultiesService, public dialog: MatDialog
   getFoundFaculties(event) {
     this.facultiesService.getFoundFaculties(event.target.value).subscribe(
         (data: any) => {
+            this.pagService.pagSubscr.next(false);
             if (data.response === 'no records') {
                 this.faculties = undefined;
                 this.error = 'За даним пошуковим запитом дані відсутні';
             } else {
                 this.faculties = data;
             }
-         }
+         }, () => {
+            this.faculties = undefined;
+            this.pagService.pagSubscr.next(false);
+        }
     );
   }
 
 // Add and update operations
-  openDialog(id): void {
+  openDialog(id?): void {
     const matDialogRef = this.dialog.open(FacultiesDialogComponent, {
       width: '500px',
       data: {faculty_id: id}

@@ -43,10 +43,13 @@
                 </div>
             </div>
         </header>
+        <div class="progressbar">
+            <mat-progress-bar *ngIf="progress" mode="indeterminate" color="primary"></mat-progress-bar>
+        </div>
         <div class="row">
             <div class="card col-12 col-lg-12">
                 <div class="card-body table-responsive">
-                    <table class="table table-striped table-hover" *ngIf="table[0] !== undefined; else noRecords">
+                    <table class="table table-striped table-hover" *ngIf="pagService.collectionNotEmpty; else noRecords">
                         <thead>
                         <tr>
                             <th>№</th>
@@ -61,7 +64,7 @@
                                 *ngFor="let tab of table | search: searchFilter
                                                          | facultyFilterPipe: facultyFilter
                                                          | specialityFilterPipe: specialityFilter
-                                                         | pagination: this.pageSize : this.pageIndex; index as i;"
+                                                         | pagination: pageSize : pageIndex; index as i;"
 
                         >
                             <th>{{i+pageSize*pageIndex+1}}</th>

@@ -1,8 +1,7 @@
-///<reference path="../../../../node_modules/rxjs/add/operator/mergeMap.d.ts"/>
 import {ActivatedRoute, Router} from '@angular/router';
 import {DialogComponent} from './dialog/dialog.component';
 import {GroupsService} from './groups.service';
-import {ChangeDetectorRef, Component, OnInit} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {MatDialog, MatDialogConfig, MatPaginatorIntl} from '@angular/material';
 import {AddGroup, Faculties, Groups, Specialities, Table} from './interface';
 import {ResponseMessageComponent} from '../../shared/response-message/response-message.component';
@@ -11,7 +10,6 @@ import {DeleteConfirmComponent} from '../../shared/delete-confirm/delete-confirm
 import {Pagination} from '../../shared/pagination/pagination.class';
 import {HttpClient} from '@angular/common/http';
 import {PaginationService} from '../../shared/pagination/pagination.service';
-
 
 @Component({
     selector: 'app-groups',
@@ -48,8 +46,7 @@ export class GroupsComponent extends Pagination implements OnInit {
                 public pagIntl: MatPaginatorIntl,
                 public http: HttpClient,
                 public route: ActivatedRoute,
-                public pagService: PaginationService,
-                private cd: ChangeDetectorRef) {
+                public pagService: PaginationService) {
         super(router, route, pagIntl, http, dialog, pagService);
         this.route.queryParams.subscribe(params => {
             if (params.specialityId) {
@@ -61,7 +58,7 @@ export class GroupsComponent extends Pagination implements OnInit {
     }
 
     ngOnInit() {
-        this.initLogic(true);
+        this.initLogic(true);                                                                       // pagination code
         if (this.triger) {
             this.getGroupsData();
         }
@@ -111,7 +108,6 @@ export class GroupsComponent extends Pagination implements OnInit {
                 }
             }
 
-
             if (this.facultyId && tempTriger === false) {
                 for (const faculty of this.faculties) {
                     if (faculty.faculty_id === this.facultyId) {
@@ -129,14 +125,12 @@ export class GroupsComponent extends Pagination implements OnInit {
                     }
                 }
             }
-            this.pagService.fullLength = this.table.length;
-
         }
-
     }
 
     // ************* DIALOG *****************
     public openDialog(groupLine ?: Table): void {
+
         const dialogConfig = new MatDialogConfig();
 
         dialogConfig.disableClose = true;
@@ -197,7 +191,9 @@ export class GroupsComponent extends Pagination implements OnInit {
                                 this.table.splice(i, 1);
                             }
                         }
-                        this.pagService.paginatedLength === 1 ? this.paginator.previousPage() : this.pagination = true;
+                        this.pagService.paginatedLength === 1 ?
+                            this.paginator.previousPage() :
+                            this.pagService.pagSubscr.next(true); // pagination code
                     }
                 }, error => {
                     this.dialog.open(ResponseMessageComponent, {
@@ -337,6 +333,7 @@ export class GroupsComponent extends Pagination implements OnInit {
     goResults(id): void {
         this.router.navigate(['admin/results'], {queryParams: {groupId: id}});
     }
+
     // clearRouterParams() {
     //   console.log('Changed');
     //   if (this.specialityId || this.specialityId) {
