@@ -9,10 +9,10 @@ export class PaginationService {
     fullLength: number;
     paginatedLength: number;
     entity: string;
-    collectionNotEmpty = true;
     count = 0;
     progressbar = new BehaviorSubject(this.count);
     pagSubscr = new BehaviorSubject(true);
+    emptySubscr = new BehaviorSubject(false);
 
     constructor(public http: HttpClient) {
     }

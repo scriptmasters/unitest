@@ -11,13 +11,19 @@ export class PaginationPipe implements PipeTransform {
         this.pagService.fullLength = array.length;
         const outputArr = array.slice(size * index, size * (index + 1));
         this.pagService.paginatedLength = outputArr.length;
-
-        if (array.length <= size) {
+        if (array.length === 0) {
+            this.pagService.emptySubscr.next(true);
             this.pagService.pagSubscr.next(false);
-            return array;
         } else {
-            this.pagService.pagSubscr.next(true);
-            return outputArr;
+            this.pagService.emptySubscr.next(false);
+
+            if (array.length <= size) {
+                this.pagService.pagSubscr.next(false);
+                return array;
+            } else {
+                this.pagService.pagSubscr.next(true);
+                return outputArr;
+            }
         }
     }
 }

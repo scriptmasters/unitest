@@ -99,6 +99,7 @@ export class StudentsComponent extends Pagination implements OnInit {
                         );
                 } else {
                     this.updateData(this.pageSize, this.pageIndex);
+
                 }
             });
     }
@@ -188,11 +189,14 @@ export class StudentsComponent extends Pagination implements OnInit {
                 // Updating array students
                 this.students = getFiltredStudents(data, groupsArr);
 
+                if (this.byGroup) {
+                        this.pagService.pagSubscr.next(false);
+                } else {
+                    this.countingStudents();
+                    this.pagService.pagSubscr.next(true);
+                }
             });
-            this.pagService.fullLength = this.students.length;
-            /*this.students.length >= this.pageSize ?
-                this.pagService.pagSubscr.next(true) :
-                this.pagService.pagSubscr.next(false);*/
+
 
         }
     }

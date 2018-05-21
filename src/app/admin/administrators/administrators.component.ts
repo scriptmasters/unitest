@@ -44,12 +44,12 @@ export class AdministratorsComponent extends Pagination implements OnInit {
     this.initLogic(true);
     this.administrators = this.route.snapshot.data['administrators'];
     this.searchSubscr = this.search.valueChanges
-        .debounceTime(1000)
+        .debounceTime(600)
         .subscribe(newValue => {
-            this.pagService.pagSubscr.next(false);
             this.administratorsService.getSearchedAdministrators(newValue)
                 .subscribe(
                     (data: any) => {
+                        this.pagService.pagSubscr.next(false);
                         if (data.response === 'no records') {
                             this.administrators = undefined;
                             this.error = 'За даним пошуковим запитом дані відсутні';
