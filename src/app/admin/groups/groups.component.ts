@@ -324,5 +324,4 @@ export class GroupsComponent extends Pagination implements OnInit, OnDestroy {
     goResults(id): void {
         this.router.navigate(['admin/results'], {queryParams: {groupId: id}});
     }
-
 }

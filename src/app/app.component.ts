@@ -11,12 +11,8 @@ import {SpinnerComponent} from './shared/spinner/spinner.component';
 })
 
 export class AppComponent implements OnInit {
-    constructor(private router: Router,
-                private dialog: MatDialog, ) {
-    }
-
+    constructor (private router: Router, private dialog: MatDialog) {}
     dialogSpinner: MatDialogRef<any>;
-
     spinnerStart() {
         this.dialogSpinner = this.dialog.open(SpinnerComponent, {
             panelClass: 'my-panel',

@@ -9,9 +9,6 @@ const routes: Routes = [
         component: FacultiesComponent,
         resolve: {
             faculties: FacultiesResolver
-        },
-        data: {
-            breadcrumb: 'Факультети'
         }
     }
 ];

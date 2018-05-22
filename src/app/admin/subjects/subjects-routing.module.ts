@@ -3,13 +3,10 @@ import {RouterModule, Routes} from '@angular/router';
 import {SubjectsComponent} from './subjects.component';
 
 const routes: Routes = [
-    {
-        path: '',
-        component: SubjectsComponent,
-        data: {
-            breadcrumb: 'Предмети'
-        }
-    },
+  {
+    path: '',
+    component: SubjectsComponent
+  },
 ];
 
 @NgModule({

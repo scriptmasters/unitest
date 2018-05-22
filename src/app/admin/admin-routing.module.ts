@@ -5,7 +5,7 @@ import {AddQuestionComponent} from './questions/add-question/add-question.compon
 import {QuestionsComponent} from './questions/questions.component';
 import {StatisticComponent} from './statistic/statistic.component';
 import {TestDetailsComponent} from './testdetails/component/test-details.component';
-import {ResultsComponent} from './results/results.component';
+import {FilterComponent} from './results/filter.component';
 
 const routes: Routes = [
     {
@@ -14,10 +14,7 @@ const routes: Routes = [
         children: [
             {
                 path: 'statistic',
-                component: StatisticComponent,
-                data: {
-                    breadcrumb: 'Статистика'
-                }
+                component: StatisticComponent
             },
             {
                 path: 'groups',
@@ -33,55 +30,43 @@ const routes: Routes = [
             },
             {
                 path: 'faculties',
-                loadChildren: './faculties/faculties.module#FacultiesModule',
+                loadChildren: './faculties/faculties.module#FacultiesModule'
             },
             {
                 path: 'subjects',
-                loadChildren: './subjects/subjects.module#SubjectsModule',
+                loadChildren: './subjects/subjects.module#SubjectsModule'
             },
             {
                 path: 'specialities',
-                loadChildren: './specialities/specialities.module#SpecialitiesModule',
+                loadChildren: './specialities/specialities.module#SpecialitiesModule'
             },
             {
                 path: 'administrators',
-                loadChildren: './administrators/administrators.module#AdministratorsModule',
+                loadChildren: './administrators/administrators.module#AdministratorsModule'
             },
             {
                 path: 'timetable',
-                loadChildren: './timetable/timetable.module#TimetableModule',
+                loadChildren: './timetable/timetable.module#TimetableModule'
             },
             {
-                path: 'tests',
+                path: 'subjects/tests',
                 loadChildren: './tests/tests.module#TestsModule'
             },
             {
-                path: 'questions',
-                component: QuestionsComponent,
-                data: {
-                    breadcrumb: 'Завдання'
-                }
+                path: 'subjects/tests/questions',
+                component: QuestionsComponent
             },
             {
                 path: 'add-question',
-                component: AddQuestionComponent,
-                data: {
-                    breadcrumb: 'Додавання завдання'
-                }
+                component: AddQuestionComponent
             },
             {
-                path: 'testdetails',
-                component: TestDetailsComponent,
-                data: {
-                    breadcrumb: 'Деталі тесту'
-                }
+                path: 'subjects/tests/testdetails',
+                component: TestDetailsComponent
             },
             {
                 path: 'results',
-                component: ResultsComponent,
-                data: {
-                    breadcrumb: 'Результати'
-                }
+                component: FilterComponent
             }
         ]
     }
