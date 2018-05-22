@@ -88,7 +88,7 @@
 
     <div class="form-group">
         <label>Предмет</label>
-        <select class="form-control" formControlName="subject_id" [(ngModel)]="s_id">
+        <select class="form-control" formControlName="subject_id" [(ngModel)]="data.test.subject_id">
           <option *ngFor="let s of subjects" [value]="s.subject_id">{{s.subject_name}}</option>
         </select>
         <div class="form-msg">
@@ -102,7 +102,7 @@
         <div class="form-group col-12">
             <label>Статус</label>
             <select class="form-control" formControlName="enabled" required>
-              <option *ngFor="let s of enabled" [value]="s.value">{{s.text}}</option>
+                <option *ngFor="let s of enabled" [value]="s.value">{{s.text}}</option>
             </select>
             <div class="form-msg">
                 <small *ngIf="status.invalid && status.touched">
@@ -117,7 +117,7 @@
             <button class="btn btn-danger col-sm-12" (click)="onNoClick()">Відмінити</button>
         </div>
         <div class="form-group col-sm-6 col-md-4">
-            <button class="btn btn-primary col-sm-12" (click)="onSubmit()">Редагувати</button>
+            <button class="btn btn-success col-sm-12" (click)="onSubmit()" [disabled]="!rForm.valid">Редагувати</button>
         </div>
     </div>
 </form>

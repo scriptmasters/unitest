@@ -7,13 +7,16 @@
                         <h2 class="display">Адміністратори</h2>
                     </div>
                     <div class="col-sm-4 col-lg-4 mb-2 mb-sm-0">
-                        <input type="text" id="title" placeholder="Пошук..." class="form-control form-control-success" [formControl]="searchBox">
+                        <input type="text" id="title" placeholder="Пошук..." class="form-control form-control-success" [formControl]="search">
                     </div>
                     <div class="col-sm-4 col-lg-3 d-flex justify-content-end">
                         <button type="button" class="btn btn-primary col-12" value="Додати" (click)="openDialog()">Додати новий параметр</button>
                     </div>
                 </div>
             </div>
+        </div>
+        <div class="progressbar">
+            <mat-progress-bar *ngIf="progress" mode="indeterminate" color="primary"></mat-progress-bar>
         </div>
         <div class="row">
             <div class="card col-12 col-lg-12">
@@ -28,8 +31,8 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr *ngFor="let administrator of administrators | paginate: config; let i = index">
-                                <th>{{ i +1 }}</th>
+                            <tr *ngFor="let administrator of administrators | pagination: pageSize : pageIndex; let i = index">
+                                <th>{{i+pageSize*pageIndex+1}}</th>
                                 <td>{{administrator.username}}</td>
                                 <td>{{administrator.email}}</td>
                                 <td><i class="fa fa-cog" (click)="openDialog(administrator.id)" title="Редагувати"></i></td>
@@ -37,16 +40,19 @@
                             </tr>
                         </tbody>
                     </table>
-                    <ng-template #noRecords>
+                    <ng-template #noRecords class="tableMessage">
                         {{error}}
                     </ng-template>
                 </div>
             </div>
         </div>
-        <div class="row">
-            <div class="col-lg-12">
-                <pagination-controls *ngIf="administrators" class="pagination justify-content-center" (pageChange)="config.currentPage = $event" maxSize="10" previousLabel="<<" nextLabel=">>" autoHide="true"></pagination-controls>
-            </div>
-        </div>
+        <mat-paginator *ngIf="pagination"
+                       [length]=pagService.fullLength
+                       [pageSize]=pageSize
+                       [pageIndex]=pageIndex
+                       [pageSizeOptions]="[5, 10, 25, 100]"
+                       [showFirstLastButtons]="true"
+                       (page)="paginationChange($event)">
+        </mat-paginator>
     </div>
 </section>

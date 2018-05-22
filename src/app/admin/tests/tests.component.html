@@ -4,10 +4,10 @@
             <div class="card col-12">
                 <div class="card-body d-flex justify-content-between">
                     <div class="align-self-center">
-                        <h2 class="display">Тести</h2>
+                        <h2 class="display mr-3">Тести</h2>
                     </div>
                     <div class="row d-flex justify-content-around">
-                        <select (change)="getTestFilter(subjectId)" [(ngModel)]="subjectId" class="form-control col-6"> 
+                        <select (change)="getTestsById(subjectId)" [(ngModel)]="subjectId" class="form-control col-6"> 
                             <option *ngFor="let s of subject" [value]="s.subject_id">{{s.subject_name}}</option>
                         </select>
                         <button type="button" class="btn btn-primary" (click)="addDialog()">Додати новий параметр</button>
@@ -31,7 +31,7 @@
                                 <th colspan="4"></th>
                             </tr>
                         </thead>
-                        <tbody>
+                        <tbody *ngIf="checkRecords()">
                             <tr *ngFor="let t of test; let i = index">
                                 <th>{{i+1}}</th>
                                 <td>{{t.test_name}}</td>

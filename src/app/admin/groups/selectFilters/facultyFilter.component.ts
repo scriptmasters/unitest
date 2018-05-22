@@ -1,24 +1,22 @@
 import {Pipe, PipeTransform} from '@angular/core';
-import {GroupsService} from '../groups.service';
 
 @Pipe({
-  name: 'facultyFilterPipe'
+    name: 'facultyFilterPipe',
+    pure: false
 })
 export class FacultyFilterComponent implements PipeTransform {
-  constructor(private groupsService: GroupsService) {
-  }
-
-  transform(table, value) {
-    if (!value || value === 'Виберіть факультет') {
-      return table;
+    constructor() {
     }
-    return table.filter(tab => {
-      // this.changeFilter();
-      return tab.faculty.toLowerCase().includes(value.toLowerCase());
-    });
-  }
 
-  // changeFilter() {
-  //   this.groupsService.changeSearchFilter('');
-  // }
+    transform(table, value) {
+        if (!value || value === 'Виберіть факультет') {
+
+            return table;
+        }
+
+        return table.filter(tab => {
+            return tab.faculty.toLowerCase().includes(value.toLowerCase());
+        });
+    }
+
 }

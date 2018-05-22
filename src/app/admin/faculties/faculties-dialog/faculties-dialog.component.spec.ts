@@ -1,5 +1,5 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { FacultiesUpdateComponent } from './faculties-update.component';
+import {async, ComponentFixture, TestBed} from '@angular/core/testing';
+import {FacultiesUpdateComponent} from './faculties-update.component';
 
 describe('FacultiesUpdateComponent', () => {
   let component: FacultiesUpdateComponent;

@@ -48,7 +48,7 @@
             <input type="button" class="btn btn-danger col-sm-12" value="Відмінити" (click)="handleClose()">
         </div>
         <div class="form-group col-sm-6 col-md-4">
-            <input type="submit" class="btn btn-success col-sm-12" (click)="close({faculty: this.faculty, speciality: this.speciality, group: this.group})" [value]="data.group_id ? 'Редагувати' : 'Зареєструвати'" [disabled]="!myForm.valid">
+            <input type="submit" class="btn btn-success col-sm-12" (click)="close()" [value]="data.group_id ? 'Редагувати' : 'Зареєструвати'" [disabled]="!myForm.valid">
         </div>
     </div>
 </form>

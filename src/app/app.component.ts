@@ -4,7 +4,6 @@ import {MatDialogRef} from '@angular/material/dialog';
 import {MatDialog} from '@angular/material';
 import {SpinnerComponent} from './shared/spinner/spinner.component';
 
-
 @Component({
     selector: 'app-root',
     templateUrl: './app.component.html',

@@ -1,12 +1,12 @@
-import { Component, OnInit} from '@angular/core';
-import {TestService } from './test.service';
-import { MatDialog} from '@angular/material';
-import { EditComponent } from './edit/edit.component';
-import { AddComponent } from './add/add.component';
-import { Router, ActivatedRoute } from '@angular/router';
-import { DeleteConfirmComponent } from '../../shared/delete-confirm/delete-confirm.component';
-import { IResponse } from './test';
-import { ResponseMessageComponent } from '../../shared/response-message/response-message.component';
+import {Component, OnInit} from '@angular/core';
+import {TestService} from './test.service';
+import {MatDialog} from '@angular/material';
+import {EditComponent} from './edit/edit.component';
+import {AddComponent} from './add/add.component';
+import {ActivatedRoute, Router} from '@angular/router';
+import {DeleteConfirmComponent} from '../../shared/delete-confirm/delete-confirm.component';
+import {IResponse} from './test';
+import {ResponseMessageComponent} from '../../shared/response-message/response-message.component';
 
 
 @Component({
@@ -18,7 +18,7 @@ export class TestsComponent implements OnInit {
   test;
   subject;
   subjectId: number;
-  counter = 0;
+  answer = true;
 
   constructor(private httpService: TestService, public dialog: MatDialog, private router: Router, private activatedRoute: ActivatedRoute) {
     this.activatedRoute.queryParams.subscribe(params => {
@@ -31,49 +31,38 @@ export class TestsComponent implements OnInit {
     this.getSubjects();
   }
 
+  checkRecords(): boolean {
+    return this.answer;
+  }
+
   deleteTest(id: number): void {
     const matDialogRef = this.dialog.open(DeleteConfirmComponent, {
       width: '400px',
-      data: {message: 'Ви справді хочете видалити цей тест?'}
+      data: { message: 'Ви справді хочете видалити цей тест?' }
     });
     matDialogRef.afterClosed().subscribe((Response: boolean) => {
       if (Response) {
         this.httpService.deleteTest(id).subscribe((data: IResponse) => {
-            if (data.response === 'ok') {
-              this.openModalMessage('Тест успішно видалено');
-            }
-          },
+          if (data.response === 'ok') {
+            this.httpService.openTooltip('Тест успішно видалено');
+          }
+        },
           (err) => {
-            this.openModalMessage('Цей тест неможливо видалити, оскільки в ньому є питання! '); },
+            this.openModalMessage('Цей тест неможливо видалити, оскільки в ньому є питання! ');
+          },
           () => {
             this.getTestsById(this.subjectId);
           }
-        ); }
+        );
+      }
     });
   }
 
   getTestsById(id: number): void {
     this.httpService.getTestsById(id).subscribe(
       data => {
-        if (data.hasOwnProperty('response') && this.counter === 0) {
-          this.dialog.open(ResponseMessageComponent, {
-            width: '400px',
-            data: {
-              message: 'За даним запитом тестів не знайдено'
-            }
-          });
-          this.counter++;
-        } else {
-        this.test = data;
-        }
-      }
-    );
-  }
-
-  getTestFilter(id: number) {
-    this.httpService.getTestsById(id).subscribe(
-      data => {
         if (data.hasOwnProperty('response')) {
+          this.answer = false;
           this.dialog.open(ResponseMessageComponent, {
             width: '400px',
             data: {
@@ -81,7 +70,8 @@ export class TestsComponent implements OnInit {
             }
           });
         } else {
-        this.test = data;
+          this.answer = true;
+          this.test = data;
         }
       }
     );
@@ -91,14 +81,16 @@ export class TestsComponent implements OnInit {
     const matDialogRef = this.dialog.open(EditComponent, {
       width: '400px',
       disableClose: true,
-      data: {id: id, test: t}});
+      data: { id: id, test: t }
+    });
     matDialogRef.afterClosed().subscribe(() => this.getTestsById(this.subjectId));
   }
 
   addDialog() {
     const matDialogRef = this.dialog.open(AddComponent, {
       disableClose: true,
-      width: '400px', data: {id: this.subjectId}});
+      width: '400px', data: { id: this.subjectId }
+    });
     matDialogRef.afterClosed().subscribe(() => this.getTestsById(this.subjectId));
   }
 
@@ -108,8 +100,8 @@ export class TestsComponent implements OnInit {
         id: id
       }
     });
-   }
-   openModalMessage(msg: string, w: string = '350px'): void {
+  }
+  openModalMessage(msg: string, w: string = '350px'): void {
     this.dialog.open(ResponseMessageComponent, {
       width: w,
       data: {
@@ -120,11 +112,20 @@ export class TestsComponent implements OnInit {
 
 
   openQuestions(test_id: string) {
+<<<<<<< HEAD
         this.router.navigate(['/admin/subjects/tests/questions'], {
           queryParams: {
               subjectId: this.subjectId,
               testId: test_id, }
         });
+=======
+    this.router.navigate(['/admin/questions'], {
+      queryParams: {
+        subjectId: this.subjectId,
+        testId: test_id,
+      }
+    });
+>>>>>>> 4722d07a090f5996a9a35878173a4a6371284a55
   }
 
   getSubjects() {

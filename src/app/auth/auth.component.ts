@@ -1,11 +1,10 @@
 import {Component, OnInit} from '@angular/core';
-import {Router, ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {AuthService} from './auth.service';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {MatDialog} from '@angular/material';
+import {MatDialog, MatSnackBar} from '@angular/material';
 import {AuthErrorPopupComponent} from './auth-error-popup/auth-error-popup.component';
-import {MatSnackBar} from '@angular/material';
-import {Ilogin, IisLogged} from '../shared/Interfaces/server_response';
+import {IisLogged, Ilogin} from '../shared/Interfaces/server_response';
 import {SymbolValidator} from './custom-validator';
 
 
@@ -32,6 +31,25 @@ export class AuthComponent implements OnInit {
                 public dialog: MatDialog,
                 public snackBar: MatSnackBar) {
         this.createForm();
+    }
+
+    ngOnInit() {
+        this.route.queryParams
+            .subscribe(params => {
+                this.returnUrl = params['return'];
+                if (params['return']) {
+                    this.authService.isLogged().subscribe((result: IisLogged) => {
+                        if (result.response === 'non logged') {
+                            this.snackBar.open('You are not logged in', 'OK', {
+                                duration: 2000
+                            });
+                        } else {
+                            (this.rgxpAdmin.test(params['return'])) ? this.user = 'admin' : this.user = 'student';
+                            this.openDialog();
+                        }
+                    });
+                }
+            });
     }
 
     createForm(): void {
@@ -79,24 +97,5 @@ export class AuthComponent implements OnInit {
                 }
             }
         });
-    }
-
-    ngOnInit() {
-        this.route.queryParams
-            .subscribe(params => {
-                this.returnUrl = params['return'];
-                if (params['return']) {
-                    this.authService.isLogged().subscribe((result: IisLogged) => {
-                        if (result.response === 'non logged') {
-                            this.snackBar.open('You are not logged in', 'OK', {
-                                duration: 2000
-                            });
-                        } else {
-                            (this.rgxpAdmin.test(params['return'])) ? this.user = 'admin' : this.user = 'student';
-                            this.openDialog();
-                        }
-                    });
-                }
-            });
     }
 }

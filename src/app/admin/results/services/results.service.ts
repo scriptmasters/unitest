@@ -1,5 +1,5 @@
-import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import {Injectable} from '@angular/core';
+import {HttpClient} from '@angular/common/http';
 import 'rxjs/add/operator/map';
 
 @Injectable()
@@ -31,6 +31,11 @@ export class ResultsService {
     if (groupId) {
       url += `/${groupId}`;
     }
+    return this.http.get(url);
+  }
+
+  getMaxTestRate(testId) {
+    const url = `/testDetail/getTestRate/${testId}`;
     return this.http.get(url);
   }
 }

@@ -1,3 +1,26 @@
-.redtext {
-    color: 'red';  
+span#redtext {
+    color: red;  
 }
+
+
+// upload attachment buttons
+label#label_uploads, label#label_unloads {
+    background-color: rgb(211, 211, 211);
+    border: 1px outset rgb(194, 192, 192);
+    padding: 5px 10px;
+    border-radius: 0;
+    font-size: 1.0rem;
+    height: auto;
+  }
+  
+  label#label_uploads:hover, label#label_unloads:hover {
+    background-color: rgb(180, 180, 180);
+    // color: white;
+  }
+  
+  label#label_uploads:active, label#label_unloads:active {
+    background-color: rgb(150, 150, 150);
+    color: white;
+    border: 2px solid rgb(219, 219, 219);
+    
+  }
