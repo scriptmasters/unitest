@@ -1,6 +1,6 @@
-import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs/Observable';
+import {Injectable} from '@angular/core';
+import {HttpClient} from '@angular/common/http';
+import {Observable} from 'rxjs/Observable';
 import IStudent from './interfaces/IStudent';
 import IUser from './interfaces/IUser';
 import IGroup from './interfaces/IGroup';
@@ -19,8 +19,8 @@ export class StudentsService {
   constructor(private http: HttpClient) { }
 
   // Retrieve array of students from back-end
-  getStudents(num: string = '20'): Observable<IStudent[]> {
-    return this.http.get<IStudent[]>(`Student/getRecordsRange/${num}/0`);
+  getStudents(pageSize, index): Observable<IStudent[]> {
+    return this.http.get<IStudent[]>(`Student/getRecordsRange/${pageSize}/${pageSize * index}`);
   }
   // Count students
   countStudent(): Observable<IResponseRec> {

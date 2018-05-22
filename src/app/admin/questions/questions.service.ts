@@ -1,43 +1,92 @@
-import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-
+import {Injectable} from '@angular/core';
+import {HttpClient} from '@angular/common/http';
+import {Observable} from 'rxjs/Observable';
+import {IAnswer, IAnswerSet, IQuestion, IResponse, ISubjectsGet, ITestsGet} from './questions-interface';
 
 @Injectable()
 export class QuestionsService {
 
-  questionsGetUrl = 'question/getRecordsRangeByTest/';
-  questionsQuantUrl = 'question/countRecordsByTest/';
-  questionAddUrl = 'question/insertData/';
-  answerAddUrl = 'answer/insertData/';
-  getAnswerByQuestionUrl = 'answer/getAnswersByQuestion/';
 
-  constructor(private http: HttpClient) {
+  private getQuestionsByTestIdBaseURL = 'question/getRecordsRangeByTest';
+  private getQuestionsNumberByTestURL = 'question/countRecordsByTest';
+  private addQuestionURL = 'question/insertData';
+  private addAnswerURL = 'answer/insertData';
+  private getAnswersByQuestionIdURL = 'answer/getAnswersByQuestion';
+  private getQuestionURL = 'question/getRecords';
+  private getAllQuestionsURL = 'question/getRecords/0';
+  private getAllTestsURL = 'test/getRecords';
+  private getAllSubjectsURL = 'subject/getRecords';
+  // private getEntityValueURL = 'EntityManager/getEntityValues';
+  private editQuestionURL = 'question/update';
+  private editAnswerURL = 'answer/update';
+  private deleteQuestionURL = 'question/del/';
+  private deleteAnswerURL = 'answer/del/';
+
+
+
+constructor(private http: HttpClient) { }
+
+
+  getAllQuestions(): Observable<IQuestion[]> {
+    return this.http.get<IQuestion[]>(this.getAllQuestionsURL);
   }
-  questionsGet(testId, index, quant) {
-    return this.http.get ( `${this.questionsGetUrl}${testId}/${quant}/${( index ) * quant }` );
+  getAllSubjects(): Observable<ISubjectsGet[]> {
+    return this.http.get<ISubjectsGet[]>(this.getAllSubjectsURL);
+  }
+  getAllTests(): Observable<ITestsGet[]> {
+    return this.http.get<ITestsGet[]>(this.getAllTestsURL);
   }
 
-  questionQuantGet(testId) {
-    return this.http.get(`${this.questionsQuantUrl}${testId}`);
+  getQuestionById(id: number) {
+    return this.http.get(this.getQuestionURL + '/' + id);
   }
 
-  questionAdd (questionBody) {
-      return this.http.post(this.questionAddUrl, questionBody);
+  getQuestionsNumberByTest(test_id: string) {
+    return this.http.get(this.getQuestionsNumberByTestURL + '/' + test_id);
   }
 
-  answerAdd (answerBody) {
-      return this.http.post(this.answerAddUrl, answerBody);
+  getQuestionsByTestId(test_id: string, limit: string, offset: number): Observable<IQuestion[]> {
+    return this.http.get<IQuestion[]>(this.getQuestionsByTestIdBaseURL + '/' + test_id + '/' + limit + '/' + offset);
   }
 
-  questionDelete (id) {
-    return this.http.delete(`question/del/${id}`);
+
+  getAnswersByQuestionId(question_id: string): Observable<IAnswer[]> {
+    return this.http.get<IAnswer[]>(this.getAnswersByQuestionIdURL + '/' + question_id);
+      }
+
+
+ // getQuestionsByTestId(test_id: string, limit: number, offset: number): Observable<IQuestion[]> {
+  //   return this.http.get<IQuestion[]>(this.getQuestionsByTestIdBaseURL + '/' + test_id + '/' + limit + '/' + offset);
+  //     }
+
+
+  addQuestion(body): Observable<IQuestion|IResponse> {
+    return this.http.post<IQuestion|IResponse>(this.addQuestionURL, body);
   }
 
-  answerDelete (id) {
-      return this.http.delete(`answer/del/${id}`);
+  addAnswer(body): Observable<IAnswerSet|IResponse> {
+    return this.http.post<IAnswerSet|IResponse>(this.addAnswerURL, body);
   }
 
-  getAnswersByQuestion (id) {
-    return this.http.get(`${this.getAnswerByQuestionUrl}${id}`);
+  editQuestion(id, body): Observable<IQuestion|IResponse> {
+    return this.http.post<IQuestion|IResponse>(this.editQuestionURL + '/' + id, body);
   }
+
+  editAnswer(id, body): Observable<IAnswer|IResponse> {
+    return this.http.post<IAnswer|IResponse>(this.editAnswerURL + '/' + id, body);
+  }
+
+  // getEntityValue(body): Observable<ITestNameByID[]> {
+  //   return this.http.post<ITestNameByID[]>(this.getEntityValueURL, body);
+  // }
+
+  deleteQuestion(id): Observable<IResponse> {
+    // return this.http.delete<IResponse>(`deleteQuestionURL${id}`);
+   return this.http.delete<IResponse>(this.deleteQuestionURL + id);
+  }
+
+  deleteAnswer(id): Observable<IResponse> {
+   return this.http.delete<IResponse>(this.deleteAnswerURL + id);
+  }
+
 }

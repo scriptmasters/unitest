@@ -1,12 +1,4 @@
- form .ng-invalid:not(.ng-untouched) {
-    border-color: red;
-}
-
-span {
-	color: red;
-}
-
-.btn-danger, .btn-primary {
+.btn-danger, .btn-success {
 	margin: 2px;
 }
 
@@ -25,7 +17,7 @@ i {
 }
 
 .inputMessage {
-	height: 1.5rem;
+  font-size: smaller;
 }
 
 

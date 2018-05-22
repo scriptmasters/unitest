@@ -1,9 +1,8 @@
-import { Component, Inject, OnInit} from '@angular/core';
-import { MatDialogRef, MAT_DIALOG_DATA, MatDialog } from '@angular/material';
-import {TestService } from '../test.service';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import {NgClass} from '@angular/common';
-import { ResponseMessageComponent } from '../../../shared/response-message/response-message.component';
+import {Component, Inject, OnInit} from '@angular/core';
+import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from '@angular/material';
+import {TestService} from '../test.service';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {ResponseMessageComponent} from '../../../shared/response-message/response-message.component';
 import {forbiddenCharValidator} from '../tests-validator.directive';
 
 @Component({
@@ -11,26 +10,30 @@ import {forbiddenCharValidator} from '../tests-validator.directive';
   templateUrl: './edit.component.html',
   styleUrls: ['./edit.component.scss']
 })
+
 export class EditComponent implements OnInit {
 
 rForm: FormGroup;
+subjects;
+enabled = [{value: 1, text: 'Доступний'}, {value: 0, text: 'Недоступний'}];
 constructor(public dialogRef: MatDialogRef<EditComponent>, @Inject(MAT_DIALOG_DATA) public data: any,
             private httpService: TestService, private fb: FormBuilder, public dialog: MatDialog) {
 this.initForm();
 }
-ngOnInit() {}
+ngOnInit() {
+  this.getSubjects();
+}
 initForm() {
   this.rForm = this.fb.group({
-    test_name: [this.data.test.test_name, [Validators.required, Validators.maxLength(70), Validators.minLength(2)]],
+    test_name: [this.data.test.test_name, [Validators.required, Validators.maxLength(70), Validators.minLength(2),
+      forbiddenCharValidator(/^\s/i)]],
     tasks: [this.data.test.tasks, [Validators.required, Validators.maxLength(3), forbiddenCharValidator(/\D/i)]],
     time_for_test: [this.data.test.time_for_test, [Validators.required, Validators.maxLength(3), forbiddenCharValidator(/\D/i)]],
     enabled: [this.data.test.enabled['value'], [Validators.required]],
-    subject_id: [this.data.test.subject_id , [Validators.required]],
+    subject_id: [this.data.test.subject_id, [Validators.required]],
     attempts: [this.data.test.attempts, [Validators.required, Validators.maxLength(2), forbiddenCharValidator(/\D/i)]]
   });
 }
-
-enabled = [{value: 1, text: 'Доступний'}, {value: 0, text: 'Недоступний'}];
 
 onSubmit() {
   const controls = this.rForm.controls;
@@ -40,40 +43,54 @@ Object.keys(controls)
     return;
     }
    this.httpService.editTest(this.data.id, this.rForm.value).subscribe(
-    () => console.log(),
-    (err) => console.log(err),
+    () => {},
+    (err) => {
+      this.dialogRef.close();
+      if (err.status === 400) {
+          this.dialog.open(ResponseMessageComponent, {
+            width: '350px',
+            data: {
+              message: 'Ви не внесли жодних змін!'
+        }
+      });
+    }
+  },
     () => {
       this.dialogRef.close();
-      const matDialogRef = this.dialog.open(ResponseMessageComponent, {
-        width: '350px',
-        data: {message: 'Зміни збережено'}
-      });
+        this.httpService.openTooltip('Зміни збережено');
     }
   );
 }
 
-  onNoClick() {
-    this.dialogRef.close();
-  }
+onNoClick() {
+  this.dialogRef.close(true);
+}
 
-  get test_name() {
-    return this.rForm.get('test_name');
-  }
+getSubjects() {
+ this.httpService.getSubjects().subscribe(
+  (data) => this.subjects = data);
+}
 
-  get attempts() {
-    return this.rForm.get('attempts');
-  }
+get test_name() {
+  return this.rForm.get('test_name');
+}
 
-  get tasks() {
-    return this.rForm.get('tasks');
-  }
+get attempts() {
+  return this.rForm.get('attempts');
+}
 
-  get time_for_test() {
-    return this.rForm.get('time_for_test');
-  }
+get tasks() {
+  return this.rForm.get('tasks');
+}
 
-  get status() {
-    return this.rForm.get('enabled');
-  }
+get time_for_test() {
+  return this.rForm.get('time_for_test');
+}
 
+get status() {
+  return this.rForm.get('enabled');
+}
+get subject_id() {
+    return this.rForm.get('subject_id');
+}
 }

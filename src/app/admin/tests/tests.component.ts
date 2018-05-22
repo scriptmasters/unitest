@@ -1,9 +1,12 @@
-import { Component, OnInit} from '@angular/core';
-import {TestService } from './test.service';
-import { MatDialog } from '@angular/material';
-import { EditComponent } from './edit/edit.component';
-import { AddComponent } from './add/add.component';
-import { Router, ActivatedRoute } from '@angular/router';
+import {Component, OnInit} from '@angular/core';
+import {TestService} from './test.service';
+import {MatDialog} from '@angular/material';
+import {EditComponent} from './edit/edit.component';
+import {AddComponent} from './add/add.component';
+import {ActivatedRoute, Router} from '@angular/router';
+import {DeleteConfirmComponent} from '../../shared/delete-confirm/delete-confirm.component';
+import {IResponse} from './test';
+import {ResponseMessageComponent} from '../../shared/response-message/response-message.component';
 
 
 @Component({
@@ -12,60 +15,125 @@ import { Router, ActivatedRoute } from '@angular/router';
   styleUrls: ['./tests.component.scss']
 })
 export class TestsComponent implements OnInit {
+  test;
+  subject;
+  subjectId: number;
+  answer = true;
 
-  public test;
-  public subjectId: number;
   constructor(private httpService: TestService, public dialog: MatDialog, private router: Router, private activatedRoute: ActivatedRoute) {
     this.activatedRoute.queryParams.subscribe(params => {
-    this.subjectId = params['subjectId'];
+      this.subjectId = params['subjectId'];
     });
-   }
-   ngOnInit() {
+  }
+
+  ngOnInit() {
     this.getTestsById(this.subjectId);
+    this.getSubjects();
   }
 
-  deleteTest(id: number) {
-    this.httpService.deleteTest(id).subscribe(
-      data => {
-        console.log(data);
-      },
-      err => {
-        console.log(err);
+  checkRecords(): boolean {
+    return this.answer;
+  }
+
+  deleteTest(id: number): void {
+    const matDialogRef = this.dialog.open(DeleteConfirmComponent, {
+      width: '400px',
+      data: { message: 'Ви справді хочете видалити цей тест?' }
+    });
+    matDialogRef.afterClosed().subscribe((Response: boolean) => {
+      if (Response) {
+        this.httpService.deleteTest(id).subscribe((data: IResponse) => {
+          if (data.response === 'ok') {
+            this.httpService.openTooltip('Тест успішно видалено');
+          }
         },
-      () => this.getTestsById(this.subjectId)
-    );
-   }
-
-   getTestsById(id: number) {
-     this.httpService.getTestsById(this.subjectId).subscribe(
-       data => {this.test = data; }
-     );
-   }
-
-   openDialog(t: object, id: number) {
-   const matDialogRef = this.dialog.open(EditComponent, {
-    width: '350px',
-    data: {id: id, test: t}});
-   matDialogRef.afterClosed().subscribe(() => this.getTestsById(this.subjectId));
+          (err) => {
+            this.openModalMessage('Цей тест неможливо видалити, оскільки в ньому є питання! ');
+          },
+          () => {
+            this.getTestsById(this.subjectId);
+          }
+        );
+      }
+    });
   }
-   addDialog() {
-    const matDialogRef = this.dialog.open(AddComponent, {width: '350px', data: {id: this.subjectId}});
-    matDialogRef.afterClosed().subscribe(() => this.getTestsById(this.subjectId));
-   }
 
-   openDetails(id: any) {
-    this.router.navigate(['/admin/testdetails'], {
+  getTestsById(id: number): void {
+    this.httpService.getTestsById(id).subscribe(
+      data => {
+        if (data.hasOwnProperty('response')) {
+          this.answer = false;
+          this.dialog.open(ResponseMessageComponent, {
+            width: '400px',
+            data: {
+              message: 'За даним запитом тестів не знайдено'
+            }
+          });
+        } else {
+          this.answer = true;
+          this.test = data;
+        }
+      }
+    );
+  }
+
+  openDialog(t: object, id: number): void {
+    const matDialogRef = this.dialog.open(EditComponent, {
+      width: '400px',
+      disableClose: true,
+      data: { id: id, test: t }
+    });
+    matDialogRef.afterClosed().subscribe(() => this.getTestsById(this.subjectId));
+  }
+
+  addDialog() {
+    const matDialogRef = this.dialog.open(AddComponent, {
+      disableClose: true,
+      width: '400px', data: { id: this.subjectId }
+    });
+    matDialogRef.afterClosed().subscribe(() => this.getTestsById(this.subjectId));
+  }
+
+   openDetails(id: any): void {
+    this.router.navigate(['/admin/subjects/tests/testdetails'], {
       queryParams: {
         id: id
       }
     });
-   }
+  }
+  openModalMessage(msg: string, w: string = '350px'): void {
+    this.dialog.open(ResponseMessageComponent, {
+      width: w,
+      data: {
+        message: msg
+      }
+    });
+  }
 
-    openQuestions(id: any) {
-        this.router.navigate(['/admin/questions'], {
-            queryParams: {
-                testId: id
-            }
+
+  openQuestions(test_id: string) {
+<<<<<<< HEAD
+        this.router.navigate(['/admin/subjects/tests/questions'], {
+          queryParams: {
+              subjectId: this.subjectId,
+              testId: test_id, }
         });
-    }
+=======
+    this.router.navigate(['/admin/questions'], {
+      queryParams: {
+        subjectId: this.subjectId,
+        testId: test_id,
+      }
+    });
+>>>>>>> 4722d07a090f5996a9a35878173a4a6371284a55
+  }
+
+  getSubjects() {
+    this.httpService.getSubjects().subscribe(
+      (data) => {
+        this.subject = data;
+      }
+    );
+  }
+
 }

@@ -1,75 +1,53 @@
 <div [ngSwitch]="data.editing">
-  <!-- creating or updating student -->
-  <div *ngSwitchCase="true" class="container-fluid">
-    <div class="header raw d-flex justify-content-between">
-        <h1>{{data.submitButtonText}}</h1>
-        <i class="fa fa-close" (click)="handleClose()"></i>
-    </div>
-    <div class="row">
-      <div class="col">
-        <form class="form-group" 
-          [formGroup]="form" 
-          (submit)="handleSubmit(form.value)">
-          <div class="form-row">
-            <div class="form-group col-6">
-              <!-- lastname -->
-              <label>Прізвище</label>
-              <input 
-                class="form-control col-12" 
-                type="text" 
-                formControlName="surname" 
-                [(ngModel)]="student.student_surname"
-                name="surname" placeholder="Прізвище...">
-              <div 
-                *ngIf="surnameC.invalid && (surnameC.dirty || surnameC.touched)" 
-                class="error col-12">
-                <span *ngIf="surnameC.errors.minlength">Мінімум 2 символи</span>
-                <span *ngIf="surnameC.errors.maxlength">Максимум 20 символів</span>
-                <span *ngIf="surnameC.errors.required">Це поле є обов'язковим</span>
-              </div>
-            </div>
-            <!-- firstname -->
-            <div class="form-group col-6">
-                <label>Ім'я</label>
-              <input 
-                class="form-control col-12" 
-                type="text" 
-                formControlName="firstname" 
-                name="firstname" 
-                [(ngModel)]="student.student_name"
-                placeholder="Ім'я...">
-              <div 
-                *ngIf="firstnameC.invalid && (firstnameC.dirty || firstnameC.touched)" 
-                class="error col-12">
-                <span *ngIf="firstnameC.errors.minlength">Мінімум 2 символи</span>
-                <span *ngIf="firstnameC.errors.maxlength">Максимум 20 символів</span>
-                <span *ngIf="firstnameC.errors.required">Це поле є обов'язковим</span>
-              </div>
-            </div>
-          </div>
-          <div class="form-row">
-            <div class="form-group col-12">
-              <!-- Fathers name -->
-              <label>По-батькові</label>
-              <input 
-              class="form-control col-12" 
-              type="text" 
-              formControlName="fname" 
-              name="fname" 
-              [(ngModel)]="student.student_fname"
-              placeholder="По-батькові...">
-              <div 
-                *ngIf="fnameC.invalid && (fnameC.dirty || fnameC.touched)" 
-                class="error col-12">
-                <span *ngIf="fnameC.errors.minlength">Мінімум 2 символи</span>
-                <span *ngIf="fnameC.errors.maxlength">Максимум 20 символів</span>
-                <span *ngIf="fnameC.errors.required">Це поле є обов'язковим</span>
-              </div>
-            </div>
-          </div>
-          <div>
-            <!-- While creating a student -->
-            <span *ngIf="!data.updating" class="form-row">
+    <!-- creating or updating student -->
+    <div *ngSwitchCase="true" class="container-fluid">
+        <div class="header raw d-flex justify-content-between">
+            <h1>{{data.submitButtonText}}</h1>
+            <i class="fa fa-close" (click)="handleClose()"></i>
+        </div>
+        <div class="row">
+            <div class="col">
+                <form class="form-group" [formGroup]="form" (submit)="handleSubmit(form.value)">
+                    <div class="form-row">
+                        <div class="form-group col-6">
+                            <!-- lastname -->
+                            <label>Прізвище</label>
+                            <input class="form-control col-12" type="text" formControlName="surname" [(ngModel)]="student.student_surname" name="surname" placeholder="Прізвище...">
+                            <div class="form-msg">
+                                <div *ngIf="surnameC.invalid && (surnameC.dirty || surnameC.touched)" class="error col-12">
+                                    <span *ngIf="surnameC.errors.pattern">Невірний формат</span>
+                                    <span *ngIf="surnameC.errors.required">Це поле є обов'язковим</span>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- firstname -->
+                        <div class="form-group col-6">
+                            <label>Ім'я</label>
+                            <input class="form-control col-12" type="text" formControlName="firstname" name="firstname" [(ngModel)]="student.student_name" placeholder="Ім'я...">
+                            <div class="form-msg">
+                                <div *ngIf="firstnameC.invalid && (firstnameC.dirty || firstnameC.touched)" class="error col-12">
+                                    <span *ngIf="firstnameC.errors.pattern">Невірний формат</span>
+                                    <span *ngIf="firstnameC.errors.required">Це поле є обов'язковим</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-12">
+                            <!-- Fathers name -->
+                            <label>По-батькові</label>
+                            <input class="form-control col-12" type="text" formControlName="fname" name="fname" [(ngModel)]="student.student_fname" placeholder="По-батькові...">
+                            <div class="form-msg">
+                                <div *ngIf="fnameC.invalid && (fnameC.dirty || fnameC.touched)" class="error col-12">
+                                    <span *ngIf="fnameC.errors.pattern">Невірний формат</span>
+                                    <span *ngIf="fnameC.errors.required">Це поле є обов'язковим</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <!-- While creating a student -->
+                        <span *ngIf="!data.updating" class="form-row">
               <div class="form-group col-6">
                 <!-- Faculty -->
                 <label>Факультет</label>
@@ -89,10 +67,12 @@
                     {{faculty.faculty_name}}
                   </option>
                 </select>
-                <div 
-                  *ngIf="facultyC.touched && facultyC.errors?.faculty" 
-                  class="error col-12">
-                  Виберіть факультет!
+                <div class="form-msg">
+                  <div 
+                    *ngIf="facultyC.touched && facultyC.errors?.faculty" 
+                    class="error col-12">
+                    Виберіть факультет!
+                  </div>
                 </div>
               </div>
               <div class="form-group col-6">
@@ -113,15 +93,17 @@
                     {{group.group_name}}
                   </option>
                 </select>
-                <div 
-                  *ngIf="groupC.touched && groupC.errors?.group" 
-                  class="error col-12">
-                  Виберіть групу!
+                <div class="form-msg">
+                  <div 
+                    *ngIf="groupC.touched && groupC.errors?.group" 
+                    class="error col-12">
+                    Виберіть групу!
+                  </div>                 
                 </div>
               </div>
             </span>
-            <!-- While updating student's data -->
-            <span *ngIf="data.updating" class="form-row">
+                        <!-- While updating student's data -->
+                        <span *ngIf="data.updating" class="form-row">
               <div class="form-group col-6">
                 <!-- Faculty -->
                 <label>Факультет</label>
@@ -138,10 +120,12 @@
                       {{faculty.faculty_name}}
                   </option>
                 </select>
-                <div 
-                  *ngIf="facultyC.touched && facultyC.errors?.faculty" 
-                  class="error col-12">
-                  Виберіть факультет!
+                <div class="form-msg">
+                  <div 
+                    *ngIf="facultyC.touched && facultyC.errors?.faculty" 
+                    class="error col-12">
+                    Виберіть факультет!
+                  </div>
                 </div>
               </div>
               <div class="form-group col-6">
@@ -152,219 +136,187 @@
                   id="groupsSelect" 
                   name="group" 
                   formControlName="groupFC"
-                  #groupField 
+                  #groupField
+                  [(ngModel)]="chooseGroup"
                   (change)="handleSetGroup(groupField)">
+                  <option
+                    value="Виберіть групу">
+                    Виберіть групу
+                  </option>
                   <option 
                     *ngFor="let group of groups"
                     [selected]="group.group_name === studentGroup.group_name">
                       {{group.group_name}}
                   </option>
-                  <option
-                    *ngIf="groups.length < 1"
-                    value="Виберіть групу"
-                    [selected]="true">
-                    Виберіть групу
-                  </option>
                 </select>
-                <div 
-                  *ngIf="groupC.touched && (groupC.errors?.group || groupC.errors?.required)" 
-                  class="error col-12">
-                  Виберіть групу!
+                <div class="form-msg">
+                  <div 
+                    *ngIf="groupC.touched && (groupC.errors?.group || groupC.errors?.required)" 
+                    class="error col-12">
+                    Виберіть групу!
+                  </div>
                 </div>
               </div>
             </span>
-          </div>
-          <div class="form-row">
-            <div class="form-group col-12">
-              <!-- Gradebook id -->
-              <label>Номер заліковки</label>
-              <input 
-              class="form-control col-12" 
-              type="text" 
-              formControlName="gradebook" 
-              name="gradebook" 
-              [(ngModel)]="student.gradebook_id"
-              placeholder="№ заліковки...">
-              <div 
-                *ngIf="gradebookC.invalid && (gradebookC.dirty || gradebookC.touched)" 
-                class="error col-12">
-                <span *ngIf="gradebookC.errors.minlength">Мінімум 6 символів</span>
-                <span *ngIf="gradebookC.errors.maxlength">Максимум 20 символів</span>
-                <span *ngIf="gradebookC.errors.required">Це поле є обов'язковим</span>
-              </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-12">
+                            <!-- Gradebook id -->
+                            <label>Номер заліковки</label>
+                            <input class="form-control col-12" type="text" formControlName="gradebook" name="gradebook" [(ngModel)]="student.gradebook_id" placeholder="№ заліковки...">
+                            <div class="form-msg">
+                                <div *ngIf="gradebookC.invalid && (gradebookC.dirty || gradebookC.touched)" class="error col-12">
+                                    <span *ngIf="gradebookC.errors.pattern">Невірний формат</span>
+                                    <span *ngIf="gradebookC.errors.required">Це поле є обов'язковим</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-12">
+                            <!-- Username -->
+                            <label>Логін</label>
+                            <input class="form-control col-12" type="text" formControlName="login" name="login" [(ngModel)]="studentInfo.username" placeholder="Логін...">
+                            <div class="form-msg">
+                                <div *ngIf="loginC.invalid && (loginC.dirty || loginC.touched)" class="error col-12">
+                                    <span *ngIf="loginC.errors.pattern">Невірний формат</span>
+                                    <span *ngIf="loginC.errors.required">Це поле є обов'язковим</span>
+                                    <span *ngIf="loginC.errors.loginTaken">Цей логін вже зайнятий</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-6">
+                            <!-- Password -->
+                            <label>Пароль</label>
+                            <input class="form-control col-12" type="password" formControlName="password" name="password" [(ngModel)]="student.plain_password" placeholder="Пароль...">
+                            <i class="visibility-toggler fa fa-eye" aria-hidden="true" (click)="handleTogglePasswordVisibility($event)"></i>
+                            <div class="form-msg">
+                                <div *ngIf="passwordC.invalid && (passwordC.dirty || passwordC.touched)" class="error col-12">
+                                    <span *ngIf="passwordC.errors.pattern">Невірний формат(від 8 до 32 символів дозволено)</span>
+                                    <span *ngIf="passwordC.errors.required">Це поле є обов'язковим</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="password_confirm" class="form-group col-6">
+                            <!-- Password confirm -->
+                            <label>Підтвердити пароль</label>
+                            <input class="form-control col-12" type="password" formControlName="password_confirm" name="password_confirm" [(ngModel)]="student.password_confirm" placeholder="Підтвердити пароль...">
+                            <i class="visibility-toggler fa fa-eye" aria-hidden="true" (click)="handleTogglePasswordVisibility($event)"></i>
+                            <div class="form-msg">
+                                <div *ngIf="password_confirmC.invalid && password_confirmC.errors.matchOther" class="error col-12">
+                                    Це поле повинно збігатись з полем "Пароль"
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-12">
+                            <!-- Email -->
+                            <label>Поштова скринька</label>
+                            <input class="form-control col-12" type="email" formControlName="email" name="email" [(ngModel)]="studentInfo.email" placeholder="Поштова скринька..." email>
+                            <div class="form-msg">
+                                <div *ngIf="emailC.invalid && (emailC.dirty || emailC.touched)" class="error col-12">
+                                    <span *ngIf="emailC.errors.email">Поштова скринька повинна бути формату логін@домен</span>
+                                    <span *ngIf="emailC.errors.emailTaken">Ця адреса вже зайнята</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-12 d-flex align-items-center flex-column">
+                            <!-- Photo -->
+                            <div>
+                                <image-cropper [imageChangedEvent]="imageChangedEvent" [maintainAspectRatio]="true" [aspectRatio]="4 / 3" [resizeToWidth]="128" format="jpeg" (imageCropped)="imageCropped($event)" (imageLoaded)="imageLoaded()" (loadImageFailed)="loadImageFailed()" style="max-height: 33vh"
+                                    [style.display]="cropperReady ? null : 'none'"></image-cropper>
+                            </div>
+                            <img [src]="croppedImage ? croppedImage : student.photo" />
+                            <!-- <div>
+                                <button type="button" class="btn btn-sm button-crop">Обрізати фото</button>
+                            </div> -->
+                            <div class="custom-file">
+                                <input type="file" id="customFile" class="custom-file-input" name="image-input" accept="image/*" (change)="photoChangeEvent($event)">
+                                <label class="custom-file-label" for="customFile">Виберіть фото</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-row d-flex justify-content-center">
+                        <input class="btn btn-danger" type="reset" value="Очистити форму">
+                        <input class="btn btn-success" type="submit" [disabled]="!form.valid" [value]="data.submitButtonText">
+                    </div>
+                </form>
             </div>
-          </div>
-          <div class="form-row">
-            <div class="form-group col-12">
-              <!-- Username -->
-              <label>Логін</label>
-              <input 
-                class="form-control col-12" 
-                type="text" 
-                formControlName="login" 
-                name="login" 
-                [(ngModel)]="studentInfo.username"
-                placeholder="Логін...">
-                <div 
-                  *ngIf="loginC.invalid && (loginC.dirty || loginC.touched)" 
-                  class="error col-12">
-                  <span *ngIf="loginC.errors.minlength">Мінімум 5 символів</span>
-                  <span *ngIf="loginC.errors.maxlength">Максимум 32 символи</span>
-                  <span *ngIf="loginC.errors.required">Це поле є обов'язковим</span>
-                  <span *ngIf="loginC.errors.loginTaken">Цей логін вже зайнятий</span>
-                </div>
-            </div>
-          </div>
-          <div class="form-row">
-            <div class="form-group col-6">
-              <!-- Password -->
-              <label>Пароль</label>
-              <input 
-                class="form-control col-12" 
-                type="password" 
-                formControlName="password" 
-                name="password" 
-                [(ngModel)]="student.plain_password"
-                placeholder="Пароль...">
-                <i class="visibility-toggler fa fa-eye" aria-hidden="true" (click)="handleTogglePasswordVisibility($event)"></i>
-                <div 
-                  *ngIf="passwordC.invalid && (passwordC.dirty || passwordC.touched)" 
-                  class="error col-12">
-                  <span *ngIf="passwordC.errors.minlength">Мінімум 8 символів</span>
-                  <span *ngIf="passwordC.errors.maxlength">Максимум 32 символи</span>
-                  <span *ngIf="passwordC.errors.required">Це поле є обов'язковим</span>
-                </div>
-            </div>
-            <div id="password_confirm" class="form-group col-6">
-              <!-- Password confirm -->
-              <label>Підтвердити пароль</label>
-              <input 
-                class="form-control col-12" 
-                type="password" 
-                formControlName="password_confirm" 
-                name="password_confirm"
-                [(ngModel)]="student.password_confirm"
-                placeholder="Підтвердити пароль...">
-                <i class="visibility-toggler fa fa-eye" aria-hidden="true" (click)="handleTogglePasswordVisibility($event)"></i>
-                <div 
-                  *ngIf="password_confirmC.invalid && password_confirmC.errors.matchOther" 
-                  class="error col-12">
-                  Це поле повинно збігатись з полем "Пароль"
-                </div>
-            </div>
-          </div>
-          <div class="form-row">
-            <div class="form-group col-12">
-              <!-- Email -->
-              <label>Поштова скринька</label>
-              <input 
-              class="form-control col-12" 
-              type="email" 
-              formControlName="email" 
-              name="email" 
-              [(ngModel)]="studentInfo.email"
-              placeholder="Поштова скринька..."
-              email>
-              <div 
-                *ngIf="emailC.invalid && (emailC.dirty || emailC.touched)" 
-                class="error col-12">
-                <span *ngIf="emailC.errors.email">Поштова скринька повинна бути формату логін@домен</span>
-                <span *ngIf="emailC.errors.emailTaken">Ця адреса вже зайнята</span>
-              </div>
-            </div>
-          </div>
-          <div class="form-row">
-            <div class="form-group col-12 d-flex align-items-center flex-column">
-              <!-- Photo -->
-              <img class="user-image" [src]="student.photo" alt="your picture">
-              <div class="custom-file">
-                  <input 
-                    type="file" 
-                    id="customFile" 
-                    class="custom-file-input"
-                    name="image-input"
-                    accept="image/*" 
-                    (change)="handleAddPhoto($event)">
-                  <label class="custom-file-label" for="customFile">Виберіть фото</label>
-              </div>
-            </div>
-          </div>
-          <div class="form-row d-flex justify-content-center"> 
-            <input class="btn btn-danger" type="reset" value="Очистити форму">
-            <input class="btn btn-success" type="submit" [disabled]="!form.valid" [value]="data.submitButtonText">
-          </div>
-        </form>
-      </div>
-    </div>
-  </div>
-    <!-- Extended info -->
-  <div *ngSwitchCase="false" class="container-fluid">
-    <div class="header raw d-flex justify-content-between">
-      <h1>Детальна інформація</h1>
-      <i class="fa fa-close" (click)="handleClose()"></i>
-    </div>
-    <div class="row">
-      <div class="col">
-        <!-- User info -->
-          <div class="form-group">
-            <div class="form-row">
-                <div class="form-group col-12 d-flex align-items-center flex-column">
-                  <!-- Photo -->
-                  <img class="user-image" [src]="student.photo" alt="your picture">
-                </div>
-            </div>
-            <div class="form-row">
-              <div class="form-group col-6">
-                <!-- lastname -->
-                <label>Прізвище</label>
-                <span class="form-control col-12">{{student.student_surname}}</span>
-              </div>
-              <div class="form-group col-6">
-                <!-- name -->
-                <label>Ім'я</label>
-                <span class="form-control col-12">{{student.student_name}}</span>
-              </div>
-            </div>
-            <div class="form-row">
-              <div class="form-group col-12">
-                <!-- fathers name -->
-                <label>По-батькові</label>
-                <span class="form-control col-12">{{student.student_fname}}</span>
-              </div>
-            </div>
-            <div class="form-row">
-              <div class="form-group col-6">
-                <!-- faculty -->
-                <label>Факультет</label>
-                <span class="form-control col-12">{{studentFaculty.faculty_name}}</span>
-              </div>
-              <div class="form-group col-6">
-                <!-- group -->
-                <label>Група</label>
-                <span class="form-control col-12">{{studentGroup.group_name}}</span>
-              </div>
-            </div>
-            <div class="form-row">
-              <div class="form-group col-12">
-                <!-- gradebook id -->
-                <label>Номер заліковки</label>
-                <span class="form-control col-12">{{student.gradebook_id}}</span>
-              </div>
-            </div>
-          <div class="form-row">
-            <div class="form-group col-6">
-              <!-- username -->
-              <label>Логін</label>
-              <span class="form-control col-12">{{studentInfo.username}}</span>
-            </div>
-            <div class="form-group col-6">
-                <!-- email -->
-                <label>Поштова скринька</label>
-                <span class="form-control col-12">{{studentInfo.email}}</span>
-            </div>
-          </div>
         </div>
-      </div>
     </div>
-  </div>
+    <!-- Extended info -->
+    <div *ngSwitchCase="false" class="container-fluid">
+        <div class="header raw d-flex justify-content-between">
+            <h1>Детальна інформація</h1>
+            <i class="fa fa-close" (click)="handleClose()"></i>
+        </div>
+        <div class="row">
+            <div class="col">
+                <!-- User info -->
+                <div class="form-group">
+                    <div class="form-row">
+                        <div class="form-group col-12 d-flex align-items-center flex-column">
+                            <!-- Photo -->
+                            <img class="user-image" [src]="student.photo" alt="your picture">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-6">
+                            <!-- lastname -->
+                            <label>Прізвище</label>
+                            <span class="form-control col-12">{{student.student_surname}}</span>
+                        </div>
+                        <div class="form-group col-6">
+                            <!-- name -->
+                            <label>Ім'я</label>
+                            <span class="form-control col-12">{{student.student_name}}</span>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-12">
+                            <!-- fathers name -->
+                            <label>По-батькові</label>
+                            <span class="form-control col-12">{{student.student_fname}}</span>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-6">
+                            <!-- faculty -->
+                            <label>Факультет</label>
+                            <span class="form-control col-12">{{studentFaculty.faculty_name}}</span>
+                        </div>
+                        <div class="form-group col-6">
+                            <!-- group -->
+                            <label>Група</label>
+                            <span class="form-control col-12">{{studentGroup.group_name}}</span>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-12">
+                            <!-- gradebook id -->
+                            <label>Номер заліковки</label>
+                            <span class="form-control col-12">{{student.gradebook_id}}</span>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-6">
+                            <!-- username -->
+                            <label>Логін</label>
+                            <span class="form-control col-12">{{studentInfo.username}}</span>
+                        </div>
+                        <div class="form-group col-6">
+                            <!-- email -->
+                            <label>Поштова скринька</label>
+                            <span class="form-control col-12">{{studentInfo.email}}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>

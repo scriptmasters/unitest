@@ -1,77 +1,72 @@
-import { Component, OnInit, Inject } from '@angular/core';
-import { FormGroup, FormBuilder, NgForm } from '@angular/forms';
-import { Http } from '@angular/http';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Location } from '@angular/common';
-import { Observable } from 'rxjs/Observable';
-import { of } from 'rxjs/observable/of';
-import { catchError, map, tap } from 'rxjs/operators';
-import { SpecialityService } from '../speciality.service';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
-import { FormsModule } from '@angular/forms';
+import {Component, Inject, OnInit} from '@angular/core';
+import {FormControl, FormGroup, Validators} from '@angular/forms';
+
+import {SpecialityService} from '../speciality.service';
+import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material';
+import {Speciality} from '../specialityInterface';
 
 @Component({
-  selector: 'app-popup-form',
-  templateUrl: './popup-form.component.html',
-  styleUrls: ['./popup-form.component.scss']
+    selector: 'app-popup-form',
+    templateUrl: './popup-form.component.html',
+    styleUrls: ['./popup-form.component.scss']
 })
 export class PopupFormComponent implements OnInit {
-  popup: any;
-  popupValue: any;
-  specialityUpdate = this.speciality.speciality;
-  constructor(
+    specialitys = [{speciality_code: '', speciality_name: ''}];
+    form: FormGroup;
+    isLoaded = true;
 
-    private matDialogRef: MatDialogRef<PopupFormComponent>,
-    @Inject(MAT_DIALOG_DATA)
-    private http: HttpClient,
-    private speciality: SpecialityService) { }
-
-  ngOnInit() {
-  }
-
-  onSubmit(value: any) {
-    if (this.specialityUpdate.speciality_id == '') {
-      this.popupValue = value;
-      const popupForm = JSON.stringify(this.popupValue);
-      this.speciality.addSpecialities(popupForm).subscribe(
-        response => {
-          this.matDialogRef.close('ok');
-          this.speciality.specialitiesObject.push(response.pop());
-        },
-        error => {
-          this.matDialogRef.close('error');
-        });
-    } else {
-      const id = this.specialityUpdate.speciality_id;
-
-      this.popup = value;
-      const popupForm = JSON.stringify(this.popup);
-      this.speciality.editSpecialities(id, popupForm).subscribe(
-        response => {
-          this.matDialogRef.close('ok');
-        },
-        error => {
-          this.revertEditedValue();
-          this.matDialogRef.close('error');
-        });
+    constructor(private matDialogRef: MatDialogRef<PopupFormComponent>,
+                @Inject(MAT_DIALOG_DATA) public data: any,
+                private speciality: SpecialityService) {
     }
-  }
 
-  public close() {
-    this.revertEditedValue();
-    this.matDialogRef.close();
-  }
-
-  private revertEditedValue() {
-    if (!this.speciality.oldspeciality) {
-      return;
+    ngOnInit() {
+        this.getSpeciality();
+        this.form = new FormGroup({
+            'code': new FormControl(null, [
+                Validators.required,
+                Validators.maxLength(100),
+                Validators.pattern('([0-9\.])+')
+            ]),
+            'name': new FormControl(null, [
+                Validators.required,
+                Validators.maxLength(100),
+                Validators.pattern('([A-Za-zА-Яа-яюЮЄєІіЇї -])+')
+            ])
+        }, {updateOn: 'blur'});
     }
-    const id = this.speciality.oldspeciality.speciality_id;
-    this.speciality.specialitiesObject.forEach(element => {
-      if (element.speciality_id == id) {
-        Object.assign(element, this.speciality.oldspeciality);
-      }
-    });
-  }
 
+    getSpeciality(): void {
+        if (this.data.speciality_id) {
+            this.isLoaded = false;
+            const id = this.data.speciality_id;
+            this.speciality.getSpecialitiesId(id)
+                .subscribe((speciality: Speciality[]) => {
+                    this.specialitys = speciality;
+                    this.isLoaded = true;
+                });
+        }
+    }
+
+    onSubmit() {
+        const formData = this.form.value;
+        if (this.data.speciality_id) {
+            const id = this.data.speciality_id;
+            this.speciality.editSpecialities(id, formData.code, formData.name)
+                .subscribe(() =>
+                        this.matDialogRef.close({status: 'SUCCESS', message: 'Спеціальність було успішно відредаговано!'}),
+                    () => this.matDialogRef.close({status: 'ERROR', message: 'Ви не внесли ніяких змін при редагуванні!'})
+                );
+        } else {
+            this.speciality.addSpecialities(formData.code, formData.name)
+                .subscribe(() =>
+                        this.matDialogRef.close({status: 'SUCCESS', message: 'Спеціальність було успішно додано!'}),
+                    () => this.matDialogRef.close({status: 'ERROR', message: 'Спеціальність з такою назвою вже існує!'})
+                );
+        }
+    }
+
+    closeDialog(): void {
+        this.matDialogRef.close();
+    }
 }
