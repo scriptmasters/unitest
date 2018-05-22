@@ -7,6 +7,7 @@ import {Router} from '@angular/router';
 import * as moment from 'moment';
 import {ResponseMessageComponent} from '../shared/response-message/response-message.component';
 import {MatDialog} from '@angular/material';
+import { QuestionService } from './services/question.service';
 
 @Component({
   selector: 'app-student',
@@ -22,6 +23,7 @@ export class StudentComponent implements OnInit {
     public authService: AuthService,
     public studentService: StudentService,
     private testPlayerService: TestPlayerService,
+    private questionService: QuestionService,
     private router: Router,
     public dialog: MatDialog
   ) { }
@@ -134,33 +136,22 @@ export class StudentComponent implements OnInit {
   startTest(studentId, testId): void {
     this.testPlayerService.startTest(studentId, testId).subscribe(
       (data: any) => {
-        // console.log(data);
-        if (data.response === 'Error. User made test recently') {
-          this.dialog.open(ResponseMessageComponent, {
-            width: '400px',
-            data: {
-              message: 'Ви здавали тест нещодавно, почекайте 10 хв'
-            }
-          });
-        } else if (data.response === 'Not enough number of questions for quiz') {
-          this.dialog.open(ResponseMessageComponent, {
-            width: '400px',
-            data: {
-              message: 'Замало тестів'
-            }
-          });
-        } else if (data.response === 'ok') {
+        if (data.response === 'ok') {
           this.dialog.open(ResponseMessageComponent, {
             width: '400px',
             data: {
               message: 'Тест почався'
             }
           });
-          this.router.navigate(['student/test/' + testId]);
+          this.testPlayerService
+            .getQuestionsWithAnswers(testId)
+            .subscribe((questions: any) => {
+              this.questionService.setQuestions(questions);
+              this.router.navigate(['student/test/' + testId]);
+            });
         }
       },
       error => {
-        // alert('erro' + error.error.response);
         if (error.error.response === 'You cannot make the test due to your schedule') {
           this.dialog.open(ResponseMessageComponent, {
             width: '400px',
@@ -168,11 +159,32 @@ export class StudentComponent implements OnInit {
               message: 'Тест недоступний по часу'
             }
           });
+        } else if (error.error.response === 'Error. User made test recently') {
+          this.dialog.open(ResponseMessageComponent, {
+            width: '400px',
+            data: {
+              message: 'Ви здавали тест нещодавно, спробуйте через 10 хв'
+            }
+          });
+        } else if (error.error.response === 'Test detail parameters not found for requested test') {
+          this.dialog.open(ResponseMessageComponent, {
+            width: '400px',
+            data: {
+              message: 'Не налаштовано деталі тесту'
+            }
+          });
+        } else if (error.error.response === 'Error: The number of needed questions for the quiz is not suitable due to test details') {
+          this.dialog.open(ResponseMessageComponent, {
+            width: '400px',
+            data: {
+              message: 'Неправильна кількість запитань'
+            }
+          });
         } else if (error.error.response === 'You cannot call this method without making an quiz') {
           this.dialog.open(ResponseMessageComponent, {
             width: '400px',
             data: {
-              message: 'Неможите запустити цей тест тестів'
+              message: 'Неможливо запустити цей тест'
             }
           });
         } else if (error.error.response === 'Not enough number of questions for quiz') {
@@ -183,13 +195,12 @@ export class StudentComponent implements OnInit {
             }
           });
         } else if (error.error.response === 'User is making test at current moment') {
-          // this.dialog.open(ResponseMessageComponent, {
-          //   width: '400px',
-          //   data: {
-          //     message: 'Ви здаєте тест в даний момент'
-          //   }
-          // });
-          this.router.navigate(['student/test/' + testId]);
+          this.dialog.open(ResponseMessageComponent, {
+            width: '400px',
+            data: {
+              message: 'Ви здаєте тест в даний момент'
+            }
+          });
         } else if (error.error.response === 'You cannot make the test due to used all attempts') {
           this.dialog.open(ResponseMessageComponent, {
             width: '400px',

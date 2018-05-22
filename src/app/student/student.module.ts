@@ -12,6 +12,8 @@ import {SharedModule} from '../shared/shared.module';
 import {TimerService} from './services/timer.service';
 import {QuizResultComponent} from './test-player/quiz-result/quiz-result.component';
 import {DataService} from './services/data.service';
+import {QuestionService} from './services/question.service';
+import {LocalStorageModule} from '@ngx-pwa/local-storage';
 
 @NgModule({
   imports: [
@@ -20,9 +22,10 @@ import {DataService} from './services/data.service';
     FormsModule,
     ReactiveFormsModule,
     SharedModule,
+    LocalStorageModule
   ],
   declarations: [StudentComponent, TestPlayerComponent, TestResultComponent, QuizResultComponent],
-  providers: [AuthService, TestPlayerService, StudentService, TimerService, DataService],
+  providers: [AuthService, TestPlayerService, QuestionService, StudentService, TimerService, DataService],
   entryComponents: [TestResultComponent],
 })
 export class StudentModule {}

@@ -1,6 +1,6 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material';
-import TableService from '../timetable.service';
+import {TableService} from '../timetable.service';
 import {matchDates, startDateValidator} from './date-validation';
 
 import {FormControl, FormGroup, Validators} from '@angular/forms';
