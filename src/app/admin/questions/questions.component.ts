@@ -273,7 +273,6 @@ export class QuestionsComponent implements OnInit {
 }
 
 
-// запрограмувати видалення спочатку всіх відповідей
 handleDelete(question_id): void {
   const dialogRef = this.dialog.open(DeleteConfirmComponent, {
     width: '400px',
@@ -292,10 +291,10 @@ handleDelete(question_id): void {
           dataAnswers.forEach(answer => {
             this.service.deleteAnswer(answer.answer_id).subscribe((data: IResponse) => {
               if (data.response === 'ok') {
-                this.openModalMessage(`Відповідь з бази даних видалено!`);
+                // this.openModalMessage(`Відповідь з бази даних видалено!`);
               }},
-              () => { // this function shows window when deleteAnswer(answer_id).subscribe returns error
-                this.openModalMessage(`Виникла помилка при видаленні цієї відповіді з бази даних!`);
+              () => {
+                this.openModalMessage(`Виникла помилка при видаленні відповіді з бази даних!`);
             });
           });
         } else {
@@ -303,7 +302,6 @@ handleDelete(question_id): void {
         }
 
 
-      // after all answers were deleted we delete question
 
             this.service.deleteQuestion(question_id).subscribe( (data: IResponse) => {
               console.log('from handleDelete:  data = ', data);
@@ -312,7 +310,7 @@ handleDelete(question_id): void {
                 this.openModalMessage(`Завдання було успішно видалено!`);
                 this.createQuestionsTableByTestId(this.testId);
               }},
-              () => { // ця функція показує вікно коли deleteQuestion(question_id).subscribe повертає помилку
+              () => {
                 this.openModalMessage(`Виникла помилка при видаленні цього завдання!`);
               });
 

@@ -17,20 +17,11 @@ export class AddQuestionComponent implements OnInit {
 
 
  form;
+ isFirstNumberIncorrect = false;
+ isSecondNumberIncorrect = false;
  correctAnswerInputType = 'radio';
-//  answerResourse = 'text_file';
  answersIdNumbersArray = [];
-//  correctAnswers = [];
  newAnswersArray = [];
-
-
- questionForm = new FormGroup ({
-    // question_text: new FormControl('', Validators.required),
-    // level: new FormControl('', Validators.compose([Validators.required, Validators.pattern(/^([1-9]|1[0-9]|20)$/)])),
-    // type: new FormControl('1', Validators.required),
-    // '0': new FormControl('', Validators.required)
-  });
-
 
  selTestId: string;
  selTestName: string;
@@ -69,28 +60,28 @@ constructor(
     console.log('newAnswersArray = ', this.newAnswersArray);
 
     this.form = new FormGroup({
-      '0': new FormControl('', [Validators.required,
-        Validators.pattern(/[-+]?[0-9]*\.[0-9]+$|^[-+]?[0-9]+\.$|^[-+]?[0-9]*$/)]),
-      '1': new FormControl('', [Validators.required,
-        Validators.pattern(/[-+]?[0-9]*\.[0-9]+$|^[-+]?[0-9]+\.$|^[-+]?[0-9]*$/)])
-      }, { updateOn: 'blur' });
+    }/*, { updateOn: 'blur' } */);
 
   }
 
 
   addAnswer() {
     if (this.correctAnswerInputType === 'num' ) {
+
+        const NUMBER_PATTERN = /[-+]?[0-9]*\.[0-9]+$|^[-+]?[0-9]+\.$|^[-+]?[0-9]*$/;
+            this.form = new FormGroup({
+            '0': new FormControl('', [Validators.required, Validators.pattern(NUMBER_PATTERN)]),
+            '1': new FormControl('', [Validators.required, Validators.pattern(NUMBER_PATTERN)])
+            }/* , { updateOn: 'blur' } */);
+
          this.answersIdNumbersArray = [1, 2];
          this.newAnswersArray = [{}, {}];
+
          this.newAnswersArray.forEach(element => {  element.true_answer = '1'; element.attachment = ''; });
 
-        //  this.questionForm.addControl(  (this.newAnswersArray.length).toString() ,
-        //                                   new FormControl('', [Validators.required] )
-        //                              );
     } else {
 
-      this.questionForm.addControl(  (this.newAnswersArray.length + 1).toString() ,
-                                      new FormControl('', [Validators.required] ) );
+      this.form.addControl( (this.newAnswersArray.length + 1).toString(), new FormControl('', [Validators.required]) );
                   // this.answersIdNumbersArray.push( this.answersIdNumbersArray.length + 1);
                   const lastIndex = this.answersIdNumbersArray.length - 1;
                   this.answersIdNumbersArray.push(
@@ -173,20 +164,32 @@ constructor(
     console.log('this.newAnswersArray = ', this.newAnswersArray);
   }
 
+  /**
+   *   verifies condition min_val<max_val
+   */
+  numericalIntervalLimitsValidator() {
+    if (Number(this.newAnswersArray[0].answer_text) >= Number(this.newAnswersArray[1].answer_text)
+    && this.newAnswersArray[0].answer_text !== '' && this.newAnswersArray[1].answer_text !== '') {
+      this.isFirstNumberIncorrect = true;
+      this.isSecondNumberIncorrect = true;
+      this.form.get('0').setErrors({'incorrect': true});
+      this.form.get('1').setErrors({'incorrect': true});
+    } else {
+      this.isFirstNumberIncorrect = false;
+      this.isSecondNumberIncorrect = false;
+      this.form.get('0').updateValueAndValidity();
+      this.form.get('1').updateValueAndValidity();
+    }
+  }
+
   setAnsverText(checkedIndex, event) {
     const value = event.target.value;
     this.newAnswersArray[checkedIndex].answer_text = value;
-    // verifies condition min_val<max_val
-    if (this.correctAnswerInputType === 'num' && checkedIndex === 0 && this.newAnswersArray[1].answer_text !== '') {
-      if (this.newAnswersArray[0].answer_text >= this.newAnswersArray[1].answer_text ) {
-        this.openModalMessage('Максимальне значення має більшим за мінімальне!');
-      }
+
+    if (this.correctAnswerInputType === 'num') {
+      this.numericalIntervalLimitsValidator();
     }
-    if (this.correctAnswerInputType === 'num' && checkedIndex === 1) {
-      if (this.newAnswersArray[0].answer_text >= this.newAnswersArray[1].answer_text ) {
-        this.openModalMessage('Максимальне значення має більшим за мінімальне!');
-      }
-    }
+
     console.log('this.newAnswersArray = ', this.newAnswersArray);
   }
 
