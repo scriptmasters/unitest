@@ -9,6 +9,12 @@ export class TestDetailsService {
     constructor(private http: HttpClient, public snackBar: MatSnackBar) {
     }
 
+    openTooltip(message) {
+        this.snackBar.open(`${message}`, 'OK', {
+            duration: 2000
+        });
+    }
+
     getTestDetails(testId) {
         const url = 'testDetail/getTestDetailsByTest/' + testId;
         return this.http.get(url);
