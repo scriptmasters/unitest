@@ -8,10 +8,12 @@ import {SharedModule} from '../../shared/shared.module';
 import {GroupsComponent} from './groups.component';
 import {SearchFilter} from './search.component';
 import {SpecialityFilterComponent} from './selectFilters/specialityFilter.component';
+import {GroupsDeleteConfirmComponent} from './groups-delete-confirm/groups-delete-confirm.component';
 
 @NgModule({
   declarations: [
     DialogComponent,
+    GroupsDeleteConfirmComponent,
     GroupsComponent,
     SearchFilter,
     FacultyFilterComponent,
@@ -26,7 +28,8 @@ import {SpecialityFilterComponent} from './selectFilters/specialityFilter.compon
     GroupsService
   ],
   entryComponents: [
-    DialogComponent
+    DialogComponent,
+    GroupsDeleteConfirmComponent
   ]
 })
 

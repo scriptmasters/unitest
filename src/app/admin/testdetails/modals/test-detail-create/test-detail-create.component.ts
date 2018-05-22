@@ -21,7 +21,6 @@ export class TestDetailCreateComponent implements OnInit {
   }
 
   ngOnInit() {
-    // this.levels = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20];
     this.levels = Array.from(Array(20).keys()).map(i => i + 1);
     this.initForm();
   }
@@ -60,7 +59,7 @@ export class TestDetailCreateComponent implements OnInit {
     const rawValues = this.detailForm.getRawValue();
     this.testDetailsService.editTestDetail(rawValues).subscribe(() => {
       this.dialogRef.close(true);
-    }, err => {
+    }, () => {
       const errorMessage = 'Введіть коректні дані';
       this.dialog.open(ResponseMessageComponent, {
         data: {message: errorMessage}
@@ -75,7 +74,7 @@ export class TestDetailCreateComponent implements OnInit {
 
   private initForm() {
     this.detailForm = this.formBuilder.group({
-      id: (this.data && this.data.id ? this.data.id : null),
+      id: (this.data && this.data.id ? this.data.id as string : null),
       test_id: [(this.data && this.data.test_id ? this.data.test_id : null)],
       level: [(this.data && this.data.level ? this.data.level : null),
         [Validators.required]],

@@ -1,12 +1,12 @@
-import { Component, OnInit } from '@angular/core';
-import { TestService } from './test.service';
-import { MatDialog } from '@angular/material';
-import { EditComponent } from './edit/edit.component';
-import { AddComponent } from './add/add.component';
-import { ActivatedRoute, Router } from '@angular/router';
-import { DeleteConfirmComponent } from '../../shared/delete-confirm/delete-confirm.component';
-import { IResponse } from './test';
-import { ResponseMessageComponent } from '../../shared/response-message/response-message.component';
+import {Component, OnInit} from '@angular/core';
+import {TestService} from './test.service';
+import {MatDialog} from '@angular/material';
+import {EditComponent} from './edit/edit.component';
+import {AddComponent} from './add/add.component';
+import {ActivatedRoute, Router} from '@angular/router';
+import {DeleteConfirmComponent} from '../../shared/delete-confirm/delete-confirm.component';
+import {IResponse} from './test';
+import {ResponseMessageComponent} from '../../shared/response-message/response-message.component';
 
 
 @Component({
@@ -44,7 +44,7 @@ export class TestsComponent implements OnInit {
       if (Response) {
         this.httpService.deleteTest(id).subscribe((data: IResponse) => {
           if (data.response === 'ok') {
-            this.openModalMessage('Тест успішно видалено');
+            this.httpService.openTooltip('Тест успішно видалено');
           }
         },
           (err) => {
@@ -94,8 +94,8 @@ export class TestsComponent implements OnInit {
     matDialogRef.afterClosed().subscribe(() => this.getTestsById(this.subjectId));
   }
 
-  openDetails(id: any): void {
-    this.router.navigate(['/admin/testdetails'], {
+   openDetails(id: any): void {
+    this.router.navigate(['/admin/subjects/tests/testdetails'], {
       queryParams: {
         id: id
       }
@@ -112,12 +112,11 @@ export class TestsComponent implements OnInit {
 
 
   openQuestions(test_id: string) {
-    this.router.navigate(['/admin/questions'], {
-      queryParams: {
-        subjectId: this.subjectId,
-        testId: test_id,
-      }
-    });
+        this.router.navigate(['/admin/subjects/tests/questions'], {
+          queryParams: {
+              subjectId: this.subjectId,
+              testId: test_id, }
+        });
   }
 
   getSubjects() {

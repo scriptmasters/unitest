@@ -1,6 +1,6 @@
 <form [formGroup]="form" (ngSubmit)="onSubmit()">
     <header class="form-row justify-content-between mb-2">
-        <h2 class="pl-1">{{subject[0].subject_id ? 'Редагувати' : 'Додати'}} предмет</h2>
+        <h2 class="pl-1">{{subject[0].subject_id === undefined ? 'Додати' : 'Редагувати'}} предмет</h2>
         <i class="fa fa-close pr-1" (click)="closeDialog()"></i>
     </header>
     <div *ngIf="!isLoaded">
