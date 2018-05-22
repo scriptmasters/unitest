@@ -158,9 +158,7 @@ export class StudentComponent implements OnInit {
               this.infoTestId = (+item.test_id);
               this.studentService.infoTestName = item.test_name;
               this.studentService.infoTestId = item.test_id;
-              console.log(this.infoTestId, this.infoTestName);
             });
-            // console.log(infoTest.test_name);
           });
           this.studentService.saveInfoTest(testId).subscribe((infos: any) => {
           });
@@ -290,7 +288,6 @@ export class StudentComponent implements OnInit {
       });
   }
   crossTest(id) {
-    console.log(id);
     this.router.navigate(['student/test/' + id]);
   }
 }
