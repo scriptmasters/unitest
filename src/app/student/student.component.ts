@@ -2,18 +2,14 @@ import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../auth/auth.service';
 import { TestPlayerService } from '../student/services/test-player.service';
 import { StudentService } from './student.service';
-import {
-  UserInfo,
-  TimeTable,
-  Subject,
-  TestInterface,
-} from './test-player/question-interface';
+import { UserInfo, TimeTable, Subject, TestInterface } from './test-player/question-interface';
 import { NgStyle } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
-import { SubjectsComponent } from '../admin/subjects/subjects.component';
 import * as moment from 'moment';
+import { QuestionService } from './services/question.service';
 import { ResponseMessageComponent } from '../shared/response-message/response-message.component';
 import { MatDialog } from '@angular/material';
+
 @Component({
   selector: 'app-student',
   templateUrl: './student.component.html',
@@ -33,6 +29,7 @@ export class StudentComponent implements OnInit {
     public authService: AuthService,
     public studentService: StudentService,
     private testPlayerService: TestPlayerService,
+    private questionService: QuestionService,
     private router: Router,
     public dialog: MatDialog
   ) { }
@@ -160,8 +157,13 @@ export class StudentComponent implements OnInit {
             console.log(this.studentService.progresstest);
           });
           this.studentService.saveInfoTest(testId).subscribe((infos: any) => {
-            this.router.navigate(['student/test/' + testId]);
           });
+          this.testPlayerService
+            .getQuestionsWithAnswers(testId)
+            .subscribe((questions: any) => {
+              this.questionService.setQuestions(questions);
+              this.router.navigate(['student/test/' + testId]);
+            });
         }
       },
       error => {
@@ -169,14 +171,21 @@ export class StudentComponent implements OnInit {
           this.dialog.open(ResponseMessageComponent, {
             width: '400px',
             data: {
-              message: 'Тест недоступний по часу'
+              message: 'Не налаштовано деталі тесту'
+            }
+          });
+        } else if (error.error.response === 'Error: The number of needed questions for the quiz is not suitable due to test details') {
+          this.dialog.open(ResponseMessageComponent, {
+            width: '400px',
+            data: {
+              message: 'Неправильна кількість запитань'
             }
           });
         } else if (error.error.response === 'You cannot call this method without making an quiz') {
           this.dialog.open(ResponseMessageComponent, {
             width: '400px',
             data: {
-              message: 'Неможите запустити цей тест тестів'
+              message: 'Неможливо запустити цей тест'
             }
           });
         } else if (error.error.response === 'Not enough number of questions for quiz') {
