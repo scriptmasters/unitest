@@ -3,7 +3,7 @@ import {CommonModule} from '@angular/common';
 import {AdminComponent} from './admin.component';
 import {AdminRoutingModule} from './admin-routing.module';
 import {SharedModule} from '../shared/shared.module';
-import TableService from './timetable/timetable.service';
+import {TableService} from './timetable/timetable.service';
 import {TestDetailsService} from './testdetails/sevices/test-details.service';
 import {TestDetailsComponent} from './testdetails/component/test-details.component';
 import {TestDetailCreateComponent} from './testdetails/modals/test-detail-create/test-detail-create.component';

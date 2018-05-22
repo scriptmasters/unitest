@@ -5,7 +5,6 @@ import {Observable} from 'rxjs/Observable';
 import 'rxjs/add/observable/of';
 import {StudentsService} from './students.service';
 import {map, switchMap} from 'rxjs/operators';
-import {ErrorObservable} from 'rxjs/observable/ErrorObservable';
 import {ResponseMessageComponent} from '../../shared/response-message/response-message.component';
 import {MatDialog} from '@angular/material';
 import {getFiltredStudents} from './reusable-functions/get-filtred-students';
@@ -23,13 +22,20 @@ export class StudentsResolver implements Resolve<IResolvedData> {
             return this.service.getStudentsByGroup(id).pipe(switchMap(
                 data => {
                     if (data.response === 'no records') {
-                        this.dialog.open(ResponseMessageComponent, {
+                        const dialog = this.dialog.open(ResponseMessageComponent, {
                             width: '400px',
                             data: {
                                 message: 'Немає зареєстрованих студентів в даній групі'
                             }
                         });
-                        this.router.navigate(['admin/students']);
+                        dialog.afterClosed().subscribe( () =>
+                            this.router.navigate(['admin/students'], {
+                            queryParams: {
+                                addStudent: true
+                            }
+                        }
+                        )
+                    );
                     }
                     return this.onDataRetrieve(data, true, id);
                 }
