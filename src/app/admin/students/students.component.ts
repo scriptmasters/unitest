@@ -110,7 +110,7 @@ export class StudentsComponent extends Pagination implements OnInit, OnDestroy {
     }
 
     // Opening creating student form
-    showRegForm(user: IStudent): void {
+    showRegForm(user?: IStudent): void {
         this.openStudentsModalWindow(user, true, false, false, true, 'Додати студента')
             .afterClosed().subscribe((Response: any) => {
             if (Response) {

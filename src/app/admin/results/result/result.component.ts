@@ -1,14 +1,18 @@
-import {Component, EventEmitter, Input, Output} from '@angular/core';
+import {Component, EventEmitter, Input, OnDestroy, OnInit, Output} from '@angular/core';
 import {ResultsService} from '../services/results.service';
 import * as moment from 'moment';
-import {PaginationInstance} from 'ngx-pagination';
+import {Pagination} from '../../../shared/pagination/pagination.class';
+import {HttpClient} from '@angular/common/http';
+import {MatDialog, MatPaginatorIntl, MatSnackBar} from '@angular/material';
+import {PaginationService} from '../../../shared/pagination/pagination.service';
+import {ActivatedRoute, Router} from '@angular/router';
 
 @Component({
   selector: 'app-filtered-result',
   templateUrl: './result.component.html',
   styleUrls: ['./result.component.scss']
 })
-export class ResultComponent {
+export class ResultComponent extends Pagination implements OnInit, OnDestroy {
   @Input() groups = [];
   @Input() groupId: number;
   @Input() order: string;
@@ -17,14 +21,28 @@ export class ResultComponent {
   @Input() showResult: boolean;
   @Output() filterEmit = new EventEmitter<boolean>();
 
-  config: PaginationInstance = {
-    itemsPerPage: 10,
-    currentPage: 1,
-  };
   resultRecords = [];
   testMaxRate: number;
 
-  constructor(private resultService: ResultsService) { }
+  constructor(private resultService: ResultsService,
+              public router: Router,
+              public route: ActivatedRoute,
+              public pagIntl: MatPaginatorIntl,
+              public http: HttpClient,
+              public dialog: MatDialog,
+              public pagService: PaginationService,
+              public snackBar: MatSnackBar) {
+      super(router, route, pagIntl, http, dialog, pagService, snackBar);
+  }
+
+  ngOnInit () {
+    this.initLogic(true);
+    this.pageSize = 5;
+  }
+
+  ngOnDestroy () {
+    this.destroyLogic();
+  }
 
   showFilter() {
     this.filterEmit.emit(true);

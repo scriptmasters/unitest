@@ -47,10 +47,7 @@ export class TestDetailCreateComponent implements OnInit {
         data: {message: errorMessage}
       });
     }, () => {
-      const matDialogRef = this.dialog.open(ResponseMessageComponent, {
-        width: '350px',
-        data: {message: 'Деталі тесту успішно додано'}
-      });
+        this.testDetailsService.openTooltip('Деталі тесту успішно додано');
     });
 
   }
@@ -65,10 +62,7 @@ export class TestDetailCreateComponent implements OnInit {
         data: {message: errorMessage}
       });
     }, () => {
-      const matDialogRef = this.dialog.open(ResponseMessageComponent, {
-        width: '350px',
-        data: {message: 'Деталі тесту успішно змінені'}
-      });
+        this.testDetailsService.openTooltip('Деталі тесту успішно змінено');
     });
   }
 
