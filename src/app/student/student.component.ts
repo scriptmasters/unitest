@@ -24,7 +24,9 @@ export class StudentComponent implements OnInit {
   error;
   allSubjectsReady = false;
   filteredSubjects = [];
-  p = 1;
+  infoTestId;
+  infoTestName;
+  progresstest;
   constructor(
     public authService: AuthService,
     public studentService: StudentService,
@@ -152,9 +154,13 @@ export class StudentComponent implements OnInit {
             }
           });
           this.studentService.getRecordsTest(testId).subscribe((infoTest: any) => {
-            localStorage.setItem('name', JSON.stringify(infoTest));
-            this.studentService.progresstest = JSON.parse(localStorage.getItem('name'));
-            console.log(this.studentService.progresstest);
+            infoTest.forEach(item => {
+              this.infoTestId = (+item.test_id);
+              this.studentService.infoTestName = item.test_name;
+              this.studentService.infoTestId = item.test_id;
+              console.log(this.infoTestId, this.infoTestName);
+            });
+            // console.log(infoTest.test_name);
           });
           this.studentService.saveInfoTest(testId).subscribe((infos: any) => {
           });
@@ -266,23 +272,25 @@ export class StudentComponent implements OnInit {
     this.studentService.getTime().subscribe(
       (time: any) => {
         const _time = moment.utc(time.unix_timestamp * 1000);
-        const b = _time;
         this.filteredSubjects.length = 0;
         this.subjects.forEach(item => {
           const timesTable = moment.utc(item.end_date);
-          const a = timesTable.diff(_time);
-          const c = moment(a).format('D');
+          const diff = timesTable.diff(_time);
+          const times = moment(diff).format('D');
           if (includeDay) {
-            if ((+c) === day) {
+            if ((+times) === day) {
               this.filteredSubjects.push(item);
             }
           } else {
-            if (c <= day) {
+            if (times <= day) {
               this.filteredSubjects.push(item);
             }
           }
         });
       });
   }
-
+  crossTest(id) {
+    console.log(id);
+    this.router.navigate(['student/test/' + id]);
+  }
 }
