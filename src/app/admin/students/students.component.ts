@@ -1,8 +1,8 @@
-import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {StudentsService} from './students.service';
 import {StudentsModalWindowComponent} from './students-modal-window/students-modal-window.component';
 import {ResponseMessageComponent} from '../../shared/response-message/response-message.component';
-import {MatDialog, MatPaginatorIntl} from '@angular/material';
+import {MatDialog, MatPaginatorIntl, MatSnackBar} from '@angular/material';
 import {ActivatedRoute, Router} from '@angular/router';
 import {DeleteConfirmComponent} from '../../shared/delete-confirm/delete-confirm.component';
 import IStudent from './interfaces/IStudent';
@@ -25,7 +25,7 @@ import {FormControl} from '@angular/forms';
     styleUrls: ['./students.component.scss'],
     providers: [StudentsService]
 })
-export class StudentsComponent extends Pagination implements OnInit {
+export class StudentsComponent extends Pagination implements OnInit, OnDestroy {
 
     groups: IGroup[] = [];
     faculties: IFaculty[] = [];
@@ -42,8 +42,9 @@ export class StudentsComponent extends Pagination implements OnInit {
                 public pagIntl: MatPaginatorIntl,
                 public http: HttpClient,
                 public dialog: MatDialog,
-                public pagService: PaginationService) {
-        super(router, route, pagIntl, http, dialog, pagService);
+                public pagService: PaginationService,
+                public snackBar: MatSnackBar) {
+        super(router, route, pagIntl, http, dialog, pagService, snackBar);
         this.pagService.entity = 'Student';
         this.entities = 'students';
     }
@@ -71,6 +72,10 @@ export class StudentsComponent extends Pagination implements OnInit {
             this.byGroup ? this.pagService.pagSubscr.next(false) : this.pagService.pagSubscr.next(true);
         });
 
+    }
+
+    ngOnDestroy() {
+        this.destroyLogic();
     }
 
     countingStudents() {
@@ -110,7 +115,7 @@ export class StudentsComponent extends Pagination implements OnInit {
             .afterClosed().subscribe((Response: any) => {
             if (Response) {
                 if (Response.response === 'ok') {
-                    this.openModalMessage('Профіль цього студента було успішно додано!');
+                    this.openTooltip('Профіль цього студента було успішно додано!');
                     this.updateData(this.pageSize, this.pageIndex);
                     this.countingStudents();
                 } else if (Response.error || Response.response === 'Failed to validate array') {
@@ -126,7 +131,7 @@ export class StudentsComponent extends Pagination implements OnInit {
             .afterClosed().subscribe((Response: any) => {
             if (Response) {
                 if (Response.response === 'ok') {
-                    this.openModalMessage('Профіль цього студента було успішно оновлено!');
+                    this.openTooltip('Профіль цього студента було успішно оновлено!');
                     this.updateData(this.pageSize, this.pageIndex);
                 } else if (Response.error || Response.response === 'Error when update') {
                     this.openModalMessage('Виникла помилка при редагуванні профілю цього студента!');
@@ -214,7 +219,7 @@ export class StudentsComponent extends Pagination implements OnInit {
                 this.service.deleteStudent(index).subscribe((data: IResponse) => {
                         if (data.response === 'ok') {
                             this.countingStudents();
-                            this.openModalMessage('Профіль цього студента було успішно видалено!');
+                            this.openTooltip('Профіль цього студента було успішно видалено!');
                             if (this.students.length > 1) {
                                 this.updateData(this.pageSize, this.pageIndex);
                             } else {

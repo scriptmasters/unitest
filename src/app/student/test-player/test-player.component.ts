@@ -1,14 +1,14 @@
-import { Component, HostListener, OnInit } from '@angular/core';
-import { TestPlayerService } from '../services/test-player.service';
-import { ActivatedRoute, Router } from '@angular/router';
-import { MatDialog } from '@angular/material';
-import { ITimeStamp } from './interfaces/TimeStamp';
-import { ITimer } from './interfaces/Timer';
-import { TimerService } from '../services/timer.service';
-import { AuthService } from '../../auth/auth.service';
-import { DataService } from '../services/data.service';
-import { IQuestion } from './interfaces/Question';
-import { IStudent } from './interfaces/Student';
+import {Component, HostListener, OnInit} from '@angular/core';
+import {TestPlayerService} from '../services/test-player.service';
+import {ActivatedRoute, Router} from '@angular/router';
+import {MatDialog} from '@angular/material';
+import {ITimeStamp} from './interfaces/TimeStamp';
+import {ITimer} from './interfaces/Timer';
+import {TimerService} from '../services/timer.service';
+import {AuthService} from '../../auth/auth.service';
+import {DataService} from '../services/data.service';
+import {IQuestion} from './interfaces/Question';
+import {IStudent} from './interfaces/Student';
 
 @Component({
   selector: 'app-test-player',

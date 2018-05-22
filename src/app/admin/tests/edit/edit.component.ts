@@ -57,10 +57,7 @@ Object.keys(controls)
   },
     () => {
       this.dialogRef.close();
-      this.dialog.open(ResponseMessageComponent, {
-        width: '350px',
-        data: {message: 'Зміни збережено'}
-      });
+        this.httpService.openTooltip('Зміни збережено');
     }
   );
 }

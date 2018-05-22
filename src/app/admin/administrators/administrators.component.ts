@@ -1,13 +1,12 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {AdministratorsService} from './services/administrators.service';
 import {Administrators, IResponse} from './administratorsInterface';
-import {MatDialog, MatPaginatorIntl} from '@angular/material';
+import {MatDialog, MatPaginatorIntl, MatSnackBar} from '@angular/material';
 import {DeleteConfirmComponent} from '../../shared/delete-confirm/delete-confirm.component';
 import {ResponseMessageComponent} from '../../shared/response-message/response-message.component';
 import {FormControl} from '@angular/forms';
 import {AdministratorsDialogComponent} from './administrators-dialog/administrators-dialog.component';
 import {Subscription} from 'rxjs/Subscription';
-import {PaginationInstance} from 'ngx-pagination';
 import 'rxjs/add/operator/debounceTime';
 import {ActivatedRoute, Router} from '@angular/router';
 import {AuthService} from '../../auth/auth.service';
@@ -21,7 +20,7 @@ import {PaginationService} from '../../shared/pagination/pagination.service';
   templateUrl: './administrators.component.html',
   styleUrls: ['./administrators.component.scss']
 })
-export class AdministratorsComponent extends Pagination implements OnInit {
+export class AdministratorsComponent extends Pagination implements OnInit, OnDestroy {
 
     administrators: Administrators[];
     error: string;
@@ -36,8 +35,9 @@ export class AdministratorsComponent extends Pagination implements OnInit {
               public pagIntl: MatPaginatorIntl,
               public http: HttpClient,
               public dialog: MatDialog,
-              public pagService: PaginationService) {
-      super(router, route, pagIntl, http, dialog, pagService);
+              public pagService: PaginationService,
+              public snackBar: MatSnackBar) {
+      super(router, route, pagIntl, http, dialog, pagService, snackBar);
   }
 
   ngOnInit() {
@@ -55,6 +55,7 @@ export class AdministratorsComponent extends Pagination implements OnInit {
                             this.error = 'За даним пошуковим запитом дані відсутні';
                         } else {
                             this.administrators = data;
+                            this.pageIndex = 0;
                         }
                     },
                     () => {
@@ -63,6 +64,10 @@ export class AdministratorsComponent extends Pagination implements OnInit {
                     }
                 );
         });
+  }
+
+  ngOnDestroy() {
+      this.destroyLogic();
   }
 
   getAllAdministrators(): void {
@@ -84,12 +89,7 @@ export class AdministratorsComponent extends Pagination implements OnInit {
         matDialogRef.afterClosed().subscribe((response: any) => {
           if (response) {
             if (response.status === 'SUCCESS') {
-              this.dialog.open(ResponseMessageComponent, {
-                width: '400px',
-                data: {
-                  message: response.message
-                }
-               });
+              this.openTooltip(response.message);
               this.getAllAdministrators();
             } else if (response.status === 'ERROR') {
               this.dialog.open(ResponseMessageComponent, {
@@ -124,12 +124,7 @@ export class AdministratorsComponent extends Pagination implements OnInit {
           if (Response) {
             this.administratorsService.delAdministrator(id).subscribe((data: IResponse) => {
               if (data.response === 'ok') {
-                this.dialog.open(ResponseMessageComponent, {
-                  width: '400px',
-                  data: {
-                    message: 'Адміністратора було успішно видалено!'
-                  }
-                });
+                  this.openTooltip('Адміністратора було успішно видалено');
           this.getAllAdministrators();
               }
             },

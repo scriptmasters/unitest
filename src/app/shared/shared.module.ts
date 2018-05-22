@@ -1,11 +1,10 @@
 import {NgModule} from '@angular/core';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
-import {NgxPaginationModule} from 'ngx-pagination';
 import {RequestInterceptor} from './request-interceptor';
 import {
-    MatButtonModule, MatCardModule, MatDialogModule, MatInputModule, MatPaginatorIntl, MatPaginatorModule, MatProgressSpinnerModule,
-    MatSelectModule, MatSnackBarModule, MatProgressBarModule
+    MatButtonModule, MatCardModule, MatDialogModule, MatInputModule, MatPaginatorIntl, MatPaginatorModule, MatProgressBarModule,
+    MatProgressSpinnerModule, MatSelectModule, MatSnackBarModule
 } from '@angular/material';
 import {DeleteConfirmComponent} from './delete-confirm/delete-confirm.component';
 import {ResponseMessageComponent} from './response-message/response-message.component';
@@ -38,7 +37,6 @@ import {PaginationPipe} from './pagination/pagination.pipe';
         MatSelectModule,
         DeleteConfirmComponent,
         ResponseMessageComponent,
-        NgxPaginationModule,
         MatPaginatorModule,
         MatProgressSpinnerModule,
         BreadcrumbComponent,

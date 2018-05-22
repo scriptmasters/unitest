@@ -17,23 +17,20 @@ export class RequestInterceptor implements HttpInterceptor {
 
     intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
 
-        const httpReq = req.clone({url: this.hostName + req.url, reportProgress: true});
+        const httpReq = req.clone({url: `${this.hostName}${req.url}`});
 
         return next.handle(httpReq)
             .do((response) => {
                 if (response.type === 0) {
-                    this.pagService.count++;
-                    this.pagService.progressbar.next(this.pagService.count);
+                    this.pagService.increaseReqCount();
                 }
                 if (response instanceof HttpResponse) {
-                    this.pagService.count--;
-                    this.pagService.progressbar.next(this.pagService.count);
+                    this.pagService.decreaseReqCount();
                 }
             })
             .catch((error) => {
                 if (error) {
-                    this.pagService.count--;
-                    this.pagService.progressbar.next(this.pagService.count);
+                    this.pagService.decreaseReqCount();
                 }
                 if (error.status === 403 && error.error.response.indexOf('logged') !== -1) {
                     this.router.navigate(['/login'], {
@@ -41,7 +38,6 @@ export class RequestInterceptor implements HttpInterceptor {
                         }
                     );
                 }
-
                 return Observable.throw(error);
             }) as any;
     }

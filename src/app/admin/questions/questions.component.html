@@ -102,6 +102,12 @@
                             </tr>
                         </tbody>
                     </table>
+                    <div *ngIf="emptyCollection && !startPage" class="tableMessage">
+                        {{error}}
+                    </div>
+                    <div *ngIf="startPage" class="tableMessage">
+                        Для перегляду завдань виберіть предмет та назву теста
+                    </div>
                 </div>
             </div>
         </div>
