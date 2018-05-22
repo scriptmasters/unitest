@@ -14,7 +14,7 @@ import {PageNotFoundComponent} from './page-not-found/page-not-found.component';
         BrowserModule,
         BrowserAnimationsModule,
         AppRoutingModule,
-        SharedModule
+        SharedModule,
     ],
     entryComponents: [AppComponent],
     declarations: [AppComponent, PageNotFoundComponent],

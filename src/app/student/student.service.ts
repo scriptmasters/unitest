@@ -1,6 +1,6 @@
-import {Injectable} from '@angular/core';
-import {HttpClient} from '@angular/common/http';
-import {Observable} from 'rxjs/Observable';
+import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs/Observable';
 
 @Injectable()
 export class StudentService {
@@ -12,7 +12,12 @@ export class StudentService {
   private urlgetTimeTablesForGroup = 'timeTable/getTimeTablesForGroup/';
   private urlgetTestsBySubject = 'test/getTestsBySubject/';
   private urlgetTestDetailsByTest = 'testDetail/getTestDetailsByTest/';
-  constructor(private http: HttpClient) {}
+  private urlgetTimeStamp = 'TestPlayer/getTimeStamp';
+  private urlSaveData = 'TestPlayer/saveData';
+  private urlgetData = 'TestPlayer/getData';
+  private urlgetRecordsTest = 'Test/getRecords/';
+  public progresstest;
+  constructor(private http: HttpClient) { }
 
   getRecords(id): Observable<any> {
     return this.http.get(this.urlgetRecords + id);
@@ -37,5 +42,17 @@ export class StudentService {
   }
   getTestDetailsByTest(id): Observable<any> {
     return this.http.get(this.urlgetTestDetailsByTest + id);
+  }
+  getTime(): Observable<any> {
+    return this.http.get(this.urlgetTimeStamp);
+  }
+  saveInfoTest(data): Observable<any> {
+    return this.http.post(this.urlSaveData, data);
+  }
+  getInfoTest(): Observable<any> {
+    return this.http.get(this.urlgetData);
+  }
+  getRecordsTest(id): Observable<any> {
+    return this.http.get(this.urlgetRecordsTest + id);
   }
 }

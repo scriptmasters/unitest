@@ -5,10 +5,7 @@ import {GroupsComponent} from './groups.component';
 const routes: Routes = [
   {
     path: '',
-    component: GroupsComponent,
-    data: {
-      breadcrumb: 'Групи'
-    }
+    component: GroupsComponent
   }
 ];
 

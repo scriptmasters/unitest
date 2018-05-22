@@ -38,21 +38,23 @@ export class TestsComponent implements OnInit {
   deleteTest(id: number): void {
     const matDialogRef = this.dialog.open(DeleteConfirmComponent, {
       width: '400px',
-      data: {message: 'Ви справді хочете видалити цей тест?'}
+      data: { message: 'Ви справді хочете видалити цей тест?' }
     });
     matDialogRef.afterClosed().subscribe((Response: boolean) => {
       if (Response) {
         this.httpService.deleteTest(id).subscribe((data: IResponse) => {
-            if (data.response === 'ok') {
-              this.openModalMessage('Тест успішно видалено');
-            }
-          },
+          if (data.response === 'ok') {
+            this.httpService.openTooltip('Тест успішно видалено');
+          }
+        },
           (err) => {
-            this.openModalMessage('Цей тест неможливо видалити, оскільки в ньому є питання! '); },
+            this.openModalMessage('Цей тест неможливо видалити, оскільки в ньому є питання! ');
+          },
           () => {
             this.getTestsById(this.subjectId);
           }
-        ); }
+        );
+      }
     });
   }
 
@@ -79,25 +81,27 @@ export class TestsComponent implements OnInit {
     const matDialogRef = this.dialog.open(EditComponent, {
       width: '400px',
       disableClose: true,
-      data: {id: id, test: t}});
+      data: { id: id, test: t }
+    });
     matDialogRef.afterClosed().subscribe(() => this.getTestsById(this.subjectId));
   }
 
   addDialog() {
     const matDialogRef = this.dialog.open(AddComponent, {
       disableClose: true,
-      width: '400px', data: {id: this.subjectId}});
+      width: '400px', data: { id: this.subjectId }
+    });
     matDialogRef.afterClosed().subscribe(() => this.getTestsById(this.subjectId));
   }
 
    openDetails(id: any): void {
-    this.router.navigate(['/admin/testdetails'], {
+    this.router.navigate(['/admin/subjects/tests/testdetails'], {
       queryParams: {
         id: id
       }
     });
-   }
-   openModalMessage(msg: string, w: string = '350px'): void {
+  }
+  openModalMessage(msg: string, w: string = '350px'): void {
     this.dialog.open(ResponseMessageComponent, {
       width: w,
       data: {
@@ -108,7 +112,7 @@ export class TestsComponent implements OnInit {
 
 
   openQuestions(test_id: string) {
-        this.router.navigate(['/admin/questions'], {
+        this.router.navigate(['/admin/subjects/tests/questions'], {
           queryParams: {
               subjectId: this.subjectId,
               testId: test_id, }

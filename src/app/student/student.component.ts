@@ -1,13 +1,19 @@
-import {Component, OnInit} from '@angular/core';
-import {AuthService} from '../auth/auth.service';
-import {TestPlayerService} from './services/test-player.service';
-import {StudentService} from './student.service';
-import {Subject, TestInterface, TimeTable, UserInfo} from './test-player/question-interface';
-import {Router} from '@angular/router';
+import { Component, OnInit } from '@angular/core';
+import { AuthService } from '../auth/auth.service';
+import { TestPlayerService } from '../student/services/test-player.service';
+import { StudentService } from './student.service';
+import {
+  UserInfo,
+  TimeTable,
+  Subject,
+  TestInterface,
+} from './test-player/question-interface';
+import { NgStyle } from '@angular/common';
+import { Router, RouterModule } from '@angular/router';
+import { SubjectsComponent } from '../admin/subjects/subjects.component';
 import * as moment from 'moment';
-import {ResponseMessageComponent} from '../shared/response-message/response-message.component';
-import {MatDialog} from '@angular/material';
-
+import { ResponseMessageComponent } from '../shared/response-message/response-message.component';
+import { MatDialog } from '@angular/material';
 @Component({
   selector: 'app-student',
   templateUrl: './student.component.html',
@@ -16,8 +22,13 @@ import {MatDialog} from '@angular/material';
 export class StudentComponent implements OnInit {
   id: number;
   user = <UserInfo>{};
+  time;
   subjects = [];
+  times = [];
   error;
+  allSubjectsReady = false;
+  filteredSubjects = [];
+  p = 1;
   constructor(
     public authService: AuthService,
     public studentService: StudentService,
@@ -86,6 +97,7 @@ export class StudentComponent implements OnInit {
   }
 
   getTimeTablesForGroup() {
+    this.subjects.length = 0;
     this.studentService
       .getTimeTablesForGroup(this.user.group_id)
       .subscribe((response: any) => {
@@ -126,6 +138,7 @@ export class StudentComponent implements OnInit {
 
               timeTables.subject.push(subject);
               this.subjects.push(timeTables);
+              this.filteredSubjects.push(timeTables);
             });
         });
       });
@@ -134,33 +147,24 @@ export class StudentComponent implements OnInit {
   startTest(studentId, testId): void {
     this.testPlayerService.startTest(studentId, testId).subscribe(
       (data: any) => {
-        // console.log(data);
-        if (data.response === 'Error. User made test recently') {
-          this.dialog.open(ResponseMessageComponent, {
-            width: '400px',
-            data: {
-              message: 'Ви здавали тест нещодавно, почекайте 10 хв'
-            }
-          });
-        } else if (data.response === 'Not enough number of questions for quiz') {
-          this.dialog.open(ResponseMessageComponent, {
-            width: '400px',
-            data: {
-              message: 'Замало тестів'
-            }
-          });
-        } else if (data.response === 'ok') {
+        if (data.response === 'ok') {
           this.dialog.open(ResponseMessageComponent, {
             width: '400px',
             data: {
               message: 'Тест почався'
             }
           });
-          this.router.navigate(['student/test/' + testId]);
+          this.studentService.getRecordsTest(testId).subscribe((infoTest: any) => {
+            localStorage.setItem('name', JSON.stringify(infoTest));
+            this.studentService.progresstest = JSON.parse(localStorage.getItem('name'));
+            console.log(this.studentService.progresstest);
+          });
+          this.studentService.saveInfoTest(testId).subscribe((infos: any) => {
+            this.router.navigate(['student/test/' + testId]);
+          });
         }
       },
       error => {
-        // alert('erro' + error.error.response);
         if (error.error.response === 'You cannot make the test due to your schedule') {
           this.dialog.open(ResponseMessageComponent, {
             width: '400px',
@@ -183,13 +187,18 @@ export class StudentComponent implements OnInit {
             }
           });
         } else if (error.error.response === 'User is making test at current moment') {
-          // this.dialog.open(ResponseMessageComponent, {
-          //   width: '400px',
-          //   data: {
-          //     message: 'Ви здаєте тест в даний момент'
-          //   }
-          // });
-          this.router.navigate(['student/test/' + testId]);
+          this.studentService.getInfoTest().subscribe((info: number) => {
+            if (info === (+testId)) {
+              this.router.navigate(['student/test/' + testId]);
+            } else {
+              this.dialog.open(ResponseMessageComponent, {
+                width: '400px',
+                data: {
+                  message: 'Ви здаєте тест в даний момент'
+                }
+              });
+            }
+          });
         } else if (error.error.response === 'You cannot make the test due to used all attempts') {
           this.dialog.open(ResponseMessageComponent, {
             width: '400px',
@@ -197,8 +206,74 @@ export class StudentComponent implements OnInit {
               message: 'Ви використали всі спроби'
             }
           });
+        } else if (error.error.response === 'You can start tests which are only for you!!!') {
+          this.dialog.open(ResponseMessageComponent, {
+            width: '400px',
+            data: {
+              message: 'Ви можете почати тести, які тільки для вас !!!'
+            }
+          });
+        } else if (error.error.response === 'Error: The number of needed questions for the quiz is not suitable due to test details') {
+          this.dialog.open(ResponseMessageComponent, {
+            width: '400px',
+            data: {
+              message: 'Кількість необхідних питань для вікторини не підходить завдяки деталям тесту'
+            }
+          });
+        } else if (error.error.response === 'Test detail parameters not found for requested test') {
+          this.dialog.open(ResponseMessageComponent, {
+            width: '400px',
+            data: {
+              message: 'Параметри деталей перевірки не знайдено для запитуваного тесту'
+            }
+          });
+        } else if (error.error.response === 'Error. User made test recently') {
+          this.dialog.open(ResponseMessageComponent, {
+            width: '400px',
+            data: {
+              message: 'Ви здавали тест нещодавно, почекайте 10 хв'
+            }
+          });
+        } else if (error.error.response === 'Not enough number of questions for quiz') {
+          this.dialog.open(ResponseMessageComponent, {
+            width: '400px',
+            data: {
+              message: 'Замало тестів'
+            }
+          });
         }
       }
     );
   }
+
+  getAllSubjects() {
+    this.filteredSubjects.length = 0;
+    this.subjects.forEach(item => {
+      this.filteredSubjects.push(item);
+    });
+  }
+  getTime(id, includeDay) {
+    const day = id;
+    this.studentService.getTime().subscribe(
+      (time: any) => {
+        const _time = moment.utc(time.unix_timestamp * 1000);
+        const b = _time;
+        this.filteredSubjects.length = 0;
+        this.subjects.forEach(item => {
+          const timesTable = moment.utc(item.end_date);
+          const a = timesTable.diff(_time);
+          const c = moment(a).format('D');
+          if (includeDay) {
+            if ((+c) === day) {
+              this.filteredSubjects.push(item);
+            }
+          } else {
+            if (c <= day) {
+              this.filteredSubjects.push(item);
+            }
+          }
+        });
+      });
+  }
+
 }
