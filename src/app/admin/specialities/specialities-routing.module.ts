@@ -6,10 +6,7 @@ import { SpecialitiesComponent } from './specialities.component';
 const routes: Routes = [
     {
         path: '',
-        component: SpecialitiesComponent,
-        data: {
-                    breadcrumb: 'Спеціальності'
-                }
+        component: SpecialitiesComponent
     }
 ];
 

@@ -50,7 +50,7 @@ export class QuestionsComponent implements OnInit {
       subjectId: string;
       testId: string;
       // openQuestions(test_id: string) {
-      //   this.router.navigate(['/admin/questions'], {
+      //   this.router.navigate(['/admin/tests/questions'], {
       //     queryParams: {  subjectId: this.subjectId, testId: test_id, }
       //   });
       // }

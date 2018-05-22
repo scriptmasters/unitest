@@ -5,11 +5,7 @@ import { TimetableComponent } from './timetable.component';
 const routes: Routes = [
     {
         path: '',
-        component: TimetableComponent,
-        data: {
-          breadcrumb: 'Розклад'
-        }
-
+        component: TimetableComponent
     }
 ];
 

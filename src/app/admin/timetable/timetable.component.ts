@@ -86,7 +86,7 @@ export class TimetableComponent implements OnInit {
     };
 
     const onError = () => (this.table = []);
-
+    // router query params
     this.route.queryParams.subscribe(params => {
       if (params.subjectId) {
         tableService

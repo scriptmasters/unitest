@@ -67,7 +67,7 @@ export class SubjectsComponent implements OnInit {
   }
 
   getTests(id: number): void {
-    this.router.navigate(['admin/tests'], { queryParams: { subjectId: id } });
+    this.router.navigate(['admin/subjects/tests'], { queryParams: { subjectId: id } });
   }
 
   openModal(id?: number): void {

@@ -24,13 +24,10 @@ export class SpecialitiesComponent implements OnInit {
   error: string;
   searchBox = new FormControl();
   searchBoxSubscr: Subscription;
-  
   config: PaginationInstance = {
     itemsPerPage: 10,
     currentPage: 1,
   };
-  
-
   constructor(private speciality: SpecialityService,
     private http: HttpClient,
     public dialog: MatDialog,

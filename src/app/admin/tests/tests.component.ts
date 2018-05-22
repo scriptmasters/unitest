@@ -103,7 +103,7 @@ export class TestsComponent implements OnInit {
   }
 
    openDetails(id: any): void {
-    this.router.navigate(['/admin/testdetails'], {
+    this.router.navigate(['/admin/subjects/tests/testdetails'], {
       queryParams: {
         id: id
       }
@@ -120,7 +120,7 @@ export class TestsComponent implements OnInit {
 
 
   openQuestions(test_id: string) {
-        this.router.navigate(['/admin/questions'], {
+        this.router.navigate(['/admin/subjects/tests/questions'], {
           queryParams: {
               subjectId: this.subjectId,
               testId: test_id, }

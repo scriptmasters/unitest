@@ -6,10 +6,7 @@ import { SubjectsComponent } from './subjects.component';
 const routes: Routes = [
   {
     path: '',
-    component: SubjectsComponent,
-    data: {
-          breadcrumb: 'Предмети'
-        }
+    component: SubjectsComponent
   },
 ];
 

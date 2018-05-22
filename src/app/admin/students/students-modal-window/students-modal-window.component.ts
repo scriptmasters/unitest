@@ -15,6 +15,7 @@ import { matchOtherValidator } from '../custom-validators/password-confirm.valid
 import { getGroupsByFaulty } from '../reusable-functions/get-groups-by-faculty';
 import { setGroupAsID } from '../reusable-functions/set-group-as-id';
 
+
 @Component({
   selector: 'app-students-modal-window',
   templateUrl: './students-modal-window.component.html',
@@ -68,6 +69,21 @@ export class StudentsModalWindowComponent implements OnInit {
   emailC: FormControl;
   passwordC: FormControl;
   password_confirmC: FormControl;
+
+  // photo cropper
+  imageChangedEvent: any = '';
+  croppedImage: any = '';
+  cropperReady = false;
+
+  imageCropped(image: string) {
+      this.croppedImage = image;
+  }
+  imageLoaded() {
+    this.cropperReady = true;
+  }
+  imageLoadFailed () {
+    console.log('Load failed');
+  }
 
   constructor(
     private service: StudentsService,
@@ -241,12 +257,13 @@ export class StudentsModalWindowComponent implements OnInit {
     return null;
   }
   // rendering photo to base64 code befor it's sent to the server
-  handleAddPhoto(event) {
+  photoChangeEvent(event) {
+    this.imageChangedEvent = event;
     const input = event.target;
     const reader = new FileReader();
     reader.onload = () => {
       const dataURL = reader.result;
-      this.student.photo = dataURL;
+      this.croppedImage = dataURL;
     };
     reader.readAsDataURL(input.files[0]);
   }
@@ -261,7 +278,7 @@ export class StudentsModalWindowComponent implements OnInit {
       password: value.password,
       username: value.login,
       email: value.email,
-      photo: this.student.photo,
+      photo: this.croppedImage,
       password_confirm: value.password_confirm,
       plain_password: value.password
     });
