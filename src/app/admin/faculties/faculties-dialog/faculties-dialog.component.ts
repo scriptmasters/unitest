@@ -30,7 +30,7 @@ export class FacultiesDialogComponent implements OnInit {
       ]),
       'description': new FormControl(null, [
         Validators.required,
-        Validators.pattern('([А-ЯІЇа-яії]{4,})([ А-ЯІЇа-яії ])+'),
+        Validators.pattern('([А-ЯІЇа-яії]{1,})([ А-ЯІЇа-яії ])+'),
         Validators.maxLength(100)
       ])
     }, { updateOn: 'blur' });

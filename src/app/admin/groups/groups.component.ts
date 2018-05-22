@@ -337,12 +337,5 @@ export class GroupsComponent extends Pagination implements OnInit {
     goResults(id): void {
         this.router.navigate(['admin/results'], {queryParams: {groupId: id}});
     }
-    // clearRouterParams() {
-    //   console.log('Changed');
-    //   if (this.specialityId || this.specialityId) {
-    //     console.log(true);
-    //     this.router.navigate(['/'], {relativeTo: this.route});
-    //   }
-    // }
 
 }
