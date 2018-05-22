@@ -126,6 +126,7 @@ export class TestPlayerComponent implements OnInit {
   }
 
   finishTest() {
+    clearInterval(this.start);
     this.timerService
       .clearTime()
       .subscribe(response => console.log(response));
@@ -143,9 +144,6 @@ export class TestPlayerComponent implements OnInit {
   questionRoute(index) {
     this.Index = index + 1;
     this.question = this.questions[index];
-    // console.log(this.questions);
-    // console.log(this.userAnswers);
-    // console.log(this.question);
   }
 
   nextQuestion() {
@@ -196,7 +194,7 @@ export class TestPlayerComponent implements OnInit {
   }
 
   getTime() {
-    // Беремо Час для тесту і Subject_id
+    // Get timer for test and Subject_id
     this.route.params.subscribe(params => {
       this.timerService.getTest(params['id']).subscribe(test => {
         this.timeOfTest = test[0].time_for_test * 60 * 1000;
@@ -207,6 +205,7 @@ export class TestPlayerComponent implements OnInit {
   }
 
   // З TimeTable Беремо час закінчення тесту по GroupId and SubjectId
+  // Get time of test
   getEndTimeOfTest(idSubj) {
     this.authService.isLogged().subscribe((response: any) => {
       this.studentId = response.id;
