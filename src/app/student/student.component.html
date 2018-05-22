@@ -30,8 +30,7 @@
                                         <button type="button" class="btn btn-secondary" (click)='getTime(7,false)'>Протягом тиждень</button>
                                         <button type="button" class="btn btn-secondary" (click)='getTime(31,false)'>Протягом місяця</button>
                                     </div>
-                                    <!-- <div>Ви проходите{{studentService.progresstest?.test_name}}</div> -->
-                                    <table class="table  table-hover">
+                                    <table class="table table-hover">
                                         <thead>
                                             <tr>
                                                 <th>Предмет і назва тесту</th>
@@ -45,7 +44,7 @@
                                             <ng-container *ngIf="filteredSubjects.length">
                                                 <ng-container *ngFor="let key of filteredSubjects">
                                                     <ng-container *ngFor="let list of key.subject">
-                                                        <tr *ngFor="let tests of list.tests " class="text-center">
+                                                        <tr *ngFor="let tests of list.tests" class="text-center">
                                                             <ng-container *ngIf="list.ready">
                                                                 <ng-container *ngIf="tests.enabled==1">
                                                                     <td>
@@ -70,14 +69,7 @@
                                                                         {{tests.time_for_test}}
                                                                     </td>
                                                                     <td>
-                                                                        <!-- <a routerLink="test/{{tests.test_id}}"> -->
-                                                                        <!-- if get from backend currenttestid = tests.test_id
-                                                                        then
-                                                                        disab
-                                                                        else -->
                                                                         <i class="fa fa-play-circle" aria-hidden="true" (click)="startTest(user.user_id, tests.test_id)"></i>
-                                                                        <!-- end -->
-                                                                        <!-- </a> -->
                                                                     </td>
                                                                 </ng-container>
                                                             </ng-container>
@@ -110,12 +102,7 @@
                 <p class="text-left">
                     <b>№ залікової книжки:</b> {{user.gradebook_id}}
                 </p>
-
             </div>
-
         </div>
     </div>
-    <!-- <footer class="footer">
-        <span>Created by IF-085.Web-UI&#169; "Superteam&#9787;"</span>
-    </footer> -->
 </section>
