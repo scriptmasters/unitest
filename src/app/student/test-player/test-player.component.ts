@@ -53,46 +53,18 @@ export class TestPlayerComponent implements OnInit {
     photo: '',
   };
 
-  constructor(
-    private testPlayerService: TestPlayerService,
-    private timerService: TimerService,
-    private route: ActivatedRoute,
-    private router: Router,
-    private dialog: MatDialog,
-    private authService: AuthService,
-    private data: DataService
-  ) {
+  constructor(private testPlayerService: TestPlayerService,
+              private timerService: TimerService,
+              private route: ActivatedRoute,
+              private router: Router,
+              private dialog: MatDialog,
+              private authService: AuthService,
+              private data: DataService) {
     this.start = setInterval(() => {
-      // TimerMakeCool(){}
-      this.timer.hours = Math.floor(this.distance / (1000 * 60 * 60));
-      this.timer.minutes = Math.floor(
-        (this.distance % (1000 * 60 * 60)) / (1000 * 60)
-      );
-
-      if (parseInt(this.timer.minutes, 10) < 10) {
-        this.timer.minutes = '0' + this.timer.minutes;
-      }
-
-      this.timer.seconds = Math.floor((this.distance % (1000 * 60)) / 1000);
-      if (parseInt(this.timer.seconds, 10) < 10) {
-        this.timer.seconds = '0' + this.timer.seconds;
-      }
-
-      this.distance -= 1000;
-
-      if (this.distance <= -1) {
-        this.timer.hours = '00';
-        this.timer.minutes = '00';
-        this.timer.seconds = '00';
-        this.timerService
-          .clearTime()
-          .subscribe(response => console.log(response));
-        clearInterval(this.start);
-        this.finishTest();
-        // alert('time\'s up');
-      }
+      this.timerActions();
     }, 1000);
   }
+
 
   ngOnInit() {
     this.getQuestionsForTest();
@@ -154,6 +126,9 @@ export class TestPlayerComponent implements OnInit {
   }
 
   finishTest() {
+    this.timerService
+      .clearTime()
+      .subscribe(response => console.log(response));
     this.testPlayerService
       .checkResult(this.userAnswers)
       .subscribe((response: any) => {
@@ -168,9 +143,11 @@ export class TestPlayerComponent implements OnInit {
   questionRoute(index) {
     this.Index = index + 1;
     this.question = this.questions[index];
-    console.log(this.questions);
-    console.log(this.userAnswers);
+    // console.log(this.questions);
+    // console.log(this.userAnswers);
+    // console.log(this.question);
   }
+
   nextQuestion() {
     this.Index++;
     if (this.Index > this.questions.length) {
@@ -178,6 +155,7 @@ export class TestPlayerComponent implements OnInit {
     }
     this.question = this.questions[this.Index - 1];
   }
+
   prevQuestion() {
     this.Index--;
     if (this.Index < 1) {
@@ -187,6 +165,36 @@ export class TestPlayerComponent implements OnInit {
   }
 
   //  ************ TIMER ******************
+  timerActions() {
+    this.timer.hours = Math.floor(this.distance / (1000 * 60 * 60));
+    this.timer.minutes = Math.floor(
+      (this.distance % (1000 * 60 * 60)) / (1000 * 60)
+    );
+
+    if (parseInt(this.timer.minutes, 10) < 10) {
+      this.timer.minutes = '0' + this.timer.minutes;
+    }
+
+    this.timer.seconds = Math.floor((this.distance % (1000 * 60)) / 1000);
+    if (parseInt(this.timer.seconds, 10) < 10) {
+      this.timer.seconds = '0' + this.timer.seconds;
+    }
+
+    this.distance -= 1000;
+
+    if (this.distance <= -1) {
+      this.timer.hours = '00';
+      this.timer.minutes = '00';
+      this.timer.seconds = '00';
+      this.timerService
+        .clearTime()
+        .subscribe(response => console.log(response));
+      clearInterval(this.start);
+      this.finishTest();
+      // alert('time\'s up');
+    }
+  }
+
   getTime() {
     // Беремо Час для тесту і Subject_id
     this.route.params.subscribe(params => {
@@ -235,7 +243,8 @@ export class TestPlayerComponent implements OnInit {
             end: this.startDate + this.distance,
           })
           .subscribe(
-            response => {},
+            response => {
+            },
             error => {
               console.error(error.error.response);
             }
