@@ -12,7 +12,7 @@ import {SharedModule} from '../shared/shared.module';
 import {TimerService} from './services/timer.service';
 import {QuizResultComponent} from './test-player/quiz-result/quiz-result.component';
 import {DataService} from './services/data.service';
-import {Ng2GoogleChartsModule} from 'ng2-google-charts';
+import { Ng2GoogleChartsModule } from 'ng2-google-charts';
 
 @NgModule({
   imports: [
@@ -21,7 +21,7 @@ import {Ng2GoogleChartsModule} from 'ng2-google-charts';
     FormsModule,
     ReactiveFormsModule,
     SharedModule,
-    Ng2GoogleChartsModule
+    Ng2GoogleChartsModule,
   ],
   declarations: [StudentComponent, TestPlayerComponent, TestResultComponent, QuizResultComponent],
   providers: [AuthService, TestPlayerService, StudentService, TimerService, DataService],

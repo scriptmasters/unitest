@@ -27,7 +27,7 @@ tbody {
 .content-wrapper {
   margin-bottom: 85px;
   .header {
-      z-index: 1;
+      z-index: 199999;
       position: fixed; 
       top: 0; 
       right: 0; 
@@ -85,4 +85,9 @@ tbody {
           }
       }
   }
+}
+.btn-secondary {
+background: white;
+border-radius: 5px;
+color: black;
 }
