@@ -28,7 +28,7 @@ export class StudentComponent implements OnInit {
   error;
   allSubjectsReady = false;
   filteredSubjects = [];
-  progresstest = [];
+  p = 1;
   constructor(
     public authService: AuthService,
     public studentService: StudentService,
@@ -145,54 +145,26 @@ export class StudentComponent implements OnInit {
   }
 
   startTest(studentId, testId): void {
-    this.studentService.getInfoTest().subscribe((info: number) => {
-      if (info === (+testId)) {
-        this.router.navigate(['student/test/' + testId]);
-      } else {
-        this.handleStartTest(studentId, testId);
-      }
-    });
-  }
-
-  handleStartTest(studentId, testId) {
     this.testPlayerService.startTest(studentId, testId).subscribe(
       (data: any) => {
-        alert(data.response);
-        if (data.response === 'Error. User made test recently') {
-          this.dialog.open(ResponseMessageComponent, {
-            width: '400px',
-            data: {
-              message: 'Ви здавали тест нещодавно, почекайте 10 хв'
-            }
-          });
-        } else if (data.response === 'Not enough number of questions for quiz') {
-          this.dialog.open(ResponseMessageComponent, {
-            width: '400px',
-            data: {
-              message: 'Замало тестів'
-            }
-          });
-        } else if (data.response === 'ok') {
+        if (data.response === 'ok') {
           this.dialog.open(ResponseMessageComponent, {
             width: '400px',
             data: {
               message: 'Тест почався'
             }
           });
+          this.studentService.getRecordsTest(testId).subscribe((infoTest: any) => {
+            localStorage.setItem('name', JSON.stringify(infoTest));
+            this.studentService.progresstest = JSON.parse(localStorage.getItem('name'));
+            console.log(this.studentService.progresstest);
+          });
           this.studentService.saveInfoTest(testId).subscribe((infos: any) => {
-            this.studentService.getRecordsTest(testId).subscribe((test: any) => {
-              sessionStorage.setItem('name', JSON.stringify(test));
-              // this.progresstest = JSON.parse(sessionStorage.getItem(name));
-              // console.log(this.progresstest);
-              this.progresstest = JSON.parse(sessionStorage.getItem('name'));
-              console.log(this.progresstest);
-            });
             this.router.navigate(['student/test/' + testId]);
           });
         }
       },
       error => {
-        alert('erro' + error.error.response);
         if (error.error.response === 'You cannot make the test due to your schedule') {
           this.dialog.open(ResponseMessageComponent, {
             width: '400px',
@@ -215,10 +187,16 @@ export class StudentComponent implements OnInit {
             }
           });
         } else if (error.error.response === 'User is making test at current moment') {
-          this.dialog.open(ResponseMessageComponent, {
-            width: '400px',
-            data: {
-              message: 'Ви здаєте тест в даний момент'
+          this.studentService.getInfoTest().subscribe((info: number) => {
+            if (info === (+testId)) {
+              this.router.navigate(['student/test/' + testId]);
+            } else {
+              this.dialog.open(ResponseMessageComponent, {
+                width: '400px',
+                data: {
+                  message: 'Ви здаєте тест в даний момент'
+                }
+              });
             }
           });
         } else if (error.error.response === 'You cannot make the test due to used all attempts') {
@@ -242,18 +220,25 @@ export class StudentComponent implements OnInit {
               message: 'Кількість необхідних питань для вікторини не підходить завдяки деталям тесту'
             }
           });
-        } else if (error.error.response === 'Error. User made test recently') {
-          this.dialog.open(ResponseMessageComponent, {
-            width: '400px',
-            data: {
-              message: 'Ви здавали тест нещодавно'
-            }
-          });
         } else if (error.error.response === 'Test detail parameters not found for requested test') {
           this.dialog.open(ResponseMessageComponent, {
             width: '400px',
             data: {
               message: 'Параметри деталей перевірки не знайдено для запитуваного тесту'
+            }
+          });
+        } else if (error.error.response === 'Error. User made test recently') {
+          this.dialog.open(ResponseMessageComponent, {
+            width: '400px',
+            data: {
+              message: 'Ви здавали тест нещодавно, почекайте 10 хв'
+            }
+          });
+        } else if (error.error.response === 'Not enough number of questions for quiz') {
+          this.dialog.open(ResponseMessageComponent, {
+            width: '400px',
+            data: {
+              message: 'Замало тестів'
             }
           });
         }

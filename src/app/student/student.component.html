@@ -23,20 +23,15 @@
                             <div class="col-12">
                                 <h3 class="text-center">Cписок тестувань які плануються для групи "{{user.group_name}}"</h3>
                                 <div class="container-fluid">
-                                    <div>
-                                        <button (click)='getAllSubjects()'>Всьго</button>
-                                        <button (click)='getTime(0,true)'>Сьогодні</button>
-                                        <button (click)='getTime(1,true)'>Завтра</button>
-                                        <button (click)='getTime(7,false)'>Протягом тиждень</button>
-                                        <button (click)='getTime(31,false)'>Протягом місяця</button>
+                                    <div class="btn-group">
+                                        <button type="button" class="btn btn-secondary" (click)='getAllSubjects()'>Всьго</button>
+                                        <button type="button" class="btn btn-secondary" (click)='getTime(0,true)'>Сьогодні</button>
+                                        <button type="button" class="btn btn-secondary" (click)='getTime(1,true)'>Завтра</button>
+                                        <button type="button" class="btn btn-secondary" (click)='getTime(7,false)'>Протягом тиждень</button>
+                                        <button type="button" class="btn btn-secondary" (click)='getTime(31,false)'>Протягом місяця</button>
                                     </div>
-                                    <!-- <div *ngFor="let key of progresstest"> -->
-                                    <div *ngIf="progresstest.test_id > 0">
-                                        <div>Ви проходите тест{{key.test_name}}</div>
-                                        <div> dsadas</div>
-                                        <!-- </div> -->
-                                    </div>
-                                    <table class="table table-striped table-hover">
+                                    <!-- <div>Ви проходите{{studentService.progresstest?.test_name}}</div> -->
+                                    <table class="table  table-hover">
                                         <thead>
                                             <tr>
                                                 <th>Предмет і назва тесту</th>
@@ -50,7 +45,7 @@
                                             <ng-container *ngIf="filteredSubjects.length">
                                                 <ng-container *ngFor="let key of filteredSubjects">
                                                     <ng-container *ngFor="let list of key.subject">
-                                                        <tr *ngFor="let tests of list.tests" class="text-center">
+                                                        <tr *ngFor="let tests of list.tests " class="text-center">
                                                             <ng-container *ngIf="list.ready">
                                                                 <ng-container *ngIf="tests.enabled==1">
                                                                     <td>
@@ -120,7 +115,7 @@
 
         </div>
     </div>
-    <footer class="footer">
+    <!-- <footer class="footer">
         <span>Created by IF-085.Web-UI&#169; "Superteam&#9787;"</span>
-    </footer>
+    </footer> -->
 </section>
