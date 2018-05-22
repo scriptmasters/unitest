@@ -2,14 +2,14 @@ div, span{
   color: #666;
 }
 .test-question{
-  text-align: center;
+  //text-align: center;
 }
 li{
   margin-left: 1em;
 }
 .timer{
   font-weight: 700;
-  font-size: 1.2em;
+  font-size: 1.4em;
 }
 .timer.yellow{
   color: rgba(191,175,0,0.64);
@@ -18,37 +18,43 @@ li{
   color: rgba(255,0,0,0.64);
 }
 .test-form{
-  margin: auto;
+  margin: auto 10%;
 }
 .question{
-  border: 1px solid grey;
-  width: 20px;
-  height: 20px;
+  border: 2px solid grey;
+  width: 30px;
+  height: 30px;
   margin: 5px;
-  padding: 0 1px;
+  border-radius: 3px;
+  padding: 4px 1px;
   font-weight: 800;
 }
-.question0-9{
-  padding: 0 5px;
-}
+
 .flex-questions{
   display: flex;
   justify-content: space-between;
 }
 .questions-wrap{
   //flex: 0 0 150px;
-  width: 150px;
+  width: 200px;
   //margin: auto;
 }
 .question:hover{
-  color: #fff;
+  color: green;
   cursor: pointer;
-  background-color: #868e96;
+  border: 2px solid green;
 }
-.questionSelected{
+.questionsSelected{
   color: #fff;
   background-color: #868e96;
 }
+
+.questionSelected{
+  box-sizing: border-box;
+  border: 2px solid green;
+
+}
+
 span{
   text-align: center;
 }
@@ -74,4 +80,40 @@ span{
   position: absolute;
   bottom: 10px;
   display: block;
+  width: 100%;
+  padding: 2px 5px;
+  //cursor: pointer;
 }
+span.fa{
+  padding: 2px 5px;
+}
+span.fa:hover{
+  color: #33b35a;
+  cursor: pointer;
+  //background-color: #868e96;
+  border-radius: 3px;
+}
+
+.separate{
+  width: 5%;
+}
+
+@media only screen and (max-width: 768px) {
+  aside{
+    display: flex;
+    flex-direction: column;
+  }
+
+  .questions-block{
+    order: 1;
+    margin-bottom: 40px;
+  }
+  .button-block{
+    order: 2;
+  }
+  .studentInfo{
+    order: 3;
+  }
+
+}
+
