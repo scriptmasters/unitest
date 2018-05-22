@@ -18,10 +18,12 @@
             <div class="card col-12 col-lg-12">
                 <div class="card-body row">
                     <div class="form-group col-sm-3">
-                        <input type="text" class="form-control" placeholder="Пошук" (keypress)="pageIndex = 0" [(ngModel)]="searchFilter" >
+                        <input type="text" class="form-control" placeholder="Пошук" (keypress)="pageIndex = 0"
+                               [(ngModel)]="searchFilter">
                     </div>
                     <div class="form-group col-sm-4">
-                        <select name="account" class="form-control select-filter" (change)="pageIndex = 0" [(ngModel)]="facultyFilter" >
+                        <select name="account" class="form-control select-filter" (change)="pageIndex = 0"
+                                [(ngModel)]="facultyFilter">
                             <option value="Виберіть факультет" selected>Виберіть факультет</option>
                             <option *ngFor="let tab of faculties; let i = index;" value="{{tab.faculty_name}}">
                                 {{tab.faculty_name}}
@@ -29,7 +31,8 @@
                         </select>
                     </div>
                     <div class="form-group col-sm-4">
-                        <select name="account" class="form-control select-filter" (change)="pageIndex = 0" [(ngModel)]="specialityFilter" >
+                        <select name="account" class="form-control select-filter" (change)="pageIndex = 0"
+                                [(ngModel)]="specialityFilter">
                             <option value="Виберіть спецільність" selected>Виберіть спецільність</option>
                             <option *ngFor="let tab of specialities; let i = index;" value="{{tab.speciality_name}}">
                                 {{tab.speciality_name}}
@@ -43,10 +46,13 @@
                 </div>
             </div>
         </header>
+        <div class="progressbar">
+            <mat-progress-bar *ngIf="progress" mode="indeterminate" color="primary"></mat-progress-bar>
+        </div>
         <div class="row">
             <div class="card col-12 col-lg-12">
                 <div class="card-body table-responsive">
-                    <table class="table table-striped table-hover" *ngIf="table[0] !== undefined; else noRecords">
+                    <table class="table table-striped table-hover">
                         <thead>
                         <tr>
                             <th>№</th>
@@ -61,7 +67,7 @@
                                 *ngFor="let tab of table | search: searchFilter
                                                          | facultyFilterPipe: facultyFilter
                                                          | specialityFilterPipe: specialityFilter
-                                                         | pagination: this.pageSize : this.pageIndex; index as i;"
+                                                         | pagination: pageSize : pageIndex; index as i;"
 
                         >
                             <th>{{i+pageSize*pageIndex+1}}</th>
@@ -76,15 +82,15 @@
                                    (click)="goTimetable(tab.group_id)"></i></td>
                             <td><i class="fa fa-cog" title="Редагувати групу {{tab.group}}"
                                    (click)="openDialog(tab)"></i></td>
-                            <td ><i class="fa fa-close" title="Видалити групу {{tab.group}}"
+                            <td><i class="fa fa-close" title="Видалити групу {{tab.group}}"
                                    (click)="delGroup(tab.group_id)"></i>
                             </td>
                         </tr>
                         </tbody>
                     </table>
-                    <ng-template #noRecords>
+                    <div *ngIf="emptyCollection" class="tableMessage">
                         {{error}}
-                    </ng-template>
+                    </div>
                 </div>
             </div>
         </div>

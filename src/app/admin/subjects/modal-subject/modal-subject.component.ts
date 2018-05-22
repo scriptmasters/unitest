@@ -12,7 +12,7 @@ import {Subject} from '../subject';
     styleUrls: ['./modal-subject.component.scss'],
 })
 export class ModalSubjectComponent implements OnInit {
-    subject = [{subject_name: '', subject_description: ''}];
+    subject = [{subject_name: '', subject_description: '', subject_id: undefined}];
     form: FormGroup;
     isLoaded = true;
 

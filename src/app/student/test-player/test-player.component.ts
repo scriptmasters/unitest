@@ -134,6 +134,7 @@ export class TestPlayerComponent implements OnInit {
       .subscribe((response: any) => {
         this.data.setAnswers(response.number_of_true_answers);
         this.data.setMark(response.full_mark);
+        this.data.setCountOfQuestions(this.questions.length);
         this.router.navigate(['student/results']);
       });
   }

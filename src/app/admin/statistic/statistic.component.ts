@@ -2,56 +2,42 @@ import {Component, OnInit} from '@angular/core';
 import {StatisticService} from './statistic.service';
 
 @Component({
-  selector: 'app-statistic',
-  templateUrl: './statistic.component.html',
-  styleUrls: ['./statistic.component.scss']
+    selector: 'app-statistic',
+    templateUrl: './statistic.component.html',
+    styleUrls: ['./statistic.component.scss']
 })
 export class StatisticComponent implements OnInit {
 
-  constructor(private Statistica: StatisticService) { }
-  subjectObject: any;
-  studentObject: any;
-  testObject: any;
-  adminObject: any;
-  groupObject: any;
-  questionObject: any;
-  ngOnInit() {
-    this.Statistica.countQuestion().subscribe(value => {
-      this.questionObject = value;
+    constructor(private Statistica: StatisticService) {}
 
-    }, error => {
-      console.log('error' + error);
-    });
-    this.Statistica.countSubject().subscribe(value => {
-      this.subjectObject = value;
+    subjectObject: any;
+    studentObject: any;
+    testObject: any;
+    adminObject: any;
+    groupObject: any;
+    questionObject: any;
 
-    }, error => {
-      console.log('error' + error);
-    });
-    this.Statistica.countGroup().subscribe(value => {
-      this.groupObject = value;
-
-    }, error => {
-      console.log('error' + error);
-    });
-    this.Statistica.countTest().subscribe(value => {
-      this.testObject = value;
-
-    }, error => {
-      console.log('error' + error);
-    });
-    this.Statistica.countAdmin().subscribe(value => {
-      this.adminObject = value;
-
-    }, error => {
-      console.log('error' + error);
-    });
-    this.Statistica.countStudent().subscribe(value => {
-      this.studentObject = value;
-
-    }, error => {
-      console.log('error' + error);
-    });
-  }
-
+    ngOnInit() {
+        this.Statistica.countQuestion().subscribe(value => {
+            this.questionObject = value;
+        });
+        this.Statistica.countSubject().subscribe(value => {
+            this.subjectObject = value;
+        });
+        this.Statistica.countGroup().subscribe(value => {
+            this.groupObject = value;
+        });
+        this.Statistica.countTest().subscribe(value => {
+                this.testObject = value;
+            }
+        );
+        this.Statistica.countAdmin().subscribe(value => {
+                this.adminObject = value;
+            }
+        );
+        this.Statistica.countStudent().subscribe(value => {
+                this.studentObject = value;
+            }
+        );
+    }
 }
