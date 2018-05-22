@@ -1,11 +1,7 @@
-import {Component, OnInit, OnDestroy} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {DataService} from '../../services/data.service';
 import {AuthService} from '../../../auth/auth.service';
-import { ChartReadyEvent } from 'ng2-google-charts';
-import { ChartErrorEvent } from 'ng2-google-charts';
-import { ChartSelectEvent } from 'ng2-google-charts';
-import { ChartMouseOverEvent, ChartMouseOutEvent } from 'ng2-google-charts';
-import { Router } from '@angular/router';
+
 @Component({
   selector: 'app-quiz-result',
   templateUrl: './quiz-result.component.html',

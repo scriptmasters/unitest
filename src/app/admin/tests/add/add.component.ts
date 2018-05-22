@@ -45,10 +45,7 @@ onSubmit() {
     // Опрацювання даних форми
    this.httpService.addTest(this.rForm.value).subscribe(
     () => {this.dialogRef.close();
-      const matDialogRef = this.dialog.open(ResponseMessageComponent, {
-        width: '350px',
-        data: {message: 'Тест успішно додано'}
-      });
+        this.httpService.openTooltip('Тест успішно додано');
     },
     (err) => {
       if (err.status === 400) {
