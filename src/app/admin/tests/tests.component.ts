@@ -94,8 +94,8 @@ export class TestsComponent implements OnInit {
     matDialogRef.afterClosed().subscribe(() => this.getTestsById(this.subjectId));
   }
 
-  openDetails(id: any): void {
-    this.router.navigate(['/admin/testdetails'], {
+   openDetails(id: any): void {
+    this.router.navigate(['/admin/subjects/tests/testdetails'], {
       queryParams: {
         id: id
       }
@@ -112,12 +112,20 @@ export class TestsComponent implements OnInit {
 
 
   openQuestions(test_id: string) {
+<<<<<<< HEAD
+        this.router.navigate(['/admin/subjects/tests/questions'], {
+          queryParams: {
+              subjectId: this.subjectId,
+              testId: test_id, }
+        });
+=======
     this.router.navigate(['/admin/questions'], {
       queryParams: {
         subjectId: this.subjectId,
         testId: test_id,
       }
     });
+>>>>>>> 4722d07a090f5996a9a35878173a4a6371284a55
   }
 
   getSubjects() {

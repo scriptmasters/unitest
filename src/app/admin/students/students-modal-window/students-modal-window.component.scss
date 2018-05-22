@@ -15,9 +15,15 @@ input.ng-touched.ng-invalid {
     }
 }
 
+.button-crop {
+    border: 1px solid #ced4da;
+    border-radius: 0.25rem;
+    color: #495057;
+}
+
 .user-image {
-    width: 200px;
-    height: 200px;
+    // width: 200px;
+    // height: 200px;
     margin-bottom: 10px;
 }
 

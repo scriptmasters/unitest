@@ -46,9 +46,9 @@ export class SubjectsComponent extends Pagination implements OnInit, OnDestroy {
         });
     }
 
-    getTests(id: number): void {
-        this.router.navigate(['admin/tests'], {queryParams: {subjectId: id}});
-    }
+  getTests(id: number): void {
+    this.router.navigate(['admin/subjects/tests'], { queryParams: { subjectId: id } });
+  }
 
     openModal(id?: number): void {
         const matDialogRef = this.dialog.open(ModalSubjectComponent, {
