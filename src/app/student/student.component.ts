@@ -28,6 +28,7 @@ export class StudentComponent implements OnInit {
   error;
   allSubjectsReady = false;
   filteredSubjects = [];
+  progresstest;
   constructor(
     public authService: AuthService,
     public studentService: StudentService,
@@ -179,6 +180,13 @@ export class StudentComponent implements OnInit {
             }
           });
           this.studentService.saveInfoTest(testId).subscribe((infos: any) => {
+            this.studentService.getRecordsTest(testId).subscribe((test: any) => {
+              sessionStorage.setItem('name', JSON.stringify(test));
+              this.progresstest = JSON.parse(sessionStorage.getItem(name));
+              console.log(this.progresstest);
+            });
+            // this.progresstest = JSON.parse(localStorage.getItem('name'));
+            // console.log(this.progresstest);
             this.router.navigate(['student/test/' + testId]);
           });
         }
@@ -232,6 +240,13 @@ export class StudentComponent implements OnInit {
             width: '400px',
             data: {
               message: 'Кількість необхідних питань для вікторини не підходить завдяки деталям тесту'
+            }
+          });
+        } else if (error.error.response === 'Error. User made test recently') {
+          this.dialog.open(ResponseMessageComponent, {
+            width: '400px',
+            data: {
+              message: 'Ви здавали тест нещодавно'
             }
           });
         }
