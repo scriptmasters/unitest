@@ -2,33 +2,31 @@ import {Injectable} from '@angular/core';
 
 @Injectable()
 export class DataService {
-  mark;
-  answers;
-  count;
+
   constructor() { }
 
   getMark(): number {
-    return this.mark;
+    return +sessionStorage.getItem('mark');
   }
 
   setMark(m: number) {
-    this.mark = m;
+    sessionStorage.setItem('mark', m.toString());
   }
 
   getAnswers(): number {
-    return this.answers;
+    return +sessionStorage.getItem('trueAnswers');
   }
 
   setAnswers(a: number) {
-    this.answers = a;
+    sessionStorage.setItem('trueAnswers', a.toString());
   }
 
-  setCountOfQuestions(c: number) {
-    this.count = c;
+  setCountOfQuestions(n: number) {
+    sessionStorage.setItem('numberOfQuestions', n.toString());
   }
 
   getCountOfQuestions(): number {
-    return this.count;
+    return +sessionStorage.getItem('numberOfQuestions');
   }
 }
 
