@@ -18,6 +18,9 @@
                 </div>
             </div>
         </div>
+        <div class="progressbar">
+            <mat-progress-bar *ngIf="progress" mode="indeterminate" color="primary"></mat-progress-bar>
+        </div>
         <div class="row">
             <div class="card col-12 col-lg-12">
                 <div class="card-body table-responsive">
@@ -32,7 +35,7 @@
                         </thead>
                         <tbody>
                         <tr *ngFor="let subject of entitiesObj; let i = index">
-                            <th (click)="func()">{{i+pageSize*pageIndex+1}}</th>
+                            <th>{{i+pageSize*pageIndex+1}}</th>
                             <td>{{subject.subject_name}}</td>
                             <td>{{subject.subject_description}}</td>
                             <td><a (click)="getTests(subject.subject_id)"><i
@@ -62,7 +65,6 @@
                 [pageSizeOptions]="[5, 10, 25, 100]"
                 [showFirstLastButtons]="true"
                 (page)="getEntity($event, true)"
-
         ></mat-paginator>
     </div>
 </section>

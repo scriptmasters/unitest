@@ -33,6 +33,25 @@ export class AuthComponent implements OnInit {
         this.createForm();
     }
 
+    ngOnInit() {
+        this.route.queryParams
+            .subscribe(params => {
+                this.returnUrl = params['return'];
+                if (params['return']) {
+                    this.authService.isLogged().subscribe((result: IisLogged) => {
+                        if (result.response === 'non logged') {
+                            this.snackBar.open('You are not logged in', 'OK', {
+                                duration: 2000
+                            });
+                        } else {
+                            (this.rgxpAdmin.test(params['return'])) ? this.user = 'admin' : this.user = 'student';
+                            this.openDialog();
+                        }
+                    });
+                }
+            });
+    }
+
     createForm(): void {
         this.loginForm = this.formBuilder.group({
             username: ['', Validators.compose([Validators.required, SymbolValidator(' ')])],
@@ -78,24 +97,5 @@ export class AuthComponent implements OnInit {
                 }
             }
         });
-    }
-
-    ngOnInit() {
-        this.route.queryParams
-            .subscribe(params => {
-                this.returnUrl = params['return'];
-                if (params['return']) {
-                    this.authService.isLogged().subscribe((result: IisLogged) => {
-                        if (result.response === 'non logged') {
-                            this.snackBar.open('You are not logged in', 'OK', {
-                                duration: 2000
-                            });
-                        } else {
-                            (this.rgxpAdmin.test(params['return'])) ? this.user = 'admin' : this.user = 'student';
-                            this.openDialog();
-                        }
-                    });
-                }
-            });
     }
 }

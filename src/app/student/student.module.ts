@@ -13,7 +13,7 @@ import {TimerService} from './services/timer.service';
 import {QuizResultComponent} from './test-player/quiz-result/quiz-result.component';
 import {DataService} from './services/data.service';
 import {QuestionService} from './services/question.service';
-import {LocalStorageModule} from '@ngx-pwa/local-storage';
+import { Ng2GoogleChartsModule } from 'ng2-google-charts';
 
 @NgModule({
   imports: [
@@ -22,7 +22,7 @@ import {LocalStorageModule} from '@ngx-pwa/local-storage';
     FormsModule,
     ReactiveFormsModule,
     SharedModule,
-    LocalStorageModule
+    Ng2GoogleChartsModule
   ],
   declarations: [StudentComponent, TestPlayerComponent, TestResultComponent, QuizResultComponent],
   providers: [AuthService, TestPlayerService, QuestionService, StudentService, TimerService, DataService],

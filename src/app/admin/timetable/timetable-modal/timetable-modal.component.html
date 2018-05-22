@@ -12,7 +12,7 @@
             </select>
             <div class="form-msg">
                 <small *ngIf="form.get('group').invalid && (form.get('group').dirty || form.get('group').touched)">
-                <span *ngIf="form.get('group').errors.required">Назва групи є обов'язковою</span>
+                <span *ngIf="form.get('group').hasError('required')">Назва групи є обов'язковою</span>
             </small>
             </div>
         </div>
@@ -24,7 +24,7 @@
             </select>
             <div class="form-msg">
                 <small *ngIf="form.get('subject').invalid && (form.get('subject').dirty || form.get('subject').touched)">
-                <span *ngIf="form.get('subject').errors.required">Назва предмету є обов'язковою</span>
+                <span *ngIf="form.get('subject').hasError('required')">Назва предмету є обов'язковою</span>
             </small>
             </div>
         </div>
@@ -35,10 +35,10 @@
             <input type="date" id="date" class="form-control col-md-12" [(ngModel)]="formData.start_date" formControlName="startDate">
             <div class="form-msg">
                 <small *ngIf="form.get('startDate').invalid && (form.get('startDate').dirty || form.get('startDate').touched)">
-                    <span *ngIf="form.get('startDate').errors.required">
+                    <span *ngIf="form.get('startDate').hasError('required')">
                         Дата початку є обов`язковим полем
                     </span>
-                    <span *ngIf="form.get('startDate').errors.invalidDate">
+                    <span *ngIf="form.get('startDate').hasError('invalidDate')">
                         Дата початку не може бути ранішою за сьогоднішній день
                     </span>
             </small>
@@ -49,7 +49,7 @@
             <input type="time" id="time" class="form-control  col-md-12" [(ngModel)]="formData.start_time" formControlName="startTime">
             <div class="form-msg">
                 <small *ngIf="form.get('startTime').invalid && (form.get('startTime').dirty || form.get('startTime').touched)">
-                <span *ngIf="form.get('startTime').errors.required">Час початку є обов`язковим полем</span>
+                <span *ngIf="form.get('startTime').hasError('required')">Час початку є обов`язковим полем</span>
             </small>
             </div>
         </div>
@@ -60,10 +60,10 @@
             <input type="date" id="date" class="form-control col-md-12" [(ngModel)]="formData.end_date" formControlName="endDate">
             <div class="form-msg">
                 <small *ngIf="form.get('endDate').invalid && (form.get('endDate').dirty || form.get('startDate').touched)">
-                    <span *ngIf="form.get('endDate').errors.required">
+                    <span *ngIf="form.get('endDate').hasError('required')">
                         Дата початку є обов`язковим полем
                     </span>
-                    <span *ngIf="form.get('endDate').errors.earlierThanStartDate">
+                    <span *ngIf="form.get('endDate').hasError('earlierThanStartDate')">
                         Дата кінця не може бути ранішою за дату початку
                     </span>
                 </small>
@@ -74,7 +74,7 @@
             <input type="time" id="time" class="form-control col-md-12" [(ngModel)]="formData.end_time" formControlName="endTime">
             <div class="form-msg">
                 <small *ngIf="form.get('endTime').invalid && (form.get('endTime').dirty || form.get('endTime').touched)">
-                <span *ngIf="form.get('endTime').errors.required">Час кінця є обов`язковим полем</span>
+                <span *ngIf="form.get('endTime').hasError('required')">Час кінця є обов`язковим полем</span>
             </small>
             </div>
         </div>

@@ -1,9 +1,8 @@
-///<reference path="../../../../node_modules/rxjs/add/operator/mergeMap.d.ts"/>
 import {ActivatedRoute, Router} from '@angular/router';
 import {DialogComponent} from './dialog/dialog.component';
 import {GroupsService} from './groups.service';
-import {ChangeDetectorRef, Component, OnInit} from '@angular/core';
-import {MatDialog, MatDialogConfig, MatPaginatorIntl} from '@angular/material';
+import {Component, OnDestroy, OnInit} from '@angular/core';
+import {MatDialog, MatDialogConfig, MatPaginatorIntl, MatSnackBar} from '@angular/material';
 import {AddGroup, Faculties, Groups, Specialities, Table} from './interface';
 import {ResponseMessageComponent} from '../../shared/response-message/response-message.component';
 import 'rxjs/add/operator/mergeMap';
@@ -12,7 +11,6 @@ import {Pagination} from '../../shared/pagination/pagination.class';
 import {HttpClient} from '@angular/common/http';
 import {PaginationService} from '../../shared/pagination/pagination.service';
 
-
 @Component({
     selector: 'app-groups',
     templateUrl: './groups.component.html',
@@ -20,7 +18,7 @@ import {PaginationService} from '../../shared/pagination/pagination.service';
     providers: [GroupsService]
 })
 
-export class GroupsComponent extends Pagination implements OnInit {
+export class GroupsComponent extends Pagination implements OnInit, OnDestroy {
 
     groups: Groups[] = [];
     faculties: Faculties[] = [];
@@ -49,8 +47,8 @@ export class GroupsComponent extends Pagination implements OnInit {
                 public http: HttpClient,
                 public route: ActivatedRoute,
                 public pagService: PaginationService,
-                private cd: ChangeDetectorRef) {
-        super(router, route, pagIntl, http, dialog, pagService);
+                public snackBar: MatSnackBar) {
+    super(router, route, pagIntl, http, dialog, pagService, snackBar);
         this.route.queryParams.subscribe(params => {
             if (params.specialityId) {
                 this.specialityId = params.specialityId;
@@ -61,14 +59,17 @@ export class GroupsComponent extends Pagination implements OnInit {
     }
 
     ngOnInit() {
-        this.initLogic(true);
+        this.initLogic(true);                                                                       // pagination code
         if (this.triger) {
             this.getGroupsData();
         }
-        this.refreshFilters();
         this.groupsService.searchFilterService.subscribe(data => this.searchFilter = data);
         this.groupsService.facultyFilterService.subscribe(data => this.facultyFilter = data);
         this.groupsService.specialityFilterService.subscribe(data => this.specialityFilter = data);
+    }
+
+    ngOnDestroy() {
+        this.destroyLogic();
     }
 
     getGroupsData() {
@@ -111,7 +112,6 @@ export class GroupsComponent extends Pagination implements OnInit {
                 }
             }
 
-
             if (this.facultyId && tempTriger === false) {
                 for (const faculty of this.faculties) {
                     if (faculty.faculty_id === this.facultyId) {
@@ -129,14 +129,12 @@ export class GroupsComponent extends Pagination implements OnInit {
                     }
                 }
             }
-            this.pagService.fullLength = this.table.length;
-
         }
-
     }
 
     // ************* DIALOG *****************
     public openDialog(groupLine ?: Table): void {
+
         const dialogConfig = new MatDialogConfig();
 
         dialogConfig.disableClose = true;
@@ -186,18 +184,15 @@ export class GroupsComponent extends Pagination implements OnInit {
                 this.groupsService._delGroup(id).subscribe(response => {
 
                     if (response.response === 'ok') {
-                        this.dialog.open(ResponseMessageComponent, {
-                            width: '400px',
-                            data: {
-                                message: 'Група була успішно видалена!'
-                            }
-                        });
+                        this.openTooltip('Група була успішно видалена');
                         for (let i = 0; i < this.table.length; i++) {
                             if (this.table[i].group_id === id) {
                                 this.table.splice(i, 1);
                             }
                         }
-                        this.pagService.paginatedLength === 1 ? this.paginator.previousPage() : this.pagination = true;
+                        if (this.pagService.paginatedLength === 1) {
+                            this.paginator.previousPage();
+                        }
                     }
                 }, error => {
                     this.dialog.open(ResponseMessageComponent, {
@@ -241,12 +236,7 @@ export class GroupsComponent extends Pagination implements OnInit {
         };
 
         this.groupsService._addGroup(addGroupData).subscribe(response => {
-            this.dialog.open(ResponseMessageComponent, {
-                width: '400px',
-                data: {
-                    message: 'Група була успішно додана!'
-                }
-            });
+            this.openTooltip('Група була успішно додана');
             if (response[0].group_name === groupData.group_name) {
                 this.table.push({
                     group_id: parseInt(response[0].group_id, 10),
@@ -278,12 +268,14 @@ export class GroupsComponent extends Pagination implements OnInit {
         for (const faculty of this.faculties) {
             if (groupData.faculty === faculty.faculty_name) {
                 tempFacultyId = faculty.faculty_id;
+                tempFaculty = faculty.faculty_name;
                 break;
             }
         }
         for (const speciality of this.specialities) {
             if (groupData.speciality === speciality.speciality_name) {
                 tempSpecialityId = speciality.speciality_id;
+                tempSpeciality = speciality.speciality_name;
                 break;
             }
         }
@@ -295,7 +287,7 @@ export class GroupsComponent extends Pagination implements OnInit {
         };
         for (const table of this.table) {
             if (table.group_id === groupData.group_id) {
-                if (table.group !== groupData.group_name && table.faculty !== tempFaculty && table.speciality !== tempSpeciality) {
+                if (table.group !== groupData.group_name || table.faculty !== tempFaculty || table.speciality !== tempSpeciality) {
 
                     this.groupsService._editGroup(editGroupData).subscribe(response => {
                         if (parseInt(response[0].group_id, 10) === groupData.group_id) {
@@ -304,12 +296,7 @@ export class GroupsComponent extends Pagination implements OnInit {
                                 this.groupsService._getSpeciality(response[0].speciality_id).subscribe(specResponse => {
                                     tempSpeciality = specResponse[0].speciality_name;
 
-                                    this.dialog.open(ResponseMessageComponent, {
-                                        width: '400px',
-                                        data: {
-                                            message: 'Група була успішно редагована!'
-                                        }
-                                    });
+                                    this.openTooltip('Група була успішно редагована');
 
                                     table.group = groupData.group_name;
                                     table.faculty = tempFaculty;
@@ -337,12 +324,4 @@ export class GroupsComponent extends Pagination implements OnInit {
     goResults(id): void {
         this.router.navigate(['admin/results'], {queryParams: {groupId: id}});
     }
-    // clearRouterParams() {
-    //   console.log('Changed');
-    //   if (this.specialityId || this.specialityId) {
-    //     console.log(true);
-    //     this.router.navigate(['/'], {relativeTo: this.route});
-    //   }
-    // }
-
 }

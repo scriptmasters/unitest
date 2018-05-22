@@ -17,7 +17,6 @@ export class AdminComponent implements OnInit {
 
   handleClick(elem: HTMLElement) {
     elem.classList.toggle('shown');
-    console.dir(elem);
   }
 
 

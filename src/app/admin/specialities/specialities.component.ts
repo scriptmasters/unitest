@@ -1,6 +1,6 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {SpecialityService} from './speciality.service';
-import {MatDialog, MatPaginatorIntl} from '@angular/material';
+import {MatDialog, MatPaginatorIntl, MatSnackBar} from '@angular/material';
 import {HttpClient} from '@angular/common/http';
 import {PopupFormComponent} from './popup-form/popup-form.component';
 import {ResponseMessageComponent} from '../../shared/response-message/response-message.component';
@@ -11,13 +11,12 @@ import {DeleteConfirmComponent} from '../../shared/delete-confirm/delete-confirm
 import {Pagination} from '../../shared/pagination/pagination.class';
 import {PaginationService} from '../../shared/pagination/pagination.service';
 
-
 @Component({
     selector: 'app-specialities',
     templateUrl: './specialities.component.html',
     styleUrls: ['./specialities.component.scss']
 })
-export class SpecialitiesComponent extends Pagination implements OnInit {
+export class SpecialitiesComponent extends Pagination implements OnInit, OnDestroy {
 
     form: FormGroup;
 
@@ -27,8 +26,9 @@ export class SpecialitiesComponent extends Pagination implements OnInit {
                 public pagIntl: MatPaginatorIntl,
                 public http: HttpClient,
                 public dialog: MatDialog,
-                public pagService: PaginationService) {
-        super(router, route, pagIntl, http, dialog, pagService);
+                public pagService: PaginationService,
+                public snackBar: MatSnackBar) {
+        super(router, route, pagIntl, http, dialog, pagService, snackBar);
         this.pagService.entity = 'speciality';
         this.entities = 'specialities';
         this.pageSize = 5;
@@ -38,11 +38,15 @@ export class SpecialitiesComponent extends Pagination implements OnInit {
         this.initLogic(false);
     }
 
+    ngOnDestroy() {
+        this.destroyLogic();
+    }
+
     getGroups(id): void {
         this.router.navigate(['admin/groups'], {queryParams: {specialityId: id}});
     }
 
-    openModal(id): void {
+    openModal(id?): void {
         const dialogRef = this.dialog.open(PopupFormComponent, {
             disableClose: true,
             width: '600px',
@@ -51,12 +55,7 @@ export class SpecialitiesComponent extends Pagination implements OnInit {
         dialogRef.afterClosed().subscribe((response: any) => {
             if (response) {
                 if (response.status === 'SUCCESS') {
-                    this.dialog.open(ResponseMessageComponent, {
-                        width: '400px',
-                        data: {
-                            message: response.message
-                        }
-                    });
+                    this.openTooltip(response.message);
                     this.getEntity();
                 } else if ((response.status === 'ERROR')) {
                     this.dialog.open(ResponseMessageComponent, {
@@ -79,12 +78,7 @@ export class SpecialitiesComponent extends Pagination implements OnInit {
             if (Response) {
                 this.speciality.delSpecialitiey(id).subscribe((data: IResponse) => {
                         if (data.response === 'ok') {
-                            this.dialog.open(ResponseMessageComponent, {
-                                width: '400px',
-                                data: {
-                                    message: 'Спеціальность було успішно видалено!'
-                                }
-                            });
+                            this.openTooltip('Спеціальність було успішно видалено');
                             if (this.entitiesObj.length > 1) {
                                 this.getEntity();
                             } else {
@@ -96,7 +90,7 @@ export class SpecialitiesComponent extends Pagination implements OnInit {
                         this.dialog.open(ResponseMessageComponent, {
                             width: '400px',
                             data: {
-                                message: 'Неможливо видалити даний спеціальность, тому що він не є порожнім!'
+                                message: 'Неможливо видалити дану спеціальность, тому що вона не є порожня!'
                             }
                         });
                     });

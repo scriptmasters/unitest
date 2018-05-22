@@ -29,10 +29,9 @@ export class StudentsResolver implements Resolve<IResolvedData> {
                                 message: 'Немає зареєстрованих студентів в даній групі'
                             }
                         });
-                        this.router.navigate(['admin/groups/']);
-                        return new ErrorObservable('Немає зареєстрованих студентів в даній групі');
+                        this.router.navigate(['admin/students']);
                     }
-                    return this.onDataRetrieve(data, true);
+                    return this.onDataRetrieve(data, true, id);
                 }
             ));
         }
@@ -43,16 +42,16 @@ export class StudentsResolver implements Resolve<IResolvedData> {
             );
         }
     }
-    onDataRetrieve(students: IStudent[], isByGroup: boolean): Observable<IResolvedData> {
-        const groupIDs: any[] = students.map(value => value.group_id);
-        const body = JSON.stringify({entity: 'Group', ids: groupIDs});
-        return this.service.getEntityValue(body).pipe(
-            map(groups => {
-                return {
-                    students: getFiltredStudents(students, groups),
-                    byGroup: isByGroup
-                };
-            })
-        );
-    }
+    onDataRetrieve(students: IStudent[], isByGroup: boolean, id?): Observable<IResolvedData> {
+            const groupIDs: any[] = students.map(value => value.group_id);
+            const body = JSON.stringify({entity: 'Group', ids: groupIDs});
+            return this.service.getEntityValue(body).pipe(
+                map(groups => {
+                    return {
+                        students: getFiltredStudents(students, groups),
+                        byGroup: isByGroup
+                    };
+                })
+            );
+        }
 }
