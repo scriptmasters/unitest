@@ -16,7 +16,8 @@ export class StudentService {
   private urlSaveData = 'TestPlayer/saveData';
   private urlgetData = 'TestPlayer/getData';
   private urlgetRecordsTest = 'Test/getRecords/';
-  public progresstest;
+  public infoTestId;
+  public infoTestName;
   constructor(private http: HttpClient) { }
 
   getRecords(id): Observable<any> {
