@@ -23,11 +23,7 @@ li {
     margin: auto 0;
 }
 
-<<<<<<< HEAD .timer {
-    font-weight: 700;
-    font-size: 1.4em;
-    margin: auto 1em;
-    =======.timer {
+    .timer {
         font-weight: 700;
         font-size: 1.4em;
         margin: auto 1em;
@@ -35,7 +31,6 @@ li {
     .timer>span {
         font-size: 14px;
         font-weight: 400;
-        >>>>>>>delete coment code
     }
     .timer.yellow {
         color: rgba(191, 175, 0, 0.64);
@@ -62,13 +57,10 @@ li {
     .questions-wrap {
         width: 200px;
     }
-    <<<<<<< HEAD .questions-wrap {
-        width: 200px;
-        =======.question:hover {
+    .question:hover {
             color: green;
             cursor: pointer;
             border: 2px solid green;
-            >>>>>>>delete coment code
         }
         .questionsSelected {
             color: #fff;
