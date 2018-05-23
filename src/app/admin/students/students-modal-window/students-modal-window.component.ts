@@ -1,19 +1,19 @@
-import { Component, Inject, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import {Component, Inject, OnInit} from '@angular/core';
+import {FormControl, FormGroup, Validators} from '@angular/forms';
 
-import { StudentsService } from '../students.service';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
+import {StudentsService} from '../students.service';
+import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material';
 import IGroup from '../interfaces/IGroup';
 import IFaculty from '../interfaces/IFaculty';
 import IStudent from '../interfaces/IStudent';
 import IUser from '../interfaces/IUser';
 import IResponse from '../interfaces/IResponse';
-import { defaultImage } from './default-image';
-import { ValidateLoginNotTaken } from '../custom-validators/async-login.validator';
-import { ValidateEmailNotTaken } from '../custom-validators/async-email.validator';
-import { matchOtherValidator } from '../custom-validators/password-confirm.validator';
-import { getGroupsByFaulty } from '../reusable-functions/get-groups-by-faculty';
-import { setGroupAsID } from '../reusable-functions/set-group-as-id';
+import {defaultImage} from './default-image';
+import {ValidateLoginNotTaken} from '../custom-validators/async-login.validator';
+import {ValidateEmailNotTaken} from '../custom-validators/async-email.validator';
+import {matchOtherValidator} from '../custom-validators/password-confirm.validator';
+import {getGroupsByFaulty} from '../reusable-functions/get-groups-by-faculty';
+import {setGroupAsID} from '../reusable-functions/set-group-as-id';
 
 
 @Component({
@@ -78,17 +78,18 @@ export class StudentsModalWindowComponent implements OnInit {
     imageCropped(image: string) {
         this.croppedImage = image;
     }
+
     imageLoaded() {
         this.cropperReady = true;
     }
+
     imageLoadFailed() {
         console.log('Load failed');
     }
 
-    constructor(
-        private service: StudentsService,
-        public dialogRef: MatDialogRef<StudentsModalWindowComponent>,
-        @Inject(MAT_DIALOG_DATA) public data: any) {
+    constructor(private service: StudentsService,
+                public dialogRef: MatDialogRef<StudentsModalWindowComponent>,
+                @Inject(MAT_DIALOG_DATA) public data: any) {
     }
 
     ngOnInit(): void {
@@ -146,9 +147,9 @@ export class StudentsModalWindowComponent implements OnInit {
         });
         this.passwordC = new FormControl(this.data.updating ?
             this.data.student.plain_password : '', [
-                Validators.required,
-                Validators.pattern('^\\S{8,32}')
-            ]);
+            Validators.required,
+            Validators.pattern('^\\S{8,32}')
+        ]);
         this.password_confirmC = new FormControl(this.data.updating ?
             this.data.student.plain_password : '', matchOtherValidator('password'));
     }
@@ -180,11 +181,11 @@ export class StudentsModalWindowComponent implements OnInit {
             this.service.getUserInfo(this.data.student.user_id).subscribe(response => {
                 this.studentInfo = response[0];
             });
-            const group = JSON.stringify({ entity: 'Group', ids: [this.data.student.group_id] });
+            const group = JSON.stringify({entity: 'Group', ids: [this.data.student.group_id]});
             this.service.getEntityValue(group).subscribe(resp => {
                 this.studentGroup = resp[0];
             });
-            const faculty = JSON.stringify({ entity: 'Faculty', ids: [this.data.student.faculty_id] });
+            const faculty = JSON.stringify({entity: 'Faculty', ids: [this.data.student.faculty_id]});
             this.service.getEntityValue(faculty).subscribe(val => {
                 this.studentFaculty = val[0];
             });
@@ -264,7 +265,7 @@ export class StudentsModalWindowComponent implements OnInit {
         return null;
     }
 
-    // rendering photo to base64 code befor it's sent to the server
+    // rendering photo to base64 code before it's sent to the server
     photoChangeEvent(event) {
         this.imageChangedEvent = event;
         const input = event.target;
@@ -299,13 +300,12 @@ export class StudentsModalWindowComponent implements OnInit {
             return;
         } else {
             this.service.addStudent(studentJSON).subscribe(
-                () => this.dialogRef.close(this.student.group_id),
+                (data) => this.dialogRef.close(data),
                 error => this.dialogRef.close(error)
             );
         }
     }
-
-    // // close mat dialog window
+// close mat dialog window
     handleClose(): void {
         this.dialogRef.close();
     }
