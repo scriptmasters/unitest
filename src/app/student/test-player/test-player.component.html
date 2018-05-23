@@ -1,64 +1,69 @@
 <div class="container-fluid">
-    <header>
-        <div class="card-header">
-            <div class="card">
-                <div class="row">
-                    <div class="col-12 col-sm-4 col-md-5 col-lg-4 col-xl-4 d-flex">
-                        <div class="studentInfo">
-                            <h2>{{student[0]?.student_fname}} {{student[0]?.student_name}} {{student[0]?.student_surname}}</h2>
-                        </div>
-                    </div>
-                    <div class="col-12 col-sm-8 col-md-7 col-lg-8 col-xl-8">
-                        <div class="d-flex justify-content-end">
-                            <!-- ********* TIMER ***********-->
-                            <div class="timer-wraper">
+
+  <header>
+    <div class="card-header">
+      <div class="card">
+        <div class="row">
+          <div class="col-12 col-sm-4 col-md-5 col-lg-4 col-xl-4 d-flex">
+            <div class="studentInfo">
+              <h2>{{student[0]?.student_name}} {{student[0]?.student_surname}}</h2>
+            </div>
+          </div>
+          <div class="col-12 col-sm-8 col-md-7 col-lg-8 col-xl-8">
+            <div class="d-flex justify-content-end">
+              <!-- ********* TIMER ***********-->
+              <div class="timer-wraper">
                                 <span class="timer" [ngClass]="{
+
                               'yellow': timer.minutes < 10 && timer.hours == 0,
                               'red': timer.minutes < 2 && timer.hours == 0
                               }">
                       <span>Часу залишилось:</span> {{timer.hours}}:{{timer.minutes}}:{{timer.seconds}}
                                 </span>
-                            </div>
-                            <div class="question-lvl">
-                                <span> Завдання <b>{{Index}}</b> з <b>{{questions?.length}}</b> [Рівень:<b>{{question?.level}}</b>]</span>
-                            </div>
-                            <!-- ********* TIMER ***********-->
-                        </div>
-                        <nav class="row">
-                            <div class="col-sm-4 col-md-4 col-lg-2 finishTest">
-                                <div class="d-flex justify-content-center">
-                                    <button class="btn btn-primary" (click)="finishTest()">Завершити тест</button>
-                                </div>
-                            </div>
-
-                            <div class="col-sm-8 col-md-8 col-lg-10">
-                                <div class="flex-questions col-12 d-flex justify-content-end">
-                                    <span class="question" *ngFor="let q of questions; let i = index; " (click)="questionRoute(i)" [ngClass]="{
-                         'questionSelected': i === (Index-1),
-                         'questionsSelected': userAnswers[+(q.question_id)]?.answer_id
-                         }">{{i+1}}
-          </span>
-                                </div>
-                            </div>
-                        </nav>
-                    </div>
-    </header>
-
-
-    <section class="card">
-
-        <div class="card-body d-flex">
-
-            <form class="test-form">
-                <div *ngIf="!isLoaded">
-                    Завантаження...
+              </div>
+              <div class="question-lvl">
+                <span> Завдання <b>{{Index}}</b> з <b>{{questions?.length}}</b> [Рівень:<b>{{question?.level}}</b>]</span>
+              </div>
+              <!-- ********* TIMER ***********-->
+            </div>
+            <nav class="row">
+              <div class="col-sm-4 col-md-4 col-lg-2 finishTest">
+                <div class="d-flex justify-content-center">
+                  <button class="btn btn-primary" (click)="finishTest()">Завершити тест</button>
                 </div>
-                <div *ngIf="isLoaded" [ngSwitch]="question.type">
-                    <div *ngSwitchCase="1">
-                        <div class="test-question">{{Index}}. {{question.question_text}}</div>
-                        <ul>
-                            <li *ngFor="let answer of question.answers">
-                                <label class="form-control-custom">
+              </div>
+
+              <div class="col-sm-8 col-md-8 col-lg-10">
+                <div class="flex-questions col-12 d-flex justify-content-end">
+                                    <span class="question" *ngFor="let q of questions; let i = index; " (click)="questionRoute(i)" [ngClass]="{
+                                       'questionSelected': i === (Index-1),
+                                       'questionsSelected': userAnswers[+(q.question_id)]?.answer_id
+                                        }"
+                                    >{{i+1}}</span>
+                </div>
+              </div>
+            </nav>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+
+  <section class="card">
+
+    <div class="card-body d-flex">
+
+      <form class="test-form">
+        <div *ngIf="!isLoaded">
+          Завантаження...
+        </div>
+        <div *ngIf="isLoaded" [ngSwitch]="question.type">
+          <div *ngSwitchCase="1">
+            <div class="test-question">{{Index}}. {{question.question_text}}</div>
+            <ul>
+              <li *ngFor="let answer of question.answers">
+                <label class="form-control-custom">
                   <input
                     type="radio"
                     [value]="answer"
@@ -67,15 +72,15 @@
                   >
                   {{answer.answer_text}}
                 </label>
-                            </li>
-                        </ul>
-                        <div class="line"></div>
-                    </div>
-                    <div *ngSwitchCase="2">
-                        <div class="test-question">{{Index}}. {{question.question_text}}</div>
-                        <ul>
-                            <li *ngFor="let answer of question.answers;">
-                                <label>
+              </li>
+            </ul>
+            <div class="line"></div>
+          </div>
+          <div *ngSwitchCase="2">
+            <div class="test-question">{{Index}}. {{question.question_text}}</div>
+            <ul>
+              <li *ngFor="let answer of question.answers;">
+                <label>
                   <input
                     type="checkbox"
                     name="question{{question.question_id}}"
@@ -84,31 +89,31 @@
                   >
                   {{answer.answer_text}}
                 </label>
-                            </li>
-                        </ul>
-                        <div class="line"></div>
-                    </div>
-                    <div *ngSwitchCase="3">
-                        <div class="test-question">{{Index}}. {{question.question_text}}</div>
-                        <input #answer type="text" name="question{{question.question_id}}" (blur)="sendAnswers(question, answer.value)" [(ngModel)]="question.answer_id">
-                        <div class="line"></div>
-                    </div>
-                    <div *ngSwitchCase="4">
-                        <div class="test-question">{{Index}}. {{question.question_text}}</div>
-                        <input #answer type="number" name="question{{question.question_id}}" (blur)="sendAnswers(question, answer.value)" [(ngModel)]="question.answer_id">
-                        <div class="line"></div>
-                    </div>
-                </div>
-            </form>
-            <div class="arrow-nav">
-                <div class="row">
-                    <div class="col-sm-12 d-flex justify-content-center">
-                        <span class="fa fa-arrow-left fa-2x" title="Пепереднє питання" aria-hidden="true" (click)="prevQuestion()"></span>
-                        <span class="separate"></span>
-                        <span class="fa fa-arrow-right fa-2x" title="Наступне питання" aria-hidden="true" (click)="nextQuestion()"></span>
-                    </div>
-                </div>
-            </div>
+              </li>
+            </ul>
+            <div class="line"></div>
+          </div>
+          <div *ngSwitchCase="3">
+            <div class="test-question">{{Index}}. {{question.question_text}}</div>
+            <input #answer type="text" name="question{{question.question_id}}" (blur)="sendAnswers(question, answer.value)" [(ngModel)]="question.answer_id">
+            <div class="line"></div>
+          </div>
+          <div *ngSwitchCase="4">
+            <div class="test-question">{{Index}}. {{question.question_text}}</div>
+            <input #answer type="number" name="question{{question.question_id}}" (blur)="sendAnswers(question, answer.value)" [(ngModel)]="question.answer_id">
+            <div class="line"></div>
+          </div>
         </div>
-    </section>
+      </form>
+      <div class="arrow-nav">
+        <div class="row">
+          <div class="col-sm-12 d-flex justify-content-center">
+            <span class="fa fa-arrow-left fa-2x" title="Пепереднє питання" aria-hidden="true" (click)="prevQuestion()"></span>
+            <span class="separate"></span>
+            <span class="fa fa-arrow-right fa-2x" title="Наступне питання" aria-hidden="true" (click)="nextQuestion()"></span>
+          </div>
+        </div>
+      </div>
     </div>
+  </section>
+</div>
