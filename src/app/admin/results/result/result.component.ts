@@ -22,7 +22,7 @@ export class ResultComponent extends Pagination implements OnInit, OnDestroy {
   @Output() filterEmit = new EventEmitter<boolean>();
 
   resultRecords = [];
-  testMaxRate: number;
+  showNoDataBlock = false;
 
   constructor(private resultService: ResultsService,
               public router: Router,
@@ -49,14 +49,12 @@ export class ResultComponent extends Pagination implements OnInit, OnDestroy {
   }
 
   search() {
-    this.resultService.getMaxTestRate(this.testId).subscribe((resp: any) => {
-      this.testMaxRate = resp.testRate;
-    });
-
+    this.showNoDataBlock = false;
     if (this.testId) {
       this.resultService.getTestRecordsByParams(this.testId, this.groupId).subscribe((records: any[]) => {
         if (records['response'] === 'no records') {
           this.resultRecords = [];
+          this.showNoDataBlock = true;
         } else {
           let studentIds: number[] = [];
           records.forEach(el => {
@@ -114,7 +112,7 @@ export class ResultComponent extends Pagination implements OnInit, OnDestroy {
         session_date: rec['session_date'],
         time: rec['start_time'],
         duration: this.getDuration(rec['start_time'], rec['end_time']),
-        quality: this.getQuality(rec['result'], this.testMaxRate),
+        quality: this.getQuality(rec['result'], rec['answers']),
         start_time: rec['start_time'],
         end_time: rec['end_time'],
         test_id: rec['test_id'],
