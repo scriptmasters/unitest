@@ -247,6 +247,7 @@ export class QuestionsComponent extends Pagination implements OnInit, OnDestroy 
                     this.pagService.paginatedLength === 1 ?
                         this.paginator.previousPage() :
                         this.pagService.pagSubscr.next(true);
+                    this.createQuestionsTableByTestId(this.testId);
                   }},
                   () => { this.openModalMessage(`Виникла помилка при видаленні цього завдання!`); }
                 );
