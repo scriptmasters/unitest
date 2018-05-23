@@ -226,7 +226,6 @@ export class TestPlayerComponent implements OnInit {
   }
 
   getTime() {
-    // Get timer for test and Subject_id
     this.route.params.subscribe(params => {
       this.timerService.getTest(params['id']).subscribe(test => {
         this.timeOfTest = test[0].time_for_test * 60 * 1000;
