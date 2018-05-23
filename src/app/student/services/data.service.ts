@@ -1,9 +1,8 @@
-import {Injectable} from '@angular/core';
+import { Injectable } from '@angular/core';
 
 @Injectable()
 export class DataService {
-
-  constructor() { }
+  constructor() {}
 
   getMark(): number {
     return +sessionStorage.getItem('mark');
@@ -29,4 +28,3 @@ export class DataService {
     return +sessionStorage.getItem('numberOfQuestions');
   }
 }
-
