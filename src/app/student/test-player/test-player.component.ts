@@ -10,6 +10,9 @@ import { DataService } from '../services/data.service';
 import { IQuestion } from './interfaces/Question';
 import { IStudent } from './interfaces/Student';
 import { QuestionService } from '../services/question.service';
+import { ConfirmMessageTestComponent } from './modal/confirm-message-test/confirm-message-test.component';
+import { AlertMessageTestComponent } from './modal/alert-message-test/alert-message-test.component';
+import { StudentService } from '../student.service';
 
 @Component({
   selector: 'app-test-player',
@@ -19,7 +22,7 @@ import { QuestionService } from '../services/question.service';
 export class TestPlayerComponent implements OnInit {
   questions;
   userAnswers = {};
-  userCheckboxAnswers = {}; // for checkbox question
+  userCheckboxAnswers = {};
   checkboxAnswersStatus = {};
   question: IQuestion;
   isLoaded = false;
@@ -56,6 +59,7 @@ export class TestPlayerComponent implements OnInit {
 
 constructor(private testPlayerService: TestPlayerService,
               private questionService: QuestionService,
+              private studentService: StudentService,
               private timerService: TimerService,
               private route: ActivatedRoute,
               private router: Router,
@@ -65,12 +69,19 @@ constructor(private testPlayerService: TestPlayerService,
     this.start = setInterval(() => {
       this.timerActions();
     }, 1000);
-  }
+}
 
 
   ngOnInit() {
-    this.getQuestions();
+  const idTest = +this.route.snapshot.paramMap.get('id');
+    this.studentService.getInfoTest().subscribe((startTestId) => {
+      if ( startTestId !== idTest) {
+        this.router.navigate(['student']);
+        return;
+      }
+    });
 
+    this.getQuestions();
     this.getTime();
   }
 
@@ -84,11 +95,17 @@ constructor(private testPlayerService: TestPlayerService,
     if (this.questions !== null) {
       this.question = this.questions[0];
       this.isLoaded = true;
+
+      for (let i = 0; i < this.questions.length; i++) {
+        this.userAnswers[this.questions[i].question_id] =
+          this.userAnswers[this.questions[i].question_id] || {};
+        this.userAnswers[this.questions[i].question_id].question_id = this.questions[i].question_id;
+        this.userAnswers[this.questions[i].question_id].answer_id = '';
+      }
     }
   }
 
   sendAnswers(question, answer) {
-    // for checkbox questions
     if (+question.type === 2) {
       this.userCheckboxAnswers[question.question_id] =
         this.userCheckboxAnswers[question.question_id] || {};
@@ -108,33 +125,49 @@ constructor(private testPlayerService: TestPlayerService,
         }
       }
 
-      this.userAnswers[question.question_id] =
-        this.userAnswers[question.question_id] || {};
-      this.userAnswers[question.question_id].question_id = question.question_id;
       this.userAnswers[question.question_id].answer_id = answers_ids;
 
-      // for input questions
     } else if (+question.type === 3 || +question.type === 4) {
-      this.userAnswers[question.question_id] =
-        this.userAnswers[question.question_id] || {};
       this.userAnswers[question.question_id] = question;
       this.userAnswers[question.question_id].answer_id = answer;
     }
   }
 
-  finishTest() {
-    this.timerService
-      .clearTime()
-      .subscribe(response => console.log(response));
-    this.testPlayerService
-      .checkResult(this.userAnswers)
-      .subscribe((response: any) => {
-        this.data.setAnswers(response.number_of_true_answers);
-        this.data.setMark(response.full_mark);
-        this.data.setCountOfQuestions(this.questions.length);
-        this.router.navigate(['student/results']);
+  finishTest(timeEnd) {
+  let matDialogRef;
+    if (timeEnd) {
+      matDialogRef = this.dialog.open(AlertMessageTestComponent, {
+        disableClose: true,
+        width: '400px',
+        data: {
+          message: 'Час тесту вичерпано!'
+        },
       });
-    window.localStorage.clear();
+    } else {
+      matDialogRef = this.dialog.open(ConfirmMessageTestComponent, {
+        disableClose: true,
+        width: '400px',
+        data: {
+          message: 'Ви дійсно хочете завершити тест?'
+        },
+      });
+    }
+    matDialogRef.afterClosed().subscribe((res: boolean) => {
+      if (res) {
+        this.timerService
+          .clearTime()
+          .subscribe(() => {});
+        this.testPlayerService
+          .checkResult(this.userAnswers)
+          .subscribe((response: any) => {
+            this.data.setAnswers(response.number_of_true_answers);
+            this.data.setMark(response.full_mark);
+            this.data.setCountOfQuestions(this.questions.length);
+            this.router.navigate(['student/results']);
+          });
+        window.localStorage.clear();
+      }
+    });
   }
 
   // Questions routing
@@ -188,7 +221,7 @@ constructor(private testPlayerService: TestPlayerService,
         .clearTime()
         .subscribe(response => console.log(response));
       clearInterval(this.start);
-      this.finishTest();
+      this.finishTest(true);
       // alert('time\'s up');
     }
   }

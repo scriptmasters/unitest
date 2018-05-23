@@ -14,6 +14,8 @@ import {QuizResultComponent} from './test-player/quiz-result/quiz-result.compone
 import {DataService} from './services/data.service';
 import {QuestionService} from './services/question.service';
 import { Ng2GoogleChartsModule } from 'ng2-google-charts';
+import { ConfirmMessageTestComponent } from './test-player/modal/confirm-message-test/confirm-message-test.component';
+import { AlertMessageTestComponent } from './test-player/modal/alert-message-test/alert-message-test.component';
 
 @NgModule({
   imports: [
@@ -24,8 +26,15 @@ import { Ng2GoogleChartsModule } from 'ng2-google-charts';
     SharedModule,
     Ng2GoogleChartsModule
   ],
-  declarations: [StudentComponent, TestPlayerComponent, TestResultComponent, QuizResultComponent],
+  declarations: [
+    StudentComponent,
+    TestPlayerComponent,
+    TestResultComponent,
+    QuizResultComponent,
+    ConfirmMessageTestComponent,
+    AlertMessageTestComponent
+  ],
   providers: [AuthService, TestPlayerService, QuestionService, StudentService, TimerService, DataService],
-  entryComponents: [TestResultComponent],
+  entryComponents: [TestResultComponent, ConfirmMessageTestComponent, AlertMessageTestComponent],
 })
 export class StudentModule {}
