@@ -17,7 +17,9 @@ export class FilterComponent implements OnInit {
   groupId: number;
   groups = [];
   tests = [];
-  orderTypes = [{id: 'date', name: 'по даті'}, {id: 'rate', name: 'по рейтингу'}, {id: 'userName', name: 'по імені'}];
+  orderTypes = [{id: 'date', name: 'по даті'},
+                {id: 'rate', name: 'по рейтингу'},
+                {id: 'userName', name: 'по імені'}];
   showFilter = true;
 
   config: PaginationInstance = {

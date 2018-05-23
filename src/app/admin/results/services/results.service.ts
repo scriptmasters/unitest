@@ -33,10 +33,5 @@ export class ResultsService {
     }
     return this.http.get(url);
   }
-  /*
-  getMaxTestRate(testId) {
-    const url = `/testDetail/getTestRate/${testId}`;
-    return this.http.get(url);
-  }
-  */
+
 }
