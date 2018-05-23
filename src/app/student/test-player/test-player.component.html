@@ -5,7 +5,7 @@
         <div class="row">
           <div class="col-12 col-sm-4 col-md-5 col-lg-4 col-xl-4 d-flex">
             <div class="studentInfo">
-              <h2>{{student[0]?.student_fname}} {{student[0]?.student_name}} {{student[0]?.student_surname}}</h2>
+              <h2>{{student[0]?.student_name}} {{student[0]?.student_surname}}</h2>
             </div>
           </div>
           <div class="col-12 col-sm-8 col-md-7 col-lg-8 col-xl-8">
@@ -13,7 +13,7 @@
               <!-- ********* TIMER ***********-->
               <div class="timer-wraper">
                  <span class="timer"
-                  [ngClass]="{
+                       [ngClass]="{
                               'yellow': timer.minutes < 10 && timer.hours == 0,
                               'red': timer.minutes < 2 && timer.hours == 0
                               }">
@@ -135,4 +135,3 @@
 
 
 </div>
-

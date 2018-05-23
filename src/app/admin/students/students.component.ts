@@ -64,6 +64,9 @@ export class StudentsComponent extends Pagination implements OnInit, OnDestroy {
                     });
                     this.groups = [{group_id: undefined, group_name: this.students[0].group}];
                     this.groupString = this.students[0].group;
+                    if (this.students[0].gradebook_id === '') {
+                        this.students.pop();
+                    }
                 }
             });
             this.countingStudents();
@@ -195,7 +198,7 @@ export class StudentsComponent extends Pagination implements OnInit, OnDestroy {
                 this.students = getFiltredStudents(data, groupsArr);
 
                 if (this.byGroup) {
-                        this.pagService.pagSubscr.next(false);
+                    this.pagService.pagSubscr.next(false);
                 } else {
                     this.countingStudents();
                     this.pagService.pagSubscr.next(true);
@@ -279,3 +282,4 @@ export class StudentsComponent extends Pagination implements OnInit, OnDestroy {
     }
 
 }
+

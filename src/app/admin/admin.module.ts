@@ -3,7 +3,7 @@ import {CommonModule} from '@angular/common';
 import {AdminComponent} from './admin.component';
 import {AdminRoutingModule} from './admin-routing.module';
 import {SharedModule} from '../shared/shared.module';
-import TableService from './timetable/timetable.service';
+import {TableService} from './timetable/timetable.service';
 import {TestDetailsService} from './testdetails/sevices/test-details.service';
 import {TestDetailsComponent} from './testdetails/component/test-details.component';
 import {TestDetailCreateComponent} from './testdetails/modals/test-detail-create/test-detail-create.component';
@@ -17,6 +17,7 @@ import {StatisticService} from './statistic/statistic.service';
 import {FilterComponent} from './results/filter.component';
 import {ResultsService} from './results/services/results.service';
 import {ResultComponent} from './results/result/result.component';
+import {FacultiesService} from './faculties/services/faculties.service';
 
 @NgModule({
     imports: [
@@ -46,7 +47,8 @@ import {ResultComponent} from './results/result/result.component';
         StatisticService,
         TestDetailsService,
         QuestionsService,
-        ResultsService
+        ResultsService,
+        FacultiesService
     ]
 })
 

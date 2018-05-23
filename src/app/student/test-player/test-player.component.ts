@@ -28,7 +28,7 @@ export class TestPlayerComponent implements OnInit {
   isLoaded = false;
   Index = 1;
 
-  // ******** TIMER ************
+
 
   time: ITimeStamp = {
     unix_timestamp: 0,
@@ -69,7 +69,7 @@ constructor(private testPlayerService: TestPlayerService,
     this.start = setInterval(() => {
       this.timerActions();
     }, 1000);
-}
+  }
 
 
   ngOnInit() {
@@ -134,7 +134,7 @@ constructor(private testPlayerService: TestPlayerService,
   }
 
   finishTest(timeEnd) {
-  let matDialogRef;
+    let matDialogRef;
     if (timeEnd) {
       matDialogRef = this.dialog.open(AlertMessageTestComponent, {
         disableClose: true,
@@ -154,6 +154,8 @@ constructor(private testPlayerService: TestPlayerService,
     }
     matDialogRef.afterClosed().subscribe((res: boolean) => {
       if (res) {
+        clearInterval(this.start);
+        this.studentService.infoTestId = null;
         this.timerService
           .clearTime()
           .subscribe(() => {});
@@ -174,9 +176,6 @@ constructor(private testPlayerService: TestPlayerService,
   questionRoute(index) {
     this.Index = index + 1;
     this.question = this.questions[index];
-    // console.log(this.questions);
-    // console.log(this.userAnswers);
-    // console.log(this.question);
   }
 
   nextQuestion() {
@@ -222,12 +221,11 @@ constructor(private testPlayerService: TestPlayerService,
         .subscribe(response => console.log(response));
       clearInterval(this.start);
       this.finishTest(true);
-      // alert('time\'s up');
     }
   }
 
   getTime() {
-    // Беремо Час для тесту і Subject_id
+    // Get timer for test and Subject_id
     this.route.params.subscribe(params => {
       this.timerService.getTest(params['id']).subscribe(test => {
         this.timeOfTest = test[0].time_for_test * 60 * 1000;
@@ -237,7 +235,8 @@ constructor(private testPlayerService: TestPlayerService,
     });
   }
 
-  // З TimeTable Беремо час закінчення тесту по GroupId and SubjectId
+
+  // From Timetable get time of ending test by GroupId and SubjectId
   getEndTimeOfTest(idSubj) {
     this.authService.isLogged().subscribe((response: any) => {
       this.studentId = response.id;

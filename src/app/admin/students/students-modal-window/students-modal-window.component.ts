@@ -70,25 +70,26 @@ export class StudentsModalWindowComponent implements OnInit {
     passwordC: FormControl;
     password_confirmC: FormControl;
 
-  // photo cropper
-  imageChangedEvent: any = '';
-  croppedImage: any = '';
-  cropperReady = false;
+    // photo cropper
+    imageChangedEvent: any = '';
+    croppedImage: any = '';
+    cropperReady = false;
 
-  imageCropped(image: string) {
-      this.croppedImage = image;
-  }
-  imageLoaded() {
-    this.cropperReady = true;
-  }
-  imageLoadFailed () {
-    console.log('Load failed');
-  }
+    imageCropped(image: string) {
+        this.croppedImage = image;
+    }
 
-  constructor(
-    private service: StudentsService,
-    public dialogRef: MatDialogRef<StudentsModalWindowComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: any) {
+    imageLoaded() {
+        this.cropperReady = true;
+    }
+
+    imageLoadFailed() {
+        console.log('Load failed');
+    }
+
+    constructor(private service: StudentsService,
+                public dialogRef: MatDialogRef<StudentsModalWindowComponent>,
+                @Inject(MAT_DIALOG_DATA) public data: any) {
     }
 
     ngOnInit(): void {
@@ -243,7 +244,7 @@ export class StudentsModalWindowComponent implements OnInit {
     }
 
     // custom group validator
-    selectGroupValidator () {
+    selectGroupValidator() {
         return (control: FormControl) => {
             if (control.value === 'Виберіть групу' || !this.isValidGroupFiefd) {
                 return {
@@ -264,59 +265,48 @@ export class StudentsModalWindowComponent implements OnInit {
         return null;
     }
 
-    // rendering photo to base64 code befor it's sent to the server
-//     handleAddPhoto(event) {
-//         const input = event.target;
-//         const reader = new FileReader();
-//         reader.onload = () => {
-//             this.student.photo = reader.result;
-//         };
-//         reader.readAsDataURL(input.files[0]);
-//     }
-//     return null;
-//   }
-  // rendering photo to base64 code befor it's sent to the server
-  photoChangeEvent(event) {
-    this.imageChangedEvent = event;
-    const input = event.target;
-    const reader = new FileReader();
-    reader.onload = () => {
-      const dataURL = reader.result;
-      this.croppedImage = dataURL;
-    };
-    reader.readAsDataURL(input.files[0]);
-  }
-  // Submitting form
-  handleSubmit(value) {
-    const studentJSON = JSON.stringify({
-      gradebook_id: value.gradebook,
-      student_surname: value.surname,
-      student_name: value.firstname,
-      student_fname: value.fname,
-      group_id: this.student.group_id,
-      password: value.password,
-      username: value.login,
-      email: value.email,
-      photo: this.croppedImage,
-      password_confirm: value.password_confirm,
-      plain_password: value.password
-    });
-    if (this.data.updating) {
-      this.service.editStudent(this.data.student.user_id, studentJSON).subscribe(
-        (data: IResponse) => this.dialogRef.close(data),
-        error => this.dialogRef.close(error)
-      );
-      return;
-    } else {
-        this.service.addStudent(studentJSON).subscribe(
-            data => this.dialogRef.close(data),
-            error => this.dialogRef.close(error)
-        );
+    // rendering photo to base64 code before it's sent to the server
+    photoChangeEvent(event) {
+        this.imageChangedEvent = event;
+        const input = event.target;
+        const reader = new FileReader();
+        reader.onload = () => {
+            const dataURL = reader.result;
+            this.croppedImage = dataURL;
+        };
+        reader.readAsDataURL(input.files[0]);
     }
 
-    // // close mat dialog window
-}
+    // Submitting form
+    handleSubmit(value) {
+        const studentJSON = JSON.stringify({
+            gradebook_id: value.gradebook,
+            student_surname: value.surname,
+            student_name: value.firstname,
+            student_fname: value.fname,
+            group_id: this.student.group_id,
+            password: value.password,
+            username: value.login,
+            email: value.email,
+            photo: this.croppedImage,
+            password_confirm: value.password_confirm,
+            plain_password: value.password
+        });
+        if (this.data.updating) {
+            this.service.editStudent(this.data.student.user_id, studentJSON).subscribe(
+                (data: IResponse) => this.dialogRef.close(data),
+                error => this.dialogRef.close(error)
+            );
+            return;
+        } else {
+            this.service.addStudent(studentJSON).subscribe(
+                (data) => this.dialogRef.close(data),
+                error => this.dialogRef.close(error)
+            );
+        }
+    }
+// close mat dialog window
     handleClose(): void {
-    this.dialogRef.close();
+        this.dialogRef.close();
     }
 }

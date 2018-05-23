@@ -207,8 +207,6 @@ export class GroupsComponent extends Pagination implements OnInit, OnDestroy {
         });
     }
 
-    // ********** END OF DIALOG *************
-
 
     // GET DATA FROM DIALOG, SEND (POST) TO SERVER WITH NEW DATA, GET RESPONSE, AND PUSH DATA TO TABLE.
     addGroup(groupData) {

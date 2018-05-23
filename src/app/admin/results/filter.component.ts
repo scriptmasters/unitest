@@ -15,10 +15,11 @@ export class FilterComponent implements OnInit {
   filterForm: FormGroup;
   testId: number;
   groupId: number;
-  testRate: number;
   groups = [];
   tests = [];
-  orderTypes = [{id: 'date', name: 'по даті'}, {id: 'rate', name: 'по рейтингу'}, {id: 'userName', name: 'по імені'}];
+  orderTypes = [{id: 'date', name: 'по даті'},
+                {id: 'rate', name: 'по рейтингу'},
+                {id: 'userName', name: 'по імені'}];
   showFilter = true;
 
   config: PaginationInstance = {
