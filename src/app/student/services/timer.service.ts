@@ -1,14 +1,12 @@
-import {Injectable} from '@angular/core';
-import {ITimeStamp} from '../test-player/interfaces/TimeStamp';
-import {SaveTime} from '../test-player/interfaces/SaveTime';
-import {Observable} from 'rxjs/Observable';
-import {HttpClient} from '@angular/common/http';
-
+import { Injectable } from '@angular/core';
+import { ITimeStamp } from '../test-player/interfaces/TimeStamp';
+import { SaveTime } from '../test-player/interfaces/SaveTime';
+import { Observable } from 'rxjs/Observable';
+import { HttpClient } from '@angular/common/http';
 
 @Injectable()
 export class TimerService {
-
-  constructor( private http: HttpClient ) { }
+  constructor(private http: HttpClient) {}
 
   private urlTimeStamp = 'TestPlayer/getTimeStamp';
   private urlSaveEndTime = 'TestPlayer/saveEndTime';
@@ -27,7 +25,9 @@ export class TimerService {
   }
 
   getStudentTimetable(idGroup, idSubject): Observable<any> {
-    return this.http.get<any>(this.urlStudentTimetable + idGroup + '/' + idSubject);
+    return this.http.get<any>(
+      this.urlStudentTimetable + idGroup + '/' + idSubject
+    );
   }
 
   getTimeStamp(): Observable<ITimeStamp> {

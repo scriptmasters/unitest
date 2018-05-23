@@ -18,7 +18,7 @@ export class StudentService {
   private urlgetRecordsTest = 'Test/getRecords/';
   public infoTestId;
   public infoTestName;
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
   getRecords(id): Observable<any> {
     return this.http.get(this.urlgetRecords + id);

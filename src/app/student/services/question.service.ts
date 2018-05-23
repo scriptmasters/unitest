@@ -2,8 +2,7 @@ import { Injectable } from '@angular/core';
 
 @Injectable()
 export class QuestionService {
-
-  constructor() { }
+  constructor() {}
 
   getQuestions() {
     return JSON.parse(window.localStorage.getItem('questions'));
