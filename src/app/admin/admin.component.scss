@@ -67,10 +67,10 @@
             margin-bottom: 40px;
             .header {
                 z-index: 1;
-                position: fixed; ///
-                top: 0; ///////////
-                right: 0; ///////// Фіксований хідер медіаквері на width 100% знизу
-                width: 83.33333%; /////////
+                position: fixed;
+                top: 0;
+                right: 0;
+                width: 83.33333%;
                 background-color: #393836;
                 height: 65px;
                 padding-left: 48px;
@@ -148,10 +148,10 @@
 .vertical-navigation {
     display: none;
     z-index: 1;
-    position: fixed; ///
-    top: 65px; ///////////
-    right: 0; ///////// Фіксований хідер медіаквері на width 100% знизу
-    width: 83.33333%; /////////
+    position: fixed;
+    top: 65px;
+    right: 0;
+    width: 83.33333%;
     background-color: #222222;
     a {
         font-size: 1rem;

@@ -31,15 +31,6 @@ export class TimeTableModalComponent implements OnInit {
     if (this.data.tableItem instanceof Object) {
       // Create copy to prevent editing of table item object directly
       this.formData = Object.assign({}, this.data.tableItem);
-
-      // this.formData.group_id = this.data.editData.group_id;
-      // this.formData.subject_id = this.data.editData.subject_id;
-      // this.formData.start_date = this.data.editData.start_date;
-      // this.formData.start_time = this.data.editData.start_time;
-      // this.formData.end_date = this.data.editData.end_date;
-      // this.formData.end_time = this.data.editData.end_time;
-      // this.formData.end_date = this.data.editData.end_date;
-      // this.formData.timetable_id = this.formData.timetable_id;
     }
   }
 
