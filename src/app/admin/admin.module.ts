@@ -17,6 +17,7 @@ import {StatisticService} from './statistic/statistic.service';
 import {FilterComponent} from './results/filter.component';
 import {ResultsService} from './results/services/results.service';
 import {ResultComponent} from './results/result/result.component';
+import {FacultiesService} from './faculties/services/faculties.service';
 
 @NgModule({
     imports: [
@@ -46,7 +47,8 @@ import {ResultComponent} from './results/result/result.component';
         StatisticService,
         TestDetailsService,
         QuestionsService,
-        ResultsService
+        ResultsService,
+        FacultiesService
     ]
 })
 
