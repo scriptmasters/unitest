@@ -3,15 +3,12 @@
         <header class="row">
             <div class="card col-12 col-lg-12">
                 <div class="card-body form-row d-flex justify-content-between">
-                <!-- <div class="form-row">    -->
                     <div class="align-self-center">
                         <h2 class="display col-12">Завдання</h2>
                     </div>
 
-
                     <div class="form-group col-lg-3 col-md-4 col-sm-12 col-12">
                         <span class="col-lg-12 col-md-12 col-sm-3">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;з предмету:</span>
-                            <!-- <label> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;з предмету:</label> -->
                         <span class="col-lg-12 col-md-12 col-sm-8">
                             <select class="form-control" id="subjectSelect" #subjectFild
                                     (change)="createTestListBySelSubject(subjectFild.selectedIndex); pageIndex = 0">
@@ -19,11 +16,10 @@
                                 <option *ngFor="let subjectIdName of subjectIdNamesArr" [selected]="subjectIdName.subject_name === subjectName">{{subjectIdName.subject_name}}</option>
                             </select> 
                         </span>
-                            
                     </div>
+
                     <div class="form-group col-lg-3 col-md-3 col-sm-12 col-12">
                         <span class="col-lg-12 col-md-12 col-sm-3">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;для тесту:</span>
-                            <!-- <label> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;для тесту:</label> -->
                         <span class="col-lg-12 col-md-12 col-sm-8">
                             <select class="form-control" id="testSelect" #testFild
                                     (change)="createQuestionsTableBySelTestIndex(testFild.selectedIndex); pageIndex = 0">
@@ -31,14 +27,11 @@
                                 <option *ngFor="let test of testListBySelSubject"[selected]="test.test_name === testName">{{test.test_name}}</option>
                             </select>
                         </span>
-                           
                     </div>
 
-                    
                     <div class="align-self-center col-lg-2 col-md-3 col-sm-12 col-12">
                         <input class="form-control btn btn-primary" type="button" value="Додати завдання" id="addQuestion" (click)="openModalAdd(testFild.selectedIndex, testFild.options[testFild.selectedIndex].value)">
                     </div>
-                <!-- </div> -->
                 </div> 
             </div>
         </header>
@@ -55,8 +48,6 @@
                             <tr>
                                 <th>№</th>
                                 <th>Завдання</th>
-                                <!-- <th>Тест</th> -->
-                                <!-- <th>question_id</th> -->
                                 <th>Рівень</th>
                                 <th ><div class="col-12">Тип</div></th>
                                 <th>Вкладення</th>
@@ -68,8 +59,6 @@
                             <tr *ngFor="let question of questions | pagination: pageSize : pageIndex; let i = index">
                                 <th scope="row">{{i+pageSize*pageIndex+1}}</th>
                                 <td>{{question.question_text}}</td>
-                                <!-- <td>{{this.testName}} </td> -->
-                                <!-- <td>{{question.question_id}} </td> -->
                                 <td>{{question.level}}</td>
                                 <td>
                                     <div *ngIf="question.type === '1'" class="col-12 fa fa-dot-circle-o">&nbsp;Простий</div>
@@ -91,14 +80,10 @@
                                         <img [src]="question.attachment" width="50">
                                     </ng-template>
                                     <ng-template #elseBlock>{{question.attachment}}</ng-template>
-                                    <!-- <img *ngIf="question.attachment !== undefined" [src]="question.attachment" width="50"> -->
                                 </td>
                                 <td><i class="fa fa-list-ol" (click)="openModalEdit(question)" title="Відповіді"></i></td>
                                 <td><i class="fa fa-cog" (click)="openModalEdit(question)" title="Редагувати"></i></td>
                                 <td><i class="fa fa-close" (click)="handleDelete(question.question_id)" title="Видалити"></i></td>
-                                <!-- <td class="col-sm-1"><i class="fa fa-list-ol" (click)="openModalEdit(question)" title="Відповіді"></i></td>
-                <td class="col-sm-1"><i class="fa fa-cog" (click)="openModalEdit(question)" title="Редагувати"></i></td>
-                <td class="col-sm-1"><i class="fa fa-close" (click)="handleDelete(question.question_id)" title="Видалити"></i></td>  -->
                             </tr>
                         </tbody>
                     </table>

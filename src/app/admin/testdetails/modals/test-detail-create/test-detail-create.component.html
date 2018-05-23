@@ -20,7 +20,7 @@
       </select>
             <div class="form-msg">
                 <small *ngIf="!detailForm.controls['level'].valid
-                    && !detailForm.controls['level'].untouched">
+                           && !detailForm.controls['level'].untouched">
           <span *ngIf="!detailForm.controls['level'].valid">Дане поле не може бути порожнім</span>
         </small>
             </div>
@@ -38,7 +38,7 @@
                    class="form-control col-md-12">
             <div class="form-msg">
                 <small *ngIf="!detailForm.controls['tasks'].valid
-                    && !detailForm.controls['tasks'].untouched">
+                           && !detailForm.controls['tasks'].untouched">
           <span *ngIf="!detailForm.controls['tasks'].valid">Дане поле не може бути порожнім</span>
         </small>
             </div>
@@ -56,7 +56,7 @@
                    class="form-control col-md-12">
             <div class="form-msg">
                 <small *ngIf="!detailForm.controls['rate'].valid
-                    && !detailForm.controls['rate'].untouched">
+                           && !detailForm.controls['rate'].untouched">
           <span *ngIf="!detailForm.controls['rate'].valid">Дане поле не може бути порожнім</span>
         </small>
             </div>
@@ -71,9 +71,6 @@
                    value="Відміна">
         </div>
         <div class="form-group col-sm-6 col-md-4">
-            <!--<input class="btn btn-danger"-->
-            <!--type="reset"-->
-            <!--value="Очистити форму">-->
             <input type="submit"
                    (click)="save()"
                    class="btn btn-success col-sm-12"

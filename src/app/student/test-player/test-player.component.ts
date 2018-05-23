@@ -10,6 +10,7 @@ import { DataService } from '../services/data.service';
 import { IQuestion } from './interfaces/Question';
 import { IStudent } from './interfaces/Student';
 import { QuestionService } from '../services/question.service';
+import { StudentService } from '../student.service';
 
 @Component({
   selector: 'app-test-player',
@@ -54,14 +55,15 @@ export class TestPlayerComponent implements OnInit {
     photo: '',
   };
 
-constructor(private testPlayerService: TestPlayerService,
-              private questionService: QuestionService,
-              private timerService: TimerService,
-              private route: ActivatedRoute,
-              private router: Router,
-              private dialog: MatDialog,
-              private authService: AuthService,
-              private data: DataService) {
+  constructor(private testPlayerService: TestPlayerService,
+    private questionService: QuestionService,
+    private timerService: TimerService,
+    private route: ActivatedRoute,
+    private router: Router,
+    private dialog: MatDialog,
+    private authService: AuthService,
+    private data: DataService,
+    public studentService: StudentService) {
     this.start = setInterval(() => {
       this.timerActions();
     }, 1000);
@@ -124,6 +126,7 @@ constructor(private testPlayerService: TestPlayerService,
 
   finishTest() {
     clearInterval(this.start);
+    this.studentService.infoTestId = null;
     this.timerService
       .clearTime()
       .subscribe(response => console.log(response));

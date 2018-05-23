@@ -16,7 +16,6 @@ export class QuestionsService {
   private getAllQuestionsURL = 'question/getRecords/0';
   private getAllTestsURL = 'test/getRecords';
   private getAllSubjectsURL = 'subject/getRecords';
-  // private getEntityValueURL = 'EntityManager/getEntityValues';
   private editQuestionURL = 'question/update';
   private editAnswerURL = 'answer/update';
   private deleteQuestionURL = 'question/del/';
@@ -52,12 +51,7 @@ constructor(private http: HttpClient) { }
 
   getAnswersByQuestionId(question_id: string): Observable<IAnswer[]> {
     return this.http.get<IAnswer[]>(this.getAnswersByQuestionIdURL + '/' + question_id);
-      }
-
-
- // getQuestionsByTestId(test_id: string, limit: number, offset: number): Observable<IQuestion[]> {
-  //   return this.http.get<IQuestion[]>(this.getQuestionsByTestIdBaseURL + '/' + test_id + '/' + limit + '/' + offset);
-  //     }
+  }
 
 
   addQuestion(body): Observable<IQuestion|IResponse> {
@@ -76,12 +70,7 @@ constructor(private http: HttpClient) { }
     return this.http.post<IAnswer|IResponse>(this.editAnswerURL + '/' + id, body);
   }
 
-  // getEntityValue(body): Observable<ITestNameByID[]> {
-  //   return this.http.post<ITestNameByID[]>(this.getEntityValueURL, body);
-  // }
-
   deleteQuestion(id): Observable<IResponse> {
-    // return this.http.delete<IResponse>(`deleteQuestionURL${id}`);
    return this.http.delete<IResponse>(this.deleteQuestionURL + id);
   }
 
