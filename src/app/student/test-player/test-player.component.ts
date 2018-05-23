@@ -1,14 +1,15 @@
-import {Component, HostListener, OnInit} from '@angular/core';
-import {TestPlayerService} from '../services/test-player.service';
-import {ActivatedRoute, Router} from '@angular/router';
-import {MatDialog} from '@angular/material';
-import {ITimeStamp} from './interfaces/TimeStamp';
-import {ITimer} from './interfaces/Timer';
-import {TimerService} from '../services/timer.service';
-import {AuthService} from '../../auth/auth.service';
-import {DataService} from '../services/data.service';
-import {IQuestion} from './interfaces/Question';
-import {IStudent} from './interfaces/Student';
+import { Component, HostListener, OnInit } from '@angular/core';
+import { TestPlayerService } from '../services/test-player.service';
+import { ActivatedRoute, Router } from '@angular/router';
+import { MatDialog } from '@angular/material';
+import { ITimeStamp } from './interfaces/TimeStamp';
+import { ITimer } from './interfaces/Timer';
+import { TimerService } from '../services/timer.service';
+import { AuthService } from '../../auth/auth.service';
+import { DataService } from '../services/data.service';
+import { IQuestion } from './interfaces/Question';
+import { IStudent } from './interfaces/Student';
+import { QuestionService } from '../services/question.service';
 
 @Component({
   selector: 'app-test-player',
@@ -16,7 +17,7 @@ import {IStudent} from './interfaces/Student';
   styleUrls: ['./test-player.component.scss'],
 })
 export class TestPlayerComponent implements OnInit {
-  questions = [];
+  questions;
   userAnswers = {};
   userCheckboxAnswers = {}; // for checkbox question
   checkboxAnswersStatus = {};
@@ -53,7 +54,8 @@ export class TestPlayerComponent implements OnInit {
     photo: '',
   };
 
-  constructor(private testPlayerService: TestPlayerService,
+constructor(private testPlayerService: TestPlayerService,
+              private questionService: QuestionService,
               private timerService: TimerService,
               private route: ActivatedRoute,
               private router: Router,
@@ -67,7 +69,7 @@ export class TestPlayerComponent implements OnInit {
 
 
   ngOnInit() {
-    this.getQuestionsForTest();
+    this.getQuestions();
 
     this.getTime();
   }
@@ -77,15 +79,12 @@ export class TestPlayerComponent implements OnInit {
     $event.returnValue = true;
   }
 
-  getQuestionsForTest(): void {
-    const testId = this.route.snapshot.paramMap.get('id');
-    this.testPlayerService
-      .getQuestionsWithAnswers(testId)
-      .subscribe((questions: any) => {
-        this.questions = questions;
-        this.question = this.questions[0];
-        this.isLoaded = true;
-      });
+  getQuestions(): void {
+    this.questions = this.questionService.getQuestions();
+    if (this.questions !== null) {
+      this.question = this.questions[0];
+      this.isLoaded = true;
+    }
   }
 
   sendAnswers(question, answer) {
@@ -114,8 +113,6 @@ export class TestPlayerComponent implements OnInit {
       this.userAnswers[question.question_id].question_id = question.question_id;
       this.userAnswers[question.question_id].answer_id = answers_ids;
 
-      console.log(this.userAnswers);
-
       // for input questions
     } else if (+question.type === 3 || +question.type === 4) {
       this.userAnswers[question.question_id] =
@@ -137,6 +134,7 @@ export class TestPlayerComponent implements OnInit {
         this.data.setCountOfQuestions(this.questions.length);
         this.router.navigate(['student/results']);
       });
+    window.localStorage.clear();
   }
 
   // Questions routing
@@ -226,7 +224,6 @@ export class TestPlayerComponent implements OnInit {
       this.time.curtime = timeBegin.unix_timestamp * 1000;
       // Translate Dates to milliseconds
       this.startDate = new Date(this.time.curtime).getTime();
-      console.log(this.startDate);
       this.endDate = this.startDate + this.timeOfTest;
       this.distance = this.endDate - this.startDate;
 
@@ -263,7 +260,4 @@ export class TestPlayerComponent implements OnInit {
       }
     });
   }
-
-
-// End of component
 }

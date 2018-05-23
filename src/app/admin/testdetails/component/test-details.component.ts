@@ -1,7 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {MatDialog} from '@angular/material';
 import {TestDetailsService} from '../sevices/test-details.service';
-
 import {TestDetailCreateComponent} from '../modals/test-detail-create/test-detail-create.component';
 import {ActivatedRoute} from '@angular/router';
 import {DeleteConfirmComponent} from '../../../shared/delete-confirm/delete-confirm.component';
@@ -71,10 +70,7 @@ export class TestDetailsComponent implements OnInit {
         data: {message: `Виникла помилка видалення: ${err.error.response}`}
       });
     }, () => {
-      this.dialog.open(ResponseMessageComponent, {
-        width: '350px',
-        data: {message: 'Деталі тесту видалено'}
-      });
+        this.testDetailsService.openTooltip('Деталі тесту видалено');
     });
   }
 

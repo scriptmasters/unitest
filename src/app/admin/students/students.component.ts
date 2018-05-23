@@ -50,6 +50,17 @@ export class StudentsComponent extends Pagination implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
+        this.route.queryParams.delay(0).subscribe(
+            params => {
+                if (params.addStudent) {
+                    this.openStudentsModalWindow(undefined, true, false, false, true, 'Додати студента')
+                        .afterClosed().delay(100).subscribe(
+                        data => this.router.navigate([`admin/students/${+data}`])
+                    );
+                }
+            }
+        );
+
         this.route.data.subscribe((data: { resolvedStudents: IResolvedData }) => {
             this.students = data.resolvedStudents.students;
             this.byGroup = data.resolvedStudents.byGroup;
@@ -110,7 +121,7 @@ export class StudentsComponent extends Pagination implements OnInit, OnDestroy {
     }
 
     // Opening creating student form
-    showRegForm(user: IStudent): void {
+    showRegForm(user?: IStudent): void {
         this.openStudentsModalWindow(user, true, false, false, true, 'Додати студента')
             .afterClosed().subscribe((Response: any) => {
             if (Response) {
@@ -195,7 +206,7 @@ export class StudentsComponent extends Pagination implements OnInit, OnDestroy {
                 this.students = getFiltredStudents(data, groupsArr);
 
                 if (this.byGroup) {
-                        this.pagService.pagSubscr.next(false);
+                    this.pagService.pagSubscr.next(false);
                 } else {
                     this.countingStudents();
                     this.pagService.pagSubscr.next(true);
