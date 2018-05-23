@@ -22,8 +22,8 @@
                         <thead>
                             <tr>
                                 <th>№</th>
-                                <th>Назва групи</th>
-                                <th>Назва предмету</th>
+                                <th [hidden]="hideColumn">Назва групи</th>
+                                <th [hidden]="hideColumn">Назва предмету</th>
                                 <th>Дата початку</th>
                                 <th>Час початку</th>
                                 <th>Дата закінчення</th>
@@ -34,8 +34,8 @@
                         <tbody>
                             <tr *ngFor="let tableItem of table | pagination: pageSize : pageIndex; index as i">
                                 <th scope="row">{{pageSize*pageIndex+i+1}}</th>
-                                <td>{{tableItem.group_name}}</td>
-                                <td>{{tableItem.subject_name}}</td>
+                                <td [hidden]="hideColumn">{{tableItem.group_name}}</td>
+                                <td [hidden]="hideColumn">{{tableItem.subject_name}}</td>
                                 <td>{{tableItem.start_date}}</td>
                                 <td>{{tableItem.start_time}}</td>
                                 <td>{{tableItem.end_date}}</td>
@@ -51,13 +51,7 @@
                 </div>
             </div>
         </div>
-        <mat-paginator *ngIf="pagination"
-                       [length]=pagService.fullLength
-                       [pageSize]=pageSize
-                       [pageIndex]=pageIndex
-                       [pageSizeOptions]="[5, 10, 25, 100]"
-                       [showFirstLastButtons]="true"
-                       (page)="paginationChange($event)">
+        <mat-paginator *ngIf="pagination" [length]=pagService.fullLength [pageSize]=pageSize [pageIndex]=pageIndex [pageSizeOptions]="[5, 10, 25, 100]" [showFirstLastButtons]="true" (page)="paginationChange($event)">
         </mat-paginator>
     </div>
 </section>

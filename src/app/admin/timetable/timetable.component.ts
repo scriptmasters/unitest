@@ -27,7 +27,7 @@ export class TimetableComponent extends Pagination implements OnInit, OnDestroy 
 
     groupsMap: Map<string, string> = new Map();
     subjectsMap: Map<string, string> = new Map();
-
+    hideColumn = false;
     constructor(public tableService: TableService,
                 public router: Router,
                 public route: ActivatedRoute,
@@ -84,14 +84,17 @@ export class TimetableComponent extends Pagination implements OnInit, OnDestroy 
 
         this.route.queryParams.subscribe(params => {
             if (params.subjectId) {
+                this.hideColumn = true;
                 tableService
                     .getTableBySubjectId(params.subjectId)
                     .subscribe(onSuccess, onError);
             } else if (params.groupId) {
+                this.hideColumn = true;
                 tableService
                     .getTableByGroupId(params.groupId)
                     .subscribe(onSuccess, onError);
             } else {
+                this.hideColumn = false;
                 tableService.getTable().subscribe(onSuccess, onError);
             }
         });

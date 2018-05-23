@@ -1,18 +1,5 @@
 <div class="breadcrumb-holder">
     <div class="container-fluid">
-        <!-- <ol class="breadcrumb"> -->
-        <!-- <li><a routerLink="" class="breadcrumb-item" routerLinkActive="active-link">Головна /</a></li> -->
-        <!-- <li *ngFor="let breadcrumb of breadcrumbs">
-                <a routerLink="[breadcrumb.url]">{{ breadcrumb.label }}</a>
-            </li>  -->
-        <!-- <li *ngFor="let breadcrumb of breadcrumbs; let last = last">
-                <a [routerLink]="breadcrumb.url">{{breadcrumb.label}}</a>
-                <span *ngIf="!last"></span>
-            </li>   -->
-        <!-- <li>
-                <a *ngFor="let bc of breadcrumbs" routerLink="{{ bc }}" routerLinkActive="active">{{bc}}</a>
-            </li> -->
-        <!-- </ol> -->
         <ol class="breadcrumb">
             <li class="breadcrumb-item" *ngFor="let url of _urls; let last = last" [ngClass]="{'breadcrumb-item': 'yo', 'active': last}">
                 <!-- disable link of last item -->
