@@ -310,7 +310,7 @@ export class StudentsModalWindowComponent implements OnInit {
     }
 
     // // close mat dialog window
-    
+
 }
     handleClose(): void {
     this.dialogRef.close();

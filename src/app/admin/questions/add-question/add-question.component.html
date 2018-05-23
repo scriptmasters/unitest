@@ -64,8 +64,6 @@
                                 Видалити&nbsp;вкладення
                         </label>  
                     </div>
-
-
             </div>
 
             <br>
@@ -92,22 +90,21 @@
                             <th>&nbsp;</th>
                             <th *ngIf="(correctAnswerInputType === 'radio')">Варіанти відповіді</th>
                             <th *ngIf="(correctAnswerInputType === 'checkbox')">Варіанти відповіді</th>
-                            <th *ngIf="(correctAnswerInputType === 'txt')">Варіанти правильної відповіді</th>
+                            <th *ngIf="(correctAnswerInputType === 'txt')">Варіанти відповіді</th>
                             <th *ngIf="(correctAnswerInputType === 'num')">Межі правильної відповіді</th>
-
+                            <th></th>
+                            <th></th>
                             <th *ngIf="(correctAnswerInputType !== 'txt' && correctAnswerInputType !== 'num')">
-                                Позначте правильну відповідь
+                            &nbsp;&nbsp;Позначте<br>&nbsp;&nbsp;правильну<br>&nbsp;&nbsp;відповідь
                             </th>
                         </tr>
                     </thead>
 
- 
-                    <!--  formation of list FormControl element with corresponding id from answersIdNumbersArray array  -->
 
                     <tr *ngFor="let idNumber of answersIdNumbersArray; let answerIndex = index">
                             <td>
-                                №{{answerIndex + 1}}:
-                                <div class="form-msg"> <small><span>&nbsp;</span></small></div>
+                                <label>№{{answerIndex + 1}}:</label> 
+                                <div class="form-msg" *ngIf=" correctAnswerInputType === 'num' "> <small><span>&nbsp;</span></small></div>
                             </td>
 
                         <td *ngIf=" correctAnswerInputType === 'num' ">
@@ -144,7 +141,6 @@
                         </td>
 
 
-                        <!-- #answerTextField (change)="setAnswerText(answerIndex, answerTextField)" -->
                         <td *ngIf="correctAnswerInputType !== 'num' ">
                             <label class="center-block">
                                 <input
@@ -153,22 +149,24 @@
                                     (change)="setAnsverText(answerIndex, $event)"
                                     value="{{newAnswersArray[answerIndex].answer_text}}"
                                 >
-
-                                <label id="label_uploads" for="{{answerIndex}}">Вибрати&nbsp;файл</label>&nbsp;
-                                <input type="file" hidden id="{{answerIndex}}" accept="image/*" 
-                                (change)="setAnsverAttachment(answerIndex, $event)" name="answerIndex">
-                    
-                                <img *ngIf="newAnswersArray[answerIndex].attachment !== undefined"
-                                    [src]="newAnswersArray[answerIndex].attachment" 
-                                    width="50"
-                                > 
                             </label>
                         </td>
 
+                        <th *ngIf="correctAnswerInputType !== 'num' ">
+                            <label id="label_uploads" for="{{answerIndex}}">Вибрати&nbsp;файл</label>&nbsp;
+                            <input type="file" hidden id="{{answerIndex}}" accept="image/*" 
+                            (change)="setAnsverAttachment(answerIndex, $event)" name="answerIndex">
+                        </th>
+                        <th *ngIf="correctAnswerInputType !== 'num' ">
+                            <img *ngIf="newAnswersArray[answerIndex].attachment !== undefined"
+                            [src]="newAnswersArray[answerIndex].attachment" 
+                            width="50"
+                            >
+                        </th>
+
 
                         <td *ngIf="(correctAnswerInputType === 'radio' || correctAnswerInputType === 'checkbox')">
-                            &nbsp;&nbsp;
-                            <input [type]="correctAnswerInputType" name="correctAnswer + answerIndex" (click)="setAnswerCorrect(answerIndex)">
+                        &nbsp;&nbsp;<input [type]="correctAnswerInputType" name="answerIndex" (click)="setAnswerCorrect(answerIndex)">
                         </td>
 
                         <td *ngIf=" correctAnswerInputType === 'txt' ">
@@ -192,10 +190,8 @@
                 </div>
                 <div class="form-group col-sm-6 col-md-4">
                         <input class="btn btn-success col-sm-12" 
-                               [disabled]="form.get('0') && (form.get('0').invalid) || form.get('1') && (form.get('1').invalid) "
+                               [disabled]="correctAnswerInputType === 'num' && ( form.get('0') && (form.get('0').invalid) || form.get('1') && (form.get('1').invalid) )"
                                type="submit" value=" Зберегти">
                 </div>
             </div>
 </form>
-
-
