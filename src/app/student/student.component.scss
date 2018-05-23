@@ -87,18 +87,20 @@ a {
     }
   }
   .btn-secondary {
-    background: white;
-    border-radius: 5px;
-    color: black;
+  background: white;
+  border-radius: 5px;
+  color: black;
+  }
+  .testName {
+      font-size: 20px;
+      cursor: pointer;
+      border-radius: 25px;
+      margin: 10px 0px;
+    color: #33B357;
     }
-    .testName {
-        font-size: 20px;
-        cursor: pointer;
-        color: #33B357;
-    }
-    @media (max-width: 545px) {
-        .btn-secondary {
-            display: block;
-            width: 100%;
-        }
+  @media (max-width: 545px) {
+      .btn-secondary {
+        display: block;
+        width: 100%;
+      }
     }
