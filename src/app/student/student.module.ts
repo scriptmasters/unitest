@@ -24,7 +24,7 @@ import { AlertMessageTestComponent } from './test-player/modal/alert-message-tes
     FormsModule,
     ReactiveFormsModule,
     SharedModule,
-    Ng2GoogleChartsModule
+    Ng2GoogleChartsModule,
   ],
   declarations: [
     StudentComponent,
@@ -32,9 +32,20 @@ import { AlertMessageTestComponent } from './test-player/modal/alert-message-tes
     TestResultComponent,
     QuizResultComponent,
     ConfirmMessageTestComponent,
-    AlertMessageTestComponent
+    AlertMessageTestComponent,
   ],
-  providers: [AuthService, TestPlayerService, QuestionService, StudentService, TimerService, DataService],
-  entryComponents: [TestResultComponent, ConfirmMessageTestComponent, AlertMessageTestComponent],
+  providers: [
+    AuthService,
+    TestPlayerService,
+    QuestionService,
+    StudentService,
+    TimerService,
+    DataService,
+  ],
+  entryComponents: [
+    TestResultComponent,
+    ConfirmMessageTestComponent,
+    AlertMessageTestComponent,
+  ],
 })
-export class StudentModule { }
+export class StudentModule {}

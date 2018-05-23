@@ -1,15 +1,18 @@
-import {inject, TestBed} from '@angular/core/testing';
+import { inject, TestBed } from '@angular/core/testing';
 
-import {TimerService} from './timer.service';
+import { TimerService } from './timer.service';
 
 describe('TimerService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [TimerService]
+      providers: [TimerService],
     });
   });
 
-  it('should be created', inject([TimerService], (service: TimerService) => {
-    expect(service).toBeTruthy();
-  }));
+  it(
+    'should be created',
+    inject([TimerService], (service: TimerService) => {
+      expect(service).toBeTruthy();
+    })
+  );
 });

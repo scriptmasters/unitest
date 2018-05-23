@@ -28,8 +28,6 @@ export class TestPlayerComponent implements OnInit {
   isLoaded = false;
   Index = 1;
 
-
-
   time: ITimeStamp = {
     unix_timestamp: 0,
     offset: 0,
@@ -57,30 +55,33 @@ export class TestPlayerComponent implements OnInit {
     photo: '',
   };
 
-constructor(private testPlayerService: TestPlayerService,
-              private questionService: QuestionService,
-              private studentService: StudentService,
-              private timerService: TimerService,
-              private route: ActivatedRoute,
-              private router: Router,
-              private dialog: MatDialog,
-              private authService: AuthService,
-              private data: DataService) {
+  constructor(
+    private testPlayerService: TestPlayerService,
+    private questionService: QuestionService,
+    private studentService: StudentService,
+    private timerService: TimerService,
+    private route: ActivatedRoute,
+    private router: Router,
+    private dialog: MatDialog,
+    private authService: AuthService,
+    private data: DataService
+  ) {
+    const idTest = +this.route.snapshot.paramMap.get('id');
+    this.studentService.getInfoTest().subscribe(startTestId => {
+      if (startTestId !== idTest) {
+        clearInterval(this.start);
+        this.timerService
+          .clearTime()
+          .subscribe(() => {});
+        this.router.navigate(['student']);
+      }
+    });
     this.start = setInterval(() => {
       this.timerActions();
     }, 1000);
   }
 
-
   ngOnInit() {
-  const idTest = +this.route.snapshot.paramMap.get('id');
-    this.studentService.getInfoTest().subscribe((startTestId) => {
-      if ( startTestId !== idTest) {
-        this.router.navigate(['student']);
-        return;
-      }
-    });
-
     this.getQuestions();
     this.getTime();
   }
@@ -99,7 +100,9 @@ constructor(private testPlayerService: TestPlayerService,
       for (let i = 0; i < this.questions.length; i++) {
         this.userAnswers[this.questions[i].question_id] =
           this.userAnswers[this.questions[i].question_id] || {};
-        this.userAnswers[this.questions[i].question_id].question_id = this.questions[i].question_id;
+        this.userAnswers[
+          this.questions[i].question_id
+        ].question_id = this.questions[i].question_id;
         this.userAnswers[this.questions[i].question_id].answer_id = '';
       }
     }
@@ -114,7 +117,8 @@ constructor(private testPlayerService: TestPlayerService,
       const answersArr = [];
       let answers_ids = '';
 
-      this.checkboxAnswersStatus[answer.answer_id] = !this.checkboxAnswersStatus[answer.answer_id];
+      this.checkboxAnswersStatus[answer.answer_id] = !this
+        .checkboxAnswersStatus[answer.answer_id];
 
       for (const key in topModel) {
         if (topModel[key] === false) {
@@ -126,7 +130,6 @@ constructor(private testPlayerService: TestPlayerService,
       }
 
       this.userAnswers[question.question_id].answer_id = answers_ids;
-
     } else if (+question.type === 3 || +question.type === 4) {
       this.userAnswers[question.question_id] = question;
       this.userAnswers[question.question_id].answer_id = answer;
@@ -140,7 +143,7 @@ constructor(private testPlayerService: TestPlayerService,
         disableClose: true,
         width: '400px',
         data: {
-          message: 'Час тесту вичерпано!'
+          message: 'Час тесту вичерпано!',
         },
       });
     } else {
@@ -148,7 +151,7 @@ constructor(private testPlayerService: TestPlayerService,
         disableClose: true,
         width: '400px',
         data: {
-          message: 'Ви дійсно хочете завершити тест?'
+          message: 'Ви дійсно хочете завершити тест?',
         },
       });
     }
@@ -156,9 +159,7 @@ constructor(private testPlayerService: TestPlayerService,
       if (res) {
         clearInterval(this.start);
         this.studentService.infoTestId = null;
-        this.timerService
-          .clearTime()
-          .subscribe(() => {});
+        this.timerService.clearTime().subscribe(() => {});
         this.testPlayerService
           .checkResult(this.userAnswers)
           .subscribe((response: any) => {
@@ -235,16 +236,17 @@ constructor(private testPlayerService: TestPlayerService,
     });
   }
 
-
   // From Timetable get time of ending test by GroupId and SubjectId
   getEndTimeOfTest(idSubj) {
     this.authService.isLogged().subscribe((response: any) => {
       this.studentId = response.id;
       this.timerService.getStudentRecords(this.studentId).subscribe(data => {
-        this.timerService.getStudentTimetable(data[0].group_id, idSubj).subscribe(time => {
-          this.countTimeLeft();
-          this.student = data;
-        });
+        this.timerService
+          .getStudentTimetable(data[0].group_id, idSubj)
+          .subscribe(time => {
+            this.countTimeLeft();
+            this.student = data;
+          });
       });
     });
   }
@@ -272,8 +274,7 @@ constructor(private testPlayerService: TestPlayerService,
             end: this.startDate + this.distance,
           })
           .subscribe(
-            response => {
-            },
+            () => {},
             error => {
               console.error(error.error.response);
             }
@@ -287,7 +288,7 @@ constructor(private testPlayerService: TestPlayerService,
         if (this.distance === undefined) {
           this.timerService
             .clearTime()
-            .subscribe(response => console.log(response));
+            .subscribe(() => {});
         }
       }
     });

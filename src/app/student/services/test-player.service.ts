@@ -1,12 +1,12 @@
-import {Injectable} from '@angular/core';
-import {HttpClient} from '@angular/common/http';
-import {map, switchMap} from 'rxjs/operators';
-import {forkJoin} from 'rxjs/observable/forkJoin';
-import {Observable} from 'rxjs/Observable';
+import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { map, switchMap } from 'rxjs/operators';
+import { forkJoin } from 'rxjs/observable/forkJoin';
+import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/of';
 
-import {IQuestion} from '../test-player/interfaces/Question';
-import {ITestResult} from '../test-player/interfaces/TestResult';
+import { IQuestion } from '../test-player/interfaces/Question';
+import { ITestResult } from '../test-player/interfaces/TestResult';
 
 @Injectable()
 export class TestPlayerService {
@@ -60,11 +60,12 @@ export class TestPlayerService {
   }
 
   mergeQuestionsAnswers(question) {
-    return this.getAnswer(question.question_id, +question.type).map(answers => (
-      {
-      ...question,
-      answers: this.mixAnswers(answers)
-    }));
+    return this.getAnswer(question.question_id, +question.type).map(
+      answers => ({
+        ...question,
+        answers: this.mixAnswers(answers),
+      })
+    );
   }
 
   mixAnswers(answers) {
@@ -111,7 +112,7 @@ export class TestPlayerService {
 
     const formatData = data.map(result => ({
       question_id: result.question_id,
-      answer_ids: result.answer_id.split(' ')
+      answer_ids: result.answer_id.split(' '),
     }));
 
     return formatData;
