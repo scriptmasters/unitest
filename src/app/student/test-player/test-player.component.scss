@@ -17,14 +17,11 @@ li{
 .question-lvl{
   margin: auto 0;
 }
-.timer-wraper{
-  //margin: auto 0;
-}
+
 .timer{
   font-weight: 700;
   font-size: 1.4em;
   margin: auto 1em;
-  //display: flex;
 }
 .timer>span{
   font-size: 14px;
@@ -54,9 +51,7 @@ li{
   justify-content: space-around;
 }
 .questions-wrap{
-  //flex: 0 0 150px;
   width: 200px;
-  //margin: auto;
 }
 .question:hover{
   color: green;
@@ -77,24 +72,15 @@ li{
 span{
   text-align: center;
 }
-//.studentInfo{
-  //display: flex;
-  //.photo{
-  //  margin-top: 1rem;
-  //  margin-bottom: 1rem;
-  //}
-//}
 
 .timeLeft{
   font-weight: 400;
   font-size: 14px;
   color: #666;
-  //display: flex;
   margin: auto;
 }
 
 .finishTest{
-  //margin-top: 1em;
   margin: auto;
 }
 
@@ -104,7 +90,6 @@ span{
   display: block;
   width: 100%;
   padding: 2px 5px;
-  //cursor: pointer;
 }
 span.fa{
   padding: 2px 5px;
@@ -112,30 +97,9 @@ span.fa{
 span.fa:hover{
   color: #33b35a;
   cursor: pointer;
-  //background-color: #868e96;
   border-radius: 3px;
 }
 
 .separate{
   width: 5%;
 }
-
-//@media only screen and (max-width: 768px) {
-//  aside{
-//    display: flex;
-//    flex-direction: column;
-//  }
-//
-//  .questions-block{
-//    order: 1;
-//    margin-bottom: 40px;
-//  }
-//  .button-block{
-//    order: 2;
-//  }
-//  .studentInfo{
-//    order: 3;
-//  }
-//
-//}
-//

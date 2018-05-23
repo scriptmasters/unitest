@@ -207,8 +207,6 @@ export class GroupsComponent extends Pagination implements OnInit, OnDestroy {
         });
     }
 
-    // ********** END OF DIALOG *************
-
 
     // GET DATA FROM DIALOG, SEND (POST) TO SERVER WITH NEW DATA, GET RESPONSE, AND PUSH DATA TO TABLE.
     addGroup(groupData) {
@@ -323,8 +321,5 @@ export class GroupsComponent extends Pagination implements OnInit, OnDestroy {
 
     goResults(id): void {
         this.router.navigate(['admin/results'], {queryParams: {groupId: id}});
-    }
-    goStudents(id): void {
-       this.router.navigate(['admin/students'], {queryParams: {groupId: id}});
     }
 }

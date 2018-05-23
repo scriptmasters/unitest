@@ -243,7 +243,7 @@ export class StudentsModalWindowComponent implements OnInit {
     }
 
     // custom group validator
-    selectGroupValidator = () => {
+    selectGroupValidator () {
         return (control: FormControl) => {
             if (control.value === 'Виберіть групу' || !this.isValidGroupFiefd) {
                 return {
@@ -307,10 +307,14 @@ export class StudentsModalWindowComponent implements OnInit {
         error => this.dialogRef.close(error)
       );
       return;
+    } else {
+        this.service.addStudent(studentJSON).subscribe(
+            () => this.dialogRef.close(this.student.group_id),
+            error => this.dialogRef.close(error)
+        );
     }
 
     // // close mat dialog window
-
 }
     handleClose(): void {
     this.dialogRef.close();
