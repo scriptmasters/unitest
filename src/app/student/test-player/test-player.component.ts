@@ -215,7 +215,7 @@ constructor(private testPlayerService: TestPlayerService,
     });
   }
 
-  // Рахуємо скільки часу залишилось
+  // Count time left
   countTimeLeft() {
     // Get current time
     this.timerService.getTimeStamp().subscribe(timeBegin => {
@@ -253,7 +253,7 @@ constructor(private testPlayerService: TestPlayerService,
         if (this.distance === undefined) {
           this.timerService
             .clearTime()
-            .subscribe(response => console.log(response));
+            .subscribe(() => {});
         }
       }
     });
