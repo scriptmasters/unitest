@@ -50,17 +50,6 @@ export class StudentsComponent extends Pagination implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
-        this.route.queryParams.delay(0).subscribe(
-            params => {
-                if (params.addStudent) {
-                    this.openStudentsModalWindow(undefined, true, false, false, true, 'Додати студента')
-                        .afterClosed().delay(100).subscribe(
-                        data => this.router.navigate([`admin/students/${+data}`])
-                    );
-                }
-            }
-        );
-
         this.route.data.subscribe((data: { resolvedStudents: IResolvedData }) => {
             this.students = data.resolvedStudents.students;
             this.byGroup = data.resolvedStudents.byGroup;
@@ -76,7 +65,7 @@ export class StudentsComponent extends Pagination implements OnInit, OnDestroy {
                     this.groups = [{group_id: undefined, group_name: this.students[0].group}];
                     this.groupString = this.students[0].group;
                     if (this.students[0].gradebook_id === '') {
-                      this.students.pop();
+                        this.students.pop();
                     }
                 }
             });

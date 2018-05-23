@@ -309,7 +309,7 @@ export class StudentsModalWindowComponent implements OnInit {
       return;
     } else {
         this.service.addStudent(studentJSON).subscribe(
-            () => this.dialogRef.close(this.student.group_id),
+            (data) => this.dialogRef.close(data),
             error => this.dialogRef.close(error)
         );
     }
