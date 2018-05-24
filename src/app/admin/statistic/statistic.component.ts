@@ -62,7 +62,7 @@ export class StatisticComponent implements OnInit {
           this.Statistica.getGroupsByFaculty(id)
             .subscribe((data1: any) => {
               this.groups = data1;
-              data1.length ? arr1.push({name: data[i].faculty_name, y: data1.length}):
+              data1.length ? arr1.push({name: data[i].faculty_name, y: data1.length}) :
                             arr1.push({name: data[i].faculty_name, y: 0});
 
               Highcharts.chart('container', {
@@ -117,9 +117,9 @@ export class StatisticComponent implements OnInit {
           this.Statistica.getGroupsBySpeciality(id)
             .subscribe((data1: any) => {
               this.groups = data1;
-               data1.length ? arr1.push({name: data[i].speciality_name, y: data1.length}):
+               data1.length ? arr1.push({name: data[i].speciality_name, y: data1.length}) :
                               arr1.push({name: data[i].speciality_name, y: 0});
-                              
+
               Highcharts.chart('container1', {
                 credits: {
                   enabled: false
@@ -151,7 +151,7 @@ export class StatisticComponent implements OnInit {
                       }
                     }
                   }
-                },  
+                },
                 series: [{
                   name: 'Груп',
                   colorByPoint: true,
