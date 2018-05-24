@@ -62,9 +62,8 @@ export class StatisticComponent implements OnInit {
           this.Statistica.getGroupsByFaculty(id)
             .subscribe((data1: any) => {
               this.groups = data1;
-              arr.name = data[i].faculty_name;
-              arr.y = data1.length;
-              arr1.push({name: arr.name, y: arr.y});
+              data1.length ? arr1.push({name: data[i].faculty_name, y: data1.length}):
+                            arr1.push({name: data[i].faculty_name, y: 0});
 
               Highcharts.chart('container', {
                 credits: {
@@ -75,7 +74,7 @@ export class StatisticComponent implements OnInit {
                   plotBorderWidth: null,
                   plotShadow: false,
                   type: 'pie',
-                  width: 700,
+                  width: 471,
                   backgroundColor: '#0000',
                   polar: true,
                 },
@@ -118,10 +117,9 @@ export class StatisticComponent implements OnInit {
           this.Statistica.getGroupsBySpeciality(id)
             .subscribe((data1: any) => {
               this.groups = data1;
-              arr.name = data[i].speciality_name;
-              arr.y = data1.length;
-              arr1.push({name: data[i].speciality_name, y: data1.length});
-
+               data1.length ? arr1.push({name: data[i].speciality_name, y: data1.length}):
+                              arr1.push({name: data[i].speciality_name, y: 0});
+                              
               Highcharts.chart('container1', {
                 credits: {
                   enabled: false
@@ -131,7 +129,7 @@ export class StatisticComponent implements OnInit {
                   plotBorderWidth: null,
                   plotShadow: false,
                   type: 'pie',
-                  width: 550,
+                  width: 471,
                   backgroundColor: '#0000',
                   polar: true,
                 },
@@ -153,7 +151,7 @@ export class StatisticComponent implements OnInit {
                       }
                     }
                   }
-                },
+                },  
                 series: [{
                   name: 'Груп',
                   colorByPoint: true,
