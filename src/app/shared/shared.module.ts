@@ -1,49 +1,62 @@
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { HttpClientModule, HTTP_INTERCEPTORS  } from '@angular/common/http';
-import { NgxPaginationModule } from 'ngx-pagination';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { RequestInterceptor } from './request-interceptor';
 import {
-    MatPaginatorIntl,
-    MatPaginatorModule,
-    MatButtonModule,
+  MatButtonModule, MatCardModule, MatDialogModule, MatInputModule, MatPaginatorIntl, MatPaginatorModule, MatProgressBarModule,
+  MatProgressSpinnerModule, MatSelectModule, MatSnackBarModule
+} from '@angular/material';
+import { DeleteConfirmComponent } from './delete-confirm/delete-confirm.component';
+import { ResponseMessageComponent } from './response-message/response-message.component';
+import { CommonModule } from '@angular/common';
+import { SpinnerComponent } from './spinner/spinner.component';
+import { BreadcrumbComponent } from './breadcrumb/breadcrumb.component';
+import { RouterModule } from '@angular/router';
+import { PaginationService } from './pagination/pagination.service';
+import { PaginationPipe } from './pagination/pagination.pipe';
+import { NgxPaginationModule } from 'ngx-pagination';
+
+@NgModule({
+  imports: [MatProgressSpinnerModule, CommonModule, RouterModule],
+  declarations: [
+    ResponseMessageComponent,
+    DeleteConfirmComponent,
+    SpinnerComponent,
+    BreadcrumbComponent,
+    PaginationPipe
+  ],
+  exports: [
+    CommonModule,
+    FormsModule,
+    HttpClientModule,
+    ReactiveFormsModule,
     MatCardModule,
     MatDialogModule,
     MatInputModule,
+    MatSnackBarModule,
+    MatButtonModule,
     MatSelectModule,
-    MatSnackBarModule
-} from '@angular/material';
-
-import { DeleteConfirmComponent } from './delete-confirm/delete-confirm.component';
-import { ResponseMessageComponent } from './response-message/response-message.component';
-
-
-@NgModule({
-    declarations: [
-        ResponseMessageComponent,
-        DeleteConfirmComponent
-    ],
-    exports: [
-        FormsModule,
-        HttpClientModule,
-        ReactiveFormsModule,
-        MatCardModule,
-        MatDialogModule,
-        MatInputModule,
-        MatSnackBarModule,
-        MatButtonModule,
-        MatSelectModule,
-        DeleteConfirmComponent,
-        ResponseMessageComponent,
-        NgxPaginationModule,
-        MatPaginatorModule
-    ],
-    providers: [{ provide: HTTP_INTERCEPTORS, useClass: RequestInterceptor, multi: true }, MatPaginatorIntl],
-    entryComponents: [
-        ResponseMessageComponent,
-        DeleteConfirmComponent
-    ]
+    DeleteConfirmComponent,
+    ResponseMessageComponent,
+    MatPaginatorModule,
+    MatProgressSpinnerModule,
+    BreadcrumbComponent,
+    PaginationPipe,
+    MatProgressBarModule,
+    NgxPaginationModule
+  ],
+  providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: RequestInterceptor, multi: true },
+    MatPaginatorIntl,
+    PaginationService
+  ],
+  entryComponents: [
+    ResponseMessageComponent,
+    SpinnerComponent,
+    DeleteConfirmComponent,
+    BreadcrumbComponent
+  ]
 })
 
-export class SharedModule {}
-
+export class SharedModule {
+}

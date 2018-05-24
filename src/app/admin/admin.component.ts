@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {AuthService} from '../auth/auth.service';
 
 @Component({
@@ -14,8 +14,11 @@ export class AdminComponent implements OnInit {
 
   }
 
+
   handleClick(elem: HTMLElement) {
     elem.classList.toggle('shown');
   }
+
+
 
 }

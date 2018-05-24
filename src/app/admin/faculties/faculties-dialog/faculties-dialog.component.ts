@@ -1,7 +1,7 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material';
-import {FacultiesService} from '../faculties.service';
+import {FacultiesService} from '../services/faculties.service';
 import {Faculties} from '../facultiesInterface';
 
 @Component({
@@ -25,12 +25,12 @@ export class FacultiesDialogComponent implements OnInit {
     this.form = new FormGroup({
       'title': new FormControl(null, [
         Validators.required,
-        Validators.minLength(5),
+        Validators.pattern('([А-ЯІЇа-яії]{4,})([ А-ЯІЇа-яії ])+'),
         Validators.maxLength(50)
       ]),
       'description': new FormControl(null, [
         Validators.required,
-        Validators.minLength(5),
+        Validators.pattern('([А-ЯІЇа-яії])([ А-ЯІЇа-яії ])+'),
         Validators.maxLength(100)
       ])
     }, { updateOn: 'blur' });
@@ -56,7 +56,7 @@ export class FacultiesDialogComponent implements OnInit {
       this.facultiesService.updateFaculty(id, formData.title, formData.description)
         .subscribe(() =>
             this.matDialogRef.close({status: 'SUCCESS', message: 'Факультет було успішно відредаговано!'}),
-          () => this.matDialogRef.close({status: 'ERROR', message: 'Ви не внесли ніяких змін при редагуванні!'})
+          () => this.matDialogRef.close({status: 'ERROR', message: 'Ви не внесли жодних змін при редагуванні!'})
         );
     } else {
       this.facultiesService.addFaculty(formData.title, formData.description)

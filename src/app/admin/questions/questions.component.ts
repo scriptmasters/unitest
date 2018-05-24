@@ -1,126 +1,268 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {QuestionsService} from './questions.service';
-import {MatDialog, PageEvent} from '@angular/material';
-import {IQuestionsTotal} from './questions-interface';
-import {IQuestionsRange} from './questions-interface';
-import {Router, ActivatedRoute} from '@angular/router';
-import {MatPaginatorIntl} from '@angular/material';
+import {AddQuestionComponent} from './add-question/add-question.component';
+import {EditQuestionComponent} from './edit-question/edit-question.component';
+import {IQuestion, IResponse} from './questions-interface';
+import {FormGroup} from '@angular/forms';
+import {MatDialog, MatPaginatorIntl, MatSnackBar} from '@angular/material';
+import {ActivatedRoute, Router} from '@angular/router';
+import {DeleteConfirmComponent} from '../../shared/delete-confirm/delete-confirm.component';
 import {ResponseMessageComponent} from '../../shared/response-message/response-message.component';
+import {Pagination} from '../../shared/pagination/pagination.class';
+import {HttpClient} from '@angular/common/http';
+import {PaginationService} from '../../shared/pagination/pagination.service';
 
 
 @Component({
-  selector: 'app-questions',
-  templateUrl: './questions.component.html',
-  styleUrls: ['./questions.component.scss'],
-    providers: [QuestionsService, MatPaginatorIntl]
+    selector: 'app-questions',
+    templateUrl: './questions.component.html',
+    styleUrls: ['./questions.component.scss'],
+    providers: [QuestionsService]
 })
 
-export class QuestionsComponent implements OnInit {
+export class QuestionsComponent extends Pagination implements OnInit, OnDestroy {
 
-    length: number;
-    test_id = 1;
-    questionsRange: object;
-    pageSize = 5;
-    pageIndex = 0;
-    lastPage: number;
-    pageEvent: PageEvent;
+    offset = 0;
+    questions: IQuestion[] = [];
+    subjectIdNamesArr = [];
+    allTestIdNameArr = [];
+    testListBySelSubject = [];
+    form: FormGroup;
+    startPage: boolean;
+    subjectName: string;
+    testName: string;
 
-    constructor(private questionService: QuestionsService,
-                private route: ActivatedRoute,
-                private router: Router,
-                private matPagIntl: MatPaginatorIntl,
-                private dialog: MatDialog
-                ) {
+    // these params passed from  test.component
+    subjectId: string;
+    testId: string;
+
+    constructor(private service: QuestionsService,
+                private activatedRoute: ActivatedRoute,
+                public router: Router,
+                public route: ActivatedRoute,
+                public pagIntl: MatPaginatorIntl,
+                public http: HttpClient,
+                public dialog: MatDialog,
+                public pagService: PaginationService,
+                public snackBar: MatSnackBar) {
+        super(router, route, pagIntl, http, dialog, pagService, snackBar);
+        this.activatedRoute.queryParams.subscribe(params => {
+            this.subjectId = params['subjectId'];
+            this.testId = params['testId'];
+        });
     }
+
 
     ngOnInit() {
-        this.matPagIntl.nextPageLabel = 'Наступна сторінка';
-        this.matPagIntl.previousPageLabel = 'Попередня сторінка';
-        this.matPagIntl.itemsPerPageLabel = 'Кількість рядків';
-        this.matPagIntl.firstPageLabel = 'Перша сторінка';
-        this.matPagIntl.lastPageLabel = 'Остання сторінка';
+        this.createSubjectsIdNamesArray();
+        this.createTestListBySubjectId();
 
-        /*check whether test_id and page of pagination were received*/
-        this.route.queryParams
-            .subscribe(params => {
-                params.testId ? this.test_id = params['testId'] : this.test_id = 1;
-                params.page ? this.pageIndex = params.page : this.pageIndex = 0;
-
-                this.questionService.questionQuantGet(this.test_id)
-                    .subscribe((data: IQuestionsTotal) => {
-                        this.length = +data.numberOfRecords;
-                        this.lastPage = Math.floor(this.length / this.pageSize);
-                    });
-
-                this.displayQuestions();
-            });
+        if (this.testId) {
+            this.createQuestionsTableByTestId(this.testId);
+            this.startPage = false;
+        } else {
+            this.startPage = true;
+        }
+        this.initLogic(true);
     }
 
-    /*Event from pagination controls*/
-    displayQuestions(event?) {
-        if (event) {
-                this.questionService.questionsGet(this.test_id, event.pageIndex, event.pageSize)
-                    .subscribe(data => this.questionsRange = data);
-                this.pageIndex = event.pageIndex;
-                this.pageSize = event.pageSize;
-                this.router.navigate(['/admin/questions'], {
-                    queryParams: {
-                        testId: this.test_id,
-                        page: event.pageIndex
+    ngOnDestroy() {
+        this.destroyLogic();
+    }
+
+
+    createQuestionsTableByTestId(test_id) {
+        this.testId = test_id;
+        this.service.getQuestionsNumberByTest(this.testId).subscribe(respond => {
+            const questionsNumberByTest = respond['numberOfRecords'];
+
+            this.service.getQuestionsByTestId(test_id, questionsNumberByTest, this.offset).subscribe(data => {
+                if (data.length) {
+                    this.questions = data;
+                } else {
+                    this.questions = [];
+                    this.openTooltip(`Вибраний тест ще не має завдань.
+                    Додайте завдання.`);
+                }
+            });
+        });
+    }
+
+
+    createQuestionsTableBySelTestIndex(selTestIndex, limit = 1000, offset = 0) {
+        this.startPage = false;
+
+        if (this.testListBySelSubject[0].test_name !== 'Виберіть спочатку предмет') {
+            this.testId = this.testListBySelSubject[selTestIndex - 1].test_id;
+            this.testName = this.testListBySelSubject[selTestIndex - 1].test_name;
+        }
+
+        if (this.testId) {
+            this.service.getQuestionsNumberByTest(this.testId).subscribe(respond => {
+                const questionsNumberByTest = respond['numberOfRecords'];
+
+                this.service.getQuestionsByTestId(this.testId, questionsNumberByTest, this.offset).subscribe(data => {
+                    if (data.length) {
+                        this.questions = data;
+                    } else {
+                        this.questions = [];
+                        this.openTooltip(`Вибраний тест ще не має завдань.
+                        Додайте завдання.`);
                     }
                 });
-            } else {
-                    this.questionService.questionsGet(this.test_id, this.pageIndex, this.pageSize)
-                    .subscribe((data: IQuestionsRange) => {
-                        if (data.response === 'no records') {
-                            console.log('no such page'); // TODO: open popup instead of console.log() when typed pageIndex is not reachable
-                            this.router.navigate(['/admin/questions'], {
-                                queryParams: {
-                                    testId: this.test_id,
-                                    page: 0
-                                }
-                            });
-                        } else {
-                            this.questionsRange = data;
-                        }
-                    });
-                    }
+            });
+        }
     }
 
-    /*Transfer test_id to add-question component and open it*/
-    questionAdd() {
-        this.router.navigate(['/admin/add-question'], {
-            queryParams: {
-                testId: this.test_id
+
+    openModalAdd(selTestIndex, selTestName) {
+
+        if (selTestName && selTestName !== 'selectTest' && selTestName !== `Виберіть спочатку предмет`) {
+
+            this.testId = this.testListBySelSubject[selTestIndex - 1].test_id;
+            this.testName = selTestName;
+
+            const matDialogRef = this.dialog.open(AddQuestionComponent, {
+                height: '600px',
+                width: '1000px',
+                disableClose: true,
+                data: {sel_TestId: this.testId, sel_TestName: this.testName}
+            });
+            matDialogRef.afterClosed().subscribe(() => this.createQuestionsTableByTestId(this.testId));
+
+        } else {
+            this.openTooltip(`Виберіть тест до якого потрібно додати завдання!`);
+        }
+    }
+
+
+    openModalEdit(selQuestion) {
+        const matDialogRef = this.dialog.open(EditQuestionComponent, {
+            height: '600px',
+            width: '1000px',
+            disableClose: true,
+            data: {sel_quest: selQuestion, sel_TestName: this.testName}
+        });
+        matDialogRef.afterClosed().subscribe(() => this.createQuestionsTableByTestId(selQuestion.test_id));
+    }
+
+
+    createSubjectsIdNamesArray() {
+        this.service.getAllSubjects().subscribe(data => {
+            this.subjectIdNamesArr = data.map(val => {
+                return {
+                    subject_id: val.subject_id,
+                    subject_name: val.subject_name
+                };
+            });
+            this.subjectIdNamesArr.forEach(element => {
+                if (element.subject_id === this.subjectId) {
+                    this.subjectName = element.subject_name;
+                }
+            });
+        });
+    }
+
+
+    createTestListBySubjectId() {
+        this.testListBySelSubject = [];
+        this.questions = [];
+
+        this.service.getAllTests().subscribe(data => {
+
+
+            // createAllTestsIdNamesArray
+            this.allTestIdNameArr = data.map(val => {
+                return {
+                    test_id: val.test_id,
+                    test_name: val.test_name,
+                    subject_id: val.subject_id
+                };
+            });
+            this.allTestIdNameArr.forEach(element => {
+                if (element.test_id === this.testId) {
+                    this.testName = element.test_name;
+                }
+            });
+
+            data.forEach(element => {
+                if (element.subject_id === this.subjectId) {
+                    this.testListBySelSubject.push(element);
+                }
+                if (element.test_id === this.testId) {
+                    this.testName = element.test_name;
+                }
+            });
+
+            if (this.testListBySelSubject.length === 0) {
+                this.testListBySelSubject.push({test_name: 'Виберіть спочатку предмет'});
             }
         });
     }
 
-    questionDelete(id) {
-        this.questionService.getAnswersByQuestion(id)
-            .subscribe((data: any) => {
-                if (!data[0].response) {
-                    for (let i = 0; i < data.length; i++) {
-                        this.questionService.answerDelete(data[i].answer_id)
-                            .subscribe(response => console.log(response));
-                    }
-                }
-            }, undefined, () => {
-                this.questionService.questionDelete(id)
-                    .subscribe(() => {
-                            this.openModalMessage('Запитання з відповідями видалене');
-                            this.displayQuestions();
-                        }, () => this.questionDelete(id)
-                    );
-            });
+
+    createTestListBySelSubject(selSubjectIndex?) {
+        this.testListBySelSubject = [];
+        this.questions = [];
+        this.allTestIdNameArr.forEach(element => {
+            if ((element.subject_id === this.subjectIdNamesArr[selSubjectIndex - 1].subject_id)) {
+                this.testListBySelSubject.push(element);
+            }
+            if (element.test_id === this.testId) {
+                this.testName = element.test_name;
+            }
+        });
+        if (this.testListBySelSubject.length === 0) {
+            this.testListBySelSubject.push({test_name: 'Предмет немає тестів'});
+
+            this.openTooltip(`Вибраний предмет ще немає тестів.
+            Додайте тест.`);
+        }
     }
+
+
+    handleDelete(question_id): void {
+      const dialogRef = this.dialog.open(DeleteConfirmComponent, {
+        width: '400px',  data: { message: 'Ви справді бажаєте видалити завдання та відповіді?' }
+      });
+      dialogRef.afterClosed().subscribe((Response: boolean) => {
+        if (Response) {
+          this.service.getAnswersByQuestionId(question_id).subscribe(dataAnswers => {
+            if ( dataAnswers.length ) {
+              dataAnswers.forEach(answer => {
+                this.service.deleteAnswer(answer.answer_id).subscribe((data: IResponse) => {
+                  if (data.response === 'ok') {
+                    this.openTooltip('Відповідь видалено з бази даних');
+                  }},
+                  () => {
+                    this.openModalMessage(`Виникла помилка при видаленні відповіді з бази даних!`);
+                });
+              });
+            } else {
+              this.openTooltip(`Видалене завдання не мало відповідей.`);
+            }
+                this.service.deleteQuestion(question_id).subscribe( (data: IResponse) => {
+                  if (data.response === 'ok') {
+                    this.openTooltip('Завдання було успішно видалене');
+                    this.pagService.paginatedLength === 1 ?
+                        this.paginator.previousPage() :
+                        this.pagService.pagSubscr.next(true);
+                    this.createQuestionsTableByTestId(this.testId);
+                  }},
+                  () => { this.openModalMessage(`Виникла помилка при видаленні цього завдання!`); }
+                );
+          });
+        }
+      });
+    }
+
 
     openModalMessage(msg: string, w: string = '400px'): void {
         this.dialog.open(ResponseMessageComponent, {
             width: w,
-            data: {
-                message: msg
-            }
+            data: {message: msg}
         });
     }
+
+
 }

@@ -1,9 +1,6 @@
-.breadcrumb {
-padding: 15px 10px;
-}
-a {
-    color: #33b35a;
-}
-.breadcrumb-item a {
-  color: #33b35a;
+@media screen and (max-width: 575px) {
+    select {
+        min-width: 167px;
+        margin-bottom: 5px;
+    }
 }

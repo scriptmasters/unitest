@@ -1,32 +1,42 @@
-header{
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background-color: #fff;
-    padding: 0.8em;
-    border: 1px solid rgba(0,0,0,.125);
-    border-radius: .25rem;
-    margin: 10px 0;
-    input.form-control{
-        width: 13em;
-    }
-    > *{
-        margin: 5px;
-    }
+select.select-filter {
+    margin-bottom: 0;
+}
+
+div.form-group.col-sm-3 {
+    margin: 5px 0;
+    padding: 0 5px;
+}
+
+div.form-group.col-sm-4 {
+    margin: 5px 0;
+    padding: 0 5px;
+}
+
+div.form-group.col-sm-1 {
+    margin: 5px 0;
+    padding: 0 5px;
 }
 
 .pagination /deep/ .ngx-pagination {
     .current {
-      background: #33B357;
+        background: #33B357;
     }
-    .pagination-previous a:before, .pagination-previous.disabled:before {
-      content: '';
+    .pagination-previous a:before,
+    .pagination-previous.disabled:before {
+        content: '';
     }
-    .pagination-next a:after, .pagination-next.disabled:after {
-      content: '';
+    .pagination-next a:after,
+    .pagination-next.disabled:after {
+        content: '';
     }
 }
 
-i{
-    cursor: pointer;
+thead {
+    th {
+        vertical-align: top;
+    }
+}
+
+.btn {
+    padding: 0.42rem 0.75rem;
 }

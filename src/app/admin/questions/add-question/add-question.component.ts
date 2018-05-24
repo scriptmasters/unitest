@@ -1,9 +1,10 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, Inject, OnInit} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {QuestionsService} from '../questions.service';
-import {ActivatedRoute, Router} from '@angular/router';
+import {IAnswer, IAnswerSet, IQuestion} from '../questions-interface';
+import {MAT_DIALOG_DATA, MatDialog, MatDialogRef, MatSnackBar} from '@angular/material';
 import {ResponseMessageComponent} from '../../../shared/response-message/response-message.component';
-import {MatDialog} from '@angular/material';
+import {DeleteConfirmComponent} from '../../../shared/delete-confirm/delete-confirm.component';
 
 @Component({
   selector: 'app-add-question',
@@ -11,103 +12,222 @@ import {MatDialog} from '@angular/material';
   styleUrls: ['./add-question.component.scss'],
   providers: [ QuestionsService ]
 })
-
 export class AddQuestionComponent implements OnInit {
-  constructor (private route: ActivatedRoute,
-               private questionsService: QuestionsService,
-               private dialog: MatDialog,
-               private router: Router
-               ) {}
-  test_id: string;
-  answerType = 'radio';
-  answerNumber = ['1'];
-  correctAnswers = [];
-  attachment = '';
-  questionForm = new FormGroup ({
-      question_text: new FormControl('', Validators.required),
-      level: new FormControl('', Validators.compose([Validators.required, Validators.pattern(/^([1-9]|1[0-9]|20)$/)])),
-      type: new FormControl('1', Validators.required),
-      '1': new FormControl('', Validators.required)
-  });
 
-  ngOnInit () {
-    this.route.queryParams
-        .subscribe( params => this.test_id = params.testId);
+
+ form;
+ isFirstNumberIncorrect = false;
+ isSecondNumberIncorrect = false;
+ correctAnswerInputType = 'radio';
+ answersIdNumbersArray = [];
+ newAnswersArray = [];
+
+ selTestId: string;
+ selTestName: string;
+
+ new_question: IQuestion = {
+    test_id: this.selTestId,
+    question_id: '',
+    question_text: 'no text',
+    level: '1',
+    type: '1',
+    attachment: ''
+};
+
+new_answer: IAnswerSet = {
+  question_id: '',
+  true_answer: '0',
+  answer_text: '',
+  attachment: '',
+};
+
+constructor(
+  private questionService: QuestionsService,
+  private dialog: MatDialog,
+  private matDialogRef: MatDialogRef<AddQuestionComponent>,
+  public snackBar: MatSnackBar,
+  @Inject(MAT_DIALOG_DATA) public data: any) { }
+
+
+  ngOnInit() {
+    this.selTestId = this.data.sel_TestId;
+    this.selTestName = this.data.sel_TestName;
+
+    this.form = new FormGroup({
+    });
   }
+
 
   addAnswer() {
-        this.questionForm.addControl((
-            Number(this.answerNumber[this.answerNumber.length - 1]) + 1).toString(),
-            new FormControl('', [Validators.required]
-        ));
-        this.answerNumber.push((Number(this.answerNumber[this.answerNumber.length - 1]) + 1).toString());
-  }
+    if (this.correctAnswerInputType === 'num' ) {
 
-  onQuestionTypeSelect(event) {
-    if (event.target.value === '2') {
-        this.answerType = 'checkbox';
+        const NUMBER_PATTERN = /[-+]?[0-9]*\.[0-9]+$|^[-+]?[0-9]+\.$|^[-+]?[0-9]*$/;
+            this.form = new FormGroup({
+            '0': new FormControl('', [Validators.required, Validators.pattern(NUMBER_PATTERN)]),
+            '1': new FormControl('', [Validators.required, Validators.pattern(NUMBER_PATTERN)])
+            });
+
+         this.answersIdNumbersArray = [1, 2];
+         this.newAnswersArray = [{}, {}];
+
+         this.newAnswersArray.forEach(element => {  element.true_answer = '1'; element.attachment = ''; });
+
     } else {
-        this.answerType = 'radio';
-        this.correctAnswers = [Math.max(...this.correctAnswers) + ''];
+
+      this.form.addControl( (this.newAnswersArray.length + 1).toString(), new FormControl('', [Validators.required]) );
+                  const lastIndex = this.answersIdNumbersArray.length - 1;
+                  this.answersIdNumbersArray.push(
+                    lastIndex === -1 ? 1 : this.answersIdNumbersArray[lastIndex] + 1
+                  );
+                  this.newAnswersArray.push({answer_text: '', attachment: ''});
+
+                  if (this.correctAnswerInputType === 'txt' ) {
+                    this.newAnswersArray[this.newAnswersArray.length - 1].true_answer = '1';
+                  } else {
+                    this.newAnswersArray[this.newAnswersArray.length - 1].true_answer = '0';
+                  }
     }
   }
 
-  correctAnswer(number) {
-      if (this.answerType === 'radio') {
-          this.correctAnswers = [number];
-      } else {
-              this.correctAnswers.indexOf(number) === -1 ?
-              this.correctAnswers.push(number) : this.correctAnswers.splice(this.correctAnswers.indexOf(number), 1);
+
+  onAnswerTypeSelect(event) {
+    if (event.target.value === '1') {
+       this.correctAnswerInputType = 'radio';
+       this.newAnswersArray.forEach(element => {
+            this.deleteAnswerFromModal(element);
+            this.addAnswer(); // set all answers false
+       });
+       }
+    if (event.target.value === '2') {
+        this.correctAnswerInputType = 'checkbox';
+        this.newAnswersArray.forEach(element => {
+          this.deleteAnswerFromModal(element);
+          this.addAnswer(); // set all answers false
+        });
+       }
+    if (event.target.value === '3') {
+        this.correctAnswerInputType = 'txt';
+        this.newAnswersArray.forEach(element => { element.true_answer = '1'; });
+      }
+    if (event.target.value === '4') {
+        this.correctAnswerInputType = 'num';
+        this.addAnswer(); // sets only two input fields for NUMERICAL answers type
+    }
+  }
+
+
+   setQuestionType(elem: HTMLSelectElement) {
+    const index = elem.options[elem.selectedIndex].index;
+    this.new_question.type = '' + index;
+  }
+
+  setQuestionLevel(elem: HTMLSelectElement) {
+    const value = elem.options[elem.selectedIndex].value;
+    this.new_question.level = value;
+  }
+
+  setQuestionText(elem: HTMLSelectElement) {
+    const value = elem.value;
+    this.new_question.question_text = value;
+  }
+
+  setQuestionAttachment(event) {
+    const fileReader = new FileReader();
+    const img = event.target.files[0];
+    fileReader.onload = () => this.new_question.attachment = fileReader.result;
+    fileReader.readAsDataURL(img);
+  }
+
+  setAnsverAttachment(checkedIndex, event) {
+    const fileReader = new FileReader();
+    const img = event.target.files[0];
+    fileReader.onload = () => this.newAnswersArray[checkedIndex].attachment = fileReader.result;
+    fileReader.readAsDataURL(img);
+  }
+
+  /**
+   *   verifies condition min_val<max_val
+   */
+  numericalIntervalLimitsValidator() {
+    if (Number(this.newAnswersArray[0].answer_text) >= Number(this.newAnswersArray[1].answer_text)
+    && this.newAnswersArray[0].answer_text !== '' && this.newAnswersArray[1].answer_text !== '') {
+      this.isFirstNumberIncorrect = true;
+      this.isSecondNumberIncorrect = true;
+      this.form.get('0').setErrors({'incorrect': true});
+      this.form.get('1').setErrors({'incorrect': true});
+    } else {
+      this.isFirstNumberIncorrect = false;
+      this.isSecondNumberIncorrect = false;
+      this.form.get('0').updateValueAndValidity();
+      this.form.get('1').updateValueAndValidity();
+    }
+  }
+
+  setAnsverText(checkedIndex, event) {
+    const value = event.target.value;
+    this.newAnswersArray[checkedIndex].answer_text = value;
+    if (this.correctAnswerInputType === 'num') {
+      this.numericalIntervalLimitsValidator();
+    }
+  }
+
+
+  setAnswerCorrect(checkedIndex, event) {
+      if (this.correctAnswerInputType === 'radio') {
+        for (let index = 0; index < this.newAnswersArray.length; index++) {
+          this.newAnswersArray[index].true_answer = (index === checkedIndex) ? '1' : '0';
+        }
+      }
+      if (this.correctAnswerInputType === 'checkbox') {
+        this.newAnswersArray[checkedIndex].true_answer =
+        ( this.newAnswersArray[checkedIndex].true_answer === '0') ? '1' : '0';
       }
   }
 
-  addAttachment(event) {
-      const fileReader = new FileReader();
-      const img = event.target.files[0];
-      fileReader.onload = () => this.attachment = fileReader.result;
-      fileReader.readAsDataURL(img);
+  deleteAnswerFromModal(checkedIndex) {
+    this.newAnswersArray.splice(checkedIndex, 1);
+    this.answersIdNumbersArray.splice(checkedIndex, 1);
   }
 
-  questionSubmit() { // TODO: add correct answer statement check
-      const questionBody = {
-          'test_id': this.test_id,
-          'question_text': this.questionForm.get('question_text').value,
-          'level': this.questionForm.get('level').value,
-          'type': this.questionForm.get('type').value,
-          'attachment': this.attachment
-      };
 
-      this.questionsService.questionAdd(questionBody)
-          .subscribe(data => {
-              for (let answer = 1; answer <= this.answerNumber.length; answer++) {
-                  const answerBody = {
-                      'question_id': data[0].question_id,
-                      true_answer: '',
-                      answer_text: this.questionForm.get(`${answer}`).value,
-                      attachment: ''
-                  };
-                  this.correctAnswers.indexOf(answer + '') !== -1 ? answerBody.true_answer = '1' : answerBody.true_answer = '0';
+addedQuestionSubmit() {
+  const questionJSON = JSON.stringify({
+    test_id: this.selTestId,
+    question_text: this.new_question.question_text,
+    level: this.new_question.level,
+    type: this.new_question.type,
+    attachment: this.new_question.attachment
+  });
 
-                  this.questionsService.answerAdd(answerBody)
-                      .subscribe(undefined, error => console.log(error));
-              }
-              data[0].question_id ? this.openModalMessage('Завдання успішно додане') :
-                  this.openModalMessage('Виникла помилка при додаванні');
-                  this.router.navigate(['/admin/questions'], {
-                      queryParams: {
-                          testId: this.test_id,
-                          page: 0
-                      }
-                  });
-          }, error => console.log(error));
+    this.questionService.addQuestion(questionJSON).subscribe((dataNewQuestions: IQuestion) => {
+      if (dataNewQuestions) {
+          this.newAnswersArray.forEach(answer => {
+              answer.question_id = dataNewQuestions[0].question_id;
+              this.questionService.addAnswer(answer).subscribe(
+                   (dataNewAnswers: IAnswer) => {}
+              );
+          });
+        this.openTooltip('Завдання додано успішно!');
+        this.matDialogRef.close();
+      }
+    });
+}
+
+ openModalMessage(msg: string, w: string = '400px'): void {
+  this.dialog.open(ResponseMessageComponent, {
+      width: w,
+      data: { message: msg }
+  });
   }
 
-    openModalMessage(msg: string, w: string = '400px'): void {
-        this.dialog.open(ResponseMessageComponent, {
-            width: w,
-            data: {
-                message: msg
-            }
-        });
-    }
+  openTooltip(message) {
+    this.snackBar.open(`${message}`, 'OK', {
+        duration: 2000
+    });
+  }
+
+  closeDialog() {
+    this.matDialogRef.close();
+  }
+
 }

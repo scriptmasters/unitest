@@ -1,6 +1,6 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { ResponseMessageComponent } from './response-message.component';
+import {ResponseMessageComponent} from './response-message.component';
 
 describe('ResponseMessageComponent', () => {
   let component: ResponseMessageComponent;
