@@ -10,7 +10,7 @@
         "lint": "ng lint",
         "e2e": "ng e2e",
         "prettier": "prettier --single-quote --trailing-comma es5 --write \"./src/app/student/**/*.ts\"",
-        "precommit": "tslint --project ."
+        "precommit": "tslint --project . --exclude src/main.ts"
     },
     "private": true,
     "dependencies": {

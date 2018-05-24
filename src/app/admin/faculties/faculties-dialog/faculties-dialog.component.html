@@ -23,7 +23,7 @@
             <div class="form-msg">
                 <small *ngIf="form.get('description').invalid && (form.get('description').dirty || form.get('description').touched)">
                   <span *ngIf="form.get('description')['errors']['required']">Дане поле є обов'язковим</span>
-                  <span *ngIf="form.get('description')['errors']['pattern']">Це поле повинне складатися не менш ніж з 5 літер українського алфавіту та пробілів</span>
+                  <span *ngIf="form.get('description')['errors']['pattern']">Це поле повинне складатися не менш ніж з 2 літер українського алфавіту та пробілів</span>
                   <span *ngIf="form.get('description')['errors']['maxlength']">Поле повинно містити не більше ніж {{form.get('description')['errors']['maxlength']['requiredLength']}} символів</span>
             </small>
             </div>
