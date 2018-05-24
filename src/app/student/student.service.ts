@@ -12,6 +12,12 @@ export class StudentService {
   private urlgetTimeTablesForGroup = 'timeTable/getTimeTablesForGroup/';
   private urlgetTestsBySubject = 'test/getTestsBySubject/';
   private urlgetTestDetailsByTest = 'testDetail/getTestDetailsByTest/';
+  private urlgetTimeStamp = 'TestPlayer/getTimeStamp';
+  private urlSaveData = 'TestPlayer/saveData';
+  private urlgetData = 'TestPlayer/getData';
+  private urlgetRecordsTest = 'Test/getRecords/';
+  public infoTestId;
+  public infoTestName;
   constructor(private http: HttpClient) {}
 
   getRecords(id): Observable<any> {
@@ -37,5 +43,17 @@ export class StudentService {
   }
   getTestDetailsByTest(id): Observable<any> {
     return this.http.get(this.urlgetTestDetailsByTest + id);
+  }
+  getTime(): Observable<any> {
+    return this.http.get(this.urlgetTimeStamp);
+  }
+  saveInfoTest(data): Observable<any> {
+    return this.http.post(this.urlSaveData, data);
+  }
+  getInfoTest(): Observable<any> {
+    return this.http.get(this.urlgetData);
+  }
+  getRecordsTest(id): Observable<any> {
+    return this.http.get(this.urlgetRecordsTest + id);
   }
 }

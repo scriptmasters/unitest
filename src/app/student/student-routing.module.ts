@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
+import { RouterModule, Routes } from '@angular/router';
 
 import { StudentComponent } from './student.component';
 import { TestPlayerComponent } from './test-player/test-player.component';
@@ -16,8 +16,8 @@ const routes: Routes = [
   },
   {
     path: 'results',
-    component: QuizResultComponent
-  }
+    component: QuizResultComponent,
+  },
 ];
 
 @NgModule({

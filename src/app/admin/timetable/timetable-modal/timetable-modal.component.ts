@@ -1,15 +1,9 @@
-import { Component, OnInit, Inject } from '@angular/core';
-import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
-import TableService from '../timetable.service';
-import { startDateValidator, matchDates } from './date-validation';
-import { ResponseMessageComponent } from '../../../shared/response-message/response-message.component';
+import {Component, Inject, OnInit} from '@angular/core';
+import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material';
+import {TableService} from '../timetable.service';
+import {matchDates, startDateValidator} from './date-validation';
 
-import {
-  FormControl,
-  FormGroup,
-  Validators,
-  ReactiveFormsModule
-} from '@angular/forms';
+import {FormControl, FormGroup, Validators} from '@angular/forms';
 
 @Component({
   selector: 'app-timetable-modal',
@@ -18,7 +12,7 @@ import {
   providers: [TableService]
 })
 export class TimeTableModalComponent implements OnInit {
-  private form: FormGroup;
+  public form: FormGroup;
   formData = {
     group_id: '',
     subject_id: '',
@@ -37,15 +31,6 @@ export class TimeTableModalComponent implements OnInit {
     if (this.data.tableItem instanceof Object) {
       // Create copy to prevent editing of table item object directly
       this.formData = Object.assign({}, this.data.tableItem);
-
-      // this.formData.group_id = this.data.editData.group_id;
-      // this.formData.subject_id = this.data.editData.subject_id;
-      // this.formData.start_date = this.data.editData.start_date;
-      // this.formData.start_time = this.data.editData.start_time;
-      // this.formData.end_date = this.data.editData.end_date;
-      // this.formData.end_time = this.data.editData.end_time;
-      // this.formData.end_date = this.data.editData.end_date;
-      // this.formData.timetable_id = this.formData.timetable_id;
     }
   }
 
@@ -71,7 +56,7 @@ export class TimeTableModalComponent implements OnInit {
       }
     );
   }
-  onReset = evt => {
+  onReset () {
     if (this.formData.timetable_id) {
       this.formData = Object.assign({}, this.data.tableItem);
     } else {this.formData = {
@@ -85,7 +70,7 @@ export class TimeTableModalComponent implements OnInit {
     };
     }
   }
-  onSubmit = evt => {
+  onSubmit () {
     // if timetable_id exists then we need to edit item instead of adding new one
     if (this.formData.timetable_id) {
       // Prepare data for API call

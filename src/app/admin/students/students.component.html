@@ -8,11 +8,9 @@
                         <h2 class="display">Студенти</h2>
                     </div>
                     <div>
-                        <button *ngIf="!byGroup" type="button" class="btn btn-primary" (click)="showRegForm()">Додати новий параметp</button>
-                    </div>
-                    <div *ngIf="byGroup" class="studNav">
-                        <button type="button" class="btn" (click)="backToGroups()">Групи</button>
-                        <button type="button" class="btn" (click)="reviseAllStudents()">Всі студенти</button>
+                        <button type="button" class="btn btn-primary" (click)="showRegForm()">Додати
+                            новий параметp
+                        </button>
                     </div>
                 </div>
             </div>
@@ -20,65 +18,83 @@
         <div class="row">
             <div class="card col-12 col-lg-12">
                 <div class="card-body row justify-content-between">
-                    <!-- <div *ngIf="!byGroup" class="filters"> -->
                     <!-- Search input -->
                     <div class=" form-group col-sm-3">
-                        <input type="text" #searchField (keyup)="searchString.next($event.target.value)" placeholder="Пошук..." class="form-control">
+                        <input type="text" [formControl]="search"
+                               placeholder="Пошук..." class="form-control">
                     </div>
                     <!-- List of faculties (dropdown) -->
                     <div class="form-group col-sm-4">
-                        <select name="facultyFilter" class="form-control faculty-filter" #facultySelector [(ngModel)]="facultyString" (change)="getGroups(facultySelector)">
-                                <option [selected]="false" value="Виберіть факультет">Виберіть факультет</option>
-                                <option *ngFor="let faculty of faculties">{{faculty.faculty_name}}</option>
+                        <select name="facultyFilter" class="form-control faculty-filter" #facultySelector
+                                [(ngModel)]="facultyString" (change)="getGroups(facultySelector)">
+                            <option [selected]="false" value="Виберіть факультет">Виберіть факультет</option>
+                            <option *ngFor="let faculty of faculties">{{faculty.faculty_name}}</option>
                         </select>
                     </div>
                     <!-- List of groups (dropdown) -->
                     <div class="form-group col-sm-4">
-                        <select name="groupFilter" #groupsList class="form-control group-filter" [(ngModel)]="groupString" (change)="getFiltredStudentsByGroup(groupsList)">
-                                <option [selected]="true">Виберіть групу</option>
-                                <option *ngFor="let group of groups">{{group.group_name}}</option>
+                        <select name="groupFilter" #groupsList class="form-control group-filter"
+                                [(ngModel)]="groupString" (change)="getFiltredStudentsByGroup(groupsList)">
+                            <option [selected]="true">Виберіть групу</option>
+                            <option *ngFor="let group of groups">{{group.group_name}}</option>
                         </select>
                     </div>
                     <!-- refresh button -->
                     <div class="form-group col-sm-1 d-flex justify-content-between">
-                        <button type="button" title="Очистити фільтри" class="fa fa-refresh" [disabled]="searchField.value.length < 1 && groupString === 'Виберіть групу'" (click)="resetFilters()"></button>
+                        <button type="button" title="Очистити фільтри" class="fa fa-refresh"
+                                [disabled]="groupString === 'Виберіть групу'"
+                                (click)="reviseAllStudents()"></button>
                     </div>
-                    <!-- </div> -->
                 </div>
             </div>
+        </div>
+        <div class="progressbar">
+            <mat-progress-bar *ngIf="progress" mode="indeterminate" color="primary"></mat-progress-bar>
         </div>
         <div class="row">
             <div class="card col-12 col-lg-12">
                 <div class="card-body table-responsive">
-                    <table class="table table-striped table-hover">
+                    <table *ngIf="students; else noRecords" class="table table-striped table-hover">
                         <thead>
-                            <tr>
-                                <th>№</th>
-                                <th>ПІБ</th>
-                                <th>№ залікової книжки</th>
-                                <th>Група</th>
-                                <th colspan="3"></th>
-                            </tr>
+                        <tr>
+                            <th>№</th>
+                            <th>ПІБ</th>
+                            <th>№ залікової книжки</th>
+                            <th>Група</th>
+                            <th colspan="3"></th>
+                        </tr>
                         </thead>
                         <tbody>
-                            <tr *ngFor="let student of students | paginate: config; let i = index">
-                                <th>{{(config.currentPage - 1) * config.itemsPerPage + i +1}}</th>
-                                <td>{{student.fullName}}</td>
-                                <td>{{student.gradebook_id}}</td>
-                                <td>{{student.group}}</td>
-                                <td><i class="fa fa-address-card" aria-hidden="true" title="Детальна інформація" (click)="showAdvancedInfo(student)"></i></td>
-                                <td><i class="fa fa-cog" (click)="showEditForm(student)" title="Редагувати"></i></td>
-                                <td><i class="fa fa-close" (click)="handleDelete(student.user_id)" title="Видалити"></i></td>
-                            </tr>
+                        <tr *ngFor="let student of students; let i = index">
+                            <th>{{pageIndex * pageSize + i + 1}}</th>
+                            <td>{{student.fullName}}</td>
+                            <td>{{student.gradebook_id}}</td>
+                            <td>{{student.group}}</td>
+                            <td><i class="fa fa-address-card" aria-hidden="true" title="Детальна інформація"
+                                   (click)="showAdvancedInfo(student)"></i></td>
+                            <td><i class="fa fa-cog" (click)="showEditForm(student)" title="Редагувати"></i></td>
+                            <td><i class="fa fa-close" (click)="handleDelete(student.user_id)" title="Видалити"></i>
+                            </td>
+                        </tr>
                         </tbody>
                     </table>
+                    <ng-template #noRecords>
+                        {{error}}
+                    </ng-template>
                 </div>
             </div>
-            <!-- <pagination-controls class="pagination justify-content-center" (pageChange)="config.currentPage=$event" previousLabel="<<" nextLabel=">>" autoHide="true"></pagination-controls> -->
         </div>
         <div class="row">
             <div class="col-lg-12">
-                <pagination-controls *ngIf="students" class="pagination justify-content-center" (pageChange)="config.currentPage = $event" maxSize="10" previousLabel="<<" nextLabel=">>" autoHide="true"></pagination-controls>
+                <mat-paginator
+                        *ngIf="pagination"
+                        [length]=pagService.fullLength
+                        [pageSize]=pageSize
+                        [pageIndex]=pageIndex
+                        [pageSizeOptions]="[2, 5, 10, 25, 100]"
+                        [showFirstLastButtons]="true"
+                        (page)="updateData($event.pageSize, $event.pageIndex)"
+                ></mat-paginator>
             </div>
         </div>
     </div>

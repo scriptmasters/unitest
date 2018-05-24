@@ -1,5 +1,5 @@
-import { AbstractControl } from '@angular/forms';
-import { StudentsService } from '../students.service';
+import {AbstractControl} from '@angular/forms';
+import {StudentsService} from '../students.service';
 
 export class ValidateEmailNotTaken {
   static createValidator(service: StudentsService, updating: boolean) {
@@ -7,7 +7,7 @@ export class ValidateEmailNotTaken {
     return (control: AbstractControl) => {
       if (updating && counter < 1) {
         counter++;
-        return service.checkEmailAddress(control.value).map(res => {
+        return service.checkEmailAddress(control.value).map(() => {
           return null;
         });
       }

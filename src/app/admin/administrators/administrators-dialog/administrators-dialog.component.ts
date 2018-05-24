@@ -1,12 +1,12 @@
-import { Component, Inject, OnInit } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { AdministratorsService } from '../services/administrators.service';
-import { Administrators } from '../administratorsInterface';
-import { matchOtherValidator } from '../../../shared/form_validation/confirm_password.validator';
-import { ValidateLoginNotTaken } from '../../../shared/form_validation/asyncLogin.validator';
-import { ValidateEmailNotTaken } from '../../../shared/form_validation/asyncEmail.validator';
-import { ValidatePassword } from '../../../shared/form_validation/checkOldPassword.validator';
+import {Component, Inject, OnInit} from '@angular/core';
+import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material';
+import {FormControl, FormGroup, Validators} from '@angular/forms';
+import {AdministratorsService} from '../services/administrators.service';
+import {Administrators} from '../administratorsInterface';
+import {matchOtherValidator} from '../../../shared/form_validation/confirm_password.validator';
+import {ValidateLoginNotTaken} from '../../../shared/form_validation/asyncLogin.validator';
+import {ValidateEmailNotTaken} from '../../../shared/form_validation/asyncEmail.validator';
+import {ValidatePassword} from '../../../shared/form_validation/checkOldPassword.validator';
 
 @Component({
   selector: 'app-administrators-dialog',

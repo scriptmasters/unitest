@@ -12,15 +12,28 @@
       </header>
   </div>
 </section>
-<section>
+<section *ngIf="isAvilable()">
   <div class="card text-center">
     <div class="card-header">
       <h1>Тест завершено!</h1>
     </div>
     <div class="card-body">
       <h2 class="card-title">Ваші результати</h2>
-      <p class="card-text">Правильних відповідей: {{answers}} </p>
       <p class="card-text">Оцінка: {{mark}} </p>
+      <div class="d-flex justify-content-center">
+        <google-chart [data]="pieChartData"></google-chart>
+      </div>
+      <a routerLink="/student" class="btn btn-primary">На головну</a>
+    </div>
+  </div>
+</section>
+<section *ngIf="!isAvilable()">
+  <div class="container-fluid">
+    <div class="alert alert-success text-center" role="alert">
+      <h1 class="alert-heading  display-4">Шановний студенте!</h1>
+      <p>На жаль, ви не можете переглядати результати тесутвання!</p>
+      <hr>
+      <p>Перегляд результатів тестування буде доступний після того, як ви здасте тест!</p>
       <a routerLink="/student" class="btn btn-primary">На головну</a>
     </div>
   </div>

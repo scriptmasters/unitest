@@ -1,8 +1,8 @@
 import {Pipe, PipeTransform} from '@angular/core';
-import {GroupsService} from '../groups.service';
 
 @Pipe({
-  name: 'specialityFilterPipe'
+  name: 'specialityFilterPipe',
+  pure: false
 })
 export class SpecialityFilterComponent implements PipeTransform {
   constructor() {

@@ -1,7 +1,5 @@
-import ISudent from './IStudent';
-import IStudent from './IStudent';
-
 export default interface IResolvedData {
-    students: IStudent[];
+    students: any;
     byGroup: boolean;
+    group_id?: string;
 }

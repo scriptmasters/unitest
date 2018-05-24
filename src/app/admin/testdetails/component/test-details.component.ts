@@ -1,11 +1,10 @@
-import { Component, OnInit } from '@angular/core';
-import { MatDialog } from '@angular/material';
-import { TestDetailsService } from '../sevices/test-details.service';
-
-import { TestDetailCreateComponent } from '../modals/test-detail-create/test-detail-create.component';
-import { ActivatedRoute } from '@angular/router';
-import { DeleteConfirmComponent } from '../../../shared/delete-confirm/delete-confirm.component';
-import { ResponseMessageComponent } from '../../../shared/response-message/response-message.component';
+import {Component, OnInit} from '@angular/core';
+import {MatDialog} from '@angular/material';
+import {TestDetailsService} from '../sevices/test-details.service';
+import {TestDetailCreateComponent} from '../modals/test-detail-create/test-detail-create.component';
+import {ActivatedRoute} from '@angular/router';
+import {DeleteConfirmComponent} from '../../../shared/delete-confirm/delete-confirm.component';
+import {ResponseMessageComponent} from '../../../shared/response-message/response-message.component';
 
 
 @Component({
@@ -71,16 +70,13 @@ export class TestDetailsComponent implements OnInit {
         data: {message: `Виникла помилка видалення: ${err.error.response}`}
       });
     }, () => {
-      this.dialog.open(ResponseMessageComponent, {
-        width: '350px',
-        data: {message: 'Деталі тесту видалено'}
-      });
+        this.testDetailsService.openTooltip('Деталі тесту видалено');
     });
   }
 
   private getTestDetails() {
     this.testDetailsService.getTestDetails(this.testId).subscribe((resp: any[]) => {
-      this.testDetails = (resp && resp['response'] && resp['response'] === 'no records') ? [] : resp;
+      this.testDetails = (resp['response'] === 'no records') ? [] : resp;
     });
   }
 

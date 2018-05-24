@@ -1,28 +1,3 @@
-//header{
-//    display: flex;
-//    justify-content: space-between;
-//    align-items: center;
-//    background-color: #fff;
-//    padding: 0.8em;
-//    border: 1px solid rgba(0,0,0,.125);
-//    border-radius: .25rem;
-//    margin: 10px 0;
-//    input.form-control{
-//        width: 13em;
-//    }
-//    > *{
-//        margin: 5px;
-//    }
-//}
-//@media screen and (min-device-width: 692px) and (max-device-width: 750px) {
-//  .addGroup {
-//    padding-left: 5px;
-//    padding-right: 5px;
-//  }
-//  #addGroup[_ngcontent-c2] {
-//    padding-left: 0;
-//  }
-//}
 select.select-filter {
     margin-bottom: 0;
 }
@@ -42,33 +17,6 @@ div.form-group.col-sm-1 {
     padding: 0 5px;
 }
 
-// button.fa {
-//     background-color: #28A745;
-//     width: auto;
-//     border: none;
-//     color: #fff;
-//     transition: all 0.2s;
-//     margin: 0 auto;
-//     &:hover {
-//         font-size: 1.1rem;
-//     }
-//     &:disabled {
-//         opacity: 0.5;
-//         cursor: not-allowed;
-//     }
-// }
-//.header {
-//  text-align: center;
-//}
-//.form-control{
-//  margin-bottom: 0px;
-//  padding-bottom: 0px;
-//}
-//
-//.form-group{
-//  margin-bottom: 0px;
-//  padding-bottom: 0px;
-//}
 .pagination /deep/ .ngx-pagination {
     .current {
         background: #33B357;

@@ -1,8 +1,8 @@
-import { Component, OnInit, Inject } from '@angular/core';
-import { MatDialogRef, MAT_DIALOG_DATA, MatDialog} from '@angular/material';
-import { TestService } from '../test.service';
-import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
-import { ResponseMessageComponent } from '../../../shared/response-message/response-message.component';
+import {Component, Inject, OnInit} from '@angular/core';
+import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from '@angular/material';
+import {TestService} from '../test.service';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {ResponseMessageComponent} from '../../../shared/response-message/response-message.component';
 import {forbiddenCharValidator} from '../tests-validator.directive';
 
 @Component({
@@ -45,10 +45,7 @@ onSubmit() {
     // Опрацювання даних форми
    this.httpService.addTest(this.rForm.value).subscribe(
     () => {this.dialogRef.close();
-      const matDialogRef = this.dialog.open(ResponseMessageComponent, {
-        width: '350px',
-        data: {message: 'Тест успішно додано'}
-      });
+        this.httpService.openTooltip('Тест успішно додано');
     },
     (err) => {
       if (err.status === 400) {

@@ -18,6 +18,9 @@
                 </div>
             </div>
         </div>
+        <div class="progressbar">
+            <mat-progress-bar *ngIf="progress" mode="indeterminate" color="primary"></mat-progress-bar>
+        </div>
         <div class="row">
             <div class="card col-12 col-lg-12">
                 <div class="card-body table-responsive">
@@ -54,14 +57,14 @@
                 </div>
             </div>
         </div>
-        <mat-paginator *ngIf="pagination"
-                       [length]=length
-                       [pageSize]=pageSize
-                       [pageIndex]=pageIndex
-                       [pageSizeOptions]="[5, 10, 25, 100]"
-                       [showFirstLastButtons]="true"
-                       (page)="getEntity($event, true)"
-
+        <mat-paginator
+                *ngIf="pagination"
+                [length]=pagService.fullLength
+                [pageSize]=pageSize
+                [pageIndex]=pageIndex
+                [pageSizeOptions]="[5, 10, 25, 100]"
+                [showFirstLastButtons]="true"
+                (page)="getEntity($event, true)"
         ></mat-paginator>
     </div>
 </section>

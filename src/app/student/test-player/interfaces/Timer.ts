@@ -1,5 +1,5 @@
 export interface ITimer {
-  hours: number;
+  hours: any;
   minutes: any;
   seconds: any;
 }

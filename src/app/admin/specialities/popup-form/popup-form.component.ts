@@ -1,8 +1,8 @@
-import {Component, OnInit, Inject} from '@angular/core';
-import {FormGroup, FormControl, Validators} from '@angular/forms';
+import {Component, Inject, OnInit} from '@angular/core';
+import {FormControl, FormGroup, Validators} from '@angular/forms';
 
 import {SpecialityService} from '../speciality.service';
-import {MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
+import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material';
 import {Speciality} from '../specialityInterface';
 
 @Component({

@@ -1,14 +1,14 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {FormGroup} from '@angular/forms';
-import {MatDialog} from '@angular/material';
+import {MatDialog, MatPaginatorIntl, MatSnackBar} from '@angular/material';
 import {ActivatedRoute, Router} from '@angular/router';
 import {SubjectService} from './services/subject.service';
 import {ResponseMessageComponent} from '../../shared/response-message/response-message.component';
 import {ModalSubjectComponent} from './modal-subject/modal-subject.component';
 import {DeleteConfirmComponent} from '../../shared/delete-confirm/delete-confirm.component';
-import {MatPaginatorIntl} from '@angular/material';
 import {Pagination} from '../../shared/pagination/pagination.class';
 import {HttpClient} from '@angular/common/http';
+import {PaginationService} from '../../shared/pagination/pagination.service';
 
 @Component({
     selector: 'app-subjects',
@@ -16,7 +16,7 @@ import {HttpClient} from '@angular/common/http';
     styleUrls: ['./subjects.component.scss'],
 })
 
-export class SubjectsComponent extends Pagination implements OnInit {
+export class SubjectsComponent extends Pagination implements OnInit, OnDestroy {
     form: FormGroup;
 
     constructor(private subjectService: SubjectService,
@@ -24,14 +24,20 @@ export class SubjectsComponent extends Pagination implements OnInit {
                 public router: Router,
                 public route: ActivatedRoute,
                 public pagIntl: MatPaginatorIntl,
-                public http: HttpClient) {
-        super(router, route, pagIntl, http, dialog);
-        this.entity = 'subject';
+                public http: HttpClient,
+                public pagService: PaginationService,
+                public snackBar: MatSnackBar) {
+        super(router, route, pagIntl, http, dialog, pagService, snackBar);
+        this.pagService.entity = 'subject';
         this.entities = 'subjects';
     }
 
     ngOnInit() {
-        this.initLogic();
+        this.initLogic(false);
+    }
+
+    ngOnDestroy () {
+        this.destroyLogic();
     }
 
     getTimetable(id: number): void {
@@ -40,9 +46,9 @@ export class SubjectsComponent extends Pagination implements OnInit {
         });
     }
 
-    getTests(id: number): void {
-        this.router.navigate(['admin/tests'], {queryParams: {subjectId: id}});
-    }
+  getTests(id: number): void {
+    this.router.navigate(['admin/subjects/tests'], { queryParams: { subjectId: id } });
+  }
 
     openModal(id?: number): void {
         const matDialogRef = this.dialog.open(ModalSubjectComponent, {
@@ -54,12 +60,7 @@ export class SubjectsComponent extends Pagination implements OnInit {
         matDialogRef.afterClosed().subscribe((response: any) => {
             if (response) {
                 if (response.status === 'SUCCESS') {
-                    this.dialog.open(ResponseMessageComponent, {
-                        width: '400px',
-                        data: {
-                            message: response.message,
-                        },
-                    });
+                    this.openTooltip(response.message);
                     this.getEntity();
                 } else if (response.status === 'ERROR') {
                     this.dialog.open(ResponseMessageComponent, {
@@ -86,13 +87,7 @@ export class SubjectsComponent extends Pagination implements OnInit {
                 this.subjectService.deleteSubject(id).subscribe(
                     (data: any) => {
                         if (data.response === 'ok') {
-                            this.dialog.open(ResponseMessageComponent, {
-                                disableClose: true,
-                                width: '400px',
-                                data: {
-                                    message: 'Даний предмет успішно видалено!',
-                                },
-                            });
+                            this.openTooltip('Даний предмет успішно видалено');
                             if (this.entitiesObj.length > 1) {
                                 this.getEntity();
                             } else {
