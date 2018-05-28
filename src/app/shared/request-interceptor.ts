@@ -9,6 +9,7 @@ import {PaginationService} from './pagination/pagination.service';
 
 @Injectable()
 export class RequestInterceptor implements HttpInterceptor {
+    httpReq;
     constructor(private router: Router,
                 private pagService: PaginationService) {
     }
@@ -16,10 +17,12 @@ export class RequestInterceptor implements HttpInterceptor {
     hostName = 'http://vps9615.hyperhost.name:443/api/';
 
     intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-
-        const httpReq = req.clone({url: `${this.hostName}${req.url}`});
-
-        return next.handle(httpReq)
+        if (!req.url.includes('i18n')) {
+        this.httpReq = req.clone({url: `${this.hostName}${req.url}`});
+        } else {
+            this.httpReq = req.clone({url: `${req.url}`});
+        }
+        return next.handle(this.httpReq)
             .do((response) => {
                 if (response.type === 0) {
                     this.pagService.increaseReqCount();
