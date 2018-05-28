@@ -1,0 +1,20 @@
+{
+	"STUDENT.DURATION": "Тривалість",
+	"STUDENT.EXIT": "Вийти",
+	"STUDENT.FACULTY": "Факультет",
+	"STUDENT.GRADEBOOK": "№ Залікової книжки",
+	"STUDENT.GROUP": "Група",
+	"STUDENT.MONTH": "Місяць",
+	"STUDENT.PAGE": "СТОРІНКА СТУДЕНТА",
+	"STUDENT.PROFILE": "Профіль студента",
+	"STUDENT.QUESTION": "Питань",
+	"STUDENT.SPECIALITY": "Спеціальність",
+	"STUDENT.START": "Почати",
+	"STUDENT.SUBJECT": "Предмет і назва тесту",
+	"STUDENT.TESTLIST": "Cписок тестувань які плануються для групи",
+	"STUDENT.TIME": "Хвилин",
+	"STUDENT.TODAY": "Сьогодні",
+	"STUDENT.TOMORROW": "Завтра",
+	"STUDENT.TOTAL": "Всього",
+	"STUDENT.WEEK": "Тиждень"
+}

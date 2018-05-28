@@ -2,7 +2,7 @@
     <div class="content-wrapper">
         <header class="header">
             <div class="Headers">
-                <span class="admin-title">СТОРІНКА СТУДЕНТА</span>
+                <span class="admin-title">{{'STUDENT.PAGE' | translate }}</span>
 
             </div>
             <div class="dtester-title">D-TESTER</div>
@@ -10,7 +10,7 @@
                 <option *ngFor="let lang of translate.getLangs()" [value]="lang" [selected]="lang === translate.currentLang">{{ lang }}</option>
               </select>
             <a class="log-out" (click)="this.authService.logout()">
-                <span>Вийти</span>
+                <span>{{'STUDENT.EXIT' | translate }}</span>
                 <i class="fa fa-sign-out" aria-hidden="true"></i>
             </a>
         </header>
@@ -24,14 +24,14 @@
                     <div class="tab-pane active" role="tabpanel" aria-labelledby="ngb-tab-10">
                         <div class="row">
                             <div class="col-12">
-                                <h3 class="text-center">Cписок тестувань які плануються для групи "{{user.group_name}}"</h3>
+                                <h3 class="text-center">{{ 'STUDENT.TESTLIST'| translate }} "{{user.group_name}}"</h3>
                                 <div class="container-fluid">
                                     <div class="">
-                                        <button class="btn btn-secondary" (click)='getAllSubjects()'>{{ 'ALL' | translate }}</button>
-                                        <button class="btn btn-secondary" (click)='getTime(0,true)'>Сьогодні</button>
-                                        <button class="btn btn-secondary" (click)='getTime(1,true)'>Завтра</button>
-                                        <button class="btn btn-secondary" (click)='getTime(7,false)'>Тиждень</button>
-                                        <button class="btn btn-secondary" (click)='getTime(31,false)'>Місяця</button>
+                                        <button class="btn btn-secondary" (click)='getAllSubjects()'>{{ 'STUDENT.TOTAL' | translate }}</button>
+                                        <button class="btn btn-secondary" (click)='getTime(0,true)'>{{ 'STUDENT.TODAY' | translate }}</button>
+                                        <button class="btn btn-secondary" (click)='getTime(1,true)'>{{ 'STUDENT.TOMORROW' | translate }}</button>
+                                        <button class="btn btn-secondary" (click)='getTime(7,false)'>{{ 'STUDENT.WEEK' | translate }}</button>
+                                        <button class="btn btn-secondary" (click)='getTime(31,false)'>{{ 'STUDENT.MONTH' | translate }}</button>
                                     </div>
                                     <div class="table-responsive">
                                         <div *ngIf="studentService.infoTestId != null">
@@ -42,11 +42,11 @@
                                         <table class="table table-hover ">
                                             <thead>
                                                 <tr>
-                                                    <th>Предмет і назва тесту</th>
-                                                    <th>Тривалість</th>
-                                                    <th>Пит. (шт)</th>
-                                                    <th>Час (хв)</th>
-                                                    <th>Почати</th>
+                                                    <th>{{ 'STUDENT.SUBJECT' | translate}}</th>
+                                                    <th>{{ 'STUDENT.DURATION' | translate }}</th>
+                                                    <th>{{ 'STUDENT.QUESTION' | translate }}</th>
+                                                    <th>{{ 'STUDENT.TIME' | translate}}</th>
+                                                    <th>{{ 'STUDENT.START' |translate }}</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -96,21 +96,21 @@
                 </div>
             </div>
             <div class="col-xs-12 col-md-4 info text-center" *ngIf="user.ready">
-                <h3> Профіль студента</h3>
+                <h3>{{'STUDENT.PROFILE' | translate}}</h3>
                 <span>
                     <img alt="Ваше фото не завантажене" class="img-responsive img-circle center-block" [src]="user.photo">
                 </span>
                 <h4> {{user.student_name}} {{user.student_surname}} </h4>
                 <p class="text-left">
-                    <b>Факультет:</b> {{user.faculty_name}}</p>
+                    <b>{{'STUDENT.FACULTY' | translate}}:</b> {{user.faculty_name}}</p>
                 <p class="text-left">
-                    <b>Спеціальність:</b> {{user.speciality_code}} : {{user.speciality_name}} </p>
+                    <b>{{'STUDENT.SPECIALITY' | translate}}:</b> {{user.speciality_code}} : {{user.speciality_name}} </p>
                 <p class="text-left">
-                    <b>Група:</b>
+                    <b>{{'STUDENT.GROUP' | translate}}:</b>
                     {{user.group_name}}
                 </p>
                 <p class="text-left">
-                    <b>№ залікової книжки:</b> {{user.gradebook_id}}
+                    <b>{{'STUDENT.GRADEBOOK' | translate}}:</b> {{user.gradebook_id}}
                 </p>
             </div>
         </div>

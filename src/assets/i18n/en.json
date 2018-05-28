@@ -1,3 +1,20 @@
 {
-    "ALL":"All"
+	"STUDENT.DURATION": "Duration",
+	"STUDENT.EXIT": "Log out",
+	"STUDENT.FACULTY": "Faculty",
+	"STUDENT.GRADEBOOK": "Gradebook №",
+	"STUDENT.GROUP": "Group",
+	"STUDENT.MONTH": "Month",
+	"STUDENT.PAGE": "STUDENT'S PAGE",
+	"STUDENT.PROFILE": "Student's profile",
+	"STUDENT.QUESTION": "Questions",
+	"STUDENT.SPECIALITY": "Speciality",
+	"STUDENT.START": "Start",
+	"STUDENT.SUBJECT": "Subject and test's name",
+	"STUDENT.TESTLIST": "List of tests to be planned for the group",
+	"STUDENT.TIME": "Minutes",
+	"STUDENT.TODAY": "Today",
+	"STUDENT.TOMORROW": "Tomorrow",
+	"STUDENT.TOTAL": "Total",
+	"STUDENT.WEEK": "Week"
 }

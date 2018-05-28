@@ -40,11 +40,11 @@ export class StudentComponent implements OnInit {
     private router: Router,
     public dialog: MatDialog, public translate: TranslateService
   ) {
-    translate.addLangs(['en', 'fr']);
+    translate.addLangs(['en', 'uk']);
     translate.setDefaultLang('en');
 
     const browserLang = translate.getBrowserLang();
-    translate.use(browserLang.match(/en|fr/) ? browserLang : 'en');
+    translate.use(browserLang.match(/en|uk/) ? browserLang : 'en');
   }
 
   ngOnInit() {
