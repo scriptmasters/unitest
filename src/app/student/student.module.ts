@@ -16,7 +16,14 @@ import { QuestionService } from './services/question.service';
 import { Ng2GoogleChartsModule } from 'ng2-google-charts';
 import { ConfirmMessageTestComponent } from './test-player/modal/confirm-message-test/confirm-message-test.component';
 import { AlertMessageTestComponent } from './test-player/modal/alert-message-test/alert-message-test.component';
+import {HttpClient, HttpClientModule} from '@angular/common/http';
+import {TranslateModule, TranslateLoader} from '@ngx-translate/core';
+import {TranslateHttpLoader} from '@ngx-translate/http-loader';
 
+// AoT requires an exported function for factories
+export function HttpLoaderFactory(httpClient: HttpClient) {
+  return new TranslateHttpLoader(httpClient);
+}
 @NgModule({
   imports: [
     CommonModule,
@@ -25,6 +32,14 @@ import { AlertMessageTestComponent } from './test-player/modal/alert-message-tes
     ReactiveFormsModule,
     SharedModule,
     Ng2GoogleChartsModule,
+    HttpClientModule,
+        TranslateModule.forRoot({
+            loader: {
+                provide: TranslateLoader,
+                useFactory: HttpLoaderFactory,
+                deps: [HttpClient]
+            }
+    })
   ],
   declarations: [
     StudentComponent,
