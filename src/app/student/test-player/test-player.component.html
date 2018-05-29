@@ -17,11 +17,11 @@
                               'yellow': timer.minutes < 10 && timer.hours == 0,
                               'red': timer.minutes < 2 && timer.hours == 0
                               }">
-                      <span>Часу залишилось:</span> {{timer.hours}}:{{timer.minutes}}:{{timer.seconds}}
+                      <span>{{ 'TP.TIME' | translate}}:</span> {{timer.hours}}:{{timer.minutes}}:{{timer.seconds}}
                   </span>
               </div>
               <div class="question-lvl">
-                <span> Завдання <b>{{Index}}</b> з <b>{{questions?.length}}</b> [Рівень:<b>{{question?.level}}</b>]</span>
+                <span> {{'TP.TASK' | translate}} <b>{{Index}}</b> {{'TP.OF' | translate}} <b>{{questions?.length}}</b> [{{'TP.LEVEL' | translate}}:<b>{{question?.level}}</b>]</span>
               </div>
               <!-- ********* TIMER ***********-->
             </div>
@@ -31,8 +31,11 @@
       <!--<div class="card">-->
       <nav class="row">
         <div class="col-sm-4 col-md-4 col-lg-2 finishTest">
+            <select #langSelect (change)="translate.use(langSelect.value)">
+                <option *ngFor="let lang of translate.getLangs()" [value]="lang" [selected]="lang === translate.currentLang">{{ lang }}</option>
+              </select>
           <div class="d-flex justify-content-center">
-            <button class="btn btn-primary" (click)="finishTest()">Завершити тест</button>
+            <button class="btn btn-primary" (click)="finishTest()">{{"TP.FINISH" | translate}}</button>
           </div>
         </div>
 
@@ -60,7 +63,7 @@
 
       <form class="test-form">
         <div *ngIf="!isLoaded">
-          Завантаження...
+          {{'TP.LOADING' | translate }}
         </div>
         <div *ngIf="isLoaded" [ngSwitch]="question.type">
           <div *ngSwitchCase="1">

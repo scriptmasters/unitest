@@ -35,7 +35,7 @@
                                     </div>
                                     <div class="table-responsive">
                                         <div *ngIf="studentService.infoTestId != null">
-                                            <div class="text-center testName"> Ви проходите тест:
+                                            <div class="text-center testName"> {{'STUDENT.PASSING' | translate}}: 
                                                 <span (click)="crossTest(studentService.infoTestId)">{{studentService.infoTestName}}</span>
                                             </div>
                                         </div>
@@ -46,7 +46,7 @@
                                                     <th>{{ 'STUDENT.DURATION' | translate }}</th>
                                                     <th>{{ 'STUDENT.QUESTION' | translate }}</th>
                                                     <th>{{ 'STUDENT.TIME' | translate}}</th>
-                                                    <th>{{ 'STUDENT.START' |translate }}</th>
+                                                    <th>{{ 'STUDENT.START' | translate }}</th>
                                                 </tr>
                                             </thead>
                                             <tbody>

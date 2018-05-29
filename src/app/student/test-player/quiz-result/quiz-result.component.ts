@@ -1,6 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { DataService } from '../../services/data.service';
 import { AuthService } from '../../../auth/auth.service';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-quiz-result',
@@ -35,7 +36,13 @@ export class QuizResultComponent implements OnInit, OnDestroy {
     };
   }
 
-  constructor(private data: DataService, public authService: AuthService) {}
+  constructor(private data: DataService, public authService: AuthService, public translate: TranslateService) {
+    translate.addLangs(['en', 'uk']);
+    translate.setDefaultLang('en');
+
+    const browserLang = translate.getBrowserLang();
+    translate.use(browserLang.match(/en|uk/) ? browserLang : 'uk');
+  }
   ngOnInit() {
     this.mark = this.data.getMark();
     this.drawChart();

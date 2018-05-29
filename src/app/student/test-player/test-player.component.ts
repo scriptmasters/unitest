@@ -13,6 +13,7 @@ import { QuestionService } from '../services/question.service';
 import { ConfirmMessageTestComponent } from './modal/confirm-message-test/confirm-message-test.component';
 import { AlertMessageTestComponent } from './modal/alert-message-test/alert-message-test.component';
 import { StudentService } from '../student.service';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-test-player',
@@ -64,7 +65,8 @@ export class TestPlayerComponent implements OnInit {
     private router: Router,
     private dialog: MatDialog,
     private authService: AuthService,
-    private data: DataService
+    private data: DataService,
+    public translate: TranslateService
   ) {
     const idTest = +this.route.snapshot.paramMap.get('id');
     this.studentService.getInfoTest().subscribe(startTestId => {
@@ -79,6 +81,10 @@ export class TestPlayerComponent implements OnInit {
     this.start = setInterval(() => {
       this.timerActions();
     }, 1000);
+    translate.addLangs(['en', 'uk']);
+    translate.setDefaultLang('uk');
+    const browserLang = translate.getBrowserLang();
+    translate.use(browserLang.match(/en|uk/) ? browserLang : 'uk');
   }
 
   ngOnInit() {
