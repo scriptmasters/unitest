@@ -81,10 +81,7 @@ export class TestPlayerComponent implements OnInit {
     this.start = setInterval(() => {
       this.timerActions();
     }, 1000);
-    translate.addLangs(['en', 'uk']);
-    translate.setDefaultLang('uk');
-    const browserLang = translate.getBrowserLang();
-    translate.use(browserLang.match(/en|uk/) ? browserLang : 'uk');
+    translate.use(this.data.getLang());
   }
 
   ngOnInit() {

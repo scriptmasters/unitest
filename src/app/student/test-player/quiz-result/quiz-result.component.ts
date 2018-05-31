@@ -37,11 +37,7 @@ export class QuizResultComponent implements OnInit, OnDestroy {
   }
 
   constructor(private data: DataService, public authService: AuthService, public translate: TranslateService) {
-    translate.addLangs(['en', 'uk']);
-    translate.setDefaultLang('en');
-
-    const browserLang = translate.getBrowserLang();
-    translate.use(browserLang.match(/en|uk/) ? browserLang : 'uk');
+    translate.use(this.data.getLang());
   }
   ngOnInit() {
     this.mark = this.data.getMark();

@@ -6,7 +6,7 @@
 
             </div>
             <div class="dtester-title">D-TESTER</div>
-            <select #langSelect (change)="translate.use(langSelect.value)">
+            <select #langSelect (change)="data.setLang(langSelect.value)">
                 <option *ngFor="let lang of translate.getLangs()" [value]="lang" [selected]="lang === translate.currentLang">{{ lang }}</option>
               </select>
             <a class="log-out" (click)="this.authService.logout()">

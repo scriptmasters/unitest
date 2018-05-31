@@ -5,9 +5,6 @@
               <span class="admin-title">{{ 'STUDENT.PAGE' | translate }}</span>
           </div>
           <div class="dtester-title">D-TESTER</div>
-          <select #langSelect (change)="translate.use(langSelect.value)">
-            <option *ngFor="let lang of translate.getLangs()" [value]="lang" [selected]="lang === translate.currentLang">{{ lang }}</option>
-          </select>
           <a class="log-out" (click)="this.authService.logout()">
               <span>{{ 'STUDENT.EXIT' | translate }}</span>
               <i class="fa fa-sign-out" aria-hidden="true"></i>

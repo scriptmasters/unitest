@@ -15,6 +15,7 @@ import { QuestionService } from './services/question.service';
 import { ResponseMessageComponent } from '../shared/response-message/response-message.component';
 import { MatDialog } from '@angular/material';
 import {TranslateService} from '@ngx-translate/core';
+import { DataService } from './services/data.service';
 @Component({
   selector: 'app-student',
   templateUrl: './student.component.html',
@@ -38,13 +39,15 @@ export class StudentComponent implements OnInit {
     private testPlayerService: TestPlayerService,
     private questionService: QuestionService,
     private router: Router,
-    public dialog: MatDialog, public translate: TranslateService
+    public dialog: MatDialog, public translate: TranslateService,
+    public data: DataService
   ) {
     translate.addLangs(['en', 'uk']);
-    translate.setDefaultLang('en');
-
-    const browserLang = translate.getBrowserLang();
-    translate.use(browserLang.match(/en|uk/) ? browserLang : 'en');
+    if (data.getLang === null) {
+      data.setLang('uk');
+    } else {
+      translate.use(data.getLang());
+    }
   }
 
   ngOnInit() {
