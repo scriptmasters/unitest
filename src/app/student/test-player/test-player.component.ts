@@ -81,6 +81,7 @@ export class TestPlayerComponent implements OnInit {
     this.start = setInterval(() => {
       this.timerActions();
     }, 1000);
+    translate.setDefaultLang('en');
     translate.use(this.data.getLang());
   }
 

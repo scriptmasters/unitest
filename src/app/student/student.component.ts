@@ -43,8 +43,8 @@ export class StudentComponent implements OnInit {
     public data: DataService
   ) {
     translate.addLangs(['en', 'uk']);
-    if (data.getLang === null) {
-      data.setLang('uk');
+    if (data.getLang.length === 0) {
+      translate.use('uk');
     } else {
       translate.use(data.getLang());
     }
