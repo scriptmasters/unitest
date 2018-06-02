@@ -23,6 +23,7 @@ export class ResultComponent extends Pagination implements OnInit, OnDestroy {
 
   resultRecords = [];
   showNoDataBlock = false;
+  testName: string;
 
   constructor(private resultService: ResultsService,
               public router: Router,
@@ -38,6 +39,7 @@ export class ResultComponent extends Pagination implements OnInit, OnDestroy {
   ngOnInit () {
     this.initLogic(true);
     this.pageSize = 5;
+    this.getTestById();
   }
 
   ngOnDestroy () {
@@ -135,5 +137,11 @@ export class ResultComponent extends Pagination implements OnInit, OnDestroy {
 
   private getQuality(result: number, maxRate: number): string {
     return Math.round(result / maxRate * 100) + '%';
+  }
+
+  private getTestById(testNumber): void {
+    this.resultService.getTestById(this.testId).subscribe((resp: any[]) => {
+      this.testName = resp[testNumber].test_name;
+    });
   }
 }
