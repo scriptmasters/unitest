@@ -1,4 +1,5 @@
-{
+{	
+	"ADMIN.TESTS":"Tests",
 	"STUDENT.DURATION": "Duration",
 	"STUDENT.EXIT": "Log out",
 	"STUDENT.FACULTY": "Faculty",

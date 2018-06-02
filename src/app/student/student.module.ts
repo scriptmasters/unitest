@@ -7,7 +7,6 @@ import { TestPlayerComponent } from './test-player/test-player.component';
 import { TestPlayerService } from './services/test-player.service';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { StudentService } from './student.service';
-import { TestResultComponent } from './test-player/test-result/test-result.component';
 import { SharedModule } from '../shared/shared.module';
 import { TimerService } from './services/timer.service';
 import { QuizResultComponent } from './test-player/quiz-result/quiz-result.component';
@@ -20,10 +19,10 @@ import {HttpClient, HttpClientModule} from '@angular/common/http';
 import {TranslateModule, TranslateLoader} from '@ngx-translate/core';
 import {TranslateHttpLoader} from '@ngx-translate/http-loader';
 
-// AoT requires an exported function for factories
 export function HttpLoaderFactory(httpClient: HttpClient) {
   return new TranslateHttpLoader(httpClient);
 }
+
 @NgModule({
   imports: [
     CommonModule,
@@ -44,7 +43,6 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
   declarations: [
     StudentComponent,
     TestPlayerComponent,
-    TestResultComponent,
     QuizResultComponent,
     ConfirmMessageTestComponent,
     AlertMessageTestComponent,
@@ -58,7 +56,6 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
     DataService,
   ],
   entryComponents: [
-    TestResultComponent,
     ConfirmMessageTestComponent,
     AlertMessageTestComponent,
   ],

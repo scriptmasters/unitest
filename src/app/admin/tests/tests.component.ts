@@ -7,7 +7,7 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {DeleteConfirmComponent} from '../../shared/delete-confirm/delete-confirm.component';
 import {IResponse} from './test';
 import {ResponseMessageComponent} from '../../shared/response-message/response-message.component';
-
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-tests',
@@ -20,9 +20,11 @@ export class TestsComponent implements OnInit {
   subjectId: number;
   answer = true;
 
-  constructor(private httpService: TestService, public dialog: MatDialog, private router: Router, private activatedRoute: ActivatedRoute) {
+  constructor(private httpService: TestService, public dialog: MatDialog, private router: Router, private activatedRoute: ActivatedRoute,
+    public translate: TranslateService) {
     this.activatedRoute.queryParams.subscribe(params => {
       this.subjectId = params['subjectId'];
+      translate.use('en');
     });
   }
 
