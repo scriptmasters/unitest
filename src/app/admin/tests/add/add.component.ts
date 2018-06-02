@@ -37,12 +37,11 @@ initForm() {
 onSubmit() {
   const controls = this.rForm.controls;
   if (this.rForm.invalid) {
-  /** якщо форма не валідна то помічаємо всі контроли як touched*/
   Object.keys(controls)
     .forEach(controlName => controls[controlName].markAsTouched());
     return;
     }
-    // Опрацювання даних форми
+
    this.httpService.addTest(this.rForm.value).subscribe(
     () => {this.dialogRef.close();
         this.httpService.openTooltip('Тест успішно додано');

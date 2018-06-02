@@ -77,7 +77,7 @@ export class TestsComponent implements OnInit {
     );
   }
 
-  openDialog(t: object, id: number): void {
+  editTest(t: object, id: number): void {
     const matDialogRef = this.dialog.open(EditComponent, {
       width: '400px',
       disableClose: true,
@@ -86,7 +86,7 @@ export class TestsComponent implements OnInit {
     matDialogRef.afterClosed().subscribe(() => this.getTestsById(this.subjectId));
   }
 
-  addDialog() {
+  addTest() {
     const matDialogRef = this.dialog.open(AddComponent, {
       disableClose: true,
       width: '400px', data: { id: this.subjectId }
