@@ -22,12 +22,48 @@
                 <thead>
                 <tr>
                   <th>№</th>
-                  <th>Студент</th>
-                  <th>Рейтинг</th>
-                  <th>Якість</th>
-                  <th>Дата</th>
-                  <th>Тривалість</th>
-                  <th>Час початку</th>
+                  <th class="pointer" (click)="setOrder((order === 'student' ? 'studentDesc' : 'student'))"  >
+                    <span>Студент</span>
+                    <i *ngIf="order === 'student'" class="fa fa-sort-asc"
+                       aria-hidden="true"></i>
+                    <i *ngIf="order === 'studentDesc'" class="fa fa-sort-desc"
+                       aria-hidden="true"></i>
+                  </th>
+                  <th class="pointer" (click)="setOrder((order === 'result' ? 'resultDesc' : 'result'))"  >
+                    <span>Рейтинг</span>
+                    <i *ngIf="order === 'result'" class="fa fa-sort-asc"
+                       aria-hidden="true"></i>
+                    <i *ngIf="order === 'resultDesc'" class="fa fa-sort-desc"
+                       aria-hidden="true"></i>
+                  </th>
+                  <th class="pointer" (click)="setOrder((order === 'quality' ? 'qualityDesc' : 'quality'))"  >
+                    <span>Якість</span>
+                    <i *ngIf="order === 'quality'" class="fa fa-sort-asc"
+                       aria-hidden="true"></i>
+                    <i *ngIf="order === 'qualityDesc'" class="fa fa-sort-desc"
+                       aria-hidden="true"></i>
+                  </th>
+                  <th class="pointer" (click)="setOrder((order === 'date' ? 'dateDesc' : 'date'))"  >
+                    <span>Дата</span>
+                    <i *ngIf="order === 'date'" class="fa fa-sort-asc"
+                       aria-hidden="true"></i>
+                    <i *ngIf="order === 'dateDesc'" class="fa fa-sort-desc"
+                       aria-hidden="true"></i>
+                  </th>
+                  <th class="pointer" (click)="setOrder((order === 'duration' ? 'durationDesc' : 'duration'))"  >
+                    <span>Тривалість</span>
+                    <i *ngIf="order === 'duration'" class="fa fa-sort-asc"
+                       aria-hidden="true"></i>
+                    <i *ngIf="order === 'durationDesc'" class="fa fa-sort-desc"
+                       aria-hidden="true"></i>
+                  </th>
+                  <th class="pointer" (click)="setOrder((order === 'time' ? 'timeDesc' : 'time'))"  >
+                    <span>Час початку</span>
+                    <i *ngIf="order === 'time'" class="fa fa-sort-asc"
+                       aria-hidden="true"></i>
+                    <i *ngIf="order === 'timeDesc'" class="fa fa-sort-desc"
+                       aria-hidden="true"></i>
+                  </th>
                 </tr>
                 </thead>
                 <tbody>

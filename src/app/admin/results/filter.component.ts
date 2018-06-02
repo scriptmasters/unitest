@@ -74,8 +74,7 @@ export class FilterComponent implements OnInit {
                       Validators.pattern('([0-9\.])+')]],
         groupId: ['', [Validators.required,
                        Validators.minLength(1),
-                       Validators.pattern('([0-9\.])+')]],
-        order: ''
+                       Validators.pattern('([0-9\.])+')]]
       }, {updateOn: 'blur'});
   }
 }
