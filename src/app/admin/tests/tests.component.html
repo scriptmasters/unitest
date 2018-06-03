@@ -10,7 +10,7 @@
                         <select (change)="getTestsById(subjectId)" [(ngModel)]="subjectId" class="form-control col-6">
                             <option *ngFor="let s of subject" [value]="s.subject_id">{{s.subject_name}}</option>
                         </select>
-                        <button type="button" class="btn btn-primary" (click)="addTest()">Додати новий параметр</button>
+                        <button type="button" class="btn btn-primary" (click)="addTest()">{{'ADMIN.PARAM' | translate}}</button>
                     </div>
                 </div>
             </div>

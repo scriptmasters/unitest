@@ -24,8 +24,8 @@ export class TestsComponent implements OnInit {
     public translate: TranslateService) {
     this.activatedRoute.queryParams.subscribe(params => {
       this.subjectId = params['subjectId'];
-      translate.use('en');
     });
+    translate.use('en');
   }
 
   ngOnInit() {
