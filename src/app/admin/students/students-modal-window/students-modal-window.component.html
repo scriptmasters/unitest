@@ -11,23 +11,23 @@
                     <div class="form-row">
                         <div class="form-group col-6">
                             <!-- lastname -->
-                            <label>Прізвище</label>
-                            <input class="form-control col-12" type="text" formControlName="surname" [(ngModel)]="student.student_surname" name="surname" placeholder="Прізвище...">
+                            <label>{{'ADMIN.STUD.LASTNAME' | translate }}</label>
+                            <input class="form-control col-12" type="text" formControlName="surname" [(ngModel)]="student.student_surname" name="surname" placeholder="{{'ADMIN.STUD.LASTNAME' | translate}}">
                             <div class="form-msg">
                                 <div *ngIf="surnameC.invalid && (surnameC.dirty || surnameC.touched)" class="error col-12">
-                                    <span *ngIf="surnameC.errors.pattern">Невірний формат</span>
-                                    <span *ngIf="surnameC.errors.required">Це поле є обов'язковим</span>
+                                    <span *ngIf="surnameC.errors.pattern">{{'ADMIN.WRONG' | translate}}</span>
+                                    <span *ngIf="surnameC.errors.required">{{'REQUIRED' | translate}}</span>
                                 </div>
                             </div>
                         </div>
                         <!-- firstname -->
                         <div class="form-group col-6">
-                            <label>Ім'я</label>
-                            <input class="form-control col-12" type="text" formControlName="firstname" name="firstname" [(ngModel)]="student.student_name" placeholder="Ім'я...">
+                            <label>{{'ADMIN.STUD.FIRST' | translate}}</label>
+                            <input class="form-control col-12" type="text" formControlName="firstname" name="firstname" [(ngModel)]="student.student_name" placeholder="{{'ADMIN.STUD.FIRST' | translate}}">
                             <div class="form-msg">
                                 <div *ngIf="firstnameC.invalid && (firstnameC.dirty || firstnameC.touched)" class="error col-12">
-                                    <span *ngIf="firstnameC.errors.pattern">Невірний формат</span>
-                                    <span *ngIf="firstnameC.errors.required">Це поле є обов'язковим</span>
+                                    <span *ngIf="firstnameC.errors.pattern">{{'ADMIN.WRONG' | translate}}</span>
+                                    <span *ngIf="firstnameC.errors.required">{{'REQUIRED' | translate}}</span>
                                 </div>
                             </div>
                         </div>
@@ -35,12 +35,12 @@
                     <div class="form-row">
                         <div class="form-group col-12">
                             <!-- Fathers name -->
-                            <label>По-батькові</label>
-                            <input class="form-control col-12" type="text" formControlName="fname" name="fname" [(ngModel)]="student.student_fname" placeholder="По-батькові...">
+                            <label>{{'ADMIN.STUD.FATHERS' | translate}}</label>
+                            <input class="form-control col-12" type="text" formControlName="fname" name="fname" [(ngModel)]="student.student_fname" placeholder="{{'ADMIN.STUD.FATHERS' | translate}}">
                             <div class="form-msg">
                                 <div *ngIf="fnameC.invalid && (fnameC.dirty || fnameC.touched)" class="error col-12">
-                                    <span *ngIf="fnameC.errors.pattern">Невірний формат</span>
-                                    <span *ngIf="fnameC.errors.required">Це поле є обов'язковим</span>
+                                    <span *ngIf="fnameC.errors.pattern">{{'ADMIN.WRONG' | translate}}</span>
+                                    <span *ngIf="fnameC.errors.required">{{'REQUIRED' | translate}}</span>
                                 </div>
                             </div>
                         </div>
@@ -50,7 +50,7 @@
                         <span *ngIf="!data.updating" class="form-row">
               <div class="form-group col-6">
                 <!-- Faculty -->
-                <label>Факультет</label>
+                <label>{{'ADMIN.FA' | translate}}</label>
                 <select 
                   class="form-control col-12" 
                   id="facultySelect" 
@@ -60,8 +60,8 @@
                   (change)="getGroups(facultyField)">
                   <option
                     [selected]="true"
-                    value="Виберіть факультет">
-                    Виберіть факультет
+                    value="{{'ADMIN.GROUP.CHOOSEF' | translate}}">
+                    {{'ADMIN.GROUP.CHOOSEF' | translate}}
                   </option>
                   <option *ngFor="let faculty of faculties">
                     {{faculty.faculty_name}}
@@ -71,13 +71,13 @@
                   <div 
                     *ngIf="facultyC.touched && facultyC.errors?.faculty" 
                     class="error col-12">
-                    Виберіть факультет!
+                    {{'ADMIN.GROUP.CHOOSEF' | translate}}!
                   </div>
                 </div>
               </div>
               <div class="form-group col-6">
                 <!-- Group -->
-                <label>Група</label>
+                <label>{{'GR' | translate}}</label>
                 <select 
                   class="form-control col-12" 
                   id="groupsSelect" 
@@ -86,8 +86,8 @@
                   #groupField (change)="handleSetGroup(groupField)">
                   <option
                     [selected]="true"
-                    value="Виберіть групу">
-                    Виберіть групу
+                    value="{{'ADMIN.CHOOSEG' | translate}}'">
+                    {{'ADMIN.CHOOSEG' | translate}}
                   </option>
                   <option *ngFor="let group of groups">
                     {{group.group_name}}
@@ -97,7 +97,7 @@
                   <div 
                     *ngIf="groupC.touched && groupC.errors?.group" 
                     class="error col-12">
-                    Виберіть групу!
+                    {{'ADMIN.CHOOSEG' | translate}}!
                   </div>                 
                 </div>
               </div>
@@ -106,7 +106,7 @@
                         <span *ngIf="data.updating" class="form-row">
               <div class="form-group col-6">
                 <!-- Faculty -->
-                <label>Факультет</label>
+                <label>{{'STUDENT.FACULTY' | translate}}</label>
                 <select 
                   class="form-control col-12" 
                   id="facultySelect" 
@@ -124,13 +124,13 @@
                   <div 
                     *ngIf="facultyC.touched && facultyC.errors?.faculty" 
                     class="error col-12">
-                    Виберіть факультет!
+                    {{'ADMIN.GROUP.CHOOSEF' | translate}}!
                   </div>
                 </div>
               </div>
               <div class="form-group col-6">
                 <!-- Group -->
-                <label>Група</label>
+                <label>{{'GR' | translate}}</label>
                 <select 
                   class="form-control col-12" 
                   id="groupsSelect" 
@@ -140,8 +140,8 @@
                   [(ngModel)]="chooseGroup"
                   (change)="handleSetGroup(groupField)">
                   <option
-                    value="Виберіть групу">
-                    Виберіть групу
+                    value="{{'ADMIN.CHOOSEG' | translate}}">
+                    {{'ADMIN.CHOOSEG' | translate}}
                   </option>
                   <option 
                     *ngFor="let group of groups"
@@ -153,7 +153,7 @@
                   <div 
                     *ngIf="groupC.touched && (groupC.errors?.group || groupC.errors?.required)" 
                     class="error col-12">
-                    Виберіть групу!
+                    {{'ADMIN.CHOOSEG' | translate}}!
                   </div>
                 </div>
               </div>
@@ -162,12 +162,12 @@
                     <div class="form-row">
                         <div class="form-group col-12">
                             <!-- Gradebook id -->
-                            <label>Номер заліковки</label>
-                            <input class="form-control col-12" type="text" formControlName="gradebook" name="gradebook" [(ngModel)]="student.gradebook_id" placeholder="№ заліковки...">
+                            <label>{{'ADMIN.STUD.GN' | translate}}</label>
+                            <input class="form-control col-12" type="text" formControlName="gradebook" name="gradebook" [(ngModel)]="student.gradebook_id" placeholder="{{'ADMIN.STUD.GN' | translate}}">
                             <div class="form-msg">
                                 <div *ngIf="gradebookC.invalid && (gradebookC.dirty || gradebookC.touched)" class="error col-12">
-                                    <span *ngIf="gradebookC.errors.pattern">Невірний формат</span>
-                                    <span *ngIf="gradebookC.errors.required">Це поле є обов'язковим</span>
+                                    <span *ngIf="gradebookC.errors.pattern">{{'ADMIN.WRONG' | translate}}</span>
+                                    <span *ngIf="gradebookC.errors.required">{{'REQUIRED' | translate}}</span>
                                 </div>
                             </div>
                         </div>
@@ -175,12 +175,12 @@
                     <div class="form-row">
                         <div class="form-group col-12">
                             <!-- Username -->
-                            <label>Логін</label>
-                            <input class="form-control col-12" type="text" formControlName="login" name="login" [(ngModel)]="studentInfo.username" placeholder="Логін...">
+                            <label>{{'ADMIN.LOGIN' | translate}}</label>
+                            <input class="form-control col-12" type="text" formControlName="login" name="login" [(ngModel)]="studentInfo.username" placeholder="{{'ADMIN.LOGIN' | translate}}">
                             <div class="form-msg">
                                 <div *ngIf="loginC.invalid && (loginC.dirty || loginC.touched)" class="error col-12">
-                                    <span *ngIf="loginC.errors.pattern">Невірний формат</span>
-                                    <span *ngIf="loginC.errors.required">Це поле є обов'язковим</span>
+                                    <span *ngIf="loginC.errors.pattern">{{'ADMIN.WRONG' | translate}}</span>
+                                    <span *ngIf="loginC.errors.required">{{'REQUIRED' | translate}}</span>
                                     <span *ngIf="loginC.errors.loginTaken">Цей логін вже зайнятий</span>
                                 </div>
                             </div>
@@ -194,8 +194,8 @@
                             <i class="visibility-toggler fa fa-eye" aria-hidden="true" (click)="handleTogglePasswordVisibility($event)"></i>
                             <div class="form-msg">
                                 <div *ngIf="passwordC.invalid && (passwordC.dirty || passwordC.touched)" class="error col-12">
-                                    <span *ngIf="passwordC.errors.pattern">Невірний формат(від 8 до 32 символів дозволено)</span>
-                                    <span *ngIf="passwordC.errors.required">Це поле є обов'язковим</span>
+                                    <span *ngIf="passwordC.errors.pattern">{{'ADMIN.WRONG' | translate}}</span>
+                                    <span *ngIf="passwordC.errors.required">{{'REQUIRED' | translate}}</span>
                                 </div>
                             </div>
                         </div>
@@ -214,8 +214,8 @@
                     <div class="form-row">
                         <div class="form-group col-12">
                             <!-- Email -->
-                            <label>Поштова скринька</label>
-                            <input class="form-control col-12" type="email" formControlName="email" name="email" [(ngModel)]="studentInfo.email" placeholder="Поштова скринька..." email>
+                            <label>{{'ADMIN.MAIL' | translate}}</label>
+                            <input class="form-control col-12" type="email" formControlName="email" name="email" [(ngModel)]="studentInfo.email" placeholder="{{'ADMIN.MAIL' | translate}}" email>
                             <div class="form-msg">
                                 <div *ngIf="emailC.invalid && (emailC.dirty || emailC.touched)" class="error col-12">
                                     <span *ngIf="emailC.errors.email">Поштова скринька повинна бути формату логін@домен</span>
@@ -268,26 +268,26 @@
                     <div class="form-row">
                         <div class="form-group col-6">
                             <!-- lastname -->
-                            <label>Прізвище</label>
+                            <label>{{'ADMIN.STUD.LASTNAME' | translate}}</label>
                             <span class="form-control col-12">{{student.student_surname}}</span>
                         </div>
                         <div class="form-group col-6">
                             <!-- name -->
-                            <label>Ім'я</label>
+                            <label>{{'ADMIN.STUD.FIRST' | translate}}</label>
                             <span class="form-control col-12">{{student.student_name}}</span>
                         </div>
                     </div>
                     <div class="form-row">
                         <div class="form-group col-12">
                             <!-- fathers name -->
-                            <label>По-батькові</label>
+                            <label>{{'ADMIN.STUD.FATHERS' | translate}}</label>
                             <span class="form-control col-12">{{student.student_fname}}</span>
                         </div>
                     </div>
                     <div class="form-row">
                         <div class="form-group col-6">
                             <!-- faculty -->
-                            <label>Факультет</label>
+                            <label>{{'STUDENT.FACULTY' | translate}}</label>
                             <span class="form-control col-12">{{studentFaculty.faculty_name}}</span>
                         </div>
                         <div class="form-group col-6">
@@ -299,7 +299,7 @@
                     <div class="form-row">
                         <div class="form-group col-12">
                             <!-- gradebook id -->
-                            <label>Номер заліковки</label>
+                            <label>{{'ADMIN.STUD.GN' | translate}}</label>
                             <span class="form-control col-12">{{student.gradebook_id}}</span>
                         </div>
                     </div>

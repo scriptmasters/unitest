@@ -10,7 +10,7 @@ import { TranslateService } from '@ngx-translate/core';
 export class AdminComponent implements OnInit {
 
   constructor(public authService: AuthService, public translate: TranslateService) {
-    translate.use('uk');
+    translate.use('en');
   }
 
   ngOnInit() {
