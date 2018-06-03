@@ -25,7 +25,6 @@ export class TestsComponent implements OnInit {
     this.activatedRoute.queryParams.subscribe(params => {
       this.subjectId = params['subjectId'];
     });
-    translate.use('en');
   }
 
   ngOnInit() {

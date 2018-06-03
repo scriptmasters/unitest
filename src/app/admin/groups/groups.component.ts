@@ -10,6 +10,7 @@ import {DeleteConfirmComponent} from '../../shared/delete-confirm/delete-confirm
 import {Pagination} from '../../shared/pagination/pagination.class';
 import {HttpClient} from '@angular/common/http';
 import {PaginationService} from '../../shared/pagination/pagination.service';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
     selector: 'app-groups',
@@ -47,7 +48,8 @@ export class GroupsComponent extends Pagination implements OnInit, OnDestroy {
                 public http: HttpClient,
                 public route: ActivatedRoute,
                 public pagService: PaginationService,
-                public snackBar: MatSnackBar) {
+                public snackBar: MatSnackBar,
+                public translate: TranslateService) {
     super(router, route, pagIntl, http, dialog, pagService, snackBar);
         this.route.queryParams.subscribe(params => {
             if (params.specialityId) {

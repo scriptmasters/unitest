@@ -5,11 +5,11 @@
         <div class="card col-12 col-lg-12">
           <div class="card-body  d-flex justify-content-between">
             <div class="align-self-center">
-              <h2 class="display">Результати</h2>
+              <h2 class="display">{{'ADMIN.RESULTS' | translate}}</h2>
             </div>
             <div>
               <button class="btn btn-success"
-                      (click)="showFilter()">Показати фільтр</button>
+                      (click)="showFilter()">{{'ADMIN.RES.FILTER' | translate}}</button>
             </div>
           </div>
         </div>
@@ -22,12 +22,12 @@
                 <thead>
                 <tr>
                   <th>№</th>
-                  <th>Студент</th>
-                  <th>Рейтинг</th>
-                  <th>Якість</th>
-                  <th>Дата</th>
-                  <th>Тривалість</th>
-                  <th>Час початку</th>
+                  <th>{{'ADMIN.STUDENTS' | translate}}</th>
+                  <th>{{'ADMIN.RES.RATING' | translate}}</th>
+                  <th>{{'ADMIN.RES.QUALITY' | translate}}</th>
+                  <th>{{'ADMIN.RES.DATE' | translate}}</th>
+                  <th>{{'ADMIN.RES.DATE' | translate }}</th>
+                  <th>{{'ADMIN.RES.DATE' | translate}}</th>
                 </tr>
                 </thead>
                 <tbody>
