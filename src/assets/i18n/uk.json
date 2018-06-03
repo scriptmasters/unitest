@@ -1,5 +1,16 @@
-{	
-	"ADMIN.TESTS":"Тести",
+{
+	"ADMIN.ADMINS": "Адміністратори",
+	"ADMIN.FACULTIES": "Факультети",
+	"ADMIN.GROUPS": "Групи",
+	"ADMIN.PANEL": "ПАНЕЛЬ АДМІНІСТРАТОРА",
+	"ADMIN.PARAM": "Додати новий параметр",
+	"ADMIN.RESULTS": "Результати",
+	"ADMIN.SPECIALTIES": "Спеціальності",
+	"ADMIN.STATISTIC": "Статистика",
+	"ADMIN.STUDENTS": "Студенти",
+	"ADMIN.SUBJECTS": "Предмети",
+	"ADMIN.TESTS": "Тести",
+	"ADMIN.SCHEDULE": "Розклад",
 	"STUDENT.DURATION": "Тривалість",
 	"STUDENT.EXIT": "Вийти",
 	"STUDENT.FACULTY": "Факультет",

@@ -1,5 +1,16 @@
-{	
-	"ADMIN.TESTS":"Tests",
+{
+	"ADMIN.ADMINS": "Administrators",
+	"ADMIN.FACULTIES": "Faculties",
+	"ADMIN.GROUPS": "Groups",
+	"ADMIN.PANEL": "ADMIN PANEL",
+	"ADMIN.PARAM": "Add new param",
+	"ADMIN.RESULTS": "Results",
+	"ADMIN.SPECIALTIES": "Specialties",
+	"ADMIN.STATISTIC": "Statistic",
+	"ADMIN.STUDENTS": "Students",
+	"ADMIN.SUBJECTS": "Subjects",
+	"ADMIN.TESTS": "Tests",
+	"ADMIN.SCHEDULE": "Schedule",
 	"STUDENT.DURATION": "Duration",
 	"STUDENT.EXIT": "Log out",
 	"STUDENT.FACULTY": "Faculty",
