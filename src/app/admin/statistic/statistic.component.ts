@@ -23,6 +23,9 @@ export class StatisticComponent implements OnInit {
   faculties: Faculties[] = [];
   speciality: Speciality[] = [];
   groups: any;
+  titleGroups = 'Груп';
+  titleOfFacultyDiagram = 'Статистика груп по факультетах';
+  titleOfSpecialityDiagram = 'Статистика груп по спеціальностях';
 
   ngOnInit() {
     this.Statistica.countQuestion().subscribe(value => {
@@ -55,18 +58,16 @@ export class StatisticComponent implements OnInit {
     this.facultiesService.getFaculties()
       .subscribe((data: Faculties[]) => {
         this.faculties = data;
-        const arr = {name: '', y: ''};
-        const arr1 = [];
+        const numberOfGroupsInFaculty = [];
         for (let i = 0; i < data.length; i++) {
           const id = data[i].faculty_id;
           this.Statistica.getGroupsByFaculty(id)
-            .subscribe((data1: any) => {
-              this.groups = data1;
-              arr.name = data[i].faculty_name;
-              arr.y = data1.length;
-              arr1.push({name: arr.name, y: arr.y});
+            .subscribe((numberOfGroups: any) => {
+              this.groups = numberOfGroups;
+              data.length ? numberOfGroupsInFaculty.push({name: data[i].faculty_name, y: numberOfGroups.length}) :
+                            numberOfGroupsInFaculty.push({name: data[i].faculty_name, y: 0});
 
-              Highcharts.chart('container', {
+              Highcharts.chart('groupsByFaculty', {
                 credits: {
                   enabled: false
                 },
@@ -75,12 +76,12 @@ export class StatisticComponent implements OnInit {
                   plotBorderWidth: null,
                   plotShadow: false,
                   type: 'pie',
-                  width: 700,
+                  width: 320,
                   backgroundColor: '#0000',
                   polar: true,
                 },
                 title: {
-                  text: 'Статистика груп по факультетах'
+                  text: this.titleOfFacultyDiagram
                 },
                 tooltip: {
                   pointFormat: '{series.name}: <b>{point.y}</b>'
@@ -99,9 +100,9 @@ export class StatisticComponent implements OnInit {
                   }
                 },
                 series: [{
-                  name: 'Груп',
+                  name: this.titleGroups,
                   colorByPoint: true,
-                  data: arr1
+                  data: numberOfGroupsInFaculty
                 }]
               });
             });
@@ -111,18 +112,16 @@ export class StatisticComponent implements OnInit {
     this.Statistica.getSpecialities()
       .subscribe((data: Speciality[]) => {
         this.speciality = data;
-        const arr = {name: '', y: ''};
-        const arr1 = [];
+        const numberOfGroupsInSpeciality = [];
         for (let i = 0; i < data.length; i++) {
           const id = data[i].speciality_id;
           this.Statistica.getGroupsBySpeciality(id)
-            .subscribe((data1: any) => {
-              this.groups = data1;
-              arr.name = data[i].speciality_name;
-              arr.y = data1.length;
-              arr1.push({name: data[i].speciality_name, y: data1.length});
+            .subscribe((numberOfGroups: any) => {
+              this.groups = numberOfGroups;
+               data.length ? numberOfGroupsInSpeciality.push({name: data[i].speciality_name, y: numberOfGroups.length}) :
+                              numberOfGroupsInSpeciality.push({name: data[i].speciality_name, y: 0});
 
-              Highcharts.chart('container1', {
+              Highcharts.chart('groupsBySpeciality', {
                 credits: {
                   enabled: false
                 },
@@ -131,12 +130,12 @@ export class StatisticComponent implements OnInit {
                   plotBorderWidth: null,
                   plotShadow: false,
                   type: 'pie',
-                  width: 550,
+                  width: 320,
                   backgroundColor: '#0000',
                   polar: true,
                 },
                 title: {
-                  text: 'Статистика груп по спеціальностях'
+                  text: this.titleOfSpecialityDiagram
                 },
                 tooltip: {
                   pointFormat: '{series.name}: <b>{point.y}</b>'
@@ -155,9 +154,9 @@ export class StatisticComponent implements OnInit {
                   }
                 },
                 series: [{
-                  name: 'Груп',
+                  name: this.titleGroups,
                   colorByPoint: true,
-                  data: arr1
+                  data: numberOfGroupsInSpeciality
                 }]
               });
             });
