@@ -1,4 +1,4 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {Component, OnInit, OnDestroy, ViewChild} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {ResultsService} from './services/results.service';
 import {PaginationInstance} from 'ngx-pagination';
@@ -10,22 +10,21 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms';
   templateUrl: './filter.component.html',
   styleUrls: ['./filter.component.scss']
 })
-export class FilterComponent implements OnInit {
+export class FilterComponent implements OnInit, OnDestroy {
 
   filterForm: FormGroup;
   testId: number;
   groupId: number;
   groups = [];
   tests = [];
-  orderTypes = [{id: 'date', name: 'по даті'},
-                {id: 'rate', name: 'по рейтингу'},
-                {id: 'userName', name: 'по імені'}];
+  testsForSelection = [];
   showFilter = true;
 
   config: PaginationInstance = {
     itemsPerPage: 10,
     currentPage: 1,
   };
+  private groupChange$: any;
 
   @ViewChild(ResultComponent) resultComponent;
 
@@ -49,11 +48,21 @@ export class FilterComponent implements OnInit {
 
     this.resultService.getTests().subscribe((testData: any[]) => {
       this.tests = (testData['response'] === 'no records') ? [] : testData;
+      this.testsForSelection = this.tests;
     });
 
     this.resultService.getGroups().subscribe((groupData: any[]) => {
       this.groups = (groupData['response'] === 'no records') ? [] : groupData;
+      this.groups.sort((a, b) => {
+        if (a.group_name < b.group_name) { return -1; }
+        if (a.group_name > b.group_name) { return 1; }
+        return 0;
+      });
     });
+  }
+
+  ngOnDestroy() {
+    this.groupChange$.unsubscribe();
   }
 
   search() {
@@ -68,13 +77,40 @@ export class FilterComponent implements OnInit {
   }
 
   private initForm() {
-      this.filterForm = this.formBuilder.group({
-        testId: ['', [Validators.required,
-                      Validators.minLength(1),
-                      Validators.pattern('([0-9\.])+')]],
-        groupId: ['', [Validators.required,
-                       Validators.minLength(1),
-                       Validators.pattern('([0-9\.])+')]]
-      }, {updateOn: 'blur'});
+    this.filterForm = this.formBuilder.group({
+      testId: [{value: '', disabled: true}, [Validators.required,
+                    Validators.minLength(1),
+                    Validators.pattern('([0-9\.])+')]],
+      groupId: ['', [Validators.required,
+                     Validators.minLength(1),
+                     Validators.pattern('([0-9\.])+')]]
+    }, {updateOn: 'blur'});
+    this.groupChange$ = this.filterForm.get('groupId').valueChanges.subscribe( e => {
+      if (e) {
+        this.filterForm.get('testId').enable();
+        this.resultService.getResultTestIdsByGroup(e).subscribe(response => {
+          this.mergeTestForSelection(response);
+        });
+      } else {
+        this.filterForm.get('testId').setValue(null);
+        this.filterForm.get('testId').disable();
+      }
+    });
+  }
+
+  private mergeTestForSelection(testIds) {
+    testIds = (testIds['response'] === 'no records') ? [] : testIds;
+    this.testsForSelection = [];
+    testIds.forEach(result => {
+      const test = this.tests.find(x => x.test_id === result.test_id);
+      if (test) {
+        this.testsForSelection.push(test);
+      }
+    });
+    this.testsForSelection.sort((a, b) => {
+      if (a.test_name < b.test_name) { return -1; }
+      if (a.test_name > b.test_name) { return 1; }
+      return 0;
+    });
   }
 }

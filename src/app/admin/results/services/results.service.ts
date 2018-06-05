@@ -39,4 +39,8 @@ export class ResultsService {
     return this.http.get(url);
   }
 
+  getResultTestIdsByGroup(groupId) {
+    const url = `Result/getResultTestIdsByGroup/${groupId}`;
+    return this.http.get(url);
+  }
 }

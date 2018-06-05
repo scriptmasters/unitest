@@ -24,7 +24,7 @@
                           formControlName="testId" >
                     <option value=""
                             selected>Оберіть тест</option>
-                    <option *ngFor="let item of tests"
+                    <option *ngFor="let item of testsForSelection"
                             [value]="item.test_id">{{item.test_name}}</option>
                   </select>
                 </div>
