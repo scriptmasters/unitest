@@ -1,6 +1,7 @@
 <form novalidate [formGroup]="myForm">
     <header class="form-row justify-content-between mb-2">
-        <h2 class="pl-1">{{data.group_id ? 'Редагувати' : 'Додати'}} групу</h2>
+        <h2 class="pl-1" *ngIf="data.group_id">{{ 'ADMIN.GROUP.EDIT' | translate}}</h2>
+        <h2 class="pl-1" *ngIf="!data.group_id">{{ 'ADMIN.GROUP.ADD' | translate}}</h2>
         <i class="fa fa-times close pr-1" aria-hidden="true" (click)="handleClose()"></i>
     </header>
     <div class="form-row">
@@ -48,7 +49,8 @@
             <input type="button" class="btn btn-danger col-sm-12" value="{{'ADMIN.CANCEL' | translate}}" (click)="handleClose()">
         </div>
         <div class="form-group col-sm-6 col-md-4">
-            <input type="submit" class="btn btn-success col-sm-12" (click)="close()" [value]="data.group_id ? 'Редагувати' : 'Зареєструвати'" [disabled]="!myForm.valid">
+            <input *ngIf="data.group_id" type="submit" class="btn btn-success col-sm-12" (click)="close()" [disabled]="!myForm.valid" value="{{'EDIT' | translate}}">
+            <input *ngIf="!data.group_id" type="submit" class="btn btn-success col-sm-12" (click)="close()" [disabled]="!myForm.valid" value="{{'ADMIN.SUBMIT' | translate}}">
         </div>
     </div>
 </form>

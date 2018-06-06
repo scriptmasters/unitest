@@ -2,7 +2,8 @@
     <!-- creating or updating student -->
     <div *ngSwitchCase="true" class="container-fluid">
         <div class="header raw d-flex justify-content-between">
-            <h1>{{data.submitButtonText}}</h1>
+            <h1 *ngIf="!data.student">{{'ADMIN.STUD.AS' | translate}}</h1>
+            <h1 *ngIf="data.student">{{'ADMIN.STUD.ES' | translate}}</h1>
             <i class="fa fa-close" (click)="handleClose()"></i>
         </div>
         <div class="row">
@@ -181,7 +182,7 @@
                                 <div *ngIf="loginC.invalid && (loginC.dirty || loginC.touched)" class="error col-12">
                                     <span *ngIf="loginC.errors.pattern">{{'ADMIN.WRONG' | translate}}</span>
                                     <span *ngIf="loginC.errors.required">{{'REQUIRED' | translate}}</span>
-                                    <span *ngIf="loginC.errors.loginTaken">Цей логін вже зайнятий</span>
+                                    <span *ngIf="loginC.errors.loginTaken">{{'ADMIN.STUD.TLOGIN' | translate}}</span>
                                 </div>
                             </div>
                         </div>
@@ -189,7 +190,7 @@
                     <div class="form-row">
                         <div class="form-group col-6">
                             <!-- Password -->
-                            <label>Пароль</label>
+                            <label>{{'ADMIN.STUD.PASS' | translate}}</label>
                             <input class="form-control col-12" type="password" formControlName="password" name="password" [(ngModel)]="student.plain_password" placeholder="Пароль...">
                             <i class="visibility-toggler fa fa-eye" aria-hidden="true" (click)="handleTogglePasswordVisibility($event)"></i>
                             <div class="form-msg">
@@ -201,13 +202,11 @@
                         </div>
                         <div id="password_confirm" class="form-group col-6">
                             <!-- Password confirm -->
-                            <label>Підтвердити пароль</label>
-                            <input class="form-control col-12" type="password" formControlName="password_confirm" name="password_confirm" [(ngModel)]="student.password_confirm" placeholder="Підтвердити пароль...">
+                            <label>{{'ADMIN.STUD.SPASS' | translate}}</label>
+                            <input class="form-control col-12" type="password" formControlName="password_confirm" name="password_confirm" [(ngModel)]="student.password_confirm" placeholder="{{'ADMIN.STUD.SPASS' | translate}}">
                             <i class="visibility-toggler fa fa-eye" aria-hidden="true" (click)="handleTogglePasswordVisibility($event)"></i>
                             <div class="form-msg">
-                                <div *ngIf="password_confirmC.invalid && password_confirmC.errors.matchOther" class="error col-12">
-                                    Це поле повинно збігатись з полем "Пароль"
-                                </div>
+                                <div *ngIf="password_confirmC.invalid && password_confirmC.errors.matchOther" class="error col-12">{{'ADMIN.STUD.PASN' | translate}}</div>
                             </div>
                         </div>
                     </div>
@@ -218,8 +217,8 @@
                             <input class="form-control col-12" type="email" formControlName="email" name="email" [(ngModel)]="studentInfo.email" placeholder="{{'ADMIN.MAIL' | translate}}" email>
                             <div class="form-msg">
                                 <div *ngIf="emailC.invalid && (emailC.dirty || emailC.touched)" class="error col-12">
-                                    <span *ngIf="emailC.errors.email">Поштова скринька повинна бути формату логін@домен</span>
-                                    <span *ngIf="emailC.errors.emailTaken">Ця адреса вже зайнята</span>
+                                    <span *ngIf="emailC.errors.email">{{'ADMIN.STUD.EFORM' | translate}}</span>
+                                    <span *ngIf="emailC.errors.emailTaken">{{'ADMIN.STUD.ETAKEN' | translate}}</span>
                                 </div>
                             </div>
                         </div>
@@ -237,13 +236,14 @@
                             </div> -->
                             <div class="custom-file">
                                 <input type="file" id="customFile" class="custom-file-input" name="image-input" accept="image/*" (change)="photoChangeEvent($event)">
-                                <label class="custom-file-label" for="customFile">Виберіть фото</label>
+                                <label class="custom-file-label" for="customFile">{{'ADMIN.STUD.PHOTO' | translate}}</label>
                             </div>
                         </div>
                     </div>
                     <div class="form-row d-flex justify-content-center">
-                        <input class="btn btn-danger" type="reset" value="Очистити форму">
-                        <input class="btn btn-success" type="submit" [disabled]="!form.valid" [value]="data.submitButtonText">
+                        <input class="btn btn-danger" type="reset" value="{{'ADMIN.STUD.FCLEAR' | translate}}">
+                        <input *ngIf="data.student" class="btn btn-success" type="submit" [disabled]="!form.valid" value="{{'EDIT' | translate}}">
+                        <input *ngIf="!data.student" class="btn btn-success" type="submit" [disabled]="!form.valid" value="{{'ADMIN.SUBMIT' | translate}}">
                     </div>
                 </form>
             </div>
@@ -252,7 +252,7 @@
     <!-- Extended info -->
     <div *ngSwitchCase="false" class="container-fluid">
         <div class="header raw d-flex justify-content-between">
-            <h1>Детальна інформація</h1>
+            <h1>{{'ADMIN.STUD.DETAILS' | translate}}</h1>
             <i class="fa fa-close" (click)="handleClose()"></i>
         </div>
         <div class="row">
@@ -292,7 +292,7 @@
                         </div>
                         <div class="form-group col-6">
                             <!-- group -->
-                            <label>Група</label>
+                            <label>{{'GR' | translate}}</label>
                             <span class="form-control col-12">{{studentGroup.group_name}}</span>
                         </div>
                     </div>
@@ -306,12 +306,12 @@
                     <div class="form-row">
                         <div class="form-group col-6">
                             <!-- username -->
-                            <label>Логін</label>
+                            <label>{{'ADMIN.LOGIN' | translate}}</label>
                             <span class="form-control col-12">{{studentInfo.username}}</span>
                         </div>
                         <div class="form-group col-6">
                             <!-- email -->
-                            <label>Поштова скринька</label>
+                            <label>{{'ADMIN.MAIL' | translate}}</label>
                             <span class="form-control col-12">{{studentInfo.email}}</span>
                         </div>
                     </div>

@@ -95,6 +95,7 @@ export class StudentsModalWindowComponent implements OnInit {
     ngOnInit(): void {
         this.getData();
         // Form validation
+        console.log(this.data.student);
         if (this.data.updating || this.data.creating) {
             this.createFormControls();
             this.createForm();
