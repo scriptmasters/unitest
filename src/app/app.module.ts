@@ -10,6 +10,7 @@ import {SharedModule} from './shared/shared.module';
 import {PageNotFoundComponent} from './page-not-found/page-not-found.component';
 import {TranslateModule} from '@ngx-translate/core';
 
+
 @NgModule({
     imports: [
         BrowserModule,
