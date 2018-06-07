@@ -9,6 +9,7 @@ import * as moment from 'moment';
 import { QuestionService } from './services/question.service';
 import { ResponseMessageComponent } from '../shared/response-message/response-message.component';
 import { MatDialog } from '@angular/material';
+// import { JsonpCallbackContext } from '@angular/common/http';
 
 @Component({
   selector: 'app-student',
@@ -27,6 +28,8 @@ export class StudentComponent implements OnInit {
   infoTestId;
   infoTestName;
   progresstest;
+  localIdTets;
+  localNameTest;
   constructor(
     public authService: AuthService,
     public studentService: StudentService,
@@ -37,6 +40,8 @@ export class StudentComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.localNameTest = JSON.parse(localStorage.getItem('testName'));
+    this.localIdTets = JSON.parse(localStorage.getItem('testId'));
     this.authService.isLogged().subscribe((response: any) => {
       this.id = response.id;
       this.getRecords();
@@ -154,10 +159,9 @@ export class StudentComponent implements OnInit {
             }
           });
           this.studentService.getRecordsTest(testId).subscribe((infoTest: any) => {
-            infoTest.forEach(item => {
-              this.infoTestId = (+item.test_id);
-              this.studentService.infoTestName = item.test_name;
-              this.studentService.infoTestId = item.test_id;
+            infoTest.forEach((test: any) => {
+              localStorage.setItem('testId', JSON.stringify(test.test_id));
+              localStorage.setItem('testName', JSON.stringify(test.test_name));
             });
           });
           this.studentService.saveInfoTest(testId).subscribe((infos: any) => {
@@ -200,18 +204,17 @@ export class StudentComponent implements OnInit {
             }
           });
         } else if (error.error.response === 'User is making test at current moment') {
-          this.studentService.getInfoTest().subscribe((info: number) => {
-            if (info === (+testId)) {
-              this.router.navigate(['student/test/' + testId]);
-            } else {
-              this.dialog.open(ResponseMessageComponent, {
-                width: '400px',
-                data: {
-                  message: 'Ви здаєте тест в даний момент'
-                }
-              });
-            }
-          });
+          this.localIdTets = JSON.parse(localStorage.getItem('testId'));
+          if ((+this.localIdTets) === (+testId)) {
+            this.router.navigate(['student/test/' + testId]);
+          } else {
+            this.dialog.open(ResponseMessageComponent, {
+              width: '400px',
+              data: {
+                message: 'Ви здаєте тест в даний момент'
+              }
+            });
+          }
         } else if (error.error.response === 'You cannot make the test due to used all attempts') {
           this.dialog.open(ResponseMessageComponent, {
             width: '400px',
@@ -289,5 +292,8 @@ export class StudentComponent implements OnInit {
   }
   crossTest(id) {
     this.router.navigate(['student/test/' + id]);
+  }
+  getNgClass(name) {
+    return name === this.localIdTets ? true : false;
   }
 }
