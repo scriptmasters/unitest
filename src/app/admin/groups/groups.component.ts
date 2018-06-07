@@ -174,9 +174,12 @@ export class GroupsComponent extends Pagination implements OnInit, OnDestroy {
         const dialogConfig = new MatDialogConfig();
         dialogConfig.disableClose = true;
         dialogConfig.width = '400px';
-        dialogConfig.data = {
-            message: 'Ви справді бажаєте видалити групу?'
-        };
+        this.translate.get('ADMIN.GROUP.DELC').subscribe(msg => {
+            dialogConfig.data = {
+                message: msg
+            };
+        });
+
 
         const dialogRef = this.dialog.open(DeleteConfirmComponent, dialogConfig);
 
@@ -186,7 +189,10 @@ export class GroupsComponent extends Pagination implements OnInit, OnDestroy {
                 this.groupsService._delGroup(id).subscribe(response => {
 
                     if (response.response === 'ok') {
-                        this.openTooltip('Група була успішно видалена');
+                        this.translate.get('ADMIN.GROUP.DELETED').subscribe(msg => {
+                            this.openTooltip(msg);
+                        });
+
                         for (let i = 0; i < this.table.length; i++) {
                             if (this.table[i].group_id === id) {
                                 this.table.splice(i, 1);
@@ -197,12 +203,15 @@ export class GroupsComponent extends Pagination implements OnInit, OnDestroy {
                         }
                     }
                 }, error => {
-                    this.dialog.open(ResponseMessageComponent, {
-                        width: '400px',
-                        data: {
-                            message: 'Виникла помилка при видаленні групи!'
-                        }
+                    this.translate.get('ADMIN.GROUP.ERROR').subscribe(msg => {
+                        this.dialog.open(ResponseMessageComponent, {
+                            width: '400px',
+                            data: {
+                                message: msg
+                            }
+                        });
                     });
+
                     console.error('Виникла помилка при видаленні групи: ' + error);
                 });
             }
@@ -236,7 +245,9 @@ export class GroupsComponent extends Pagination implements OnInit, OnDestroy {
         };
 
         this.groupsService._addGroup(addGroupData).subscribe(response => {
-            this.openTooltip('Група була успішно додана');
+            this.translate.get('ADMIN.GROUP.ADDED').subscribe(msg => {
+                this.openTooltip(msg);
+            });
             if (response[0].group_name === groupData.group_name) {
                 this.table.push({
                     group_id: parseInt(response[0].group_id, 10),

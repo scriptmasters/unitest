@@ -166,5 +166,19 @@
 	"TP.OF": "of",
 	"TP.TASK": "Task",
 	"TP.TIME": "Time left",
-	"WP": "Wrong password"
+	"WP": "Wrong password",
+	"ADMIN.TEST.ADDED": "Test successfully added",
+	"ADMIN.TEST.DELETED": "Test successfully deleted",
+	"ADMIN.TEST.CDEL": "This test can not be deleted because it has a question!",
+	"ADMIN.TEST.DELCONFIRM": "Do you really want to delete this test?",
+	"ADMIN.TEST.NOTF": "According to this request, tests were not found",
+	"ADMIN.TEST.NEXIST": "An error occurred while adding the test",
+	"ADMIN.TEST.NCHANGES": "You have not made any changes",
+	"ADMIN.TEST.SAVED": "Changes saved",
+	"ADMIN.TEST.ERR": "An error occurred while editing the test",
+	"ADMIN.TEST.ERR2": "An error occurred while deleting the test",
+	"ADMIN.GROUP.DELC":"Are you sure you want to delete the group?",
+	"ADMIN.GROUP.DELETED": "The group was successfully deleted",
+	"ADMIN.GROUP.ERROR": "There was an error deleting the group!",
+	"ADMIN.GROUP.ADDED": "The group was successfully added"
 }
