@@ -61,8 +61,8 @@ export class QuizResultComponent implements OnInit, OnDestroy {
     };
   }
 
-  constructor(private data: DataService, public authService: AuthService, public translate: TranslateService) {
-    translate.use(this.data.getLang());
+  constructor(public data: DataService, public authService: AuthService, public translate: TranslateService) {
+    data.setLang(data.getLang());
   }
   ngOnInit() {
     this.mark = this.data.getMark();

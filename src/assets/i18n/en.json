@@ -189,5 +189,6 @@
 	"ADMIN.STAT.BYSPECIALTY": "Statistic of groups by specialties",
 	"STUD.ANSWERS": "Answers",
 	"STUD.CORRECT": "Correct answers",
-	"STUD.WRONGANS": "Wrong answers"
+	"STUD.WRONGANS": "Wrong answers",
+	"ADMIN.FACULTY.EDITS": "The faculty has been successfully edited!"
 }

@@ -3,6 +3,7 @@ import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material';
 import {FacultiesService} from '../services/faculties.service';
 import {Faculties} from '../facultiesInterface';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-faculties-dialog',
@@ -14,10 +15,19 @@ export class FacultiesDialogComponent implements OnInit {
   faculty = [{faculty_name: '', faculty_description: ''}];
   form: FormGroup;
   isLoaded = true;
+  edited;
+  nchange;
   constructor(
     private matDialogRef: MatDialogRef<FacultiesDialogComponent>, @Inject(MAT_DIALOG_DATA) public data: any,
-    private facultiesService: FacultiesService
-  ) { }
+    private facultiesService: FacultiesService, private translate: TranslateService
+  ) {
+    translate.get('ADMIN.FACULTY.EDITS').subscribe(msg => {
+      this.edited = msg;
+    });
+    translate.get('ADMIN.TEST.NCHANGES').subscribe(msg => {
+      this.nchange = msg;
+    });
+  }
 
   ngOnInit() {
     this.getFaculty();
@@ -55,8 +65,8 @@ export class FacultiesDialogComponent implements OnInit {
       const id = this.data.faculty_id;
       this.facultiesService.updateFaculty(id, formData.title, formData.description)
         .subscribe(() =>
-            this.matDialogRef.close({status: 'SUCCESS', message: 'Факультет було успішно відредаговано!'}),
-          () => this.matDialogRef.close({status: 'ERROR', message: 'Ви не внесли жодних змін при редагуванні!'})
+            this.matDialogRef.close({status: 'SUCCESS', message: this.edited}),
+          () => this.matDialogRef.close({status: 'ERROR', message: this.nchange})
         );
     } else {
       this.facultiesService.addFaculty(formData.title, formData.description)

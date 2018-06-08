@@ -40,12 +40,10 @@ export class StudentComponent implements OnInit {
     private questionService: QuestionService,
     private router: Router,
     public dialog: MatDialog, public translate: TranslateService,
-    public data: DataService
-  ) {
-    if (!data.getLang()) {
-      translate.use('uk');
+    public data: DataService) {
+    if (data.getLang() === null) {
+      data.setLang('uk');
     } else {
-      translate.use(data.getLang());
       data.setLang(data.getLang());
     }
   }
