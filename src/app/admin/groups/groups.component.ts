@@ -258,11 +258,13 @@ export class GroupsComponent extends Pagination implements OnInit, OnDestroy {
             }
 
         }, error => {
-            this.dialog.open(ResponseMessageComponent, {
-                width: '400px',
-                data: {
-                    message: 'Помилка при додаванні групи!'
-                }
+            this.translate.get('ADMIN.GROUP.ADDERR').subscribe(msg => {
+                this.dialog.open(ResponseMessageComponent, {
+                    width: '400px',
+                    data: {
+                        message: msg
+                    }
+                });
             });
             console.error('Виникла помилка при додаванні групи: ' + error);
         });
@@ -306,20 +308,22 @@ export class GroupsComponent extends Pagination implements OnInit, OnDestroy {
                                 tempFaculty = facResponse[0].faculty_name;
                                 this.groupsService._getSpeciality(response[0].speciality_id).subscribe(specResponse => {
                                     tempSpeciality = specResponse[0].speciality_name;
-
-                                    this.openTooltip('Група була успішно редагована');
-
+                                    this.translate.get('ADMIN.GROUP.SEDIT').subscribe(msg => {
+                                        this.openTooltip(msg);
+                                    });
                                     table.group = groupData.group_name;
                                     table.faculty = tempFaculty;
                                     table.speciality = tempSpeciality;
                                 });
                             });
                         } else {
-                            this.dialog.open(ResponseMessageComponent, {
-                                width: '400px',
-                                data: {
-                                    message: 'Помилка приредагуванні групи!'
-                                }
+                            this.translate.get('ADMIN.GROUP.EDITERR').subscribe(msg => {
+                                this.dialog.open(ResponseMessageComponent, {
+                                    width: '400px',
+                                    data: {
+                                        message: msg
+                                    }
+                                });
                             });
                         }
                     });

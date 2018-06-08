@@ -180,5 +180,11 @@
 	"ADMIN.GROUP.DELC":"Ви справді бажаєте видалити групу?",
 	"ADMIN.GROUP.DELETED": "Група була успішно видалена",
 	"ADMIN.GROUP.ERROR": "Виникла помилка при видаленні групи",
-	"ADMIN.GROUP.ADDED": "Група була успішно додана"
+	"ADMIN.GROUP.ADDED": "Група була успішно додана",
+	"ADMIN.GROUP.ADDERR": "Помилка при додаванні групи",
+	"ADMIN.GROUP.SEDIT": "Група була успішно редагована",
+	"ADMIN.GROUP.EDITERR": "Помилка при редагуванні групи",
+	"ADMIN.STATISTIC.GROUP": "Груп",
+	"ADMIN.STAT.BYFACULTIES": "Статистика груп по факультетах",
+	"ADMIN.STAT.BYSPECIALTY": "Статистика груп по спеціальностях"
 }

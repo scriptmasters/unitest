@@ -180,5 +180,11 @@
 	"ADMIN.GROUP.DELC":"Are you sure you want to delete the group?",
 	"ADMIN.GROUP.DELETED": "The group was successfully deleted",
 	"ADMIN.GROUP.ERROR": "There was an error deleting the group!",
-	"ADMIN.GROUP.ADDED": "The group was successfully added"
+	"ADMIN.GROUP.ADDED": "The group was successfully added",
+	"ADMIN.GROUP.ADDERR": "Error while adding a group!",
+	"ADMIN.GROUP.SEDIT": "The group was successfully edited",
+	"ADMIN.GROUP.EDITERR": "Error while editing a group!",
+	"ADMIN.STATISTIC.GROUP": "Groups",
+	"ADMIN.STAT.BYFACULTIES": "Statistic of groups by faculties",
+	"ADMIN.STAT.BYSPECIALTY": "Statistic of groups by specialties"
 }
