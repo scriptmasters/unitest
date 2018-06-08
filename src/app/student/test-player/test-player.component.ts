@@ -138,7 +138,7 @@ export class TestPlayerComponent implements OnInit {
     }
   }
 
-  finishTest(timeEnd) {
+  finishTest(timeEnd?) {
     let matDialogRef;
     if (timeEnd) {
       matDialogRef = this.dialog.open(AlertMessageTestComponent, {

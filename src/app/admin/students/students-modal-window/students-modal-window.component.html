@@ -227,7 +227,7 @@
                         <div class="form-group col-12 d-flex align-items-center flex-column">
                             <!-- Photo -->
                             <div>
-                                <image-cropper [imageChangedEvent]="imageChangedEvent" [maintainAspectRatio]="true" [aspectRatio]="4 / 3" [resizeToWidth]="128" format="jpeg" (imageCropped)="imageCropped($event)" (imageLoaded)="imageLoaded()" (loadImageFailed)="loadImageFailed()" style="max-height: 33vh"
+                                <image-cropper [imageChangedEvent]="imageChangedEvent" [maintainAspectRatio]="false" [aspectRatio]="4 / 3" [resizeToWidth]="128" format="jpeg" (imageCropped)="imageCropped($event)" (imageLoaded)="imageLoaded()" (loadImageFailed)="loadImageFailed()" style="max-height: 33vh"
                                     [style.display]="cropperReady ? null : 'none'"></image-cropper>
                             </div>
                             <img [src]="croppedImage ? croppedImage : student.photo" />
