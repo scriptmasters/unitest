@@ -17,6 +17,8 @@ export class FacultiesDialogComponent implements OnInit {
   isLoaded = true;
   edited;
   nchange;
+  added;
+  exist;
   constructor(
     private matDialogRef: MatDialogRef<FacultiesDialogComponent>, @Inject(MAT_DIALOG_DATA) public data: any,
     private facultiesService: FacultiesService, private translate: TranslateService
@@ -26,6 +28,12 @@ export class FacultiesDialogComponent implements OnInit {
     });
     translate.get('ADMIN.TEST.NCHANGES').subscribe(msg => {
       this.nchange = msg;
+    });
+    translate.get('ADMIN.FACULTY.ADDED').subscribe(msg => {
+      this.added = msg;
+    });
+    translate.get('ADMIN.FACULTY.EXIST').subscribe(msg => {
+      this.edited = msg;
     });
   }
 
@@ -71,8 +79,8 @@ export class FacultiesDialogComponent implements OnInit {
     } else {
       this.facultiesService.addFaculty(formData.title, formData.description)
         .subscribe(() =>
-            this.matDialogRef.close({status: 'SUCCESS', message: 'Факультет було успішно додано!'}),
-          () => this.matDialogRef.close({status: 'ERROR', message: 'Факультету з такою назвою вже існує!'})
+            this.matDialogRef.close({status: 'SUCCESS', message: this.added}),
+          () => this.matDialogRef.close({status: 'ERROR', message: this.edited})
         );
     }
   }

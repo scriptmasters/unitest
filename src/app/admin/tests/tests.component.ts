@@ -41,8 +41,7 @@ export class TestsComponent implements OnInit {
     this.translate.get('ADMIN.TEST.DELCONFIRM').subscribe(res => {
     const matDialogRef = this.dialog.open(DeleteConfirmComponent, {
       width: '400px',
-      data: { message: res
-    }
+      data: { message: res}
     });
     matDialogRef.afterClosed().subscribe((Response: boolean) => {
       if (Response) {
