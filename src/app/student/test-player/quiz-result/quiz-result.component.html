@@ -36,5 +36,9 @@
       <p>{{'STUDENT.PRE' | translate }}</p>
       <a routerLink="/student" class="btn btn-primary">{{'STUDENT.HOME' | translate}}</a>
     </div>
+    <footer class="footer"><span>Created by IF-085.Web-UI&#169; "Superteam&#9787;"</span>
+      <img id="uk" src="../../assets/ukrainian.png" alt="uk" (click)="translate.use('uk')">
+      <img id="eng" src="../../assets/english.png" alt="en" (click)="translate.use('en')">
+    </footer>
   </div>
 </section>

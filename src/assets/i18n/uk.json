@@ -186,5 +186,8 @@
 	"ADMIN.GROUP.EDITERR": "Помилка при редагуванні групи",
 	"ADMIN.STATISTIC.GROUP": "Груп",
 	"ADMIN.STAT.BYFACULTIES": "Статистика груп по факультетах",
-	"ADMIN.STAT.BYSPECIALTY": "Статистика груп по спеціальностях"
+	"ADMIN.STAT.BYSPECIALTY": "Статистика груп по спеціальностях",
+	"STUD.ANSWERS": "Відповіді",
+	"STUD.CORRECT": "Правильні відповіді",
+	"STUD.WRONGANS": "Неправильні відповіді"
 }

@@ -35,6 +35,7 @@ export class DataService {
   }
 
   getLang(): string {
-    return sessionStorage.getItem('lang');
+    const language = sessionStorage.getItem('lang');
+    return language;
   }
 }

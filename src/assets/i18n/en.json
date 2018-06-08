@@ -186,5 +186,8 @@
 	"ADMIN.GROUP.EDITERR": "Error while editing a group!",
 	"ADMIN.STATISTIC.GROUP": "Groups",
 	"ADMIN.STAT.BYFACULTIES": "Statistic of groups by faculties",
-	"ADMIN.STAT.BYSPECIALTY": "Statistic of groups by specialties"
+	"ADMIN.STAT.BYSPECIALTY": "Statistic of groups by specialties",
+	"STUD.ANSWERS": "Answers",
+	"STUD.CORRECT": "Correct answers",
+	"STUD.WRONGANS": "Wrong answers"
 }

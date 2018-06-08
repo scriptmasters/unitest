@@ -42,11 +42,11 @@ export class StudentComponent implements OnInit {
     public dialog: MatDialog, public translate: TranslateService,
     public data: DataService
   ) {
-    translate.addLangs(['en', 'uk']);
     if (!data.getLang()) {
       translate.use('uk');
     } else {
       translate.use(data.getLang());
+      data.setLang(data.getLang());
     }
   }
 

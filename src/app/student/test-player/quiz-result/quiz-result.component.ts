@@ -11,7 +11,7 @@ import { TranslateService } from '@ngx-translate/core';
 export class QuizResultComponent implements OnInit, OnDestroy {
   mark;
   pieChartData;
-  drawChart() {
+  drawChartUk() {
     this.pieChartData = {
       chartType: 'PieChart',
       dataTable: [
@@ -36,12 +36,42 @@ export class QuizResultComponent implements OnInit, OnDestroy {
     };
   }
 
+  drawChartEn() {
+    this.pieChartData = {
+      chartType: 'PieChart',
+      dataTable: [
+        ['Answers', 'Amount'],
+        ['Correct answers', this.data.getAnswers()],
+        [
+          'Wrong answers',
+          this.data.getCountOfQuestions() - this.data.getAnswers(),
+        ],
+      ],
+      options: {
+        title: 'Answers',
+        slices: {
+          0: {
+            offset: 0.05,
+          },
+          1: {
+            offset: 0.0,
+          },
+        },
+      },
+    };
+  }
+
   constructor(private data: DataService, public authService: AuthService, public translate: TranslateService) {
     translate.use(this.data.getLang());
   }
   ngOnInit() {
     this.mark = this.data.getMark();
-    this.drawChart();
+    console.log(this.data.getLang());
+    if (this.data.getLang() === 'en') {
+    this.drawChartEn();
+    } else {
+      this.drawChartUk();
+    }
   }
 
   ngOnDestroy() {
