@@ -15,9 +15,10 @@ import { RouterModule } from '@angular/router';
 import { PaginationService } from './pagination/pagination.service';
 import { PaginationPipe } from './pagination/pagination.pipe';
 import { NgxPaginationModule } from 'ngx-pagination';
+import { TranslateModule } from '@ngx-translate/core';
 
 @NgModule({
-  imports: [MatProgressSpinnerModule, CommonModule, RouterModule],
+  imports: [MatProgressSpinnerModule, CommonModule, RouterModule, TranslateModule],
   declarations: [
     ResponseMessageComponent,
     DeleteConfirmComponent,
