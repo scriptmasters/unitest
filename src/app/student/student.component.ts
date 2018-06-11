@@ -276,23 +276,26 @@ export class StudentComponent implements OnInit {
           error.error.response ===
           'Error: The number of needed questions for the quiz is not suitable due to test details'
         ) {
-          this.dialog.open(ResponseMessageComponent, {
-            width: '400px',
-            data: {
-              message:
-                'Кількість необхідних питань для вікторини не підходить завдяки деталям тесту',
-            },
+          this.translate.get('TP.Q').subscribe(tpq => {
+            this.dialog.open(ResponseMessageComponent, {
+              width: '400px',
+              data: {
+                message: tpq,
+              },
+            });
           });
         } else if (
           error.error.response ===
           'Test detail parameters not found for requested test'
         ) {
-          this.dialog.open(ResponseMessageComponent, {
-            width: '400px',
-            data: {
-              message:
-                'Параметри деталей перевірки не знайдено для запитуваного тесту',
-            },
+          this.translate.get('TDNF').subscribe(tdnf => {
+            this.dialog.open(ResponseMessageComponent, {
+              width: '400px',
+              data: {
+                message:
+                  tdnf,
+              },
+            });
           });
         } else if (error.error.response === 'Error. User made test recently') {
           this.translate.get('STUD.TP.WAIT').subscribe(wait => {
