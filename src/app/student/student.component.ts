@@ -14,7 +14,8 @@ import * as moment from 'moment';
 import { QuestionService } from './services/question.service';
 import { ResponseMessageComponent } from '../shared/response-message/response-message.component';
 import { MatDialog } from '@angular/material';
-
+import {TranslateService} from '@ngx-translate/core';
+import { DataService } from './services/data.service';
 @Component({
   selector: 'app-student',
   templateUrl: './student.component.html',
@@ -38,8 +39,14 @@ export class StudentComponent implements OnInit {
     private testPlayerService: TestPlayerService,
     private questionService: QuestionService,
     private router: Router,
-    public dialog: MatDialog
-  ) {}
+    public dialog: MatDialog, public translate: TranslateService,
+    public data: DataService) {
+    if (data.getLang() === null) {
+      data.setLang('uk');
+    } else {
+      data.setLang(data.getLang());
+    }
+  }
 
   ngOnInit() {
     this.authService.isLogged().subscribe((response: any) => {

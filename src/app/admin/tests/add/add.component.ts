@@ -1,9 +1,10 @@
-import {Component, Inject, OnInit} from '@angular/core';
-import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from '@angular/material';
-import {TestService} from '../test.service';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {ResponseMessageComponent} from '../../../shared/response-message/response-message.component';
-import {forbiddenCharValidator} from '../tests-validator.directive';
+import { Component, Inject, OnInit } from '@angular/core';
+import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material';
+import { TestService } from '../test.service';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ResponseMessageComponent } from '../../../shared/response-message/response-message.component';
+import { forbiddenCharValidator } from '../tests-validator.directive';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-add',
@@ -15,50 +16,63 @@ export class AddComponent implements OnInit {
   rForm: FormGroup;
   subjects;
   s_id;
-  enabled = [{value: 1, text: 'Доступний'}, {value: 0, text: 'Недоступний'}];
+  en;
+  dis;
+  enabled;
   constructor(public dialogRef: MatDialogRef<AddComponent>, @Inject(MAT_DIALOG_DATA) public data: any,
-              private httpService: TestService, private fb: FormBuilder, public dialog: MatDialog) {
+    private httpService: TestService, private fb: FormBuilder, public dialog: MatDialog,
+    public translate: TranslateService) {
     this.initForm();
   }
-ngOnInit() {
+  ngOnInit() {
     this.getSubjects();
-}
-initForm() {
-  this.rForm = this.fb.group({
-  test_name: ['', [Validators.required, Validators.maxLength(70), Validators.minLength(2), forbiddenCharValidator(/^\s/i)]],
-  tasks: ['', [Validators.required, Validators.maxLength(3), forbiddenCharValidator(/\D/i)]],
-  time_for_test: ['', [Validators.required, Validators.maxLength(3), forbiddenCharValidator(/\D/i)]],
-  enabled: ['', [Validators.required]],
-  subject_id: [this.s_id, Validators.required],
-  attempts: ['', [Validators.required, Validators.maxLength(2), forbiddenCharValidator(/\D/i)]]
-  });
-}
+    this.translate.get('ENABLED').subscribe(msg => {
+      this.en = msg;
+    });
+    this.translate.get('DISABLED').subscribe(msg => {
+      this.dis = msg;
+    });
+    this.enabled = [{ value: 1, text: this.en }, { value: 0, text: this.dis }];
+  }
+  initForm() {
+    this.rForm = this.fb.group({
+      test_name: ['', [Validators.required, Validators.maxLength(70), Validators.minLength(2), forbiddenCharValidator(/^\s/i)]],
+      tasks: ['', [Validators.required, Validators.maxLength(3), forbiddenCharValidator(/\D/i)]],
+      time_for_test: ['', [Validators.required, Validators.maxLength(3), forbiddenCharValidator(/\D/i)]],
+      enabled: ['', [Validators.required]],
+      subject_id: [this.s_id, Validators.required],
+      attempts: ['', [Validators.required, Validators.maxLength(2), forbiddenCharValidator(/\D/i)]]
+    });
+  }
 
-onSubmit() {
-  const controls = this.rForm.controls;
-  if (this.rForm.invalid) {
-  /** якщо форма не валідна то помічаємо всі контроли як touched*/
-  Object.keys(controls)
-    .forEach(controlName => controls[controlName].markAsTouched());
-    return;
+  onSubmit() {
+    const controls = this.rForm.controls;
+    if (this.rForm.invalid) {
+      Object.keys(controls)
+        .forEach(controlName => controls[controlName].markAsTouched());
+      return;
     }
-    // Опрацювання даних форми
-   this.httpService.addTest(this.rForm.value).subscribe(
-    () => {this.dialogRef.close();
-        this.httpService.openTooltip('Тест успішно додано');
-    },
-    (err) => {
-      if (err.status === 400) {
+
+    this.httpService.addTest(this.rForm.value).subscribe(
+      () => {
         this.dialogRef.close();
-        this.dialog.open(ResponseMessageComponent, {
-          width: '350px',
-          data: {
-            message: 'Предмета з таким id не існує'
-          }
+        this.translate.get('ADMIN.TEST.ADDED').subscribe((res: string) => {
+          this.httpService.openTooltip(res);
+        }
+        );
+      },
+      (err) => {
+        this.dialogRef.close();
+        this.translate.get('ADMIN.TEST.NEXIST').subscribe(msg => {
+          this.dialog.open(ResponseMessageComponent, {
+            width: '350px',
+            data: {
+              message: msg
+            }
+          });
         });
       }
-  }
-  );
+    );
   }
   getSubjects() {
     this.httpService.getSubjects().subscribe(

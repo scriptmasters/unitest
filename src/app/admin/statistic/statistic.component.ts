@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit} from '@angular/core';
 import { StatisticService } from './statistic.service';
 import { FacultiesService } from '../faculties/services/faculties.service';
 import { Faculties } from '../faculties/facultiesInterface';
 import { Speciality } from '../specialities/specialityInterface';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
     selector: 'app-statistic',
@@ -11,7 +12,7 @@ import { Speciality } from '../specialities/specialityInterface';
 })
 export class StatisticComponent implements OnInit {
 
-  constructor(private Statistica: StatisticService, public facultiesService: FacultiesService) {
+  constructor(private Statistica: StatisticService, public facultiesService: FacultiesService, private translate: TranslateService) {
   }
 
   subjectObject: any;
@@ -23,9 +24,9 @@ export class StatisticComponent implements OnInit {
   faculties: Faculties[] = [];
   speciality: Speciality[] = [];
   groups: any;
-  titleGroups = 'Груп';
-  titleOfFacultyDiagram = 'Статистика груп по факультетах';
-  titleOfSpecialityDiagram = 'Статистика груп по спеціальностях';
+  titleGroups;
+  titleOfFacultyDiagram;
+  titleOfSpecialityDiagram;
 
   ngOnInit() {
     this.Statistica.countQuestion().subscribe(value => {
@@ -49,8 +50,18 @@ export class StatisticComponent implements OnInit {
         this.studentObject = value;
       }
     );
+    this.translate.get('ADMIN.STATISTIC.GROUP').subscribe(msg => {
+      this.titleGroups = msg;
+    });
+    this.translate.get('ADMIN.STAT.BYFUCULTIES').subscribe(msg => {
+      this.titleOfFacultyDiagram = msg;
+    });
+    this.translate.get('ADMIN.STAT.BYSPECIALTY').subscribe(msg => {
+      this.titleOfSpecialityDiagram = msg;
+    });
     this.drawChart();
   }
+
 // Create chart
   drawChart() {
     const Highcharts = require('highcharts');
@@ -81,7 +92,7 @@ export class StatisticComponent implements OnInit {
                   polar: true,
                 },
                 title: {
-                  text: this.titleOfFacultyDiagram
+                  text: ' '
                 },
                 tooltip: {
                   pointFormat: '{series.name}: <b>{point.y}</b>'
@@ -135,7 +146,7 @@ export class StatisticComponent implements OnInit {
                   polar: true,
                 },
                 title: {
-                  text: this.titleOfSpecialityDiagram
+                  text: ' '
                 },
                 tooltip: {
                   pointFormat: '{series.name}: <b>{point.y}</b>'

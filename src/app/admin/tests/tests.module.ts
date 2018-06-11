@@ -7,7 +7,13 @@ import {AddComponent} from './add/add.component';
 import {TestsValidatorDirective} from './tests-validator.directive';
 import {TestService} from './test.service';
 import {TestsRoutingModule} from './tests-routing.module';
+import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { HttpClient } from '@angular/common/http';
 
+export function HttpLoaderFactory(httpClient: HttpClient) {
+    return new TranslateHttpLoader(httpClient);
+  }
 
 @NgModule({
     declarations: [
@@ -25,7 +31,12 @@ import {TestsRoutingModule} from './tests-routing.module';
     imports: [
         CommonModule,
         SharedModule,
-        TestsRoutingModule
+        TestsRoutingModule,
+        TranslateModule.forChild({
+            loader: {provide: TranslateLoader, useFactory: HttpLoaderFactory,
+                deps: [HttpClient]},
+            isolate: false
+        })
     ],
     providers: [TestService]
 })

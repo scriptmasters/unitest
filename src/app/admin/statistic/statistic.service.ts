@@ -2,6 +2,7 @@ import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs/Observable';
 import {Speciality} from '../specialities/specialityInterface';
+import { TranslateService } from '@ngx-translate/core';
 
 
 @Injectable()
@@ -11,7 +12,8 @@ export class StatisticService {
   private urlGetSpeciality = 'Speciality/getRecords';
 
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, public translate: TranslateService) {
+  }
   getGroupsByFaculty(id: number): Observable<any> {
     return this.http.get(this.urlGetGroupsByFaculty + '/' + id);
   }

@@ -1,76 +1,77 @@
 <form [formGroup]="form" (ngSubmit)="onSubmit()" *ngIf="isLoaded">
     <header class="form-row justify-content-between mb-2 ">
-        <h2 class='pl-1'>{{administrator[0].id ? 'Редагувати' : 'Додати'}} адміністратора</h2>
+        <h2 class='pl-1' *ngIf="administrator[0].id">{{'EADM' | translate}}</h2>
+        <h2 class='pl-1' *ngIf="!administrator[0].id">{{'AADM' | translate}}</h2>
         <i class="fa fa-close pr-1" (click)="closeDialog()"></i>
     </header>
     <div class="form-row" [ngClass]="{'form-has-error': form.get('login').invalid && (form.get('login').dirty || form.get('login').touched)}">
         <div class="form-group col-12">
-            <label>Логін</label>
-            <input type="text" id="login" placeholder="Логін" class="form-control form-control-success" formControlName="login" [(ngModel)]="administrator[0].username">
+            <label>{{'ADMIN.LOGIN' | translate}}</label>
+            <input type="text" id="login" placeholder="{{'ADMIN.LOGIN' | translate}}" class="form-control form-control-success" formControlName="login" [(ngModel)]="administrator[0].username">
             <div class="form-msg">
                 <small *ngIf="form.get('login').invalid && (form.get('login').dirty || form.get('login').touched)">
-            <span *ngIf="form.get('login')['errors']['required']">Дане поле є обов'язковим</span>
-             <span *ngIf="form.get('login')['errors']['pattern']">Hе менше 3 літер латинського алфавіту (допускається використання цифр)</span>
+            <span *ngIf="form.get('login')['errors']['required']">{{'REQUIRED' | translate}}</span>
+             <span *ngIf="form.get('login')['errors']['pattern']">{{'N3' | translate}}</span>
             <span *ngIf="form.get('login')['errors']['maxlength']">
-            Поле повинно містити не більше ніж {{form.get('login')['errors']['maxlength']['requiredLength']}} символів
+            {{'NMT' | translate}} {{form.get('login')['errors']['maxlength']['requiredLength']}} {{'CHAR' | translate}}
             </span>
             <span *ngIf="form.get('login')['errors']['loginTaken']">
-            Такий логін вже існує
+            {{'LE' | translate}}
             </span>
           </small>
             </div>
         </div>
     </div>
     <div class="form-group row" [ngClass]="{'form-has-error': form.get('email').invalid && form.get('email').touched}">
-        <label class="col-sm-12 labels">Поштова скринька</label>
+        <label class="col-sm-12 labels">{{'ADMIN.MAIL' | translate}}</label>
         <div class="col-sm-12">
-            <input type="email" id="email" placeholder="Поштова скринька" class="form-control form-control-warning " formControlName="email" [(ngModel)] = "administrator[0].email">
+            <input type="email" id="email" placeholder="{{'ADMIN.MAIL' | translate}}" class="form-control form-control-warning " formControlName="email" [(ngModel)] = "administrator[0].email">
             <div class="form-msg inputMessage">
                 <small *ngIf="form.get('email').invalid && (form.get('email').dirty || form.get('email').touched)">
-              <span *ngIf="form.get('email')['errors']['required']">Дане поле є обов'язковим</span>
-              <span *ngIf="form.get('email')['errors']['email']">Поштова скринька повинна бути формату логін@домен</span>
-              <span *ngIf="form.get('email')['errors']['emailTaken']">Така поштова скринька вже використовується</span>
+              <span *ngIf="form.get('email')['errors']['required']">{{'REQUIRED' | translate}}</span>
+              <span *ngIf="form.get('email')['errors']['email']">{{'ADMIN.STUD.EFORM' | translate}}</span>
+              <span *ngIf="form.get('email')['errors']['emailTaken']">{{'MU' | translate}}</span>
             </small>
             </div>
         </div>
     </div>
     <div   class="form-group row" [ngClass]="{'form-has-error': form.get('oldPassword')?.invalid && form.get('oldPassword').touched}" *ngIf = "administrator[0].id">
-        <label class="col-sm-12 labels">Старий пароль</label>
+        <label class="col-sm-12 labels">{{'OP' | translate}}</label>
         <div class="col-sm-12">
-            <input type="password"  placeholder="Старий пароль" class="form-control form-control-warning " formControlName="oldPassword">
+            <input type="password"  placeholder="{{'OP' | translate}}" class="form-control form-control-warning " formControlName="oldPassword">
             <i class="fa fa-eye" aria-hidden="true" (click)="passwordVisibility($event)"></i>
             <div class="form-msg inputMessage">
                 <small *ngIf="form.get('oldPassword').invalid && (form.get('oldPassword').dirty || form.get('oldPassword').touched)">
-                    <span *ngIf="form.get('oldPassword')['errors']['required']">Дане поле є обов'язковим</span>
-                    <span *ngIf="form.get('oldPassword')['errors']['validPassword']">Невірний пароль</span>     
+                    <span *ngIf="form.get('oldPassword')['errors']['required']">{{'REQUIRED' | translate}}</span>
+                    <span *ngIf="form.get('oldPassword')['errors']['validPassword']">{{'WP' | translate}}</span>     
                 </small>
             </div>
         </div>
     </div>
     <div class="form-group row" [ngClass]="{'form-has-error': form.get('password').invalid && form.get('password').touched}">
-        <label class="col-sm-12 labels">Пароль</label>
+        <label class="col-sm-12 labels">{{'ADMIN.STUD.PASS' | translate}}</label>
         <div class="col-sm-12">
-            <input type="password" id="password" placeholder="Пароль" class="form-control form-control-warning " formControlName="password">
+            <input type="password" id="password" placeholder="{{'ADMIN.STUD.PASS' | translate}}" class="form-control form-control-warning " formControlName="password">
             <i class="fa fa-eye" aria-hidden="true" (click)="passwordVisibility($event)"></i>
             <div class="form-msg inputMessage">
                 <small *ngIf="form.get('password').invalid && (form.get('password').dirty || form.get('password').touched)">
-              <span *ngIf="form.get('password')['errors']['required']">Дане поле є обов'язковим</span>
-              <span *ngIf="form.get('password')['errors']['pattern']">Hе менше 8 літер латинського алфавіту (допускається використання цифр)</span>
+              <span *ngIf="form.get('password')['errors']['required']">{{'REQUIRED' | translate}}</span>
+              <span *ngIf="form.get('password')['errors']['pattern']">{{'N8' | translate}}</span>
               <span *ngIf="form.get('password')['errors']['maxlength']">
-              Максимум {{form.get('password')['errors']['maxlength']['requiredLength']}} символів
+              {{'MAX' | translate}} {{form.get('password')['errors']['maxlength']['requiredLength']}} {{'CHAR' | translate}}
               </span>
               </small>
             </div>
         </div>
     </div>
     <div class="form-group row" [ngClass]="{'form-has-error': form.get('confirm_password').invalid && form.get('confirm_password').touched}">
-        <label class="col-sm-12 labels">Підтвердіть пароль</label>
+        <label class="col-sm-12 labels">{{'ADMIN.STUD.P' | translate}}</label>
         <div class="col-sm-12">
-            <input type="password" id="confirm_password" placeholder="Підтвердіть пароль" class="form-control form-control-warning " formControlName="confirm_password">
+            <input type="password" id="confirm_password" placeholder="{{'ADMIN.STUD.P' | translate}}" class="form-control form-control-warning " formControlName="confirm_password">
             <i class="fa fa-eye" aria-hidden="true" (click)="passwordVisibility($event)"></i>
             <div class="form-msg inputMessage">
                 <small *ngIf="form.get('confirm_password').invalid && (form.get('confirm_password').dirty || form.get('confirm_password').touched)">
-              <span *ngIf="form.get('confirm_password')['errors']['matchOther']">Паролі не співпадають</span>
+              <span *ngIf="form.get('confirm_password')['errors']['matchOther']">{{'PNE' | translate}}</span>
               </small>
             </div>
         </div>
@@ -78,10 +79,11 @@
 
     <div class="form-row justify-content-center">
         <div class="form-group col-sm-6 col-md-4">
-            <input class="btn btn-danger col-sm-12" type="button" (click)="closeDialog()" value="Відмінити">
+            <input class="btn btn-danger col-sm-12" type="button" (click)="closeDialog()" value="{{'ADMIN.CANCEL' | translate}}">
         </div>
         <div class="form-group col-sm-6 col-md-4">
-            <input class="btn btn-success col-sm-12" type="submit" value="{{administrator[0].id ? 'Редагувати' : 'Зареєструвати'}}" [disabled]="!form.valid">
+            <input *ngIf="administrator[0].id" class="btn btn-success col-sm-12" type="submit" value="{{'EDIT' | translate}}" [disabled]="!form.valid">
+            <input *ngIf="!administrator[0].id" class="btn btn-success col-sm-12" type="submit" value="{{'ADMIN.SUBMIT' | translate}}" [disabled]="!form.valid">
         </div>
     </div>
 </form>

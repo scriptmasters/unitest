@@ -18,6 +18,7 @@ import {Pagination} from '../../shared/pagination/pagination.class';
 import {PaginationService} from '../../shared/pagination/pagination.service';
 import {Subscription} from 'rxjs/Subscription';
 import {FormControl} from '@angular/forms';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
     selector: 'app-students',
@@ -43,7 +44,7 @@ export class StudentsComponent extends Pagination implements OnInit, OnDestroy {
                 public http: HttpClient,
                 public dialog: MatDialog,
                 public pagService: PaginationService,
-                public snackBar: MatSnackBar) {
+                public snackBar: MatSnackBar, private translate: TranslateService) {
         super(router, route, pagIntl, http, dialog, pagService, snackBar);
         this.pagService.entity = 'Student';
         this.entities = 'students';
@@ -118,11 +119,15 @@ export class StudentsComponent extends Pagination implements OnInit, OnDestroy {
             .afterClosed().subscribe((Response: any) => {
             if (Response) {
                 if (Response.response === 'ok') {
-                    this.openTooltip('Профіль цього студента було успішно додано!');
+                    this.translate.get('ADMIN.STUD.ADDED').subscribe(msg => {
+                        this.openTooltip(msg);
+                    });
                     this.updateData(this.pageSize, this.pageIndex);
                     this.countingStudents();
                 } else if (Response.error || Response.response === 'Failed to validate array') {
-                    this.openModalMessage('Виникла помилка при додаванні цього студента!');
+                    this.translate.get('ADMIN.STUD.ADDERR').subscribe(m => {
+                        this.openModalMessage(m);
+                    });
                 }
             }
         });
@@ -134,10 +139,14 @@ export class StudentsComponent extends Pagination implements OnInit, OnDestroy {
             .afterClosed().subscribe((Response: any) => {
             if (Response) {
                 if (Response.response === 'ok') {
-                    this.openTooltip('Профіль цього студента було успішно оновлено!');
+                    this.translate.get('ADMIN.STUD.UPDATED').subscribe(m => {
+                        this.openTooltip(m);
+                    });
                     this.updateData(this.pageSize, this.pageIndex);
                 } else if (Response.error || Response.response === 'Error when update') {
-                    this.openModalMessage('Виникла помилка при редагуванні профілю цього студента!');
+                    this.translate.get('ADMIN.STUD.UPDERR').subscribe(m => {
+                        this.openModalMessage(m);
+                    });
                 }
             }
         });
@@ -173,13 +182,17 @@ export class StudentsComponent extends Pagination implements OnInit, OnDestroy {
         if (id) {
             this.service.getStudentsByGroup(id).subscribe(
                 (data: IStudent[] & IResponse) => this.processDataFromAPI(data),
-                () => this.openModalMessage('Сталась помилка при завантаженні даних')
+                () => this.translate.get('ADMIN.STUD.E').subscribe(m => {
+                    this.openModalMessage(m);
+                })
             );
         }
         if (!id) {
             this.service.getStudents(page, index).subscribe(
                 (data: IStudent[] & IResponse) => this.processDataFromAPI(data),
-                () => this.openModalMessage('Сталась помилка при завантаженні даних')
+                () => this.translate.get('ADMIN.STUD.E').subscribe(m => {
+                    this.openModalMessage(m);
+                })
             );
         }
     }
@@ -211,29 +224,35 @@ export class StudentsComponent extends Pagination implements OnInit, OnDestroy {
 
     // Deleting student
     handleDelete(index): void {
-        const dialogRef = this.dialog.open(DeleteConfirmComponent, {
-            width: '400px',
-            data: {
-                message: 'Ви справді бажаєте видалити профіль цього студента?'
-            }
-        });
-        dialogRef.afterClosed().subscribe((Response: boolean) => {
-            if (Response) {
-                this.service.deleteStudent(index).subscribe((data: IResponse) => {
-                        if (data.response === 'ok') {
-                            this.countingStudents();
-                            this.openTooltip('Профіль цього студента було успішно видалено!');
-                            if (this.students.length > 1) {
-                                this.updateData(this.pageSize, this.pageIndex);
-                            } else {
-                                this.pagination ? this.paginator.previousPage() : this.students = undefined;
+        this.translate.get('ADMIN.STUD.DELQ').subscribe(msg => {
+            const dialogRef = this.dialog.open(DeleteConfirmComponent, {
+                width: '400px',
+                data: {
+                    message: msg
+                }
+            });
+            dialogRef.afterClosed().subscribe((Response: boolean) => {
+                if (Response) {
+                    this.service.deleteStudent(index).subscribe((data: IResponse) => {
+                            if (data.response === 'ok') {
+                                this.countingStudents();
+                                this.translate.get('ADMIN.STUD.DELETED').subscribe(m => {
+                                    this.openTooltip(m);
+                                });
+                                if (this.students.length > 1) {
+                                    this.updateData(this.pageSize, this.pageIndex);
+                                } else {
+                                    this.pagination ? this.paginator.previousPage() : this.students = undefined;
+                                }
                             }
-                        }
-                    },
-                    () => {
-                        this.openModalMessage('Виникла помилка при видаленні цього студента!');
-                    });
-            }
+                        },
+                        () => {
+                            this.translate.get('ADMIN.STUD.DELERR').subscribe(me => {
+                                this.openModalMessage(me);
+                            });
+                        });
+                }
+            });
         });
     }
 
