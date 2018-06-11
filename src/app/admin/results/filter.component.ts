@@ -49,6 +49,11 @@ export class FilterComponent implements OnInit, OnDestroy {
     this.resultService.getTests().subscribe((testData: any[]) => {
       this.tests = (testData['response'] === 'no records') ? [] : testData;
       this.testsForSelection = this.tests;
+      if (this.groupId) {
+        this.resultService.getResultTestIdsByGroup(this.groupId).subscribe(response => {
+          this.mergeTestForSelection(response);
+        });
+      }
     });
 
     this.resultService.getGroups().subscribe((groupData: any[]) => {

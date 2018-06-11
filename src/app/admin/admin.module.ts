@@ -18,6 +18,7 @@ import {FilterComponent} from './results/filter.component';
 import {ResultsService} from './results/services/results.service';
 import {ResultComponent} from './results/result/result.component';
 import {FacultiesService} from './faculties/services/faculties.service';
+import { TestResultGraphComponent } from './results/modals/test-result-graph/test-result-graph.component';
 
 @NgModule({
     imports: [
@@ -28,7 +29,8 @@ import {FacultiesService} from './faculties/services/faculties.service';
     entryComponents: [
         AddQuestionComponent,
         TestDetailCreateComponent,
-        EditQuestionComponent
+        EditQuestionComponent,
+        TestResultGraphComponent
     ],
     declarations: [
         AdminComponent,
@@ -39,7 +41,8 @@ import {FacultiesService} from './faculties/services/faculties.service';
         AddQuestionComponent,
         EditQuestionComponent,
         FilterComponent,
-        ResultComponent
+        ResultComponent,
+        TestResultGraphComponent
     ],
     providers: [
         AuthService,

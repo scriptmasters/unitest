@@ -6,6 +6,7 @@ import {HttpClient} from '@angular/common/http';
 import {MatDialog, MatPaginatorIntl, MatSnackBar} from '@angular/material';
 import {PaginationService} from '../../../shared/pagination/pagination.service';
 import {ActivatedRoute, Router} from '@angular/router';
+import {TestResultGraphComponent} from '../modals/test-result-graph/test-result-graph.component';
 
 @Component({
   selector: 'app-filtered-result',
@@ -198,6 +199,14 @@ export class ResultComponent extends Pagination implements OnInit, OnDestroy {
         }
       }
     }
+  }
+
+  openChartDialog() {
+    this.dialog.open(TestResultGraphComponent, {
+      disableClose: true,
+      width: '75%',
+      data: this.resultRecords
+    });
   }
 
   private initResultRecords(records: any[], students: any[]) {
