@@ -238,5 +238,11 @@
 	"YES": "Yes",
 	"NO": "No",
 	"NOTIF": "Notification!",
-	"FP": "First page"
+	"FP": "First page",
+	"ADMIN.SC.NF": "According to this request, schedule was not found",
+	"ADMIN.SC.DELETED": "Schedule has been successfully deleted",
+	"ADMIN.SC.ERR": "An error occurred while deleting schedule",
+	"ADMIN.SC.EDITED": "Editing successfully completed",
+	"ADMIN.SC.ADDED": "Adding successfully completed",
+	"ADMIN.SC.ADERR": "An error occured. Try again later"
 }
