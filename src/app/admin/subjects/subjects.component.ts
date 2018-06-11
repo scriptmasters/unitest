@@ -9,6 +9,7 @@ import {DeleteConfirmComponent} from '../../shared/delete-confirm/delete-confirm
 import {Pagination} from '../../shared/pagination/pagination.class';
 import {HttpClient} from '@angular/common/http';
 import {PaginationService} from '../../shared/pagination/pagination.service';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
     selector: 'app-subjects',
@@ -26,7 +27,8 @@ export class SubjectsComponent extends Pagination implements OnInit, OnDestroy {
                 public pagIntl: MatPaginatorIntl,
                 public http: HttpClient,
                 public pagService: PaginationService,
-                public snackBar: MatSnackBar) {
+                public snackBar: MatSnackBar,
+                private translate: TranslateService) {
         super(router, route, pagIntl, http, dialog, pagService, snackBar);
         this.pagService.entity = 'subject';
         this.entities = 'subjects';
@@ -75,11 +77,12 @@ export class SubjectsComponent extends Pagination implements OnInit, OnDestroy {
     }
 
     deleteSubject(id: number): void {
+        this.translate.get('ADMIN.SUBJ.QDEL').subscribe(msg => {
         const matDialogRef = this.dialog.open(DeleteConfirmComponent, {
             disableClose: true,
             width: '400px',
             data: {
-                message: 'Ви справді бажаєте видалити даний предмет?',
+                message: msg,
             },
         });
         matDialogRef.afterClosed().subscribe((response: boolean) => {
@@ -87,7 +90,9 @@ export class SubjectsComponent extends Pagination implements OnInit, OnDestroy {
                 this.subjectService.deleteSubject(id).subscribe(
                     (data: any) => {
                         if (data.response === 'ok') {
-                            this.openTooltip('Даний предмет успішно видалено');
+                            this.translate.get('ADMIN.SUBJ.SDEL').subscribe(m => {
+                                this.openTooltip(m);
+                            });
                             if (this.entitiesObj.length > 1) {
                                 this.getEntity();
                             } else {
@@ -96,16 +101,20 @@ export class SubjectsComponent extends Pagination implements OnInit, OnDestroy {
                         }
                     },
                     () => {
-                        this.dialog.open(ResponseMessageComponent, {
-                            disableClose: true,
-                            width: '400px',
-                            data: {
-                                message: 'Виникла помилка при видаленні предмета!',
-                            },
+                        this.translate.get('ADMIN.SUBJ.DELLER').subscribe(result => {
+                            this.dialog.open(ResponseMessageComponent, {
+                                disableClose: true,
+                                width: '400px',
+                                data: {
+                                    message: result,
+                                },
+                            });
                         });
+
                     }
                 );
             }
         });
+    });
     }
 }

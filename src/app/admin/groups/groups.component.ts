@@ -10,6 +10,7 @@ import {DeleteConfirmComponent} from '../../shared/delete-confirm/delete-confirm
 import {Pagination} from '../../shared/pagination/pagination.class';
 import {HttpClient} from '@angular/common/http';
 import {PaginationService} from '../../shared/pagination/pagination.service';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
     selector: 'app-groups',
@@ -47,7 +48,8 @@ export class GroupsComponent extends Pagination implements OnInit, OnDestroy {
                 public http: HttpClient,
                 public route: ActivatedRoute,
                 public pagService: PaginationService,
-                public snackBar: MatSnackBar) {
+                public snackBar: MatSnackBar,
+                public translate: TranslateService) {
     super(router, route, pagIntl, http, dialog, pagService, snackBar);
         this.route.queryParams.subscribe(params => {
             if (params.specialityId) {
@@ -172,9 +174,12 @@ export class GroupsComponent extends Pagination implements OnInit, OnDestroy {
         const dialogConfig = new MatDialogConfig();
         dialogConfig.disableClose = true;
         dialogConfig.width = '400px';
-        dialogConfig.data = {
-            message: 'Ви справді бажаєте видалити групу?'
-        };
+        this.translate.get('ADMIN.GROUP.DELC').subscribe(msg => {
+            dialogConfig.data = {
+                message: msg
+            };
+        });
+
 
         const dialogRef = this.dialog.open(DeleteConfirmComponent, dialogConfig);
 
@@ -184,7 +189,10 @@ export class GroupsComponent extends Pagination implements OnInit, OnDestroy {
                 this.groupsService._delGroup(id).subscribe(response => {
 
                     if (response.response === 'ok') {
-                        this.openTooltip('Група була успішно видалена');
+                        this.translate.get('ADMIN.GROUP.DELETED').subscribe(msg => {
+                            this.openTooltip(msg);
+                        });
+
                         for (let i = 0; i < this.table.length; i++) {
                             if (this.table[i].group_id === id) {
                                 this.table.splice(i, 1);
@@ -195,12 +203,15 @@ export class GroupsComponent extends Pagination implements OnInit, OnDestroy {
                         }
                     }
                 }, error => {
-                    this.dialog.open(ResponseMessageComponent, {
-                        width: '400px',
-                        data: {
-                            message: 'Виникла помилка при видаленні групи!'
-                        }
+                    this.translate.get('ADMIN.GROUP.ERROR').subscribe(msg => {
+                        this.dialog.open(ResponseMessageComponent, {
+                            width: '400px',
+                            data: {
+                                message: msg
+                            }
+                        });
                     });
+
                     console.error('Виникла помилка при видаленні групи: ' + error);
                 });
             }
@@ -234,7 +245,9 @@ export class GroupsComponent extends Pagination implements OnInit, OnDestroy {
         };
 
         this.groupsService._addGroup(addGroupData).subscribe(response => {
-            this.openTooltip('Група була успішно додана');
+            this.translate.get('ADMIN.GROUP.ADDED').subscribe(msg => {
+                this.openTooltip(msg);
+            });
             if (response[0].group_name === groupData.group_name) {
                 this.table.push({
                     group_id: parseInt(response[0].group_id, 10),
@@ -245,11 +258,13 @@ export class GroupsComponent extends Pagination implements OnInit, OnDestroy {
             }
 
         }, error => {
-            this.dialog.open(ResponseMessageComponent, {
-                width: '400px',
-                data: {
-                    message: 'Помилка при додаванні групи!'
-                }
+            this.translate.get('ADMIN.GROUP.ADDERR').subscribe(msg => {
+                this.dialog.open(ResponseMessageComponent, {
+                    width: '400px',
+                    data: {
+                        message: msg
+                    }
+                });
             });
             console.error('Виникла помилка при додаванні групи: ' + error);
         });
@@ -293,20 +308,22 @@ export class GroupsComponent extends Pagination implements OnInit, OnDestroy {
                                 tempFaculty = facResponse[0].faculty_name;
                                 this.groupsService._getSpeciality(response[0].speciality_id).subscribe(specResponse => {
                                     tempSpeciality = specResponse[0].speciality_name;
-
-                                    this.openTooltip('Група була успішно редагована');
-
+                                    this.translate.get('ADMIN.GROUP.SEDIT').subscribe(msg => {
+                                        this.openTooltip(msg);
+                                    });
                                     table.group = groupData.group_name;
                                     table.faculty = tempFaculty;
                                     table.speciality = tempSpeciality;
                                 });
                             });
                         } else {
-                            this.dialog.open(ResponseMessageComponent, {
-                                width: '400px',
-                                data: {
-                                    message: 'Помилка приредагуванні групи!'
-                                }
+                            this.translate.get('ADMIN.GROUP.EDITERR').subscribe(msg => {
+                                this.dialog.open(ResponseMessageComponent, {
+                                    width: '400px',
+                                    data: {
+                                        message: msg
+                                    }
+                                });
                             });
                         }
                     });

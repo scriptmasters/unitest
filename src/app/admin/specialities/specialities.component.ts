@@ -10,6 +10,7 @@ import {FormGroup} from '@angular/forms';
 import {DeleteConfirmComponent} from '../../shared/delete-confirm/delete-confirm.component';
 import {Pagination} from '../../shared/pagination/pagination.class';
 import {PaginationService} from '../../shared/pagination/pagination.service';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
     selector: 'app-specialities',
@@ -27,7 +28,8 @@ export class SpecialitiesComponent extends Pagination implements OnInit, OnDestr
                 public http: HttpClient,
                 public dialog: MatDialog,
                 public pagService: PaginationService,
-                public snackBar: MatSnackBar) {
+                public snackBar: MatSnackBar,
+                private translate: TranslateService) {
         super(router, route, pagIntl, http, dialog, pagService, snackBar);
         this.pagService.entity = 'speciality';
         this.entities = 'specialities';
@@ -70,31 +72,37 @@ export class SpecialitiesComponent extends Pagination implements OnInit, OnDestr
     }
 
     delete(id): void {
-        const dialogRef = this.dialog.open(DeleteConfirmComponent, {
-            width: '500px',
-            data: {message: 'Ви справді бажаєте видалити дану спеціальность?'}
-        });
-        dialogRef.afterClosed().subscribe((Response: boolean) => {
-            if (Response) {
-                this.speciality.delSpecialitiey(id).subscribe((data: IResponse) => {
-                        if (data.response === 'ok') {
-                            this.openTooltip('Спеціальність було успішно видалено');
-                            if (this.entitiesObj.length > 1) {
-                                this.getEntity();
-                            } else {
-                                this.pagination ? this.paginator.previousPage() : this.entitiesObj = undefined;
+        this.translate.get('ADMIN.SPEC.DELQ').subscribe(msg => {
+            const dialogRef = this.dialog.open(DeleteConfirmComponent, {
+                width: '500px',
+                data: {message: msg}
+            });
+            dialogRef.afterClosed().subscribe((Response: boolean) => {
+                if (Response) {
+                    this.speciality.delSpecialitiey(id).subscribe((data: IResponse) => {
+                            if (data.response === 'ok') {
+                                this.translate.get('ADMIN.SPEC.DELETED').subscribe(m => {
+                                    this.openTooltip('Спеціальність було успішно видалено');
+                                });
+                                if (this.entitiesObj.length > 1) {
+                                    this.getEntity();
+                                } else {
+                                    this.pagination ? this.paginator.previousPage() : this.entitiesObj = undefined;
+                                }
                             }
-                        }
-                    },
-                    () => {
-                        this.dialog.open(ResponseMessageComponent, {
-                            width: '400px',
-                            data: {
-                                message: 'Неможливо видалити дану спеціальность, тому що вона не є порожня!'
-                            }
+                        },
+                        () => {
+                            this.translate.get('ADMIN.SPEC.CANTDEL').subscribe(mgs => {
+                                this.dialog.open(ResponseMessageComponent, {
+                                    width: '400px',
+                                    data: {
+                                        message: mgs
+                                    }
+                                });
+                            });
                         });
-                    });
-            }
+                }
+            });
         });
     }
 }

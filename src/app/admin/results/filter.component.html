@@ -7,40 +7,32 @@
               <div class="card-body row">
                 <div class="form-group col-md-12 filter-mb">
                   <div class="text-center">
-                    <h2 class="display">Звіт про проходження тестувань</h2>
+                    <h2 class="display">{{'ADMIN.RES.REPORT' | translate}}</h2>
                   </div>
                 </div>
                 <div class="form-group col-md-12 filter-mb">
                   <select class="form-control"
                           formControlName="groupId">
                     <option value=""
-                            selected>Оберіть групу</option>
+                            selected>{{'ADMIN.CHOOSEG' | translate}}</option>
                     <option *ngFor="let item of groups"
                             [value]="item.group_id">{{item.group_name}}</option>
                   </select>
                 </div>
                 <div class="form-group col-md-12 filter-mb">
                   <select class="form-control"
-                          formControlName="testId">
+                          formControlName="testId" >
                     <option value=""
-                            selected>Оберіть тест</option>
-                    <option *ngFor="let item of tests"
+                            selected>{{'ADMIN.RES.CT' | translate}}</option>
+                    <option *ngFor="let item of testsForSelection"
                             [value]="item.test_id">{{item.test_name}}</option>
-                  </select>
-                </div>
-                <div class="form-group col-md-12 filter-mb">
-                  <select class="form-control"
-                          formControlName="order">
-                    <option value="" selected>Оберіть сортування</option>
-                    <option *ngFor="let orderItem of orderTypes"
-                            [value]="orderItem.id" >{{orderItem.name}}</option>
                   </select>
                 </div>
                 <div class="form-group col-md-12">
                   <button type="button"
                           class="btn btn-success filter-btn-width"
                           [disabled]="filterForm.invalid"
-                          (click)="search()">Пошук</button>
+                          (click)="search()">{{'SEARCH' | translate}}</button>
                 </div>
               </div>
               </form>
@@ -53,10 +45,8 @@
     [showResult]="!showFilter"
     [testId]="filterForm.controls['testId'].value"
     [groupId]="filterForm.controls['groupId'].value"
-    [order]="filterForm.controls['order'].value"
     [groups]="groups"
     [tests]="tests"
-
     (filterEmit)="toggleFilter($event)"
   ></app-filtered-result>
 </section>

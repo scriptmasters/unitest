@@ -4,15 +4,14 @@
             <div class="card col-12 col-lg-12">
                 <div class="card-body d-flex justify-content-between flex-column flex-sm-row">
                     <div class="align-self-center mr-auto col-sm-4 mb-2 mb-sm-0">
-                        <h2 class="display">Спеціальності</h2>
+                        <h2 class="display">{{'ADMIN.SPECIALTIES' | translate}}</h2>
                     </div>
                     <div class="col-sm-4 col-lg-4 mb-2 mb-sm-0">
-                        <input type="text" id="title" placeholder="Пошук..." class="form-control form-control-success"
+                        <input type="text" id="title" placeholder="{{'SEARCH' | translate}}" class="form-control form-control-success"
                                [formControl]="searchBox">
                     </div>
                     <div class="col-sm-4 col-lg-3 d-flex justify-content-end">
-                        <button type="button" class="btn btn-primary col-12" value="Додати" (click)="openModal()">Додати
-                            новий параметр
+                        <button type="button" class="btn btn-primary col-12" value="Додати" (click)="openModal()">{{'ADMIN.PARAM' | translate}}
                         </button>
                     </div>
                 </div>
@@ -28,8 +27,8 @@
                         <thead>
                         <tr>
                             <th>№</th>
-                            <th>Код спеціальності</th>
-                            <th>Назва спеціальності</th>
+                            <th>{{'ADMIN.SPEC.CODE' | translate}}</th>
+                            <th>{{'ADMIN.SPEC.CODE' | translate}}</th>
                             <th colspan="3"></th>
                         </tr>
                         </thead>
@@ -38,9 +37,9 @@
                             <th scope="row">{{i+pageSize*pageIndex+1}}</th>
                             <th>{{key.speciality_code}}</th>
                             <td>{{key.speciality_name}}</td>
-                            <td><i class="fa fa-bars" (click)="getGroups(key.speciality_id)"></i></td>
-                            <td><i class="fa fa-cog" (click)="openModal(key.speciality_id)"></i></td>
-                            <td><i class="fa fa-close" (click)="delete(key.speciality_id)"></i></td>
+                            <td><i class="fa fa-bars" title="{{'ADMIN.GROUPS' | translate}}" (click)="getGroups(key.speciality_id)"></i></td>
+                            <td><i class="fa fa-cog" title="{{'EDIT' | translate}}" (click)="openModal(key.speciality_id)"></i></td>
+                            <td><i class="fa fa-close" title="{{'DEL' | translate}}" (click)="delete(key.speciality_id)"></i></td>
                         </tr>
                         </tbody>
                     </table>

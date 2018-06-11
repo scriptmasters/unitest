@@ -5,11 +5,10 @@
             <div class="card col-12 col-lg-12">
                 <div class="card-body d-flex justify-content-between">
                     <div class="align-self-center">
-                        <h2 class="display">Студенти</h2>
+                        <h2 class="display">{{'ADMIN.STUDENTS' | translate}}</h2>
                     </div>
                     <div>
-                        <button type="button" class="btn btn-primary" (click)="showRegForm()">Додати
-                            новий параметp
+                        <button type="button" class="btn btn-primary" (click)="showRegForm()">{{'ADMIN.PARAM' | translate}}
                         </button>
                     </div>
                 </div>
@@ -21,13 +20,13 @@
                     <!-- Search input -->
                     <div class=" form-group col-sm-3">
                         <input type="text" [formControl]="search"
-                               placeholder="Пошук..." class="form-control">
+                               placeholder="{{'SEARCH' | translate}}" class="form-control">
                     </div>
                     <!-- List of faculties (dropdown) -->
                     <div class="form-group col-sm-4">
                         <select name="facultyFilter" class="form-control faculty-filter" #facultySelector
                                 [(ngModel)]="facultyString" (change)="getGroups(facultySelector)">
-                            <option [selected]="false" value="Виберіть факультет">Виберіть факультет</option>
+                            <option [selected]="false" value="Виберіть факультет">{{'ADMIN.GROUP.CHOOSEF' | translate}}</option>
                             <option *ngFor="let faculty of faculties">{{faculty.faculty_name}}</option>
                         </select>
                     </div>
@@ -35,13 +34,13 @@
                     <div class="form-group col-sm-4">
                         <select name="groupFilter" #groupsList class="form-control group-filter"
                                 [(ngModel)]="groupString" (change)="getFiltredStudentsByGroup(groupsList)">
-                            <option [selected]="true">Виберіть групу</option>
+                            <option [selected]="true" value="Виберіть групу">{{'ADMIN.CHOOSEG' | translate}}</option>
                             <option *ngFor="let group of groups">{{group.group_name}}</option>
                         </select>
                     </div>
                     <!-- refresh button -->
                     <div class="form-group col-sm-1 d-flex justify-content-between">
-                        <button type="button" title="Очистити фільтри" class="fa fa-refresh"
+                        <button type="button" title="{{'CLEAR' | translate}}" class="fa fa-refresh"
                                 [disabled]="groupString === 'Виберіть групу'"
                                 (click)="reviseAllStudents()"></button>
                     </div>
@@ -58,9 +57,9 @@
                         <thead>
                         <tr>
                             <th>№</th>
-                            <th>ПІБ</th>
-                            <th>№ залікової книжки</th>
-                            <th>Група</th>
+                            <th>{{'ADMIN.STUD.NAME' | translate}}</th>
+                            <th>{{'ADMIN.STUD.GN' | translate}}</th>
+                            <th>{{'STUDENT.GROUP' | translate}}</th>
                             <th colspan="3"></th>
                         </tr>
                         </thead>
@@ -70,10 +69,10 @@
                             <td>{{student.fullName}}</td>
                             <td>{{student.gradebook_id}}</td>
                             <td>{{student.group}}</td>
-                            <td><i class="fa fa-address-card" aria-hidden="true" title="Детальна інформація"
+                            <td><i class="fa fa-address-card" aria-hidden="true" title="{{'ADMIN.STUD.DETAILS' | translate}}"
                                    (click)="showAdvancedInfo(student)"></i></td>
-                            <td><i class="fa fa-cog" (click)="showEditForm(student)" title="Редагувати"></i></td>
-                            <td><i class="fa fa-close" (click)="handleDelete(student.user_id)" title="Видалити"></i>
+                            <td><i class="fa fa-cog" (click)="showEditForm(student)" title="{{'EDIT' | translate}}"></i></td>
+                            <td><i class="fa fa-close" (click)="handleDelete(student.user_id)" title="{{'DEL' | translate}}"></i>
                             </td>
                         </tr>
                         </tbody>

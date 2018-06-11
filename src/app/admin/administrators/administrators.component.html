@@ -4,13 +4,13 @@
             <div class="card col-12 col-lg-12">
                 <div class="card-body d-flex justify-content-sm-between flex-column flex-sm-row">
                     <div class="align-self-center mr-auto col-sm-4 mb-2 mb-sm-0">
-                        <h2 class="display">Адміністратори</h2>
+                        <h2 class="display">{{'ADMIN.ADMINS' | translate}}</h2>
                     </div>
                     <div class="col-sm-4 col-lg-4 mb-2 mb-sm-0">
-                        <input type="text" id="title" placeholder="Пошук..." class="form-control form-control-success" [formControl]="search">
+                        <input type="text" id="title" placeholder="{{'SEARCH' | translate}}" class="form-control form-control-success" [formControl]="search">
                     </div>
                     <div class="col-sm-4 col-lg-3 d-flex justify-content-end">
-                        <button type="button" class="btn btn-primary col-12" value="Додати" (click)="openDialog()">Додати новий параметр</button>
+                        <button type="button" class="btn btn-primary col-12" value="Додати" (click)="openDialog()">{{'ADMIN.PARAM' | translate}}</button>
                     </div>
                 </div>
             </div>
@@ -25,8 +25,8 @@
                         <thead>
                             <tr>
                                 <th>№</th>
-                                <th>Логін</th>
-                                <th>Поштова скринька</th>
+                                <th>{{'ADMIN.LOGIN' | translate}}</th>
+                                <th>{{'ADMIN.MAIL' | translate}}</th>
                                 <th colspan='2'></th>
                             </tr>
                         </thead>
@@ -35,8 +35,8 @@
                                 <th>{{i+pageSize*pageIndex+1}}</th>
                                 <td>{{administrator.username}}</td>
                                 <td>{{administrator.email}}</td>
-                                <td><i class="fa fa-cog" (click)="openDialog(administrator.id)" title="Редагувати"></i></td>
-                                <td><i class="fa fa-close" (click)="deleteAdministrator(administrator.id)" title="Видалити"></i></td>
+                                <td><i class="fa fa-cog" (click)="openDialog(administrator.id)" title="{{'EDIT' | translate}}"></i></td>
+                                <td><i class="fa fa-close" (click)="deleteAdministrator(administrator.id)" title="{{'DEL'| translate}}"></i></td>
                             </tr>
                         </tbody>
                     </table>

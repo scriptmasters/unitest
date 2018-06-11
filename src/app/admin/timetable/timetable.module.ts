@@ -6,6 +6,13 @@ import {TimetableRoutingModule} from './timetable-routing.module';
 import {TableService} from './timetable.service';
 import {SharedModule} from '../../shared/shared.module';
 import {CommonModule} from '@angular/common';
+import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { HttpClient } from '@angular/common/http';
+
+export function HttpLoaderFactory(httpClient: HttpClient) {
+    return new TranslateHttpLoader(httpClient);
+  }
 
 @NgModule({
     declarations: [
@@ -16,7 +23,12 @@ import {CommonModule} from '@angular/common';
     imports: [
         CommonModule,
         TimetableRoutingModule,
-        SharedModule
+        SharedModule,
+        TranslateModule.forChild({
+            loader: {provide: TranslateLoader, useFactory: HttpLoaderFactory,
+                deps: [HttpClient]},
+            isolate: false
+        })
     ],
     providers: [
         TableService,
