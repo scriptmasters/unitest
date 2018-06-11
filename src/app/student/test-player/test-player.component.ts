@@ -141,20 +141,24 @@ export class TestPlayerComponent implements OnInit {
   finishTest(timeEnd?) {
     let matDialogRef;
     if (timeEnd) {
-      matDialogRef = this.dialog.open(AlertMessageTestComponent, {
-        disableClose: true,
-        width: '400px',
-        data: {
-          message: 'Час тесту вичерпано!',
-        },
+      this.translate.get('STUD.TP.TIME').subscribe(time => {
+        matDialogRef = this.dialog.open(AlertMessageTestComponent, {
+          disableClose: true,
+          width: '400px',
+          data: {
+            message: time,
+          },
+        });
       });
     } else {
-      matDialogRef = this.dialog.open(ConfirmMessageTestComponent, {
-        disableClose: true,
-        width: '400px',
-        data: {
-          message: 'Ви дійсно хочете завершити тест?',
-        },
+      this.translate.get('STUD.TP.QF').subscribe(qf => {
+        matDialogRef = this.dialog.open(ConfirmMessageTestComponent, {
+          disableClose: true,
+          width: '400px',
+          data: {
+            message: qf,
+          },
+        });
       });
     }
     matDialogRef.afterClosed().subscribe((res: boolean) => {

@@ -1,5 +1,6 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-test-result-graph',
@@ -10,9 +11,17 @@ export class TestResultGraphComponent implements OnInit {
 
   showNoDataMessage = false;
   private resultList = [];
-
+  rating;
+  success;
   constructor(public dialogRef: MatDialogRef<TestResultGraphComponent>,
-              @Inject(MAT_DIALOG_DATA) public data: any[]) { }
+              @Inject(MAT_DIALOG_DATA) public data: any[], private translate: TranslateService) {
+                translate.get('STUD.SUCC').subscribe(msg => {
+                  this.success = msg;
+                });
+                translate.get('ADMIN.RES.RATING').subscribe(ms => {
+                  this.rating = ms;
+                });
+              }
 
   ngOnInit() {
     this.drawChart();
@@ -34,14 +43,14 @@ export class TestResultGraphComponent implements OnInit {
         type: 'column'
       },
       title: {
-        text: 'Успішність студентів'
+        text: this.success
       },
       xAxis: {
         type: 'category'
       },
       yAxis: {
         title: {
-          text: 'Рейтинг'
+          text: this.rating
         }
       },
       legend: {
