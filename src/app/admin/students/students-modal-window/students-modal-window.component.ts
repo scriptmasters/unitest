@@ -305,6 +305,17 @@ export class StudentsModalWindowComponent implements OnInit {
             );
         }
     }
+
+    // To see a password
+    handleTogglePasswordVisibility(event: Event) {
+        const elem = event.srcElement.previousElementSibling;
+        if (elem.getAttribute('type') === 'password') {
+            elem.setAttribute('type', 'text');
+        } else {
+            elem.setAttribute('type', 'password');
+        }
+    }
+
 // close mat dialog window
     handleClose(): void {
         this.dialogRef.close();
