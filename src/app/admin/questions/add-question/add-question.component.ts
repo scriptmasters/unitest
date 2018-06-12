@@ -25,10 +25,10 @@ export class AddQuestionComponent implements OnInit {
  selTestId: string;
  selTestName: string;
 
- new_question: IQuestion = {
+new_question: IQuestion = {
     test_id: this.selTestId,
     question_id: '',
-    question_text: 'no text',
+    question_text: '',
     level: '1',
     type: '1',
     attachment: ''
@@ -191,6 +191,7 @@ constructor(
 
 
 addedQuestionSubmit() {
+  let identicalAnswersNumber = 0;
   const questionJSON = JSON.stringify({
     test_id: this.selTestId,
     question_text: this.new_question.question_text,
@@ -198,19 +199,46 @@ addedQuestionSubmit() {
     type: this.new_question.type,
     attachment: this.new_question.attachment
   });
+    if ( this.data.questions.some(elem => elem.question_text === this.new_question.question_text ) ) {
+      this.openModalMessage('Завдання з такою умовою вже існує! Введіть іншу умову завдання.');
+        } else {
 
-    this.questionService.addQuestion(questionJSON).subscribe((dataNewQuestions: IQuestion) => {
-      if (dataNewQuestions) {
-          this.newAnswersArray.forEach(answer => {
-              answer.question_id = dataNewQuestions[0].question_id;
-              this.questionService.addAnswer(answer).subscribe(
-                   (dataNewAnswers: IAnswer) => {}
-              );
-          });
-        this.openTooltip('Завдання додано успішно!');
-        this.matDialogRef.close();
-      }
-    });
+            if (this.newAnswersArray.length === 0 ) {
+                  const dialogExit = this.dialog.open(DeleteConfirmComponent, {
+                    width: '400px', data: {message: 'Відповіді не додано! Ви бажаєте зберегти завдання?'}
+                  });
+                  dialogExit.afterClosed().subscribe( (dialogResponse: boolean) => {
+                  if (dialogResponse) { this.matDialogRef.close();
+            this.questionService.addQuestion(questionJSON).subscribe((dataNewQuestions: IQuestion) => {});
+                  } });
+            } else {
+                this.newAnswersArray.forEach((answer, index) => {
+                  // checks if there is answer (with another answer index) with the same answerText
+                  if ( this.newAnswersArray.some(element => (element.answer_text === answer.answer_text &&
+                    this.newAnswersArray.indexOf(element) !== this.newAnswersArray.indexOf(answer))) ) {
+                    identicalAnswersNumber += 1;
+                    if (identicalAnswersNumber === 1) {
+                        this.openModalMessage('Дублювання відповідей! Вiдредагуйте однакові відповіді.');
+                    }
+                  }
+                    // if all answers are different
+                    if (index === this.newAnswersArray.length - 1 && identicalAnswersNumber === 0) {
+                  this.questionService.addQuestion(questionJSON).subscribe((dataNewQuestions: IQuestion) => {
+                      this.openTooltip('Завдання та відповіді додано успішно!');
+                      this.matDialogRef.close();
+                        this.newAnswersArray.forEach(answ => {
+                          answ.question_id = dataNewQuestions[0].question_id;
+                          this.questionService.addAnswer(answ).subscribe(
+                            (dataNewAnswers: IAnswer) => {}
+                          );
+                        });
+                  });
+
+                  }
+                });
+
+            }
+        }
 }
 
  openModalMessage(msg: string, w: string = '400px'): void {
