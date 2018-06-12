@@ -98,19 +98,11 @@ export class ResultComponent extends Pagination implements OnInit, OnDestroy {
     if (this.order) {
       switch (this.order) {
         case 'student': {
-          this.resultRecords.sort((a, b) => {
-            if (a.student_name < b.student_name) { return -1; }
-            if (a.student_name > b.student_name) { return 1; }
-            return 0;
-          });
+          this.resultRecords.sort((a, b) => a.student_name.localeCompare(b.student_name));
           break;
         }
         case 'studentDesc': {
-          this.resultRecords.sort((a, b) => {
-            if (b.student_name < a.student_name) { return -1; }
-            if (b.student_name > a.student_name) { return 1; }
-            return 0;
-          });
+          this.resultRecords.sort((a, b) => b.student_name.localeCompare(a.student_name));
           break;
         }
         case 'result': {
