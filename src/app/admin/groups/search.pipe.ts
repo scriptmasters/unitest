@@ -4,10 +4,9 @@ import {Pipe, PipeTransform} from '@angular/core';
     name: 'search',
     pure: false
 })
-export class SearchFilter implements PipeTransform {
+export class SearchFilterPipe implements PipeTransform {
     constructor() {
     }
-
     transform(table, value) {
         if (!value) {
             return table;
