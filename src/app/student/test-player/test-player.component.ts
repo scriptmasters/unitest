@@ -74,7 +74,7 @@ export class TestPlayerComponent implements OnInit, OnDestroy {
         clearInterval(this.start);
         this.timerService
           .clearTime()
-          .subscribe((time) => console.log(time));
+          .subscribe(() => {});
         this.router.navigate(['student']);
       }
     });
@@ -236,7 +236,6 @@ export class TestPlayerComponent implements OnInit, OnDestroy {
       clearInterval(this.start);
       this.finishTest(true);
     }
-    console.log(this.timer.hours + ':' + this.timer.minutes + ':' + this.timer.seconds);
   }
 
   getTime() {
