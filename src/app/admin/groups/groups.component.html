@@ -7,8 +7,7 @@
             <h2 class="display">{{'ADMIN.GROUPS' | translate }}</h2>
           </div>
           <div>
-            <button type="button" class="btn btn-primary" id="addGroup" (click)="openDialog()">{{'ADMIN.PARAM' |
-              translate}}
+            <button type="button" class="btn btn-primary" id="addGroup" (click)="openDialog()">{{'ADMIN.PARAM' | translate}}
             </button>
           </div>
         </div>
@@ -19,11 +18,11 @@
         <div class="card-body row">
           <div class="form-group col-sm-3">
             <input type="text" class="form-control" placeholder="{{'SEARCH' | translate}}" (keypress)="pageIndex = 0"
-                   [(ngModel)]="searchFilter">
+                   [(ngModel)]="searchFilterPipe">
           </div>
           <div class="form-group col-sm-4">
             <select name="account" class="form-control select-filter" (change)="pageIndex = 0"
-                    [(ngModel)]="facultyFilter">
+                    [(ngModel)]="facultyFilterPipe">
               <option value="Виберіть факультет" selected>{{'ADMIN.GROUP.CHOOSEF' | translate}}</option>
               <option *ngFor="let tab of faculties; let i = index;" value="{{tab.faculty_name}}">
                 {{tab.faculty_name}}
@@ -32,7 +31,7 @@
           </div>
           <div class="form-group col-sm-4">
             <select name="account" class="form-control select-filter" (change)="pageIndex = 0"
-                    [(ngModel)]="specialityFilter">
+                    [(ngModel)]="specialityFilterPipe">
               <option value="Виберіть спецільність" selected>{{'ADMIN.GROUP.CHOOSES' | translate}}</option>
               <option *ngFor="let tab of specialities; let i = index;" value="{{tab.speciality_name}}">
                 {{tab.speciality_name}}
@@ -64,9 +63,9 @@
             </thead>
             <tbody>
             <tr
-              *ngFor="let tab of table | search: searchFilter
-                                                         | facultyFilterPipe: facultyFilter
-                                                         | specialityFilterPipe: specialityFilter
+              *ngFor="let tab of table | search: searchFilterPipe
+                                                         | facultyFilterPipe: facultyFilterPipe
+                                                         | specialityFilterPipe: specialityFilterPipe
                                                          | pagination: pageSize : pageIndex; index as i;"
 
             >
