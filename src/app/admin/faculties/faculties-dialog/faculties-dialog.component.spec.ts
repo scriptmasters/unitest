@@ -1,19 +1,20 @@
+import { FacultiesDialogComponent } from './faculties-dialog.component';
 import {async, ComponentFixture, TestBed} from '@angular/core/testing';
-import {FacultiesUpdateComponent} from './faculties-update.component';
+
 
 describe('FacultiesUpdateComponent', () => {
-  let component: FacultiesUpdateComponent;
-  let fixture: ComponentFixture<FacultiesUpdateComponent>;
+  let component: FacultiesDialogComponent;
+  let fixture: ComponentFixture<FacultiesDialogComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ FacultiesUpdateComponent ]
+      declarations: [ FacultiesDialogComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(FacultiesUpdateComponent);
+    fixture = TestBed.createComponent(FacultiesDialogComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

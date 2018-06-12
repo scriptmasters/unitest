@@ -1,4 +1,4 @@
-import { Component, HostListener, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit, OnDestroy } from '@angular/core';
 import { TestPlayerService } from '../services/test-player.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatDialog } from '@angular/material';
@@ -19,7 +19,7 @@ import { StudentService } from '../student.service';
   templateUrl: './test-player.component.html',
   styleUrls: ['./test-player.component.scss'],
 })
-export class TestPlayerComponent implements OnInit {
+export class TestPlayerComponent implements OnInit, OnDestroy {
   questions;
   userAnswers = {};
   userCheckboxAnswers = {};
@@ -72,18 +72,25 @@ export class TestPlayerComponent implements OnInit {
         clearInterval(this.start);
         this.timerService
           .clearTime()
-          .subscribe(() => {});
+          .subscribe((time) => console.log(time));
         this.router.navigate(['student']);
       }
     });
-    this.start = setInterval(() => {
-      this.timerActions();
-    }, 1000);
+
+    if (this.start === undefined) {
+      this.start = setInterval(() => {
+        this.timerActions();
+      }, 1000);
+    }
+
   }
 
   ngOnInit() {
     this.getQuestions();
     this.getTime();
+  }
+  ngOnDestroy() {
+    clearInterval(this.start);
   }
 
   @HostListener('window:beforeunload', ['$event'])
@@ -102,7 +109,7 @@ export class TestPlayerComponent implements OnInit {
           this.userAnswers[this.questions[i].question_id] || {};
         this.userAnswers[
           this.questions[i].question_id
-        ].question_id = this.questions[i].question_id;
+          ].question_id = this.questions[i].question_id;
         this.userAnswers[this.questions[i].question_id].answer_id = '';
       }
     }
@@ -136,7 +143,7 @@ export class TestPlayerComponent implements OnInit {
     }
   }
 
-  finishTest(timeEnd) {
+  finishTest(timeEnd?) {
     let matDialogRef;
     if (timeEnd) {
       matDialogRef = this.dialog.open(AlertMessageTestComponent, {
@@ -219,19 +226,22 @@ export class TestPlayerComponent implements OnInit {
       this.timer.seconds = '00';
       this.timerService
         .clearTime()
-        .subscribe(response => console.log(response));
+        .subscribe( () => {});
       clearInterval(this.start);
       this.finishTest(true);
     }
+    console.log(this.timer.hours + ':' + this.timer.minutes + ':' + this.timer.seconds);
   }
 
   getTime() {
     // Get timer for test and Subject_id
     this.route.params.subscribe(params => {
       this.timerService.getTest(params['id']).subscribe(test => {
-        this.timeOfTest = test[0].time_for_test * 60 * 1000;
-        this.nameOfTest = test[0].test_name;
-        this.getEndTimeOfTest(test[0].subject_id);
+        if (test[0].time_for_test !== undefined) {
+          this.timeOfTest = test[0].time_for_test * 60 * 1000;
+          this.nameOfTest = test[0].test_name;
+          this.getEndTimeOfTest(test[0].subject_id);
+        }
       });
     });
   }
