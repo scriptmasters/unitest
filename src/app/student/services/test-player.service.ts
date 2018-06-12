@@ -20,11 +20,11 @@ export class TestPlayerService {
 
   constructor(private http: HttpClient) {}
 
-  startTest(userId, testId): Observable<any> {
+  startTest(userId, testId): Observable<Object> {
     return this.http.get(this.urlStartTest + '/' + userId + '/' + testId);
   }
 
-  getRandomQuestionsByTestDetails() {
+  getRandomQuestionsByTestDetails(): Observable<Object> {
     return this.getTestDetails(this.testId).pipe(
       map((testDetails: any) =>
         testDetails.map((test: any) => this.getRandomQuestions(test))
@@ -33,7 +33,7 @@ export class TestPlayerService {
     );
   }
 
-  getRandomQuestions(test) {
+  getRandomQuestions(test): Observable<Object> {
     return this.http.get(
       this.urlGetRandomQuestions +
         '/' +
@@ -45,11 +45,11 @@ export class TestPlayerService {
     );
   }
 
-  getTestDetails(id: number) {
+  getTestDetails(id: number): Observable<Object> {
     return this.http.get(this.urlGetTestDetails + '/' + id);
   }
 
-  getQuestionsWithAnswers(testId) {
+  getQuestionsWithAnswers(testId): Observable<Object> {
     this.testId = testId;
     return this.getQuestions().pipe(
       map((questions: any) =>
@@ -59,7 +59,7 @@ export class TestPlayerService {
     );
   }
 
-  mergeQuestionsAnswers(question) {
+  mergeQuestionsAnswers(question): Observable<Object> {
     return this.getAnswer(question.question_id, +question.type).map(
       answers => ({
         ...question,
@@ -75,7 +75,7 @@ export class TestPlayerService {
     return answers.sort(compareRandom);
   }
 
-  getQuestions() {
+  getQuestions(): Observable<Object> {
     return this.getRandomQuestionsByTestDetails().pipe(
       map((data: any) =>
         data.map((questions: any) =>
@@ -100,14 +100,14 @@ export class TestPlayerService {
     return this.http.post<IQuestion>(this.urlGetQuestionInfo, body);
   }
 
-  getAnswer(id, type) {
+  getAnswer(id, type): Observable<Object> {
     if (type === 3 || type === 4) {
       return Observable.of([]);
     }
     return this.http.get(this.urlGetAnswer + '/' + id);
   }
 
-  formatResults(data) {
+  formatResults(data): Observable<Object> {
     data = Object.values(data);
 
     const formatData = data.map(result => ({

@@ -17,7 +17,7 @@ import { StudentService } from '../student.service';
 @Component({
   selector: 'app-test-player',
   templateUrl: './test-player.component.html',
-  styleUrls: ['./test-player.component.scss'],
+  styleUrls: ['./test-player.component.scss']
 })
 export class TestPlayerComponent implements OnInit {
   questions;
@@ -31,7 +31,7 @@ export class TestPlayerComponent implements OnInit {
   time: ITimeStamp = {
     unix_timestamp: 0,
     offset: 0,
-    curtime: 0,
+    curtime: 0
   };
   startDate: any;
   endDate: any;
@@ -39,7 +39,7 @@ export class TestPlayerComponent implements OnInit {
   timer: ITimer = {
     hours: 0,
     minutes: 0,
-    seconds: 0,
+    seconds: 0
   };
   studentId: number;
   timeOfTest: number;
@@ -52,7 +52,7 @@ export class TestPlayerComponent implements OnInit {
     student_name: '',
     student_fname: '',
     group_id: 0,
-    photo: '',
+    photo: ''
   };
 
   constructor(
@@ -70,9 +70,8 @@ export class TestPlayerComponent implements OnInit {
     this.studentService.getInfoTest().subscribe(startTestId => {
       if (startTestId !== idTest) {
         clearInterval(this.start);
-        this.timerService
-          .clearTime()
-          .subscribe(() => {});
+        this.timerService.clearTime().subscribe(() => {
+        });
         this.router.navigate(['student']);
       }
     });
@@ -102,7 +101,7 @@ export class TestPlayerComponent implements OnInit {
           this.userAnswers[this.questions[i].question_id] || {};
         this.userAnswers[
           this.questions[i].question_id
-        ].question_id = this.questions[i].question_id;
+          ].question_id = this.questions[i].question_id;
         this.userAnswers[this.questions[i].question_id].answer_id = '';
       }
     }
@@ -143,23 +142,24 @@ export class TestPlayerComponent implements OnInit {
         disableClose: true,
         width: '400px',
         data: {
-          message: 'Час тесту вичерпано!',
-        },
+          message: 'Час тесту вичерпано!'
+        }
       });
     } else {
       matDialogRef = this.dialog.open(ConfirmMessageTestComponent, {
         disableClose: true,
         width: '400px',
         data: {
-          message: 'Ви дійсно хочете завершити тест?',
-        },
+          message: 'Ви дійсно хочете завершити тест?'
+        }
       });
     }
     matDialogRef.afterClosed().subscribe((res: boolean) => {
       if (res) {
         clearInterval(this.start);
         this.studentService.infoTestId = null;
-        this.timerService.clearTime().subscribe(() => {});
+        this.timerService.clearTime().subscribe(() => {
+        });
         this.testPlayerService
           .checkResult(this.userAnswers)
           .subscribe((response: any) => {
@@ -270,10 +270,11 @@ export class TestPlayerComponent implements OnInit {
       if (endOfTest.response === 'Empty slot') {
         this.timerService
           .saveEndTime({
-            end: this.startDate + this.distance,
+            end: this.startDate + this.distance
           })
           .subscribe(
-            () => {},
+            () => {
+            },
             error => {
               console.error(error.error.response);
             }
@@ -285,9 +286,8 @@ export class TestPlayerComponent implements OnInit {
           this.distance = this.endDate - this.startDate;
         }
         if (this.distance === undefined) {
-          this.timerService
-            .clearTime()
-            .subscribe(() => {});
+          this.timerService.clearTime().subscribe(() => {
+          });
         }
       }
     });

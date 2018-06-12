@@ -100,7 +100,7 @@ export class SubjectsComponent extends Pagination implements OnInit, OnDestroy {
                             disableClose: true,
                             width: '400px',
                             data: {
-                                message: 'Виникла помилка при видаленні предмета!',
+                                message: 'Неможливо видалити даний предмет, тому що він не є порожнім!',
                             },
                         });
                     }

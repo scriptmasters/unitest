@@ -8,4 +8,5 @@ export interface IQuestion {
   type?: number;
   answer_id: any;
   answers: IAnswer;
+  attachment?: string;
 }

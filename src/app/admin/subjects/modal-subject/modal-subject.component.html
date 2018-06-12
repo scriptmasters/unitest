@@ -17,6 +17,7 @@
                         <span *ngIf="form.get('title')['errors']['required']">Дане поле не може бути порожнім</span>
                         <span *ngIf="form.get('title')['errors']['minlength']">Поле повинно містити мінімум {{form.get('title')['errors']['minlength']['requiredLength']}} символи</span>
                         <span *ngIf="form.get('title')['errors']['maxlength']">Перевищено максимальну к-сть допустимих символів. ({{form.get('title')['errors']['maxlength']['requiredLength']}})</span>
+                        <span *ngIf="form.get('title')['errors']['pattern']">Недопустимі символи</span>
                     </small>
                 </div>
             </div>
@@ -33,6 +34,7 @@
                         <span *ngIf="form.get('description')['errors']['maxlength']">
                 Перевищено максимальну к-сть допустимих символів. ({{form.get('description')['errors']['maxlength']['requiredLength']}})
                         </span>
+                        <span *ngIf="form.get('description')['errors']['pattern']">Недопустимі символи</span>
                     </small>
                 </div>
             </div>
