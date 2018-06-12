@@ -198,7 +198,7 @@ export class ResultComponent extends Pagination implements OnInit, OnDestroy {
   openChartDialog() {
     this.dialog.open(TestResultGraphComponent, {
       disableClose: true,
-      width: '75%',
+      width: 'auto',
       data: this.resultRecords
     });
   }
