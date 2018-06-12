@@ -10,6 +10,7 @@ import {DeleteConfirmComponent} from '../../shared/delete-confirm/delete-confirm
 import {Pagination} from '../../shared/pagination/pagination.class';
 import {HttpClient} from '@angular/common/http';
 import {PaginationService} from '../../shared/pagination/pagination.service';
+import 'rxjs/add/operator/switchMap';
 
 
 @Component({
