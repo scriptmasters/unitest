@@ -84,14 +84,12 @@ export class EditQuestionComponent implements OnInit {
     const img = event.target.files[0];
     fileReader.onload = () => {
       this.edited_question.attachment = fileReader.result;
-      this.sel_question.attachment = this.edited_question.attachment;
     };
     fileReader.readAsDataURL(img);
   }
 
   resetQuestionAttachment() {
     this.edited_question.attachment = '';
-    this.sel_question.attachment = '';
   }
 
   getAnswersOfSelectedQuestion(question_id) {
@@ -304,8 +302,6 @@ export class EditQuestionComponent implements OnInit {
 
 
   editedQuestionSubmit() {
-    let isQuestionEdited = false;
-    let isAnyAnswerEdited = false;
     let editedAnswersNumber = 0;
     const questionJSON = JSON.stringify({
       question_id: this.sel_question_id,
@@ -321,9 +317,16 @@ export class EditQuestionComponent implements OnInit {
               this.questionService.editQuestion(this.sel_question_id, questionJSON)
               .subscribe((editedQuestion: IQuestion) => {
                 this.openTooltip('Завдання відредаговано успішно!');
-                isQuestionEdited = true;
                 this.matDialogRefPopUp.close();
               });
+      } else {
+        // if (  isAnyAnswerEdited ) {
+          const dialogExit = this.dialog.open(DeleteConfirmComponent, {
+            width: '400px', data: {message: 'Завдання не відредаговано! Ви бажаєте вийти?'}
+          });
+          dialogExit.afterClosed().subscribe( (dialogResponse: boolean) => {
+          if (dialogResponse) { this.matDialogRefPopUp.close(); } });
+        // }
       }
 
     this.editedAnswersArray.forEach((answer, index) => {
@@ -331,37 +334,21 @@ export class EditQuestionComponent implements OnInit {
       // updates only those answers that don't coincide with any of the received
       if (  this.receivedAnswersArray.every(element =>  element !== JSON.stringify(answer) ) ) {
 
-        isAnyAnswerEdited = true;
-
         this.questionService.editAnswer(answer.answer_id, answer).subscribe(
-            (editedAnswer: IAnswer) => editedAnswer,
+            (editedAnswer: IAnswer) => {
+              this.receivedAnswersArray[index] = JSON.stringify(editedAnswer);
+            },
             () => { this.openModalMessage('Виникла помилка при редагуванні цієї відповіді в базі даних!'); },
             () => { // onComplete
               editedAnswersNumber += 1;
               if (editedAnswersNumber === 1) {
                 this.openTooltip('Відповіді відредаговано успішно!');
-                this.matDialogRefPopUp.close();
               }
             }
         );
       }
-
-      if ( (index === this.editedAnswersArray.length - 1 ) && !isQuestionEdited && !isAnyAnswerEdited ) {
-        const dialogExit = this.dialog.open(DeleteConfirmComponent, {
-          width: '400px', data: {message: 'Завдання та відповіді не відредаговано! Ви бажаєте вийти?'}
-        });
-        dialogExit.afterClosed().subscribe( (dialogResponse: boolean) => {
-          if (dialogResponse) { this.matDialogRefPopUp.close(); }
-        });
-      }
     });
 
-    if (  this.editedAnswersArray.length === 0) {
-        const dialogExit = this.dialog.open(DeleteConfirmComponent, {
-          width: '400px', data: {message: 'Завдання та відповіді не відредаговано! Ви бажаєте вийти?'}
-        });
-        dialogExit.afterClosed().subscribe( (dialogResponse: boolean) => { if (dialogResponse) { this.matDialogRefPopUp.close(); } });
-    }
   }
 
 

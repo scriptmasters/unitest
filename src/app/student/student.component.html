@@ -52,7 +52,7 @@
                                                 <ng-container *ngIf="filteredSubjects.length">
                                                     <ng-container *ngFor="let key of filteredSubjects">
                                                         <ng-container *ngFor="let list of key.subject">
-                                                            <tr *ngFor="let tests of list.tests" class="text-center" [ngClass]="{'testNg': getNgClass(tests.test_id)}">
+                                                            <tr *ngFor="let tests of list.tests" class="text-center" [ngClass]="{'currentTest': currentTestColor(tests.test_id)}">
                                                                 <ng-container *ngIf="list.ready">
                                                                     <ng-container *ngIf="tests.enabled==1">
                                                                         <td>

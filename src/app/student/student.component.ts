@@ -293,7 +293,7 @@ export class StudentComponent implements OnInit {
   crossTest(id) {
     this.router.navigate(['student/test/' + id]);
   }
-  getNgClass(name) {
-    return name === this.localIdTets ? true : false;
+  currentTestColor(id) {
+    return id === this.localIdTets ? true : false;
   }
 }
