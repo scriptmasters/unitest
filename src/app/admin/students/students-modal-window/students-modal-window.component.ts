@@ -95,6 +95,7 @@ export class StudentsModalWindowComponent implements OnInit {
     ngOnInit(): void {
         this.getData();
         // Form validation
+        console.log(this.data.student);
         if (this.data.updating || this.data.creating) {
             this.createFormControls();
             this.createForm();
@@ -305,6 +306,17 @@ export class StudentsModalWindowComponent implements OnInit {
             );
         }
     }
+
+    // To see a password
+    handleTogglePasswordVisibility(event: Event) {
+        const elem = event.srcElement.previousElementSibling;
+        if (elem.getAttribute('type') === 'password') {
+            elem.setAttribute('type', 'text');
+        } else {
+            elem.setAttribute('type', 'password');
+        }
+    }
+
 // close mat dialog window
     handleClose(): void {
         this.dialogRef.close();
