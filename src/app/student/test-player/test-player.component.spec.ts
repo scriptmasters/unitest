@@ -12,7 +12,7 @@ import {AuthService} from '../../auth/auth.service';
 import {DataService} from '../services/data.service';
 import {HttpClientTestingModule} from '@angular/common/http/testing';
 
-fdescribe('TestPlayerComponent', () => {
+describe('TestPlayerComponent', () => {
   let component: TestPlayerComponent;
   let fixture: ComponentFixture<TestPlayerComponent>;
 

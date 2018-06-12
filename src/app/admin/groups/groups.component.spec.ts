@@ -6,7 +6,7 @@ import {MatProgressBarModule} from '@angular/material/progress-bar';
 import {DebugElement, Pipe, PipeTransform} from '@angular/core';
 import {GroupsRoutingModule} from './groups-routing.module';
 import {MatPaginatorModule} from '@angular/material/paginator';
-import {HttpClientTestingModule} from '@angular/common/http/testing';
+import {HttpClientTestingModule, HttpTestingController} from '@angular/common/http/testing';
 import {DialogComponent} from './dialog/dialog.component';
 import {ReactiveFormsModule} from '@angular/forms';
 import {MatDialog, MatDialogConfig, MatDialogRef, MatSnackBar, MatSnackBarModule} from '@angular/material';
@@ -24,11 +24,17 @@ import {By} from '@angular/platform-browser';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {DeleteConfirmComponent} from '../../shared/delete-confirm/delete-confirm.component';
 import {SharedModule} from '../../shared/shared.module';
+import {TranslateLoader, TranslateModule, TranslateService} from '@ngx-translate/core';
+import {HttpClient} from '@angular/common/http';
+import {HttpLoaderFactory} from './groups.module';
 
 
 fdescribe('GroupsComponent', () => {
   let component: GroupsComponent;
   let fixture: ComponentFixture<GroupsComponent>;
+  let translate: TranslateService;
+  let http: HttpTestingController;
+
   const groups: Groups[] = [
     {
       'group_id': '1',
@@ -81,7 +87,6 @@ fdescribe('GroupsComponent', () => {
       'speciality': 'Телекомунікації та радіотехніка'
     }
   ];
-
 
   class MockGroupsService {
 
@@ -155,9 +160,19 @@ fdescribe('GroupsComponent', () => {
     }
   }
 
+  @Pipe({name: 'translate'})
+  class MockPipeTranslate implements PipeTransform {
+    transform(value: number): number {
+      return value;
+    }
+  }
+
+
+
   beforeEach(async(() => {
 
     // mockGroupsService = new MockGroupsService();
+
 
     TestBed.configureTestingModule({
       imports: [
@@ -172,6 +187,13 @@ fdescribe('GroupsComponent', () => {
         MatSnackBarModule,
         BrowserAnimationsModule,
         SharedModule,
+        TranslateModule.forRoot({
+          loader: {
+            provide: TranslateLoader,
+            useFactory: HttpLoaderFactory,
+            deps: [HttpClient]
+          }
+        })
       ],
       declarations: [
         GroupsComponent,
@@ -180,12 +202,14 @@ fdescribe('GroupsComponent', () => {
         MockPipeFaculty,
         MockPipeSpeciality,
         DialogComponent,
-        GroupsDeleteConfirmComponent
+        GroupsDeleteConfirmComponent,
+        MockPipeTranslate,
       ],
       providers: [
         {provide: GroupsService, useClass: MockGroupsService},
         PaginationService,
-        DeleteConfirmComponent
+        DeleteConfirmComponent,
+        TranslateService
       ],
     })
       .overrideComponent(GroupsComponent, {
@@ -193,7 +217,8 @@ fdescribe('GroupsComponent', () => {
           providers: [
             {provide: GroupsService, useClass: MockGroupsService},
             PaginationService,
-            DeleteConfirmComponent
+            DeleteConfirmComponent,
+            TranslateService
           ],
           entryComponents: [
             DeleteConfirmComponent
@@ -201,7 +226,8 @@ fdescribe('GroupsComponent', () => {
         }
       })
       .compileComponents();
-
+    translate = TestBed.get(TranslateService);
+    http = TestBed.get(HttpTestingController);
 
 
   }));
@@ -240,7 +266,7 @@ fdescribe('GroupsComponent', () => {
 
   it(`should table output only row with group 'СІ-12-1' after input 'СІ' in field search `, () => {
     const hostElement = fixture.debugElement;
-    const searchInputD: DebugElement = hostElement.query(By.css('#searchInp'));
+    const searchInputD: DebugElement = hostElement.query(By.css('#search'));
     const tableBodyD: DebugElement = hostElement.query(By.css('tbody'));
     const searchInput: HTMLInputElement = searchInputD.nativeElement;
     const tableBody: HTMLElement = tableBodyD.nativeElement;
