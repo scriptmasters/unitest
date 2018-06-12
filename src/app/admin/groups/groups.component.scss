@@ -1,42 +1,43 @@
 select.select-filter {
-    margin-bottom: 0;
+  margin-bottom: 0;
 }
 
 div.form-group.col-sm-3 {
-    margin: 5px 0;
-    padding: 0 5px;
+  margin: 5px 0;
+  padding: 0 5px;
 }
 
 div.form-group.col-sm-4 {
-    margin: 5px 0;
-    padding: 0 5px;
+  margin: 5px 0;
+  padding: 0 5px;
 }
 
 div.form-group.col-sm-1 {
-    margin: 5px 0;
-    padding: 0 5px;
+  margin: 5px 0;
+  padding: 0 5px;
 }
 
 .pagination /deep/ .ngx-pagination {
-    .current {
-        background: #33B357;
-    }
-    .pagination-previous a:before,
-    .pagination-previous.disabled:before {
-        content: '';
-    }
-    .pagination-next a:after,
-    .pagination-next.disabled:after {
-        content: '';
-    }
+  .current {
+    background: #33B357;
+  }
+  .pagination-previous a:before,
+  .pagination-previous.disabled:before {
+    content: '';
+  }
+  .pagination-next a:after,
+  .pagination-next.disabled:after {
+    content: '';
+  }
 }
 
 thead {
-    th {
-        vertical-align: top;
-    }
+  th {
+    vertical-align: top;
+    cursor: pointer;
+  }
 }
 
 .btn {
-    padding: 0.42rem 0.75rem;
+  padding: 0.42rem 0.75rem;
 }
