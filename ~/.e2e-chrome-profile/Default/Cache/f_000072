@@ -1,0 +1,1659 @@
+webpackJsonp(["students.module"],{
+
+/***/ "./node_modules/ngx-image-cropper/ngx-image-cropper.es5.js":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ImageCropperModule; });
+/* unused harmony export ImageCropperComponent */
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_common__ = __webpack_require__("./node_modules/@angular/common/esm5/common.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_platform_browser__ = __webpack_require__("./node_modules/@angular/platform-browser/esm5/platform-browser.js");
+
+
+
+var ImageCropperComponent = (function () {
+    /**
+     * @param {?} elementRef
+     * @param {?} sanitizer
+     * @param {?} cd
+     */
+    function ImageCropperComponent(elementRef, sanitizer, cd) {
+        this.elementRef = elementRef;
+        this.sanitizer = sanitizer;
+        this.cd = cd;
+        this.marginLeft = '0px';
+        this.imageVisible = false;
+        this.format = 'png';
+        this.maintainAspectRatio = true;
+        this.aspectRatio = 1;
+        this.resizeToWidth = 0;
+        this.onlyScaleDown = false;
+        this.imageQuality = 92;
+        this.cropper = {
+            x1: -100,
+            y1: -100,
+            x2: 10000,
+            y2: 10000
+        };
+        this.imageCropped = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["x" /* EventEmitter */]();
+        this.imageLoaded = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["x" /* EventEmitter */]();
+        this.loadImageFailed = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["x" /* EventEmitter */]();
+        this.initCropper();
+    }
+    Object.defineProperty(ImageCropperComponent.prototype, "imageChangedEvent", {
+        /**
+         * @param {?} event
+         * @return {?}
+         */
+        set: function (event) {
+            this.initCropper();
+            if (event && event.target && event.target.files && event.target.files.length > 0) {
+                this.loadImage(event);
+            }
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(ImageCropperComponent.prototype, "imageBase64", {
+        /**
+         * @param {?} imageBase64
+         * @return {?}
+         */
+        set: function (imageBase64) {
+            this.initCropper();
+            this.loadBase64Image(imageBase64);
+        },
+        enumerable: true,
+        configurable: true
+    });
+    /**
+     * @param {?} changes
+     * @return {?}
+     */
+    ImageCropperComponent.prototype.ngOnChanges = function (changes) {
+        var _this = this;
+        if (changes['cropper']) {
+            setTimeout(function () {
+                _this.setMaxSize();
+                _this.checkCropperPosition(false);
+                _this.crop();
+                _this.cd.markForCheck();
+            });
+        }
+    };
+    /**
+     * @return {?}
+     */
+    ImageCropperComponent.prototype.initCropper = function () {
+        this.imageVisible = false;
+        this.originalImage = null;
+        this.safeImgDataUrl = 'data:image/png;base64,iVBORw0KGg'
+            + 'oAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAC0lEQVQYV2NgAAIAAAU'
+            + 'AAarVyFEAAAAASUVORK5CYII=';
+        this.moveStart = {
+            active: false,
+            type: null,
+            position: null,
+            x1: 0,
+            y1: 0,
+            x2: 0,
+            y2: 0,
+            clientX: 0,
+            clientY: 0
+        };
+        this.maxSize = {
+            width: 0,
+            height: 0
+        };
+        this.originalSize = {
+            width: 0,
+            height: 0
+        };
+        this.cropper.x1 = -100;
+        this.cropper.y1 = -100;
+        this.cropper.x2 = 10000;
+        this.cropper.y2 = 10000;
+    };
+    /**
+     * @param {?} event
+     * @return {?}
+     */
+    ImageCropperComponent.prototype.loadImage = function (event) {
+        var _this = this;
+        var /** @type {?} */ fileReader = new FileReader();
+        fileReader.onload = function (ev) {
+            if (event.target.files[0].type === 'image/jpeg' ||
+                event.target.files[0].type === 'image/jpg' ||
+                event.target.files[0].type === 'image/png' ||
+                event.target.files[0].type === 'image/gif') {
+                _this.loadBase64Image(ev.target.result);
+            }
+            else {
+                _this.loadImageFailed.emit();
+            }
+        };
+        fileReader.readAsDataURL(event.target.files[0]);
+    };
+    /**
+     * @param {?} imageBase64
+     * @return {?}
+     */
+    ImageCropperComponent.prototype.loadBase64Image = function (imageBase64) {
+        var _this = this;
+        this.originalImage = new Image();
+        this.originalImage.onload = function () {
+            _this.originalSize.width = _this.originalImage.width;
+            _this.originalSize.height = _this.originalImage.height;
+            _this.cd.markForCheck();
+        };
+        this.safeImgDataUrl = this.sanitizer.bypassSecurityTrustResourceUrl(imageBase64);
+        this.originalImage.src = imageBase64;
+    };
+    /**
+     * @return {?}
+     */
+    ImageCropperComponent.prototype.imageLoadedInView = function () {
+        var _this = this;
+        if (this.originalImage != null) {
+            this.imageLoaded.emit();
+            setTimeout(function () {
+                _this.setMaxSize();
+                _this.resetCropperPosition();
+                _this.cd.markForCheck();
+            });
+        }
+    };
+    /**
+     * @param {?} event
+     * @return {?}
+     */
+    ImageCropperComponent.prototype.imageResizedInView = function (event) {
+        this.resizeCropperPosition();
+        this.setMaxSize();
+    };
+    /**
+     * @return {?}
+     */
+    ImageCropperComponent.prototype.resizeCropperPosition = function () {
+        var /** @type {?} */ displayedImage = this.elementRef.nativeElement.querySelector('.source-image');
+        if (this.maxSize.width !== displayedImage.offsetWidth || this.maxSize.height !== displayedImage.offsetHeight) {
+            this.cropper.x1 = this.cropper.x1 * displayedImage.offsetWidth / this.maxSize.width;
+            this.cropper.x2 = this.cropper.x2 * displayedImage.offsetWidth / this.maxSize.width;
+            this.cropper.y1 = this.cropper.y1 * displayedImage.offsetHeight / this.maxSize.height;
+            this.cropper.y2 = this.cropper.y2 * displayedImage.offsetHeight / this.maxSize.height;
+        }
+    };
+    /**
+     * @return {?}
+     */
+    ImageCropperComponent.prototype.resetCropperPosition = function () {
+        var /** @type {?} */ displayedImage = this.elementRef.nativeElement.querySelector('.source-image');
+        if (displayedImage.offsetWidth / this.aspectRatio < displayedImage.offsetHeight) {
+            this.cropper.x1 = 0;
+            this.cropper.x2 = displayedImage.offsetWidth;
+            var /** @type {?} */ cropperHeight = displayedImage.offsetWidth / this.aspectRatio;
+            this.cropper.y1 = (displayedImage.offsetHeight - cropperHeight) / 2;
+            this.cropper.y2 = this.cropper.y1 + cropperHeight;
+        }
+        else {
+            this.cropper.y1 = 0;
+            this.cropper.y2 = displayedImage.offsetHeight;
+            var /** @type {?} */ cropperWidth = displayedImage.offsetHeight * this.aspectRatio;
+            this.cropper.x1 = (displayedImage.offsetWidth - cropperWidth) / 2;
+            this.cropper.x2 = this.cropper.x1 + cropperWidth;
+        }
+        this.crop();
+        this.imageVisible = true;
+    };
+    /**
+     * @param {?} event
+     * @param {?} moveType
+     * @param {?=} position
+     * @return {?}
+     */
+    ImageCropperComponent.prototype.startMove = function (event, moveType, position) {
+        if (position === void 0) { position = null; }
+        this.moveStart.active = true;
+        this.moveStart.type = moveType;
+        this.moveStart.position = position;
+        this.moveStart.clientX = this.getClientX(event);
+        this.moveStart.clientY = this.getClientY(event);
+        Object.assign(this.moveStart, this.cropper);
+        this.cd.markForCheck();
+    };
+    /**
+     * @param {?} event
+     * @return {?}
+     */
+    ImageCropperComponent.prototype.moveImg = function (event) {
+        if (this.moveStart.active) {
+            event.stopPropagation();
+            event.preventDefault();
+            this.setMaxSize();
+            if (this.moveStart.type === 'move') {
+                this.move(event);
+                this.checkCropperPosition(true);
+            }
+            else if (this.moveStart.type === 'resize') {
+                this.resize(event);
+                this.checkCropperPosition(false);
+            }
+            this.cd.markForCheck();
+        }
+    };
+    /**
+     * @return {?}
+     */
+    ImageCropperComponent.prototype.setMaxSize = function () {
+        var /** @type {?} */ el = this.elementRef.nativeElement.querySelector('.source-image');
+        this.maxSize.width = el.offsetWidth;
+        this.maxSize.height = el.offsetHeight;
+        this.marginLeft = this.sanitizer.bypassSecurityTrustStyle('calc(50% - ' + this.maxSize.width / 2 + 'px)');
+    };
+    /**
+     * @param {?=} maintainSize
+     * @return {?}
+     */
+    ImageCropperComponent.prototype.checkCropperPosition = function (maintainSize) {
+        if (maintainSize === void 0) { maintainSize = false; }
+        if (this.cropper.x1 < 0) {
+            this.cropper.x2 -= maintainSize ? this.cropper.x1 : 0;
+            this.cropper.x1 = 0;
+        }
+        if (this.cropper.y1 < 0) {
+            this.cropper.y2 -= maintainSize ? this.cropper.y1 : 0;
+            this.cropper.y1 = 0;
+        }
+        if (this.cropper.x2 > this.maxSize.width) {
+            this.cropper.x1 -= maintainSize ? (this.cropper.x2 - this.maxSize.width) : 0;
+            this.cropper.x2 = this.maxSize.width;
+        }
+        if (this.cropper.y2 > this.maxSize.height) {
+            this.cropper.y1 -= maintainSize ? (this.cropper.y2 - this.maxSize.height) : 0;
+            this.cropper.y2 = this.maxSize.height;
+        }
+    };
+    /**
+     * @param {?} event
+     * @return {?}
+     */
+    ImageCropperComponent.prototype.moveStop = function (event) {
+        if (this.moveStart.active) {
+            this.moveStart.active = false;
+            this.crop();
+            this.cd.markForCheck();
+        }
+    };
+    /**
+     * @param {?} event
+     * @return {?}
+     */
+    ImageCropperComponent.prototype.move = function (event) {
+        var /** @type {?} */ diffX = this.getClientX(event) - this.moveStart.clientX;
+        var /** @type {?} */ diffY = this.getClientY(event) - this.moveStart.clientY;
+        this.cropper.x1 = this.moveStart.x1 + diffX;
+        this.cropper.y1 = this.moveStart.y1 + diffY;
+        this.cropper.x2 = this.moveStart.x2 + diffX;
+        this.cropper.y2 = this.moveStart.y2 + diffY;
+    };
+    /**
+     * @param {?} event
+     * @return {?}
+     */
+    ImageCropperComponent.prototype.resize = function (event) {
+        var /** @type {?} */ diffX = this.getClientX(event) - this.moveStart.clientX;
+        var /** @type {?} */ diffY = this.getClientY(event) - this.moveStart.clientY;
+        switch (this.moveStart.position) {
+            case 'left':
+                this.cropper.x1 = Math.min(this.moveStart.x1 + diffX, this.cropper.x2 - 20);
+                break;
+            case 'topleft':
+                this.cropper.x1 = Math.min(this.moveStart.x1 + diffX, this.cropper.x2 - 20);
+                this.cropper.y1 = Math.min(this.moveStart.y1 + diffY, this.cropper.y2 - 20);
+                break;
+            case 'top':
+                this.cropper.y1 = Math.min(this.moveStart.y1 + diffY, this.cropper.y2 - 20);
+                break;
+            case 'topright':
+                this.cropper.x2 = Math.max(this.moveStart.x2 + diffX, this.cropper.x1 + 20);
+                this.cropper.y1 = Math.min(this.moveStart.y1 + diffY, this.cropper.y2 - 20);
+                break;
+            case 'right':
+                this.cropper.x2 = Math.max(this.moveStart.x2 + diffX, this.cropper.x1 + 20);
+                break;
+            case 'bottomright':
+                this.cropper.x2 = Math.max(this.moveStart.x2 + diffX, this.cropper.x1 + 20);
+                this.cropper.y2 = Math.max(this.moveStart.y2 + diffY, this.cropper.y1 + 20);
+                break;
+            case 'bottom':
+                this.cropper.y2 = Math.max(this.moveStart.y2 + diffY, this.cropper.y1 + 20);
+                break;
+            case 'bottomleft':
+                this.cropper.x1 = Math.min(this.moveStart.x1 + diffX, this.cropper.x2 - 20);
+                this.cropper.y2 = Math.max(this.moveStart.y2 + diffY, this.cropper.y1 + 20);
+                break;
+        }
+        if (this.maintainAspectRatio) {
+            this.checkAspectRatio();
+        }
+    };
+    /**
+     * @return {?}
+     */
+    ImageCropperComponent.prototype.checkAspectRatio = function () {
+        var /** @type {?} */ overflowX = 0;
+        var /** @type {?} */ overflowY = 0;
+        switch (this.moveStart.position) {
+            case 'top':
+                this.cropper.x2 = this.cropper.x1 + (this.cropper.y2 - this.cropper.y1) * this.aspectRatio;
+                overflowX = Math.max(this.cropper.x2 - this.maxSize.width, 0);
+                overflowY = Math.max(0 - this.cropper.y1, 0);
+                if (overflowX > 0 || overflowY > 0) {
+                    this.cropper.x2 -= (overflowY * this.aspectRatio) > overflowX ? (overflowY * this.aspectRatio) : overflowX;
+                    this.cropper.y1 += (overflowY * this.aspectRatio) > overflowX ? overflowY : overflowX / this.aspectRatio;
+                }
+                break;
+            case 'bottom':
+                this.cropper.x2 = this.cropper.x1 + (this.cropper.y2 - this.cropper.y1) * this.aspectRatio;
+                overflowX = Math.max(this.cropper.x2 - this.maxSize.width, 0);
+                overflowY = Math.max(this.cropper.y2 - this.maxSize.height, 0);
+                if (overflowX > 0 || overflowY > 0) {
+                    this.cropper.x2 -= (overflowY * this.aspectRatio) > overflowX ? (overflowY * this.aspectRatio) : overflowX;
+                    this.cropper.y2 -= (overflowY * this.aspectRatio) > overflowX ? overflowY : (overflowX / this.aspectRatio);
+                }
+                break;
+            case 'topleft':
+                this.cropper.y1 = this.cropper.y2 - (this.cropper.x2 - this.cropper.x1) / this.aspectRatio;
+                overflowX = Math.max(0 - this.cropper.x1, 0);
+                overflowY = Math.max(0 - this.cropper.y1, 0);
+                if (overflowX > 0 || overflowY > 0) {
+                    this.cropper.x1 += (overflowY * this.aspectRatio) > overflowX ? (overflowY * this.aspectRatio) : overflowX;
+                    this.cropper.y1 += (overflowY * this.aspectRatio) > overflowX ? overflowY : overflowX / this.aspectRatio;
+                }
+                break;
+            case 'topright':
+                this.cropper.y1 = this.cropper.y2 - (this.cropper.x2 - this.cropper.x1) / this.aspectRatio;
+                overflowX = Math.max(this.cropper.x2 - this.maxSize.width, 0);
+                overflowY = Math.max(0 - this.cropper.y1, 0);
+                if (overflowX > 0 || overflowY > 0) {
+                    this.cropper.x2 -= (overflowY * this.aspectRatio) > overflowX ? (overflowY * this.aspectRatio) : overflowX;
+                    this.cropper.y1 += (overflowY * this.aspectRatio) > overflowX ? overflowY : overflowX / this.aspectRatio;
+                }
+                break;
+            case 'right':
+            case 'bottomright':
+                this.cropper.y2 = this.cropper.y1 + (this.cropper.x2 - this.cropper.x1) / this.aspectRatio;
+                overflowX = Math.max(this.cropper.x2 - this.maxSize.width, 0);
+                overflowY = Math.max(this.cropper.y2 - this.maxSize.height, 0);
+                if (overflowX > 0 || overflowY > 0) {
+                    this.cropper.x2 -= (overflowY * this.aspectRatio) > overflowX ? (overflowY * this.aspectRatio) : overflowX;
+                    this.cropper.y2 -= (overflowY * this.aspectRatio) > overflowX ? overflowY : overflowX / this.aspectRatio;
+                }
+                break;
+            case 'left':
+            case 'bottomleft':
+                this.cropper.y2 = this.cropper.y1 + (this.cropper.x2 - this.cropper.x1) / this.aspectRatio;
+                overflowX = Math.max(0 - this.cropper.x1, 0);
+                overflowY = Math.max(this.cropper.y2 - this.maxSize.height, 0);
+                if (overflowX > 0 || overflowY > 0) {
+                    this.cropper.x1 += (overflowY * this.aspectRatio) > overflowX ? (overflowY * this.aspectRatio) : overflowX;
+                    this.cropper.y2 -= (overflowY * this.aspectRatio) > overflowX ? overflowY : overflowX / this.aspectRatio;
+                }
+                break;
+        }
+    };
+    /**
+     * @return {?}
+     */
+    ImageCropperComponent.prototype.crop = function () {
+        var /** @type {?} */ displayedImage = this.elementRef.nativeElement.querySelector('.source-image');
+        if (displayedImage && this.originalImage != null) {
+            var /** @type {?} */ ratio = this.originalSize.width / displayedImage.offsetWidth;
+            var /** @type {?} */ left = Math.round(this.cropper.x1 * ratio);
+            var /** @type {?} */ top = Math.round(this.cropper.y1 * ratio);
+            var /** @type {?} */ width = Math.round((this.cropper.x2 - this.cropper.x1) * ratio);
+            var /** @type {?} */ height = Math.round((this.cropper.y2 - this.cropper.y1) * ratio);
+            var /** @type {?} */ resizeRatio = this.getResizeRatio(width);
+            var /** @type {?} */ cropCanvas = (document.createElement('canvas'));
+            cropCanvas.width = width * resizeRatio;
+            cropCanvas.height = height * resizeRatio;
+            var /** @type {?} */ ctx = cropCanvas.getContext('2d');
+            if (ctx) {
+                ctx.drawImage(this.originalImage, left, top, width, height, 0, 0, width * resizeRatio, height * resizeRatio);
+                var /** @type {?} */ quality = Math.min(1, Math.max(0, this.imageQuality / 100));
+                var /** @type {?} */ croppedImage = cropCanvas.toDataURL('image/' + this.format, quality);
+                if (croppedImage.length > 10) {
+                    this.imageCropped.emit(croppedImage);
+                }
+            }
+        }
+    };
+    /**
+     * @param {?} width
+     * @return {?}
+     */
+    ImageCropperComponent.prototype.getResizeRatio = function (width) {
+        return this.resizeToWidth > 0 && (!this.onlyScaleDown || width > this.resizeToWidth)
+            ? this.resizeToWidth / width
+            : 1;
+    };
+    /**
+     * @param {?} event
+     * @return {?}
+     */
+    ImageCropperComponent.prototype.getClientX = function (event) {
+        return event.clientX != null ? event.clientX : event.touches[0].clientX;
+    };
+    /**
+     * @param {?} event
+     * @return {?}
+     */
+    ImageCropperComponent.prototype.getClientY = function (event) {
+        return event.clientY != null ? event.clientY : event.touches[0].clientY;
+    };
+    return ImageCropperComponent;
+}());
+ImageCropperComponent.decorators = [
+    { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["n" /* Component */], args: [{
+                selector: 'image-cropper',
+                template: "\n      <div>\n          <img\n              [src]=\"safeImgDataUrl\"\n              [style.visibility]=\"imageVisible ? 'visible' : 'hidden'\"\n              (load)=\"imageLoadedInView()\"\n              class=\"source-image\"\n          />\n          <div class=\"cropper\"\n               [style.top.px]=\"cropper.y1\"\n               [style.left.px]=\"cropper.x1\"\n               [style.width.px]=\"cropper.x2 - cropper.x1\"\n               [style.height.px]=\"cropper.y2 - cropper.y1\"\n               [style.margin-left]=\"marginLeft\"\n               [style.visibility]=\"imageVisible ? 'visible' : 'hidden'\"\n          >\n              <div\n                  (mousedown)=\"startMove($event, 'move')\"\n                  (touchstart)=\"startMove($event, 'move')\"\n                  class=\"move\"\n              >&nbsp;</div>\n              <span\n                  class=\"resize topleft\"\n                  (mousedown)=\"startMove($event, 'resize', 'topleft')\"\n                  (touchstart)=\"startMove($event, 'resize', 'topleft')\"\n              ><span class=\"square\"></span></span>\n              <span\n                  class=\"resize top\"\n              ><span class=\"square\"></span></span>\n              <span\n                  class=\"resize topright\"\n                  (mousedown)=\"startMove($event, 'resize', 'topright')\"\n                  (touchstart)=\"startMove($event, 'resize', 'topright')\"\n              ><span class=\"square\"></span></span>\n              <span\n                  class=\"resize right\"\n              ><span class=\"square\"></span></span>\n              <span\n                  class=\"resize bottomright\"\n                  (mousedown)=\"startMove($event, 'resize', 'bottomright')\"\n                  (touchstart)=\"startMove($event, 'resize', 'bottomright')\"\n              ><span class=\"square\"></span></span>\n              <span\n                  class=\"resize bottom\"\n              ><span class=\"square\"></span></span>\n              <span\n                  class=\"resize bottomleft\"\n                  (mousedown)=\"startMove($event, 'resize', 'bottomleft')\"\n                  (touchstart)=\"startMove($event, 'resize', 'bottomleft')\"\n              ><span class=\"square\"></span></span>\n              <span\n                  class=\"resize left\"\n              ><span class=\"square\"></span></span>\n              <span\n                  class=\"resize-bar top\"\n                  (mousedown)=\"startMove($event, 'resize', 'top')\"\n                  (touchstart)=\"startMove($event, 'resize', 'top')\"\n              ></span>\n              <span\n                  class=\"resize-bar right\"\n                  (mousedown)=\"startMove($event, 'resize', 'right')\"\n                  (touchstart)=\"startMove($event, 'resize', 'right')\"\n              ></span>\n              <span\n                  class=\"resize-bar bottom\"\n                  (mousedown)=\"startMove($event, 'resize', 'bottom')\"\n                  (touchstart)=\"startMove($event, 'resize', 'bottom')\"\n              ></span>\n              <span\n                  class=\"resize-bar left\"\n                  (mousedown)=\"startMove($event, 'resize', 'left')\"\n                  (touchstart)=\"startMove($event, 'resize', 'left')\"\n              ></span>\n          </div>\n      </div>\n    ",
+                styles: ["\n      :host {\n        display: -webkit-box;\n        display: -ms-flexbox;\n        display: flex;\n        position: relative;\n        width: 100%;\n        max-width: 100%;\n        max-height: 100%;\n        overflow: hidden;\n        padding: 5px;\n        text-align: center;\n        -webkit-user-select: none;\n        -moz-user-select: none;\n        -ms-user-select: none;\n        user-select: none; }\n        :host > div {\n          position: relative;\n          width: 100%; }\n          :host > div .source-image {\n            max-width: 100%;\n            max-height: 100%; }\n        :host .cropper {\n          position: absolute;\n          display: -webkit-box;\n          display: -ms-flexbox;\n          display: flex;\n          color: #53535C !important;\n          background: transparent !important;\n          outline-color: rgba(255, 255, 255, 0.3);\n          outline-width: 1000px;\n          outline-style: solid;\n          -ms-touch-action: none;\n              touch-action: none; }\n          :host .cropper:after {\n            position: absolute;\n            content: '';\n            top: 0;\n            bottom: 0;\n            left: 0;\n            right: 0;\n            pointer-events: none;\n            border: dashed 1px;\n            opacity: .75;\n            color: inherit;\n            z-index: 1; }\n          :host .cropper .move {\n            width: 100%;\n            cursor: move;\n            border: 1px solid rgba(255, 255, 255, 0.5); }\n          :host .cropper .resize {\n            position: absolute;\n            display: inline-block;\n            line-height: 6px;\n            padding: 8px;\n            opacity: .85;\n            z-index: 1; }\n            :host .cropper .resize .square {\n              display: inline-block;\n              background: #53535C !important;\n              width: 6px;\n              height: 6px;\n              border: 1px solid rgba(255, 255, 255, 0.5); }\n            :host .cropper .resize.topleft {\n              top: -12px;\n              left: -12px;\n              cursor: nw-resize; }\n            :host .cropper .resize.top {\n              top: -12px;\n              left: calc(50% - 12px);\n              cursor: n-resize; }\n            :host .cropper .resize.topright {\n              top: -12px;\n              right: -12px;\n              cursor: ne-resize; }\n            :host .cropper .resize.right {\n              top: calc(50% - 12px);\n              right: -12px;\n              cursor: e-resize; }\n            :host .cropper .resize.bottomright {\n              bottom: -12px;\n              right: -12px;\n              cursor: se-resize; }\n            :host .cropper .resize.bottom {\n              bottom: -12px;\n              left: calc(50% - 12px);\n              cursor: s-resize; }\n            :host .cropper .resize.bottomleft {\n              bottom: -12px;\n              left: -12px;\n              cursor: sw-resize; }\n            :host .cropper .resize.left {\n              top: calc(50% - 12px);\n              left: -12px;\n              cursor: w-resize; }\n          :host .cropper .resize-bar {\n            position: absolute;\n            z-index: 1; }\n            :host .cropper .resize-bar.top {\n              top: -11px;\n              left: 11px;\n              width: calc(100% - 22px);\n              height: 22px;\n              cursor: n-resize; }\n            :host .cropper .resize-bar.right {\n              top: 11px;\n              right: -11px;\n              height: calc(100% - 22px);\n              width: 22px;\n              cursor: e-resize; }\n            :host .cropper .resize-bar.bottom {\n              bottom: -11px;\n              left: 11px;\n              width: calc(100% - 22px);\n              height: 22px;\n              cursor: s-resize; }\n            :host .cropper .resize-bar.left {\n              top: 11px;\n              left: -11px;\n              height: calc(100% - 22px);\n              width: 22px;\n              cursor: w-resize; }\n    "],
+                changeDetection: __WEBPACK_IMPORTED_MODULE_0__angular_core__["j" /* ChangeDetectionStrategy */].OnPush
+            },] },
+];
+/**
+ * @nocollapse
+ */
+ImageCropperComponent.ctorParameters = function () { return [
+    { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["u" /* ElementRef */], },
+    { type: __WEBPACK_IMPORTED_MODULE_2__angular_platform_browser__["c" /* DomSanitizer */], },
+    { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["k" /* ChangeDetectorRef */], },
+]; };
+ImageCropperComponent.propDecorators = {
+    'imageChangedEvent': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */] },],
+    'imageBase64': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */] },],
+    'format': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */] },],
+    'maintainAspectRatio': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */] },],
+    'aspectRatio': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */] },],
+    'resizeToWidth': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */] },],
+    'onlyScaleDown': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */] },],
+    'imageQuality': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */] },],
+    'cropper': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */] },],
+    'imageCropped': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["R" /* Output */] },],
+    'imageLoaded': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["R" /* Output */] },],
+    'loadImageFailed': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["R" /* Output */] },],
+    'imageResizedInView': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["A" /* HostListener */], args: ['window:resize', ['$event'],] },],
+    'moveImg': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["A" /* HostListener */], args: ['document:mousemove', ['$event'],] }, { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["A" /* HostListener */], args: ['document:touchmove', ['$event'],] },],
+    'moveStop': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["A" /* HostListener */], args: ['document:mouseup', ['$event'],] }, { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["A" /* HostListener */], args: ['document:touchend', ['$event'],] },],
+};
+var ImageCropperModule = (function () {
+    function ImageCropperModule() {
+    }
+    return ImageCropperModule;
+}());
+ImageCropperModule.decorators = [
+    { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["K" /* NgModule */], args: [{
+                imports: [
+                    __WEBPACK_IMPORTED_MODULE_1__angular_common__["b" /* CommonModule */]
+                ],
+                declarations: [
+                    ImageCropperComponent
+                ],
+                exports: [
+                    ImageCropperComponent
+                ]
+            },] },
+];
+/**
+ * @nocollapse
+ */
+ImageCropperModule.ctorParameters = function () { return []; };
+/**
+ * Generated bundle index. Do not edit.
+ */
+
+//# sourceMappingURL=ngx-image-cropper.es5.js.map
+
+
+/***/ }),
+
+/***/ "./src/app/admin/students/custom-validators/async-email.validator.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ValidateEmailNotTaken; });
+var ValidateEmailNotTaken = /** @class */ (function () {
+    function ValidateEmailNotTaken() {
+    }
+    ValidateEmailNotTaken.createValidator = function (service, updating) {
+        var counter = 0;
+        return function (control) {
+            if (updating && counter < 1) {
+                counter++;
+                return service.checkEmailAddress(control.value).map(function () {
+                    return null;
+                });
+            }
+            return service.checkEmailAddress(control.value).map(function (res) {
+                return res ? null : { emailTaken: true };
+            });
+        };
+    };
+    return ValidateEmailNotTaken;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/app/admin/students/custom-validators/async-login.validator.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ValidateLoginNotTaken; });
+var ValidateLoginNotTaken = /** @class */ (function () {
+    function ValidateLoginNotTaken() {
+    }
+    ValidateLoginNotTaken.createValidator = function (service, updating) {
+        var counter = 0;
+        return function (control) {
+            if (updating && counter < 1) {
+                counter++;
+                return service.checkUsername(control.value).map(function () {
+                    return null;
+                });
+            }
+            return service.checkUsername(control.value).map(function (res) {
+                return res ? null : { loginTaken: true };
+            });
+        };
+    };
+    return ValidateLoginNotTaken;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/app/admin/students/custom-validators/password-confirm.validator.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (immutable) */ __webpack_exports__["a"] = matchOtherValidator;
+function matchOtherValidator(otherControlName) {
+    var thisControl;
+    var otherControl;
+    return function (control) {
+        if (!control.parent) {
+            return null;
+        }
+        // Initializing the validator.
+        if (!thisControl) {
+            thisControl = control;
+            otherControl = control.parent.get(otherControlName);
+            if (!otherControl) {
+                throw new Error('matchOtherValidator(): other control is not found in parent group');
+            }
+            otherControl.valueChanges.subscribe(function () {
+                thisControl.updateValueAndValidity();
+            });
+        }
+        if (!otherControl) {
+            return null;
+        }
+        if (otherControl.value !== thisControl.value) {
+            return {
+                matchOther: true
+            };
+        }
+        return null;
+    };
+}
+
+
+/***/ }),
+
+/***/ "./src/app/admin/students/reusable-functions/get-filtred-students.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (immutable) */ __webpack_exports__["a"] = getFiltredStudents;
+function getFiltredStudents(students, groups) {
+    return students.map(function (student) {
+        var eachStudent = {
+            student_fname: student.student_fname,
+            student_name: student.student_name + " ",
+            student_surname: student.student_surname + " ",
+            fullName: student.student_surname + " " + student.student_name + " " + student.student_fname,
+            gradebook_id: student.gradebook_id,
+            user_id: student.user_id,
+            group_id: student.group_id
+        };
+        // Adding group name to display it at table
+        groups.forEach(function (group) {
+            if (eachStudent.group_id === group.group_id) {
+                eachStudent.group = group.group_name;
+                eachStudent.faculty_id = group.faculty_id;
+            }
+        });
+        return eachStudent;
+    });
+}
+
+
+/***/ }),
+
+/***/ "./src/app/admin/students/reusable-functions/get-groups-by-faculty.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (immutable) */ __webpack_exports__["a"] = getGroupsByFaulty;
+function getGroupsByFaulty(elem, updating, faculties) {
+    var value = elem.options[elem.selectedIndex].value;
+    if (updating) {
+        if (value === 'Виберіть факультет') {
+            return false;
+        }
+    }
+    var index;
+    // Iterate array to find neccessary faculty id
+    faculties.forEach(function (val) {
+        if (val.faculty_name === value) {
+            index = val.faculty_id;
+        }
+    });
+    // Request for the available groups
+    return index;
+}
+
+
+/***/ }),
+
+/***/ "./src/app/admin/students/reusable-functions/set-group-as-id.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (immutable) */ __webpack_exports__["a"] = setGroupAsID;
+function setGroupAsID(elem, groups) {
+    var value = elem.options[elem.selectedIndex].value;
+    if (value === 'Виберіть групу') {
+        return false;
+    }
+    var index;
+    groups.forEach(function (val) {
+        if (val.group_name === value) {
+            index = val.group_id;
+        }
+    });
+    return index;
+}
+
+
+/***/ }),
+
+/***/ "./src/app/admin/students/students-modal-window/default-image.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return defaultImage; });
+// tslint:disable-next-line:max-line-length
+var defaultImage = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMgAAADICAIAAAAiOjnJAAAAA3NCSVQICAjb4U/gAAAMfElEQVR4nO2dXU8bRxeA52N3DQ7iyw5YVEIUAVUQKgTlJv9fCISSEJrICW7TOnZqbLAXbOP1x+7OvBfTUt5QKCEe75zxeS64iRSfnXn2zJnZ2VlaqVQIggwblnQAiJ2gWIgWUCxECygWogUUC9ECioVoAcVCtIBiIVpAsRAtoFiIFlAsRAsoFqIFFAvRAoqFaAHFQrSAYiFaQLEQLaBYiBZQLEQLKBaiBRQL0QKKhWgBxUK0gGIhWkCxEC2gWIgWUCxECygWogUUC9ECioVoAcVCtIBiIVpAsRAtoFiIFlAsRAsoFqIFFAvRAoqFaAHFQrSAYiFaQLEQLThJB2AulNLrv7eRUl7/RW6DYv0DpfRaJiFEt9vt9/u9Xm8wGMRxHEURIcRxHM6553kTExOpVGpycpIxdi0ZenYNivWXT1LKfr9/cXFxeXnp+36n0xFCXP/rtXPyBoQQxlg6nc5kMrOzs3Nzc6lUSv1XaBgd5480UUo550EQVKvVarV6dXUlhKCUMsbuGgFvI6UUQkgpGWNTU1O5XC6Xy6XT6TiOx1mvMRVLjV/1er1YLDYaDc75N8l0F0qyKIqy2ezKyko2m1Wj6lBihsXYiaUSUrVa/f3331utllJq6L8ihIjjeHp6enV1NZfLqZQ29F8xmTESSylVr9fz+XwQBI7jfH+Kuh8pZRRF6XR6c3Mzm82OlV7jIhZjbDAYnJycVCqVESh1E6XX0tLSTz/95HnemIyMYyEWY+zs7Ozo6EjTwPcQ1OD4/PnzhYWFcXDLcrHUMsGHDx9KpZLrukmHQ8IwXF5efvbsmfVLEjaLxRjr9Xpv3ry5urpyHFNW7KIompqa2t3dnZiYsDh1WfuskDEWBMH+/r6q05MO5x8cx7kOLKlxeQTYeWGMsWazube3J4QwsPMYY0KIvb29ZrNpYHhDwcKrYox1Op3Dw8OhrHlqQq19HB4edjodK92y7ZIopUEQHBwcmGyVQrl1cHAQBIHhoT4Cq8RSD4BfvXpF7t7uYhQqyFevXkkpQQT8cKwSixDy9u3bfr8PqJMopf1+/+joKOlAhow9YnHOS6XS+fk55zzpWL4Nznm9Xi+VSuAivwdLxKKUttvtfD5vwiroI3BdN5/Pt9ttQLn2fiwRixDy/v17z/OSjuLxeJ73/v37pKMYGjaIxRgrlUrNZhP07U4pbTabpVLJjtUHG64hiqJCoQB0ELyJ67qFQkFtrocOeLE4558+fUo6imHy6dMnC6p42GJRSnu93pcvXyzoCQXn/MuXL71eD/SwTiwQq1wuW7ZHQAhRLpdRrCSRUhaLRWvSlYJzXiwWoe/WAiwWY6xWq8VxnHQgwyeO41qtBnp6CDh0QojawJ50FMPHcRzoGzChiqXKdt/3odci/wql1Pd90CU8YLGazaZlZftNhBCgl3wBi3V2dga6Crkf9WYRipUAjUYDbrv/J5TSRqORdBSPB6RYqsDqdrt2i9XtduGWWSDFIoTY/YqLQr1olHQUjwRk31BKW63WOIjVarUwY40OSmmn0wHa4g8H9GWCFEudvpd0FKOg3+8DfbYDVawwDIHeyg+HUhqGIYo1OtTBQElHMQpQrFFj8Zr7TeBeJkixrD8D6CZArxSkWOrl9KSjGAXXx4CDA2r3jIlYcPcwguweSqmV27BuM+LjUocISLEYY57nAS0+Ho6U0vM8oLkZZNBSyomJiaSjGAUTExNA7x+QYhFCpqam4E7FH4gQYmpqKukoHglIsaSU4yMWZqzRIaV88uRJ0lGMAhRr1Liu++TJE6CN/hBUVoY7+YUqlpRSffwo6UB0IYRYXFyEe+cAFmt+ft5usebn51GsUSOlnJmZgTsbvx+1njIzMwP36qCKRQhxXTeTycBt+nuQUmYyGdAnfgEWSwixvLxs5casKIqWl5dBD/SAxVKjYTqdtixpSSnT6TTocZCAFosQIqVcX1+37MCZOI7X19dBW0WgiyWEePr0aSqVgt4N10gpU6nU06dPQY+DBLpYhBDHcdbW1qyptKIoWltbg7sueg14sYQQS0tLdqw7qFWGpaUl6OmKWCAWIYRSurW1ZUHSiqJoa2sL6M6+r7BBLCFEJpPJ5XKgq/g4jnO5XCaTsSBdETvEIoRIKbe2thhjQAdEKSVjbGtrC2j8t7FHLM75zs4O0AExiqKdnR3OOYplHEKIbDa7sbERhmHSsXwbYRhubGxks1k7BkGFPWIRQuI4Xl1dXVhYAFRsxXG8sLCwuroKKOaHYJVYhJA4jnd2dmZnZ0H0UxzHs7OzOzs7IKL9JmwTS7G7uzs5OWl4b8VxPDk5ubu7m3QgWrBQLDXDevny5czMjLFuxXE8MzPz8uVLuDPZ+7FQLPK3Wy9evJibmzOwlg/DcG5u7sWLF7ZaRQih0D+tcQ/qRI1CofDHH3+Ys2kuDMMff/xxY2PD7jNzbBZLwTmv1WrHx8eJn1EjhJBSbm9vLy4uGjtGDwv7xSKEMMYGg8HR0dHl5WVSqSsMw9nZ2efPn3ueZ9N61V2MhVjk72Hx7Ozsw4cPo88WnPNnz54tLCzYPfzdxM7i/SuUVb1er9frOY4z4q6VUjqOo34d7kFq34rlGYtSyjlvtVrFYrFarQohOOej71opZRzHjLFcLreysjI9PR3Hsd2py1qxVG5otVq//fZbrVZzXdeEg6aEEGEYLi4urq2tTU9PWzwy2ikW5zwIgkKhUK1WOecmKHUTIYTafbWxsZFOp62cIdomFmMsiqJisfjrr78akqXuQmWv9fX1lZUVx3EsmypaJRbn3Pf9d+/eqSI96XAeRBRFqVTq559/np+ftyl1WSIWpVQIkc/n//zzT9d1Yc281Bdcfvjhh83NTWse8tggFue83W6/ffu22+3CPb9abXbY3t5Wc8akw/lewIvFGKtUKsfHx57nwUpUt5FSDgaD7e1tC94AAyyWevaXz+dLpZI5z5i/nzAMl5eXNzc31bPFpMN5JDAq3NtQSuM4fvPmTaPRsMkqQojruuVyOQiC7e1tuK9XmDsbvwdKqZTy8PDQ930os79vwnEc3/cPDw+llEDHd3hiqc9D7u3tBUEAt1T/T9Qa797eHtBPfgITS+Wqg4ODfr9v8uLnUGCM9fv9g4MDiHkLUt+oump/f38wGFhvlULtJNvf34/jGJZbkLqHUvr69esgCMbEKgVjLAiC169fo1haYIy9e/eu2WxaXFfdBee82Wz+8ssvgO4oGIFyzj9//lypVKycAz4Ex3FOT08/f/4M5b4CIBZjzPf9fD5v2XrVt+K6bj6f930fRN4yPUS1uKCe2CQdS/J4nnd8fAxiAcJ0sRhjUJpyBFzfZuYnLaPjUw+Y6/U6lMJiBHDO6/V6pVIx3C1zg1Pv1eTzeRwEv8LzvHw+r975STqWOzFXLM75yckJ0EewupFSnpycmJzIDRWLUur7vvkJPylUkeD7vrFJy9xu+/jxIw6C9+B53sePH5OO4k5MFIsxVqvVms2msbejCVBKm81mrVYzM6mbGJM6e2hsF9kfjuM4hULBzNvPOLEYY6enp0EQmNleRkEpDYLg9PTUwKRlXEBSymKxOOZPbx6O67rFYtHAubNZYlFKLy4usLp6OKrSuri4MK3FzBKLMVYul01enjEQznm5XDZtNDQrmsFgYGbFYDKqKh0MBkkH8n8Y1IWMsWq1ilY9AgObzqBQpJSVSgXHwUfAOa9UKkaV8KaIRSnt9/vtdtu0IhQElNJ2u93v981pPYPEOj8/h35gQYIIIc7Pz1Gsr1FiGVUlwIIxhmL9C0KIRqOBYj0axlij0TAn5RvRkZTSTqdjwaFQyRLH8dXVlSFJyxSxLi4uMF19J4wxc5bgjehLSunl5SWK9Z0wxsx5GmZEXwohOp2OIS0CF1VRGFJmGSFWFEXdbhfF+k4opd1uN4qipAMhxASx1LtyBn6uEiKqJU24RZMXixDS7XaTDsEeDGnM5MVS7w8mHYU9GPK+YfJiEUJM2/IBGkMa0xSxTLjJLIBSimL9hSreUayhYE5jJi8WIQQf5gwRQxrTCLEMWdOzA0Ma0wixjNr6CB1DGtOIt42FEFEUmVAZQEdKaUjGMuIjTYl8ANxW1IfNk47CjIxlQkMgw8WIGguxDxQL0QKKhWgBxUK0gGIhWkCxEC2gWIgWUCxECygWogUUC9ECioVoAcVCtIBiIVpAsRAtoFiIFlAsRAsoFqIFFAvRAoqFaAHFQrSAYiFaQLEQLaBYiBZQLEQLKBaiBRQL0QKKhWgBxUK08D9jJxJIZdUOWQAAAABJRU5ErkJggg==';
+
+
+/***/ }),
+
+/***/ "./src/app/admin/students/students-modal-window/students-modal-window.component.html":
+/***/ (function(module, exports) {
+
+module.exports = "<div [ngSwitch]=\"data.editing\">\r\n    <!-- creating or updating student -->\r\n    <div *ngSwitchCase=\"true\" class=\"container-fluid\">\r\n        <div class=\"header raw d-flex justify-content-between\">\r\n            <h1>{{data.submitButtonText}}</h1>\r\n            <i class=\"fa fa-close\" (click)=\"handleClose()\"></i>\r\n        </div>\r\n        <div class=\"row\">\r\n            <div class=\"col\">\r\n                <form class=\"form-group\" [formGroup]=\"form\" (submit)=\"handleSubmit(form.value)\">\r\n                    <div class=\"form-row\">\r\n                        <div class=\"form-group col-6\">\r\n                            <!-- lastname -->\r\n                            <label>Прізвище</label>\r\n                            <input class=\"form-control col-12\" type=\"text\" formControlName=\"surname\" [(ngModel)]=\"student.student_surname\" name=\"surname\" placeholder=\"Прізвище...\">\r\n                            <div class=\"form-msg\">\r\n                                <div *ngIf=\"surnameC.invalid && (surnameC.dirty || surnameC.touched)\" class=\"error col-12\">\r\n                                    <span *ngIf=\"surnameC.errors.pattern\">Невірний формат</span>\r\n                                    <span *ngIf=\"surnameC.errors.required\">Це поле є обов'язковим</span>\r\n                                </div>\r\n                            </div>\r\n                        </div>\r\n                        <!-- firstname -->\r\n                        <div class=\"form-group col-6\">\r\n                            <label>Ім'я</label>\r\n                            <input class=\"form-control col-12\" type=\"text\" formControlName=\"firstname\" name=\"firstname\" [(ngModel)]=\"student.student_name\" placeholder=\"Ім'я...\">\r\n                            <div class=\"form-msg\">\r\n                                <div *ngIf=\"firstnameC.invalid && (firstnameC.dirty || firstnameC.touched)\" class=\"error col-12\">\r\n                                    <span *ngIf=\"firstnameC.errors.pattern\">Невірний формат</span>\r\n                                    <span *ngIf=\"firstnameC.errors.required\">Це поле є обов'язковим</span>\r\n                                </div>\r\n                            </div>\r\n                        </div>\r\n                    </div>\r\n                    <div class=\"form-row\">\r\n                        <div class=\"form-group col-12\">\r\n                            <!-- Fathers name -->\r\n                            <label>По-батькові</label>\r\n                            <input class=\"form-control col-12\" type=\"text\" formControlName=\"fname\" name=\"fname\" [(ngModel)]=\"student.student_fname\" placeholder=\"По-батькові...\">\r\n                            <div class=\"form-msg\">\r\n                                <div *ngIf=\"fnameC.invalid && (fnameC.dirty || fnameC.touched)\" class=\"error col-12\">\r\n                                    <span *ngIf=\"fnameC.errors.pattern\">Невірний формат</span>\r\n                                    <span *ngIf=\"fnameC.errors.required\">Це поле є обов'язковим</span>\r\n                                </div>\r\n                            </div>\r\n                        </div>\r\n                    </div>\r\n                    <div>\r\n                        <!-- While creating a student -->\r\n                        <span *ngIf=\"!data.updating\" class=\"form-row\">\r\n              <div class=\"form-group col-6\">\r\n                <!-- Faculty -->\r\n                <label>Факультет</label>\r\n                <select \r\n                  class=\"form-control col-12\" \r\n                  id=\"facultySelect\" \r\n                  name=\"faculty\" \r\n                  formControlName=\"facultyFC\"\r\n                  #facultyField \r\n                  (change)=\"getGroups(facultyField)\">\r\n                  <option\r\n                    [selected]=\"true\"\r\n                    value=\"Виберіть факультет\">\r\n                    Виберіть факультет\r\n                  </option>\r\n                  <option *ngFor=\"let faculty of faculties\">\r\n                    {{faculty.faculty_name}}\r\n                  </option>\r\n                </select>\r\n                <div class=\"form-msg\">\r\n                  <div \r\n                    *ngIf=\"facultyC.touched && facultyC.errors?.faculty\" \r\n                    class=\"error col-12\">\r\n                    Виберіть факультет!\r\n                  </div>\r\n                </div>\r\n              </div>\r\n              <div class=\"form-group col-6\">\r\n                <!-- Group -->\r\n                <label>Група</label>\r\n                <select \r\n                  class=\"form-control col-12\" \r\n                  id=\"groupsSelect\" \r\n                  name=\"group\" \r\n                  formControlName=\"groupFC\"\r\n                  #groupField (change)=\"handleSetGroup(groupField)\">\r\n                  <option\r\n                    [selected]=\"true\"\r\n                    value=\"Виберіть групу\">\r\n                    Виберіть групу\r\n                  </option>\r\n                  <option *ngFor=\"let group of groups\">\r\n                    {{group.group_name}}\r\n                  </option>\r\n                </select>\r\n                <div class=\"form-msg\">\r\n                  <div \r\n                    *ngIf=\"groupC.touched && groupC.errors?.group\" \r\n                    class=\"error col-12\">\r\n                    Виберіть групу!\r\n                  </div>                 \r\n                </div>\r\n              </div>\r\n            </span>\r\n                        <!-- While updating student's data -->\r\n                        <span *ngIf=\"data.updating\" class=\"form-row\">\r\n              <div class=\"form-group col-6\">\r\n                <!-- Faculty -->\r\n                <label>Факультет</label>\r\n                <select \r\n                  class=\"form-control col-12\" \r\n                  id=\"facultySelect\" \r\n                  name=\"faculty\" \r\n                  formControlName=\"facultyFC\"\r\n                  #facultyField \r\n                  (change)=\"getGroups(facultyField)\">\r\n                  <option \r\n                    *ngFor=\"let faculty of faculties\"\r\n                    [selected]=\"faculty.faculty_name === studentFaculty.faculty_name\">\r\n                      {{faculty.faculty_name}}\r\n                  </option>\r\n                </select>\r\n                <div class=\"form-msg\">\r\n                  <div \r\n                    *ngIf=\"facultyC.touched && facultyC.errors?.faculty\" \r\n                    class=\"error col-12\">\r\n                    Виберіть факультет!\r\n                  </div>\r\n                </div>\r\n              </div>\r\n              <div class=\"form-group col-6\">\r\n                <!-- Group -->\r\n                <label>Група</label>\r\n                <select \r\n                  class=\"form-control col-12\" \r\n                  id=\"groupsSelect\" \r\n                  name=\"group\" \r\n                  formControlName=\"groupFC\"\r\n                  #groupField\r\n                  [(ngModel)]=\"chooseGroup\"\r\n                  (change)=\"handleSetGroup(groupField)\">\r\n                  <option\r\n                    value=\"Виберіть групу\">\r\n                    Виберіть групу\r\n                  </option>\r\n                  <option \r\n                    *ngFor=\"let group of groups\"\r\n                    [selected]=\"group.group_name === studentGroup.group_name\">\r\n                      {{group.group_name}}\r\n                  </option>\r\n                </select>\r\n                <div class=\"form-msg\">\r\n                  <div \r\n                    *ngIf=\"groupC.touched && (groupC.errors?.group || groupC.errors?.required)\" \r\n                    class=\"error col-12\">\r\n                    Виберіть групу!\r\n                  </div>\r\n                </div>\r\n              </div>\r\n            </span>\r\n                    </div>\r\n                    <div class=\"form-row\">\r\n                        <div class=\"form-group col-12\">\r\n                            <!-- Gradebook id -->\r\n                            <label>Номер заліковки</label>\r\n                            <input class=\"form-control col-12\" type=\"text\" formControlName=\"gradebook\" name=\"gradebook\" [(ngModel)]=\"student.gradebook_id\" placeholder=\"№ заліковки...\">\r\n                            <div class=\"form-msg\">\r\n                                <div *ngIf=\"gradebookC.invalid && (gradebookC.dirty || gradebookC.touched)\" class=\"error col-12\">\r\n                                    <span *ngIf=\"gradebookC.errors.pattern\">Невірний формат</span>\r\n                                    <span *ngIf=\"gradebookC.errors.required\">Це поле є обов'язковим</span>\r\n                                </div>\r\n                            </div>\r\n                        </div>\r\n                    </div>\r\n                    <div class=\"form-row\">\r\n                        <div class=\"form-group col-12\">\r\n                            <!-- Username -->\r\n                            <label>Логін</label>\r\n                            <input class=\"form-control col-12\" type=\"text\" formControlName=\"login\" name=\"login\" [(ngModel)]=\"studentInfo.username\" placeholder=\"Логін...\">\r\n                            <div class=\"form-msg\">\r\n                                <div *ngIf=\"loginC.invalid && (loginC.dirty || loginC.touched)\" class=\"error col-12\">\r\n                                    <span *ngIf=\"loginC.errors.pattern\">Невірний формат</span>\r\n                                    <span *ngIf=\"loginC.errors.required\">Це поле є обов'язковим</span>\r\n                                    <span *ngIf=\"loginC.errors.loginTaken\">Цей логін вже зайнятий</span>\r\n                                </div>\r\n                            </div>\r\n                        </div>\r\n                    </div>\r\n                    <div class=\"form-row\">\r\n                        <div class=\"form-group col-6\">\r\n                            <!-- Password -->\r\n                            <label>Пароль</label>\r\n                            <input class=\"form-control col-12\" type=\"password\" formControlName=\"password\" name=\"password\" [(ngModel)]=\"student.plain_password\" placeholder=\"Пароль...\">\r\n                            <i class=\"visibility-toggler fa fa-eye\" aria-hidden=\"true\" (click)=\"handleTogglePasswordVisibility($event)\"></i>\r\n                            <div class=\"form-msg\">\r\n                                <div *ngIf=\"passwordC.invalid && (passwordC.dirty || passwordC.touched)\" class=\"error col-12\">\r\n                                    <span *ngIf=\"passwordC.errors.pattern\">Невірний формат(від 8 до 32 символів дозволено)</span>\r\n                                    <span *ngIf=\"passwordC.errors.required\">Це поле є обов'язковим</span>\r\n                                </div>\r\n                            </div>\r\n                        </div>\r\n                        <div id=\"password_confirm\" class=\"form-group col-6\">\r\n                            <!-- Password confirm -->\r\n                            <label>Підтвердити пароль</label>\r\n                            <input class=\"form-control col-12\" type=\"password\" formControlName=\"password_confirm\" name=\"password_confirm\" [(ngModel)]=\"student.password_confirm\" placeholder=\"Підтвердити пароль...\">\r\n                            <i class=\"visibility-toggler fa fa-eye\" aria-hidden=\"true\" (click)=\"handleTogglePasswordVisibility($event)\"></i>\r\n                            <div class=\"form-msg\">\r\n                                <div *ngIf=\"password_confirmC.invalid && password_confirmC.errors.matchOther\" class=\"error col-12\">\r\n                                    Це поле повинно збігатись з полем \"Пароль\"\r\n                                </div>\r\n                            </div>\r\n                        </div>\r\n                    </div>\r\n                    <div class=\"form-row\">\r\n                        <div class=\"form-group col-12\">\r\n                            <!-- Email -->\r\n                            <label>Поштова скринька</label>\r\n                            <input class=\"form-control col-12\" type=\"email\" formControlName=\"email\" name=\"email\" [(ngModel)]=\"studentInfo.email\" placeholder=\"Поштова скринька...\" email>\r\n                            <div class=\"form-msg\">\r\n                                <div *ngIf=\"emailC.invalid && (emailC.dirty || emailC.touched)\" class=\"error col-12\">\r\n                                    <span *ngIf=\"emailC.errors.email\">Поштова скринька повинна бути формату логін@домен</span>\r\n                                    <span *ngIf=\"emailC.errors.emailTaken\">Ця адреса вже зайнята</span>\r\n                                </div>\r\n                            </div>\r\n                        </div>\r\n                    </div>\r\n                    <div class=\"form-row\">\r\n                        <div class=\"form-group col-12 d-flex align-items-center flex-column\">\r\n                            <!-- Photo -->\r\n                            <div>\r\n                                <image-cropper [imageChangedEvent]=\"imageChangedEvent\" [maintainAspectRatio]=\"true\" [aspectRatio]=\"4 / 3\" [resizeToWidth]=\"128\" format=\"jpeg\" (imageCropped)=\"imageCropped($event)\" (imageLoaded)=\"imageLoaded()\" (loadImageFailed)=\"loadImageFailed()\" style=\"max-height: 33vh\"\r\n                                    [style.display]=\"cropperReady ? null : 'none'\"></image-cropper>\r\n                            </div>\r\n                            <img [src]=\"croppedImage ? croppedImage : student.photo\" />\r\n                            <!-- <div>\r\n                                <button type=\"button\" class=\"btn btn-sm button-crop\">Обрізати фото</button>\r\n                            </div> -->\r\n                            <div class=\"custom-file\">\r\n                                <input type=\"file\" id=\"customFile\" class=\"custom-file-input\" name=\"image-input\" accept=\"image/*\" (change)=\"photoChangeEvent($event)\">\r\n                                <label class=\"custom-file-label\" for=\"customFile\">Виберіть фото</label>\r\n                            </div>\r\n                        </div>\r\n                    </div>\r\n                    <div class=\"form-row d-flex justify-content-center\">\r\n                        <input class=\"btn btn-danger\" type=\"reset\" value=\"Очистити форму\">\r\n                        <input class=\"btn btn-success\" type=\"submit\" [disabled]=\"!form.valid\" [value]=\"data.submitButtonText\">\r\n                    </div>\r\n                </form>\r\n            </div>\r\n        </div>\r\n    </div>\r\n    <!-- Extended info -->\r\n    <div *ngSwitchCase=\"false\" class=\"container-fluid\">\r\n        <div class=\"header raw d-flex justify-content-between\">\r\n            <h1>Детальна інформація</h1>\r\n            <i class=\"fa fa-close\" (click)=\"handleClose()\"></i>\r\n        </div>\r\n        <div class=\"row\">\r\n            <div class=\"col\">\r\n                <!-- User info -->\r\n                <div class=\"form-group\">\r\n                    <div class=\"form-row\">\r\n                        <div class=\"form-group col-12 d-flex align-items-center flex-column\">\r\n                            <!-- Photo -->\r\n                            <img class=\"user-image\" [src]=\"student.photo\" alt=\"your picture\">\r\n                        </div>\r\n                    </div>\r\n                    <div class=\"form-row\">\r\n                        <div class=\"form-group col-6\">\r\n                            <!-- lastname -->\r\n                            <label>Прізвище</label>\r\n                            <span class=\"form-control col-12\">{{student.student_surname}}</span>\r\n                        </div>\r\n                        <div class=\"form-group col-6\">\r\n                            <!-- name -->\r\n                            <label>Ім'я</label>\r\n                            <span class=\"form-control col-12\">{{student.student_name}}</span>\r\n                        </div>\r\n                    </div>\r\n                    <div class=\"form-row\">\r\n                        <div class=\"form-group col-12\">\r\n                            <!-- fathers name -->\r\n                            <label>По-батькові</label>\r\n                            <span class=\"form-control col-12\">{{student.student_fname}}</span>\r\n                        </div>\r\n                    </div>\r\n                    <div class=\"form-row\">\r\n                        <div class=\"form-group col-6\">\r\n                            <!-- faculty -->\r\n                            <label>Факультет</label>\r\n                            <span class=\"form-control col-12\">{{studentFaculty.faculty_name}}</span>\r\n                        </div>\r\n                        <div class=\"form-group col-6\">\r\n                            <!-- group -->\r\n                            <label>Група</label>\r\n                            <span class=\"form-control col-12\">{{studentGroup.group_name}}</span>\r\n                        </div>\r\n                    </div>\r\n                    <div class=\"form-row\">\r\n                        <div class=\"form-group col-12\">\r\n                            <!-- gradebook id -->\r\n                            <label>Номер заліковки</label>\r\n                            <span class=\"form-control col-12\">{{student.gradebook_id}}</span>\r\n                        </div>\r\n                    </div>\r\n                    <div class=\"form-row\">\r\n                        <div class=\"form-group col-6\">\r\n                            <!-- username -->\r\n                            <label>Логін</label>\r\n                            <span class=\"form-control col-12\">{{studentInfo.username}}</span>\r\n                        </div>\r\n                        <div class=\"form-group col-6\">\r\n                            <!-- email -->\r\n                            <label>Поштова скринька</label>\r\n                            <span class=\"form-control col-12\">{{studentInfo.email}}</span>\r\n                        </div>\r\n                    </div>\r\n                </div>\r\n            </div>\r\n        </div>\r\n    </div>\r\n</div>"
+
+/***/ }),
+
+/***/ "./src/app/admin/students/students-modal-window/students-modal-window.component.scss":
+/***/ (function(module, exports) {
+
+module.exports = ".mat-dialog-container {\n  padding: 10px; }\n\ninput.ng-touched.ng-invalid {\n  border: solid #DC3545 1px; }\n\n.btn-success,\n.btn-danger {\n  width: 150px;\n  margin-left: 5px;\n  margin-right: 5px; }\n\n.button-crop {\n  border: 1px solid #ced4da;\n  border-radius: 0.25rem;\n  color: #495057; }\n\n.user-image {\n  margin-bottom: 10px; }\n\n.custom-file {\n  width: 200px; }\n\n.custom-file #customFile {\n    cursor: pointer; }\n\ndiv.error.col-12 {\n  color: #DC3545;\n  font-size: 0.8rem;\n  padding: 0;\n  margin: 0; }\n\n#password {\n  position: relative; }\n\n.visibility-toggler {\n  position: absolute;\n  cursor: pointer;\n  right: 15px;\n  top: 30px; }\n\n.header {\n  -webkit-box-align: center;\n      -ms-flex-align: center;\n          align-items: center;\n  margin-bottom: 10px; }\n\nlabel:not(.custom-file-label) {\n  margin-bottom: 0;\n  font-size: 1rem; }\n\n.fa.fa-close {\n  cursor: pointer; }\n"
+
+/***/ }),
+
+/***/ "./src/app/admin/students/students-modal-window/students-modal-window.component.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return StudentsModalWindowComponent; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_forms__ = __webpack_require__("./node_modules/@angular/forms/esm5/forms.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__students_service__ = __webpack_require__("./src/app/admin/students/students.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__angular_material__ = __webpack_require__("./node_modules/@angular/material/esm5/material.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__default_image__ = __webpack_require__("./src/app/admin/students/students-modal-window/default-image.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__custom_validators_async_login_validator__ = __webpack_require__("./src/app/admin/students/custom-validators/async-login.validator.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__custom_validators_async_email_validator__ = __webpack_require__("./src/app/admin/students/custom-validators/async-email.validator.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__custom_validators_password_confirm_validator__ = __webpack_require__("./src/app/admin/students/custom-validators/password-confirm.validator.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__reusable_functions_get_groups_by_faculty__ = __webpack_require__("./src/app/admin/students/reusable-functions/get-groups-by-faculty.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__reusable_functions_set_group_as_id__ = __webpack_require__("./src/app/admin/students/reusable-functions/set-group-as-id.ts");
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+var __param = (this && this.__param) || function (paramIndex, decorator) {
+    return function (target, key) { decorator(target, key, paramIndex); }
+};
+
+
+
+
+
+
+
+
+
+
+var StudentsModalWindowComponent = /** @class */ (function () {
+    function StudentsModalWindowComponent(service, dialogRef, data) {
+        this.service = service;
+        this.dialogRef = dialogRef;
+        this.data = data;
+        this.isValidGroupFiefd = true;
+        this.chooseGroup = '';
+        this.groups = [];
+        this.faculties = [];
+        this.student = {
+            user_id: '',
+            gradebook_id: '',
+            student_surname: '',
+            student_name: '',
+            student_fname: '',
+            group_id: '',
+            plain_password: '',
+            photo: __WEBPACK_IMPORTED_MODULE_4__default_image__["a" /* defaultImage */],
+            password_confirm: ''
+        };
+        this.studentInfo = {
+            id: '',
+            username: '',
+            password: '',
+            logins: '',
+            last_login: '',
+            email: ''
+        };
+        this.studentGroup = {
+            group_id: '',
+            group_name: '',
+            speciality_id: '',
+            faculty_id: ''
+        };
+        this.studentFaculty = {
+            faculty_id: '',
+            faculty_name: '',
+            faculty_description: ''
+        };
+        // photo cropper
+        this.imageChangedEvent = '';
+        this.croppedImage = '';
+        this.cropperReady = false;
+    }
+    StudentsModalWindowComponent.prototype.imageCropped = function (image) {
+        this.croppedImage = image;
+    };
+    StudentsModalWindowComponent.prototype.imageLoaded = function () {
+        this.cropperReady = true;
+    };
+    StudentsModalWindowComponent.prototype.imageLoadFailed = function () {
+        console.log('Load failed');
+    };
+    StudentsModalWindowComponent.prototype.ngOnInit = function () {
+        this.getData();
+        // Form validation
+        if (this.data.updating || this.data.creating) {
+            this.createFormControls();
+            this.createForm();
+        }
+    };
+    // create form controls
+    StudentsModalWindowComponent.prototype.createFormControls = function () {
+        this.firstnameC = new __WEBPACK_IMPORTED_MODULE_1__angular_forms__["c" /* FormControl */]('', [
+            __WEBPACK_IMPORTED_MODULE_1__angular_forms__["l" /* Validators */].required,
+            __WEBPACK_IMPORTED_MODULE_1__angular_forms__["l" /* Validators */].pattern('^([A-ZА-ЯІЇ]){1}([a-zа-яії]){1,15}')
+        ]);
+        this.surnameC = new __WEBPACK_IMPORTED_MODULE_1__angular_forms__["c" /* FormControl */]('', [
+            __WEBPACK_IMPORTED_MODULE_1__angular_forms__["l" /* Validators */].required,
+            __WEBPACK_IMPORTED_MODULE_1__angular_forms__["l" /* Validators */].pattern('^([A-ZА-ЯІЇ]){1}([a-zа-яії]){1,15}')
+        ]);
+        this.fnameC = new __WEBPACK_IMPORTED_MODULE_1__angular_forms__["c" /* FormControl */]('', [
+            __WEBPACK_IMPORTED_MODULE_1__angular_forms__["l" /* Validators */].required,
+            __WEBPACK_IMPORTED_MODULE_1__angular_forms__["l" /* Validators */].pattern('^([A-ZА-ЯІЇ]){1}([a-zа-яії]){2,15}')
+        ]);
+        this.gradebookC = new __WEBPACK_IMPORTED_MODULE_1__angular_forms__["c" /* FormControl */]('', [
+            __WEBPACK_IMPORTED_MODULE_1__angular_forms__["l" /* Validators */].required,
+            __WEBPACK_IMPORTED_MODULE_1__angular_forms__["l" /* Validators */].pattern('^([A-ZА-ЯІЇa-zа-яії]){2,4}-([0-9]){1,10}')
+        ]);
+        this.groupC = new __WEBPACK_IMPORTED_MODULE_1__angular_forms__["c" /* FormControl */](this.data.updating ?
+            '' : 'Виберіть групу', this.selectGroupValidator());
+        this.facultyC = new __WEBPACK_IMPORTED_MODULE_1__angular_forms__["c" /* FormControl */](this.data.updating ?
+            null : 'Виберіть факультет', this.selectFacultyValidator);
+        this.loginC = new __WEBPACK_IMPORTED_MODULE_1__angular_forms__["c" /* FormControl */]('', {
+            validators: [
+                __WEBPACK_IMPORTED_MODULE_1__angular_forms__["l" /* Validators */].required,
+                __WEBPACK_IMPORTED_MODULE_1__angular_forms__["l" /* Validators */].pattern('^\\w{5,20}')
+            ],
+            asyncValidators: this.data.updating ?
+                __WEBPACK_IMPORTED_MODULE_5__custom_validators_async_login_validator__["a" /* ValidateLoginNotTaken */].createValidator(this.service, true) :
+                __WEBPACK_IMPORTED_MODULE_5__custom_validators_async_login_validator__["a" /* ValidateLoginNotTaken */].createValidator(this.service, false),
+            updateOn: 'blur'
+        });
+        this.emailC = new __WEBPACK_IMPORTED_MODULE_1__angular_forms__["c" /* FormControl */]('', {
+            validators: [
+                __WEBPACK_IMPORTED_MODULE_1__angular_forms__["l" /* Validators */].required,
+                __WEBPACK_IMPORTED_MODULE_1__angular_forms__["l" /* Validators */].minLength(8),
+                __WEBPACK_IMPORTED_MODULE_1__angular_forms__["l" /* Validators */].maxLength(32),
+                __WEBPACK_IMPORTED_MODULE_1__angular_forms__["l" /* Validators */].email
+            ],
+            asyncValidators: this.data.updating ?
+                __WEBPACK_IMPORTED_MODULE_6__custom_validators_async_email_validator__["a" /* ValidateEmailNotTaken */].createValidator(this.service, true) :
+                __WEBPACK_IMPORTED_MODULE_6__custom_validators_async_email_validator__["a" /* ValidateEmailNotTaken */].createValidator(this.service, false),
+            updateOn: 'blur'
+        });
+        this.passwordC = new __WEBPACK_IMPORTED_MODULE_1__angular_forms__["c" /* FormControl */](this.data.updating ?
+            this.data.student.plain_password : '', [
+            __WEBPACK_IMPORTED_MODULE_1__angular_forms__["l" /* Validators */].required,
+            __WEBPACK_IMPORTED_MODULE_1__angular_forms__["l" /* Validators */].pattern('^\\S{8,32}')
+        ]);
+        this.password_confirmC = new __WEBPACK_IMPORTED_MODULE_1__angular_forms__["c" /* FormControl */](this.data.updating ?
+            this.data.student.plain_password : '', Object(__WEBPACK_IMPORTED_MODULE_7__custom_validators_password_confirm_validator__["a" /* matchOtherValidator */])('password'));
+    };
+    // create Form validation
+    StudentsModalWindowComponent.prototype.createForm = function () {
+        this.form = new __WEBPACK_IMPORTED_MODULE_1__angular_forms__["d" /* FormGroup */]({
+            firstname: this.firstnameC,
+            surname: this.surnameC,
+            fname: this.fnameC,
+            groupFC: this.groupC,
+            facultyFC: this.facultyC,
+            gradebook: this.gradebookC,
+            login: this.loginC,
+            password: this.passwordC,
+            password_confirm: this.password_confirmC,
+            email: this.emailC
+        });
+    };
+    // Get data from server
+    StudentsModalWindowComponent.prototype.getData = function () {
+        var _this = this;
+        if (this.data.updating || this.data.reading) {
+            // Requests for updating and checking student info
+            this.service.getPickedStudent(this.data.student.user_id).subscribe(function (data) {
+                _this.student = data[0];
+                _this.student.password_confirm = data[0].plain_password;
+            });
+            this.service.getUserInfo(this.data.student.user_id).subscribe(function (response) {
+                _this.studentInfo = response[0];
+            });
+            var group = JSON.stringify({ entity: 'Group', ids: [this.data.student.group_id] });
+            this.service.getEntityValue(group).subscribe(function (resp) {
+                _this.studentGroup = resp[0];
+            });
+            var faculty = JSON.stringify({ entity: 'Faculty', ids: [this.data.student.faculty_id] });
+            this.service.getEntityValue(faculty).subscribe(function (val) {
+                _this.studentFaculty = val[0];
+            });
+            if (this.data.updating) {
+                this.service.getAvailableFaculties().subscribe(function (value) {
+                    _this.faculties = value;
+                });
+                this.service.getAvailableGroups(this.data.student.faculty_id).subscribe(function (values) {
+                    _this.groups = values;
+                });
+            }
+        }
+        // Initial request for creating student profile
+        if (this.data.creating) {
+            this.service.getAvailableFaculties().subscribe(function (response) {
+                _this.faculties = response;
+                _this.facultyC.updateValueAndValidity();
+                _this.groupC.updateValueAndValidity();
+            });
+        }
+    };
+    // Getting available groups for picked faculty by faculty ID
+    StudentsModalWindowComponent.prototype.getGroups = function (elem) {
+        var _this = this;
+        var index = Object(__WEBPACK_IMPORTED_MODULE_8__reusable_functions_get_groups_by_faculty__["a" /* getGroupsByFaulty */])(elem, this.data.updating, this.faculties);
+        if (index) {
+            // if we are editing the student and wanting to choose another group for him
+            // the form is gonna be invalid 'till we've choosen any group out of drop down list
+            if (this.facultyC.touched) {
+                this.chooseGroup = 'Виберіть групу';
+                this.groupC.updateValueAndValidity();
+            }
+            // Request for the available groups
+            this.service.getAvailableGroups(index).subscribe(function (data) {
+                if (data[0]) {
+                    _this.groups = data;
+                    _this.isValidGroupFiefd = true;
+                    _this.groupC.updateValueAndValidity();
+                    // if there is no available group
+                }
+                else {
+                    _this.groups = [];
+                    _this.isValidGroupFiefd = false;
+                    _this.groupC.updateValueAndValidity();
+                }
+            });
+        }
+    };
+    // set group id to student object value when group name is picked
+    StudentsModalWindowComponent.prototype.handleSetGroup = function (elem) {
+        var index = Object(__WEBPACK_IMPORTED_MODULE_9__reusable_functions_set_group_as_id__["a" /* setGroupAsID */])(elem, this.groups);
+        this.groupC.updateValueAndValidity();
+        if (index) {
+            this.student.group_id = index;
+        }
+    };
+    // custom group validator
+    StudentsModalWindowComponent.prototype.selectGroupValidator = function () {
+        var _this = this;
+        return function (control) {
+            if (control.value === 'Виберіть групу' || !_this.isValidGroupFiefd) {
+                return {
+                    'group': true
+                };
+            }
+            return null;
+        };
+    };
+    // custom faculty validator
+    StudentsModalWindowComponent.prototype.selectFacultyValidator = function (control) {
+        if (control.value === 'Виберіть факультет') {
+            return {
+                'faculty': true
+            };
+        }
+        return null;
+    };
+    // rendering photo to base64 code before it's sent to the server
+    StudentsModalWindowComponent.prototype.photoChangeEvent = function (event) {
+        var _this = this;
+        this.imageChangedEvent = event;
+        var input = event.target;
+        var reader = new FileReader();
+        reader.onload = function () {
+            var dataURL = reader.result;
+            _this.croppedImage = dataURL;
+        };
+        reader.readAsDataURL(input.files[0]);
+    };
+    // Submitting form
+    StudentsModalWindowComponent.prototype.handleSubmit = function (value) {
+        var _this = this;
+        var studentJSON = JSON.stringify({
+            gradebook_id: value.gradebook,
+            student_surname: value.surname,
+            student_name: value.firstname,
+            student_fname: value.fname,
+            group_id: this.student.group_id,
+            password: value.password,
+            username: value.login,
+            email: value.email,
+            photo: this.croppedImage,
+            password_confirm: value.password_confirm,
+            plain_password: value.password
+        });
+        if (this.data.updating) {
+            this.service.editStudent(this.data.student.user_id, studentJSON).subscribe(function (data) { return _this.dialogRef.close(data); }, function (error) { return _this.dialogRef.close(error); });
+            return;
+        }
+        else {
+            this.service.addStudent(studentJSON).subscribe(function (data) { return _this.dialogRef.close(data); }, function (error) { return _this.dialogRef.close(error); });
+        }
+    };
+    // close mat dialog window
+    StudentsModalWindowComponent.prototype.handleClose = function () {
+        this.dialogRef.close();
+    };
+    StudentsModalWindowComponent = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["n" /* Component */])({
+            selector: 'app-students-modal-window',
+            template: __webpack_require__("./src/app/admin/students/students-modal-window/students-modal-window.component.html"),
+            styles: [__webpack_require__("./src/app/admin/students/students-modal-window/students-modal-window.component.scss")]
+        }),
+        __param(2, Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["B" /* Inject */])(__WEBPACK_IMPORTED_MODULE_3__angular_material__["a" /* MAT_DIALOG_DATA */])),
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_2__students_service__["a" /* StudentsService */],
+            __WEBPACK_IMPORTED_MODULE_3__angular_material__["g" /* MatDialogRef */], Object])
+    ], StudentsModalWindowComponent);
+    return StudentsModalWindowComponent;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/app/admin/students/students-resolver.service.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return StudentsResolver; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_router__ = __webpack_require__("./node_modules/@angular/router/esm5/router.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rxjs_add_observable_of__ = __webpack_require__("./node_modules/rxjs/_esm5/add/observable/of.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__students_service__ = __webpack_require__("./src/app/admin/students/students.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_rxjs_operators__ = __webpack_require__("./node_modules/rxjs/_esm5/operators.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__shared_response_message_response_message_component__ = __webpack_require__("./src/app/shared/response-message/response-message.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__angular_material__ = __webpack_require__("./node_modules/@angular/material/esm5/material.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__reusable_functions_get_filtred_students__ = __webpack_require__("./src/app/admin/students/reusable-functions/get-filtred-students.ts");
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+
+
+
+
+
+
+var StudentsResolver = /** @class */ (function () {
+    function StudentsResolver(service, dialog, router) {
+        this.service = service;
+        this.dialog = dialog;
+        this.router = router;
+        this.fakeData = [{
+                'gradebook_id': '',
+                'group_id': '',
+                'photo': '',
+                'plain_password': '',
+                'student_fname': '',
+                'student_name': '',
+                'student_surname': '',
+                'user_id': ''
+            }];
+    }
+    StudentsResolver.prototype.resolve = function (route, state) {
+        var _this = this;
+        var id = route.paramMap.get('id');
+        this.fakeData[0].group_id = id;
+        if (id) {
+            return this.service.getStudentsByGroup(id).pipe(Object(__WEBPACK_IMPORTED_MODULE_4_rxjs_operators__["switchMap"])(function (data) {
+                if (data.response === 'no records') {
+                    _this.dialog.open(__WEBPACK_IMPORTED_MODULE_5__shared_response_message_response_message_component__["a" /* ResponseMessageComponent */], {
+                        width: '400px',
+                        data: {
+                            message: 'Немає зареєстрованих студентів в даній групі'
+                        }
+                    });
+                    return _this.onDataRetrieve(_this.fakeData, true, id);
+                }
+                return _this.onDataRetrieve(data, true, id);
+            }));
+        }
+        else if (!id) {
+            return this.service.countStudent().pipe(Object(__WEBPACK_IMPORTED_MODULE_4_rxjs_operators__["switchMap"])(function (data) { return _this.service.getStudents(10, 0); }), Object(__WEBPACK_IMPORTED_MODULE_4_rxjs_operators__["switchMap"])(function (response) { return _this.onDataRetrieve(response, false); }));
+        }
+    };
+    StudentsResolver.prototype.onDataRetrieve = function (students, isByGroup, id) {
+        var groupIDs = students.map(function (value) { return value.group_id; });
+        var body = JSON.stringify({ entity: 'Group', ids: groupIDs });
+        return this.service.getEntityValue(body).pipe(Object(__WEBPACK_IMPORTED_MODULE_4_rxjs_operators__["map"])(function (groups) {
+            return {
+                students: Object(__WEBPACK_IMPORTED_MODULE_7__reusable_functions_get_filtred_students__["a" /* getFiltredStudents */])(students, groups),
+                byGroup: isByGroup
+            };
+        }));
+    };
+    StudentsResolver = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["C" /* Injectable */])(),
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_3__students_service__["a" /* StudentsService */],
+            __WEBPACK_IMPORTED_MODULE_6__angular_material__["d" /* MatDialog */],
+            __WEBPACK_IMPORTED_MODULE_1__angular_router__["f" /* Router */]])
+    ], StudentsResolver);
+    return StudentsResolver;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/app/admin/students/students-routing.module.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return StudentsRoutingModule; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_router__ = __webpack_require__("./node_modules/@angular/router/esm5/router.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__students_component__ = __webpack_require__("./src/app/admin/students/students.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__students_resolver_service__ = __webpack_require__("./src/app/admin/students/students-resolver.service.ts");
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+
+
+
+
+var routes = [
+    {
+        path: '',
+        component: __WEBPACK_IMPORTED_MODULE_2__students_component__["a" /* StudentsComponent */],
+        resolve: {
+            resolvedStudents: __WEBPACK_IMPORTED_MODULE_3__students_resolver_service__["a" /* StudentsResolver */]
+        }
+    },
+    {
+        path: ':id',
+        component: __WEBPACK_IMPORTED_MODULE_2__students_component__["a" /* StudentsComponent */],
+        resolve: {
+            resolvedStudents: __WEBPACK_IMPORTED_MODULE_3__students_resolver_service__["a" /* StudentsResolver */]
+        }
+    }
+];
+var StudentsRoutingModule = /** @class */ (function () {
+    function StudentsRoutingModule() {
+    }
+    StudentsRoutingModule = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["K" /* NgModule */])({
+            imports: [__WEBPACK_IMPORTED_MODULE_1__angular_router__["g" /* RouterModule */].forChild(routes)],
+            exports: [__WEBPACK_IMPORTED_MODULE_1__angular_router__["g" /* RouterModule */]]
+        })
+    ], StudentsRoutingModule);
+    return StudentsRoutingModule;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/app/admin/students/students.component.html":
+/***/ (function(module, exports) {
+
+module.exports = "<section>\r\n    <!-- Main table with students -->\r\n    <div class=\"container-fluid\">\r\n        <header class=\"row\">\r\n            <div class=\"card col-12 col-lg-12\">\r\n                <div class=\"card-body d-flex justify-content-between\">\r\n                    <div class=\"align-self-center\">\r\n                        <h2 class=\"display\">Студенти</h2>\r\n                    </div>\r\n                    <div>\r\n                        <button type=\"button\" class=\"btn btn-primary\" (click)=\"showRegForm()\">Додати\r\n                            новий параметp\r\n                        </button>\r\n                    </div>\r\n                </div>\r\n            </div>\r\n        </header>\r\n        <div class=\"row\">\r\n            <div class=\"card col-12 col-lg-12\">\r\n                <div class=\"card-body row justify-content-between\">\r\n                    <!-- Search input -->\r\n                    <div class=\" form-group col-sm-3\">\r\n                        <input type=\"text\" [formControl]=\"search\"\r\n                               placeholder=\"Пошук...\" class=\"form-control\">\r\n                    </div>\r\n                    <!-- List of faculties (dropdown) -->\r\n                    <div class=\"form-group col-sm-4\">\r\n                        <select name=\"facultyFilter\" class=\"form-control faculty-filter\" #facultySelector\r\n                                [(ngModel)]=\"facultyString\" (change)=\"getGroups(facultySelector)\">\r\n                            <option [selected]=\"false\" value=\"Виберіть факультет\">Виберіть факультет</option>\r\n                            <option *ngFor=\"let faculty of faculties\">{{faculty.faculty_name}}</option>\r\n                        </select>\r\n                    </div>\r\n                    <!-- List of groups (dropdown) -->\r\n                    <div class=\"form-group col-sm-4\">\r\n                        <select name=\"groupFilter\" #groupsList class=\"form-control group-filter\"\r\n                                [(ngModel)]=\"groupString\" (change)=\"getFiltredStudentsByGroup(groupsList)\">\r\n                            <option [selected]=\"true\">Виберіть групу</option>\r\n                            <option *ngFor=\"let group of groups\">{{group.group_name}}</option>\r\n                        </select>\r\n                    </div>\r\n                    <!-- refresh button -->\r\n                    <div class=\"form-group col-sm-1 d-flex justify-content-between\">\r\n                        <button type=\"button\" title=\"Очистити фільтри\" class=\"fa fa-refresh\"\r\n                                [disabled]=\"groupString === 'Виберіть групу'\"\r\n                                (click)=\"reviseAllStudents()\"></button>\r\n                    </div>\r\n                </div>\r\n            </div>\r\n        </div>\r\n        <div class=\"progressbar\">\r\n            <mat-progress-bar *ngIf=\"progress\" mode=\"indeterminate\" color=\"primary\"></mat-progress-bar>\r\n        </div>\r\n        <div class=\"row\">\r\n            <div class=\"card col-12 col-lg-12\">\r\n                <div class=\"card-body table-responsive\">\r\n                    <table *ngIf=\"students; else noRecords\" class=\"table table-striped table-hover\">\r\n                        <thead>\r\n                        <tr>\r\n                            <th>№</th>\r\n                            <th>ПІБ</th>\r\n                            <th>№ залікової книжки</th>\r\n                            <th>Група</th>\r\n                            <th colspan=\"3\"></th>\r\n                        </tr>\r\n                        </thead>\r\n                        <tbody>\r\n                        <tr *ngFor=\"let student of students; let i = index\">\r\n                            <th>{{pageIndex * pageSize + i + 1}}</th>\r\n                            <td>{{student.fullName}}</td>\r\n                            <td>{{student.gradebook_id}}</td>\r\n                            <td>{{student.group}}</td>\r\n                            <td><i class=\"fa fa-address-card\" aria-hidden=\"true\" title=\"Детальна інформація\"\r\n                                   (click)=\"showAdvancedInfo(student)\"></i></td>\r\n                            <td><i class=\"fa fa-cog\" (click)=\"showEditForm(student)\" title=\"Редагувати\"></i></td>\r\n                            <td><i class=\"fa fa-close\" (click)=\"handleDelete(student.user_id)\" title=\"Видалити\"></i>\r\n                            </td>\r\n                        </tr>\r\n                        </tbody>\r\n                    </table>\r\n                    <ng-template #noRecords>\r\n                        {{error}}\r\n                    </ng-template>\r\n                </div>\r\n            </div>\r\n        </div>\r\n        <div class=\"row\">\r\n            <div class=\"col-lg-12\">\r\n                <mat-paginator\r\n                        *ngIf=\"pagination\"\r\n                        [length]=pagService.fullLength\r\n                        [pageSize]=pageSize\r\n                        [pageIndex]=pageIndex\r\n                        [pageSizeOptions]=\"[2, 5, 10, 25, 100]\"\r\n                        [showFirstLastButtons]=\"true\"\r\n                        (page)=\"updateData($event.pageSize, $event.pageIndex)\"\r\n                ></mat-paginator>\r\n            </div>\r\n        </div>\r\n    </div>\r\n</section>\r\n"
+
+/***/ }),
+
+/***/ "./src/app/admin/students/students.component.scss":
+/***/ (function(module, exports) {
+
+module.exports = ""
+
+/***/ }),
+
+/***/ "./src/app/admin/students/students.component.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return StudentsComponent; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__students_service__ = __webpack_require__("./src/app/admin/students/students.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__students_modal_window_students_modal_window_component__ = __webpack_require__("./src/app/admin/students/students-modal-window/students-modal-window.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__shared_response_message_response_message_component__ = __webpack_require__("./src/app/shared/response-message/response-message.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__angular_material__ = __webpack_require__("./node_modules/@angular/material/esm5/material.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__angular_router__ = __webpack_require__("./node_modules/@angular/router/esm5/router.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__shared_delete_confirm_delete_confirm_component__ = __webpack_require__("./src/app/shared/delete-confirm/delete-confirm.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__reusable_functions_get_groups_by_faculty__ = __webpack_require__("./src/app/admin/students/reusable-functions/get-groups-by-faculty.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__reusable_functions_get_filtred_students__ = __webpack_require__("./src/app/admin/students/reusable-functions/get-filtred-students.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__reusable_functions_set_group_as_id__ = __webpack_require__("./src/app/admin/students/reusable-functions/set-group-as-id.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__angular_common_http__ = __webpack_require__("./node_modules/@angular/common/esm5/http.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__shared_pagination_pagination_class__ = __webpack_require__("./src/app/shared/pagination/pagination.class.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__shared_pagination_pagination_service__ = __webpack_require__("./src/app/shared/pagination/pagination.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__angular_forms__ = __webpack_require__("./node_modules/@angular/forms/esm5/forms.js");
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+var StudentsComponent = /** @class */ (function (_super) {
+    __extends(StudentsComponent, _super);
+    function StudentsComponent(service, router, route, pagIntl, http, dialog, pagService, snackBar) {
+        var _this = _super.call(this, router, route, pagIntl, http, dialog, pagService, snackBar) || this;
+        _this.service = service;
+        _this.router = router;
+        _this.route = route;
+        _this.pagIntl = pagIntl;
+        _this.http = http;
+        _this.dialog = dialog;
+        _this.pagService = pagService;
+        _this.snackBar = snackBar;
+        _this.groups = [];
+        _this.faculties = [];
+        _this.facultyString = 'Виберіть факультет';
+        _this.groupString = 'Виберіть групу';
+        _this.students = [];
+        _this.search = new __WEBPACK_IMPORTED_MODULE_13__angular_forms__["c" /* FormControl */]();
+        _this.pagService.entity = 'Student';
+        _this.entities = 'students';
+        return _this;
+    }
+    StudentsComponent.prototype.ngOnInit = function () {
+        var _this = this;
+        this.route.data.subscribe(function (data) {
+            _this.students = data.resolvedStudents.students;
+            _this.byGroup = data.resolvedStudents.byGroup;
+            _this.service.getAvailableFaculties().subscribe(function (res) {
+                _this.faculties = res;
+                if (_this.byGroup) {
+                    _this.faculties.forEach(function (value) {
+                        if (value.faculty_id === _this.students[0].faculty_id) {
+                            _this.facultyString = value.faculty_name;
+                        }
+                    });
+                    _this.groups = [{ group_id: undefined, group_name: _this.students[0].group }];
+                    _this.groupString = _this.students[0].group;
+                    if (_this.students[0].gradebook_id === '') {
+                        _this.students.pop();
+                    }
+                }
+            });
+            _this.countingStudents();
+            _this.searchStd();
+            _this.initLogic(true);
+            _this.byGroup ? _this.pagService.pagSubscr.next(false) : _this.pagService.pagSubscr.next(true);
+        });
+    };
+    StudentsComponent.prototype.ngOnDestroy = function () {
+        this.destroyLogic();
+    };
+    StudentsComponent.prototype.countingStudents = function () {
+        var _this = this;
+        this.service.countStudent().subscribe(function (response) { return _this.pagService.fullLength = +response.numberOfRecords; });
+    };
+    StudentsComponent.prototype.searchStd = function () {
+        var _this = this;
+        this.searchSubscr = this.search.valueChanges
+            .debounceTime(1000)
+            .subscribe(function (newValue) {
+            if (newValue !== '') {
+                _this.pagService.pagSubscr.next(false);
+                _this.pagService.getSearchedEntities(newValue)
+                    .subscribe(function (data) {
+                    if (data.response === 'no records') {
+                        _this.students = undefined;
+                    }
+                    else {
+                        _this.processDataFromAPI(data);
+                    }
+                }, function () {
+                    _this.students = undefined;
+                    _this.pagService.pagSubscr.next(false);
+                });
+            }
+            else {
+                _this.updateData(_this.pageSize, _this.pageIndex);
+            }
+        });
+    };
+    // Opening creating student form
+    StudentsComponent.prototype.showRegForm = function (user) {
+        var _this = this;
+        this.openStudentsModalWindow(user, true, false, false, true, 'Додати студента')
+            .afterClosed().subscribe(function (Response) {
+            if (Response) {
+                if (Response.response === 'ok') {
+                    _this.openTooltip('Профіль цього студента було успішно додано!');
+                    _this.updateData(_this.pageSize, _this.pageIndex);
+                    _this.countingStudents();
+                }
+                else if (Response.error || Response.response === 'Failed to validate array') {
+                    _this.openModalMessage('Виникла помилка при додаванні цього студента!');
+                }
+            }
+        });
+    };
+    // Editing student
+    StudentsComponent.prototype.showEditForm = function (user) {
+        var _this = this;
+        this.openStudentsModalWindow(user, true, true, false, false, 'Редагувати студента')
+            .afterClosed().subscribe(function (Response) {
+            if (Response) {
+                if (Response.response === 'ok') {
+                    _this.openTooltip('Профіль цього студента було успішно оновлено!');
+                    _this.updateData(_this.pageSize, _this.pageIndex);
+                }
+                else if (Response.error || Response.response === 'Error when update') {
+                    _this.openModalMessage('Виникла помилка при редагуванні профілю цього студента!');
+                }
+            }
+        });
+    };
+    // Extended info about student
+    StudentsComponent.prototype.showAdvancedInfo = function (user) {
+        this.openStudentsModalWindow(user, false, false, true, false);
+    };
+    // opening students modal window to make CRUD operations
+    StudentsComponent.prototype.openStudentsModalWindow = function (userdata, edit, update, read, create, text) {
+        return this.dialog.open(__WEBPACK_IMPORTED_MODULE_2__students_modal_window_students_modal_window_component__["a" /* StudentsModalWindowComponent */], {
+            disableClose: true,
+            width: '600px',
+            height: 'calc(100vh - 50px)',
+            data: {
+                student: userdata,
+                editing: edit,
+                updating: update,
+                reading: read,
+                creating: create,
+                submitButtonText: text
+            }
+        });
+    };
+    // to update data after changes(deleting, editing)
+    StudentsComponent.prototype.updateData = function (page, index) {
+        var _this = this;
+        this.pageSize = page;
+        this.pageIndex = index;
+        var id = this.route.snapshot.paramMap.get('id');
+        if (id) {
+            this.service.getStudentsByGroup(id).subscribe(function (data) { return _this.processDataFromAPI(data); }, function () { return _this.openModalMessage('Сталась помилка при завантаженні даних'); });
+        }
+        if (!id) {
+            this.service.getStudents(page, index).subscribe(function (data) { return _this.processDataFromAPI(data); }, function () { return _this.openModalMessage('Сталась помилка при завантаженні даних'); });
+        }
+    };
+    // Processing data
+    StudentsComponent.prototype.processDataFromAPI = function (data) {
+        var _this = this;
+        // If there is no students in the current group don't process data
+        if (data.response === 'no records') {
+            this.students = undefined;
+        }
+        else {
+            var groupsArr_1 = data.map(function (value) { return value.group_id; });
+            var body = JSON.stringify({ entity: 'Group', ids: groupsArr_1 });
+            this.service.getEntityValue(body).subscribe(function (response) {
+                groupsArr_1 = response;
+                // Updating array students
+                _this.students = Object(__WEBPACK_IMPORTED_MODULE_8__reusable_functions_get_filtred_students__["a" /* getFiltredStudents */])(data, groupsArr_1);
+                if (_this.byGroup) {
+                    _this.pagService.pagSubscr.next(false);
+                }
+                else {
+                    _this.countingStudents();
+                    _this.pagService.pagSubscr.next(true);
+                }
+            });
+        }
+    };
+    // Deleting student
+    StudentsComponent.prototype.handleDelete = function (index) {
+        var _this = this;
+        var dialogRef = this.dialog.open(__WEBPACK_IMPORTED_MODULE_6__shared_delete_confirm_delete_confirm_component__["a" /* DeleteConfirmComponent */], {
+            width: '400px',
+            data: {
+                message: 'Ви справді бажаєте видалити профіль цього студента?'
+            }
+        });
+        dialogRef.afterClosed().subscribe(function (Response) {
+            if (Response) {
+                _this.service.deleteStudent(index).subscribe(function (data) {
+                    if (data.response === 'ok') {
+                        _this.countingStudents();
+                        _this.openTooltip('Профіль цього студента було успішно видалено!');
+                        if (_this.students.length > 1) {
+                            _this.updateData(_this.pageSize, _this.pageIndex);
+                        }
+                        else {
+                            _this.pagination ? _this.paginator.previousPage() : _this.students = undefined;
+                        }
+                    }
+                }, function () {
+                    _this.openModalMessage('Виникла помилка при видаленні цього студента!');
+                });
+            }
+        });
+    };
+    // Dialog modal message
+    StudentsComponent.prototype.openModalMessage = function (msg, w) {
+        if (w === void 0) { w = '400px'; }
+        this.dialog.open(__WEBPACK_IMPORTED_MODULE_3__shared_response_message_response_message_component__["a" /* ResponseMessageComponent */], {
+            width: w,
+            data: {
+                message: msg
+            }
+        });
+    };
+    // This method is called to create new students array
+    StudentsComponent.prototype.getGroups = function (elem) {
+        var _this = this;
+        var index = Object(__WEBPACK_IMPORTED_MODULE_7__reusable_functions_get_groups_by_faculty__["a" /* getGroupsByFaulty */])(elem, true, this.faculties);
+        if (index) {
+            // Request for the available groups
+            this.service.getAvailableGroups(index).subscribe(function (data) {
+                if (data[0]) {
+                    _this.groups = data;
+                    // if there is no available group
+                }
+                else {
+                    _this.groups = [];
+                }
+            });
+        }
+    };
+    // filters students by group
+    StudentsComponent.prototype.getFiltredStudentsByGroup = function (elem) {
+        var index = Object(__WEBPACK_IMPORTED_MODULE_9__reusable_functions_set_group_as_id__["a" /* setGroupAsID */])(elem, this.groups);
+        if (index) {
+            this.router.navigate(["admin/students/" + index]);
+        }
+    };
+    // back to groups
+    StudentsComponent.prototype.backToGroups = function () {
+        this.router.navigate(['admin/groups/']);
+    };
+    // look at all students
+    StudentsComponent.prototype.reviseAllStudents = function () {
+        this.router.navigate(['admin/students/']);
+    };
+    StudentsComponent = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["n" /* Component */])({
+            selector: 'app-students',
+            template: __webpack_require__("./src/app/admin/students/students.component.html"),
+            styles: [__webpack_require__("./src/app/admin/students/students.component.scss")],
+            providers: [__WEBPACK_IMPORTED_MODULE_1__students_service__["a" /* StudentsService */]]
+        }),
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1__students_service__["a" /* StudentsService */],
+            __WEBPACK_IMPORTED_MODULE_5__angular_router__["f" /* Router */],
+            __WEBPACK_IMPORTED_MODULE_5__angular_router__["a" /* ActivatedRoute */],
+            __WEBPACK_IMPORTED_MODULE_4__angular_material__["j" /* MatPaginatorIntl */],
+            __WEBPACK_IMPORTED_MODULE_10__angular_common_http__["b" /* HttpClient */],
+            __WEBPACK_IMPORTED_MODULE_4__angular_material__["d" /* MatDialog */],
+            __WEBPACK_IMPORTED_MODULE_12__shared_pagination_pagination_service__["a" /* PaginationService */],
+            __WEBPACK_IMPORTED_MODULE_4__angular_material__["o" /* MatSnackBar */]])
+    ], StudentsComponent);
+    return StudentsComponent;
+}(__WEBPACK_IMPORTED_MODULE_11__shared_pagination_pagination_class__["a" /* Pagination */]));
+
+
+
+/***/ }),
+
+/***/ "./src/app/admin/students/students.module.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "StudentsModule", function() { return StudentsModule; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__students_component__ = __webpack_require__("./src/app/admin/students/students.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__students_routing_module__ = __webpack_require__("./src/app/admin/students/students-routing.module.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__students_service__ = __webpack_require__("./src/app/admin/students/students.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__shared_shared_module__ = __webpack_require__("./src/app/shared/shared.module.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__students_resolver_service__ = __webpack_require__("./src/app/admin/students/students-resolver.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__angular_common__ = __webpack_require__("./node_modules/@angular/common/esm5/common.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__students_modal_window_students_modal_window_component__ = __webpack_require__("./src/app/admin/students/students-modal-window/students-modal-window.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_ngx_image_cropper__ = __webpack_require__("./node_modules/ngx-image-cropper/ngx-image-cropper.es5.js");
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+
+
+
+
+
+
+
+
+
+var StudentsModule = /** @class */ (function () {
+    function StudentsModule() {
+    }
+    StudentsModule = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["K" /* NgModule */])({
+            declarations: [
+                __WEBPACK_IMPORTED_MODULE_1__students_component__["a" /* StudentsComponent */],
+                __WEBPACK_IMPORTED_MODULE_7__students_modal_window_students_modal_window_component__["a" /* StudentsModalWindowComponent */]
+            ],
+            imports: [
+                __WEBPACK_IMPORTED_MODULE_6__angular_common__["b" /* CommonModule */],
+                __WEBPACK_IMPORTED_MODULE_2__students_routing_module__["a" /* StudentsRoutingModule */],
+                __WEBPACK_IMPORTED_MODULE_4__shared_shared_module__["a" /* SharedModule */],
+                __WEBPACK_IMPORTED_MODULE_8_ngx_image_cropper__["a" /* ImageCropperModule */]
+            ],
+            providers: [
+                __WEBPACK_IMPORTED_MODULE_3__students_service__["a" /* StudentsService */],
+                __WEBPACK_IMPORTED_MODULE_5__students_resolver_service__["a" /* StudentsResolver */]
+            ],
+            entryComponents: [
+                __WEBPACK_IMPORTED_MODULE_7__students_modal_window_students_modal_window_component__["a" /* StudentsModalWindowComponent */]
+            ]
+        })
+    ], StudentsModule);
+    return StudentsModule;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/app/admin/students/students.service.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return StudentsService; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_common_http__ = __webpack_require__("./node_modules/@angular/common/esm5/http.js");
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+var StudentsService = /** @class */ (function () {
+    function StudentsService(http) {
+        this.http = http;
+        // CRUD endpoints
+        this.createStudentUrl = 'Student/insertData';
+        this.readStudentUrl = 'Student/getRecords';
+        this.updateStudentUrl = 'Student/update';
+        this.deleteStudentUrl = 'Student/del';
+    }
+    // Retrieve array of students from back-end
+    StudentsService.prototype.getStudents = function (pageSize, index) {
+        return this.http.get("Student/getRecordsRange/" + pageSize + "/" + pageSize * index);
+    };
+    // Count students
+    StudentsService.prototype.countStudent = function () {
+        return this.http.get('Student/countRecords');
+    };
+    // get current student's data
+    StudentsService.prototype.getPickedStudent = function (user_id) {
+        return this.http.get(this.readStudentUrl + "/" + user_id);
+    };
+    // Info of current student
+    StudentsService.prototype.getUserInfo = function (id) {
+        return this.http.get("AdminUser/getRecords/" + id);
+    };
+    // To get neccessary Entity from server
+    StudentsService.prototype.getEntityValue = function (body) {
+        return this.http.post("EntityManager/getEntityValues", body);
+    };
+    // Creating new student
+    StudentsService.prototype.addStudent = function (body) {
+        return this.http.post("" + this.createStudentUrl, body);
+    };
+    // get current groups by faculty
+    StudentsService.prototype.getAvailableGroups = function (value) {
+        return this.http.get("group/getGroupsByFaculty/" + value);
+    };
+    // get all faculties
+    StudentsService.prototype.getAvailableFaculties = function () {
+        return this.http.get("Faculty/getRecords");
+    };
+    // Deleting a student
+    StudentsService.prototype.deleteStudent = function (id) {
+        return this.http.delete(this.deleteStudentUrl + "/" + id);
+    };
+    // Updating student info
+    StudentsService.prototype.editStudent = function (id, body) {
+        return this.http.post(this.updateStudentUrl + "/" + id, body);
+    };
+    // get all students that are currently in picked group
+    StudentsService.prototype.getStudentsByGroup = function (id) {
+        return this.http.get("student/getStudentsByGroup/" + id);
+    };
+    // To find out is there same username or not
+    StudentsService.prototype.checkUsername = function (value) {
+        return this.http.get("AdminUser/checkUserName/" + value).map(function (res) { return !res.response; });
+    };
+    // To find out is there same username or not
+    StudentsService.prototype.checkEmailAddress = function (value) {
+        return this.http.get("AdminUser/checkEmailAddress/" + value).map(function (res) { return !res.response; });
+    };
+    StudentsService = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["C" /* Injectable */])(),
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1__angular_common_http__["b" /* HttpClient */]])
+    ], StudentsService);
+    return StudentsService;
+}());
+
+
+
+/***/ })
+
+});
+//# sourceMappingURL=students.module.chunk.js.map
