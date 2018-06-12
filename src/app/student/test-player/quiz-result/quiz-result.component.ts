@@ -1,6 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { DataService } from '../../services/data.service';
 import { AuthService } from '../../../auth/auth.service';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-quiz-result',
@@ -10,7 +11,7 @@ import { AuthService } from '../../../auth/auth.service';
 export class QuizResultComponent implements OnInit, OnDestroy {
   mark;
   pieChartData;
-  drawChart() {
+  drawChartUk() {
     this.pieChartData = {
       chartType: 'PieChart',
       dataTable: [
@@ -35,10 +36,42 @@ export class QuizResultComponent implements OnInit, OnDestroy {
     };
   }
 
-  constructor(private data: DataService, public authService: AuthService) {}
+  drawChartEn() {
+    this.pieChartData = {
+      chartType: 'PieChart',
+      dataTable: [
+        ['Answers', 'Amount'],
+        ['Correct answers', this.data.getAnswers()],
+        [
+          'Wrong answers',
+          this.data.getCountOfQuestions() - this.data.getAnswers(),
+        ],
+      ],
+      options: {
+        title: 'Answers',
+        slices: {
+          0: {
+            offset: 0.05,
+          },
+          1: {
+            offset: 0.0,
+          },
+        },
+      },
+    };
+  }
+
+  constructor(public data: DataService, public authService: AuthService, public translate: TranslateService) {
+    data.setLang(data.getLang());
+  }
   ngOnInit() {
     this.mark = this.data.getMark();
-    this.drawChart();
+    console.log(this.data.getLang());
+    if (this.data.getLang() === 'en') {
+    this.drawChartEn();
+    } else {
+      this.drawChartUk();
+    }
   }
 
   ngOnDestroy() {

@@ -4,6 +4,7 @@ import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {SpecialityService} from '../speciality.service';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material';
 import {Speciality} from '../specialityInterface';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
     selector: 'app-popup-form',
@@ -17,7 +18,7 @@ export class PopupFormComponent implements OnInit {
 
     constructor(private matDialogRef: MatDialogRef<PopupFormComponent>,
                 @Inject(MAT_DIALOG_DATA) public data: any,
-                private speciality: SpecialityService) {
+                private speciality: SpecialityService, private translate: TranslateService) {
     }
 
     ngOnInit() {
@@ -52,17 +53,29 @@ export class PopupFormComponent implements OnInit {
         const formData = this.form.value;
         if (this.data.speciality_id) {
             const id = this.data.speciality_id;
-            this.speciality.editSpecialities(id, formData.code, formData.name)
+            this.translate.get('ADMIN.SPEC.EDITED').subscribe(msg => {
+                this.speciality.editSpecialities(id, formData.code, formData.name)
                 .subscribe(() =>
-                        this.matDialogRef.close({status: 'SUCCESS', message: 'Спеціальність було успішно відредаговано!'}),
-                    () => this.matDialogRef.close({status: 'ERROR', message: 'Ви не внесли ніяких змін при редагуванні!'})
+                        this.matDialogRef.close({status: 'SUCCESS', message: msg}),
+                    () => {
+                        this.translate.get('ADMIN.TEST.NCHANGES').subscribe(m => {
+                            this.matDialogRef.close({status: 'ERROR', message: m});
+                        });
+                    }
                 );
+            });
         } else {
-            this.speciality.addSpecialities(formData.code, formData.name)
+            this.translate.get('ADMIN.SPEC.ADDED').subscribe(me => {
+                this.speciality.addSpecialities(formData.code, formData.name)
                 .subscribe(() =>
-                        this.matDialogRef.close({status: 'SUCCESS', message: 'Спеціальність було успішно додано!'}),
-                    () => this.matDialogRef.close({status: 'ERROR', message: 'Спеціальність з такою назвою вже існує!'})
+                        this.matDialogRef.close({status: 'SUCCESS', message: me}),
+                    () => {
+                        this.translate.get('ADMIN.SPEC.EXIST').subscribe(ms => {
+                            this.matDialogRef.close({status: 'ERROR', message: ms});
+                        });
+                    }
                 );
+            });
         }
     }
 

@@ -7,7 +7,7 @@ import {matchOtherValidator} from '../../../shared/form_validation/confirm_passw
 import {ValidateLoginNotTaken} from '../../../shared/form_validation/asyncLogin.validator';
 import {ValidateEmailNotTaken} from '../../../shared/form_validation/asyncEmail.validator';
 import {ValidatePassword} from '../../../shared/form_validation/checkOldPassword.validator';
-
+import { TranslateService } from '@ngx-translate/core';
 @Component({
   selector: 'app-administrators-dialog',
   templateUrl: './administrators-dialog.component.html',
@@ -25,7 +25,8 @@ export class AdministratorsDialogComponent implements OnInit {
 
   constructor(private matDialogRef: MatDialogRef<AdministratorsDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
-    private administratorsService: AdministratorsService) { }
+    private administratorsService: AdministratorsService,
+    private translate: TranslateService) { }
 
   ngOnInit() {
     if (this.data.id) {
@@ -101,20 +102,27 @@ export class AdministratorsDialogComponent implements OnInit {
       const hexCurrentPassword = hashCurrrentPas.toString(this.CryptoJS.enc.Hex);
       const id = this.data.id;
       if (formData.login !== this.currentLogin || formData.email !== this.currentEmail || hexCurrentPassword !== this.currentPassword ) {
-      this.administratorsService.updateAdministrator(id, formData.login, formData.email, formData.password, formData.confirm_password)
-        .subscribe(() =>
-          this.matDialogRef.close({ status: 'SUCCESS', message: 'Адміністратора було успішно відредаговано!' })
-         );
+        this.translate.get('ADMIN.ADMIN.EDITED').subscribe(msg => {
+          this.administratorsService.updateAdministrator(id, formData.login, formData.email, formData.password, formData.confirm_password)
+          .subscribe(() =>
+            this.matDialogRef.close({ status: 'SUCCESS', message: msg })
+           );
+        });
       } else {
-          this.matDialogRef.close({ status: 'ERROR', message: 'Ви не внесли жодних змін при редагуванні!' });
+        this.translate.get('ADMIN.TEST.NCHANGES').subscribe(m => {
+          this.matDialogRef.close({ status: 'ERROR', message: m });
+        });
         }
 
     } else {
-      this.administratorsService.addAdministrator(formData.login, formData.email, formData.password, formData.confirm_password)
+      this.translate.get('ADMIN.ADMIN.ADDED').subscribe( mgs => {
+        this.administratorsService.addAdministrator(formData.login, formData.email, formData.password, formData.confirm_password)
         .subscribe(() =>
-          this.matDialogRef.close({ status: 'SUCCESS', message: 'Адміністратора було успішно додано!' }),
-          () => this.matDialogRef.close({ status: 'ERROR', message: 'Адміністратор з таким логіном або поштовою скринькою вже існує!' })
-        );
+          this.matDialogRef.close({ status: 'SUCCESS', message: mgs }),
+          () => this.translate.get('ADMIN.ADMIN.EXIST').subscribe(mess => {
+            this.matDialogRef.close({ status: 'ERROR', message: mess });
+          }));
+      });
     }
   }
 

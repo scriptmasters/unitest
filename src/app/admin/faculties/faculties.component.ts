@@ -10,6 +10,7 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {Pagination} from '../../shared/pagination/pagination.class';
 import {HttpClient} from '@angular/common/http';
 import {PaginationService} from '../../shared/pagination/pagination.service';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
     selector: 'app-faculties',
@@ -21,8 +22,6 @@ export class FacultiesComponent extends Pagination implements OnInit, OnDestroy 
     faculties: Faculties[];
     form: FormGroup;
     error: string;
-
-
     constructor(private facultiesService: FacultiesService,
                 public router: Router,
                 public route: ActivatedRoute,
@@ -30,8 +29,8 @@ export class FacultiesComponent extends Pagination implements OnInit, OnDestroy 
                 public http: HttpClient,
                 public dialog: MatDialog,
                 public pagService: PaginationService,
-                public snackBar: MatSnackBar) {
-        super(router, route, pagIntl, http, dialog, pagService, snackBar);
+                public snackBar: MatSnackBar, private translate: TranslateService) {
+                    super(router, route, pagIntl, http, dialog, pagService, snackBar);
     }
 
     ngOnInit() {
@@ -42,6 +41,7 @@ export class FacultiesComponent extends Pagination implements OnInit, OnDestroy 
     ngOnDestroy() {
         this.destroyLogic();
     }
+
 
     getAllFaculties(): void {
         this.facultiesService.getFaculties()
@@ -97,15 +97,18 @@ export class FacultiesComponent extends Pagination implements OnInit, OnDestroy 
 
 // Delete operation
     deleteFaculty(id): void {
+        this.translate.get('ADMIN.FACULTY.QDEL').subscribe(res => {
         const dialogRef = this.dialog.open(DeleteConfirmComponent, {
             width: '500px',
-            data: {message: 'Ви справді бажаєте видалити даний факультет?'}
+            data: {message: res}
         });
         dialogRef.afterClosed().subscribe((Response: boolean) => {
             if (Response) {
                 this.facultiesService.delFaculties(id).subscribe((data: IResponse) => {
                         if (data.response === 'ok') {
-                            this.openTooltip('Факультет було успішно видалено');
+                            this.translate.get('ADMIN.FACULTY.REMOVED').subscribe(msg => {
+                                this.openTooltip(msg);
+                            });
                             this.getAllFaculties();
                             if (this.pagService.paginatedLength === 1) {
                                 this.paginator.previousPage();
@@ -113,15 +116,18 @@ export class FacultiesComponent extends Pagination implements OnInit, OnDestroy 
                         }
                     },
                     () => {
-                        this.dialog.open(ResponseMessageComponent, {
+                        this.translate.get('ADMIN.FACULTY.NOTDEL').subscribe(msg => {
+                            this.dialog.open(ResponseMessageComponent, {
                             width: '400px',
                             data: {
-                                message: 'Неможливо видалити даний факультет, тому що він не є порожнім!'
+                                message: msg
                             }
                         });
                     });
+                });
             }
         });
         dialogRef.disableClose = true;
+    });
     }
 }

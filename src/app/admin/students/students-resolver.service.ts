@@ -9,12 +9,13 @@ import {ResponseMessageComponent} from '../../shared/response-message/response-m
 import {MatDialog} from '@angular/material';
 import {getFiltredStudents} from './reusable-functions/get-filtred-students';
 import IResolvedData from './interfaces/IResolvedData';
+import { TranslateService } from '@ngx-translate/core';
 
 @Injectable()
 export class StudentsResolver implements Resolve<IResolvedData> {
   constructor(private service: StudentsService,
               private dialog: MatDialog,
-              private router: Router) {
+              private router: Router, private translate: TranslateService) {
   }
   fakeData: IStudent[] = [{
     'gradebook_id': '',
@@ -33,12 +34,15 @@ export class StudentsResolver implements Resolve<IResolvedData> {
       return this.service.getStudentsByGroup(id).pipe(switchMap(
         data => {
           if (data.response === 'no records') {
-            this.dialog.open(ResponseMessageComponent, {
-              width: '400px',
-              data: {
-                message: 'Немає зареєстрованих студентів в даній групі'
-              }
+            this.translate.get('ADMIN.STUD.NOREC').subscribe(msg => {
+              this.dialog.open(ResponseMessageComponent, {
+                width: '400px',
+                data: {
+                  message: msg
+                }
+              });
             });
+
             return this.onDataRetrieve(this.fakeData, true, id);
           }
           return this.onDataRetrieve(data, true, id);

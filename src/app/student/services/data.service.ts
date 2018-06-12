@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
+import { TranslateService } from '@ngx-translate/core';
 
 @Injectable()
 export class DataService {
-  constructor() {}
+  constructor(public translate: TranslateService) {}
 
   getMark(): number {
     return +sessionStorage.getItem('mark');
@@ -26,5 +27,15 @@ export class DataService {
 
   getCountOfQuestions(): number {
     return +sessionStorage.getItem('numberOfQuestions');
+  }
+
+  setLang(lang: string) {
+    sessionStorage.setItem('lang', lang);
+    this.translate.use(lang);
+  }
+
+  getLang(): string {
+    const language = sessionStorage.getItem('lang');
+    return language;
   }
 }

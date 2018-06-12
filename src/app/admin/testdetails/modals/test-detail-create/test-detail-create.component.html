@@ -1,13 +1,13 @@
 <form [formGroup]="detailForm">
     <header class="form-row justify-content-between mb-2">
-        <h2 class="pl-1">Параметр тесту</h2>
+        <h2 class="pl-1">{{'ADMIN.TD.PARAM' | translate}}</h2>
         <i class="fa fa-close pr-1"
            (click)="dialogRef.close(false)"></i>
     </header>
 
     <div class="form-row">
         <div class="form-group col-12">
-            <label>Рівень</label>
+            <label>{{'TP.LEVEL' | translate}}</label>
             <select type="number"
                     class="form-control col-md-12"
                     [ngClass]="{'red-border': !detailForm.controls['level'].valid
@@ -21,14 +21,14 @@
             <div class="form-msg">
                 <small *ngIf="!detailForm.controls['level'].valid
                            && !detailForm.controls['level'].untouched">
-          <span *ngIf="!detailForm.controls['level'].valid">Дане поле не може бути порожнім</span>
+          <span *ngIf="!detailForm.controls['level'].valid">{{'ADMIN.ERR.EMPTY' | translate}}</span>
         </small>
             </div>
         </div>
     </div>
     <div class="form-row">
         <div class="form-group col-12">
-            <label>Кількість завдань</label>
+            <label>{{'ADMIN.TD.TASKS' | translate}}</label>
             <input type="number"
                    min="1"
                    max="250"
@@ -39,14 +39,14 @@
             <div class="form-msg">
                 <small *ngIf="!detailForm.controls['tasks'].valid
                            && !detailForm.controls['tasks'].untouched">
-          <span *ngIf="!detailForm.controls['tasks'].valid">Дане поле не може бути порожнім</span>
+          <span *ngIf="!detailForm.controls['tasks'].valid">{{'ADMIN.ERR.EMPTY' | translate}}</span>
         </small>
             </div>
         </div>
     </div>
     <div class="form-row">
         <div class="form-group col-12">
-            <label>Кількість балів</label>
+            <label>{{'ADMIN.TD.GRADE' | translate}}</label>
             <input type="number"
                    min="1"
                    max="250"
@@ -57,7 +57,7 @@
             <div class="form-msg">
                 <small *ngIf="!detailForm.controls['rate'].valid
                            && !detailForm.controls['rate'].untouched">
-          <span *ngIf="!detailForm.controls['rate'].valid">Дане поле не може бути порожнім</span>
+          <span *ngIf="!detailForm.controls['rate'].valid">{{'ADMIN.ERR.EMPTY' | translate}}</span>
         </small>
             </div>
         </div>
@@ -68,13 +68,13 @@
             <input class="btn btn-danger col-sm-12"
                    type="button"
                    (click)="dialogRef.close(false)"
-                   value="Відміна">
+                   value="{{'ADMIN.CANCEL' | translate}}">
         </div>
         <div class="form-group col-sm-6 col-md-4">
             <input type="submit"
                    (click)="save()"
                    class="btn btn-success col-sm-12"
-                   [disabled]="!detailForm.valid">
+                   [disabled]="!detailForm.valid" value="{{'ADMIN.SUBMIT' | translate}}">
         </div>
     </div>
 </form>

@@ -5,6 +5,7 @@ import {TestDetailCreateComponent} from '../modals/test-detail-create/test-detai
 import {ActivatedRoute} from '@angular/router';
 import {DeleteConfirmComponent} from '../../../shared/delete-confirm/delete-confirm.component';
 import {ResponseMessageComponent} from '../../../shared/response-message/response-message.component';
+import { TranslateService } from '@ngx-translate/core';
 
 
 @Component({
@@ -22,7 +23,8 @@ export class TestDetailsComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private dialog: MatDialog,
-    private testDetailsService: TestDetailsService
+    private testDetailsService: TestDetailsService,
+    private translate: TranslateService
   ) {
   }
 
@@ -52,25 +54,30 @@ export class TestDetailsComponent implements OnInit {
   }
 
   delete(id: number) {
-    const dialogRef = this.dialog.open(DeleteConfirmComponent, {
-      data: {message: 'Ви впевнені, що хочете видалити цей запис?'}
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
-      if (result) {
-        this.testDetailsService.deleteTestDetail(id).subscribe(() => {
-          this.getTestDetails();
-        }, err => {
-          alert(err.error.response);
-        });
-      }
-    }, (err) => {
-      this.dialog.open(ResponseMessageComponent, {
-        width: '350px',
-        data: {message: `Виникла помилка видалення: ${err.error.response}`}
+    this.translate.get('ADMIN.TD.DELQ').subscribe(msg => {
+      const dialogRef = this.dialog.open(DeleteConfirmComponent, {
+        data: {message: msg}
       });
-    }, () => {
-        this.testDetailsService.openTooltip('Деталі тесту видалено');
+      dialogRef.afterClosed().subscribe(result => {
+        if (result) {
+          this.testDetailsService.deleteTestDetail(id).subscribe(() => {
+            this.getTestDetails();
+          }, err => {
+            alert(err.error.response);
+          });
+        }
+      }, (err) => {
+        this.translate.get('ADMIN.TD.ERR').subscribe(ms => {
+          this.dialog.open(ResponseMessageComponent, {
+            width: '350px',
+            data: {message: ms + `${err.error.response}`}
+          });
+        });
+      }, () => {
+        this.translate.get('ADMIN.TD.DELETED').subscribe(mg => {
+          this.testDetailsService.openTooltip(mg);
+        });
+      });
     });
   }
 

@@ -4,10 +4,10 @@
             <div class="card col-12 col-lg-12">
                 <div class="card-body d-flex justify-content-between">
                     <div class="align-self-center">
-                        <h2 class="display">Розклад</h2>
+                        <h2 class="display">{{'ADMIN.SCHEDULE' | translate}}</h2>
                     </div>
                     <div>
-                        <button type="button" class="btn btn-primary" (click)="openDialog()">Додати новий параметр</button>
+                        <button type="button" class="btn btn-primary" (click)="openDialog()">{{'ADMIN.PARAM' | translate}}</button>
                     </div>
                 </div>
             </div>
@@ -22,12 +22,12 @@
                         <thead>
                             <tr>
                                 <th>№</th>
-                                <th [hidden]="hideColumn">Назва групи</th>
-                                <th [hidden]="hideColumn">Назва предмету</th>
-                                <th>Дата початку</th>
-                                <th>Час початку</th>
-                                <th>Дата закінчення</th>
-                                <th>Час закінчення</th>
+                                <th [hidden]="hideColumn">{{'ADMIN.GROUP.NAME' | translate}}</th>
+                                <th [hidden]="hideColumn">{{'ADMIN.GROUP.NAME' | translate}}</th>
+                                <th>{{'ADMIN.SC.SD' | translate}}</th>
+                                <th>{{'ADMIN.SC.TS' | translate}}</th>
+                                <th>{{'ADMIN.SC.ED' | translate}}</th>
+                                <th>{{'ADMIN.SC.TE' | translate}}</th>
                                 <th colspan="2"></th>
                             </tr>
                         </thead>
@@ -40,8 +40,8 @@
                                 <td>{{tableItem.start_time}}</td>
                                 <td>{{tableItem.end_date}}</td>
                                 <td>{{tableItem.end_time}}</td>
-                                <td><i class="fa fa-cog" (click)="openDialog(tableItem)" title="Редагувати розклад"></i></td>
-                                <td><i class="fa fa-close" (click)="onDelete(tableItem)" title="Видалити розклад"></i></td>
+                                <td><i class="fa fa-cog" (click)="openDialog(tableItem)" title="{{'EDIT' | translate}}"></i></td>
+                                <td><i class="fa fa-close" (click)="onDelete(tableItem)" title="{{'DEL' | translate}}"></i></td>
                             </tr>
                         </tbody>
                     </table>

@@ -4,10 +4,10 @@
             <div class="card col-lg-12 col-12">
                 <div class="card-body d-flex justify-content-between">
                     <div class="align-self-center">
-                        <h2 class="display">Додаткові параметри тесту: "{{testName}}"</h2>
+                        <h2 class="display">{{'ADMIN.TD.ADDITIONAL' | translate}}: "{{testName}}"</h2>
                     </div>
                     <div>
-                        <button type="submit" class="btn btn-primary" (click)="openDialog({test_id: testId})">Додати новий параметр</button>
+                        <button type="submit" class="btn btn-primary" (click)="openDialog({test_id: testId})">{{'ADMIN.PARAM' | translate}}</button>
                     </div>
                 </div>
             </div>
@@ -19,9 +19,9 @@
                         <thead>
                             <tr>
                                 <th>№</th>
-                                <th>Номер рівня</th>
-                                <th>Кількість завдань</th>
-                                <th>Кількість балів</th>
+                                <th>{{'ADMIN.TD.ADDITIONAL' | translate}}</th>
+                                <th>{{'ADMIN.TD.TASKS' | translate}}</th>
+                                <th>{{'ADMIN.TD.GRADE' | translate}}</th>
                                 <th colspan="2"></th>
                             </tr>
                         </thead>
@@ -31,8 +31,8 @@
                                 <td>{{testDetailItem.level}}</td>
                                 <td>{{testDetailItem.tasks}}</td>
                                 <td>{{testDetailItem.rate}}</td>
-                                <td><i class="fa fa-cog pointer" (click)="openDialog(testDetailItem)"></i></td>
-                                <td><i class="fa fa-close pointer" (click)="delete(testDetailItem.id)"></i></td>
+                                <td><i class="fa fa-cog pointer" title="{{'EDIT' | translate}}" (click)="openDialog(testDetailItem)"></i></td>
+                                <td><i class="fa fa-close pointer" title="{{'DEL' | translate}}" (click)="delete(testDetailItem.id)"></i></td>
                             </tr>
                         </tbody>
                     </table>

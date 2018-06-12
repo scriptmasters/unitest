@@ -2,11 +2,11 @@
   <div class="content-wrapper">
       <header class="header">
           <div class="Headers">
-              <span class="admin-title">СТОРІНКА СТУДЕНТА</span>
+              <span class="admin-title">{{ 'STUDENT.PAGE' | translate }}</span>
           </div>
           <div class="dtester-title">D-TESTER</div>
           <a class="log-out" (click)="this.authService.logout()">
-              <span>Вийти</span>
+              <span>{{ 'STUDENT.EXIT' | translate }}</span>
               <i class="fa fa-sign-out" aria-hidden="true"></i>
           </a>
       </header>
@@ -15,26 +15,30 @@
 <section *ngIf="isAvilable()">
   <div class="card text-center">
     <div class="card-header">
-      <h1>Тест завершено!</h1>
+      <h1>{{'STUDENT.FINISHED' | translate}}</h1>
     </div>
     <div class="card-body">
-      <h2 class="card-title">Ваші результати</h2>
-      <p class="card-text">Оцінка: {{mark}} </p>
+      <h2 class="card-title">{{'STUDENT.SCORE' | translate}}</h2>
+      <p class="card-text">{{'STUDENT.MARK' | translate}}: {{mark}} </p>
       <div class="d-flex justify-content-center">
         <google-chart [data]="pieChartData"></google-chart>
       </div>
-      <a routerLink="/student" class="btn btn-primary">На головну</a>
+      <a routerLink="/student" class="btn btn-primary">{{'STUDENT.HOME' | translate}}</a>
     </div>
   </div>
 </section>
 <section *ngIf="!isAvilable()">
   <div class="container-fluid">
     <div class="alert alert-success text-center" role="alert">
-      <h1 class="alert-heading  display-4">Шановний студенте!</h1>
-      <p>На жаль, ви не можете переглядати результати тесутвання!</p>
+      <h1 class="alert-heading  display-4">{{'STUDENT.STUDENT' | translate}}</h1>
+      <p>{{'STUDENT.UNF' | translate }}</p>
       <hr>
-      <p>Перегляд результатів тестування буде доступний після того, як ви здасте тест!</p>
-      <a routerLink="/student" class="btn btn-primary">На головну</a>
+      <p>{{'STUDENT.PRE' | translate }}</p>
+      <a routerLink="/student" class="btn btn-primary">{{'STUDENT.HOME' | translate}}</a>
     </div>
+    <footer class="footer"><span>Created by IF-085.Web-UI&#169; "Superteam&#9787;"</span>
+      <img id="uk" src="../../assets/ukrainian.png" alt="uk" (click)="data.setLang('uk')">
+      <img id="eng" src="../../assets/english.png" alt="en" (click)="data.setLang('en')">
+    </footer>
   </div>
 </section>

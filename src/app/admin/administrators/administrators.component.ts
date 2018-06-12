@@ -14,6 +14,7 @@ import {IisLogged} from '../../shared/Interfaces/server_response';
 import {Pagination} from '../../shared/pagination/pagination.class';
 import {HttpClient} from '@angular/common/http';
 import {PaginationService} from '../../shared/pagination/pagination.service';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-administrators',
@@ -36,7 +37,7 @@ export class AdministratorsComponent extends Pagination implements OnInit, OnDes
               public http: HttpClient,
               public dialog: MatDialog,
               public pagService: PaginationService,
-              public snackBar: MatSnackBar) {
+              public snackBar: MatSnackBar, private translate: TranslateService) {
       super(router, route, pagIntl, http, dialog, pagService, snackBar);
   }
 
@@ -103,50 +104,60 @@ export class AdministratorsComponent extends Pagination implements OnInit, OnDes
         });
         matDialogRef.disableClose = true;
       } else {
-          this.dialog.open(ResponseMessageComponent, {
-            width: '400px',
-            data: {
-              message: 'Ви не можете редагувати цього адміністратора!'
-            }
+          this.translate.get('ADMIN.ADMIN.CANT').subscribe(msg => {
+            this.dialog.open(ResponseMessageComponent, {
+              width: '400px',
+              data: {
+                message: msg
+              }
+            });
           });
         }
     });
   }
 // Delete modal
   deleteAdministrator(id): void {
-    this.authService.isLogged().subscribe((result: IisLogged) => {
-      if (+result.id === 1) {
-        const dialogRef = this.dialog.open(DeleteConfirmComponent, {
-          width: '500px',
-          data: { message: 'Ви справді бажаєте видалити цього адміністратора'}
-        });
-        dialogRef.afterClosed().subscribe((Response: boolean) => {
-          if (Response) {
-            this.administratorsService.delAdministrator(id).subscribe((data: IResponse) => {
-              if (data.response === 'ok') {
-                  this.openTooltip('Адміністратора було успішно видалено');
-          this.getAllAdministrators();
-              }
-            },
-              () => {
-                this.dialog.open(ResponseMessageComponent, {
-                  width: '400px',
-                  data: {
-                    message: 'Неможливо видалити цього адміністратора!'
-                  }
+    this.translate.get('ADMIN.ADMIN.DELQ').subscribe(msg => {
+      this.authService.isLogged().subscribe((result: IisLogged) => {
+        if (+result.id === 1) {
+          const dialogRef = this.dialog.open(DeleteConfirmComponent, {
+            width: '500px',
+            data: { message: msg}
+          });
+          dialogRef.afterClosed().subscribe((Response: boolean) => {
+            if (Response) {
+              this.administratorsService.delAdministrator(id).subscribe((data: IResponse) => {
+                if (data.response === 'ok') {
+                  this.translate.get('ADMIN.ADMIN.DEL').subscribe(m => {
+                    this.openTooltip(m);
+                  });
+            this.getAllAdministrators();
+                }
+              },
+                () => {
+                  this.translate.get('ADMIN.ADMIN.NOTDEL').subscribe(me => {
+                    this.dialog.open(ResponseMessageComponent, {
+                      width: '400px',
+                      data: {
+                        message: me
+                      }
+                    });
+                  });
                 });
-              });
-          }
-        });
-        dialogRef.disableClose = true;
-      } else {
-        this.dialog.open(ResponseMessageComponent, {
-          width: '400px',
-          data: {
-            message: 'Ви не можете видалити цього адміністратора!'
-          }
-        });
-      }
+            }
+          });
+          dialogRef.disableClose = true;
+        } else {
+          this.translate.get('ADMIN.ADMIN.CDEL').subscribe(mgs => {
+            this.dialog.open(ResponseMessageComponent, {
+              width: '400px',
+              data: {
+                message: mgs
+              }
+            });
+          });
+        }
+      });
     });
   }
 }

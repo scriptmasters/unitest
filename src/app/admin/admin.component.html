@@ -8,16 +8,15 @@
                 </div>
                 <ul class="nav-bar d-flex flex-column">
 
-                    <li> <a routerLink="/admin/statistic" routerLinkActive="active-link"><i class="fa fa-bar-chart" aria-hidden="true"></i><span>Статистика</span></a></li>
-                    <li> <a routerLink="/admin/groups" routerLinkActive="active-link"><i class="fa fa-users" aria-hidden="true"></i><span>Групи</span></a></li>
-                    <li> <a routerLink="/admin/students" routerLinkActive="active-link"><i class="fa fa-address-book" aria-hidden="true"></i><span>Студенти</span></a></li>
-                    <li> <a routerLink="/admin/faculties" routerLinkActive="active-link"><i class="fa fa-database" aria-hidden="true"></i><span>Факультети</span></a></li>
-                    <li> <a routerLink="/admin/subjects" routerLinkActive="active-link"><i class="fa fa-book" aria-hidden="true"></i><span>Предмети</span></a></li>
-                    <li> <a routerLink="/admin/specialities" routerLinkActive="active-link"><i class="fa fa-table" aria-hidden="true"></i><span>Спеціальності</span></a></li>
-                    <li> <a routerLink="/admin/administrators" routerLinkActive="active-link"><i class="fa fa-user-secret" aria-hidden="true"></i><span>Адміністратори</span></a></li>
-                    <li> <a routerLink="/admin/timetable" routerLinkActive="active-link"><i class="fa fa-user-secret" aria-hidden="true"></i><span>Розклад</span></a></li>
-                    <!--<li> <a routerLink="/admin/subjects/tests/questions" routerLinkActive="active-link"><i class="fa fa-check-square-o" aria-hidden="true"></i><span>Завдання</span></a></li>-->
-                    <li> <a routerLink="/admin/results" routerLinkActive="active-link"><i class="fa fa-line-chart" aria-hidden="true"></i><span>Результати</span></a></li>
+                    <li> <a routerLink="/admin/statistic" routerLinkActive="active-link"><i class="fa fa-bar-chart" aria-hidden="true"></i><span>{{'ADMIN.STATISTIC' | translate}}</span></a></li>
+                    <li> <a routerLink="/admin/groups" routerLinkActive="active-link"><i class="fa fa-users" aria-hidden="true"></i><span>{{'ADMIN.GROUPS' | translate}}</span></a></li>
+                    <li> <a routerLink="/admin/students" routerLinkActive="active-link"><i class="fa fa-address-book" aria-hidden="true"></i><span>{{'ADMIN.STUDENTS' | translate}}</span></a></li>
+                    <li> <a routerLink="/admin/faculties" routerLinkActive="active-link"><i class="fa fa-database" aria-hidden="true"></i><span>{{'ADMIN.FACULTIES' | translate}}</span></a></li>
+                    <li> <a routerLink="/admin/subjects" routerLinkActive="active-link"><i class="fa fa-book" aria-hidden="true"></i><span>{{'ADMIN.SUBJECTS' | translate}}</span></a></li>
+                    <li> <a routerLink="/admin/specialities" routerLinkActive="active-link"><i class="fa fa-table" aria-hidden="true"></i><span>{{'ADMIN.SPECIALTIES' | translate}}</span></a></li>
+                    <li> <a routerLink="/admin/administrators" routerLinkActive="active-link"><i class="fa fa-user-secret" aria-hidden="true"></i><span>{{'ADMIN.ADMINS' | translate}}</span></a></li>
+                    <li> <a routerLink="/admin/timetable" routerLinkActive="active-link"><i class="fa fa-user-secret" aria-hidden="true"></i><span>{{'ADMIN.SCHEDULE' | translate}}</span></a></li>
+                    <li> <a routerLink="/admin/results" routerLinkActive="active-link"><i class="fa fa-line-chart" aria-hidden="true"></i><span>{{'ADMIN.RESULTS' | translate}}</span></a></li>
 
                 </ul>
             </div>
@@ -27,11 +26,11 @@
                 <header class="header">
                     <div class="Headers">
                         <span (click)="handleClick(verticalNavigation)" id="burger" class="burger"><i class="fa fa-bars" aria-hidden="true"></i></span>
-                        <span class="admin-title">ПАНЕЛЬ АДМІНІСТРАТОРА</span>
+                        <span class="admin-title">{{'ADMIN.PANEL' | translate}}</span>
 
                     </div>
                     <div class="dtester-title">D-TESTER</div>
-                    <a class="log-out" (click)="this.authService.logout()"><span>Вийти</span><i class="fa fa-sign-out" aria-hidden="true"></i></a>
+                    <a class="log-out" (click)="this.authService.logout()"><span>{{'STUDENT.EXIT' | translate}}</span><i class="fa fa-sign-out" aria-hidden="true"></i></a>
                 </header>
 
                 <div style="height:65px; display: block; position: relative; visibility: hidden">
@@ -40,16 +39,15 @@
 
                 <ul class="vertical-navigation" #verticalNavigation (click)="handleClick(verticalNavigation)">
 
-                    <li> <a routerLink="/admin/statistic"><i class="fa fa-bar-chart" aria-hidden="true"></i><span>Статистика</span></a></li>
-                    <li> <a routerLink="/admin/groups"><i class="fa fa-users" aria-hidden="true"></i><span>Групи</span></a></li>
-                    <li> <a routerLink="/admin/students"><i class="fa fa-address-book" aria-hidden="true"></i><span>Студенти</span></a></li>
-                    <li> <a routerLink="/admin/faculties"><i class="fa fa-database" aria-hidden="true"></i><span>Факультети</span></a></li>
-                    <li> <a routerLink="/admin/subjects"><i class="fa fa-book" aria-hidden="true"></i><span>Предмети</span></a></li>
-                    <li> <a routerLink="/admin/specialities"><i class="fa fa-table" aria-hidden="true"></i><span>Спеціальності</span></a></li>
-                    <li> <a routerLink="/admin/administrators"><i class="fa fa-user-secret" aria-hidden="true"></i><span>Адміністратори</span></a></li>
-                    <li> <a routerLink="/admin/timetable"><i class="fa fa-user-secret" aria-hidden="true"></i><span>Розклад</span></a></li>
-                    <!--<li> <a routerLink="/admin/subjects/tests/questions"><i class="fa fa-check-square-o" aria-hidden="true"></i><span>Завдання</span></a></li>-->
-                    <li> <a routerLink="/admin/results"><i class="fa fa-line-chart" aria-hidden="true"></i><span>Результати</span></a></li>
+                    <li> <a routerLink="/admin/statistic"><i class="fa fa-bar-chart" aria-hidden="true"></i><span>{{'ADMIN.STATISTIC' | translate}}</span></a></li>
+                    <li> <a routerLink="/admin/groups"><i class="fa fa-users" aria-hidden="true"></i><span>{{'ADMIN.GROUPS' | translate}}</span></a></li>
+                    <li> <a routerLink="/admin/students"><i class="fa fa-address-book" aria-hidden="true"></i><span>{{'ADMIN.STUDENTS' | translate}}</span></a></li>
+                    <li> <a routerLink="/admin/faculties"><i class="fa fa-database" aria-hidden="true"></i><span>{{'ADMIN.FACULTIES' | translate}}</span></a></li>
+                    <li> <a routerLink="/admin/subjects"><i class="fa fa-book" aria-hidden="true"></i><span>{{'ADMIN.SUBJECTS' | translate}}</span></a></li>
+                    <li> <a routerLink="/admin/specialities"><i class="fa fa-table" aria-hidden="true"></i><span>{{'ADMIN.SPECIALTIES' | translate}}</span></a></li>
+                    <li> <a routerLink="/admin/administrators"><i class="fa fa-user-secret" aria-hidden="true"></i><span>{{'ADMIN.ADMINS' | translate}}</span></a></li>
+                    <li> <a routerLink="/admin/timetable"><i class="fa fa-user-secret" aria-hidden="true"></i><span>{{'ADMIN.SCHEDULE' | translate}}</span></a></li>
+                    <li> <a routerLink="/admin/results"><i class="fa fa-line-chart" aria-hidden="true"></i><span>{{'ADMIN.RESULTS' | translate}}</span></a></li>
 
                 </ul>
                 <div class="content">
@@ -57,7 +55,10 @@
                     <router-outlet></router-outlet>
                 </div>
             </div>
-            <footer class="footer"><span>Created by IF-085.Web-UI&#169; "Superteam&#9787;"</span></footer>
+            <footer class="footer"><span>Created by IF-085.Web-UI&#169; "Superteam&#9787;"</span>
+                <img id="uk" src="../../assets/ukrainian.png" alt="uk" (click)="translate.use('uk')">
+                <img id="eng" src="../../assets/english.png" alt="en" (click)="translate.use('en')">
+            </footer>
         </section>
     </div>
 </div>

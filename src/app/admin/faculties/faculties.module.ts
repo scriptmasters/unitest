@@ -6,6 +6,13 @@ import {FacultiesDialogComponent} from './faculties-dialog/faculties-dialog.comp
 import {FacultiesComponent} from './faculties.component';
 import {FacultiesService} from './services/faculties.service';
 import {FacultiesRoutingModule} from './faculties-routing.module';
+import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { HttpClient } from '@angular/common/http';
+
+export function HttpLoaderFactory(httpClient: HttpClient) {
+    return new TranslateHttpLoader(httpClient);
+  }
 
 @NgModule({
   declarations: [
@@ -15,7 +22,12 @@ import {FacultiesRoutingModule} from './faculties-routing.module';
   imports: [
     CommonModule,
     SharedModule,
-    FacultiesRoutingModule
+    FacultiesRoutingModule,
+    TranslateModule.forChild({
+      loader: {provide: TranslateLoader, useFactory: HttpLoaderFactory,
+          deps: [HttpClient]},
+      isolate: false
+  })
   ],
   providers: [
     FacultiesService,

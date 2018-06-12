@@ -610,7 +610,6 @@ form .ng-invalid:not(.ng-untouched) {
 .my-panel .mat-dialog-container {
   box-shadow: none;
   background-color: rgba(0, 0, 0, 0);
-
 }
 
 /*Transparent pagination background*/
@@ -648,4 +647,14 @@ form .ng-invalid:not(.ng-untouched) {
 /*Message that is shown when table collection is empty*/
 .tableMessage {
   overflow: hidden;
+}
+
+#uk {
+  width: 30px;
+  height: 30px;
+}
+
+#eng {
+  width: 27px;
+  height: 27px;
 }
