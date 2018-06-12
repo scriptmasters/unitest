@@ -3,6 +3,7 @@ import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from '@angular/material';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {TestDetailsService} from '../../sevices/test-details.service';
 import {ResponseMessageComponent} from '../../../../shared/response-message/response-message.component';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-test-detail-create',
@@ -12,12 +13,19 @@ import {ResponseMessageComponent} from '../../../../shared/response-message/resp
 export class TestDetailCreateComponent implements OnInit {
   levels: number[];
   detailForm: FormGroup;
-
+  correctData;
+  existData;
   constructor(public dialogRef: MatDialogRef<TestDetailCreateComponent>,
               private formBuilder: FormBuilder,
               @Inject(MAT_DIALOG_DATA) public data: any,
               private dialog: MatDialog,
-              public testDetailsService: TestDetailsService) {
+              public testDetailsService: TestDetailsService, private translate: TranslateService) {
+                translate.get('ADMIN.TD.D').subscribe(msg => {
+                  this.correctData = msg;
+                });
+                translate.get('ADMIN.TD.EN').subscribe(msg => {
+                  this.existData = msg;
+                });
   }
 
   ngOnInit() {
@@ -40,29 +48,35 @@ export class TestDetailCreateComponent implements OnInit {
     }, err => {
 
       const errorMessage = (err.error.response.search(/1062 Duplicate entry/) > 0)
-        ? 'Дані цього рівня уже існують'
-        : 'Введіть коректні дані';
+        ? this.existData
+        : this.correctData;
 
       this.dialog.open(ResponseMessageComponent, {
         data: {message: errorMessage}
       });
     }, () => {
-        this.testDetailsService.openTooltip('Деталі тесту успішно додано');
+      this.translate.get('ADMIN.TD.ADDED').subscribe(msg => {
+        this.testDetailsService.openTooltip(msg);
+      });
     });
 
   }
 
   private edit() {
     const rawValues = this.detailForm.getRawValue();
-    this.testDetailsService.editTestDetail(rawValues).subscribe(() => {
-      this.dialogRef.close(true);
-    }, () => {
-      const errorMessage = 'Введіть коректні дані';
-      this.dialog.open(ResponseMessageComponent, {
-        data: {message: errorMessage}
+    this.translate.get('ADMIN.TD.D').subscribe(msg => {
+      this.testDetailsService.editTestDetail(rawValues).subscribe(() => {
+        this.dialogRef.close(true);
+      }, () => {
+        const errorMessage = msg;
+        this.dialog.open(ResponseMessageComponent, {
+          data: {message: errorMessage}
+        });
+      }, () => {
+        this.translate.get('ADMIN.TD.EDITED').subscribe(m => {
+          this.testDetailsService.openTooltip(m);
+        });
       });
-    }, () => {
-        this.testDetailsService.openTooltip('Деталі тесту успішно змінено');
     });
   }
 

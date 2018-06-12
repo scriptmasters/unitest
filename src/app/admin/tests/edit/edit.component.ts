@@ -4,6 +4,7 @@ import {TestService} from '../test.service';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {ResponseMessageComponent} from '../../../shared/response-message/response-message.component';
 import {forbiddenCharValidator} from '../tests-validator.directive';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-edit',
@@ -15,13 +16,23 @@ export class EditComponent implements OnInit {
 
 rForm: FormGroup;
 subjects;
-enabled = [{value: 1, text: 'Доступний'}, {value: 0, text: 'Недоступний'}];
+en;
+dis;
+enabled;
 constructor(public dialogRef: MatDialogRef<EditComponent>, @Inject(MAT_DIALOG_DATA) public data: any,
-            private httpService: TestService, private fb: FormBuilder, public dialog: MatDialog) {
+            private httpService: TestService, private fb: FormBuilder, public dialog: MatDialog,
+            public translate: TranslateService) {
 this.initForm();
 }
 ngOnInit() {
   this.getSubjects();
+  this.translate.get('ENABLED').subscribe(msg => {
+    this.en = msg;
+  });
+  this.translate.get('DISABLED').subscribe(msg => {
+    this.dis = msg;
+  });
+  this.enabled = [{value: 1, text: this.en}, {value: 0, text: this.dis}];
 }
 initForm() {
   this.rForm = this.fb.group({
@@ -47,17 +58,30 @@ Object.keys(controls)
     (err) => {
       this.dialogRef.close();
       if (err.status === 400) {
+        this.translate.get('ADMIN.TEST.NCHANGES').subscribe(msg => {
           this.dialog.open(ResponseMessageComponent, {
             width: '350px',
             data: {
-              message: 'Ви не внесли жодних змін!'
+              message: msg
         }
+      });
+        });
+    } else {
+      this.translate.get('ADMIN.TEST.ERR').subscribe(msg => {
+        this.dialog.open(ResponseMessageComponent, {
+          width: '350px',
+          data: {
+            message: msg
+      }
+    });
       });
     }
   },
     () => {
       this.dialogRef.close();
-        this.httpService.openTooltip('Зміни збережено');
+      this.translate.get('ADMIN.TEST.SAVED').subscribe(msg => {
+        this.httpService.openTooltip(msg);
+      });
     }
   );
 }

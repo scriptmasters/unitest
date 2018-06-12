@@ -14,7 +14,8 @@ import * as moment from 'moment';
 import { QuestionService } from './services/question.service';
 import { ResponseMessageComponent } from '../shared/response-message/response-message.component';
 import { MatDialog } from '@angular/material';
-
+import {TranslateService} from '@ngx-translate/core';
+import { DataService } from './services/data.service';
 @Component({
   selector: 'app-student',
   templateUrl: './student.component.html',
@@ -38,8 +39,14 @@ export class StudentComponent implements OnInit {
     private testPlayerService: TestPlayerService,
     private questionService: QuestionService,
     private router: Router,
-    public dialog: MatDialog
-  ) {}
+    public dialog: MatDialog, public translate: TranslateService,
+    public data: DataService) {
+    if (data.getLang() === null) {
+      data.setLang('uk');
+    } else {
+      data.setLang(data.getLang());
+    }
+  }
 
   ngOnInit() {
     this.authService.isLogged().subscribe((response: any) => {
@@ -152,11 +159,13 @@ export class StudentComponent implements OnInit {
     this.testPlayerService.startTest(studentId, testId).subscribe(
       (data: any) => {
         if (data.response === 'ok') {
-          this.dialog.open(ResponseMessageComponent, {
-            width: '400px',
-            data: {
-              message: 'Тест почався',
-            },
+          this.translate.get('TEST.START').subscribe(msg => {
+            this.dialog.open(ResponseMessageComponent, {
+              width: '400px',
+              data: {
+                message: msg,
+              },
+            });
           });
           this.studentService
             .getRecordsTest(testId)
@@ -183,21 +192,25 @@ export class StudentComponent implements OnInit {
           error.error.response ===
           'You cannot make the test due to your schedule'
         ) {
-          this.dialog.open(ResponseMessageComponent, {
-            width: '400px',
-            data: {
-              message: 'Не налаштовано деталі тесту',
-            },
+          this.translate.get('STUD.TP.CD').subscribe(m => {
+            this.dialog.open(ResponseMessageComponent, {
+              width: '400px',
+              data: {
+                message: m,
+              },
+            });
           });
         } else if (
           error.error.response ===
           'Error: The number of needed questions for the quiz is not suitable due to test details'
         ) {
-          this.dialog.open(ResponseMessageComponent, {
-            width: '400px',
-            data: {
-              message: 'Неправильна кількість запитань',
-            },
+          this.translate.get('STUD.TP.WA').subscribe(me => {
+            this.dialog.open(ResponseMessageComponent, {
+              width: '400px',
+              data: {
+                message: me,
+              },
+            });
           });
         } else if (
           error.error.response ===
@@ -212,11 +225,13 @@ export class StudentComponent implements OnInit {
         } else if (
           error.error.response === 'Not enough number of questions for quiz'
         ) {
-          this.dialog.open(ResponseMessageComponent, {
-            width: '400px',
-            data: {
-              message: 'Замало тестів',
-            },
+          this.translate.get('STUD.TP.NET').subscribe(q => {
+            this.dialog.open(ResponseMessageComponent, {
+              width: '400px',
+              data: {
+                message: q,
+              },
+            });
           });
         } else if (
           error.error.response === 'User is making test at current moment'
@@ -225,11 +240,13 @@ export class StudentComponent implements OnInit {
             if (info === +testId) {
               this.router.navigate(['student/test/' + testId]);
             } else {
-              this.dialog.open(ResponseMessageComponent, {
-                width: '400px',
-                data: {
-                  message: 'Ви здаєте тест в даний момент',
-                },
+              this.translate.get('STUD.TP.PASSING').subscribe(messaga => {
+                this.dialog.open(ResponseMessageComponent, {
+                  width: '400px',
+                  data: {
+                    message: messaga,
+                  },
+                });
               });
             }
           });
@@ -237,11 +254,13 @@ export class StudentComponent implements OnInit {
           error.error.response ===
           'You cannot make the test due to used all attempts'
         ) {
-          this.dialog.open(ResponseMessageComponent, {
-            width: '400px',
-            data: {
-              message: 'Ви використали всі спроби',
-            },
+          this.translate.get('STUD.TP.ATT').subscribe(a => {
+            this.dialog.open(ResponseMessageComponent, {
+              width: '400px',
+              data: {
+                message: a,
+              },
+            });
           });
         } else if (
           error.error.response ===
@@ -257,39 +276,46 @@ export class StudentComponent implements OnInit {
           error.error.response ===
           'Error: The number of needed questions for the quiz is not suitable due to test details'
         ) {
-          this.dialog.open(ResponseMessageComponent, {
-            width: '400px',
-            data: {
-              message:
-                'Кількість необхідних питань для вікторини не підходить завдяки деталям тесту',
-            },
+          this.translate.get('TP.Q').subscribe(tpq => {
+            this.dialog.open(ResponseMessageComponent, {
+              width: '400px',
+              data: {
+                message: tpq,
+              },
+            });
           });
         } else if (
           error.error.response ===
           'Test detail parameters not found for requested test'
         ) {
-          this.dialog.open(ResponseMessageComponent, {
-            width: '400px',
-            data: {
-              message:
-                'Параметри деталей перевірки не знайдено для запитуваного тесту',
-            },
+          this.translate.get('TDNF').subscribe(tdnf => {
+            this.dialog.open(ResponseMessageComponent, {
+              width: '400px',
+              data: {
+                message:
+                  tdnf,
+              },
+            });
           });
         } else if (error.error.response === 'Error. User made test recently') {
-          this.dialog.open(ResponseMessageComponent, {
-            width: '400px',
-            data: {
-              message: 'Ви здавали тест нещодавно, почекайте 10 хв',
-            },
+          this.translate.get('STUD.TP.WAIT').subscribe(wait => {
+            this.dialog.open(ResponseMessageComponent, {
+              width: '400px',
+              data: {
+                message: wait,
+              },
+            });
           });
         } else if (
           error.error.response === 'Not enough number of questions for quiz'
         ) {
-          this.dialog.open(ResponseMessageComponent, {
-            width: '400px',
-            data: {
-              message: 'Замало тестів',
-            },
+          this.translate.get('STUD.TP.NET').subscribe(k => {
+            this.dialog.open(ResponseMessageComponent, {
+              width: '400px',
+              data: {
+                message: k,
+              },
+            });
           });
         }
       }

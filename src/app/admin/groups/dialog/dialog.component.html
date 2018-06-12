@@ -1,54 +1,56 @@
 <form novalidate [formGroup]="myForm">
     <header class="form-row justify-content-between mb-2">
-        <h2 class="pl-1">{{data.group_id ? 'Редагувати' : 'Додати'}} групу</h2>
+        <h2 class="pl-1" *ngIf="data.group_id">{{ 'ADMIN.GROUP.EDIT' | translate}}</h2>
+        <h2 class="pl-1" *ngIf="!data.group_id">{{ 'ADMIN.GROUP.ADD' | translate}}</h2>
         <i class="fa fa-times close pr-1" aria-hidden="true" (click)="handleClose()"></i>
     </header>
     <div class="form-row">
         <div class="form-group col-12">
-            <label>Факультет</label>
+            <label>{{'ADMIN.FA' | translate}}</label>
             <select name="faculty" class="form-control col-md-12" [(ngModel)]="faculty" formControlName="facultyValid" required>
-                <option value="" disabled>Виберіть факультет</option>
+                <option value="" disabled>{{'ADMIN.GROUP.CHOOSEF' | translate}}</option>
                 <option *ngFor="let fac of facultiesArr" [selected]="fac.faculty_name === data.faculty">{{fac.faculty_name}}</option>
             </select>
             <div class="form-msg">
                 <small *ngIf="facultyValid.errors && (facultyValid.dirty || facultyValid.touched)">
-                <span *ngIf="facultyValid.errors['required']">Це поле є обовязковим</span>
+                <span *ngIf="facultyValid.errors['required']">{{'REQUIRED' | translate}}</span>
             </small>
             </div>
         </div>
     </div>
     <div class="form-row">
         <div class="form-group col-12">
-            <label>Спеціальність</label>
+            <label>{{'ADMIN.S' | translate}}</label>
             <select name="speciality" class="form-control col-md-12" [(ngModel)]="speciality" formControlName="specialityValid">
-                <option value="" disabled>Виберіть спеціальність</option>
+                <option value="" disabled>{{'ADMIN.GROUP.CHOOSES' | translate}}</option>
                 <option *ngFor="let spec of specialitiesArr" [selected]="spec.speciality_name === data.speciality">{{spec.speciality_name}}</option>
             </select>
             <div class="form-msg">
                 <small *ngIf="specialityValid.errors && (specialityValid.dirty || specialityValid.touched)">
-                    <span *ngIf="specialityValid.errors['required']">Це поле є обовязковим</span>
+                    <span *ngIf="specialityValid.errors['required']">{{'REQUIRED' | translate}}</span>
                 </small>
             </div>
         </div>
     </div>
     <div class="form-row">
         <div class="form-group col-12">
-            <label for="groupNameInp">Назва групи</label>
-            <input placeholder="Назва групи" class="form-control" [(ngModel)]="group" id="groupNameInp" formControlName="groupValid">
+            <label for="groupNameInp">{{'ADMIN.GROUP.NAME' | translate}}</label>
+            <input placeholder="{{'ADMIN.GROUP.NAME' | translate}}" class="form-control" [(ngModel)]="group" id="groupNameInp" formControlName="groupValid">
             <div class="form-msg">
                 <small *ngIf="groupValid.errors && (groupValid.dirty || groupValid.touched)">
-                <span *ngIf="groupValid.errors['required']">Це поле є обовязковим</span>
-                <span *ngIf="groupValid.errors['pattern']">Це поле повинне бути формату АА-00-0 або ААА-00-0</span>
+                <span *ngIf="groupValid.errors['required']">{{'REQUIRED' | translate}}</span>
+                <span *ngIf="groupValid.errors['pattern']">{{'ADMIN.GROUP.FORMAT' | translate}}</span>
             </small>
             </div>
         </div>
     </div>
     <div class="form-row d-flex justify-content-center">
         <div class="form-group col-sm-6 col-md-4">
-            <input type="button" class="btn btn-danger col-sm-12" value="Відмінити" (click)="handleClose()">
+            <input type="button" class="btn btn-danger col-sm-12" value="{{'ADMIN.CANCEL' | translate}}" (click)="handleClose()">
         </div>
         <div class="form-group col-sm-6 col-md-4">
-            <input type="submit" class="btn btn-success col-sm-12" (click)="close()" [value]="data.group_id ? 'Редагувати' : 'Зареєструвати'" [disabled]="!myForm.valid">
+            <input *ngIf="data.group_id" type="submit" class="btn btn-success col-sm-12" (click)="close()" [disabled]="!myForm.valid" value="{{'EDIT' | translate}}">
+            <input *ngIf="!data.group_id" type="submit" class="btn btn-success col-sm-12" (click)="close()" [disabled]="!myForm.valid" value="{{'ADMIN.SUBMIT' | translate}}">
         </div>
     </div>
 </form>

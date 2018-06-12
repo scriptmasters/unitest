@@ -15,6 +15,11 @@ export class ResultsService {
     return this.http.get(url);
   }
 
+  getTestById(testId) {
+    const url = 'test/getRecords/' + testId;
+    return this.http.get(url);
+  }
+
   getGroups() {
     const url = 'group/getRecords';
     return this.http.get(url);
@@ -34,4 +39,8 @@ export class ResultsService {
     return this.http.get(url);
   }
 
+  getResultTestIdsByGroup(groupId) {
+    const url = `Result/getResultTestIdsByGroup/${groupId}`;
+    return this.http.get(url);
+  }
 }

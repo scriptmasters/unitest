@@ -1,90 +1,92 @@
 <form [formGroup]="form" (ngSubmit)="onSubmit()">
     <header class="form-row justify-content-between mb-2">
-        <h2 class="pl-1">{{formData.timetable_id ? 'Редагувати' : 'Додати'}} розклад</h2>
+        <h2 class="pl-1" *ngIf="formData.timetable_id">{{'ADMIN.SC.EDIT' | translate}}</h2>
+        <h2 class="pl-1" *ngIf="!formData.timetable_id">{{'ADMIN.SC.ADD' | translate}}</h2>
         <i class="fa fa-close pr-1" (click)="onNoClick()"></i>
     </header>
     <div class="form-row">
         <div class="form-group col-lg-4">
-            <label>Назва групи</label>
+            <label>{{'ADMIN.GROUP.NAME' | translate}}</label>
             <select name="account" class="form-control col-md-12" [(ngModel)]="formData.group_id" formControlName="group">
-                <option value="">Виберіть групу</option>
+                <option value="">{{'ADMIN.CHOOSEG' |translate}}</option>
                 <option *ngFor="let group of data.groups" [value]="group.group_id">{{group.group_name}}</option>
             </select>
             <div class="form-msg">
                 <small *ngIf="form.get('group').invalid && (form.get('group').dirty || form.get('group').touched)">
-                <span *ngIf="form.get('group').hasError('required')">Назва групи є обов'язковою</span>
+                <span *ngIf="form.get('group').hasError('required')">{{'REQUIRED' | translate}}</span>
             </small>
             </div>
         </div>
         <div class="form-group col-lg-8">
-            <label>Назва предмету</label>
+            <label>{{'ADMIN.SUBJ.NAME' | translate}}</label>
             <select name="account" class="form-control col-md-12" [(ngModel)]="formData.subject_id" formControlName="subject" required>
-                <option value="">Виберіть предмет</option>
+                <option value="">{{'ADMIN.CS' | translate}}</option>
                 <option *ngFor="let subject of data.subjects" [value]="subject.subject_id">{{subject.subject_name}}</option>
             </select>
             <div class="form-msg">
                 <small *ngIf="form.get('subject').invalid && (form.get('subject').dirty || form.get('subject').touched)">
-                <span *ngIf="form.get('subject').hasError('required')">Назва предмету є обов'язковою</span>
+                <span *ngIf="form.get('subject').hasError('required')">{{'REQUIRED' | translate}}</span>
             </small>
             </div>
         </div>
     </div>
     <div class="form-row">
         <div class="form-group col-md-6">
-            <label>Виберіть дату початку</label>
+            <label>{{'SD' | translate}}</label>
             <input type="date" id="date" class="form-control col-md-12" [(ngModel)]="formData.start_date" formControlName="startDate">
             <div class="form-msg">
                 <small *ngIf="form.get('startDate').invalid && (form.get('startDate').dirty || form.get('startDate').touched)">
                     <span *ngIf="form.get('startDate').hasError('required')">
-                        Дата початку є обов`язковим полем
+                            {{'REQUIRED' | translate}}
                     </span>
                     <span *ngIf="form.get('startDate').hasError('invalidDate')">
-                        Дата початку не може бути ранішою за сьогоднішній день
+                        {{'DD' | translate}}
                     </span>
             </small>
             </div>
         </div>
         <div class="form-group col-md-6">
-            <label for="time">Виберіть час початку</label>
+            <label for="time">{{'ST' | translate}}</label>
             <input type="time" id="time" class="form-control  col-md-12" [(ngModel)]="formData.start_time" formControlName="startTime">
             <div class="form-msg">
                 <small *ngIf="form.get('startTime').invalid && (form.get('startTime').dirty || form.get('startTime').touched)">
-                <span *ngIf="form.get('startTime').hasError('required')">Час початку є обов`язковим полем</span>
+                <span *ngIf="form.get('startTime').hasError('required')">{{'REQUIRED' | translate}}</span>
             </small>
             </div>
         </div>
     </div>
     <div class="form-row">
         <div class="form-group col-md-6">
-            <label for="date">Виберіть дату кінця</label>
+            <label for="date">{{'DE' | translate}}</label>
             <input type="date" id="date" class="form-control col-md-12" [(ngModel)]="formData.end_date" formControlName="endDate">
             <div class="form-msg">
                 <small *ngIf="form.get('endDate').invalid && (form.get('endDate').dirty || form.get('startDate').touched)">
                     <span *ngIf="form.get('endDate').hasError('required')">
-                        Дата початку є обов`язковим полем
+                            {{'REQUIRED' | translate}}
                     </span>
                     <span *ngIf="form.get('endDate').hasError('earlierThanStartDate')">
-                        Дата кінця не може бути ранішою за дату початку
+                        {{'RD' | translate}}
                     </span>
                 </small>
             </div>
         </div>
         <div class="form-group col-md-6">
-            <label for="time">Виберіть час кінця</label>
+            <label for="time">{{'TE' | translate}}</label>
             <input type="time" id="time" class="form-control col-md-12" [(ngModel)]="formData.end_time" formControlName="endTime">
             <div class="form-msg">
                 <small *ngIf="form.get('endTime').invalid && (form.get('endTime').dirty || form.get('endTime').touched)">
-                <span *ngIf="form.get('endTime').hasError('required')">Час кінця є обов`язковим полем</span>
+                <span *ngIf="form.get('endTime').hasError('required')">{{'REQUIRED' | translate}}</span>
             </small>
             </div>
         </div>
     </div>
     <div class="form-row d-flex justify-content-center">
         <div class="form-group col-sm-6 col-md-4">
-            <input class="btn btn-danger col-sm-12" type="button" value="Очистити форму" (click)="onReset()">
+            <input class="btn btn-danger col-sm-12" type="button" value="{{'ADMIN.STUD.FCLEAR' | translate}}" (click)="onReset()">
         </div>
         <div class="form-group col-sm-6 col-md-4">
-            <input type="submit" [value]="formData.timetable_id ? 'Редагувати' : 'Зареєструвати'" class="btn btn-success col-sm-12" [disabled]="!form.valid">
+            <input *ngIf="formData.timetable_id" type="submit" class="btn btn-success col-sm-12" [disabled]="!form.valid" value="{{'EDIT' | translate}}">
+            <input *ngIf="!formData.timetable_id" type="submit" class="btn btn-success col-sm-12" [disabled]="!form.valid" value="{{'ADMIN.SUBMIT' | translate}}">
         </div>
     </div>
 </form>

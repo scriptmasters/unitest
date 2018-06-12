@@ -1,37 +1,38 @@
 <form [formGroup]="form" (ngSubmit)="onSubmit()" *ngIf="isLoaded">
     <header class="form-row justify-content-between mb-2">
-        <h2 class='pl-1'>{{specialitys[0].speciality_id ? 'Редагувати' : 'Додати'}} спеціальність</h2>
+        <h2 class='pl-1' *ngIf="specialitys[0].speciality_id">{{'ADMIN.ES' | translate}}</h2>
+        <h2 class='pl-1' *ngIf="!specialitys[0].speciality_id">{{'ADMIN.ASPEC' | translate}}</h2>
         <i class="fa fa-close pr-1" (click)="closeDialog()"></i>
     </header>
     <div class="form-row"
          [ngClass]="{'form-has-error': form.get('code').invalid && (form.get('code').dirty || form.get('code').touched)}">
         <div class="form-group col-12">
-            <label>Код спеціальності</label>
-            <input type="text" id="code" placeholder="Код спеціальності" class="form-control form-control-success"
+            <label>{{'ADMIN.SCODE' | translate}}</label>
+            <input type="text" id="code" placeholder="{{'ADMIN.SCODE' | translate}}" class="form-control form-control-success"
                    formControlName="code" [(ngModel)]="specialitys[0].speciality_code">
             <div class="form-msg">
                 <small *ngIf="form.get('code').invalid && (form.get('code').dirty || form.get('code').touched)">
-                    <span *ngIf="form.get('code')['errors']['required']">Дане поле є обов'язковим</span>
+                    <span *ngIf="form.get('code')['errors']['required']">{{'REQUIRED' | translate}}</span>
                     <span *ngIf="form.get('code')['errors']['maxlength']">
-            Поле повинно містити не більше ніж {{form.get('code')['errors']['maxlength']['requiredLength']}} символів
+            {{'NMT' | translate}} {{form.get('code')['errors']['maxlength']['requiredLength']}} {{'CHAR' | translate}}
           </span>
-                    <span *ngIf="form.get('code')['errors']['pattern']">Це поле повинне складатися не менш ніж з 3 цифер</span>
+                    <span *ngIf="form.get('code')['errors']['pattern']">{{'ND' | translate}}</span>
                 </small>
             </div>
         </div>
     </div>
     <div class="form-row" [ngClass]="{'form-has-error': form.get('name').invalid && form.get('name').touched}">
         <div class="form-group col-12">
-            <label>Опис спеціальності</label>
-            <input type="text" id="name" placeholder="Опис спеціальності" class="form-control form-control-warning "
+            <label>{{'DESCRIPTION' | translate}}</label>
+            <input type="text" id="name" placeholder="{{'DESCRIPTION' | translate}}" class="form-control form-control-warning "
                    formControlName="name" [(ngModel)]="specialitys[0].speciality_name">
             <div class="form-msg">
                 <small *ngIf="form.get('name').invalid && (form.get('name').dirty || form.get('name').touched)">
-                    <span *ngIf="form.get('name')['errors']['required']">Дане поле є обов'язковим</span>
+                    <span *ngIf="form.get('name')['errors']['required']">{{'REQUIRED' | translate}}</span>
                     <span *ngIf="form.get('name')['errors']['maxlength']">
-            Поле повинно містити не більше ніж {{form.get('name')['errors']['maxlength']['requiredLength']}} символів
+            {{'NMT' | translate}} {{form.get('name')['errors']['maxlength']['requiredLength']}} {{'CHAR' | translate}}
           </span>
-                    <span *ngIf="form.get('name')['errors']['pattern']">Це поле повинне складатися не менш ніж з 5 літер українського алфавіту та пробілів</span>
+                    <span *ngIf="form.get('name')['errors']['pattern']">{{'ERR5' | translate}}</span>
                 </small>
             </div>
 
@@ -39,11 +40,11 @@
     </div>
     <div class="form-row d-flex justify-content-center">
         <div class="form-group col-sm-6 col-md-4">
-            <input class="btn btn-danger col-sm-12" type="button" (click)="closeDialog()" value="Відмінити">
+            <input class="btn btn-danger col-sm-12" type="button" (click)="closeDialog()" value="{{'ADMIN.CANCEL' | translate}}">
         </div>
         <div class="form-group col-sm-6 col-md-4">
-            <input class="btn btn-success col-sm-12" type="submit"
-                   value="{{specialitys[0].speciality_id ? 'Редагувати' : 'Зареєструвати'}}" [disabled]="!form.valid">
+            <input *ngIf="specialitys[0].speciality_id" class="btn btn-success col-sm-12" type="submit" [disabled]="!form.valid" value="{{'EDIT' | translate}}">
+            <input *ngIf="!specialitys[0].speciality_id" class="btn btn-success col-sm-12" type="submit" [disabled]="!form.valid" value="{{'ADMIN.SUBMIT' | translate}}">
         </div>
     </div>
 </form>

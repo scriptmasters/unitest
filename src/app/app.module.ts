@@ -8,6 +8,8 @@ import {StudentGuard} from './student-guard.service';
 import {AdminGuard} from './admin-guard.service';
 import {SharedModule} from './shared/shared.module';
 import {PageNotFoundComponent} from './page-not-found/page-not-found.component';
+import {TranslateModule} from '@ngx-translate/core';
+
 
 @NgModule({
     imports: [
@@ -15,6 +17,7 @@ import {PageNotFoundComponent} from './page-not-found/page-not-found.component';
         BrowserAnimationsModule,
         AppRoutingModule,
         SharedModule,
+        TranslateModule.forRoot()
     ],
     entryComponents: [AppComponent],
     declarations: [AppComponent, PageNotFoundComponent],

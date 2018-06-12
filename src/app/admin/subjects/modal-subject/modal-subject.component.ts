@@ -5,6 +5,7 @@ import {ActivatedRoute} from '@angular/router';
 
 import {SubjectService} from '../services/subject.service';
 import {Subject} from '../subject';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
     selector: 'app-modal-subject',
@@ -15,11 +16,27 @@ export class ModalSubjectComponent implements OnInit {
     subject = [{subject_name: '', subject_description: '', subject_id: undefined}];
     form: FormGroup;
     isLoaded = true;
-
+    edited;
+    editError;
+    added;
+    addErr;
     constructor(private route: ActivatedRoute,
                 private matDialogRef: MatDialogRef<ModalSubjectComponent>,
                 @Inject(MAT_DIALOG_DATA) private data: any,
-                private subjectService: SubjectService) {
+                private subjectService: SubjectService,
+                private translate: TranslateService) {
+                    translate.get('ADMIN.SUBJ.EDITED').subscribe(msg => {
+                        this.edited = msg;
+                    });
+                    translate.get('ADMIN.SUBJ.ERREDIT').subscribe(msg => {
+                        this.editError = msg;
+                    });
+                    translate.get('ADMIN.SUBJ.ADDED').subscribe(msg => {
+                        this.added = msg;
+                    });
+                    translate.get('ADMIN.SUBJ.ADDERR').subscribe(msg => {
+                        this.addErr = msg;
+                    });
     }
 
     ngOnInit() {
@@ -61,12 +78,12 @@ export class ModalSubjectComponent implements OnInit {
                     () =>
                         this.matDialogRef.close({
                             status: 'SUCCESS',
-                            message: 'Предмет було успішно відредаговано!',
+                            message: this.edited,
                         }),
                     () =>
                         this.matDialogRef.close({
                             status: 'ERROR',
-                            message: 'Виникла помилка при редагуванні предмета!',
+                            message: this.editError,
                         })
                 );
         } else {
@@ -76,12 +93,12 @@ export class ModalSubjectComponent implements OnInit {
                     () =>
                         this.matDialogRef.close({
                             status: 'SUCCESS',
-                            message: 'Предмет було успішно додано!',
+                            message: this.added,
                         }),
                     () =>
                         this.matDialogRef.close({
                             status: 'ERROR',
-                            message: 'Виникла помилка при додаванні предмета!',
+                            message: this.addErr,
                         })
                 );
         }
