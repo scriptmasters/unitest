@@ -6,6 +6,8 @@ import {HttpClient} from '@angular/common/http';
 import {MatDialog, MatPaginatorIntl, MatSnackBar} from '@angular/material';
 import {PaginationService} from '../../../shared/pagination/pagination.service';
 import {ActivatedRoute, Router} from '@angular/router';
+import { TranslateService } from '@ngx-translate/core';
+import {TestResultGraphComponent} from '../modals/test-result-graph/test-result-graph.component';
 
 @Component({
   selector: 'app-filtered-result',
@@ -15,14 +17,21 @@ import {ActivatedRoute, Router} from '@angular/router';
 export class ResultComponent extends Pagination implements OnInit, OnDestroy {
   @Input() groups = [];
   @Input() groupId: number;
-  @Input() order: string;
   @Input() testId: number;
   @Input() tests = [];
   @Input() showResult: boolean;
   @Output() filterEmit = new EventEmitter<boolean>();
 
+  order: string;
   resultRecords = [];
   showNoDataBlock = false;
+  testName: string;
+
+  private orderTypes = ['student', 'studentDesc',
+                        'result', 'resultDesc',
+                        'quality', 'qualityDesc',
+                        'date' , 'dateDesc',
+                        'duration', 'durationDesc'];
 
   constructor(private resultService: ResultsService,
               public router: Router,
@@ -31,13 +40,15 @@ export class ResultComponent extends Pagination implements OnInit, OnDestroy {
               public http: HttpClient,
               public dialog: MatDialog,
               public pagService: PaginationService,
-              public snackBar: MatSnackBar) {
+              public snackBar: MatSnackBar,
+              public translate: TranslateService) {
       super(router, route, pagIntl, http, dialog, pagService, snackBar);
   }
 
   ngOnInit () {
     this.initLogic(true);
     this.pageSize = 5;
+    this.order = 'student';
   }
 
   ngOnDestroy () {
@@ -51,6 +62,8 @@ export class ResultComponent extends Pagination implements OnInit, OnDestroy {
   search() {
     this.showNoDataBlock = false;
     if (this.testId) {
+      this.initTestName();
+
       this.resultService.getTestRecordsByParams(this.testId, this.groupId).subscribe((records: any[]) => {
         if (records['response'] === 'no records') {
           this.resultRecords = [];
@@ -72,34 +85,122 @@ export class ResultComponent extends Pagination implements OnInit, OnDestroy {
               students.push(studentObj);
             });
             this.initResultRecords(records, students);
-            if (this.order) {
-              switch (this.order) {
-                case 'date': {
-                  this.resultRecords.sort((a, b) => {
-                    const dateA = new Date(a.session_date);
-                    const dateB = new Date(b.session_date);
-                    return dateA.getTime() - dateB.getTime();
-                  });
-                  break;
-                }
-                case 'rate': {
-                  this.resultRecords.sort((a, b) => a.result - b.result);
-                  break;
-                }
-                case 'userName': {
-                  this.resultRecords.sort((a, b) => {
-                    if (a.student_name < b.student_name) { return -1; }
-                    if (a.student_name > b.student_name) { return 1; }
-                    return 0;
-                  });
-                  break;
-                }
-              }
-            }
+            this.sortItems();
           });
         }
       });
     }
+  }
+  setOrder(orderType: string) {
+    this.order = orderType;
+    this.sortItems();
+  }
+
+  sortItems() {
+    if (this.order) {
+      switch (this.order) {
+        case 'student': {
+          this.resultRecords.sort((a, b) => a.student_name.localeCompare(b.student_name));
+          break;
+        }
+        case 'studentDesc': {
+          this.resultRecords.sort((a, b) => b.student_name.localeCompare(a.student_name));
+          break;
+        }
+        case 'result': {
+          this.resultRecords.sort((a, b) => a.result - b.result);
+          break;
+        }
+        case 'resultDesc': {
+          this.resultRecords.sort((a, b) => b.result - a.result);
+          break;
+        }
+        case 'quality': {
+          this.resultRecords.sort((a, b) => {
+            return parseInt(a.quality, 10) - parseInt(b.quality, 10);
+          });
+          break;
+        }
+        case 'qualityDesc': {
+          this.resultRecords.sort((a, b) => {
+            return parseInt(b.quality, 10) - parseInt(a.quality, 10);
+          });
+          break;
+        }
+        case 'date': {
+          this.resultRecords.sort((a, b) => {
+            const dateA = new Date(a.session_date);
+            const dateB = new Date(b.session_date);
+            return dateA.getTime() - dateB.getTime();
+          });
+          break;
+        }
+        case 'dateDesc': {
+          this.resultRecords.sort((a, b) => {
+            const dateA = new Date(a.session_date);
+            const dateB = new Date(b.session_date);
+            return dateB.getTime() - dateA.getTime();
+          });
+          break;
+        }
+        case 'duration': {
+          this.resultRecords.sort((a, b) => {
+            const dateA = Number(a.duration.split(':')[0]) * 3600 +
+                          Number(a.duration.split(':')[1]) * 60 +
+                          Number(a.duration.split(':')[2]);
+            const dateB = Number(b.duration.split(':')[0]) * 3600 +
+                          Number(b.duration.split(':')[1]) * 60 +
+                          Number(b.duration.split(':')[2]);
+            return dateA - dateB;
+          });
+          break;
+        }
+        case 'durationDesc': {
+          this.resultRecords.sort((a, b) => {
+            const dateA = Number(a.duration.split(':')[0]) * 3600 +
+                          Number(a.duration.split(':')[1]) * 60 +
+                          Number(a.duration.split(':')[2]);
+            const dateB = Number(b.duration.split(':')[0]) * 3600 +
+                          Number(b.duration.split(':')[1]) * 60 +
+                          Number(b.duration.split(':')[2]);
+            return dateB - dateA;
+          });
+          break;
+        }
+        case 'time': {
+          this.resultRecords.sort((a, b) => {
+            const dateA = Number(a.time.split(':')[0]) * 3600 +
+              Number(a.time.split(':')[1]) * 60 +
+              Number(a.time.split(':')[2]);
+            const dateB = Number(b.time.split(':')[0]) * 3600 +
+              Number(b.time.split(':')[1]) * 60 +
+              Number(b.time.split(':')[2]);
+            return dateB - dateA;
+          });
+          break;
+        }
+        case 'timeDesc': {
+          this.resultRecords.sort((a, b) => {
+            const dateA = Number(a.time.split(':')[0]) * 3600 +
+              Number(a.time.split(':')[1]) * 60 +
+              Number(a.time.split(':')[2]);
+            const dateB = Number(b.time.split(':')[0]) * 3600 +
+              Number(b.time.split(':')[1]) * 60 +
+              Number(b.time.split(':')[2]);
+            return dateA - dateB;
+          });
+          break;
+        }
+      }
+    }
+  }
+
+  openChartDialog() {
+    this.dialog.open(TestResultGraphComponent, {
+      disableClose: true,
+      width: '75%',
+      data: this.resultRecords
+    });
   }
 
   private initResultRecords(records: any[], students: any[]) {
@@ -135,5 +236,12 @@ export class ResultComponent extends Pagination implements OnInit, OnDestroy {
 
   private getQuality(result: number, maxRate: number): string {
     return Math.round(result / maxRate * 100) + '%';
+  }
+
+  private initTestName(): void {
+    const testItem = this.tests.find(x  => x.test_id === this.testId);
+    if (testItem) {
+      this.testName = testItem.test_name;
+    }
   }
 }

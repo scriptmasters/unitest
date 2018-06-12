@@ -1,25 +1,25 @@
 <form [formGroup]="rForm">
     <header class="form-row justify-content-between mb-2">
-        <h2 class="pl-1">Редагувати тест</h2>
+        <h2 class="pl-1">{{'ET' | translate}}</h2>
         <i class="fa fa-close pr-1" (click)="onNoClick()"></i>
     </header>
     <div class="form-row">
         <div class="form-group col-12">
-            <label for="name">Назава тесту</label>
+            <label for="name">{{'ADMIN.NT' | translate}}</label>
             <input type="text" class="form-control" id="name" formControlName="test_name">
             <div class="form-msg">
                 <small *ngIf="test_name.invalid && (test_name.dirty || test_name.touched)">
                     <span *ngIf="test_name.errors.required">
-                        Поле обов'язкове для заповнення.
+                        {{'REQUIRED' | translate}}
                     </span>
                     <span *ngIf="test_name.errors.minlength">
-                        Це поле має містити 2 або більше символів.
+                        {{'MT2' | translate}}
                     </span>
                     <span *ngIf="test_name.errors.maxlength">
-                        Це поле може містити не більше 70 символів.
+                        {{'N70' | translate}}
                     </span>
                     <span *ngIf="test_name.errors.forbiddenChar">
-                        Дане поле не може починатися з пробілу.
+                        {{'ESPACE' | translate}}
                     </span>
                 </small>
             </div>
@@ -28,18 +28,18 @@
 
     <div class="form-row">
         <div class="form-group col-12">
-            <label for="tasks">Кількість завдань</label>
+            <label for="tasks">{{'KZ' | translate}}</label>
             <input type="text" class="form-control" id="tasks" formControlName="tasks">
             <div class="form-msg">
                 <small *ngIf="tasks.invalid && (tasks.dirty || tasks.touched)">
                 <span *ngIf="tasks.errors.required">
-                    Поле обов'язкове для заповнення.
+                    {{'REQUIRED' | translate}}
                 </span>
                 <span *ngIf="tasks.errors.maxlength">
-                    Максимум 3 символи.
+                    {{'M3' | translate}}
                 </span>
                 <span *ngIf="tasks.errors.forbiddenChar">
-                    Дане поле може містити лише цифри.
+                    {{'OD' | translate}}
                 </span>
             </small>
             </div>
@@ -48,18 +48,18 @@
 
     <div class="form-row">
         <div class="form-group col-12">
-            <label for="duration">Тривалість тесту, (хвилин)</label>
+            <label for="duration">{{'ADMIN.TEST.DURATION' | translate}}</label>
             <input type="text" class="form-control" id="duration" formControlName="time_for_test">
             <div class="form-msg">
                 <small *ngIf="time_for_test.invalid && (time_for_test.dirty || time_for_test.touched)">
                     <span *ngIf="time_for_test.errors.required">
-                        Поле обов'язкове для заповнення.
+                        {{'REQUIRED' | translate}}
                     </span>
                     <span *ngIf="time_for_test.errors.maxlength">
-                        Максимум 3 цифри.
+                        {{'M3' | translate}}
                     </span>
                     <span *ngIf="time_for_test.errors.forbiddenChar">
-                        Дане поле може містити лише цифри.
+                        {{'OD' | translate}}
                     </span>
                 </small>
             </div>
@@ -68,18 +68,18 @@
 
     <div class="form-row">
         <div class="form-group col-12">
-            <label for="attempts">Кількість спроб</label>
+            <label for="attempts">{{'KS' | translate}}</label>
             <input type="text" class="form-control" id="attempts" formControlName="attempts">
             <div class="form-msg">
                 <small *ngIf="attempts.invalid && (attempts.dirty || attempts.touched)">
                     <span *ngIf="attempts.errors.required">
-                        Поле обов'язкове для заповнення.
+                        {{'REQUIRED' | translate}}
                     </span>
                     <span *ngIf="attempts.errors.maxlength">
-                        Максимум 2 символи.
+                        {{'MT2' | translate}}
                     </span>
                     <span *ngIf="attempts.errors.forbiddenChar">
-                        Дане поле може містити лише цифри.
+                        {{'OD' | translate}}
                     </span>
                 </small>
             </div>
@@ -87,26 +87,26 @@
     </div>
 
     <div class="form-group">
-        <label>Предмет</label>
+        <label>{{'S' | translate}}</label>
         <select class="form-control" formControlName="subject_id" [(ngModel)]="data.test.subject_id">
           <option *ngFor="let s of subjects" [value]="s.subject_id">{{s.subject_name}}</option>
         </select>
         <div class="form-msg">
           <small *ngIf="subject_id.invalid && subject_id.touched">
-            <div *ngIf="subject_id.errors.required">Поле обов'язкове для заповнення.</div>
+            <div *ngIf="subject_id.errors.required">{{'REQUIRED' | translate}}</div>
           </small>
         </div>
       </div>
 
     <div class="form-row">
         <div class="form-group col-12">
-            <label>Статус</label>
+            <label>{{'ADMIN.TEST.STATUS' | translate}}</label>
             <select class="form-control" formControlName="enabled" required>
                 <option *ngFor="let s of enabled" [value]="s.value">{{s.text}}</option>
             </select>
             <div class="form-msg">
                 <small *ngIf="status.invalid && status.touched">
-                    <span *ngIf="status.errors.required">Поле обов'язкове для заповнення.</span>
+                    <span *ngIf="status.errors.required">{{'REQUIRED' | translate}}</span>
                 </small>
             </div>
         </div>
@@ -114,10 +114,10 @@
 
     <div class="form-row d-flex justify-content-center">
         <div class="form-group col-sm-6 col-md-4">
-            <button class="btn btn-danger col-sm-12" (click)="onNoClick()">Відмінити</button>
+            <button class="btn btn-danger col-sm-12" (click)="onNoClick()">{{'ADMIN.CANCEL' | translate}}</button>
         </div>
         <div class="form-group col-sm-6 col-md-4">
-            <button class="btn btn-success col-sm-12" (click)="onSubmit()" [disabled]="!rForm.valid">Редагувати</button>
+            <button class="btn btn-success col-sm-12" (click)="onSubmit()" [disabled]="!rForm.valid">{{'EDIT' | translate}}</button>
         </div>
     </div>
 </form>

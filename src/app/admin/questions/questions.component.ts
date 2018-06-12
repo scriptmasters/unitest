@@ -89,7 +89,7 @@ export class QuestionsComponent extends Pagination implements OnInit, OnDestroy 
     }
 
 
-    createQuestionsTableBySelTestIndex(selTestIndex, limit = 1000, offset = 0) {
+    createQuestionsTableBySelTestIndex(selTestIndex) {
         this.startPage = false;
 
         if (this.testListBySelSubject[0].test_name !== 'Виберіть спочатку предмет') {
@@ -126,7 +126,7 @@ export class QuestionsComponent extends Pagination implements OnInit, OnDestroy 
                 height: '600px',
                 width: '1000px',
                 disableClose: true,
-                data: {sel_TestId: this.testId, sel_TestName: this.testName}
+                data: {sel_TestId: this.testId, sel_TestName: this.testName, questions: this.questions}
             });
             matDialogRef.afterClosed().subscribe(() => this.createQuestionsTableByTestId(this.testId));
 
@@ -141,7 +141,7 @@ export class QuestionsComponent extends Pagination implements OnInit, OnDestroy 
             height: '600px',
             width: '1000px',
             disableClose: true,
-            data: {sel_quest: selQuestion, sel_TestName: this.testName}
+            data: {sel_quest: selQuestion, sel_TestName: this.testName, questions: this.questions}
         });
         matDialogRef.afterClosed().subscribe(() => this.createQuestionsTableByTestId(selQuestion.test_id));
     }

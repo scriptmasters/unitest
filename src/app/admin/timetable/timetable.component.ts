@@ -8,6 +8,7 @@ import {ResponseMessageComponent} from '../../shared/response-message/response-m
 import {Pagination} from '../../shared/pagination/pagination.class';
 import {HttpClient} from '@angular/common/http';
 import {PaginationService} from '../../shared/pagination/pagination.service';
+import { TranslateService } from '@ngx-translate/core';
 
 interface TableItemModified extends TableItem {
     subject_name: string;
@@ -34,7 +35,8 @@ export class TimetableComponent extends Pagination implements OnInit, OnDestroy 
                 public http: HttpClient,
                 public dialog: MatDialog,
                 public pagService: PaginationService,
-                public snackBar: MatSnackBar) {
+                public snackBar: MatSnackBar,
+                private translate: TranslateService) {
         super(router, route, pagIntl, http, dialog, pagService, snackBar);
         const onSuccess = async data => {
             await tableService
@@ -62,11 +64,13 @@ export class TimetableComponent extends Pagination implements OnInit, OnDestroy 
             // If no records found
             if (!Array.isArray(data)) {
                 this.table = [];
-                this.dialog.open(ResponseMessageComponent, {
-                    width: '400px',
-                    data: {
-                        message: 'За даним запитом розкладу не знайдено'
-                    }
+                this.translate.get('ADMIN.SC.NF').subscribe(msg => {
+                    this.dialog.open(ResponseMessageComponent, {
+                        width: '400px',
+                        data: {
+                            message: msg
+                        }
+                    });
                 });
                 return;
             }
@@ -111,18 +115,22 @@ export class TimetableComponent extends Pagination implements OnInit, OnDestroy 
                     this.tableService.deleteTableItem(timeEntity.timetable_id).subscribe(
                         () => {
                             this.table.splice(this.table.indexOf(timeEntity), 1);
-                            this.openTooltip('Розклад успішно видалено');
+                            this.translate.get('ADMIN.SC.DELETED').subscribe(m => {
+                                this.openTooltip(m);
+                            });
                             if (this.pagService.paginatedLength === 1) {
                                 this.paginator.previousPage();
                             }
                         },
                         err => {
                             console.error('err:', err);
-                            this.dialog.open(ResponseMessageComponent, {
-                                width: '400px',
-                                data: {
-                                    message: 'Виникла помилка при видаленні розкладу!'
-                                }
+                            this.translate.get('ADMIN.SC.ERR').subscribe(mg => {
+                                this.dialog.open(ResponseMessageComponent, {
+                                    width: '400px',
+                                    data: {
+                                        message: mg
+                                    }
+                                });
                             });
                         }
                     );
@@ -152,10 +160,14 @@ export class TimetableComponent extends Pagination implements OnInit, OnDestroy 
         dialogRef.afterClosed().subscribe(result => {
                 if (result) {
                     if (result === 'Редагування успішно завершено') {
-                        this.openTooltip('Редагування успішно завершено');
+                        this.translate.get('ADMIN.SC.EDITED').subscribe(m => {
+                            this.openTooltip(m);
+                        });
                     } else {
                         if (result === 'Додавання успішно завершено') {
-                            this.openTooltip('Додавання успішно завершено');
+                            this.translate.get('ADMIN.SC.ADDED').subscribe(ms => {
+                                this.openTooltip(ms);
+                            });
                         } else {
                             this.dialog.open(ResponseMessageComponent, {
                                 width: '400px',

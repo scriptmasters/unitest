@@ -4,6 +4,7 @@ import {TableService} from '../timetable.service';
 import {matchDates, startDateValidator} from './date-validation';
 
 import {FormControl, FormGroup, Validators} from '@angular/forms';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-timetable-modal',
@@ -26,7 +27,7 @@ export class TimeTableModalComponent implements OnInit {
   constructor(
     public dialogRef: MatDialogRef<TimeTableModalComponent>,
     public tableService: TableService,
-    @Inject(MAT_DIALOG_DATA) public data: any
+    @Inject(MAT_DIALOG_DATA) public data: any, private translate: TranslateService
   ) {
     if (this.data.tableItem instanceof Object) {
       // Create copy to prevent editing of table item object directly
@@ -98,7 +99,9 @@ export class TimeTableModalComponent implements OnInit {
             return this.dialogRef.close('Редагування успішно завершено');
           }
           return this.dialogRef.close('Виникла помилка при редагуванні. Повторіть спробу пізніше');
-        }, () => this.dialogRef.close('Виникла помилка при редагуванні. Повторіть спробу пізніше'));
+        }, () =>  this.translate.get('ADMIN.SC.ADERR').subscribe(m => {
+          this.dialogRef.close(m);
+        }));
       return;
     }
 
@@ -128,6 +131,8 @@ export class TimeTableModalComponent implements OnInit {
         );
 
         return this.dialogRef.close('Додавання успішно завершено');
-      }, () => this.dialogRef.close('Виникла помилка при додаванні. Повторіть спробу пізніше'));
+      }, () =>  this.translate.get('ADMIN.SC.ADERR').subscribe(m => {
+        this.dialogRef.close(m);
+      }));
   }
 }

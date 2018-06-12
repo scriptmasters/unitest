@@ -84,14 +84,12 @@ export class EditQuestionComponent implements OnInit {
     const img = event.target.files[0];
     fileReader.onload = () => {
       this.edited_question.attachment = fileReader.result;
-      this.sel_question.attachment = this.edited_question.attachment;
     };
     fileReader.readAsDataURL(img);
   }
 
   resetQuestionAttachment() {
     this.edited_question.attachment = '';
-    this.sel_question.attachment = '';
   }
 
   getAnswersOfSelectedQuestion(question_id) {
@@ -106,7 +104,7 @@ export class EditQuestionComponent implements OnInit {
           const NUMBER_PATTERN = /[-+]?[0-9]*\.[0-9]+$|^[-+]?[0-9]+\.$|^[-+]?[0-9]*$/;
           this.form = new FormGroup({
           '0': new FormControl(this.editedAnswersArray[0].answer_text, [Validators.required, Validators.pattern(NUMBER_PATTERN)]),
-          '1': new FormControl(this.editedAnswersArray[1].answer_text, [Validators.required, Validators.pattern(NUMBER_PATTERN)])
+          '1': new FormControl(this.editedAnswersArray[1].answer_text, [Validators.required, Validators.pattern(NUMBER_PATTERN)]),
           });
         }
       } else {
@@ -227,11 +225,9 @@ export class EditQuestionComponent implements OnInit {
   setAnsverText(checkedIndex, event) {
     const value = event.target.value;
     this.editedAnswersArray[checkedIndex].answer_text = value;
-
     if (this.correctAnswerInputType === 'num') {
       this.numericalIntervalLimitsValidator();
     }
-
   }
 
 
@@ -246,10 +242,7 @@ export class EditQuestionComponent implements OnInit {
       this.editedAnswersArray[checkedIndex].true_answer =
         this.editedAnswersArray[checkedIndex].true_answer === '0' ? '1' : '0';
     }
-    if (
-      this.correctAnswerInputType === 'txt' ||
-      this.correctAnswerInputType === 'num'
-    ) {
+    if (this.correctAnswerInputType === 'txt' || this.correctAnswerInputType === 'num') {
       for (let index = 0; index < this.editedAnswersArray.length; index++) {
         this.editedAnswersArray[index].true_answer = '1';
       }
@@ -304,9 +297,8 @@ export class EditQuestionComponent implements OnInit {
 
 
   editedQuestionSubmit() {
-    let isQuestionEdited = false;
-    let isAnyAnswerEdited = false;
     let editedAnswersNumber = 0;
+    let identicalAnswersNumber = 0;
     const questionJSON = JSON.stringify({
       question_id: this.sel_question_id,
       test_id: this.data.sel_quest.test_id,
@@ -318,50 +310,60 @@ export class EditQuestionComponent implements OnInit {
 
       // updates question to database if it was changed
       if ( JSON.stringify(this.edited_question) !== JSON.stringify(this.sel_question) ) {
-              this.questionService.editQuestion(this.sel_question_id, questionJSON)
+        // checks if there is another question (question_id) with the same questionText
+        if ( this.data.questions.some(element => element.question_text === this.edited_question.question_text &&
+                                                 element.question_id !== this.edited_question.question_id )
+        ) { this.openModalMessage('Завдання з такою умовою вже існує! Введіть іншу умову завдання.');
+        } else {
+          this.questionService.editQuestion(this.sel_question_id, questionJSON)
               .subscribe((editedQuestion: IQuestion) => {
                 this.openTooltip('Завдання відредаговано успішно!');
-                isQuestionEdited = true;
                 this.matDialogRefPopUp.close();
               });
+        }
+      } else { // if question and any answers weren't edited
+        if ( '[' + this.receivedAnswersArray.toString() + ']' === JSON.stringify(this.editedAnswersArray) ) {
+          const dialogExit = this.dialog.open(DeleteConfirmComponent, {
+            width: '400px', data: {message: 'Завдання не відредаговано! Ви бажаєте вийти?'}
+          });
+          dialogExit.afterClosed().subscribe( (dialogResponse: boolean) => {
+          if (dialogResponse) { this.matDialogRefPopUp.close(); } });
+        }
       }
 
     this.editedAnswersArray.forEach((answer, index) => {
       answer.question_id = this.sel_question_id;
-      // updates only those answers that don't coincide with any of the received
-      if (  this.receivedAnswersArray.every(element =>  element !== JSON.stringify(answer) ) ) {
-
-        isAnyAnswerEdited = true;
-
-        this.questionService.editAnswer(answer.answer_id, answer).subscribe(
-            (editedAnswer: IAnswer) => editedAnswer,
-            () => { this.openModalMessage('Виникла помилка при редагуванні цієї відповіді в базі даних!'); },
-            () => { // onComplete
-              editedAnswersNumber += 1;
-              if (editedAnswersNumber === 1) {
-                this.openTooltip('Відповіді відредаговано успішно!');
-                this.matDialogRefPopUp.close();
+        // checks if there is another answer (answer_id) with the same answerText
+        if ( this.editedAnswersArray.some(element => element.answer_text === answer.answer_text &&
+                                                     element.answer_id !== answer.answer_id )
+        ) {
+          identicalAnswersNumber += 1;
+          if (identicalAnswersNumber === 1) {
+              this.openModalMessage('Дублювання відповідей! Вiдредагуйте однакові відповіді.');
+          }
+        }
+      if (index === this.editedAnswersArray.length - 1 && identicalAnswersNumber === 0) {
+        this.editedAnswersArray.forEach((answ, i) => {
+          // updates only those answers that were changed
+          if (  this.receivedAnswersArray.every(element =>  element !== JSON.stringify(answ) ) ) {
+            this.questionService.editAnswer(answ.answer_id, answ).subscribe(
+              (editedAnswer: IAnswer) => { // each edited answer that returned from data base is rewrited to receivedAnswersArray
+                this.receivedAnswersArray[i] = JSON.stringify(editedAnswer);
+              },
+              () => { this.openModalMessage('Виникла помилка при редагуванні цієї відповіді в базі даних!'); },
+              () => { // onComplete
+                editedAnswersNumber += 1;
+                if (editedAnswersNumber === 1) {
+                  this.openTooltip('Відповіді відредаговано успішно!');
+                  this.matDialogRefPopUp.close();
+                }
               }
-            }
-        );
-      }
-
-      if ( (index === this.editedAnswersArray.length - 1 ) && !isQuestionEdited && !isAnyAnswerEdited ) {
-        const dialogExit = this.dialog.open(DeleteConfirmComponent, {
-          width: '400px', data: {message: 'Завдання та відповіді не відредаговано! Ви бажаєте вийти?'}
-        });
-        dialogExit.afterClosed().subscribe( (dialogResponse: boolean) => {
-          if (dialogResponse) { this.matDialogRefPopUp.close(); }
+            );
+          }
         });
       }
     });
 
-    if (  this.editedAnswersArray.length === 0) {
-        const dialogExit = this.dialog.open(DeleteConfirmComponent, {
-          width: '400px', data: {message: 'Завдання та відповіді не відредаговано! Ви бажаєте вийти?'}
-        });
-        dialogExit.afterClosed().subscribe( (dialogResponse: boolean) => { if (dialogResponse) { this.matDialogRefPopUp.close(); } });
-    }
   }
 
 

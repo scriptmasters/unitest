@@ -2,8 +2,7 @@ import {AddGroup, DelGroup, Faculties, Groups, Specialities} from './interface';
 import {Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {Observable} from 'rxjs/Observable';
-import {BehaviorSubject} from 'rxjs/BehaviorSubject';
-
+import 'rxjs/add/operator/switchMap';
 @Injectable()
 
 export class GroupsService {
@@ -14,23 +13,6 @@ export class GroupsService {
     })
   };
   constructor(private http: HttpClient) {}
-
-  private searchFilterSource = new BehaviorSubject<string>('');
-  searchFilterService = this.searchFilterSource.asObservable();
-
-  private facultyFilterSource = new BehaviorSubject<string>('Виберіть факультет');
-  facultyFilterService = this.facultyFilterSource.asObservable();
-
-  private specialityFilterSource = new BehaviorSubject<string>('Виберіть спецільність');
-  specialityFilterService = this.specialityFilterSource.asObservable();
-
-  changeFacultyFilter(data: string) {
-    this.facultyFilterSource.next(data);
-  }
-
-  changeSpecialityFilter(data: string) {
-    this.specialityFilterSource.next(data);
-  }
 
   _getGroup(): Observable<Groups[]> {
     return this.http.get<Groups[]>('group/getRecords/', this.header);

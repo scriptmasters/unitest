@@ -1,4 +1,4 @@
-import { Component, HostListener, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit, OnDestroy } from '@angular/core';
 import { TestPlayerService } from '../services/test-player.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatDialog } from '@angular/material';
@@ -13,13 +13,14 @@ import { QuestionService } from '../services/question.service';
 import { ConfirmMessageTestComponent } from './modal/confirm-message-test/confirm-message-test.component';
 import { AlertMessageTestComponent } from './modal/alert-message-test/alert-message-test.component';
 import { StudentService } from '../student.service';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-test-player',
   templateUrl: './test-player.component.html',
-  styleUrls: ['./test-player.component.scss']
+  styleUrls: ['./test-player.component.scss'],
 })
-export class TestPlayerComponent implements OnInit {
+export class TestPlayerComponent implements OnInit, OnDestroy {
   questions;
   userAnswers = {};
   userCheckboxAnswers = {};
@@ -31,7 +32,7 @@ export class TestPlayerComponent implements OnInit {
   time: ITimeStamp = {
     unix_timestamp: 0,
     offset: 0,
-    curtime: 0
+    curtime: 0,
   };
   startDate: any;
   endDate: any;
@@ -39,7 +40,7 @@ export class TestPlayerComponent implements OnInit {
   timer: ITimer = {
     hours: 0,
     minutes: 0,
-    seconds: 0
+    seconds: 0,
   };
   studentId: number;
   timeOfTest: number;
@@ -52,7 +53,7 @@ export class TestPlayerComponent implements OnInit {
     student_name: '',
     student_fname: '',
     group_id: 0,
-    photo: ''
+    photo: '',
   };
 
   constructor(
@@ -64,25 +65,34 @@ export class TestPlayerComponent implements OnInit {
     private router: Router,
     private dialog: MatDialog,
     private authService: AuthService,
-    private data: DataService
+    private data: DataService,
+    public translate: TranslateService
   ) {
     const idTest = +this.route.snapshot.paramMap.get('id');
     this.studentService.getInfoTest().subscribe(startTestId => {
       if (startTestId !== idTest) {
         clearInterval(this.start);
-        this.timerService.clearTime().subscribe(() => {
-        });
+        this.timerService
+          .clearTime()
+          .subscribe(() => {});
         this.router.navigate(['student']);
       }
     });
-    this.start = setInterval(() => {
-      this.timerActions();
-    }, 1000);
+
+    if (this.start === undefined) {
+      this.start = setInterval(() => {
+        this.timerActions();
+      }, 1000);
+    }
+
   }
 
   ngOnInit() {
     this.getQuestions();
     this.getTime();
+  }
+  ngOnDestroy() {
+    clearInterval(this.start);
   }
 
   @HostListener('window:beforeunload', ['$event'])
@@ -135,31 +145,34 @@ export class TestPlayerComponent implements OnInit {
     }
   }
 
-  finishTest(timeEnd) {
+  finishTest(timeEnd?) {
     let matDialogRef;
     if (timeEnd) {
-      matDialogRef = this.dialog.open(AlertMessageTestComponent, {
-        disableClose: true,
-        width: '400px',
-        data: {
-          message: 'Час тесту вичерпано!'
-        }
+      this.translate.get('STUD.TP.TIME').subscribe(time => {
+        matDialogRef = this.dialog.open(AlertMessageTestComponent, {
+          disableClose: true,
+          width: '400px',
+          data: {
+            message: time,
+          },
+        });
       });
     } else {
-      matDialogRef = this.dialog.open(ConfirmMessageTestComponent, {
-        disableClose: true,
-        width: '400px',
-        data: {
-          message: 'Ви дійсно хочете завершити тест?'
-        }
+      this.translate.get('STUD.TP.QF').subscribe(qf => {
+        matDialogRef = this.dialog.open(ConfirmMessageTestComponent, {
+          disableClose: true,
+          width: '400px',
+          data: {
+            message: qf,
+          },
+        });
       });
     }
     matDialogRef.afterClosed().subscribe((res: boolean) => {
       if (res) {
         clearInterval(this.start);
         this.studentService.infoTestId = null;
-        this.timerService.clearTime().subscribe(() => {
-        });
+        this.timerService.clearTime().subscribe(() => {});
         this.testPlayerService
           .checkResult(this.userAnswers)
           .subscribe((response: any) => {
@@ -219,18 +232,21 @@ export class TestPlayerComponent implements OnInit {
       this.timer.seconds = '00';
       this.timerService
         .clearTime()
-        .subscribe(response => console.log(response));
+        .subscribe( () => {});
       clearInterval(this.start);
       this.finishTest(true);
     }
   }
 
   getTime() {
+    // Get timer for test and Subject_id
     this.route.params.subscribe(params => {
       this.timerService.getTest(params['id']).subscribe(test => {
-        this.timeOfTest = test[0].time_for_test * 60 * 1000;
-        this.nameOfTest = test[0].test_name;
-        this.getEndTimeOfTest(test[0].subject_id);
+        if (test[0].time_for_test !== undefined) {
+          this.timeOfTest = test[0].time_for_test * 60 * 1000;
+          this.nameOfTest = test[0].test_name;
+          this.getEndTimeOfTest(test[0].subject_id);
+        }
       });
     });
   }
@@ -250,7 +266,7 @@ export class TestPlayerComponent implements OnInit {
     });
   }
 
-  // Рахуємо скільки часу залишилось
+  // Count time left
   countTimeLeft() {
     // Get current time
     this.timerService.getTimeStamp().subscribe(timeBegin => {
@@ -270,11 +286,10 @@ export class TestPlayerComponent implements OnInit {
       if (endOfTest.response === 'Empty slot') {
         this.timerService
           .saveEndTime({
-            end: this.startDate + this.distance
+            end: this.startDate + this.distance,
           })
           .subscribe(
-            () => {
-            },
+            () => {},
             error => {
               console.error(error.error.response);
             }
@@ -286,8 +301,9 @@ export class TestPlayerComponent implements OnInit {
           this.distance = this.endDate - this.startDate;
         }
         if (this.distance === undefined) {
-          this.timerService.clearTime().subscribe(() => {
-          });
+          this.timerService
+            .clearTime()
+            .subscribe(() => {});
         }
       }
     });

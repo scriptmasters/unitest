@@ -1,5 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {AuthService} from '../auth/auth.service';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-admin',
@@ -8,7 +9,9 @@ import {AuthService} from '../auth/auth.service';
 })
 export class AdminComponent implements OnInit {
 
-  constructor(public authService: AuthService ) { }
+  constructor(public authService: AuthService, public translate: TranslateService) {
+    translate.use('en');
+  }
 
   ngOnInit() {
 

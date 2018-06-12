@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit} from '@angular/core';
 import { StatisticService } from './statistic.service';
 import { FacultiesService } from '../faculties/services/faculties.service';
 import { Faculties } from '../faculties/facultiesInterface';
 import { Speciality } from '../specialities/specialityInterface';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
     selector: 'app-statistic',
@@ -11,7 +12,7 @@ import { Speciality } from '../specialities/specialityInterface';
 })
 export class StatisticComponent implements OnInit {
 
-  constructor(private Statistica: StatisticService, public facultiesService: FacultiesService) {
+  constructor(private Statistica: StatisticService, public facultiesService: FacultiesService, private translate: TranslateService) {
   }
 
   subjectObject: any;
@@ -23,6 +24,9 @@ export class StatisticComponent implements OnInit {
   faculties: Faculties[] = [];
   speciality: Speciality[] = [];
   groups: any;
+  titleGroups;
+  titleOfFacultyDiagram;
+  titleOfSpecialityDiagram;
 
   ngOnInit() {
     this.Statistica.countQuestion().subscribe(value => {
@@ -46,8 +50,18 @@ export class StatisticComponent implements OnInit {
         this.studentObject = value;
       }
     );
+    this.translate.get('ADMIN.STATISTIC.GROUP').subscribe(msg => {
+      this.titleGroups = msg;
+    });
+    this.translate.get('ADMIN.STAT.BYFUCULTIES').subscribe(msg => {
+      this.titleOfFacultyDiagram = msg;
+    });
+    this.translate.get('ADMIN.STAT.BYSPECIALTY').subscribe(msg => {
+      this.titleOfSpecialityDiagram = msg;
+    });
     this.drawChart();
   }
+
 // Create chart
   drawChart() {
     const Highcharts = require('highcharts');
@@ -55,18 +69,16 @@ export class StatisticComponent implements OnInit {
     this.facultiesService.getFaculties()
       .subscribe((data: Faculties[]) => {
         this.faculties = data;
-        const arr = {name: '', y: ''};
-        const arr1 = [];
+        const numberOfGroupsInFaculty = [];
         for (let i = 0; i < data.length; i++) {
           const id = data[i].faculty_id;
           this.Statistica.getGroupsByFaculty(id)
-            .subscribe((data1: any) => {
-              this.groups = data1;
-              arr.name = data[i].faculty_name;
-              arr.y = data1.length;
-              arr1.push({name: arr.name, y: arr.y});
+            .subscribe((numberOfGroups: any) => {
+              this.groups = numberOfGroups;
+              data.length ? numberOfGroupsInFaculty.push({name: data[i].faculty_name, y: numberOfGroups.length}) :
+                            numberOfGroupsInFaculty.push({name: data[i].faculty_name, y: 0});
 
-              Highcharts.chart('container', {
+              Highcharts.chart('groupsByFaculty', {
                 credits: {
                   enabled: false
                 },
@@ -75,12 +87,12 @@ export class StatisticComponent implements OnInit {
                   plotBorderWidth: null,
                   plotShadow: false,
                   type: 'pie',
-                  width: 700,
+                  width: 320,
                   backgroundColor: '#0000',
                   polar: true,
                 },
                 title: {
-                  text: 'Статистика груп по факультетах'
+                  text: ' '
                 },
                 tooltip: {
                   pointFormat: '{series.name}: <b>{point.y}</b>'
@@ -99,9 +111,9 @@ export class StatisticComponent implements OnInit {
                   }
                 },
                 series: [{
-                  name: 'Груп',
+                  name: this.titleGroups,
                   colorByPoint: true,
-                  data: arr1
+                  data: numberOfGroupsInFaculty
                 }]
               });
             });
@@ -111,18 +123,16 @@ export class StatisticComponent implements OnInit {
     this.Statistica.getSpecialities()
       .subscribe((data: Speciality[]) => {
         this.speciality = data;
-        const arr = {name: '', y: ''};
-        const arr1 = [];
+        const numberOfGroupsInSpeciality = [];
         for (let i = 0; i < data.length; i++) {
           const id = data[i].speciality_id;
           this.Statistica.getGroupsBySpeciality(id)
-            .subscribe((data1: any) => {
-              this.groups = data1;
-              arr.name = data[i].speciality_name;
-              arr.y = data1.length;
-              arr1.push({name: data[i].speciality_name, y: data1.length});
+            .subscribe((numberOfGroups: any) => {
+              this.groups = numberOfGroups;
+               data.length ? numberOfGroupsInSpeciality.push({name: data[i].speciality_name, y: numberOfGroups.length}) :
+                              numberOfGroupsInSpeciality.push({name: data[i].speciality_name, y: 0});
 
-              Highcharts.chart('container1', {
+              Highcharts.chart('groupsBySpeciality', {
                 credits: {
                   enabled: false
                 },
@@ -131,12 +141,12 @@ export class StatisticComponent implements OnInit {
                   plotBorderWidth: null,
                   plotShadow: false,
                   type: 'pie',
-                  width: 550,
+                  width: 320,
                   backgroundColor: '#0000',
                   polar: true,
                 },
                 title: {
-                  text: 'Статистика груп по спеціальностях'
+                  text: ' '
                 },
                 tooltip: {
                   pointFormat: '{series.name}: <b>{point.y}</b>'
@@ -155,9 +165,9 @@ export class StatisticComponent implements OnInit {
                   }
                 },
                 series: [{
-                  name: 'Груп',
+                  name: this.titleGroups,
                   colorByPoint: true,
-                  data: arr1
+                  data: numberOfGroupsInSpeciality
                 }]
               });
             });
