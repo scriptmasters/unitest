@@ -31,9 +31,11 @@
                                         <button class="btn btn-secondary" (click)='getTime(31,false)'>{{ 'STUDENT.MONTH' | translate }}</button>
                                     </div>
                                     <div class="table-responsive">
-                                        <div *ngIf="studentService.infoTestId != null">
-                                            <div class="text-center testName"> {{'STUDENT.PASSING' | translate}}: 
-                                                <span (click)="crossTest(studentService.infoTestId)">{{studentService.infoTestName}}</span>
+                                        <div *ngIf="localNameTest != null">
+                                            <div *ngIf="localIdTets != null">
+                                                <div class="text-center testName"> Ви проходите тест:
+                                                    <span (click)="crossTest(localIdTets)">{{localNameTest}}</span>
+                                                </div>
                                             </div>
                                         </div>
                                         <table class="table table-hover ">
@@ -50,7 +52,7 @@
                                                 <ng-container *ngIf="filteredSubjects.length">
                                                     <ng-container *ngFor="let key of filteredSubjects">
                                                         <ng-container *ngFor="let list of key.subject">
-                                                            <tr *ngFor="let tests of list.tests" class="text-center">
+                                                            <tr *ngFor="let tests of list.tests" class="text-center" [ngClass]="{'currentTest': currentTestColor(tests.test_id)}">
                                                                 <ng-container *ngIf="list.ready">
                                                                     <ng-container *ngIf="tests.enabled==1">
                                                                         <td>
@@ -111,7 +113,8 @@
                 </p>
             </div>
         </div>
-        <footer class="footer"><span>Created by IF-085.Web-UI&#169; "Superteam&#9787;"</span>
+        <footer class="footer">
+            <span>Created by IF-085.Web-UI&#169; "Superteam&#9787;"</span>
             <img id="uk" src="../../assets/ukrainian.png" alt="uk" (click)="data.setLang('uk')">
             <img id="eng" src="../../assets/english.png" alt="en" (click)="data.setLang('en')">
         </footer>

@@ -47,11 +47,13 @@ export class ModalSubjectComponent implements OnInit {
                 Validators.required,
                 Validators.minLength(2),
                 Validators.maxLength(50),
+                Validators.pattern('([A-Za-zА-Яа-яюЮЄєІіЇї -])+')
             ]),
             description: new FormControl(null, [
                 Validators.required,
                 Validators.minLength(5),
                 Validators.maxLength(100),
+                Validators.pattern('([A-Za-zА-Яа-яюЮЄєІіЇї -])+')
             ]),
         });
     }

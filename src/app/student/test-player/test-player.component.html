@@ -1,43 +1,36 @@
 <div class="container-fluid">
   <header>
     <div class="card-header">
-      <div class="card">
+      <div class="card card-test">
         <div class="row">
-          <div class="col-12 col-sm-4 col-md-5 col-lg-4 col-xl-4 d-flex">
-            <div class="studentInfo">
+          <div class="col-sm-12 col-md-4 col-lg-4 col-xl-4">
+            <div class="d-flex">
               <h2>{{student[0]?.student_name}} {{student[0]?.student_surname}}</h2>
             </div>
           </div>
-          <div class="col-12 col-sm-8 col-md-7 col-lg-8 col-xl-8">
-            <div class="d-flex justify-content-end">
-              <!-- ********* TIMER ***********-->
-              <div class="timer-wraper">
-                 <span class="timer"
-                       [ngClass]="{
+          <div class="col-sm-12 col-md-8 col-lg-8 col-xl-8">
+            <div class="d-flex test-info">
+              <div class="timer"
+                   [ngClass]="{
                               'yellow': timer.minutes < 10 && timer.hours == 0,
                               'red': timer.minutes < 2 && timer.hours == 0
                               }">
-                      <span>{{ 'TP.TIME' | translate}}:</span> {{timer.hours}}:{{timer.minutes}}:{{timer.seconds}}
-                  </span>
+                <span>{{'TP.TIME' | translate}}:</span> {{timer.hours}}:{{timer.minutes}}:{{timer.seconds}}
               </div>
               <div class="question-lvl">
                 <span> {{'TP.TASK' | translate}} <b>{{Index}}</b> {{'TP.OF' | translate}} <b>{{questions?.length}}</b> [{{'TP.LEVEL' | translate}}:<b>{{question?.level}}</b>]</span>
               </div>
-              <!-- ********* TIMER ***********-->
             </div>
           </div>
         </div>
       </div>
-      <!--<div class="card">-->
-      <nav class="row">
-        <div class="col-sm-4 col-md-4 col-lg-2 finishTest">
-          <div class="d-flex justify-content-center">
-            <button class="btn btn-primary" (click)="finishTest()">{{"TP.FINISH" | translate}}</button>
+      <nav class="row test-pagination">
+        <div class="col-sm-12 col-md-4 col-lg-4 finishTest">
+          <div class="d-flex">
+            <button class="btn btn-primary test-btn" (click)="finishTest()">{{'TP.FINISH' | translate}}</button>
           </div>
         </div>
-
-        <div class="col-sm-8 col-md-8 col-lg-10">
-          <div class="flex-questions col-12 d-flex justify-content-end">
+        <div class="col-sm-12 col-md-8 col-lg-8">
           <span class="question"
                 *ngFor="let q of questions; let i = index; "
                 (click)="questionRoute(i)"
@@ -46,62 +39,101 @@
                          'questionsSelected': userAnswers[+(q.question_id)]?.answer_id
                          }">{{i+1}}
           </span>
-          </div>
         </div>
       </nav>
-      <!--</div>-->
     </div>
   </header>
-
-
   <section class="card">
-
-    <div class="card-body d-flex">
-
+    <div class="card-body">
       <form class="test-form">
         <div *ngIf="!isLoaded">
-          {{'TP.LOADING' | translate }}
+          {{'TP.LOADING' | translate}}
         </div>
         <div *ngIf="isLoaded" [ngSwitch]="question.type">
           <div *ngSwitchCase="1">
-            <div class="test-question">{{Index}}. {{question.question_text}}</div>
-            <ul>
-              <li *ngFor="let answer of question.answers">
-                <label class="form-control-custom">
-                  <input
-                    type="radio"
-                    [value]="answer"
-                    name="question{{question.question_id}}"
-                    [(ngModel)]="userAnswers[question.question_id]"
+            <div class="test-question">
+              <span class="col-12">{{Index}}. {{question.question_text}}</span>
+              <img
+                *ngIf="question.attachment"
+                class="img-fluid question-img"
+                src="{{question.attachment}}"
+                alt="{{question.question_id}}"
+              >
+            </div>
+            <div class="row justify-content-md-center">
+              <div *ngFor="let answer of question.answers;"
+                   [ngClass]="{'card card-test col-lg-6 col-md-6 col-sm-12':answer.attachment, 'col-12 test-answer': !answer.attachment}"
+              >
+                <label>
+                  <div>
+                    <input
+                      type="radio"
+                      [value]="answer"
+                      name="question{{question.question_id}}"
+                      [(ngModel)]="userAnswers[question.question_id]"
+                    >
+                    <span class="answer-text">{{answer.answer_text}}</span>
+                  </div>
+                  <img
+                    *ngIf="answer.attachment"
+                    class="img-fluid answer-img"
+                    src="{{answer.attachment}}"
+                    alt="{{answer.answer_id}}"
                   >
-                  {{answer.answer_text}}
                 </label>
-              </li>
-            </ul>
+              </div>
+            </div>
             <div class="line"></div>
           </div>
           <div *ngSwitchCase="2">
-            <div class="test-question">{{Index}}. {{question.question_text}}</div>
-            <ul>
-              <li *ngFor="let answer of question.answers;">
+            <div class="test-question">
+              <span class="col-12">{{Index}}. {{question.question_text}}</span>
+              <img
+                *ngIf="question.attachment"
+                class="img-fluid question-img"
+                src="{{question.attachment}}"
+                alt="{{question.question_id}}"
+              >
+            </div>
+            <div class="row justify-content-md-center">
+              <div *ngFor="let answer of question.answers;"
+                   [ngClass]="{'card card-test col-lg-6 col-md-6 col-sm-12':answer.attachment, 'col-12 test-answer': !answer.attachment}"
+              >
                 <label>
-                  <input
-                    type="checkbox"
-                    name="question{{question.question_id}}"
-                    (change)="sendAnswers(question, answer)"
-                    [checked]="checkboxAnswersStatus[answer.answer_id]"
+                  <div>
+                    <input
+                      type="checkbox"
+                      name="question{{question.question_id}}"
+                      (change)="sendAnswers(question, answer)"
+                      [checked]="checkboxAnswersStatus[answer.answer_id]"
+                    >
+                    <span class="answer-text">{{answer.answer_text}}</span>
+                  </div>
+                  <img
+                    *ngIf="answer.attachment"
+                    class="img-fluid answer-img"
+                    src="{{answer.attachment}}"
+                    alt="{{answer.answer_id}}"
                   >
-                  {{answer.answer_text}}
                 </label>
-              </li>
-            </ul>
+              </div>
+            </div>
             <div class="line"></div>
           </div>
           <div *ngSwitchCase="3">
-            <div class="test-question">{{Index}}. {{question.question_text}}</div>
+            <div class="test-question">
+              <span class="col-12">{{Index}}. {{question.question_text}}</span>
+              <img
+                *ngIf="question.attachment"
+                class="img-fluid question-img"
+                src="{{question.attachment}}"
+                alt="{{question.question_id}}"
+              >
+            </div>
             <input
               #answer
               type="text"
+              class="answer-input"
               name="question{{question.question_id}}"
               (blur)="sendAnswers(question, answer.value)"
               [(ngModel)]="question.answer_id"
@@ -109,10 +141,19 @@
             <div class="line"></div>
           </div>
           <div *ngSwitchCase="4">
-            <div class="test-question">{{Index}}. {{question.question_text}}</div>
+            <div class="test-question">
+              <span class="col-12">{{Index}}. {{question.question_text}}</span>
+              <img
+                *ngIf="question.attachment"
+                class="img-fluid question-img"
+                src="{{question.attachment}}"
+                alt="{{question.question_id}}"
+              >
+            </div>
             <input
               #answer
               type="number"
+              class="answer-input"
               name="question{{question.question_id}}"
               (blur)="sendAnswers(question, answer.value)"
               [(ngModel)]="question.answer_id"
@@ -132,6 +173,4 @@
       </div>
     </div>
   </section>
-
-
 </div>

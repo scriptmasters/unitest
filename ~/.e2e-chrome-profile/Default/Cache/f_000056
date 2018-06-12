@@ -1,0 +1,295 @@
+webpackJsonp(["auth.module"],{
+
+/***/ "./src/app/auth/auth-error-popup/auth-error-popup.component.html":
+/***/ (function(module, exports) {
+
+module.exports = "<mat-card-title *ngIf=\"data.user === 'admin'\">\r\n    Ви не авторизовані для входу до панелі адміністратора\r\n</mat-card-title>\r\n<mat-card-title *ngIf=\"data.user === 'student'\">\r\n    Ви не авторизовані для входу до панелі студента\r\n</mat-card-title>\r\n<mat-card-content>\r\n    Куди ви бажаєте перейти?\r\n</mat-card-content>\r\n<mat-card-actions>\r\n    <button mat-raised-button color=\"primary\" [mat-dialog-close]=\"'login'\"> Панель авторизації</button>\r\n    <button *ngIf=\"data.user === 'admin'\" mat-raised-button color=\"primary\" [mat-dialog-close]=\"'student'\">\r\n        Панель студента\r\n    </button>\r\n    <button *ngIf=\"data.user === 'student'\" mat-raised-button color=\"primary\" [mat-dialog-close]=\"'admin'\">\r\n        Панель адміністратора\r\n    </button>\r\n</mat-card-actions>\r\n\r\n"
+
+/***/ }),
+
+/***/ "./src/app/auth/auth-error-popup/auth-error-popup.component.scss":
+/***/ (function(module, exports) {
+
+module.exports = "mat-card-actions {\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -ms-flex-pack: distribute;\n      justify-content: space-around; }\n\nmat-card-title, mat-card-content {\n  text-align: center; }\n\n@media (max-width: 667px) {\n  .mat-raised-button {\n    padding: 0 5px;\n    font-size: 12px; }\n  .mat-card-actions {\n    text-align: center;\n    display: inline-block;\n    margin: 0 auto;\n    width: 100%; }\n  .mat-raised-button {\n    margin: 5px; } }\n"
+
+/***/ }),
+
+/***/ "./src/app/auth/auth-error-popup/auth-error-popup.component.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return AuthErrorPopupComponent; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_material__ = __webpack_require__("./node_modules/@angular/material/esm5/material.es5.js");
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+var __param = (this && this.__param) || function (paramIndex, decorator) {
+    return function (target, key) { decorator(target, key, paramIndex); }
+};
+
+
+var AuthErrorPopupComponent = /** @class */ (function () {
+    function AuthErrorPopupComponent(data) {
+        this.data = data;
+    }
+    AuthErrorPopupComponent = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["n" /* Component */])({
+            selector: 'app-auth-error-popup.component',
+            template: __webpack_require__("./src/app/auth/auth-error-popup/auth-error-popup.component.html"),
+            styles: [__webpack_require__("./src/app/auth/auth-error-popup/auth-error-popup.component.scss")]
+        }),
+        __param(0, Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["B" /* Inject */])(__WEBPACK_IMPORTED_MODULE_1__angular_material__["a" /* MAT_DIALOG_DATA */])),
+        __metadata("design:paramtypes", [Object])
+    ], AuthErrorPopupComponent);
+    return AuthErrorPopupComponent;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/app/auth/auth-routing.module.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return AuthRoutingModule; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_router__ = __webpack_require__("./node_modules/@angular/router/esm5/router.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__auth_component__ = __webpack_require__("./src/app/auth/auth.component.ts");
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+
+
+
+var routes = [
+    {
+        path: '',
+        component: __WEBPACK_IMPORTED_MODULE_2__auth_component__["a" /* AuthComponent */]
+    }
+];
+var AuthRoutingModule = /** @class */ (function () {
+    function AuthRoutingModule() {
+    }
+    AuthRoutingModule = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["K" /* NgModule */])({
+            imports: [__WEBPACK_IMPORTED_MODULE_1__angular_router__["g" /* RouterModule */].forChild(routes)],
+            exports: [__WEBPACK_IMPORTED_MODULE_1__angular_router__["g" /* RouterModule */]]
+        })
+    ], AuthRoutingModule);
+    return AuthRoutingModule;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/app/auth/auth.component.html":
+/***/ (function(module, exports) {
+
+module.exports = "<div class=\"wrapper\">\r\n    <div class=\"mat-input-container\">\r\n        <mat-card>\r\n            <mat-card>\r\n                <h1> Програма тестування D-tester</h1>\r\n            </mat-card>\r\n            <form [formGroup]=\"loginForm\" (keydown.enter)=\"submit()\">\r\n                <div id=\"error\">{{requestError}}</div>\r\n                <mat-form-field>\r\n                    <mat-label>Логін</mat-label>\r\n                    <input id=\"login\" formControlName=\"username\" type=\"text\" matInput placeholder=\"vasyapupkin\">\r\n                    <mat-error *ngIf=\"loginForm.get('username').hasError('required')\">\r\n                        Поле не може бути порожнім\r\n                    </mat-error>\r\n                    <mat-hint *ngIf=\"loginForm.get('username').hasError('forbiddenSymbol')\">\r\n                        Логін не може містити пробіл\r\n                    </mat-hint>\r\n                </mat-form-field>\r\n                <mat-form-field>\r\n                    <input id=\"password\" formControlName=\"password\" type=\"password\" matInput placeholder=\"Пароль\">\r\n                    <mat-error *ngIf=\"loginForm.get('password').hasError('required')\">\r\n                        Поле не може бути порожнім\r\n                    </mat-error>\r\n                    <mat-hint *ngIf=\"loginForm.get('password').hasError('forbiddenSymbol')\">\r\n                        Пароль не може містити пробіл\r\n                    </mat-hint>\r\n                </mat-form-field>\r\n                <button id=\"submit\" type=\"button\" (click)=\"submit()\" [disabled]=\"loginForm.invalid\" mat-raised-button\r\n                        color=\"primary\">Ввійти\r\n                </button>\r\n            </form>\r\n        </mat-card>\r\n    </div>\r\n</div>"
+
+/***/ }),
+
+/***/ "./src/app/auth/auth.component.scss":
+/***/ (function(module, exports) {
+
+module.exports = ".wrapper {\n  background: white url('adobestock_68948606.63389298f71bf5d45c16.jpg') center;\n  position: absolute;\n  min-width: 100%;\n  min-height: 100%;\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-align: center;\n      -ms-flex-align: center;\n          align-items: center;\n  -webkit-box-pack: center;\n      -ms-flex-pack: center;\n          justify-content: center; }\n\n.mat-input-container {\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-orient: vertical;\n  -webkit-box-direction: normal;\n      -ms-flex-direction: column;\n          flex-direction: column;\n  margin: 10px auto;\n  width: 40%;\n  max-width: 400px; }\n\n.mat-form-field {\n  width: 100%; }\n\n#submit {\n  float: right;\n  width: 50%;\n  max-width: 150px;\n  min-width: 30px;\n  color: white; }\n\n.mat-input-container mat-card {\n  background-color: #ffffffbf;\n  border-radius: 5px; }\n\n.mat-input-container mat-card mat-card {\n    background-color: #ffffff00; }\n\n.mat-input-container mat-divider {\n  position: relative;\n  margin-top: 5px; }\n\n.mat-input-container h1 {\n  text-align: center;\n  color: #28a745; }\n\n#error {\n  height: 1rem;\n  text-align: center;\n  margin-top: 1rem;\n  color: red; }\n\n.mat-raised-button.mat-primary[disabled] {\n  background-color: #4caf50b5;\n  color: black; }\n\ninput.ng-touched.ng-invalid {\n  border: 0; }\n\n@media (max-width: 667px) {\n  .mat-input-container {\n    width: 270px; }\n  .mat-form-field {\n    width: 90%; } }\n"
+
+/***/ }),
+
+/***/ "./src/app/auth/auth.component.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return AuthComponent; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_router__ = __webpack_require__("./node_modules/@angular/router/esm5/router.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__auth_service__ = __webpack_require__("./src/app/auth/auth.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__angular_forms__ = __webpack_require__("./node_modules/@angular/forms/esm5/forms.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__angular_material__ = __webpack_require__("./node_modules/@angular/material/esm5/material.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__auth_error_popup_auth_error_popup_component__ = __webpack_require__("./src/app/auth/auth-error-popup/auth-error-popup.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__custom_validator__ = __webpack_require__("./src/app/auth/custom-validator.ts");
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+
+
+
+
+
+var AuthComponent = /** @class */ (function () {
+    function AuthComponent(authService, router, formBuilder, route, dialog, snackBar) {
+        this.authService = authService;
+        this.router = router;
+        this.formBuilder = formBuilder;
+        this.route = route;
+        this.dialog = dialog;
+        this.snackBar = snackBar;
+        this.rgxpStudent = /^\/student.*/g;
+        this.rgxpAdmin = /^\/admin.*/g;
+        this.createForm();
+    }
+    AuthComponent.prototype.ngOnInit = function () {
+        var _this = this;
+        this.route.queryParams
+            .subscribe(function (params) {
+            _this.returnUrl = params['return'];
+            if (params['return']) {
+                _this.authService.isLogged().subscribe(function (result) {
+                    if (result.response === 'non logged') {
+                        _this.snackBar.open('You are not logged in', 'OK', {
+                            duration: 2000
+                        });
+                    }
+                    else {
+                        (_this.rgxpAdmin.test(params['return'])) ? _this.user = 'admin' : _this.user = 'student';
+                        _this.openDialog();
+                    }
+                });
+            }
+        });
+    };
+    AuthComponent.prototype.createForm = function () {
+        this.loginForm = this.formBuilder.group({
+            username: ['', __WEBPACK_IMPORTED_MODULE_3__angular_forms__["l" /* Validators */].compose([__WEBPACK_IMPORTED_MODULE_3__angular_forms__["l" /* Validators */].required, Object(__WEBPACK_IMPORTED_MODULE_6__custom_validator__["a" /* SymbolValidator */])(' ')])],
+            password: ['', __WEBPACK_IMPORTED_MODULE_3__angular_forms__["l" /* Validators */].compose([__WEBPACK_IMPORTED_MODULE_3__angular_forms__["l" /* Validators */].required, Object(__WEBPACK_IMPORTED_MODULE_6__custom_validator__["a" /* SymbolValidator */])(' ')])],
+        });
+    };
+    AuthComponent.prototype.submit = function () {
+        var _this = this;
+        if (!this.loginForm.invalid) {
+            this.authService.login(this.loginForm.value)
+                .subscribe(function (data) {
+                switch (data.roles[1]) {
+                    case 'admin':
+                        (_this.rgxpAdmin.test(_this.returnUrl)) ?
+                            _this.router.navigate([_this.returnUrl]) :
+                            _this.router.navigate(['/admin/statistic']);
+                        break;
+                    case 'student':
+                        (_this.rgxpStudent.test(_this.returnUrl)) ?
+                            _this.router.navigate([_this.returnUrl]) : _this.router.navigate(['/student']);
+                        break;
+                }
+            }, function (error) { return error.error.response === 'Invalid login or password' ?
+                _this.requestError = 'Невірний логін або пароль' : _this.requestError = 'Перевірте з\'єднання інтернет'; });
+        }
+    };
+    AuthComponent.prototype.openDialog = function () {
+        var _this = this;
+        var dialogRef = this.dialog.open(__WEBPACK_IMPORTED_MODULE_5__auth_error_popup_auth_error_popup_component__["a" /* AuthErrorPopupComponent */], {
+            width: '500px',
+            data: { user: this.user, returnUrl: this.returnUrl }
+        });
+        dialogRef.afterClosed().subscribe(function (result) {
+            if (result === 'student') {
+                _this.router.navigate(['/student']);
+            }
+            else {
+                if (result === 'admin') {
+                    _this.router.navigate(['/admin/statistic']);
+                }
+            }
+        });
+    };
+    AuthComponent = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["n" /* Component */])({
+            selector: 'app-auth',
+            template: __webpack_require__("./src/app/auth/auth.component.html"),
+            styles: [__webpack_require__("./src/app/auth/auth.component.scss")],
+            providers: [__WEBPACK_IMPORTED_MODULE_2__auth_service__["a" /* AuthService */]]
+        }),
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_2__auth_service__["a" /* AuthService */],
+            __WEBPACK_IMPORTED_MODULE_1__angular_router__["f" /* Router */],
+            __WEBPACK_IMPORTED_MODULE_3__angular_forms__["b" /* FormBuilder */],
+            __WEBPACK_IMPORTED_MODULE_1__angular_router__["a" /* ActivatedRoute */],
+            __WEBPACK_IMPORTED_MODULE_4__angular_material__["d" /* MatDialog */],
+            __WEBPACK_IMPORTED_MODULE_4__angular_material__["o" /* MatSnackBar */]])
+    ], AuthComponent);
+    return AuthComponent;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/app/auth/auth.module.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "AuthModule", function() { return AuthModule; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_common__ = __webpack_require__("./node_modules/@angular/common/esm5/common.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__auth_component__ = __webpack_require__("./src/app/auth/auth.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__auth_error_popup_auth_error_popup_component__ = __webpack_require__("./src/app/auth/auth-error-popup/auth-error-popup.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__auth_service__ = __webpack_require__("./src/app/auth/auth.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__auth_routing_module__ = __webpack_require__("./src/app/auth/auth-routing.module.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__shared_shared_module__ = __webpack_require__("./src/app/shared/shared.module.ts");
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+
+
+
+
+
+
+
+var AuthModule = /** @class */ (function () {
+    function AuthModule() {
+    }
+    AuthModule = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["K" /* NgModule */])({
+            imports: [__WEBPACK_IMPORTED_MODULE_1__angular_common__["b" /* CommonModule */], __WEBPACK_IMPORTED_MODULE_6__shared_shared_module__["a" /* SharedModule */], __WEBPACK_IMPORTED_MODULE_5__auth_routing_module__["a" /* AuthRoutingModule */]],
+            entryComponents: [__WEBPACK_IMPORTED_MODULE_3__auth_error_popup_auth_error_popup_component__["a" /* AuthErrorPopupComponent */]],
+            declarations: [__WEBPACK_IMPORTED_MODULE_2__auth_component__["a" /* AuthComponent */], __WEBPACK_IMPORTED_MODULE_3__auth_error_popup_auth_error_popup_component__["a" /* AuthErrorPopupComponent */]],
+            providers: [__WEBPACK_IMPORTED_MODULE_4__auth_service__["a" /* AuthService */]]
+        })
+    ], AuthModule);
+    return AuthModule;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/app/auth/custom-validator.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (immutable) */ __webpack_exports__["a"] = SymbolValidator;
+function SymbolValidator(wrongSymb) {
+    return function (control) {
+        var forbidden = control.value.indexOf(wrongSymb);
+        return forbidden === -1 ? null : { 'forbiddenSymbol': { value: control.value } };
+    };
+}
+
+
+/***/ })
+
+});
+//# sourceMappingURL=auth.module.chunk.js.map

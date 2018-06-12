@@ -2,12 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../auth/auth.service';
 import { TestPlayerService } from '../student/services/test-player.service';
 import { StudentService } from './student.service';
-import {
-  UserInfo,
-  TimeTable,
-  Subject,
-  TestInterface,
-} from './test-player/question-interface';
+import { UserInfo, TimeTable, Subject, TestInterface } from './test-player/question-interface';
 import { NgStyle } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
 import * as moment from 'moment';
@@ -33,6 +28,8 @@ export class StudentComponent implements OnInit {
   infoTestId;
   infoTestName;
   progresstest;
+  localIdTets;
+  localNameTest;
   constructor(
     public authService: AuthService,
     public studentService: StudentService,
@@ -49,6 +46,8 @@ export class StudentComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.localNameTest = JSON.parse(localStorage.getItem('testName'));
+    this.localIdTets = JSON.parse(localStorage.getItem('testId'));
     this.authService.isLogged().subscribe((response: any) => {
       this.id = response.id;
       this.getRecords();
@@ -167,18 +166,14 @@ export class StudentComponent implements OnInit {
               },
             });
           });
-          this.studentService
-            .getRecordsTest(testId)
-            .subscribe((infoTest: any) => {
-              infoTest.forEach(item => {
-                this.infoTestId = +item.test_id;
-                this.studentService.infoTestName = item.test_name;
-                this.studentService.infoTestId = item.test_id;
-              });
+          this.studentService.getRecordsTest(testId).subscribe((infoTest: any) => {
+            infoTest.forEach((test: any) => {
+              localStorage.setItem('testId', JSON.stringify(test.test_id));
+              localStorage.setItem('testName', JSON.stringify(test.test_name));
             });
-          this.studentService
-            .saveInfoTest(testId)
-            .subscribe((infos: any) => {});
+          });
+          this.studentService.saveInfoTest(testId).subscribe((infos: any) => {
+          });
           this.testPlayerService
             .getQuestionsWithAnswers(testId)
             .subscribe((questions: any) => {
@@ -212,15 +207,12 @@ export class StudentComponent implements OnInit {
               },
             });
           });
-        } else if (
-          error.error.response ===
-          'You cannot call this method without making an quiz'
-        ) {
+        } else if (error.error.response === 'You cannot call this method without making an quiz') {
           this.dialog.open(ResponseMessageComponent, {
             width: '400px',
             data: {
-              message: 'Неможливо запустити цей тест',
-            },
+              message: 'Неможливо запустити цей тест'
+            }
           });
         } else if (
           error.error.response === 'Not enough number of questions for quiz'
@@ -236,8 +228,8 @@ export class StudentComponent implements OnInit {
         } else if (
           error.error.response === 'User is making test at current moment'
         ) {
-          this.studentService.getInfoTest().subscribe((info: number) => {
-            if (info === +testId) {
+          this.localIdTets = JSON.parse(localStorage.getItem('testId'));
+            if ((+this.localIdTets) === (+testId)) {
               this.router.navigate(['student/test/' + testId]);
             } else {
               this.translate.get('STUD.TP.PASSING').subscribe(messaga => {
@@ -249,7 +241,6 @@ export class StudentComponent implements OnInit {
                 });
               });
             }
-          });
         } else if (
           error.error.response ===
           'You cannot make the test due to used all attempts'
@@ -262,15 +253,12 @@ export class StudentComponent implements OnInit {
               },
             });
           });
-        } else if (
-          error.error.response ===
-          'You can start tests which are only for you!!!'
-        ) {
+        } else if (error.error.response === 'You can start tests which are only for you!!!') {
           this.dialog.open(ResponseMessageComponent, {
             width: '400px',
             data: {
-              message: 'Ви можете почати тести, які тільки для вас !!!',
-            },
+              message: 'Ви можете почати тести, які тільки для вас !!!'
+            }
           });
         } else if (
           error.error.response ===
@@ -330,26 +318,30 @@ export class StudentComponent implements OnInit {
   }
   getTime(id, includeDay) {
     const day = id;
-    this.studentService.getTime().subscribe((time: any) => {
-      const _time = moment.utc(time.unix_timestamp * 1000);
-      this.filteredSubjects.length = 0;
-      this.subjects.forEach(item => {
-        const timesTable = moment.utc(item.end_date);
-        const diff = timesTable.diff(_time);
-        const times = moment(diff).format('D');
-        if (includeDay) {
-          if (+times === day) {
-            this.filteredSubjects.push(item);
+    this.studentService.getTime().subscribe(
+      (time: any) => {
+        const _time = moment.utc(time.unix_timestamp * 1000);
+        this.filteredSubjects.length = 0;
+        this.subjects.forEach(item => {
+          const timesTable = moment.utc(item.end_date);
+          const diff = timesTable.diff(_time);
+          const times = moment(diff).format('D');
+          if (includeDay) {
+            if ((+times) === day) {
+              this.filteredSubjects.push(item);
+            }
+          } else {
+            if (times <= day) {
+              this.filteredSubjects.push(item);
+            }
           }
-        } else {
-          if (times <= day) {
-            this.filteredSubjects.push(item);
-          }
-        }
+        });
       });
-    });
   }
   crossTest(id) {
     this.router.navigate(['student/test/' + id]);
+  }
+  currentTestColor(id) {
+    return id === this.localIdTets ? true : false;
   }
 }

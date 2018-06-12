@@ -40,7 +40,7 @@ export class AuthComponent implements OnInit {
                 if (params['return']) {
                     this.authService.isLogged().subscribe((result: IisLogged) => {
                         if (result.response === 'non logged') {
-                            this.snackBar.open('You are not logged in', 'OK', {
+                            this.snackBar.open('Необхідно авторизуватися', 'OK', {
                                 duration: 2000
                             });
                         } else {

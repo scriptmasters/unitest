@@ -16,6 +16,7 @@
                         <span *ngIf="form.get('title')['errors']['required']">{{'REQUIRED' | translate}}</span>
                         <span *ngIf="form.get('title')['errors']['minlength']">{{'NLT' | translate}} {{form.get('title')['errors']['minlength']['requiredLength']}} {{'CHAR' | translate}}</span>
                         <span *ngIf="form.get('title')['errors']['maxlength']">{{'MTN' | translate}} ({{form.get('title')['errors']['maxlength']['requiredLength']}})</span>
+                        <span *ngIf="form.get('title')['errors']['pattern']">Недопустимі символи</span>
                     </small>
                 </div>
             </div>
@@ -32,6 +33,7 @@
                         <span *ngIf="form.get('description')['errors']['maxlength']">
                 {{'MTN' | translate}} ({{form.get('description')['errors']['maxlength']['requiredLength']}})
                         </span>
+                        <span *ngIf="form.get('description')['errors']['pattern']">Недопустимі символи</span>
                     </small>
                 </div>
             </div>

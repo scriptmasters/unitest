@@ -22,8 +22,8 @@
                         <thead>
                             <tr>
                                 <th>№</th>
-                                <th [hidden]="hideColumn">{{'ADMIN.GROUP.NAME' | translate}}</th>
-                                <th [hidden]="hideColumn">{{'ADMIN.GROUP.NAME' | translate}}</th>
+                                <th>{{'ADMIN.GROUP.NAME' | translate}}</th>
+                                <th>{{'S' | translate}}</th>
                                 <th>{{'ADMIN.SC.SD' | translate}}</th>
                                 <th>{{'ADMIN.SC.TS' | translate}}</th>
                                 <th>{{'ADMIN.SC.ED' | translate}}</th>
@@ -34,8 +34,8 @@
                         <tbody>
                             <tr *ngFor="let tableItem of table | pagination: pageSize : pageIndex; index as i">
                                 <th scope="row">{{pageSize*pageIndex+i+1}}</th>
-                                <td [hidden]="hideColumn">{{tableItem.group_name}}</td>
-                                <td [hidden]="hideColumn">{{tableItem.subject_name}}</td>
+                                <td>{{tableItem.group_name}}</td>
+                                <td>{{tableItem.subject_name}}</td>
                                 <td>{{tableItem.start_date}}</td>
                                 <td>{{tableItem.start_time}}</td>
                                 <td>{{tableItem.end_date}}</td>
