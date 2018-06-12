@@ -58,11 +58,7 @@ export class FilterComponent implements OnInit, OnDestroy {
 
     this.resultService.getGroups().subscribe((groupData: any[]) => {
       this.groups = (groupData['response'] === 'no records') ? [] : groupData;
-      this.groups.sort((a, b) => {
-        if (a.group_name < b.group_name) { return -1; }
-        if (a.group_name > b.group_name) { return 1; }
-        return 0;
-      });
+      this.groups.sort((a, b) => a.group_name.localeCompare(b.group_name));
     });
   }
 
@@ -112,10 +108,6 @@ export class FilterComponent implements OnInit, OnDestroy {
         this.testsForSelection.push(test);
       }
     });
-    this.testsForSelection.sort((a, b) => {
-      if (a.test_name < b.test_name) { return -1; }
-      if (a.test_name > b.test_name) { return 1; }
-      return 0;
-    });
+    this.testsForSelection.sort((a, b) => a.test_name.localeCompare(b.test_name));
   }
 }
