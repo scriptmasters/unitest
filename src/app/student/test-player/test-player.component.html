@@ -15,10 +15,10 @@
                               'yellow': timer.minutes < 10 && timer.hours == 0,
                               'red': timer.minutes < 2 && timer.hours == 0
                               }">
-                <span>Часу залишилось:</span> {{timer.hours}}:{{timer.minutes}}:{{timer.seconds}}
+                <span>{{'TP.TIME' | translate}}:</span> {{timer.hours}}:{{timer.minutes}}:{{timer.seconds}}
               </div>
               <div class="question-lvl">
-                <span> Завдання <b>{{Index}}</b> з <b>{{questions?.length}}</b> [Рівень:<b>{{question?.level}}</b>]</span>
+                <span> {{'TP.TASK' | translate}} <b>{{Index}}</b> {{'TP.OF' | translate}} <b>{{questions?.length}}</b> [{{'TP.LEVEL' | translate}}:<b>{{question?.level}}</b>]</span>
               </div>
             </div>
           </div>
@@ -27,7 +27,7 @@
       <nav class="row test-pagination">
         <div class="col-sm-12 col-md-4 col-lg-4 finishTest">
           <div class="d-flex">
-            <button class="btn btn-primary test-btn" (click)="finishTest()">Завершити тест</button>
+            <button class="btn btn-primary test-btn" (click)="finishTest()">{{'TP.FINISH' | translate}}</button>
           </div>
         </div>
         <div class="col-sm-12 col-md-8 col-lg-8">
@@ -47,7 +47,7 @@
     <div class="card-body">
       <form class="test-form">
         <div *ngIf="!isLoaded">
-          Завантаження...
+          {{'TP.LOADING' | translate}}
         </div>
         <div *ngIf="isLoaded" [ngSwitch]="question.type">
           <div *ngSwitchCase="1">
@@ -165,9 +165,9 @@
       <div class="arrow-nav">
         <div class="row">
           <div class="col-sm-12 d-flex justify-content-center">
-            <span class="fa fa-arrow-left fa-2x" title="Пепереднє питання" aria-hidden="true" (click)="prevQuestion()"></span>
+            <span class="fa fa-arrow-left fa-2x" title="{{'PREVQ' | translate}}" aria-hidden="true" (click)="prevQuestion()"></span>
             <span class="separate"></span>
-            <span class="fa fa-arrow-right fa-2x" title="Наступне питання" aria-hidden="true" (click)="nextQuestion()"></span>
+            <span class="fa fa-arrow-right fa-2x" title="{{'NEXTQ' | translate}}" aria-hidden="true" (click)="nextQuestion()"></span>
           </div>
         </div>
       </div>
