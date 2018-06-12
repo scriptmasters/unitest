@@ -1,0 +1,1007 @@
+webpackJsonp(["groups.module"],{
+
+/***/ "./node_modules/rxjs/_esm5/add/operator/mergeMap.js":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Observable__ = __webpack_require__("./node_modules/rxjs/_esm5/Observable.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__operator_mergeMap__ = __webpack_require__("./node_modules/rxjs/_esm5/operator/mergeMap.js");
+/** PURE_IMPORTS_START .._.._Observable,.._.._operator_mergeMap PURE_IMPORTS_END */
+
+
+__WEBPACK_IMPORTED_MODULE_0__Observable__["a" /* Observable */].prototype.mergeMap = __WEBPACK_IMPORTED_MODULE_1__operator_mergeMap__["a" /* mergeMap */];
+__WEBPACK_IMPORTED_MODULE_0__Observable__["a" /* Observable */].prototype.flatMap = __WEBPACK_IMPORTED_MODULE_1__operator_mergeMap__["a" /* mergeMap */];
+//# sourceMappingURL=mergeMap.js.map
+
+
+/***/ }),
+
+/***/ "./node_modules/rxjs/_esm5/add/operator/switchMap.js":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Observable__ = __webpack_require__("./node_modules/rxjs/_esm5/Observable.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__operator_switchMap__ = __webpack_require__("./node_modules/rxjs/_esm5/operator/switchMap.js");
+/** PURE_IMPORTS_START .._.._Observable,.._.._operator_switchMap PURE_IMPORTS_END */
+
+
+__WEBPACK_IMPORTED_MODULE_0__Observable__["a" /* Observable */].prototype.switchMap = __WEBPACK_IMPORTED_MODULE_1__operator_switchMap__["a" /* switchMap */];
+//# sourceMappingURL=switchMap.js.map
+
+
+/***/ }),
+
+/***/ "./node_modules/rxjs/_esm5/operator/switchMap.js":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (immutable) */ __webpack_exports__["a"] = switchMap;
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__operators_switchMap__ = __webpack_require__("./node_modules/rxjs/_esm5/operators/switchMap.js");
+/** PURE_IMPORTS_START .._operators_switchMap PURE_IMPORTS_END */
+
+/* tslint:enable:max-line-length */
+/**
+ * Projects each source value to an Observable which is merged in the output
+ * Observable, emitting values only from the most recently projected Observable.
+ *
+ * <span class="informal">Maps each value to an Observable, then flattens all of
+ * these inner Observables using {@link switch}.</span>
+ *
+ * <img src="./img/switchMap.png" width="100%">
+ *
+ * Returns an Observable that emits items based on applying a function that you
+ * supply to each item emitted by the source Observable, where that function
+ * returns an (so-called "inner") Observable. Each time it observes one of these
+ * inner Observables, the output Observable begins emitting the items emitted by
+ * that inner Observable. When a new inner Observable is emitted, `switchMap`
+ * stops emitting items from the earlier-emitted inner Observable and begins
+ * emitting items from the new one. It continues to behave like this for
+ * subsequent inner Observables.
+ *
+ * @example <caption>Rerun an interval Observable on every click event</caption>
+ * var clicks = Rx.Observable.fromEvent(document, 'click');
+ * var result = clicks.switchMap((ev) => Rx.Observable.interval(1000));
+ * result.subscribe(x => console.log(x));
+ *
+ * @see {@link concatMap}
+ * @see {@link exhaustMap}
+ * @see {@link mergeMap}
+ * @see {@link switch}
+ * @see {@link switchMapTo}
+ *
+ * @param {function(value: T, ?index: number): ObservableInput} project A function
+ * that, when applied to an item emitted by the source Observable, returns an
+ * Observable.
+ * @param {function(outerValue: T, innerValue: I, outerIndex: number, innerIndex: number): any} [resultSelector]
+ * A function to produce the value on the output Observable based on the values
+ * and the indices of the source (outer) emission and the inner Observable
+ * emission. The arguments passed to this function are:
+ * - `outerValue`: the value that came from the source
+ * - `innerValue`: the value that came from the projected Observable
+ * - `outerIndex`: the "index" of the value that came from the source
+ * - `innerIndex`: the "index" of the value from the projected Observable
+ * @return {Observable} An Observable that emits the result of applying the
+ * projection function (and the optional `resultSelector`) to each item emitted
+ * by the source Observable and taking only the values from the most recently
+ * projected inner Observable.
+ * @method switchMap
+ * @owner Observable
+ */
+function switchMap(project, resultSelector) {
+    return Object(__WEBPACK_IMPORTED_MODULE_0__operators_switchMap__["a" /* switchMap */])(project, resultSelector)(this);
+}
+//# sourceMappingURL=switchMap.js.map
+
+
+/***/ }),
+
+/***/ "./src/app/admin/groups/dialog/dialog.component.html":
+/***/ (function(module, exports) {
+
+module.exports = "<form novalidate [formGroup]=\"myForm\">\r\n    <header class=\"form-row justify-content-between mb-2\">\r\n        <h2 class=\"pl-1\" *ngIf=\"data.group_id\">{{ 'ADMIN.GROUP.EDIT' | translate}}</h2>\r\n        <h2 class=\"pl-1\" *ngIf=\"!data.group_id\">{{ 'ADMIN.GROUP.ADD' | translate}}</h2>\r\n        <i class=\"fa fa-times close pr-1\" aria-hidden=\"true\" (click)=\"handleClose()\"></i>\r\n    </header>\r\n    <div class=\"form-row\">\r\n        <div class=\"form-group col-12\">\r\n            <label>{{'ADMIN.FA' | translate}}</label>\r\n            <select name=\"faculty\" class=\"form-control col-md-12\" [(ngModel)]=\"faculty\" formControlName=\"facultyValid\" required>\r\n                <option value=\"\" disabled>{{'ADMIN.GROUP.CHOOSEF' | translate}}</option>\r\n                <option *ngFor=\"let fac of facultiesArr\" [selected]=\"fac.faculty_name === data.faculty\">{{fac.faculty_name}}</option>\r\n            </select>\r\n            <div class=\"form-msg\">\r\n                <small *ngIf=\"facultyValid.errors && (facultyValid.dirty || facultyValid.touched)\">\r\n                <span *ngIf=\"facultyValid.errors['required']\">{{'REQUIRED' | translate}}</span>\r\n            </small>\r\n            </div>\r\n        </div>\r\n    </div>\r\n    <div class=\"form-row\">\r\n        <div class=\"form-group col-12\">\r\n            <label>{{'ADMIN.S' | translate}}</label>\r\n            <select name=\"speciality\" class=\"form-control col-md-12\" [(ngModel)]=\"speciality\" formControlName=\"specialityValid\">\r\n                <option value=\"\" disabled>{{'ADMIN.GROUP.CHOOSES' | translate}}</option>\r\n                <option *ngFor=\"let spec of specialitiesArr\" [selected]=\"spec.speciality_name === data.speciality\">{{spec.speciality_name}}</option>\r\n            </select>\r\n            <div class=\"form-msg\">\r\n                <small *ngIf=\"specialityValid.errors && (specialityValid.dirty || specialityValid.touched)\">\r\n                    <span *ngIf=\"specialityValid.errors['required']\">{{'REQUIRED' | translate}}</span>\r\n                </small>\r\n            </div>\r\n        </div>\r\n    </div>\r\n    <div class=\"form-row\">\r\n        <div class=\"form-group col-12\">\r\n            <label for=\"groupNameInp\">{{'ADMIN.GROUP.NAME' | translate}}</label>\r\n            <input placeholder=\"{{'ADMIN.GROUP.NAME' | translate}}\" class=\"form-control\" [(ngModel)]=\"group\" id=\"groupNameInp\" formControlName=\"groupValid\">\r\n            <div class=\"form-msg\">\r\n                <small *ngIf=\"groupValid.errors && (groupValid.dirty || groupValid.touched)\">\r\n                <span *ngIf=\"groupValid.errors['required']\">{{'REQUIRED' | translate}}</span>\r\n                <span *ngIf=\"groupValid.errors['pattern']\">{{'ADMIN.GROUP.FORMAT' | translate}}</span>\r\n            </small>\r\n            </div>\r\n        </div>\r\n    </div>\r\n    <div class=\"form-row d-flex justify-content-center\">\r\n        <div class=\"form-group col-sm-6 col-md-4\">\r\n            <input type=\"button\" class=\"btn btn-danger col-sm-12\" value=\"{{'ADMIN.CANCEL' | translate}}\" (click)=\"handleClose()\">\r\n        </div>\r\n        <div class=\"form-group col-sm-6 col-md-4\">\r\n            <input *ngIf=\"data.group_id\" type=\"submit\" class=\"btn btn-success col-sm-12\" (click)=\"close()\" [disabled]=\"!myForm.valid\" value=\"{{'EDIT' | translate}}\">\r\n            <input *ngIf=\"!data.group_id\" type=\"submit\" class=\"btn btn-success col-sm-12\" (click)=\"close()\" [disabled]=\"!myForm.valid\" value=\"{{'ADMIN.SUBMIT' | translate}}\">\r\n        </div>\r\n    </div>\r\n</form>"
+
+/***/ }),
+
+/***/ "./src/app/admin/groups/dialog/dialog.component.scss":
+/***/ (function(module, exports) {
+
+module.exports = "mat-dialog-content {\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-orient: vertical;\n  -webkit-box-direction: normal;\n      -ms-flex-direction: column;\n          flex-direction: column;\n  -webkit-box-align: stretch;\n      -ms-flex-align: stretch;\n          align-items: stretch; }\n  mat-dialog-content form {\n    width: 100%; }\n  .header {\n  padding-right: 0; }\n  .btn {\n  margin-top: 5px;\n  margin-left: 5px;\n  margin-right: 5px; }\n  .close {\n  padding: 0;\n  margin: 0; }\n  .close[_ngcontent-c7] {\n  border: 1px solid white; }\n  .invalidMessage {\n  color: #ff0000; }\n  .invalidInp {\n  color: #ff0000;\n  border-color: #ff0000; }\n  .validInp {\n  border-color: green; }\n  .error-hidden {\n  height: 1rem;\n  visibility: hidden; }\n  div.error.col-12 {\n  color: #DC3545;\n  font-size: 0.8rem;\n  padding: 0;\n  margin: 0; }\n"
+
+/***/ }),
+
+/***/ "./src/app/admin/groups/dialog/dialog.component.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return DialogComponent; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__groups_service__ = __webpack_require__("./src/app/admin/groups/groups.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_forms__ = __webpack_require__("./node_modules/@angular/forms/esm5/forms.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_material__ = __webpack_require__("./node_modules/@angular/material/esm5/material.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__angular_core__ = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+var __param = (this && this.__param) || function (paramIndex, decorator) {
+    return function (target, key) { decorator(target, key, paramIndex); }
+};
+
+
+
+
+var DialogComponent = /** @class */ (function () {
+    function DialogComponent(groupsService, dialogRef, data) {
+        this.groupsService = groupsService;
+        this.dialogRef = dialogRef;
+        this.data = data;
+        this.faculty = '';
+        this.speciality = '';
+        this.group = '';
+        this.facultiesArr = [];
+        this.specialitiesArr = [];
+        console.log(data);
+        if (data.group_id !== null) {
+            this.group = data.group;
+            this.faculty = data.faculty;
+            this.speciality = data.speciality;
+        }
+    }
+    DialogComponent.prototype.dropDownsData = function () {
+        var _this = this;
+        this.groupsService._getFaculties().subscribe(function (facData) {
+            _this.facultiesArr = facData;
+            _this.groupsService._getSpecialities().subscribe(function (specData) {
+                _this.specialitiesArr = specData;
+                _this.group = _this.data.group;
+            });
+        });
+    };
+    DialogComponent.prototype.close = function () {
+        this.dialogRef.close({
+            faculty: this.faculty,
+            speciality: this.speciality,
+            group_name: this.group,
+            group_id: this.data.group_id
+        });
+    };
+    DialogComponent.prototype.handleClose = function () {
+        this.dialogRef.close();
+    };
+    DialogComponent.prototype.createFormControls = function () {
+        this.facultyValid = new __WEBPACK_IMPORTED_MODULE_1__angular_forms__["c" /* FormControl */]('', __WEBPACK_IMPORTED_MODULE_1__angular_forms__["l" /* Validators */].required);
+        this.specialityValid = new __WEBPACK_IMPORTED_MODULE_1__angular_forms__["c" /* FormControl */]('', __WEBPACK_IMPORTED_MODULE_1__angular_forms__["l" /* Validators */].required);
+        this.groupValid = new __WEBPACK_IMPORTED_MODULE_1__angular_forms__["c" /* FormControl */]('', {
+            validators: [
+                __WEBPACK_IMPORTED_MODULE_1__angular_forms__["l" /* Validators */].required,
+                __WEBPACK_IMPORTED_MODULE_1__angular_forms__["l" /* Validators */].pattern('^([А-ЯІЇ]){2,3}-[0-9]{2}-[0-9]{1}'),
+            ],
+            updateOn: 'blur'
+        });
+    };
+    DialogComponent.prototype.createForm = function () {
+        this.myForm = new __WEBPACK_IMPORTED_MODULE_1__angular_forms__["d" /* FormGroup */]({
+            facultyValid: this.facultyValid,
+            specialityValid: this.specialityValid,
+            groupValid: this.groupValid,
+        });
+    };
+    DialogComponent.prototype.ngOnInit = function () {
+        this.dropDownsData();
+        this.createFormControls();
+        this.createForm();
+    };
+    DialogComponent = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_3__angular_core__["n" /* Component */])({
+            selector: 'app-dialog',
+            template: __webpack_require__("./src/app/admin/groups/dialog/dialog.component.html"),
+            styles: [__webpack_require__("./src/app/admin/groups/dialog/dialog.component.scss")],
+        }),
+        __param(2, Object(__WEBPACK_IMPORTED_MODULE_3__angular_core__["B" /* Inject */])(__WEBPACK_IMPORTED_MODULE_2__angular_material__["a" /* MAT_DIALOG_DATA */])),
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_0__groups_service__["a" /* GroupsService */],
+            __WEBPACK_IMPORTED_MODULE_2__angular_material__["g" /* MatDialogRef */], Object])
+    ], DialogComponent);
+    return DialogComponent;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/app/admin/groups/groups-delete-confirm/groups-delete-confirm.component.html":
+/***/ (function(module, exports) {
+
+module.exports = "<header>Видали групу?</header>\r\n<mat-dialog-content class=\"row\">\r\n  <button class=\"btn btn-success\" (click)=\"delete()\">Видалити</button>\r\n  <button class=\"btn btn-danger\" (click)=\"cancel()\">Відміна</button>\r\n</mat-dialog-content>"
+
+/***/ }),
+
+/***/ "./src/app/admin/groups/groups-delete-confirm/groups-delete-confirm.component.scss":
+/***/ (function(module, exports) {
+
+module.exports = "header {\n  margin: 30px 30px 30px 80px;\n  font-weight: 600; }\n\nbutton {\n  margin: 30px; }\n"
+
+/***/ }),
+
+/***/ "./src/app/admin/groups/groups-delete-confirm/groups-delete-confirm.component.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return GroupsDeleteConfirmComponent; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_material__ = __webpack_require__("./node_modules/@angular/material/esm5/material.es5.js");
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+var __param = (this && this.__param) || function (paramIndex, decorator) {
+    return function (target, key) { decorator(target, key, paramIndex); }
+};
+
+
+var GroupsDeleteConfirmComponent = /** @class */ (function () {
+    function GroupsDeleteConfirmComponent(dialogRef, data) {
+        this.dialogRef = dialogRef;
+        this.data = data;
+    }
+    GroupsDeleteConfirmComponent.prototype.ngOnInit = function () {
+    };
+    GroupsDeleteConfirmComponent.prototype.delete = function () {
+        this.dialogRef.close(true);
+    };
+    GroupsDeleteConfirmComponent.prototype.cancel = function () {
+        this.dialogRef.close(false);
+    };
+    GroupsDeleteConfirmComponent = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["n" /* Component */])({
+            selector: 'app-groups-delete-confirm',
+            template: __webpack_require__("./src/app/admin/groups/groups-delete-confirm/groups-delete-confirm.component.html"),
+            styles: [__webpack_require__("./src/app/admin/groups/groups-delete-confirm/groups-delete-confirm.component.scss")]
+        }),
+        __param(1, Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["B" /* Inject */])(__WEBPACK_IMPORTED_MODULE_1__angular_material__["a" /* MAT_DIALOG_DATA */])),
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1__angular_material__["g" /* MatDialogRef */], Object])
+    ], GroupsDeleteConfirmComponent);
+    return GroupsDeleteConfirmComponent;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/app/admin/groups/groups-routing.module.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return GroupsRoutingModule; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_router__ = __webpack_require__("./node_modules/@angular/router/esm5/router.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__groups_component__ = __webpack_require__("./src/app/admin/groups/groups.component.ts");
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+
+
+
+var routes = [
+    {
+        path: '',
+        component: __WEBPACK_IMPORTED_MODULE_2__groups_component__["a" /* GroupsComponent */]
+    }
+];
+var GroupsRoutingModule = /** @class */ (function () {
+    function GroupsRoutingModule() {
+    }
+    GroupsRoutingModule = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["K" /* NgModule */])({
+            imports: [__WEBPACK_IMPORTED_MODULE_1__angular_router__["g" /* RouterModule */].forChild(routes)],
+            exports: [__WEBPACK_IMPORTED_MODULE_1__angular_router__["g" /* RouterModule */]]
+        })
+    ], GroupsRoutingModule);
+    return GroupsRoutingModule;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/app/admin/groups/groups.component.html":
+/***/ (function(module, exports) {
+
+module.exports = "<section #container>\r\n  <div class=\"container-fluid\">\r\n    <header class=\"row\">\r\n      <div class=\"card col-12 col-lg-12\">\r\n        <div class=\"card-body  d-flex justify-content-between\">\r\n          <div class=\"align-self-center\">\r\n            <h2 class=\"display\">{{'ADMIN.GROUPS' | translate }}</h2>\r\n          </div>\r\n          <div>\r\n            <button type=\"button\" class=\"btn btn-primary\" id=\"addGroup\" (click)=\"openDialog()\">{{'ADMIN.PARAM' | translate}}\r\n            </button>\r\n          </div>\r\n        </div>\r\n      </div>\r\n    </header>\r\n    <header class=\"row\">\r\n      <div class=\"card col-12 col-lg-12\">\r\n        <div class=\"card-body row\">\r\n          <div class=\"form-group col-sm-3\">\r\n            <input type=\"text\" class=\"form-control\" placeholder=\"{{'SEARCH' | translate}}\" (keypress)=\"pageIndex = 0\"\r\n                   [(ngModel)]=\"searchFilterPipe\">\r\n          </div>\r\n          <div class=\"form-group col-sm-4\">\r\n            <select name=\"account\" class=\"form-control select-filter\" (change)=\"pageIndex = 0\"\r\n                    [(ngModel)]=\"facultyFilterPipe\">\r\n              <option value=\"Виберіть факультет\" selected>{{'ADMIN.GROUP.CHOOSEF' | translate}}</option>\r\n              <option *ngFor=\"let tab of faculties; let i = index;\" value=\"{{tab.faculty_name}}\">\r\n                {{tab.faculty_name}}\r\n              </option>\r\n            </select>\r\n          </div>\r\n          <div class=\"form-group col-sm-4\">\r\n            <select name=\"account\" class=\"form-control select-filter\" (change)=\"pageIndex = 0\"\r\n                    [(ngModel)]=\"specialityFilterPipe\">\r\n              <option value=\"Виберіть спецільність\" selected>{{'ADMIN.GROUP.CHOOSES' | translate}}</option>\r\n              <option *ngFor=\"let tab of specialities; let i = index;\" value=\"{{tab.speciality_name}}\">\r\n                {{tab.speciality_name}}\r\n              </option>\r\n            </select>\r\n          </div>\r\n          <div class=\"form-group col-sm-1 d-flex justify-content-between\" title=\"{{'CLEAR' | translate}}\">\r\n            <button type=\"button\" id=\"refresh\" class=\"fa fa-refresh btn-header\"\r\n                    (click)=\"refreshFilters()\"></button>\r\n          </div>\r\n        </div>\r\n      </div>\r\n    </header>\r\n    <div class=\"progressbar\">\r\n      <mat-progress-bar *ngIf=\"progress\" mode=\"indeterminate\" color=\"primary\"></mat-progress-bar>\r\n    </div>\r\n    <div class=\"row\">\r\n      <div class=\"card col-12 col-lg-12\">\r\n        <div class=\"card-body table-responsive\">\r\n          <table class=\"table table-striped table-hover\">\r\n            <thead>\r\n            <tr>\r\n              <th>№</th>\r\n              <th>{{'ADMIN.GROUP.NAME' | translate}}</th>\r\n              <th>{{'ADMIN.GROUP.F' | translate}}</th>\r\n              <th>{{'ADMIN.GROUP.S' | translate}}</th>\r\n              <th colspan=\"5\"></th>\r\n            </tr>\r\n            </thead>\r\n            <tbody>\r\n            <tr\r\n              *ngFor=\"let tab of table | search: searchFilterPipe\r\n                                                         | facultyFilterPipe: facultyFilterPipe\r\n                                                         | specialityFilterPipe: specialityFilterPipe\r\n                                                         | pagination: pageSize : pageIndex; index as i;\"\r\n\r\n            >\r\n              <th>{{i+pageSize*pageIndex+1}}</th>\r\n              <td>{{tab.group}}</td>\r\n              <td>{{tab.faculty}}</td>\r\n              <td>{{tab.speciality}}</td>\r\n              <td><i class=\"fa fa-list\" title=\"{{'ADMIN.GROUP.TR' | translate}} {{tab.group}}\"\r\n                     (click)=\"goResults(tab.group_id)\"></i></td>\r\n              <td><i class=\"fa fa-user\" title=\"{{'ADMIN.GROUP.SG' | translate}} {{tab.group}}\"\r\n                     routerLink=\"/admin/students/byGroup/{{tab.group_id}}\"></i></td>\r\n              <td><i class=\"fa fa-calendar\" title=\"{{'ADMIN.GROUP.SCHEDULE' | translate}} {{tab.group}}\"\r\n                     (click)=\"goTimetable(tab.group_id)\"></i></td>\r\n              <td><i class=\"fa fa-cog\" title=\"{{'ADMIN.GROUP.EDIT' | translate}} {{tab.group}}\"\r\n                     (click)=\"openDialog(tab)\"></i></td>\r\n              <td><i class=\"fa fa-close\" title=\"{{'ADMIN.GROUP.DEL' | translate}} {{tab.group}}\"\r\n                     (click)=\"delGroup(tab.group_id)\"></i>\r\n              </td>\r\n            </tr>\r\n            </tbody>\r\n          </table>\r\n          <div *ngIf=\"emptyCollection\" class=\"tableMessage\">\r\n            {{error}}\r\n          </div>\r\n        </div>\r\n      </div>\r\n    </div>\r\n    <mat-paginator *ngIf=\"pagination\"\r\n                   [length]=pagService.fullLength\r\n                   [pageSize]=pageSize\r\n                   [pageIndex]=pageIndex\r\n                   [pageSizeOptions]=\"[5, 10, 25, 100]\"\r\n                   [showFirstLastButtons]=\"true\"\r\n                   (page)=\"paginationChange($event)\">\r\n    </mat-paginator>\r\n  </div>\r\n</section>\r\n"
+
+/***/ }),
+
+/***/ "./src/app/admin/groups/groups.component.scss":
+/***/ (function(module, exports) {
+
+module.exports = "select.select-filter {\n  margin-bottom: 0; }\n\ndiv.form-group.col-sm-3 {\n  margin: 5px 0;\n  padding: 0 5px; }\n\ndiv.form-group.col-sm-4 {\n  margin: 5px 0;\n  padding: 0 5px; }\n\ndiv.form-group.col-sm-1 {\n  margin: 5px 0;\n  padding: 0 5px; }\n\n.pagination /deep/ .ngx-pagination .current {\n  background: #33B357; }\n\n.pagination /deep/ .ngx-pagination .pagination-previous a:before,\n.pagination /deep/ .ngx-pagination .pagination-previous.disabled:before {\n  content: ''; }\n\n.pagination /deep/ .ngx-pagination .pagination-next a:after,\n.pagination /deep/ .ngx-pagination .pagination-next.disabled:after {\n  content: ''; }\n\nthead th {\n  vertical-align: top;\n  cursor: pointer; }\n\n.btn {\n  padding: 0.42rem 0.75rem; }\n"
+
+/***/ }),
+
+/***/ "./src/app/admin/groups/groups.component.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return GroupsComponent; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_router__ = __webpack_require__("./node_modules/@angular/router/esm5/router.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__dialog_dialog_component__ = __webpack_require__("./src/app/admin/groups/dialog/dialog.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__groups_service__ = __webpack_require__("./src/app/admin/groups/groups.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__angular_core__ = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__angular_material__ = __webpack_require__("./node_modules/@angular/material/esm5/material.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__shared_response_message_response_message_component__ = __webpack_require__("./src/app/shared/response-message/response-message.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_rxjs_add_operator_mergeMap__ = __webpack_require__("./node_modules/rxjs/_esm5/add/operator/mergeMap.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__shared_delete_confirm_delete_confirm_component__ = __webpack_require__("./src/app/shared/delete-confirm/delete-confirm.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__shared_pagination_pagination_class__ = __webpack_require__("./src/app/shared/pagination/pagination.class.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__angular_common_http__ = __webpack_require__("./node_modules/@angular/common/esm5/http.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__shared_pagination_pagination_service__ = __webpack_require__("./src/app/shared/pagination/pagination.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11_rxjs_add_operator_switchMap__ = __webpack_require__("./node_modules/rxjs/_esm5/add/operator/switchMap.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__ngx_translate_core__ = __webpack_require__("./node_modules/@ngx-translate/core/@ngx-translate/core.es5.js");
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+
+
+
+
+
+
+
+
+
+
+
+var GroupsComponent = /** @class */ (function (_super) {
+    __extends(GroupsComponent, _super);
+    function GroupsComponent(groupsService, dialog, router, pagIntl, http, route, pagService, snackBar, translate) {
+        var _this = _super.call(this, router, route, pagIntl, http, dialog, pagService, snackBar) || this;
+        _this.groupsService = groupsService;
+        _this.dialog = dialog;
+        _this.router = router;
+        _this.pagIntl = pagIntl;
+        _this.http = http;
+        _this.route = route;
+        _this.pagService = pagService;
+        _this.snackBar = snackBar;
+        _this.translate = translate;
+        _this.groups = [];
+        _this.faculties = [];
+        _this.specialities = [];
+        _this.table = [];
+        _this.searchFilterPipe = '';
+        _this.facultyFilterPipe = 'Виберіть факультет';
+        _this.specialityFilterPipe = 'Виберіть спецільність';
+        _this.pushTriger = true;
+        _this.sortBy = 'asc';
+        _this.route.queryParams.subscribe(function (params) {
+            if (params.specialityId) {
+                _this.specialityId = params.specialityId;
+            }
+            else if (params.facultyId) {
+                _this.facultyId = params.facultyId;
+            }
+        });
+        return _this;
+    }
+    GroupsComponent.prototype.refreshFilters = function () {
+        this.searchFilterPipe = '';
+        this.facultyFilterPipe = 'Виберіть факультет';
+        this.specialityFilterPipe = 'Виберіть спецільність';
+    };
+    GroupsComponent.prototype.ngOnInit = function () {
+        this.initLogic(true); // pagination code
+        this.getGroupsData();
+    };
+    GroupsComponent.prototype.ngOnDestroy = function () {
+        this.destroyLogic();
+    };
+    GroupsComponent.prototype.getGroupsData = function () {
+        var _this = this;
+        this.groupsService._getGroup()
+            .switchMap(function (groupData) {
+            _this.groups = groupData;
+            return _this.groupsService._getFaculties();
+        })
+            .switchMap(function (facultyData) {
+            _this.faculties = facultyData;
+            return _this.groupsService._getSpecialities();
+        })
+            .subscribe(function (specialityData) {
+            _this.specialities = specialityData;
+            _this.fillOutTableArray();
+        });
+    };
+    GroupsComponent.prototype.fillOutTableArray = function () {
+        var _this = this;
+        var tempTriger = false;
+        if (this.pushTriger) {
+            // for (let i = 0; i < this.groups.length; i++) {
+            this.groups.forEach(function (elem, i) {
+                _this.table.push({
+                    group_id: parseInt(elem.group_id, 10),
+                    group: elem.group_name,
+                    faculty: '',
+                    speciality: ''
+                });
+                for (var _i = 0, _a = _this.faculties; _i < _a.length; _i++) {
+                    var faculty = _a[_i];
+                    if (elem.faculty_id === faculty.faculty_id) {
+                        _this.table[i].faculty = faculty.faculty_name;
+                        break;
+                    }
+                }
+                for (var _b = 0, _c = _this.specialities; _b < _c.length; _b++) {
+                    var speciality = _c[_b];
+                    if (elem.speciality_id === speciality.speciality_id) {
+                        _this.table[i].speciality = speciality.speciality_name;
+                        break;
+                    }
+                }
+                if (_this.facultyId && tempTriger === false) {
+                    for (var _d = 0, _e = _this.faculties; _d < _e.length; _d++) {
+                        var faculty = _e[_d];
+                        if (faculty.faculty_id === _this.facultyId) {
+                            tempTriger = true;
+                            // this.groupsService.changeFacultyFilterPipe(faculty.faculty_name);
+                            _this.facultyFilterPipe = faculty.faculty_name;
+                        }
+                    }
+                }
+                if (_this.specialityId && tempTriger === false) {
+                    for (var _f = 0, _g = _this.specialities; _f < _g.length; _f++) {
+                        var speciality = _g[_f];
+                        if (speciality.speciality_id === _this.specialityId) {
+                            tempTriger = true;
+                            // this.groupsService.changeSpecialityFilterPipe(speciality.speciality_name);
+                            _this.specialityFilterPipe = speciality.speciality_name;
+                        }
+                    }
+                }
+            });
+            this.pushTriger = false;
+        }
+    };
+    // ************* DIALOG *****************
+    GroupsComponent.prototype.openDialog = function (groupLine) {
+        var _this = this;
+        var dialogConfig = new __WEBPACK_IMPORTED_MODULE_4__angular_material__["e" /* MatDialogConfig */]();
+        dialogConfig.disableClose = true;
+        dialogConfig.autoFocus = false;
+        if (groupLine) {
+            dialogConfig.data = {
+                group_id: groupLine.group_id,
+                group: groupLine.group,
+                faculty: groupLine.faculty,
+                speciality: groupLine.speciality
+            };
+        }
+        else if (!groupLine) {
+            dialogConfig.data = {
+                group_id: null
+            };
+        }
+        var dialogRef = this.dialog.open(__WEBPACK_IMPORTED_MODULE_1__dialog_dialog_component__["a" /* DialogComponent */], dialogConfig);
+        // IF GET DATA WE EDIT GROUP ELSE WE ADD GROUP
+        dialogRef.afterClosed().subscribe(function (resultDialog) {
+            if (!groupLine) {
+                if (resultDialog !== undefined) {
+                    _this.addGroup(resultDialog);
+                }
+            }
+            else if (groupLine) {
+                if (resultDialog !== undefined) {
+                    _this.editGroup(resultDialog);
+                }
+            }
+        });
+    };
+    GroupsComponent.prototype.delGroup = function (id) {
+        var _this = this;
+        var dialogConfig = new __WEBPACK_IMPORTED_MODULE_4__angular_material__["e" /* MatDialogConfig */]();
+        dialogConfig.disableClose = true;
+        dialogConfig.width = '400px';
+        this.translate.get('ADMIN.GROUP.DELC').subscribe(function (msg) {
+            dialogConfig.data = {
+                message: msg
+            };
+        });
+        var dialogRef = this.dialog.open(__WEBPACK_IMPORTED_MODULE_7__shared_delete_confirm_delete_confirm_component__["a" /* DeleteConfirmComponent */], dialogConfig);
+        dialogRef.afterClosed().subscribe(function (resultDialog) {
+            if (resultDialog === true) {
+                _this.groupsService._delGroup(id).subscribe(function (response) {
+                    if (response.response === 'ok') {
+                        _this.translate.get('ADMIN.GROUP.DELETED').subscribe(function (msg) {
+                            _this.openTooltip(msg);
+                        });
+                        for (var i = 0; i < _this.table.length; i++) {
+                            if (_this.table[i].group_id === id) {
+                                _this.table.splice(i, 1);
+                            }
+                        }
+                        if (_this.pagService.paginatedLength === 1) {
+                            _this.paginator.previousPage();
+                        }
+                    }
+                }, function (error) {
+                    _this.translate.get('ADMIN.GROUP.ERROR').subscribe(function (msg) {
+                        _this.dialog.open(__WEBPACK_IMPORTED_MODULE_5__shared_response_message_response_message_component__["a" /* ResponseMessageComponent */], {
+                            width: '400px',
+                            data: {
+                                message: msg
+                            }
+                        });
+                    });
+                    console.error('Виникла помилка при видаленні групи: ' + error);
+                });
+            }
+        });
+    };
+    // GET DATA FROM DIALOG, SEND (POST) TO SERVER WITH NEW DATA, GET RESPONSE, AND PUSH DATA TO TABLE.
+    GroupsComponent.prototype.addGroup = function (groupData) {
+        var _this = this;
+        var tempFacultyId;
+        var tempSpecialityId;
+        var addGroupData;
+        for (var _i = 0, _a = this.faculties; _i < _a.length; _i++) {
+            var faculty = _a[_i];
+            if (groupData.faculty === faculty.faculty_name) {
+                tempFacultyId = faculty.faculty_id;
+                break;
+            }
+        }
+        for (var _b = 0, _c = this.specialities; _b < _c.length; _b++) {
+            var speciality = _c[_b];
+            if (groupData.speciality === speciality.speciality_name) {
+                tempSpecialityId = speciality.speciality_id;
+                break;
+            }
+        }
+        addGroupData = {
+            group_name: groupData.group_name,
+            speciality_id: tempSpecialityId,
+            faculty_id: tempFacultyId,
+        };
+        this.groupsService._addGroup(addGroupData).subscribe(function (response) {
+            _this.translate.get('ADMIN.GROUP.ADDED').subscribe(function (msg) {
+                _this.openTooltip(msg);
+            });
+            if (response[0].group_name === groupData.group_name) {
+                _this.table.push({
+                    group_id: parseInt(response[0].group_id, 10),
+                    group: response[0].group_name,
+                    faculty: groupData.faculty,
+                    speciality: groupData.speciality
+                });
+            }
+        }, function (error) {
+            _this.translate.get('ADMIN.GROUP.ADDERR').subscribe(function (msg) {
+                _this.dialog.open(__WEBPACK_IMPORTED_MODULE_5__shared_response_message_response_message_component__["a" /* ResponseMessageComponent */], {
+                    width: '400px',
+                    data: {
+                        message: msg
+                    }
+                });
+            });
+            console.error('Виникла помилка при додаванні групи: ' + error);
+        });
+    };
+    // EDIT GROUP
+    GroupsComponent.prototype.editGroup = function (groupData) {
+        var _this = this;
+        var tempFaculty;
+        var tempSpeciality;
+        var tempFacultyId;
+        var tempSpecialityId;
+        var editGroupData;
+        for (var _i = 0, _a = this.faculties; _i < _a.length; _i++) {
+            var faculty = _a[_i];
+            if (groupData.faculty === faculty.faculty_name) {
+                tempFacultyId = faculty.faculty_id;
+                tempFaculty = faculty.faculty_name;
+                break;
+            }
+        }
+        for (var _b = 0, _c = this.specialities; _b < _c.length; _b++) {
+            var speciality = _c[_b];
+            if (groupData.speciality === speciality.speciality_name) {
+                tempSpecialityId = speciality.speciality_id;
+                tempSpeciality = speciality.speciality_name;
+                break;
+            }
+        }
+        editGroupData = {
+            group_id: groupData.group_id,
+            group_name: groupData.group_name,
+            speciality_id: tempSpecialityId,
+            faculty_id: tempFacultyId,
+        };
+        var _loop_1 = function (table) {
+            if (table.group_id === groupData.group_id) {
+                if (table.group !== groupData.group_name || table.faculty !== tempFaculty || table.speciality !== tempSpeciality) {
+                    this_1.groupsService._editGroup(editGroupData).subscribe(function (response) {
+                        if (parseInt(response[0].group_id, 10) === groupData.group_id) {
+                            _this.groupsService._getFaculty(response[0].faculty_id).subscribe(function (facResponse) {
+                                tempFaculty = facResponse[0].faculty_name;
+                                _this.groupsService._getSpeciality(response[0].speciality_id).subscribe(function (specResponse) {
+                                    tempSpeciality = specResponse[0].speciality_name;
+                                    _this.translate.get('ADMIN.GROUP.SEDIT').subscribe(function (msg) {
+                                        _this.openTooltip(msg);
+                                    });
+                                    table.group = groupData.group_name;
+                                    table.faculty = tempFaculty;
+                                    table.speciality = tempSpeciality;
+                                });
+                            });
+                        }
+                        else {
+                            _this.translate.get('ADMIN.GROUP.EDITERR').subscribe(function (msg) {
+                                _this.dialog.open(__WEBPACK_IMPORTED_MODULE_5__shared_response_message_response_message_component__["a" /* ResponseMessageComponent */], {
+                                    width: '400px',
+                                    data: {
+                                        message: msg
+                                    }
+                                });
+                            });
+                        }
+                    });
+                }
+            }
+        };
+        var this_1 = this;
+        for (var _d = 0, _e = this.table; _d < _e.length; _d++) {
+            var table = _e[_d];
+            _loop_1(table);
+        }
+    };
+    GroupsComponent.prototype.goTimetable = function (id) {
+        this.router.navigate(['admin/timetable'], { queryParams: { groupId: id } });
+    };
+    GroupsComponent.prototype.goResults = function (id) {
+        this.router.navigate(['admin/results'], { queryParams: { groupId: id } });
+    };
+    GroupsComponent.prototype.sorting = function (prop) {
+        if (this.sortBy === 'asc') {
+            this.sortBy = 'desc';
+            this.table.sort(function (a, b) { return a["" + prop].localeCompare(b["" + prop]); });
+        }
+        else if (this.sortBy === 'desc') {
+            this.sortBy = 'asc';
+            this.table.sort(function (a, b) { return b["" + prop].localeCompare(a["" + prop]); });
+        }
+    };
+    GroupsComponent = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_3__angular_core__["n" /* Component */])({
+            selector: 'app-groups',
+            template: __webpack_require__("./src/app/admin/groups/groups.component.html"),
+            styles: [__webpack_require__("./src/app/admin/groups/groups.component.scss")],
+            providers: [__WEBPACK_IMPORTED_MODULE_2__groups_service__["a" /* GroupsService */]]
+        }),
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_2__groups_service__["a" /* GroupsService */],
+            __WEBPACK_IMPORTED_MODULE_4__angular_material__["d" /* MatDialog */],
+            __WEBPACK_IMPORTED_MODULE_0__angular_router__["f" /* Router */],
+            __WEBPACK_IMPORTED_MODULE_4__angular_material__["j" /* MatPaginatorIntl */],
+            __WEBPACK_IMPORTED_MODULE_9__angular_common_http__["b" /* HttpClient */],
+            __WEBPACK_IMPORTED_MODULE_0__angular_router__["a" /* ActivatedRoute */],
+            __WEBPACK_IMPORTED_MODULE_10__shared_pagination_pagination_service__["a" /* PaginationService */],
+            __WEBPACK_IMPORTED_MODULE_4__angular_material__["o" /* MatSnackBar */],
+            __WEBPACK_IMPORTED_MODULE_12__ngx_translate_core__["c" /* TranslateService */]])
+    ], GroupsComponent);
+    return GroupsComponent;
+}(__WEBPACK_IMPORTED_MODULE_8__shared_pagination_pagination_class__["a" /* Pagination */]));
+
+
+
+/***/ }),
+
+/***/ "./src/app/admin/groups/groups.module.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony export (immutable) */ __webpack_exports__["HttpLoaderFactory"] = HttpLoaderFactory;
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "GroupsModule", function() { return GroupsModule; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__selectFilters_facultyFilter_pipe__ = __webpack_require__("./src/app/admin/groups/selectFilters/facultyFilter.pipe.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_core__ = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_common__ = __webpack_require__("./node_modules/@angular/common/esm5/common.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__groups_routing_module__ = __webpack_require__("./src/app/admin/groups/groups-routing.module.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__groups_service__ = __webpack_require__("./src/app/admin/groups/groups.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__dialog_dialog_component__ = __webpack_require__("./src/app/admin/groups/dialog/dialog.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__shared_shared_module__ = __webpack_require__("./src/app/shared/shared.module.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__groups_component__ = __webpack_require__("./src/app/admin/groups/groups.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__selectFilters_specialityFilter_pipe__ = __webpack_require__("./src/app/admin/groups/selectFilters/specialityFilter.pipe.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__groups_delete_confirm_groups_delete_confirm_component__ = __webpack_require__("./src/app/admin/groups/groups-delete-confirm/groups-delete-confirm.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__search_pipe__ = __webpack_require__("./src/app/admin/groups/search.pipe.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__ngx_translate_core__ = __webpack_require__("./node_modules/@ngx-translate/core/@ngx-translate/core.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__ngx_translate_http_loader__ = __webpack_require__("./node_modules/@ngx-translate/http-loader/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__angular_common_http__ = __webpack_require__("./node_modules/@angular/common/esm5/http.js");
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+function HttpLoaderFactory(httpClient) {
+    return new __WEBPACK_IMPORTED_MODULE_12__ngx_translate_http_loader__["a" /* TranslateHttpLoader */](httpClient);
+}
+var GroupsModule = /** @class */ (function () {
+    function GroupsModule() {
+    }
+    GroupsModule = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_1__angular_core__["K" /* NgModule */])({
+            declarations: [
+                __WEBPACK_IMPORTED_MODULE_5__dialog_dialog_component__["a" /* DialogComponent */],
+                __WEBPACK_IMPORTED_MODULE_9__groups_delete_confirm_groups_delete_confirm_component__["a" /* GroupsDeleteConfirmComponent */],
+                __WEBPACK_IMPORTED_MODULE_7__groups_component__["a" /* GroupsComponent */],
+                __WEBPACK_IMPORTED_MODULE_10__search_pipe__["a" /* SearchFilterPipe */],
+                __WEBPACK_IMPORTED_MODULE_0__selectFilters_facultyFilter_pipe__["a" /* FacultyFilterPipe */],
+                __WEBPACK_IMPORTED_MODULE_8__selectFilters_specialityFilter_pipe__["a" /* SpecialityFilterPipe */]
+            ],
+            imports: [
+                __WEBPACK_IMPORTED_MODULE_2__angular_common__["b" /* CommonModule */],
+                __WEBPACK_IMPORTED_MODULE_3__groups_routing_module__["a" /* GroupsRoutingModule */],
+                __WEBPACK_IMPORTED_MODULE_6__shared_shared_module__["a" /* SharedModule */],
+                __WEBPACK_IMPORTED_MODULE_11__ngx_translate_core__["b" /* TranslateModule */].forChild({
+                    loader: { provide: __WEBPACK_IMPORTED_MODULE_11__ngx_translate_core__["a" /* TranslateLoader */], useFactory: HttpLoaderFactory,
+                        deps: [__WEBPACK_IMPORTED_MODULE_13__angular_common_http__["b" /* HttpClient */]] },
+                    isolate: false
+                })
+            ],
+            providers: [
+                __WEBPACK_IMPORTED_MODULE_4__groups_service__["a" /* GroupsService */]
+            ],
+            entryComponents: [
+                __WEBPACK_IMPORTED_MODULE_5__dialog_dialog_component__["a" /* DialogComponent */],
+                __WEBPACK_IMPORTED_MODULE_9__groups_delete_confirm_groups_delete_confirm_component__["a" /* GroupsDeleteConfirmComponent */]
+            ]
+        })
+    ], GroupsModule);
+    return GroupsModule;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/app/admin/groups/groups.service.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return GroupsService; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_common_http__ = __webpack_require__("./node_modules/@angular/common/esm5/http.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rxjs_add_operator_switchMap__ = __webpack_require__("./node_modules/rxjs/_esm5/add/operator/switchMap.js");
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+
+var GroupsService = /** @class */ (function () {
+    function GroupsService(http) {
+        this.http = http;
+        this.header = {
+            headers: new __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["d" /* HttpHeaders */]({
+                'Content-Type': 'application/json;charset=utf-8'
+            })
+        };
+    }
+    GroupsService.prototype._getGroup = function () {
+        return this.http.get('group/getRecords/', this.header);
+    };
+    GroupsService.prototype._delGroup = function (id) {
+        return this.http.get('group/del/' + id, this.header);
+    };
+    GroupsService.prototype._getFaculty = function (id) {
+        return this.http.get('Faculty/getRecords/' + id, this.header);
+    };
+    GroupsService.prototype._getSpeciality = function (id) {
+        return this.http.get('Speciality/getRecords/' + id, this.header);
+    };
+    GroupsService.prototype._addGroup = function (body) {
+        var data = {
+            'group_name': body.group_name,
+            'speciality_id': body.speciality_id,
+            'faculty_id': body.faculty_id
+        };
+        return this.http.post('group/insertData', JSON.stringify(data), this.header);
+    };
+    GroupsService.prototype._editGroup = function (body) {
+        var id = body.group_id;
+        var data = {
+            'group_name': body.group_name,
+            'speciality_id': body.speciality_id,
+            'faculty_id': body.faculty_id
+        };
+        return this.http.post('group/update/' + id, JSON.stringify(data), this.header);
+    };
+    //  Two functions below are using for getting value for Dialog window
+    GroupsService.prototype._getFaculties = function () {
+        return this.http.get('Faculty/getRecords/', this.header);
+    };
+    GroupsService.prototype._getSpecialities = function () {
+        return this.http.get('Speciality/getRecords/', this.header);
+    };
+    GroupsService = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["C" /* Injectable */])(),
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1__angular_common_http__["b" /* HttpClient */]])
+    ], GroupsService);
+    return GroupsService;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/app/admin/groups/search.pipe.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return SearchFilterPipe; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+var SearchFilterPipe = /** @class */ (function () {
+    function SearchFilterPipe() {
+    }
+    SearchFilterPipe.prototype.transform = function (table, value) {
+        if (!value) {
+            return table;
+        }
+        return table.filter(function (tab) {
+            return tab.group.toLowerCase().includes(value.toLowerCase());
+        });
+    };
+    SearchFilterPipe = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["V" /* Pipe */])({
+            name: 'search',
+            pure: false
+        }),
+        __metadata("design:paramtypes", [])
+    ], SearchFilterPipe);
+    return SearchFilterPipe;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/app/admin/groups/selectFilters/facultyFilter.pipe.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return FacultyFilterPipe; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+var FacultyFilterPipe = /** @class */ (function () {
+    function FacultyFilterPipe() {
+    }
+    FacultyFilterPipe.prototype.transform = function (table, value) {
+        if (!value || value === 'Виберіть факультет') {
+            return table;
+        }
+        return table.filter(function (tab) {
+            return tab.faculty.toLowerCase().includes(value.toLowerCase());
+        });
+    };
+    FacultyFilterPipe = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["V" /* Pipe */])({
+            name: 'facultyFilterPipe',
+            pure: false
+        }),
+        __metadata("design:paramtypes", [])
+    ], FacultyFilterPipe);
+    return FacultyFilterPipe;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/app/admin/groups/selectFilters/specialityFilter.pipe.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return SpecialityFilterPipe; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+var SpecialityFilterPipe = /** @class */ (function () {
+    function SpecialityFilterPipe() {
+    }
+    SpecialityFilterPipe.prototype.transform = function (table, value) {
+        if (!value || value === 'Виберіть спецільність') {
+            return table;
+        }
+        return table.filter(function (tab) {
+            return tab.speciality.toLowerCase().includes(value.toLowerCase());
+        });
+    };
+    SpecialityFilterPipe = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["V" /* Pipe */])({
+            name: 'specialityFilterPipe',
+            pure: false
+        }),
+        __metadata("design:paramtypes", [])
+    ], SpecialityFilterPipe);
+    return SpecialityFilterPipe;
+}());
+
+
+
+/***/ })
+
+});
+//# sourceMappingURL=groups.module.chunk.js.map

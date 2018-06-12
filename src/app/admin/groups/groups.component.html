@@ -17,7 +17,7 @@
       <div class="card col-12 col-lg-12">
         <div class="card-body row">
           <div class="form-group col-sm-3">
-            <input type="text" class="form-control" placeholder="{{'SEARCH' | translate}}" (keypress)="pageIndex = 0"
+            <input type="text" id="search" class="form-control" placeholder="{{'SEARCH' | translate}}" (keypress)="pageIndex = 0"
                    [(ngModel)]="searchFilterPipe">
           </div>
           <div class="form-group col-sm-4">
