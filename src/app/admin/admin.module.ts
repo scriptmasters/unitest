@@ -18,13 +18,28 @@ import {FilterComponent} from './results/filter.component';
 import {ResultsService} from './results/services/results.service';
 import {ResultComponent} from './results/result/result.component';
 import {FacultiesService} from './faculties/services/faculties.service';
+import {HttpClient, HttpClientModule} from '@angular/common/http';
+import {TranslateModule, TranslateLoader} from '@ngx-translate/core';
+import {TranslateHttpLoader} from '@ngx-translate/http-loader';
+
+export function HttpLoaderFactory(httpClient: HttpClient) {
+    return new TranslateHttpLoader(httpClient);
+  }
 import { TestResultGraphComponent } from './results/modals/test-result-graph/test-result-graph.component';
 
 @NgModule({
     imports: [
         CommonModule,
         SharedModule,
-        AdminRoutingModule
+        AdminRoutingModule,
+        HttpClientModule,
+        TranslateModule.forRoot({
+            loader: {
+                provide: TranslateLoader,
+                useFactory: HttpLoaderFactory,
+                deps: [HttpClient]
+            }
+    })
     ],
     entryComponents: [
         AddQuestionComponent,

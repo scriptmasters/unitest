@@ -9,6 +9,13 @@ import {GroupsComponent} from './groups.component';
 import {SearchFilter} from './search.component';
 import {SpecialityFilterComponent} from './selectFilters/specialityFilter.component';
 import {GroupsDeleteConfirmComponent} from './groups-delete-confirm/groups-delete-confirm.component';
+import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { HttpClient } from '@angular/common/http';
+
+export function HttpLoaderFactory(httpClient: HttpClient) {
+    return new TranslateHttpLoader(httpClient);
+  }
 
 @NgModule({
   declarations: [
@@ -22,7 +29,12 @@ import {GroupsDeleteConfirmComponent} from './groups-delete-confirm/groups-delet
   imports: [
     CommonModule,
     GroupsRoutingModule,
-    SharedModule
+    SharedModule,
+    TranslateModule.forChild({
+      loader: {provide: TranslateLoader, useFactory: HttpLoaderFactory,
+          deps: [HttpClient]},
+      isolate: false
+  })
   ],
   providers: [
     GroupsService

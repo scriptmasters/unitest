@@ -6,6 +6,7 @@ import {HttpClient} from '@angular/common/http';
 import {MatDialog, MatPaginatorIntl, MatSnackBar} from '@angular/material';
 import {PaginationService} from '../../../shared/pagination/pagination.service';
 import {ActivatedRoute, Router} from '@angular/router';
+import { TranslateService } from '@ngx-translate/core';
 import {TestResultGraphComponent} from '../modals/test-result-graph/test-result-graph.component';
 
 @Component({
@@ -39,7 +40,8 @@ export class ResultComponent extends Pagination implements OnInit, OnDestroy {
               public http: HttpClient,
               public dialog: MatDialog,
               public pagService: PaginationService,
-              public snackBar: MatSnackBar) {
+              public snackBar: MatSnackBar,
+              public translate: TranslateService) {
       super(router, route, pagIntl, http, dialog, pagService, snackBar);
   }
 

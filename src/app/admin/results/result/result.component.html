@@ -5,12 +5,12 @@
         <div class="card col-12 col-lg-12">
           <div class="card-body  d-flex justify-content-between">
             <div class="align-self-center">
-              <h2 class="display">Результати тесту: "{{testName}}"</h2>
+              <h2 class="display">{{'ADMIN.RESULTS' | translate}} "{{testName}}"</h2>
             </div>
             <div>
-              <button class="btn btn-secondary" (click)="openChartDialog()" >Показати граф</button>
+              <button class="btn btn-secondary" (click)="openChartDialog()" >{{'ADMIN.SHOWGR' | translate}}</button>
               <button class="btn btn-success"
-                      (click)="showFilter()">Показати фільтр</button>
+                      (click)="showFilter()">{{'ADMIN.RES.FILTER' | translate}}</button>
             </div>
           </div>
         </div>
@@ -24,42 +24,42 @@
                 <tr>
                   <th>№</th>
                   <th class="pointer" (click)="setOrder((order === 'student' ? 'studentDesc' : 'student'))"  >
-                    <span>Студент</span>
+                    <span>{{'ADMIN.STUDENTS' | translate}}</span>
                     <i *ngIf="order === 'student'" class="fa fa-sort-asc"
                        aria-hidden="true"></i>
                     <i *ngIf="order === 'studentDesc'" class="fa fa-sort-desc"
                        aria-hidden="true"></i>
                   </th>
                   <th class="pointer" (click)="setOrder((order === 'result' ? 'resultDesc' : 'result'))"  >
-                    <span>Рейтинг</span>
+                    <span>{{'ADMIN.RES.RATING' | translate}}</span>
                     <i *ngIf="order === 'result'" class="fa fa-sort-asc"
                        aria-hidden="true"></i>
                     <i *ngIf="order === 'resultDesc'" class="fa fa-sort-desc"
                        aria-hidden="true"></i>
                   </th>
                   <th class="pointer" (click)="setOrder((order === 'quality' ? 'qualityDesc' : 'quality'))"  >
-                    <span>Якість</span>
+                    <span>{{'ADMIN.RES.QUALITY' | translate}}</span>
                     <i *ngIf="order === 'quality'" class="fa fa-sort-asc"
                        aria-hidden="true"></i>
                     <i *ngIf="order === 'qualityDesc'" class="fa fa-sort-desc"
                        aria-hidden="true"></i>
                   </th>
                   <th class="pointer" (click)="setOrder((order === 'date' ? 'dateDesc' : 'date'))"  >
-                    <span>Дата</span>
+                    <span>{{'ADMIN.RES.DATE' | translate}}</span>
                     <i *ngIf="order === 'date'" class="fa fa-sort-asc"
                        aria-hidden="true"></i>
                     <i *ngIf="order === 'dateDesc'" class="fa fa-sort-desc"
                        aria-hidden="true"></i>
                   </th>
                   <th class="pointer" (click)="setOrder((order === 'duration' ? 'durationDesc' : 'duration'))"  >
-                    <span>Тривалість</span>
+                    <span>{{'STUDENT.DURATION' | translate}}</span>
                     <i *ngIf="order === 'duration'" class="fa fa-sort-asc"
                        aria-hidden="true"></i>
                     <i *ngIf="order === 'durationDesc'" class="fa fa-sort-desc"
                        aria-hidden="true"></i>
                   </th>
                   <th class="pointer" (click)="setOrder((order === 'time' ? 'timeDesc' : 'time'))"  >
-                    <span>Час початку</span>
+                    <span>{{'ADMIN.SC.TS' | translate}}</span>
                     <i *ngIf="order === 'time'" class="fa fa-sort-asc"
                        aria-hidden="true"></i>
                     <i *ngIf="order === 'timeDesc'" class="fa fa-sort-desc"
@@ -99,7 +99,7 @@
         <div class="row">
           <div class="card col-12 col-lg-12">
             <div class="card-body">
-              <h2>Немає даних</h2>
+              <h2>{{'NODATA' | translate}}</h2>
             </div>
           </div>
         </div>

@@ -1,40 +1,42 @@
 <form [formGroup]="form" (ngSubmit)="onSubmit()" *ngIf="isLoaded">
     <div class="form-row justify-content-between mb-2">
-        <h2 class='pl-1'>{{faculty[0].faculty_id ? 'Редагувати' : 'Додати'}} факультет</h2>
+        <h2 class='pl-1' *ngIf="faculty[0].faculty_id">{{'ADMIN.EDFA' | translate}}</h2>
+        <h2 class='pl-1' *ngIf="!faculty[0].faculty_id">{{'ADMIN.ADDF' | translate}}</h2>
         <i class="fa fa-close pr-1" (click)="closeDialog()"></i>
     </div>
     <div class="form-row" [ngClass]="{'form-has-error': form.get('title').invalid && (form.get('title').dirty || form.get('title').touched)}">
         <div class="form-group col-12">
-            <label>Назва факультету</label>
-            <input type="text" id="title" placeholder="Назва факультету" class="form-control form-control-success" formControlName="title" [(ngModel)]="faculty[0].faculty_name">
+            <label>{{'ADMIN.F.NAME' | translate}}</label>
+            <input type="text" id="title" placeholder="{{'ADMIN.F.NAME' | translate}}" class="form-control form-control-success" formControlName="title" [(ngModel)]="faculty[0].faculty_name">
             <div class="form-msg">
                 <small *ngIf="form.get('title').invalid && (form.get('title').dirty || form.get('title').touched)">
-                    <span *ngIf="form.get('title')['errors']['required']">Дане поле є обов'язковим</span>
-                    <span *ngIf="form.get('title')['errors']['pattern']">Це поле повинне складатися не менш ніж з 5 літер українського алфавіту та пробілів</span>
-                    <span *ngIf="form.get('title')['errors']['maxlength']">Поле повинно містити не більше ніж {{form.get('title')['errors']['maxlength']['requiredLength']}} символів</span>
+                    <span *ngIf="form.get('title')['errors']['required']">{{'REQUIRED' | translate}}</span>
+                    <span *ngIf="form.get('title')['errors']['pattern']">{{'ERR5' | translate}}</span>
+                    <span *ngIf="form.get('title')['errors']['maxlength']">{{'NMT' | translate}} {{form.get('title')['errors']['maxlength']['requiredLength']}} {{'CHAR' | translate }}</span>
                 </small>
             </div>
         </div>
     </div>
     <div class="form-row" [ngClass]="{'form-has-error': form.get('description').invalid && form.get('description').touched}">
         <div class="form-group col-12">
-            <label>Опис факультету</label>
-            <input type="text" id="description" placeholder="Опис факультету" class="form-control form-control-warning " formControlName="description" [(ngModel)]="faculty[0].faculty_description">
+            <label>{{'DESCRIPTION' | translate}}</label>
+            <input type="text" id="description" placeholder="{{'DESCRIPTION' | translate}}" class="form-control form-control-warning " formControlName="description" [(ngModel)]="faculty[0].faculty_description">
             <div class="form-msg">
                 <small *ngIf="form.get('description').invalid && (form.get('description').dirty || form.get('description').touched)">
-                  <span *ngIf="form.get('description')['errors']['required']">Дане поле є обов'язковим</span>
-                  <span *ngIf="form.get('description')['errors']['pattern']">Це поле повинне складатися не менш ніж з 2 літер українського алфавіту та пробілів</span>
-                  <span *ngIf="form.get('description')['errors']['maxlength']">Поле повинно містити не більше ніж {{form.get('description')['errors']['maxlength']['requiredLength']}} символів</span>
+                  <span *ngIf="form.get('description')['errors']['required']">{{'REQUIRED' | translate}}</span>
+                  <span *ngIf="form.get('description')['errors']['pattern']">{{'ERR2' | translate}}</span>
+                  <span *ngIf="form.get('description')['errors']['maxlength']">{{'NMT' | translate}} {{form.get('description')['errors']['maxlength']['requiredLength']}} {{'CHAR' | translate }}</span>
             </small>
             </div>
         </div>
     </div>
     <div class="form-row d-flex justify-content-center">
         <div class="form-group col-sm-6 col-md-4">
-            <input class="btn btn-danger col-sm-12" type="button" (click)="closeDialog()" value="Відмінити">
+            <input class="btn btn-danger col-sm-12" type="button" (click)="closeDialog()" value="{{'ADMIN.CANCEL' | translate}}">
         </div>
         <div class="form-group col-sm-6 col-md-4">
-            <input class="btn btn-success col-sm-12" type="submit" value="{{faculty[0].faculty_id ? 'Редагувати' : 'Зареєструвати'}}" [disabled]="!form.valid">
+            <input *ngIf="faculty[0].faculty_id" class="btn btn-success col-sm-12" type="submit" [disabled]="!form.valid" value="{{'EDIT' | translate}}">
+            <input *ngIf="!faculty[0].faculty_id" class="btn btn-success col-sm-12" type="submit" [disabled]="!form.valid" value="{{'ADMIN.SUBMIT' | translate}}">
         </div>
     </div>
 </form>

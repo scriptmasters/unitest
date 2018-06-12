@@ -117,23 +117,23 @@
 
                 <td *ngIf=" correctAnswerInputType === 'num' ">
                     <label class="center-block" >
-                            <input *ngIf="(answerIndex === 0)" class="form-control form-control-success" type = "text" value="{{editedAnswersArray[answerIndex].answer_text}}"
+                            <input *ngIf="(answerIndex === 0)" class="form-control form-control-success" type = "number" value="{{editedAnswersArray[answerIndex].answer_text}}"
                                 formControlName = "0" (blur)="setAnsverText(answerIndex, $event)"
                             >
                         <div class="form-msg" *ngIf="(answerIndex === 0)">
                                 <small *ngIf="form.get('0').invalid && (form.get('0').dirty || form.get('0').touched)">
                                     <span *ngIf="isFirstNumberIncorrect">Мінімальне значення має бути менше за максимальне. </span>
-                                    <span *ngIf="form.get('0')['errors']['required'] && !isFirstNumberIncorrect">Дане поле не може бути порожнім. </span>
+                                    <span *ngIf="form.get('0')['errors']['required'] && !isFirstNumberIncorrect">Введіть число в форматі ###,###</span>
                                     <span *ngIf="form.get('0')['errors']['pattern'] && !isFirstNumberIncorrect">Це поле повинно містити число в форматі ###.### </span>
                                 </small>
                         </div>
-                            <input *ngIf="(answerIndex === 1)" class="form-control form-control-success" type = "text" value="{{editedAnswersArray[answerIndex].answer_text}}"
+                            <input *ngIf="(answerIndex === 1)" class="form-control form-control-success" type = "number" value="{{editedAnswersArray[answerIndex].answer_text}}"
                                 formControlName = "1" (blur)="setAnsverText(answerIndex, $event)"
                             >
                         <div class="form-msg" *ngIf="(answerIndex === 1)">
                                 <small *ngIf="form.get('1').invalid  && (form.get('1').dirty || form.get('1').touched)">
                                     <span *ngIf="isSecondNumberIncorrect">Максимальне значення має бути більше за мінімальне. </span>
-                                    <span *ngIf="form.get('1')['errors']['required'] && !isSecondNumberIncorrect">Дане поле не може бути порожнім. </span>
+                                    <span *ngIf="form.get('1')['errors']['required'] && !isSecondNumberIncorrect">Введіть число в форматі ###,###</span>
                                     <span *ngIf="form.get('1')['errors']['pattern'] && !isSecondNumberIncorrect">Це поле повинно містити число в форматі ###.### </span>
                                 </small>
                         </div>
@@ -157,12 +157,12 @@
                             >
                     </label>
                 </td>
-                <td *ngIf=" correctAnswerInputType !== 'num' ">
+                <td *ngIf="(correctAnswerInputType === 'radio' || correctAnswerInputType === 'checkbox')">
                     <label id="label_uploads" for="{{answerIndex}}">Вибрати&nbsp;файл</label>&nbsp;
                     <input type="file" hidden id="{{answerIndex}}" accept="image/*"
                     (change)="setAnsverAttachment(answerIndex, $event)" name="answerIndex">
                 </td>
-                <td *ngIf=" correctAnswerInputType !== 'num' ">
+                <td *ngIf="(correctAnswerInputType === 'radio' || correctAnswerInputType === 'checkbox')">
                     <img *ngIf="editedAnswersArray[answerIndex].attachment !== undefined"
                         [src]="editedAnswersArray[answerIndex].attachment"
                         width="50"
