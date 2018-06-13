@@ -9,14 +9,13 @@ import {MatPaginatorModule} from '@angular/material/paginator';
 import {HttpClientTestingModule, HttpTestingController} from '@angular/common/http/testing';
 import {DialogComponent} from './dialog/dialog.component';
 import {ReactiveFormsModule} from '@angular/forms';
-import {MatDialog, MatDialogConfig, MatDialogRef, MatSnackBar, MatSnackBarModule} from '@angular/material';
+import {MatSnackBarModule} from '@angular/material';
 import {MatDialogModule} from '@angular/material';
 import {RouterTestingModule} from '@angular/router/testing';
 import {PaginationService} from '../../shared/pagination/pagination.service';
 import {GroupsService} from './groups.service';
 import {Observable} from 'rxjs/Observable';
 import {Groups, Specialities, Faculties, Table} from './interface';
-
 
 
 import {GroupsDeleteConfirmComponent} from './groups-delete-confirm/groups-delete-confirm.component';
@@ -32,8 +31,6 @@ import {HttpLoaderFactory} from './groups.module';
 fdescribe('GroupsComponent', () => {
   let component: GroupsComponent;
   let fixture: ComponentFixture<GroupsComponent>;
-  let translate: TranslateService;
-  let http: HttpTestingController;
 
   const groups: Groups[] = [
     {
@@ -114,9 +111,6 @@ fdescribe('GroupsComponent', () => {
 
   @Pipe({name: 'specialityFilterPipe'})
   class MockPipeSpeciality implements PipeTransform {
-    // transform(value: number): number {
-    //   return value;
-    // }
 
     transform(_table, value) {
       if (!value || value === 'Виберіть спецільність') {
@@ -130,9 +124,6 @@ fdescribe('GroupsComponent', () => {
 
   @Pipe({name: 'facultyFilterPipe'})
   class MockPipeFaculty implements PipeTransform {
-    // transform(value: number): number {
-    //   return value;
-    // }
 
     transform(_table, value) {
       if (!value || value === 'Виберіть факультет') {
@@ -168,11 +159,7 @@ fdescribe('GroupsComponent', () => {
   }
 
 
-
   beforeEach(async(() => {
-
-    // mockGroupsService = new MockGroupsService();
-
 
     TestBed.configureTestingModule({
       imports: [
@@ -209,7 +196,6 @@ fdescribe('GroupsComponent', () => {
         {provide: GroupsService, useClass: MockGroupsService},
         PaginationService,
         DeleteConfirmComponent,
-        TranslateService
       ],
     })
       .overrideComponent(GroupsComponent, {
@@ -218,7 +204,6 @@ fdescribe('GroupsComponent', () => {
             {provide: GroupsService, useClass: MockGroupsService},
             PaginationService,
             DeleteConfirmComponent,
-            TranslateService
           ],
           entryComponents: [
             DeleteConfirmComponent
@@ -226,18 +211,12 @@ fdescribe('GroupsComponent', () => {
         }
       })
       .compileComponents();
-    translate = TestBed.get(TranslateService);
-    http = TestBed.get(HttpTestingController);
-
-
   }));
-
 
   beforeEach(() => {
     fixture = TestBed.createComponent(GroupsComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
-    // groupsService = TestBed.get(GroupsService);
   });
 
   it(`should create`, () => {

@@ -102,6 +102,7 @@ export class TestPlayerComponent implements OnInit, OnDestroy {
 
   getQuestions(): void {
     this.questions = this.questionService.getQuestions();
+    console.log(this.questions);
     if (this.questions !== null) {
       this.question = this.questions[0];
       this.isLoaded = true;

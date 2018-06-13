@@ -90,7 +90,6 @@ export class GroupsComponent extends Pagination implements OnInit, OnDestroy {
   fillOutTableArray() {
     let tempTriger = false;
     if (this.pushTriger) {
-      // for (let i = 0; i < this.groups.length; i++) {
       this.groups.forEach((elem, i) => {
         this.table.push({
           group_id: parseInt(elem.group_id, 10),
@@ -117,7 +116,6 @@ export class GroupsComponent extends Pagination implements OnInit, OnDestroy {
           for (const faculty of this.faculties) {
             if (faculty.faculty_id === this.facultyId) {
               tempTriger = true;
-              // this.groupsService.changeFacultyFilterPipe(faculty.faculty_name);
               this.facultyFilterPipe = faculty.faculty_name;
             }
           }
@@ -127,7 +125,6 @@ export class GroupsComponent extends Pagination implements OnInit, OnDestroy {
           for (const speciality of this.specialities) {
             if (speciality.speciality_id === this.specialityId) {
               tempTriger = true;
-              // this.groupsService.changeSpecialityFilterPipe(speciality.speciality_name);
               this.specialityFilterPipe = speciality.speciality_name;
             }
           }
@@ -182,7 +179,6 @@ delGroup(id) {
             message: msg
         };
     });
-
 
     const dialogRef = this.dialog.open(DeleteConfirmComponent, dialogConfig);
 

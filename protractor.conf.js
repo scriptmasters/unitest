@@ -10,9 +10,7 @@ exports.config = {
   ],
   capabilities: {
     'browserName': 'chrome',
-    'chromeOptions': {
-      'args': ['--disable-web-security', '--user-data-dir=~/.e2e-chrome-profile']
-    }
+    'chromeOptions': {'args': ['--disable-extensions --disable-web-security --disk-cache-size=1 --media-cache-size=1']}
   },
   directConnect: true,
   baseUrl: 'http://localhost:4200/',
