@@ -9,11 +9,17 @@ describe('unitest App', () => {
   });
 
   it('should login', () => {
-    page.navigateTo();
-    page.logOut();
+    // page.navigateTo();
+    // page.logOut();
     page.navigateTo();
     page.fillCredentials();
     expect(page.getPageTitleText()).toEqual('Статистика');
+  });
+
+  it(`should change language to Ukrainian`, () => {
+    page.navigateTo();
+    page.setUaLanguage();
+    expect(page.getAdminTitle()).toEqual('ПАНЕЛЬ АДМІНІСТРАТОРА');
   });
 
   it(`should display 'Unitest' as a tab title`, () => {
@@ -28,21 +34,21 @@ describe('unitest App', () => {
     expect(page.getGroupsTitle()).toEqual('Групи');
   });
 
-  it(`should appear dialog window 'Додати групу' on click  'Додати новий параметр'`, () => {
+  it(`should appear dialog window 'Add group' on click  'Add new param'`, () => {
     page.addGroup();
     browser.sleep(3000);
-    expect(page.getDialogTitle()).toEqual('Додати групу');
+    expect(page.getDialogTitle()).toEqual('Add group');
   });
 
-  it(`should appear dialog window 'Редагувати групу' on click 'Редагувати групу'`, () => {
+  it(`should appear dialog window 'Edit group' on click 'Edit group'`, () => {
     page.navigateToGroups();
     browser.sleep(3000);
     page.editGroup();
     browser.sleep(3000);
-    expect(page.getDialogTitle()).toEqual('Редагувати групу');
+    expect(page.getDialogTitle()).toEqual('Edit group');
   });
 
-  it(`should appear confirm dialog window 'Ви справді бажаєте видалити групу?' on click 'Видалити групу'`, () => {
+  it(`should appear confirm dialog window on click 'Delete group'`, () => {
     const id = element(by.id('mat-dialog-1'));
     page.navigateToGroups();
     browser.sleep(3000);
@@ -51,7 +57,7 @@ describe('unitest App', () => {
     expect(id).toBeTruthy();
   });
 
-  it(`should route to timetable of group on click 'Розклад тестування групи'`, () => {
+  it(`should route to timetable of group on click 'Schedule of testing for group'`, () => {
     page.navigateToGroups();
     browser.sleep(3000);
     page.goTimetable();
@@ -59,7 +65,7 @@ describe('unitest App', () => {
     expect(page.getGroupsTitle()).toEqual('Розклад');
   });
 
-  it(`should route to students of group on click 'Переглянути студентів групи'`, () => {
+  it(`should route to students of group on click 'Show students of group'`, () => {
     page.navigateToGroups();
     browser.sleep(3000);
     page.goStudent();
@@ -67,7 +73,7 @@ describe('unitest App', () => {
     expect(page.getGroupsTitle()).toEqual('Студенти групи');
   });
 
-  it(`should route test's result of group on click 'Переглянути результати тестування групи'`, () => {
+  it(`should route test's result of group on click 'Show results of tests for group'`, () => {
     page.navigateToGroups();
     browser.sleep(3000);
     page.goResults();

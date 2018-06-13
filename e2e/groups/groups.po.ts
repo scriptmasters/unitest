@@ -33,6 +33,14 @@ export class GroupsPage {
     element(by.css(`.log-out`)).click();
   }
 
+  setUaLanguage() {
+    element(by.css(`img#uk`)).click();
+  }
+
+  getAdminTitle() {
+    return element(by.css(`span.admin-title`)).getText();
+  }
+
   getGroupsTitle() {
     return element(by.css(`.breadcrumb li:last-child span`)).getText();
   }
